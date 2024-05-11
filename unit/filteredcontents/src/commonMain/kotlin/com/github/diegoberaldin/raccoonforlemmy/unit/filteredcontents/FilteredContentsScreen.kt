@@ -130,9 +130,11 @@ class FilteredContentsScreen(
             model.effects.onEach { effect ->
                 when (effect) {
                     FilteredContentsMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
                 }
             }.launchIn(this)
@@ -200,9 +202,11 @@ class FilteredContentsScreen(
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )

@@ -117,9 +117,11 @@ class ManageSubscriptionsScreen : Screen {
             model.effects.onEach { event ->
                 when (event) {
                     ManageSubscriptionsMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
 
                     ManageSubscriptionsMviModel.Effect.Success -> {
@@ -171,9 +173,11 @@ class ManageSubscriptionsScreen : Screen {
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )

@@ -144,9 +144,11 @@ class PostListScreen : Screen {
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
                 if (section == TabNavigationSection.Home) {
-                    lazyListState.scrollToItem(0)
-                    topAppBarState.heightOffset = 0f
-                    topAppBarState.contentOffset = 0f
+                    runCatching {
+                        lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
+                    }
                 }
             }.launchIn(this)
         }
@@ -154,17 +156,21 @@ class PostListScreen : Screen {
             model.effects.onEach { effect ->
                 when (effect) {
                     PostListMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
 
                     is PostListMviModel.Effect.ZombieModeTick -> {
-                        if (effect.index >= 0) {
-                            lazyListState.animateScrollBy(
-                                value = settings.zombieModeScrollAmount,
-                                animationSpec = tween(350),
-                            )
+                        runCatching {
+                            if (effect.index >= 0) {
+                                lazyListState.animateScrollBy(
+                                    value = settings.zombieModeScrollAmount,
+                                    animationSpec = tween(350),
+                                )
+                            }
                         }
                     }
 
@@ -256,9 +262,11 @@ class PostListScreen : Screen {
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )
@@ -269,9 +277,11 @@ class PostListScreen : Screen {
                                     onSelected = rememberCallback {
                                         model.reduce(PostListMviModel.Intent.ClearRead)
                                         scope.launch {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
+                                            runCatching {
+                                                lazyListState.scrollToItem(0)
+                                                topAppBarState.heightOffset = 0f
+                                                topAppBarState.contentOffset = 0f
+                                            }
                                         }
                                     },
                                 )

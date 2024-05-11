@@ -81,7 +81,9 @@ class InstanceInfoScreen(
             model.effects.onEach { effect ->
                 when (effect) {
                     InstanceInfoMviModel.Effect.BackToTop -> {
-                        listState.scrollToItem(0)
+                        runCatching {
+                            listState.scrollToItem(0)
+                        }
                     }
                 }
             }.launchIn(this)

@@ -221,17 +221,21 @@ class CommunityDetailScreen(
                     }
 
                     CommunityDetailMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
 
                     is CommunityDetailMviModel.Effect.ZombieModeTick -> {
-                        if (effect.index >= 0) {
-                            lazyListState.animateScrollBy(
-                                value = settings.zombieModeScrollAmount,
-                                animationSpec = tween(350),
-                            )
+                        runCatching {
+                            if (effect.index >= 0) {
+                                lazyListState.animateScrollBy(
+                                    value = settings.zombieModeScrollAmount,
+                                    animationSpec = tween(350),
+                                )
+                            }
                         }
                     }
 
@@ -577,9 +581,11 @@ class CommunityDetailScreen(
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )
@@ -590,9 +596,11 @@ class CommunityDetailScreen(
                                     onSelected = rememberCallback {
                                         model.reduce(CommunityDetailMviModel.Intent.ClearRead)
                                         scope.launch {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
+                                            runCatching {
+                                                lazyListState.scrollToItem(0)
+                                                topAppBarState.heightOffset = 0f
+                                                topAppBarState.contentOffset = 0f
+                                            }
                                         }
                                     },
                                 )

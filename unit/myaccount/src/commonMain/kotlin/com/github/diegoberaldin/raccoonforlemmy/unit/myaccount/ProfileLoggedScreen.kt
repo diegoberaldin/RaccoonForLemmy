@@ -93,8 +93,10 @@ object ProfileLoggedScreen : Tab {
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                if (section == TabNavigationSection.Profile) {
-                    lazyListState.scrollToItem(0)
+                runCatching {
+                    if (section == TabNavigationSection.Profile) {
+                        lazyListState.scrollToItem(0)
+                    }
                 }
             }.launchIn(this)
         }

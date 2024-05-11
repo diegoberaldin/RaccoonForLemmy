@@ -146,10 +146,12 @@ class ExploreScreen(
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                if (section == TabNavigationSection.Explore) {
-                    lazyListState.scrollToItem(0)
-                    topAppBarState.heightOffset = 0f
-                    topAppBarState.contentOffset = 0f
+                runCatching {
+                    if (section == TabNavigationSection.Explore) {
+                        lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
+                    }
                 }
             }.launchIn(this)
         }
@@ -157,9 +159,11 @@ class ExploreScreen(
             model.effects.onEach {
                 when (it) {
                     ExploreMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
 
                     ExploreMviModel.Effect.OperationFailure -> {

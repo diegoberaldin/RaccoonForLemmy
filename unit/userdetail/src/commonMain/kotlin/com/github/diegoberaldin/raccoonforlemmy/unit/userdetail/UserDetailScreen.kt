@@ -182,9 +182,11 @@ class UserDetailScreen(
 
                     UserDetailMviModel.Effect.BackToTop -> {
                         scope.launch {
-                            lazyListState.scrollToItem(0)
-                            topAppBarState.heightOffset = 0f
-                            topAppBarState.contentOffset = 0f
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
+                            }
                         }
                     }
 
@@ -374,9 +376,11 @@ class UserDetailScreen(
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )

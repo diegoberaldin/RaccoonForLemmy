@@ -98,10 +98,12 @@ class SettingsScreen : Screen {
 
         LaunchedEffect(Unit) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                if (section == TabNavigationSection.Settings) {
-                    scrollState.scrollTo(0)
-                    topAppBarState.heightOffset = 0f
-                    topAppBarState.contentOffset = 0f
+                runCatching {
+                    if (section == TabNavigationSection.Settings) {
+                        scrollState.scrollTo(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
+                    }
                 }
             }.launchIn(this)
         }

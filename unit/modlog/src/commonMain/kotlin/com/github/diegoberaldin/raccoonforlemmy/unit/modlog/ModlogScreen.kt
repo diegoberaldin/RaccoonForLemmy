@@ -30,7 +30,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -65,7 +64,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.ModlogIte
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.components.RemoveCommunityItem
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.core.parameter.parametersOf
 
 class ModlogScreen(
@@ -80,7 +78,6 @@ class ModlogScreen(
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val scope = rememberCoroutineScope()
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
@@ -96,7 +93,7 @@ class ModlogScreen(
             model.effects.onEach { effect ->
                 when (effect) {
                     ModlogMviModel.Effect.BackToTop -> {
-                        scope.launch {
+                        runCatching {
                             lazyListState.scrollToItem(0)
                             topAppBarState.heightOffset = 0f
                             topAppBarState.contentOffset = 0f

@@ -118,7 +118,9 @@ class InboxChatScreen(
                     }
 
                     InboxChatMviModel.Effect.ScrollToBottom -> {
-                        lazyListState.scrollToItem(0)
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                        }
                     }
                 }
             }.launchIn(this)

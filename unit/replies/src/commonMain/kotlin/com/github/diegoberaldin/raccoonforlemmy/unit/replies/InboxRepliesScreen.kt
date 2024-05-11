@@ -84,8 +84,10 @@ class InboxRepliesScreen : Tab {
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                if (section == TabNavigationSection.Inbox) {
-                    lazyListState.scrollToItem(0)
+                runCatching {
+                    if (section == TabNavigationSection.Inbox) {
+                        lazyListState.scrollToItem(0)
+                    }
                 }
             }.launchIn(this)
         }
@@ -97,7 +99,9 @@ class InboxRepliesScreen : Tab {
                     }
 
                     InboxRepliesMviModel.Effect.BackToTop -> {
-                        lazyListState.scrollToItem(0)
+                        runCatching {
+                            lazyListState.scrollToItem(0)
+                        }
                     }
                 }
             }.launchIn(this)

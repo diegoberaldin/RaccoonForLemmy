@@ -252,11 +252,13 @@ class PostDetailScreen(
                     }
 
                     is PostDetailMviModel.Effect.ScrollToComment -> {
-                        lazyListState.scrollToItem(effect.index)
+                        runCatching {
+                            lazyListState.scrollToItem(effect.index)
+                        }
                     }
 
                     PostDetailMviModel.Effect.BackToTop -> {
-                        scope.launch {
+                        runCatching {
                             lazyListState.scrollToItem(0)
                             topAppBarState.heightOffset = 0f
                             topAppBarState.contentOffset = 0f
@@ -595,9 +597,11 @@ class PostDetailScreen(
                                 text = LocalXmlStrings.current.actionBackToTop,
                                 onSelected = rememberCallback {
                                     scope.launch {
-                                        lazyListState.scrollToItem(0)
-                                        topAppBarState.heightOffset = 0f
-                                        topAppBarState.contentOffset = 0f
+                                        runCatching {
+                                            lazyListState.scrollToItem(0)
+                                            topAppBarState.heightOffset = 0f
+                                            topAppBarState.contentOffset = 0f
+                                        }
                                     }
                                 },
                             )
