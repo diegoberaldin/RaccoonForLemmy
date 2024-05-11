@@ -39,9 +39,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableN
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsIntValueRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommentBarThicknessBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostBodyMaxLinesBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
@@ -230,13 +230,27 @@ class ConfigureContentViewScreen : Screen {
                     )
 
                     // comment bar thickness
-                    SettingsRow(
+                    SettingsIntValueRow(
                         title = LocalXmlStrings.current.settingsCommentBarThickness,
-                        value = uiState.commentBarThickness.toString(),
-                        onTap = rememberCallback {
-                            val screen = CommentBarThicknessBottomSheet()
-                            navigationCoordinator.showBottomSheet(screen)
-                        }
+                        value = uiState.commentBarThickness,
+                        onIncrement = rememberCallback(model) {
+                            model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentBarThickness)
+                        },
+                        onDecrement = rememberCallback(model) {
+                            model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentBarThickness)
+                        },
+                    )
+
+                    // comment indent amount
+                    SettingsIntValueRow(
+                        title = LocalXmlStrings.current.settingsCommentIndentAmount,
+                        value = uiState.commentIndentAmount,
+                        onIncrement = rememberCallback(model) {
+                            model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentIndentAmount)
+                        },
+                        onDecrement = rememberCallback(model) {
+                            model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentIndentAmount)
+                        },
                     )
 
                     SettingsHeader(
@@ -245,13 +259,17 @@ class ConfigureContentViewScreen : Screen {
                     )
                     // preview
                     ContentPreview(
+                        modifier = Modifier.padding(top = Spacing.xxs),
                         postLayout = uiState.postLayout,
                         preferNicknames = uiState.preferUserNicknames,
                         showScores = uiState.voteFormat != VoteFormat.Hidden,
                         voteFormat = uiState.voteFormat,
                         fullHeightImage = uiState.fullHeightImages,
                         fullWidthImage = uiState.fullWidthImages,
-                    )
+                        commentBarThickness = uiState.commentBarThickness,
+                        commentIndentAmount = uiState.commentIndentAmount,
+
+                        )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }

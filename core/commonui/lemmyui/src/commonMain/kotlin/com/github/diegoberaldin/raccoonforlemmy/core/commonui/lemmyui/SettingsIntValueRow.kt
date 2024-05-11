@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowCircleDown
-import androidx.compose.material.icons.filled.ArrowCircleUp
+import androidx.compose.material.icons.filled.AddCircleOutline
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +33,9 @@ fun SettingsIntValueRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = Spacing.s),
         ) {
             Text(
                 text = title,
@@ -52,7 +54,7 @@ fun SettingsIntValueRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             FeedbackButton(
-                imageVector = Icons.Default.ArrowCircleDown,
+                imageVector = Icons.Default.RemoveCircleOutline,
                 tintColor = MaterialTheme.colorScheme.secondary,
                 onClick = onDecrement,
             )
@@ -66,7 +68,7 @@ fun SettingsIntValueRow(
                 color = fullColor,
             )
             FeedbackButton(
-                imageVector = Icons.Default.ArrowCircleUp,
+                imageVector = Icons.Default.AddCircleOutline,
                 tintColor = MaterialTheme.colorScheme.secondary,
                 onClick = onIncrement,
             )

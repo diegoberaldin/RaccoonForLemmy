@@ -27,6 +27,8 @@ internal fun ContentPreview(
     voteFormat: VoteFormat,
     fullHeightImage: Boolean,
     fullWidthImage : Boolean,
+    commentBarThickness: Int,
+    commentIndentAmount: Int,
 ) {
     Column {
         PostCard(
@@ -53,6 +55,7 @@ internal fun ContentPreview(
             voteFormat = voteFormat,
             preferNicknames = preferNicknames,
             showScores = showScores,
+            indentAmount = commentIndentAmount,
         )
         HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
@@ -64,6 +67,20 @@ internal fun ContentPreview(
             voteFormat = voteFormat,
             preferNicknames = preferNicknames,
             showScores = showScores,
+            barThickness = commentBarThickness,
+            indentAmount = commentIndentAmount,
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(vertical = Spacing.xxxs),
+            thickness = 0.25.dp
+        )
+        CommentCard(
+            comment = ContentPreviewData.comment3,
+            voteFormat = voteFormat,
+            preferNicknames = preferNicknames,
+            showScores = showScores,
+            barThickness = commentBarThickness,
+            indentAmount = commentIndentAmount,
         )
     }
 }
@@ -111,7 +128,7 @@ velit esse cillum dolore eu fugiat nulla pariatur.
         upvotes = 2,
         downvotes = 1,
         score = 1,
-        comments = 1,
+        comments = 2,
     )
 
     val comment2 = CommentModel(
@@ -127,5 +144,19 @@ velit esse cillum dolore eu fugiat nulla pariatur.
         downvotes = 1,
         score = 1,
         comments = 1,
+    )
+    val comment3 = CommentModel(
+        text = "Praesent sed congue leo, at hendrerit lorem.",
+        publishDate = "2024-01-03T12:00:00Z",
+        path = "0.1.2.3",
+        creator = UserModel(
+            name = "marysmith",
+            host = "example.com",
+            displayName = "Mary Smith",
+        ),
+        upvotes = 1,
+        downvotes = -2,
+        score = -1,
+        comments = 0,
     )
 }

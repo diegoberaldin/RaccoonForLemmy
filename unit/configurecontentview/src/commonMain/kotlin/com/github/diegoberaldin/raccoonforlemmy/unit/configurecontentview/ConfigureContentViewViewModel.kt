@@ -19,6 +19,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+private val COMMENT_BAR_THICKNESS_RANGE = 1..5
+private val COMMENT_INDENT_AMOUNT_RANGE = 1..20
+
 class ConfigureContentViewViewModel(
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
@@ -39,9 +42,6 @@ class ConfigureContentViewViewModel(
             }.launchIn(this)
             themeRepository.contentFontFamily.onEach { value ->
                 updateState { it.copy(contentFontFamily = value) }
-            }.launchIn(this)
-            themeRepository.commentBarThickness.onEach { value ->
-                updateState { it.copy(commentBarThickness = value) }
             }.launchIn(this)
 
             notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
@@ -64,10 +64,6 @@ class ConfigureContentViewViewModel(
                 .onEach { evt ->
                     changeContentFontFamily(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentBarThickness::class)
-                .onEach { evt ->
-                    changeCommentBarThickness(evt.value)
-                }.launchIn(this)
 
             val settings = settingsRepository.currentSettings.value
             updateState {
@@ -77,6 +73,8 @@ class ConfigureContentViewViewModel(
                     fullWidthImages = settings.fullWidthImages,
                     postBodyMaxLines = settings.postBodyMaxLines,
                     preferUserNicknames = settings.preferUserNicknames,
+                    commentBarThickness = settings.commentBarThickness,
+                    commentIndentAmount = settings.commentIndentAmount,
                 )
             }
         }
@@ -84,17 +82,43 @@ class ConfigureContentViewViewModel(
 
     override fun reduce(intent: ConfigureContentViewMviModel.Intent) {
         when (intent) {
-            is ConfigureContentViewMviModel.Intent.ChangeFullHeightImages -> changeFullHeightImages(
-                intent.value,
-            )
+            is ConfigureContentViewMviModel.Intent.ChangeFullHeightImages -> {
+                changeFullHeightImages(
+                    intent.value,
+                )
+            }
 
-            is ConfigureContentViewMviModel.Intent.ChangeFullWidthImages -> changeFullWidthImages(
-                intent.value,
-            )
+            is ConfigureContentViewMviModel.Intent.ChangeFullWidthImages -> {
+                changeFullWidthImages(
+                    intent.value,
+                )
+            }
 
-            is ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames -> changePreferUserNicknames(
-                intent.value,
-            )
+            is ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames -> {
+                changePreferUserNicknames(
+                    intent.value,
+                )
+            }
+
+            ConfigureContentViewMviModel.Intent.IncrementCommentBarThickness -> {
+                val value = (uiState.value.commentBarThickness + 1).coerceIn(COMMENT_BAR_THICKNESS_RANGE)
+                changeCommentBarThickness(value)
+            }
+
+            ConfigureContentViewMviModel.Intent.DecrementCommentBarThickness -> {
+                val value = (uiState.value.commentBarThickness - 1).coerceIn(COMMENT_BAR_THICKNESS_RANGE)
+                changeCommentBarThickness(value)
+            }
+
+            ConfigureContentViewMviModel.Intent.IncrementCommentIndentAmount -> {
+                val value = (uiState.value.commentIndentAmount + 1).coerceIn(COMMENT_INDENT_AMOUNT_RANGE)
+                changeCommentIndentAmount(value)
+            }
+
+            ConfigureContentViewMviModel.Intent.DecrementCommentIndentAmount -> {
+                val value = (uiState.value.commentIndentAmount - 1).coerceIn(COMMENT_INDENT_AMOUNT_RANGE)
+                changeCommentIndentAmount(value)
+            }
         }
     }
 
@@ -193,10 +217,20 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeCommentBarThickness(value: Int) {
-        themeRepository.changeCommentBarThickness(value)
+        updateState { it.copy(commentBarThickness = value) }
         screenModelScope.launch(Dispatchers.IO) {
             val settings = settingsRepository.currentSettings.value.copy(
                 commentBarThickness = value,
+            )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeCommentIndentAmount(value: Int) {
+        updateState { it.copy(commentIndentAmount = value) }
+        screenModelScope.launch(Dispatchers.IO) {
+            val settings = settingsRepository.currentSettings.value.copy(
+                commentIndentAmount = value,
             )
             saveSettings(settings)
         }
