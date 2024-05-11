@@ -690,7 +690,7 @@ class CommunityDetailScreen(
                             if (!uiState.searching) {
                                 item {
                                     CommunityHeader(
-                                        modifier = Modifier.padding(bottom = Spacing.xs),
+                                        modifier = Modifier.padding(bottom = Spacing.s),
                                         community = uiState.community,
                                         autoLoadImages = uiState.autoLoadImages,
                                         onOpenImage = rememberCallbackArgs { url ->
