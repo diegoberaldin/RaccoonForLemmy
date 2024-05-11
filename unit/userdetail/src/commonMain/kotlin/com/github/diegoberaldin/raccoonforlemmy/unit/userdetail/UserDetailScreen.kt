@@ -910,7 +910,7 @@ class UserDetailScreen(
                                         showScores = uiState.showScores,
                                         hideCommunity = false,
                                         hideAuthor = true,
-                                        hideIndent = true,
+                                        indentAmount = 0,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = {
                                             detailOpener.openPostDetail(

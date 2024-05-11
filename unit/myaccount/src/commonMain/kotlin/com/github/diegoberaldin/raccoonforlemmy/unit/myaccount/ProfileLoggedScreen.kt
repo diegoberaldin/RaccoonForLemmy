@@ -397,7 +397,7 @@ object ProfileLoggedScreen : Tab {
                                     showScores = uiState.showScores,
                                     hideCommunity = false,
                                     hideAuthor = true,
-                                    hideIndent = true,
+                                    indentAmount = 0,
                                     onImageClick = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(

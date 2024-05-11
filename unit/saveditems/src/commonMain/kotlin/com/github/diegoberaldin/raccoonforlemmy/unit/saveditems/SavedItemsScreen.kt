@@ -384,7 +384,7 @@ class SavedItemsScreen : Screen {
                                     preferNicknames = uiState.preferNicknames,
                                     showScores = uiState.showScores,
                                     showBot = true,
-                                    hideIndent = true,
+                                    indentAmount = 0,
                                     onClick = {
                                         detailOpener.openPostDetail(
                                             post = PostModel(id = comment.postId),

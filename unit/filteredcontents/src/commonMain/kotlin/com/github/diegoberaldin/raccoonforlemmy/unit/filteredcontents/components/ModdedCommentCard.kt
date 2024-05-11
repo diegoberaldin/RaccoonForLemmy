@@ -91,7 +91,7 @@ fun ModdedCommentCard(
                 preferNicknames = preferNicknames,
                 showExpandedIndicator = false,
                 showBot = true,
-                hideIndent = true,
+                indentAmount = 0,
                 onClick = onOpen,
                 onOpenCreator = onOpenUser,
                 onUpVote = onUpVote,

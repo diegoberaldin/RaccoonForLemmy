@@ -248,7 +248,7 @@ class CreateCommentScreen(
                             modifier = referenceModifier,
                             comment = originalComment,
                             preferNicknames = uiState.preferNicknames,
-                            hideIndent = true,
+                            indentAmount = 0,
                             voteFormat = uiState.voteFormat,
                             autoLoadImages = uiState.autoLoadImages,
                             showScores = uiState.showScores,

@@ -639,7 +639,7 @@ class ExploreScreen(
                                                 showScores = uiState.showScores,
                                                 showBot = true,
                                                 showExpandedIndicator = false,
-                                                hideIndent = true,
+                                                indentAmount = 0,
                                                 actionButtonsActive = uiState.isLogged,
                                                 onClick = {
                                                     detailOpener.openPostDetail(
