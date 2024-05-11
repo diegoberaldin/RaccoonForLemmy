@@ -92,7 +92,7 @@ class BanUserScreen(
                     }
 
                     BanUserMviModel.Effect.Success -> {
-                        navigationCoordinator.hideBottomSheet()
+                        navigationCoordinator.popScreen()
                     }
                 }
             }.launchIn(this)

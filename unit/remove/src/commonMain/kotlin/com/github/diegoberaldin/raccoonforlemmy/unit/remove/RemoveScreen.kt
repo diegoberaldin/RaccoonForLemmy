@@ -83,7 +83,7 @@ class RemoveScreen(
                     }
 
                     RemoveMviModel.Effect.Success -> {
-                        navigationCoordinator.hideBottomSheet()
+                        navigationCoordinator.popScreen()
                     }
                 }
             }.launchIn(this)

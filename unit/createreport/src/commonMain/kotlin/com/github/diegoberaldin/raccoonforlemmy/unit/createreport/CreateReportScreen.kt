@@ -83,7 +83,7 @@ class CreateReportScreen(
                     }
 
                     CreateReportMviModel.Effect.Success -> {
-                        navigationCoordinator.hideBottomSheet()
+                        navigationCoordinator.popScreen()
                     }
                 }
             }.launchIn(this)
