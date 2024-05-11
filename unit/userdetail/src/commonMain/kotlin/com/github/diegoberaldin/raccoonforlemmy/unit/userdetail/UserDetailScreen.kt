@@ -196,6 +196,13 @@ class UserDetailScreen(
                 }
             }.launchIn(this)
         }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.globalMessage.onEach { message ->
+                snackbarHostState.showSnackbar(
+                    message = message,
+                )
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),

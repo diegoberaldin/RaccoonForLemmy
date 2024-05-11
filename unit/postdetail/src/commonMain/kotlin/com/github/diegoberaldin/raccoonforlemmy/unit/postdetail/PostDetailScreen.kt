@@ -57,6 +57,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
@@ -198,6 +201,7 @@ class PostDetailScreen(
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
@@ -269,6 +273,13 @@ class PostDetailScreen(
                         clipboardManager.setText(AnnotatedString(text = effect.text))
                     }
                 }
+            }.launchIn(this)
+        }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.globalMessage.onEach { message ->
+                snackbarHostState.showSnackbar(
+                    message = message,
+                )
             }.launchIn(this)
         }
 
@@ -617,6 +628,15 @@ class PostDetailScreen(
                                 )
                             }
                         },
+                    )
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
                     )
                 }
             },

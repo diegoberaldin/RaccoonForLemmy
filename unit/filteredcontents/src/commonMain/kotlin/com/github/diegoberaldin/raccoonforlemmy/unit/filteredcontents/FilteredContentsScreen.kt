@@ -33,6 +33,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -125,6 +128,7 @@ class FilteredContentsScreen(
         val defaultSaveColor = MaterialTheme.colorScheme.secondaryContainer
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
         val scope = rememberCoroutineScope()
+        val snackbarHostState = remember { SnackbarHostState() }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -137,6 +141,13 @@ class FilteredContentsScreen(
                         }
                     }
                 }
+            }.launchIn(this)
+        }
+        LaunchedEffect(navigationCoordinator) {
+            navigationCoordinator.globalMessage.onEach { message ->
+                snackbarHostState.showSnackbar(
+                    message = message,
+                )
             }.launchIn(this)
         }
 
@@ -211,6 +222,15 @@ class FilteredContentsScreen(
                                 },
                             )
                         },
+                    )
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(snackbarHostState) { data ->
+                    Snackbar(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        snackbarData = data,
                     )
                 }
             },
