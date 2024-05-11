@@ -40,6 +40,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -54,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
+import kotlin.time.Duration.Companion.seconds
 
 class CreateReportScreen(
     private val postId: Long? = null,
@@ -71,9 +73,11 @@ class CreateReportScreen(
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
+        val focusManager = LocalFocusManager.current
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -83,6 +87,7 @@ class CreateReportScreen(
                     }
 
                     CreateReportMviModel.Effect.Success -> {
+                        navigationCoordinator.showGlobalMessage(message = successMessage, delay = 1.seconds)
                         navigationCoordinator.popScreen()
                     }
                 }
@@ -126,6 +131,7 @@ class CreateReportScreen(
                                 )
                             },
                             onClick = rememberCallback(model) {
+                                focusManager.clearFocus()
                                 model.reduce(CreateReportMviModel.Intent.Send)
                             },
                         )
