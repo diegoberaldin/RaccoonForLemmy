@@ -61,4 +61,5 @@ data class SettingsModel(
     val fadeReadPosts: Boolean = false,
     val showUnreadComments: Boolean = false,
     val enableButtonsToScrollBetweenComments: Boolean = false,
+    val commentIndentAmount: Int = 2,
 )
