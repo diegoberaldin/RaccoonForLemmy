@@ -124,7 +124,6 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             changeUiFontFamily(currentSettings.uiFontFamily.toUiFontFamily())
             changeContentFontFamily(currentSettings.contentFontFamily.toUiFontFamily())
             changeCommentBarTheme(currentSettings.commentBarTheme.toCommentBarTheme())
-            changeCommentBarThickness(currentSettings.commentBarThickness)
 
             with(themeRepository) {
                 changeUpVoteColor(currentSettings.upVoteColor?.let { Color(it) })
