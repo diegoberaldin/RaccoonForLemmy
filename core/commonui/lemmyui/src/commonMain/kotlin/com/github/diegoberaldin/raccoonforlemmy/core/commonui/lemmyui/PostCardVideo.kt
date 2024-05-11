@@ -71,7 +71,7 @@ fun PostCardVideo(
             var loading by remember { mutableStateOf(true) }
             if (shouldBeRendered) {
                 VideoPlayer(
-                    modifier = Modifier.aspectRatio(4f / 3f),
+                    modifier = Modifier.aspectRatio(1f),
                     url = url,
                     onPlaybackStarted = {
                         loading = false

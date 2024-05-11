@@ -55,7 +55,7 @@ actual fun VideoPlayer(
                 prepare()
             }.apply {
                 playWhenReady = true
-                videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+                videoScalingMode = C.VIDEO_SCALING_MODE_DEFAULT
                 repeatMode = Player.REPEAT_MODE_ONE
                 volume = 0f
             }
