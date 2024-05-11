@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,7 +31,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -68,6 +71,8 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.CommentReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.PostReportCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.components.ReportCardPlaceHolder
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class ReportListScreen(
@@ -78,7 +83,8 @@ class ReportListScreen(
     override fun Content() {
         val model = getScreenModel<ReportListMviModel> { parametersOf(communityId) }
         val uiState by model.uiState.collectAsState()
-        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+        val topAppBarState = rememberTopAppBarState()
+        val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val navigationCoordinator = remember { getNavigationCoordinator() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val settingsRepository = remember { getSettingsRepository() }
@@ -92,6 +98,18 @@ class ReportListScreen(
         )
         val detailOpener = remember { getDetailOpener() }
         val defaultResolveColor = MaterialTheme.colorScheme.secondary
+
+        LaunchedEffect(model) {
+            model.effects.onEach { effect ->
+                when (effect) {
+                    ReportListMviModel.Effect.BackToTop -> kotlin.runCatching {
+                        lazyListState.scrollToItem(0)
+                        topAppBarState.heightOffset = 0f
+                        topAppBarState.contentOffset = 0f
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier
@@ -177,6 +195,7 @@ class ReportListScreen(
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
                     ) {

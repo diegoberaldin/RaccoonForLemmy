@@ -41,5 +41,7 @@ interface ReportListMviModel :
         val commentReports: List<CommentReportModel> = emptyList(),
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data object BackToTop : Effect
+    }
 }

@@ -12,8 +12,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -63,7 +66,10 @@ class ReportListViewModel(
         when (intent) {
             is ReportListMviModel.Intent.ChangeSection -> changeSection(intent.value)
             is ReportListMviModel.Intent.ChangeUnresolvedOnly -> changeUnresolvedOnly(intent.value)
-            ReportListMviModel.Intent.Refresh -> refresh()
+            ReportListMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
+                refresh()
+            }
+
             ReportListMviModel.Intent.LoadNextPage -> screenModelScope.launch {
                 loadNextPage()
             }
@@ -94,10 +100,14 @@ class ReportListViewModel(
         updateState {
             it.copy(unresolvedOnly = value)
         }
-        refresh(initial = true)
+        screenModelScope.launch(Dispatchers.IO) {
+            emitEffect(ReportListMviModel.Effect.BackToTop)
+            delay(50)
+            refresh(initial = true)
+        }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage[ReportListSection.Posts] = 1
         currentPage[ReportListSection.Comments] = 1
         updateState {
@@ -108,9 +118,7 @@ class ReportListViewModel(
                 loading = false,
             )
         }
-        screenModelScope.launch {
-            loadNextPage()
-        }
+        loadNextPage()
     }
 
     private suspend fun loadNextPage() {
