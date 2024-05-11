@@ -308,6 +308,7 @@ class CommunityDetailViewModel(
     private suspend fun refresh() {
         hideReadPosts = false
         val currentState = uiState.value
+        zombieModeHelper.pause()
         postPaginationManager.reset(
             PostPaginationSpecification.Community(
                 id = currentState.community.id,
@@ -338,6 +339,7 @@ class CommunityDetailViewModel(
                     community = refreshedCommunity,
                     moderators = moderators,
                     loading = false,
+                    zombieModeActive = false,
                 )
             }
         }
