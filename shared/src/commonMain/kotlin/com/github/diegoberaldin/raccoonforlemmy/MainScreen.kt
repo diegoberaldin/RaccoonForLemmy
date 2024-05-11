@@ -119,6 +119,11 @@ internal object MainScreen : Screen {
                     navigationCoordinator.setExitMessageVisible(false)
                 }
             }.launchIn(this)
+            navigationCoordinator.globalMessage.onEach { message ->
+                snackbarHostState.showSnackbar(
+                    message = message,
+                )
+            }.launchIn(this)
         }
 
         TabNavigator(HomeTab) { tabNavigator ->

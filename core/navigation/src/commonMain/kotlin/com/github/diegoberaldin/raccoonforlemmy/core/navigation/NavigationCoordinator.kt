@@ -9,6 +9,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlin.time.Duration
 
 sealed interface TabNavigationSection {
     data object Home : TabNavigationSection
@@ -40,6 +41,7 @@ interface NavigationCoordinator {
     val exitMessageVisible: StateFlow<Boolean>
     val sideMenuEvents: Flow<SideMenuEvents>
     val sideMenuOpened: StateFlow<Boolean>
+    val globalMessage: Flow<String>
 
     fun setCurrentSection(section: TabNavigationSection)
     fun submitDeeplink(url: String)
@@ -60,4 +62,5 @@ interface NavigationCoordinator {
     fun changeTab(value: Tab)
     fun openSideMenu(screen: Screen)
     fun closeSideMenu()
+    fun showGlobalMessage(message: String, delay: Duration = Duration.ZERO)
 }

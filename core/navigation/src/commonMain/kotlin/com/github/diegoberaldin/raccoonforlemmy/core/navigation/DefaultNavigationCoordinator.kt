@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlin.time.Duration
 
 private sealed interface NavigationEvent {
 
@@ -35,6 +36,7 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     override val exitMessageVisible = MutableStateFlow(false)
     override val sideMenuEvents = MutableSharedFlow<SideMenuEvents>()
     override val sideMenuOpened = MutableStateFlow(false)
+    override val globalMessage = MutableSharedFlow<String>()
 
     private var connection: NestedScrollConnection? = null
     private var navigator: Navigator? = null
@@ -172,6 +174,13 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
         scope.launch {
             sideMenuEvents.emit(SideMenuEvents.Close)
             sideMenuOpened.value = false
+        }
+    }
+
+    override fun showGlobalMessage(message: String, delay: Duration) {
+        scope.launch {
+            delay(delay)
+            globalMessage.emit(message)
         }
     }
 }
