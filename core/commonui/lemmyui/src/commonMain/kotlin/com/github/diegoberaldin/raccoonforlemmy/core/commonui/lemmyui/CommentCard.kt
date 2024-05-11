@@ -40,8 +40,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
-private val barWidth = 1.25.dp
-private const val INDENT_AMOUNT = 3
+private val BAR_BASE_WIDTH_UNIT = 1.25.dp
 private const val COMMENT_TEXT_SCALE_FACTOR = 0.97f
 
 @Composable
@@ -51,7 +50,8 @@ fun CommentCard(
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     hideAuthor: Boolean = false,
     hideCommunity: Boolean = true,
-    hideIndent: Boolean = false,
+    indentAmount: Int = 2,
+    barThickness: Int = 1,
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     showScores: Boolean = true,
@@ -77,11 +77,11 @@ fun CommentCard(
     val themeRepository = remember { getThemeRepository() }
     var commentHeight by remember { mutableStateOf(0f) }
     val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
-    val commentBarThickness by themeRepository.commentBarThickness.collectAsState()
     val barColor = themeRepository.getCommentBarColor(
         depth = comment.depth,
         commentBarTheme = commentBarTheme,
     )
+    val barWidth = BAR_BASE_WIDTH_UNIT * barThickness
 
     Column(
         modifier = modifier,
@@ -91,12 +91,14 @@ fun CommentCard(
                 onClick = onClick ?: {},
                 onDoubleClick = onDoubleClick ?: {}
             ).padding(
-                start = if (hideIndent) 0.dp else (INDENT_AMOUNT * comment.depth).dp
+                start = indentAmount.takeIf { it > 0 }?.let {
+                    (it * comment.depth).dp + Spacing.xxxs
+                } ?: 0.dp
             ),
         ) {
             Column(
                 modifier = Modifier
-                    .padding(start = barWidth)
+                    .padding(start = barWidth + Spacing.xxs)
                     .fillMaxWidth()
                     .padding(
                         vertical = Spacing.xxs,
@@ -176,14 +178,13 @@ fun CommentCard(
                     onOptionSelected = onOptionSelected,
                 )
             }
-            if (!hideIndent && comment.depth > 0) {
-                val width = barWidth * commentBarThickness
+            if (indentAmount > 0 && comment.depth > 0) {
                 Box(
                     modifier = Modifier
                         .padding(top = Spacing.xxs)
-                        .width(width)
+                        .width(barWidth)
                         .height(commentHeight.toLocalDp())
-                        .background(color = barColor, shape = RoundedCornerShape(width / 2))
+                        .background(color = barColor, shape = RoundedCornerShape(barWidth / 2))
                 )
             }
         }
