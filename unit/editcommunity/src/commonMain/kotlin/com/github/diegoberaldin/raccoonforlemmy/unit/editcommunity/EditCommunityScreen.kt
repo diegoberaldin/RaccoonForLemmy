@@ -148,6 +148,7 @@ class EditCommunityScreen(
                                 append(" ")
                                 append(uiState.title)
                             },
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

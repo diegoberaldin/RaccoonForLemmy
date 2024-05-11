@@ -146,6 +146,7 @@ class AccountSettingsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsWebPreferences,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

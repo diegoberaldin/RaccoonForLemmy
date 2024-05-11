@@ -188,6 +188,7 @@ class CreateCommentScreen(
                                 }
                             },
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

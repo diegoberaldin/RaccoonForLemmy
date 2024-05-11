@@ -97,6 +97,7 @@ class SettingsColorAndFontScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsColorsAndFonts,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

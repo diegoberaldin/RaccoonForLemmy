@@ -252,6 +252,7 @@ class CreatePostScreen(
                                 else -> LocalXmlStrings.current.createPostTitle
                             },
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

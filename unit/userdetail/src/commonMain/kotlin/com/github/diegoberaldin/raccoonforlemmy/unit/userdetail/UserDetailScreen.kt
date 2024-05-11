@@ -218,6 +218,7 @@ class UserDetailScreen(
                             text = userName,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

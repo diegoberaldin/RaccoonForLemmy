@@ -113,6 +113,7 @@ class CreateReportScreen(
                         Text(
                             text = title,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

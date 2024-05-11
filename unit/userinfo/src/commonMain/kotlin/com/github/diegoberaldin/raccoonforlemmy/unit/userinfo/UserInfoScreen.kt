@@ -92,7 +92,7 @@ class UserInfoScreen(
                     title = {
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.bodyLarge,
+                            style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },

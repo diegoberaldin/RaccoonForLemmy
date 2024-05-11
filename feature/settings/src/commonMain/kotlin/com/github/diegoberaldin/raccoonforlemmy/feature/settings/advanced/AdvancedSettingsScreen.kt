@@ -120,6 +120,7 @@ class AdvancedSettingsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsAdvanced,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

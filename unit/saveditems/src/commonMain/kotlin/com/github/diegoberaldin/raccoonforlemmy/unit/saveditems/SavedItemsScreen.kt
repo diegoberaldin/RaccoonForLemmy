@@ -106,6 +106,7 @@ class SavedItemsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

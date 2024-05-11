@@ -152,6 +152,7 @@ class InboxChatScreen(
                                 text = uiState.otherUserName,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
+                                style = MaterialTheme.typography.titleMedium,
                             )
                         }
                     },

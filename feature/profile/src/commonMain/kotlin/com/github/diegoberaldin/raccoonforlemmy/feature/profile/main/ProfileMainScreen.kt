@@ -182,6 +182,7 @@ internal object ProfileMainScreen : Tab {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationProfile,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {
@@ -262,7 +263,10 @@ internal object ProfileMainScreen : Tab {
                     logoutConfirmDialogOpen = false
                 },
                 title = {
-                    Text(text = LocalXmlStrings.current.actionLogout)
+                    Text(
+                        text = LocalXmlStrings.current.actionLogout,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
                 },
                 text = {
                     Text(text = LocalXmlStrings.current.messageAreYouSure)

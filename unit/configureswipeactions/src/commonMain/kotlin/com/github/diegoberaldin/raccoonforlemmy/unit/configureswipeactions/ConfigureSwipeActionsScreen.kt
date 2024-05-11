@@ -77,6 +77,7 @@ class ConfigureSwipeActionsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsConfigureSwipeActions,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

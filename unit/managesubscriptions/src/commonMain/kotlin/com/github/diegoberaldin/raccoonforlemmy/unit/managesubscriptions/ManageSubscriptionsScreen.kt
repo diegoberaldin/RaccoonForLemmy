@@ -136,7 +136,7 @@ class ManageSubscriptionsScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     scrollBehavior = scrollBehavior,

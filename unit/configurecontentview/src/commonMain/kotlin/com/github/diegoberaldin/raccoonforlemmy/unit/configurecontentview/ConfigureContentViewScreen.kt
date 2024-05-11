@@ -75,6 +75,7 @@ class ConfigureContentViewScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsConfigureContent,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

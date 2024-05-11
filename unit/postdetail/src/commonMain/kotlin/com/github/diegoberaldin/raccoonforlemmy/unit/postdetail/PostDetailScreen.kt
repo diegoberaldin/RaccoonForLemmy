@@ -298,6 +298,7 @@ class PostDetailScreen(
                             text = uiState.post.title,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

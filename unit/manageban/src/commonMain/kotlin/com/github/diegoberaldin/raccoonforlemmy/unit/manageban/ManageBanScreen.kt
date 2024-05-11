@@ -73,6 +73,7 @@ class ManageBanScreen : Screen {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text = LocalXmlStrings.current.settingsManageBan,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

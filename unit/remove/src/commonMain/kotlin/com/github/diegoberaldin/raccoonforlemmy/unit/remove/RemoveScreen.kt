@@ -109,6 +109,7 @@ class RemoveScreen(
                         Text(
                             text = LocalXmlStrings.current.modActionRemove,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

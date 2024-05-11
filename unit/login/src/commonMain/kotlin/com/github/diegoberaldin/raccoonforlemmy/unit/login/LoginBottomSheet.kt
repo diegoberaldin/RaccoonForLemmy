@@ -119,6 +119,7 @@ class LoginBottomSheet : Screen {
                         Text(
                             text = LocalXmlStrings.current.profileButtonLogin,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

@@ -95,6 +95,7 @@ class MultiCommunityEditorScreen(
                         Text(
                             text = LocalXmlStrings.current.multiCommunityEditorTitle,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {

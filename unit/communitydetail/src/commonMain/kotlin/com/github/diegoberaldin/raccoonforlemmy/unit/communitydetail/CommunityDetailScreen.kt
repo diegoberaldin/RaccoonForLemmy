@@ -277,6 +277,7 @@ class CommunityDetailScreen(
                             text = uiState.community.readableName(uiState.preferNicknames),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

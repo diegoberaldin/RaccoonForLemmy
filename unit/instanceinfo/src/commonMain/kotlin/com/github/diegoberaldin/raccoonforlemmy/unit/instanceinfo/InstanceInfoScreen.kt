@@ -109,8 +109,8 @@ class InstanceInfoScreen(
                     title = {
                         Text(
                             text = LocalXmlStrings.current.instanceDetailTitle(instanceName),
-                            style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     actions = {

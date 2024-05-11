@@ -164,6 +164,7 @@ class MultiCommunityScreen(
                             text = uiState.community.name,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
+                            style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     scrollBehavior = scrollBehavior,
