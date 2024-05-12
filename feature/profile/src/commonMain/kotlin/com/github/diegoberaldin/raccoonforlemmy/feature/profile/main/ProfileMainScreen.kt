@@ -61,7 +61,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.ManageS
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.ProfileLoggedScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.SavedItemsScreen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -125,7 +124,8 @@ internal object ProfileMainScreen : Tab {
                     }
 
                     NotificationCenterEvent.ProfileSideMenuAction.Bookmarks -> {
-                        navigationCoordinator.pushScreen(SavedItemsScreen())
+                        val screen = FilteredContentsScreen(type = FilteredContentsType.Bookmarks.toInt())
+                        navigationCoordinator.pushScreen(screen)
                     }
 
                     NotificationCenterEvent.ProfileSideMenuAction.Drafts -> {
