@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Atbilst izmēram</string>
     <string name="content_scale_fill_width">Aizpildiet platumu</string>
     <string name="content_scale_fill_height">Aizpildiet augstumu</string>
+    <string name="settings_comment_indent_amount">Komentāru atkāpes platums</string>
 </resources>

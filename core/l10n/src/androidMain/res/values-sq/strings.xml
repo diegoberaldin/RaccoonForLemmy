@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Përshtatet me madhësinë</string>
     <string name="content_scale_fill_width">Mbushni gjerësinë</string>
     <string name="content_scale_fill_height">Mbushni lartësinë</string>
+    <string name="settings_comment_indent_amount">Gjerësia e dhëmbëzimit të komenteve</string>
 </resources>

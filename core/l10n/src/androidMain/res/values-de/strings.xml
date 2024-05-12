@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Passen Sie die Größe an</string>
     <string name="content_scale_fill_width">Füllen Sie die Breite</string>
     <string name="content_scale_fill_height">Füllen Sie die Höhe aus</string>
+    <string name="settings_comment_indent_amount">Breite der Einrückung von Kommentaren</string>
 </resources>

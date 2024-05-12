@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Illessze a méretet</string>
     <string name="content_scale_fill_width">Töltse ki a szélességet</string>
     <string name="content_scale_fill_height">Töltse ki a magasságot</string>
+    <string name="settings_comment_indent_amount">A megjegyzések behúzásának szélessége</string>
 </resources>

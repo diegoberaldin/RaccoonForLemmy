@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Prispôsobte sa veľkosti</string>
     <string name="content_scale_fill_width">Vyplňte šírku</string>
     <string name="content_scale_fill_height">Vyplňte výšku</string>
+    <string name="settings_comment_indent_amount">Šírka odsadenia komentárov</string>
 </resources>

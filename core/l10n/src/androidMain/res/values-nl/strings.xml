@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Pas de maat aan</string>
     <string name="content_scale_fill_width">Vul de breedte</string>
     <string name="content_scale_fill_height">Vul de hoogte</string>
+    <string name="settings_comment_indent_amount">Breedte van de inspringing van opmerkingen</string>
 </resources>

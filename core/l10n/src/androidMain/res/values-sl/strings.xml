@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Prilagodite velikost</string>
     <string name="content_scale_fill_width">Izpolnite širino</string>
     <string name="content_scale_fill_height">Izpolnite višino</string>
+    <string name="settings_comment_indent_amount">Širina zamika komentarjev</string>
 </resources>

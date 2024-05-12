@@ -393,4 +393,5 @@
     <string name="content_scale_fit">suli tu</string>
     <string name="content_scale_fill_width">suli poka</string>
     <string name="content_scale_fill_height">suli sewi</string>
+    <string name="settings_comment_indent_amount">suli poka pi toki lili</string>
 </resources>

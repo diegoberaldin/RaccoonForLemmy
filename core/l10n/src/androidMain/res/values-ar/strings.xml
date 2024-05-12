@@ -393,4 +393,5 @@
     <string name="content_scale_fit">ناسب الحجم</string>
     <string name="content_scale_fill_width">ملء العرض</string>
     <string name="content_scale_fill_height">ملء الارتفاع</string>
+    <string name="settings_comment_indent_amount">عرض المسافة البادئة للتعليقات</string>
 </resources>

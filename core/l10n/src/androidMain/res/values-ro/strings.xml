@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Se potrivește mărimii</string>
     <string name="content_scale_fill_width">Umpleți lățimea</string>
     <string name="content_scale_fill_height">Umpleți înălțimea</string>
+    <string name="settings_comment_indent_amount">Lățimea indentării comentariilor</string>
 </resources>

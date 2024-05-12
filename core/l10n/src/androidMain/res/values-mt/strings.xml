@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Waħħal id-daqs</string>
     <string name="content_scale_fill_width">Imla l-wisa</string>
     <string name="content_scale_fill_height">Imla l-għoli</string>
+    <string name="settings_comment_indent_amount">Wisa\' ta\' indentazzjoni tal-kummenti</string>
 </resources>

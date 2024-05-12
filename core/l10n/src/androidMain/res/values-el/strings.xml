@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Ταιριάζει στο μέγεθος</string>
     <string name="content_scale_fill_width">Γεμίστε το πλάτος</string>
     <string name="content_scale_fill_height">Συμπληρώστε το ύψος</string>
+    <string name="settings_comment_indent_amount">Πλάτος εσοχής σχολίων</string>
 </resources>

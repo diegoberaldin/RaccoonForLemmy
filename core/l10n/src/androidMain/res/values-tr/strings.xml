@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Boyutu sığdır</string>
     <string name="content_scale_fill_width">Genişliği doldurun</string>
     <string name="content_scale_fill_height">Yüksekliği doldurun</string>
+    <string name="settings_comment_indent_amount">Yorum girintisinin genişliği</string>
 </resources>

@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Fit an méid</string>
     <string name="content_scale_fill_width">Líon isteach an leithead</string>
     <string name="content_scale_fill_height">Líon an airde</string>
+    <string name="settings_comment_indent_amount">Leithead eangú na dtuairimí</string>
 </resources>

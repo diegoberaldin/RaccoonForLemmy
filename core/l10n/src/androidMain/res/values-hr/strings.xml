@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Odgovara veličini</string>
     <string name="content_scale_fill_width">Ispunite širinu</string>
     <string name="content_scale_fill_height">Ispunite visinu</string>
+    <string name="settings_comment_indent_amount">Širina uvlačenja komentara</string>
 </resources>

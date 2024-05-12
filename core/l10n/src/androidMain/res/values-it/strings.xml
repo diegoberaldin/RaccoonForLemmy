@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Adatta alla dimensione</string>
     <string name="content_scale_fill_width">Adatta alla larghezza</string>
     <string name="content_scale_fill_height">Adatta alla altezza</string>
+    <string name="settings_comment_indent_amount">Larghezza rientro dei commenti</string>
 </resources>

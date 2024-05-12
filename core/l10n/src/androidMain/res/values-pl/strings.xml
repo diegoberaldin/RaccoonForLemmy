@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Dopasuj rozmiar</string>
     <string name="content_scale_fill_width">Wypełnij szerokość</string>
     <string name="content_scale_fill_height">Wypełnij wysokość</string>
+    <string name="settings_comment_indent_amount">Szerokość wcięcia komentarzy</string>
 </resources>

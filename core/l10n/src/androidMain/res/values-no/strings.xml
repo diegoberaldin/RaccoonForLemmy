@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Passer størrelsen</string>
     <string name="content_scale_fill_width">Fyll bredden</string>
     <string name="content_scale_fill_height">Fyll høyden</string>
+    <string name="settings_comment_indent_amount">Bredde på innrykk av kommentarer</string>
 </resources>

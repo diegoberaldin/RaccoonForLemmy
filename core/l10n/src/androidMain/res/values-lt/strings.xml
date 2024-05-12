@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Atitinka dydį</string>
     <string name="content_scale_fill_width">Užpildykite plotį</string>
     <string name="content_scale_fill_height">Užpildykite aukštį</string>
+    <string name="settings_comment_indent_amount">Komentarų įtraukos plotis</string>
 </resources>

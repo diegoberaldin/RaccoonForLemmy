@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Konveni la grandecon</string>
     <string name="content_scale_fill_width">Plenigi la larĝon</string>
     <string name="content_scale_fill_height">Plenigi la altecon</string>
+    <string name="settings_comment_indent_amount">Larĝeco de indentaĵo de komentoj</string>
 </resources>

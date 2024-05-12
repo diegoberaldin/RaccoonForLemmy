@@ -393,4 +393,5 @@
     <string name="content_scale_fit">Прилагодите величину</string>
     <string name="content_scale_fill_width">Попуните ширину</string>
     <string name="content_scale_fill_height">Попуните висину</string>
+    <string name="settings_comment_indent_amount">Ширина увлачења коментара</string>
 </resources>
