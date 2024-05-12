@@ -175,6 +175,7 @@ class FilteredContentsScreen(
                                 text = when (uiState.contentsType) {
                                     FilteredContentsType.Moderated -> LocalXmlStrings.current.moderatorZoneActionContents
                                     FilteredContentsType.Votes -> LocalXmlStrings.current.profileUpvotesDownvotes
+                                    FilteredContentsType.Bookmarks -> LocalXmlStrings.current.navigationDrawerTitleBookmarks
                                 },
                                 style = MaterialTheme.typography.titleMedium,
                             )

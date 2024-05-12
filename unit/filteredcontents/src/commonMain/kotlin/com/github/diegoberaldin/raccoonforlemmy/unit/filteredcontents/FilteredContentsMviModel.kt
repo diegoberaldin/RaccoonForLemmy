@@ -11,14 +11,17 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 sealed interface FilteredContentsType {
     data object Votes : FilteredContentsType
     data object Moderated : FilteredContentsType
+    data object Bookmarks : FilteredContentsType
 }
 
 fun FilteredContentsType.toInt(): Int = when (this) {
     FilteredContentsType.Moderated -> 0
     FilteredContentsType.Votes -> 1
+    FilteredContentsType.Bookmarks -> 2
 }
 
 fun Int.toFilteredContentsType(): FilteredContentsType = when (this) {
+    2 -> FilteredContentsType.Bookmarks
     1 -> FilteredContentsType.Votes
     else -> FilteredContentsType.Moderated
 }
@@ -26,7 +29,6 @@ fun Int.toFilteredContentsType(): FilteredContentsType = when (this) {
 
 sealed interface FilteredContentsSection {
     data object Posts : FilteredContentsSection
-
     data object Comments : FilteredContentsSection
 }
 
@@ -47,7 +49,7 @@ interface FilteredContentsMviModel :
         data class ModFeaturePost(val id: Long) : Intent
         data class ModLockPost(val id: Long) : Intent
         data class ModDistinguishComment(val commentId: Long) : Intent
-        data object WillOpenDetail: Intent
+        data object WillOpenDetail : Intent
     }
 
     data class State(

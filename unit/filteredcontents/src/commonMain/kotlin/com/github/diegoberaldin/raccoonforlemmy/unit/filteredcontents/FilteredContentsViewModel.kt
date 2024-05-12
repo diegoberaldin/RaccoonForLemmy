@@ -21,8 +21,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -185,6 +183,10 @@ class FilteredContentsViewModel(
                 liked = currentState.liked,
                 sortType = SortType.New,
             )
+
+            FilteredContentsType.Bookmarks -> PostPaginationSpecification.Saved(
+                sortType = SortType.New,
+            )
         }
         postPaginationManager.reset(postSpecification)
         val commentSpecification = when (currentState.contentsType) {
@@ -195,6 +197,10 @@ class FilteredContentsViewModel(
 
             FilteredContentsType.Votes -> CommentPaginationSpecification.Votes(
                 liked = currentState.liked,
+                sortType = SortType.New,
+            )
+
+            FilteredContentsType.Bookmarks -> CommentPaginationSpecification.Saved(
                 sortType = SortType.New,
             )
         }
@@ -329,7 +335,7 @@ class FilteredContentsViewModel(
             saved = newValue,
         )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -348,7 +354,7 @@ class FilteredContentsViewModel(
     }
 
     private fun feature(post: PostModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.featureInCommunity(
                 postId = post.id, auth = auth, featured = !post.featuredCommunity
@@ -360,7 +366,7 @@ class FilteredContentsViewModel(
     }
 
     private fun lock(post: PostModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val newPost = postRepository.lock(
                 postId = post.id,
