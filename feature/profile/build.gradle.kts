@@ -70,7 +70,6 @@ kotlin {
                 implementation(projects.unit.modlog)
                 implementation(projects.unit.myaccount)
                 implementation(projects.unit.reportlist)
-                implementation(projects.unit.saveditems)
                 implementation(projects.unit.web)
                 implementation(projects.unit.zoomableimage)
             }

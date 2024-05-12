@@ -87,7 +87,6 @@ kotlin {
                 implementation(projects.unit.postdetail)
                 implementation(projects.unit.remove)
                 implementation(projects.unit.reportlist)
-                implementation(projects.unit.saveditems)
                 implementation(projects.unit.selectcommunity)
                 implementation(projects.unit.selectinstance)
                 implementation(projects.unit.userdetail)

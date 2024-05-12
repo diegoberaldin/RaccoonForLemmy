@@ -50,7 +50,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.modlogModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
-import com.github.diegoberaldin.raccoonforlemmy.unit.saveditems.di.savedItemsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.di.selectInstanceModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.di.userDetailModule
@@ -93,7 +92,6 @@ val sharedHelperModule = module {
         instanceInfoModule,
         removeModule,
         reportListModule,
-        savedItemsModule,
         createReportModule,
         createPostModule,
         createCommentModule,
