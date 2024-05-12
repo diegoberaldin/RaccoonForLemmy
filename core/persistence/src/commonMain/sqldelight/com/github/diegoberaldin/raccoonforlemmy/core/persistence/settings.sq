@@ -49,7 +49,7 @@ CREATE TABLE SettingsEntity (
     opaqueSystemBars INTEGER DEFAULT NULL,
     showScores INTEGER NOT NULL DEFAULT 1,
     preferUserNicknames INTEGER NOT NULL DEFAULT 1,
-    commentBarThickness INTEGER NOT NULL DEFAULT 0,
+    commentBarThickness INTEGER NOT NULL DEFAULT 1,
     imageSourcePath INTEGER NOT NULL DEFAULT 0,
     defaultExploreType INTEGER NOT NULL DEFAULT 2,
     defaultLanguageId INTEGER DEFAULT NULL,
@@ -58,6 +58,7 @@ CREATE TABLE SettingsEntity (
     showUnreadComments INTEGER NOT NULL DEFAULT 0,
     enableButtonsToScrollBetweenComments INTEGER NOT NULL DEFAULT 0,
     fullWidthImages INTEGER NOT NULL DEFAULT 0,
+    commentIndentAmount INTEGER NOT NULL DEFAULT 2,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -121,8 +122,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     showUnreadComments,
     enableButtonsToScrollBetweenComments,
     fullWidthImages,
+    commentIndentAmount,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -241,7 +244,8 @@ SET theme = ?,
     fadeReadPosts = ?,
     showUnreadComments = ?,
     enableButtonsToScrollBetweenComments = ?,
-    fullWidthImages = ?
+    fullWidthImages = ?,
+    commentIndentAmount = ?
 WHERE account_id = ?;
 
 getBy:
@@ -303,6 +307,7 @@ SELECT
     fadeReadPosts,
     showUnreadComments,
     enableButtonsToScrollBetweenComments,
-    fullWidthImages
+    fullWidthImages,
+    commentIndentAmount
 FROM SettingsEntity
 WHERE account_id = ?;

@@ -63,6 +63,7 @@ private object KeyStoreKeys {
     const val FADE_READ_POSTS = "fadeReadPosts"
     const val ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS = "enableButtonsToScrollBetweenComments"
     const val FULL_WIDTH_IMAGES = "fullWidthImages"
+    const val COMMENT_INDENT_AMOUNT = "commentIndentAmount"
 }
 
 internal class DefaultSettingsRepository(
@@ -133,6 +134,7 @@ internal class DefaultSettingsRepository(
                 showScores = if (settings.showScores) 1L else 0L,
                 preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
                 commentBarThickness = settings.commentBarThickness.toLong(),
+                commentIndentAmount = settings.commentIndentAmount.toLong(),
                 imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                 defaultExploreType = settings.defaultExploreType.toLong(),
                 defaultLanguageId = settings.defaultLanguageId,
@@ -200,6 +202,7 @@ internal class DefaultSettingsRepository(
                     showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
                     preferUserNicknames = keyStore[KeyStoreKeys.PREFER_USER_NICKNAMES, true],
                     commentBarThickness = keyStore[KeyStoreKeys.COMMENT_BAR_THICKNESS, 1],
+                    commentIndentAmount = keyStore[KeyStoreKeys.COMMENT_INDENT_AMOUNT, 2],
                     imageSourcePath = keyStore[KeyStoreKeys.IMAGE_SOURCE_PATH, false],
                     defaultLanguageId = if (keyStore.containsKey(KeyStoreKeys.DEFAULT_LANGUAGE_ID)) {
                         keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0L]
@@ -308,6 +311,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.SHOW_SCORES, settings.showScores)
                 keyStore.save(KeyStoreKeys.PREFER_USER_NICKNAMES, settings.preferUserNicknames)
                 keyStore.save(KeyStoreKeys.COMMENT_BAR_THICKNESS, settings.commentBarThickness)
+                keyStore.save(KeyStoreKeys.COMMENT_INDENT_AMOUNT, settings.commentIndentAmount)
                 keyStore.save(KeyStoreKeys.IMAGE_SOURCE_PATH, settings.imageSourcePath)
                 if (settings.defaultLanguageId != null) {
                     keyStore.save(KeyStoreKeys.DEFAULT_LANGUAGE_ID, settings.defaultLanguageId)
@@ -378,6 +382,7 @@ internal class DefaultSettingsRepository(
                     showScores = if (settings.showScores) 1L else 0L,
                     preferUserNicknames = if (settings.preferUserNicknames) 1L else 0L,
                     commentBarThickness = settings.commentBarThickness.toLong(),
+                    commentIndentAmount = settings.commentIndentAmount.toLong(),
                     imageSourcePath = if (settings.imageSourcePath) 1L else 0L,
                     defaultExploreType = settings.defaultExploreType.toLong(),
                     defaultLanguageId = settings.defaultLanguageId,
@@ -460,6 +465,7 @@ private fun GetBy.toModel() = SettingsModel(
     showScores = showScores == 1L,
     preferUserNicknames = preferUserNicknames == 1L,
     commentBarThickness = commentBarThickness.toInt(),
+    commentIndentAmount = commentIndentAmount.toInt(),
     imageSourcePath = imageSourcePath == 1L,
     defaultExploreType = defaultExploreType.toInt(),
     defaultLanguageId = defaultLanguageId,
