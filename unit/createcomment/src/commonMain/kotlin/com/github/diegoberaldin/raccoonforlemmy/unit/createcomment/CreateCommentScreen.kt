@@ -244,27 +244,31 @@ class CreateCommentScreen(
                     val originalComment = uiState.originalComment
                     val originalPost = uiState.originalPost
                     if (originalComment != null) {
-                        CommentCard(
-                            modifier = referenceModifier,
-                            comment = originalComment,
-                            preferNicknames = uiState.preferNicknames,
-                            indentAmount = 0,
-                            voteFormat = uiState.voteFormat,
-                            autoLoadImages = uiState.autoLoadImages,
-                            showScores = uiState.showScores,
-                            options = buildList {
-                                add(
-                                    Option(
-                                        OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
+                        ) {
+                            CommentCard(
+                                modifier = referenceModifier,
+                                comment = originalComment,
+                                preferNicknames = uiState.preferNicknames,
+                                indentAmount = 0,
+                                voteFormat = uiState.voteFormat,
+                                autoLoadImages = uiState.autoLoadImages,
+                                showScores = uiState.showScores,
+                                options = buildList {
+                                    add(
+                                        Option(
+                                            OptionId.SeeRaw,
+                                            LocalXmlStrings.current.postActionSeeRaw
+                                        )
                                     )
-                                )
-                            },
-                            onOptionSelected = {
-                                rawContent = originalComment
-                            },
-                        )
-                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                                },
+                                onOptionSelected = {
+                                    rawContent = originalComment
+                                },
+                            )
+                            HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                        }
                     } else if (originalPost != null) {
                         PostCard(
                             modifier = referenceModifier,
