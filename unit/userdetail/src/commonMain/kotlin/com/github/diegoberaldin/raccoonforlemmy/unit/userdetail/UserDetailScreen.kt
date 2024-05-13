@@ -113,8 +113,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.InboxChatScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.userinfo.UserInfoScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
@@ -279,6 +281,12 @@ class UserDetailScreen(
                                         LocalXmlStrings.current.communityDetailBlockInstance
                                     )
                                 }
+                                if (uiState.isAdmin) {
+                                    this += Option(
+                                        OptionId.Purge,
+                                        LocalXmlStrings.current.adminActionPurge
+                                    )
+                                }
                             }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
@@ -338,8 +346,15 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.ExploreInstance -> {
-                                                    val screen =
-                                                        ExploreScreen(otherInstance = uiState.user.host)
+                                                    val screen = ExploreScreen(otherInstance = uiState.user.host)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Purge -> {
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                        contentId = uiState.user.id,
+                                                    )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -714,9 +729,11 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionId ->
                                             when (optionId) {
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(post.id)
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                        contentId = post.id,
                                                     )
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.CrossPost -> {
@@ -1007,9 +1024,11 @@ class UserDetailScreen(
                                         onOptionSelected = rememberCallbackArgs { optionId ->
                                             when (optionId) {
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(comment.id),
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportComment.toInt(),
+                                                        contentId = comment.id,
                                                     )
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.SeeRaw -> {

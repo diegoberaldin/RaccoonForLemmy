@@ -39,6 +39,7 @@ interface UserDetailMviModel :
         val isLogged: Boolean = false,
         val instance: String = "",
         val currentUserId: Long? = null,
+        val isAdmin: Boolean = false,
         val section: UserDetailSection = UserDetailSection.Posts,
         val sortType: SortType = SortType.Active,
         val refreshing: Boolean = false,

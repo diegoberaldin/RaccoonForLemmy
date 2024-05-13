@@ -119,16 +119,19 @@ class UserDetailViewModel(
                     )
                 }
             }.launchIn(this)
+
             identityRepository.isLogged.onEach { logged ->
                 updateState { it.copy(isLogged = logged ?: false) }
                 updateAvailableSortTypes()
             }.launchIn(this)
+
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
                 updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
+                        isAdmin = user?.admin == true,
                     )
                 }
             }
