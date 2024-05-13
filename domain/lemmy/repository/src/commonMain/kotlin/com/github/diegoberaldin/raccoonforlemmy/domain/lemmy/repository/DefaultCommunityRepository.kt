@@ -5,6 +5,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityFor
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HideCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgeCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -285,4 +287,30 @@ internal class DefaultCommunityRepository(
                 throw Exception(error)
             }
         }
+
+    override suspend fun hide(auth: String?, communityId: Long, hidden: Boolean, reason: String?) =
+        withContext(Dispatchers.IO) {
+            val data = HideCommunityForm(
+                communityId = communityId,
+                reason = reason,
+                hidden = hidden,
+            )
+            val response = services.community.hide(
+                form = data,
+                authHeader = auth.toAuthHeader(),
+            )
+            require(response.body()?.success == true)
+        }
+
+    override suspend fun purge(auth: String?, communityId: Long, reason: String?) = withContext(Dispatchers.IO) {
+        val data = PurgeCommunityForm(
+            communityId = communityId,
+            reason = reason,
+        )
+        val response = services.community.purge(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        require(response.body()?.success == true)
+    }
 }

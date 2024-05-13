@@ -116,4 +116,10 @@ interface CommentRepository {
         auth: String,
         resolved: Boolean,
     ): CommentReportModel?
+
+    suspend fun purge(
+        auth: String?,
+        commentId: Long,
+        reason: String? = null,
+    )
 }

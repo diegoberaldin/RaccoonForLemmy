@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostFeatureType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemovePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
@@ -20,8 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
-import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.*
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.Dispatchers
@@ -395,5 +395,17 @@ internal class DefaultPostRepository(
             )
             response.body()?.postReportView?.toModel()
         }.getOrNull()
+    }
+
+    override suspend fun purge(auth: String?, postId: Long, reason: String?) = withContext(Dispatchers.IO) {
+        val data = PurgePostForm(
+            postId = postId,
+            reason = reason,
+        )
+        val response = services.post.purge(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        require(response.body()?.success == true)
     }
 }

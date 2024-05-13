@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentReport
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DistinguishCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgeCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemoveCommentForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolveCommentReportForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
@@ -374,5 +375,17 @@ internal class DefaultCommentRepository(
             )
             response.body()?.commentReportView?.toModel()
         }.getOrNull()
+    }
+
+    override suspend fun purge(auth: String?, commentId: Long, reason: String?) = withContext(Dispatchers.IO) {
+        val data = PurgeCommentForm(
+            commentId = commentId,
+            reason = reason,
+        )
+        val response = services.comment.purge(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        require(response.body()?.success == true)
     }
 }

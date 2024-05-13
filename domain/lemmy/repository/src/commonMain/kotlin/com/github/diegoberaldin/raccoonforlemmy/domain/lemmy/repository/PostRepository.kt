@@ -115,4 +115,10 @@ interface PostRepository {
         auth: String,
         resolved: Boolean,
     ): PostReportModel?
+
+    suspend fun purge(
+        auth: String?,
+        postId: Long,
+        reason: String? = null,
+    )
 }

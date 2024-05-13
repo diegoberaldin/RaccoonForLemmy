@@ -89,5 +89,18 @@ interface CommunityRepository {
     suspend fun update(
         auth: String? = null,
         community: CommunityModel,
-    ): Unit
+    )
+
+    suspend fun hide(
+        auth: String?,
+        communityId: Long,
+        hidden: Boolean,
+        reason: String? = null,
+    )
+
+    suspend fun purge(
+        auth: String?,
+        communityId: Long,
+        reason: String? = null,
+    )
 }

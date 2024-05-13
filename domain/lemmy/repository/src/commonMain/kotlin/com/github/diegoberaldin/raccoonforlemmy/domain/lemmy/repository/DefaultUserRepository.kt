@@ -5,6 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkAllAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkCommentAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgePersonForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -329,5 +330,17 @@ internal class DefaultUserRepository(
             ).body()
             response?.comments?.map { it.toModel() }
         }.getOrElse { emptyList() }
+    }
+
+    override suspend fun purge(auth: String?, id: Long, reason: String?) = withContext(Dispatchers.IO) {
+        val data = PurgePersonForm(
+            personId = id,
+            reason = reason,
+        )
+        val response = services.user.purge(
+            form = data,
+            authHeader = auth.toAuthHeader(),
+        )
+        require(response.body()?.success == true)
     }
 }

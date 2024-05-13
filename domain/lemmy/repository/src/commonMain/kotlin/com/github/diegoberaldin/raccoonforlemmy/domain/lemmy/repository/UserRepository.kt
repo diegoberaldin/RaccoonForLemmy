@@ -112,4 +112,10 @@ interface UserRepository {
         sort: SortType = SortType.New,
         liked: Boolean = true,
     ): List<CommentModel>?
+
+    suspend fun purge(
+        auth: String?,
+        id: Long,
+        reason: String? = null,
+    )
 }
