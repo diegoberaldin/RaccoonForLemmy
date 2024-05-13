@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "createreport"
+            baseName = "moderatewithreason"
         }
     }
 
@@ -50,12 +50,12 @@ kotlin {
                 implementation(projects.core.persistence)
                 implementation(projects.core.utils)
 
-                implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.web)
-
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
+
+                implementation(projects.unit.zoomableimage)
+                implementation(projects.unit.web)
             }
         }
         val commonTest by getting {
@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.createreport"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

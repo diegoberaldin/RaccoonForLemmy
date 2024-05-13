@@ -38,7 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.di.con
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.di.configureSwipeActionsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.di.createCommentModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.di.createPostModule
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.di.createReportModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drafts.di.draftsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.drawerModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.di.editCommunityModule
@@ -47,9 +46,9 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInf
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.di.licenceModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.di.manageBanModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di.manageSubscriptionsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.di.moderateWithReasonModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.modlogModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
-import com.github.diegoberaldin.raccoonforlemmy.unit.remove.di.removeModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.di.reportListModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.di.selectCommunityModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.di.selectInstanceModule
@@ -93,9 +92,7 @@ fun initKoin() {
             drawerModule,
             communityInfoModule,
             instanceInfoModule,
-            removeModule,
             reportListModule,
-            createReportModule,
             createPostModule,
             createCommentModule,
             postDetailModule,
@@ -118,6 +115,7 @@ fun initKoin() {
             coreResourceModule,
             paginationModule,
             customTabsModule,
+            moderateWithReasonModule,
         )
     }
 

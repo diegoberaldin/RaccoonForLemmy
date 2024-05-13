@@ -1,4 +1,4 @@
-package com.github.diegoberaldin.raccoonforlemmy.unit.remove
+package com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -44,11 +44,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
+import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
@@ -57,18 +57,15 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 import kotlin.time.Duration.Companion.seconds
 
-class RemoveScreen(
-    private val postId: Long? = null,
-    private val commentId: Long? = null,
+class ModerateWithReasonScreen(
+    private val actionId: Int,
+    private val contentId: Long,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<RemoveMviModel> {
-            parametersOf(
-                postId,
-                commentId,
-            )
+        val model = getScreenModel<ModerateWithReasonMviModel>(tag = "$actionId-$contentId") {
+            parametersOf(actionId, contentId)
         }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -82,11 +79,11 @@ class RemoveScreen(
         LaunchedEffect(model) {
             model.effects.onEach {
                 when (it) {
-                    is RemoveMviModel.Effect.Failure -> {
+                    is ModerateWithReasonMviModel.Effect.Failure -> {
                         snackbarHostState.showSnackbar(it.message ?: genericError)
                     }
 
-                    RemoveMviModel.Effect.Success -> {
+                    ModerateWithReasonMviModel.Effect.Success -> {
                         navigationCoordinator.showGlobalMessage(message = successMessage, delay = 1.seconds)
                         navigationCoordinator.popScreen()
                     }
@@ -111,8 +108,19 @@ class RemoveScreen(
                         )
                     },
                     title = {
+                        val title = when (uiState.action) {
+                            is ModerateWithReasonAction.HideCommunity -> LocalXmlStrings.current.postActionHide
+                            is ModerateWithReasonAction.PurgeComment -> LocalXmlStrings.current.adminActionPurge
+                            is ModerateWithReasonAction.PurgeCommunity -> LocalXmlStrings.current.adminActionPurge
+                            is ModerateWithReasonAction.PurgePost -> LocalXmlStrings.current.adminActionPurge
+                            is ModerateWithReasonAction.PurgeUser -> LocalXmlStrings.current.adminActionPurge
+                            is ModerateWithReasonAction.RemoveComment -> LocalXmlStrings.current.modActionRemove
+                            is ModerateWithReasonAction.RemovePost -> LocalXmlStrings.current.modActionRemove
+                            is ModerateWithReasonAction.ReportComment -> LocalXmlStrings.current.createReportTitleComment
+                            is ModerateWithReasonAction.ReportPost -> LocalXmlStrings.current.createReportTitlePost
+                        }
                         Text(
-                            text = LocalXmlStrings.current.modActionRemove,
+                            text = title,
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -128,7 +136,7 @@ class RemoveScreen(
                             },
                             onClick = rememberCallback(model) {
                                 focusManager.clearFocus()
-                                model.reduce(RemoveMviModel.Intent.Submit)
+                                model.reduce(ModerateWithReasonMviModel.Intent.Submit)
                             },
                         )
                     },
@@ -174,7 +182,7 @@ class RemoveScreen(
                         autoCorrect = true,
                     ),
                     onValueChange = { value ->
-                        model.reduce(RemoveMviModel.Intent.SetText(value))
+                        model.reduce(ModerateWithReasonMviModel.Intent.SetText(value))
                     },
                     isError = uiState.textError != null,
                     supportingText = {
