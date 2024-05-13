@@ -59,9 +59,9 @@ kotlin {
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
-                implementation(projects.unit.createreport)
                 implementation(projects.unit.createcomment)
                 implementation(projects.unit.explore)
+                implementation(projects.unit.moderatewithreason)
                 implementation(projects.unit.web)
                 implementation(projects.unit.zoomableimage)
             }

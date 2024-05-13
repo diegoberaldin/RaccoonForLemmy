@@ -57,14 +57,13 @@ kotlin {
                 implementation(projects.domain.lemmy.pagination)
                 implementation(projects.domain.lemmy.repository)
 
-                implementation(projects.unit.zoomableimage)
-                implementation(projects.unit.web)
-                implementation(projects.unit.createreport)
+                implementation(projects.unit.ban)
                 implementation(projects.unit.createcomment)
                 implementation(projects.unit.createpost)
-                implementation(projects.unit.remove)
-                implementation(projects.unit.ban)
+                implementation(projects.unit.moderatewithreason)
                 implementation(projects.unit.rawcontent)
+                implementation(projects.unit.web)
+                implementation(projects.unit.zoomableimage)
             }
         }
         val commonTest by getting {

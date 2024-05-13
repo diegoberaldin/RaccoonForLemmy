@@ -59,7 +59,7 @@ kotlin {
 
                 implementation(projects.unit.ban)
                 implementation(projects.unit.rawcontent)
-                implementation(projects.unit.remove)
+                implementation(projects.unit.moderatewithreason)
                 implementation(projects.unit.web)
                 implementation(projects.unit.zoomableimage)
             }

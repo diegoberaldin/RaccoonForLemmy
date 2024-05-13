@@ -62,9 +62,8 @@ kotlin {
                 implementation(projects.unit.chat)
                 implementation(projects.unit.createcomment)
                 implementation(projects.unit.createpost)
-                implementation(projects.unit.createreport)
+                implementation(projects.unit.moderatewithreason)
                 implementation(projects.unit.rawcontent)
-                implementation(projects.unit.remove)
                 implementation(projects.unit.web)
                 implementation(projects.unit.zoomableimage)
             }
