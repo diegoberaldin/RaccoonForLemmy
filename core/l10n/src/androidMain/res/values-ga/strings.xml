@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Líon isteach an leithead</string>
     <string name="content_scale_fill_height">Líon an airde</string>
     <string name="settings_comment_indent_amount">Leithead eangú na dtuairimí</string>
+    <string name="post_action_unhide">Cuir ceilt ar ais</string>
+    <string name="admin_action_purge">Glanadh</string>
 </resources>

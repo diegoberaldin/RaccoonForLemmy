@@ -393,4 +393,6 @@
     <string name="content_scale_fill_width">Заполните ширину</string>
     <string name="content_scale_fill_height">Заполните высоту</string>
     <string name="settings_comment_indent_amount">Ширина отступа комментариев</string>
+    <string name="post_action_unhide">Вернуть скрытие</string>
+    <string name="admin_action_purge">Удалять</string>
 </resources>

@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Töltse ki a szélességet</string>
     <string name="content_scale_fill_height">Töltse ki a magasságot</string>
     <string name="settings_comment_indent_amount">A megjegyzések behúzásának szélessége</string>
+    <string name="post_action_unhide">Elrejtés visszaállítása</string>
+    <string name="admin_action_purge">Tisztítás</string>
 </resources>

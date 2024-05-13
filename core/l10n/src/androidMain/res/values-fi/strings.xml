@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Täytä leveys</string>
     <string name="content_scale_fill_height">Täytä korkeus</string>
     <string name="settings_comment_indent_amount">Kommenttien sisennyksen leveys</string>
+    <string name="post_action_unhide">Palauta piilotus</string>
+    <string name="admin_action_purge">Puhdistaa</string>
 </resources>

@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Genişliği doldurun</string>
     <string name="content_scale_fill_height">Yüksekliği doldurun</string>
     <string name="settings_comment_indent_amount">Yorum girintisinin genişliği</string>
+    <string name="post_action_unhide">Gizlemeyi geri al</string>
+    <string name="admin_action_purge">Tasfiye</string>
 </resources>

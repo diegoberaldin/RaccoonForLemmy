@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Preencha a largura</string>
     <string name="content_scale_fill_height">Preencha a altura</string>
     <string name="settings_comment_indent_amount">Largura de recuo dos comentários</string>
+    <string name="post_action_unhide">Reverter ocultar</string>
+    <string name="admin_action_purge">Purgar</string>
 </resources>

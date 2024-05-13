@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Füllen Sie die Breite</string>
     <string name="content_scale_fill_height">Füllen Sie die Höhe aus</string>
     <string name="settings_comment_indent_amount">Breite der Einrückung von Kommentaren</string>
+    <string name="post_action_unhide">Ausblenden wiederherstellen</string>
+    <string name="admin_action_purge">Säubern</string>
 </resources>

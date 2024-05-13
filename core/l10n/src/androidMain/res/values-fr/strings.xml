@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Remplissez la largeur</string>
     <string name="content_scale_fill_height">Remplissez la hauteur</string>
     <string name="settings_comment_indent_amount">Largeur d\'indentation des commentaires</string>
+    <string name="post_action_unhide">Rétablir le masquage</string>
+    <string name="admin_action_purge">Purger</string>
 </resources>

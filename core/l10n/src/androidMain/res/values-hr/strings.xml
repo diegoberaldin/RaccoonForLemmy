@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Ispunite širinu</string>
     <string name="content_scale_fill_height">Ispunite visinu</string>
     <string name="settings_comment_indent_amount">Širina uvlačenja komentara</string>
+    <string name="post_action_unhide">Vrati skrivanje</string>
+    <string name="admin_action_purge">Čišćenje</string>
 </resources>

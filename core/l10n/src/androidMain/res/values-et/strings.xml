@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Täida laius</string>
     <string name="content_scale_fill_height">Täida kõrgus</string>
     <string name="settings_comment_indent_amount">Kommentaaride taande laius</string>
+    <string name="post_action_unhide">Taasta peitmine</string>
+    <string name="admin_action_purge">Puhastamine</string>
 </resources>

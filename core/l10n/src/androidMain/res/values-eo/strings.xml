@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Plenigi la larĝon</string>
     <string name="content_scale_fill_height">Plenigi la altecon</string>
     <string name="settings_comment_indent_amount">Larĝeco de indentaĵo de komentoj</string>
+    <string name="post_action_unhide">Reverti kaŝon</string>
+    <string name="admin_action_purge">Elpurigi</string>
 </resources>

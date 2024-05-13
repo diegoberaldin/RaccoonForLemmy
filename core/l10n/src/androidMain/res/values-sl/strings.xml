@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Izpolnite širino</string>
     <string name="content_scale_fill_height">Izpolnite višino</string>
     <string name="settings_comment_indent_amount">Širina zamika komentarjev</string>
+    <string name="post_action_unhide">Povrni skrivanje</string>
+    <string name="admin_action_purge">Čiščenje</string>
 </resources>

@@ -391,7 +391,9 @@
     <string name="settings_url_opening_mode_custom_tabs">File personalizate</string>
     <string name="settings_full_width_images">Imagini la lățime completă</string>
     <string name="content_scale_fit">Se potrivește mărimii</string>
-    <string name="content_scale_fill_width">Umpleți lățimea</string>
-    <string name="content_scale_fill_height">Umpleți înălțimea</string>
+    <string name="content_scale_fill_width">Umple lățimea</string>
+    <string name="content_scale_fill_height">Umple înălțimea</string>
     <string name="settings_comment_indent_amount">Lățimea indentării comentariilor</string>
+    <string name="post_action_unhide">Revino ascunderea</string>
+    <string name="admin_action_purge">Epurează</string>
 </resources>

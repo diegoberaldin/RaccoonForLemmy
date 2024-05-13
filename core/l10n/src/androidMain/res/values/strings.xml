@@ -402,4 +402,6 @@
     <string name="content_scale_fill_width">Fill width</string>
     <string name="content_scale_fill_height">Fill height</string>
     <string name="settings_comment_indent_amount">Comment indentation amount</string>
+    <string name="post_action_unhide">Revert hide</string>
+    <string name="admin_action_purge">Purge</string>
 </resources>

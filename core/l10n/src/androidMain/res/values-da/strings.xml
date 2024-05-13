@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Fyld bredden</string>
     <string name="content_scale_fill_height">Fyld højden</string>
     <string name="settings_comment_indent_amount">Bredde på indrykning af kommentarer</string>
+    <string name="post_action_unhide">Vend skjul tilbage</string>
+    <string name="admin_action_purge">Udrensning</string>
 </resources>

@@ -390,8 +390,10 @@
     <string name="settings_url_opening_mode_external">Εξωτερικό πρόγραμμα περιήγησης</string>
     <string name="settings_url_opening_mode_custom_tabs">Προσαρμοσμένες καρτέλες</string>
     <string name="settings_full_width_images">Εικόνες πλήρους πλάτους</string>
-    <string name="content_scale_fit">Ταιριάζει στο μέγεθος</string>
-    <string name="content_scale_fill_width">Γεμίστε το πλάτος</string>
+    <string name="content_scale_fit">Ταίριασε στο μέγεθος</string>
+    <string name="content_scale_fill_width">Γέμισε το πλάτος</string>
     <string name="content_scale_fill_height">Συμπληρώστε το ύψος</string>
     <string name="settings_comment_indent_amount">Πλάτος εσοχής σχολίων</string>
+    <string name="post_action_unhide">Επαναφορά απόκρυψης</string>
+    <string name="admin_action_purge">Καθάρισε</string>
 </resources>

@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">ملء العرض</string>
     <string name="content_scale_fill_height">ملء الارتفاع</string>
     <string name="settings_comment_indent_amount">عرض المسافة البادئة للتعليقات</string>
+    <string name="post_action_unhide">إرجاع الإخفاء</string>
+    <string name="admin_action_purge">تطهير</string>
 </resources>

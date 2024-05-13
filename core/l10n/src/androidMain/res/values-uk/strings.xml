@@ -393,4 +393,6 @@
     <string name="content_scale_fill_width">Заповнити ширину</string>
     <string name="content_scale_fill_height">Заповнити висоту</string>
     <string name="settings_comment_indent_amount">Ширина відступу коментарів</string>
+    <string name="post_action_unhide">Повернути приховування</string>
+    <string name="admin_action_purge">Чистка</string>
 </resources>

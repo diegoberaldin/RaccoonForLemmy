@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Попуните ширину</string>
     <string name="content_scale_fill_height">Попуните висину</string>
     <string name="settings_comment_indent_amount">Ширина увлачења коментара</string>
+    <string name="post_action_unhide">Врати сакрити</string>
+    <string name="admin_action_purge">Чистка</string>
 </resources>

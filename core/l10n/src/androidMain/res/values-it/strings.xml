@@ -394,4 +394,6 @@
     <string name="content_scale_fill_width">Adatta alla larghezza</string>
     <string name="content_scale_fill_height">Adatta alla altezza</string>
     <string name="settings_comment_indent_amount">Larghezza rientro dei commenti</string>
+    <string name="post_action_unhide">Annulla nascondi</string>
+    <string name="admin_action_purge">Epura</string>
 </resources>
