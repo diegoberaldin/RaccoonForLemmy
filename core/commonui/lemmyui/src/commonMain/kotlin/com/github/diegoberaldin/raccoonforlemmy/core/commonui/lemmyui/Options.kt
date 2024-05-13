@@ -13,7 +13,7 @@ sealed class OptionId(val value: Int) {
     data object Report : OptionId(4)
     data object Edit : OptionId(5)
     data object Delete : OptionId(6)
-    data object Info : OptionId(7)
+    data object Purge : OptionId(7)
     data object InfoInstance : OptionId(8)
     data object Block : OptionId(9)
     data object BlockInstance : OptionId(10)
@@ -34,4 +34,5 @@ sealed class OptionId(val value: Int) {
     data object Copy : OptionId(26)
     data object ExploreInstance : OptionId(27)
     data object Unsubscribe : OptionId(28)
+    data object PurgeCreator : OptionId(29)
 }
