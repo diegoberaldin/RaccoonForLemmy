@@ -82,12 +82,14 @@ class PostDetailViewModel(
             )
         }
         screenModelScope.launch {
+
             if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
                 updateState {
                     it.copy(
                         post = post,
                         isModerator = isModerator,
+                        isAdmin = identityRepository.cachedUser?.admin == true,
                     )
                 }
             }

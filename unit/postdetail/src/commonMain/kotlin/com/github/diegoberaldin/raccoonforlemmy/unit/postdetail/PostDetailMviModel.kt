@@ -49,6 +49,7 @@ interface PostDetailMviModel :
         val post: PostModel = PostModel(),
         val instance: String = "",
         val isModerator: Boolean = false,
+        val isAdmin: Boolean = false,
         val isLogged: Boolean = false,
         val refreshing: Boolean = false,
         val loading: Boolean = false,

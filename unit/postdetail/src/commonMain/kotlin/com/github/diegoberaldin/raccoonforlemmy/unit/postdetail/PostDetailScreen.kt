@@ -142,9 +142,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
-import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn
@@ -409,6 +410,22 @@ class PostDetailScreen(
                                         }
                                     }
                                 }
+                                if (uiState.isAdmin) {
+                                    this += Option(
+                                        OptionId.Purge,
+                                        LocalXmlStrings.current.adminActionPurge,
+                                    )
+                                    uiState.post.creator?.also { creator ->
+                                        this += Option(
+                                            OptionId.PurgeCreator,
+                                            buildString {
+                                                append(LocalXmlStrings.current.adminActionPurge)
+                                                append(" ")
+                                                append(creator.readableName(uiState.preferNicknames))
+                                            },
+                                        )
+                                    }
+                                }
                                 this += Option(
                                     OptionId.Search,
                                     if (uiState.searching) {
@@ -461,9 +478,11 @@ class PostDetailScreen(
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(postId = uiState.post.id),
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                        contentId = uiState . post . id,
                                                     )
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.CrossPost -> {
@@ -503,8 +522,10 @@ class PostDetailScreen(
                                                 )
 
                                                 OptionId.Remove -> {
-                                                    val screen =
-                                                        RemoveScreen(postId = uiState.post.id)
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.RemovePost.toInt(),
+                                                        contentId = uiState.post.id,
+                                                    )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -556,6 +577,32 @@ class PostDetailScreen(
                                                             !uiState.searching
                                                         )
                                                     )
+                                                }
+
+                                                OptionId.Report -> {
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                        contentId = uiState.post.id,
+                                                    )
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Purge -> {
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.PurgePost.toInt(),
+                                                        contentId = uiState.post.id,
+                                                    )
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.PurgeCreator -> {
+                                                    uiState.post.creator?.id?.also { userId ->
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                            contentId = userId,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
                                                 }
 
                                                 else -> Unit
@@ -1138,6 +1185,22 @@ class PostDetailScreen(
                                                                     }
                                                                 }
                                                             }
+                                                            if (uiState.isAdmin) {
+                                                                this += Option(
+                                                                    OptionId.Purge,
+                                                                    LocalXmlStrings.current.adminActionPurge,
+                                                                )
+                                                                comment.creator?.also { creator ->
+                                                                    this += Option(
+                                                                        OptionId.PurgeCreator,
+                                                                        buildString {
+                                                                            append(LocalXmlStrings.current.adminActionPurge)
+                                                                            append(" ")
+                                                                            append(creator.readableName(uiState.preferNicknames))
+                                                                        },
+                                                                    )
+                                                                }
+                                                            }
                                                         },
                                                         onOptionSelected = rememberCallbackArgs(
                                                             model
@@ -1154,11 +1217,11 @@ class PostDetailScreen(
                                                                 }
 
                                                                 OptionId.Report -> {
-                                                                    navigationCoordinator.pushScreen(
-                                                                        CreateReportScreen(
-                                                                            commentId = comment.id,
-                                                                        )
+                                                                    val screen = ModerateWithReasonScreen(
+                                                                        actionId = ModerateWithReasonAction.ReportComment.toInt(),
+                                                                        contentId = comment.id,
                                                                     )
+                                                                    navigationCoordinator.pushScreen(screen)
                                                                 }
 
                                                                 OptionId.SeeRaw -> {
@@ -1172,11 +1235,11 @@ class PostDetailScreen(
                                                                 )
 
                                                                 OptionId.Remove -> {
-                                                                    val screen =
-                                                                        RemoveScreen(commentId = comment.id)
-                                                                    navigationCoordinator.pushScreen(
-                                                                        screen,
+                                                                    val screen = ModerateWithReasonScreen(
+                                                                        actionId = ModerateWithReasonAction.RemoveComment.toInt(),
+                                                                        contentId = comment.id,
                                                                     )
+                                                                    navigationCoordinator.pushScreen(screen)
                                                                 }
 
                                                                 OptionId.BanUser -> {
@@ -1201,6 +1264,24 @@ class PostDetailScreen(
                                                                                 userId,
                                                                             )
                                                                         )
+                                                                    }
+                                                                }
+
+                                                                OptionId.Purge -> {
+                                                                    val screen = ModerateWithReasonScreen(
+                                                                        actionId = ModerateWithReasonAction.PurgeComment.toInt(),
+                                                                        contentId = comment.id,
+                                                                    )
+                                                                    navigationCoordinator.pushScreen(screen)
+                                                                }
+
+                                                                OptionId.PurgeCreator -> {
+                                                                    comment.creator?.id?.also { userId ->
+                                                                        val screen = ModerateWithReasonScreen(
+                                                                            actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                            contentId = userId,
+                                                                        )
+                                                                        navigationCoordinator.pushScreen(screen)
                                                                     }
                                                                 }
 
@@ -1345,11 +1426,11 @@ class PostDetailScreen(
                                                         }
 
                                                         OptionId.Report -> {
-                                                            navigationCoordinator.pushScreen(
-                                                                CreateReportScreen(
-                                                                    commentId = comment.id,
-                                                                )
+                                                            val screen = ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.ReportComment.toInt(),
+                                                                contentId = comment.id,
                                                             )
+                                                            navigationCoordinator.pushScreen(screen)
                                                         }
 
                                                         OptionId.SeeRaw -> {
@@ -1363,8 +1444,10 @@ class PostDetailScreen(
                                                         )
 
                                                         OptionId.Remove -> {
-                                                            val screen =
-                                                                RemoveScreen(commentId = comment.id)
+                                                            val screen = ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.RemoveComment.toInt(),
+                                                                contentId = comment.id,
+                                                            )
                                                             navigationCoordinator.pushScreen(screen)
                                                         }
 
