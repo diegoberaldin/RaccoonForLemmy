@@ -96,7 +96,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.components.PostsTopBar
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceBottomSheet
@@ -583,9 +585,11 @@ class PostListScreen : Screen {
                                                 }
 
                                                 OptionId.Report -> {
-                                                    navigationCoordinator.pushScreen(
-                                                        CreateReportScreen(postId = post.id)
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                        contentId = post.id,
                                                     )
+                                                    navigationCoordinator.pushScreen(screen)
                                                 }
 
                                                 OptionId.CrossPost -> {
