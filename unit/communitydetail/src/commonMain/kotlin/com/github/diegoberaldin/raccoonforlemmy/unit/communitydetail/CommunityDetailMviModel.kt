@@ -42,6 +42,7 @@ interface CommunityDetailMviModel :
         data class ChangeSearching(val value: Boolean) : Intent
         data class Copy(val value: String) : Intent
         data object WillOpenDetail : Intent
+        data object UnhideCommunity : Intent
     }
 
     data class UiState(
@@ -56,6 +57,7 @@ interface CommunityDetailMviModel :
         val posts: List<PostModel> = emptyList(),
         val blurNsfw: Boolean = true,
         val currentUserId: Long? = null,
+        val isAdmin: Boolean = true,
         val swipeActionsEnabled: Boolean = true,
         val doubleTapActionEnabled: Boolean = false,
         val postLayout: PostLayout = PostLayout.Card,
@@ -78,6 +80,7 @@ interface CommunityDetailMviModel :
 
     sealed interface Effect {
         data object Success : Effect
+        data class Failure(val message: String?) : Effect
         data class Error(val message: String?) : Effect
         data object BackToTop : Effect
         data class ZombieModeTick(val index: Int) : Effect

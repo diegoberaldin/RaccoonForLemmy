@@ -180,7 +180,12 @@ class CommunityDetailViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                updateState { it.copy(currentUserId = user?.id ?: 0) }
+                updateState {
+                    it.copy(
+                        currentUserId = user?.id ?: 0,
+                        isAdmin = user?.admin == true,
+                    )
+                }
             }
             if (uiState.value.posts.isEmpty()) {
                 val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
@@ -302,6 +307,10 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
                 postNavigationManager.push(state)
+            }
+
+            CommunityDetailMviModel.Intent.UnhideCommunity -> {
+                unhideCommunity()
             }
         }
     }
@@ -667,6 +676,23 @@ class CommunityDetailViewModel(
         updateState { it.copy(searchText = value) }
         screenModelScope.launch {
             searchEventChannel.send(Unit)
+        }
+    }
+
+    private fun unhideCommunity() {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value
+            try {
+                communityRepository.hide(
+                    auth = auth,
+                    communityId = communityId,
+                    hidden = false,
+                )
+                emitEffect(CommunityDetailMviModel.Effect.Success)
+            } catch (e: Throwable) {
+                val message = e.message
+                emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+            }
         }
     }
 }

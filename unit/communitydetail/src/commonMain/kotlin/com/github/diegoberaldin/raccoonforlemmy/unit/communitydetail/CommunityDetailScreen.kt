@@ -132,13 +132,14 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.ModlogScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
-import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.reportlist.ReportListScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
@@ -241,6 +242,10 @@ class CommunityDetailScreen(
 
                     is CommunityDetailMviModel.Effect.TriggerCopy -> {
                         clipboardManager.setText(AnnotatedString(text = effect.text))
+                    }
+
+                    is CommunityDetailMviModel.Effect.Failure -> {
+                        snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
                 }
             }.launchIn(this)
@@ -409,6 +414,23 @@ class CommunityDetailScreen(
                                         LocalXmlStrings.current.communityActionEdit,
                                     )
                                 }
+                                if (uiState.isAdmin) {
+                                    if (uiState.community.hidden) {
+                                        this += Option(
+                                            OptionId.Hide,
+                                            LocalXmlStrings.current.postActionUnhide,
+                                        )
+                                    } else {
+                                        this += Option(
+                                            OptionId.Hide,
+                                            LocalXmlStrings.current.postActionHide,
+                                        )
+                                    }
+                                    this += Option(
+                                        OptionId.Purge,
+                                        LocalXmlStrings.current.adminActionPurge,
+                                    )
+                                }
                             }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
@@ -522,9 +544,27 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Edit -> {
-                                                    scope.launch { }
-                                                    val screen =
-                                                        EditCommunityScreen(uiState.community.id)
+                                                    val screen = EditCommunityScreen(uiState.community.id)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Hide -> {
+                                                    if (uiState.community.hidden) {
+                                                        model.reduce(CommunityDetailMviModel.Intent.UnhideCommunity)
+                                                    } else {
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.HideCommunity.toInt(),
+                                                            contentId = uiState.community.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+                                                }
+
+                                                OptionId.Purge -> {
+                                                    val screen = ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.PurgeCommunity.toInt(),
+                                                        contentId = uiState.community.id,
+                                                    )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -1036,6 +1076,22 @@ class CommunityDetailScreen(
                                                         }
                                                     }
                                                 }
+                                                if (uiState.isAdmin) {
+                                                    this += Option(
+                                                        OptionId.Purge,
+                                                        LocalXmlStrings.current.adminActionPurge,
+                                                    )
+                                                    post.creator?.also { creator ->
+                                                        this += Option(
+                                                            OptionId.PurgeCreator,
+                                                            buildString {
+                                                                append(LocalXmlStrings.current.adminActionPurge)
+                                                                append(" ")
+                                                                append(creator.readableName(uiState.preferNicknames))
+                                                            },
+                                                        )
+                                                    }
+                                                }
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
                                                 when (optionId) {
@@ -1048,9 +1104,11 @@ class CommunityDetailScreen(
                                                     }
 
                                                     OptionId.Report -> {
-                                                        navigationCoordinator.pushScreen(
-                                                            CreateReportScreen(postId = post.id)
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                            contentId = post.id,
                                                         )
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
 
                                                     OptionId.CrossPost -> {
@@ -1095,13 +1153,14 @@ class CommunityDetailScreen(
                                                     )
 
                                                     OptionId.LockPost -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.ModLockPost(
-                                                            post.id
-                                                        )
+                                                        CommunityDetailMviModel.Intent.ModLockPost(post.id)
                                                     )
 
                                                     OptionId.Remove -> {
-                                                        val screen = RemoveScreen(postId = post.id)
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.RemovePost.toInt(),
+                                                            contentId = post.id,
+                                                        )
                                                         navigationCoordinator.pushScreen(screen)
                                                     }
 
@@ -1149,9 +1208,28 @@ class CommunityDetailScreen(
                                                         }
                                                     }
 
+                                                    OptionId.Purge -> {
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.PurgePost.toInt(),
+                                                            contentId = post.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.PurgeCreator -> {
+                                                        post.creator?.id?.also { userId ->
+                                                            val screen = ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                contentId = userId,
+                                                            )
+                                                            navigationCoordinator.pushScreen(screen)
+                                                        }
+                                                    }
+
                                                     else -> Unit
                                                 }
-                                            })
+                                            },
+                                        )
                                     },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
