@@ -83,11 +83,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.components.ModdedCommentCard
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.components.ModdedCommentPlaceholder
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.RawContentDialog
-import com.github.diegoberaldin.raccoonforlemmy.unit.remove.RemoveScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn
@@ -463,12 +466,6 @@ class FilteredContentsScreen(
                                                 )
                                             },
                                             options = buildList {
-                                                if (uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.Remove,
-                                                        LocalXmlStrings.current.modActionRemove,
-                                                    )
-                                                }
                                                 this += Option(
                                                     OptionId.SeeRaw,
                                                     LocalXmlStrings.current.postActionSeeRaw,
@@ -498,6 +495,26 @@ class FilteredContentsScreen(
                                                             LocalXmlStrings.current.modActionBan
                                                         },
                                                     )
+                                                    this += Option(
+                                                        OptionId.Remove,
+                                                        LocalXmlStrings.current.modActionRemove,
+                                                    )
+                                                }
+                                                if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
+                                                    this += Option(
+                                                        OptionId.Purge,
+                                                        LocalXmlStrings.current.adminActionPurge,
+                                                    )
+                                                    post.creator?.also { creator ->
+                                                        this += Option(
+                                                            OptionId.PurgeCreator,
+                                                            buildString {
+                                                                append(LocalXmlStrings.current.adminActionPurge)
+                                                                append(" ")
+                                                                append(creator.readableName(uiState.preferNicknames))
+                                                            },
+                                                        )
+                                                    }
                                                 }
                                             },
                                             onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -507,19 +524,18 @@ class FilteredContentsScreen(
                                                     }
 
                                                     OptionId.FeaturePost -> model.reduce(
-                                                        FilteredContentsMviModel.Intent.ModFeaturePost(
-                                                            post.id
-                                                        )
+                                                        FilteredContentsMviModel.Intent.ModFeaturePost(post.id)
                                                     )
 
                                                     OptionId.LockPost -> model.reduce(
-                                                        FilteredContentsMviModel.Intent.ModLockPost(
-                                                            post.id
-                                                        )
+                                                        FilteredContentsMviModel.Intent.ModLockPost(post.id)
                                                     )
 
                                                     OptionId.Remove -> {
-                                                        val screen = RemoveScreen(postId = post.id)
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.RemovePost.toInt(),
+                                                            contentId = post.id,
+                                                        )
                                                         navigationCoordinator.pushScreen(screen)
                                                     }
 
@@ -532,10 +548,26 @@ class FilteredContentsScreen(
                                                                     newValue = post.creator?.banned != true,
                                                                     postId = post.id,
                                                                 )
-                                                                navigationCoordinator.pushScreen(
-                                                                    screen
-                                                                )
+                                                                navigationCoordinator.pushScreen(screen)
                                                             }
+                                                        }
+                                                    }
+
+                                                    OptionId.Purge -> {
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.PurgePost.toInt(),
+                                                            contentId = post.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.PurgeCreator -> {
+                                                        post.creator?.id?.also { userId ->
+                                                            val screen = ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                contentId = userId,
+                                                            )
+                                                            navigationCoordinator.pushScreen(screen)
                                                         }
                                                     }
 
@@ -678,35 +710,23 @@ class FilteredContentsScreen(
                                             },
                                             onUpVote = rememberCallback(model) {
                                                 model.reduce(
-                                                    FilteredContentsMviModel.Intent.UpVoteComment(
-                                                        comment.id
-                                                    )
+                                                    FilteredContentsMviModel.Intent.UpVoteComment(comment.id)
                                                 )
                                             },
                                             onDownVote = rememberCallback(model) {
                                                 model.reduce(
-                                                    FilteredContentsMviModel.Intent.DownVoteComment(
-                                                        comment.id
-                                                    )
+                                                    FilteredContentsMviModel.Intent.DownVoteComment(comment.id)
                                                 )
                                             },
                                             onSave = rememberCallback(model) {
                                                 model.reduce(
-                                                    FilteredContentsMviModel.Intent.SaveComment(
-                                                        comment.id
-                                                    )
+                                                    FilteredContentsMviModel.Intent.SaveComment(comment.id)
                                                 )
                                             },
                                             onReply = rememberCallback {
                                                 detailOpener.openReply(originalComment = comment)
                                             },
                                             options = buildList {
-                                                if (uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.Remove,
-                                                        LocalXmlStrings.current.modActionRemove,
-                                                    )
-                                                }
                                                 this += Option(
                                                     OptionId.SeeRaw,
                                                     LocalXmlStrings.current.postActionSeeRaw,
@@ -728,13 +748,35 @@ class FilteredContentsScreen(
                                                             LocalXmlStrings.current.modActionBan
                                                         },
                                                     )
+                                                    this += Option(
+                                                        OptionId.Remove,
+                                                        LocalXmlStrings.current.modActionRemove,
+                                                    )
+                                                }
+                                                if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
+                                                    this += Option(
+                                                        OptionId.Purge,
+                                                        LocalXmlStrings.current.adminActionPurge,
+                                                    )
+                                                    comment.creator?.also { creator ->
+                                                        this += Option(
+                                                            OptionId.PurgeCreator,
+                                                            buildString {
+                                                                append(LocalXmlStrings.current.adminActionPurge)
+                                                                append(" ")
+                                                                append(creator.readableName(uiState.preferNicknames))
+                                                            },
+                                                        )
+                                                    }
                                                 }
                                             },
                                             onOptionSelected = rememberCallbackArgs { optionId ->
                                                 when (optionId) {
                                                     OptionId.Remove -> {
-                                                        val screen =
-                                                            RemoveScreen(commentId = comment.id)
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.RemoveComment.toInt(),
+                                                            contentId = comment.id,
+                                                        )
                                                         navigationCoordinator.pushScreen(screen)
                                                     }
 
@@ -761,6 +803,24 @@ class FilteredContentsScreen(
                                                                     screen
                                                                 )
                                                             }
+                                                        }
+                                                    }
+
+                                                    OptionId.Purge -> {
+                                                        val screen = ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.PurgeComment.toInt(),
+                                                            contentId = comment.id,
+                                                        )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
+
+                                                    OptionId.PurgeCreator -> {
+                                                        comment.creator?.id?.also { userId ->
+                                                            val screen = ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                contentId = userId,
+                                                            )
+                                                            navigationCoordinator.pushScreen(screen)
                                                         }
                                                     }
 

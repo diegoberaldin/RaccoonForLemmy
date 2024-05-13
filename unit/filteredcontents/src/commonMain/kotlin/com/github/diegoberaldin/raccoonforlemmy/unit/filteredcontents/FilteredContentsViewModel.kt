@@ -50,6 +50,9 @@ class FilteredContentsViewModel(
             it.copy(contentsType = contentsType.toFilteredContentsType())
         }
         screenModelScope.launch {
+            updateState {
+                it.copy(isAdmin = identityRepository.cachedUser?.admin == true)
+            }
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)

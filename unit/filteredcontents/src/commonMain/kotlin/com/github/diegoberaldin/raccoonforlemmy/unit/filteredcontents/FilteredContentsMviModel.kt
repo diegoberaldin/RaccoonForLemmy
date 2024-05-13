@@ -56,6 +56,7 @@ interface FilteredContentsMviModel :
         val contentsType: FilteredContentsType = FilteredContentsType.Votes,
         val liked: Boolean = true,
         val initial: Boolean = true,
+        val isAdmin: Boolean = false,
         val loading: Boolean = false,
         val refreshing: Boolean = true,
         val canFetchMore: Boolean = true,
