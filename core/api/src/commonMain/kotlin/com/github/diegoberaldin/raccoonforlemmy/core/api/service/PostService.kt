@@ -1,6 +1,30 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.*
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostLikeForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetSiteMetadataResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListPostReportsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PictrsImages
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostReportResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemovePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
@@ -140,4 +164,11 @@ interface PostService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: ResolvePostReportForm,
     ): Response<PostReportResponse>
+
+    @POST("admin/purge/post")
+    @Headers("Content-Type: application/json")
+    suspend fun purge(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: PurgePostForm,
+    ): Response<SuccessResponse>
 }

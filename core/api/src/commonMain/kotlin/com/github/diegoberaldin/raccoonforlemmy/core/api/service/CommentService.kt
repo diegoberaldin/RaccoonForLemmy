@@ -1,6 +1,28 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.*
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReplyResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentReportResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentLikeForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommentReportForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DistinguishCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommentResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommentsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListCommentReportsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkCommentAsReadForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostId
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgeCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.RemoveCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolveCommentReportForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveCommentForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
@@ -116,4 +138,11 @@ interface CommentService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: ResolveCommentReportForm,
     ): Response<CommentReportResponse>
+
+    @POST("admin/purge/comment")
+    @Headers("Content-Type: application/json")
+    suspend fun purge(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: PurgeCommentForm,
+    ): Response<SuccessResponse>
 }

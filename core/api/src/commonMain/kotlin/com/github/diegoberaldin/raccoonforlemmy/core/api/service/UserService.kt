@@ -11,8 +11,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkAllAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPersonMentionAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonMentionResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgePersonForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
@@ -84,4 +86,11 @@ interface UserService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: SaveUserSettingsForm,
     ): Response<SaveUserSettingsResponse>
+
+    @POST("admin/purge/person")
+    @Headers("Content-Type: application/json")
+    suspend fun purge(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: PurgePersonForm,
+    ): Response<SuccessResponse>
 }

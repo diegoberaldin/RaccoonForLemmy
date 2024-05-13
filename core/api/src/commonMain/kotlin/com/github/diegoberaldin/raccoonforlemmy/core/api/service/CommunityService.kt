@@ -11,8 +11,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommunityResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HideCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListCommunitiesResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgeCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
@@ -76,4 +79,18 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: EditCommunityForm,
     ): Response<CommunityResponse>
+
+    @PUT("community/hide")
+    @Headers("Content-Type: application/json")
+    suspend fun hide(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: HideCommunityForm,
+    ): Response<SuccessResponse>
+
+    @POST("admin/purge/community")
+    @Headers("Content-Type: application/json")
+    suspend fun purge(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: PurgeCommunityForm,
+    ): Response<SuccessResponse>
 }
