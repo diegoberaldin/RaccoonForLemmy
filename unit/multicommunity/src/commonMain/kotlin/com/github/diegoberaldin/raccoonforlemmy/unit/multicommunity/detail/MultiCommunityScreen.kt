@@ -91,7 +91,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.getAdditionalL
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
-import com.github.diegoberaldin.raccoonforlemmy.unit.createreport.CreateReportScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonAction
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.ModerateWithReasonScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.zoomableimage.ZoomableImageScreen
 import kotlinx.coroutines.flow.launchIn
@@ -503,11 +505,11 @@ class MultiCommunityScreen(
                                     onOptionSelected = { optionId ->
                                         when (optionId) {
                                             OptionId.Report -> {
-                                                navigationCoordinator.pushScreen(
-                                                    CreateReportScreen(
-                                                        postId = post.id
-                                                    )
+                                                val screen = ModerateWithReasonScreen(
+                                                    actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                    contentId = post.id,
                                                 )
+                                                navigationCoordinator.pushScreen(screen)
                                             }
 
                                             OptionId.Hide -> model.reduce(
