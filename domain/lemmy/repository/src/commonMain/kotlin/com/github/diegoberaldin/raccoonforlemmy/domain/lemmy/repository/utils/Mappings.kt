@@ -246,6 +246,7 @@ internal fun Community.toModel() = CommunityModel(
     nsfw = nsfw,
     creationDate = published,
     postingRestrictedToMods = postingRestrictedToMods,
+    hidden = hidden,
 )
 
 internal fun CommunityView.toModel() = community.toModel().copy(

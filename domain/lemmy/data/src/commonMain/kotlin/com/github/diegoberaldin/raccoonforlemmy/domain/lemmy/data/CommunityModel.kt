@@ -23,6 +23,7 @@ data class CommunityModel(
     val creationDate: String? = null,
     val postingRestrictedToMods: Boolean? = null,
     @Transient val favorite: Boolean = false,
+    val hidden: Boolean = false,
 )
 
 fun CommunityModel.readableName(preferNickname: Boolean): String {
