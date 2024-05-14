@@ -20,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 class DefaultSettingsRepositoryTest {
@@ -105,7 +106,7 @@ class DefaultSettingsRepositoryTest {
                 blurNsfw = if (model.blurNsfw) 1 else 0,
                 navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
                 dynamicColors = if (model.dynamicColors) 1 else 0,
-                openUrlsInExternalBrowser = if (model.urlOpeningMode) 1 else 0,
+                openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
                 enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
                 enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
                 customSeedColor = model.customSeedColor?.toLong(),
@@ -140,7 +141,13 @@ class DefaultSettingsRepositoryTest {
                 commentBarThickness = model.commentBarThickness.toLong(),
                 imageSourcePath = if (model.imageSourcePath) 1 else 0,
                 defaultExploreType = model.defaultExploreType.toLong(),
-                defaultLanguageId = model.defaultLanguageId?.toLong(),
+                defaultLanguageId = model.defaultLanguageId,
+                inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
+                enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
+                fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
+                fullWidthImages = if (model.fullWidthImages) 1 else 0,
+                showUnreadComments = if (model.showUnreadComments) 1 else 0,
+                commentIndentAmount = model.commentIndentAmount.toLong(),
                 account_id = 1,
             )
         }
@@ -169,7 +176,7 @@ class DefaultSettingsRepositoryTest {
                 blurNsfw = if (model.blurNsfw) 1 else 0,
                 navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
                 dynamicColors = if (model.dynamicColors) 1 else 0,
-                openUrlsInExternalBrowser = if (model.urlOpeningMode) 1 else 0,
+                openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
                 enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
                 enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
                 customSeedColor = model.customSeedColor?.toLong(),
@@ -204,7 +211,13 @@ class DefaultSettingsRepositoryTest {
                 commentBarThickness = model.commentBarThickness.toLong(),
                 imageSourcePath = if (model.imageSourcePath) 1 else 0,
                 defaultExploreType = model.defaultExploreType.toLong(),
-                defaultLanguageId = model.defaultLanguageId?.toLong(),
+                defaultLanguageId = model.defaultLanguageId,
+                inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
+                enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
+                fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
+                fullWidthImages = if (model.fullWidthImages) 1 else 0,
+                showUnreadComments = if (model.showUnreadComments) 1 else 0,
+                commentIndentAmount = model.commentIndentAmount.toLong(),
                 account_id = 1,
             )
         }
@@ -266,6 +279,12 @@ class DefaultSettingsRepositoryTest {
         imageSourcePath: Boolean = false,
         separateUpAndDownVotes: Boolean = false,
         defaultLanguageId: Long? = null,
+        inboxBackgroundCheckPeriod: Duration? = null,
+        enableButtonsToScrollBetweenComments: Boolean = false,
+        fadeReadPosts: Boolean = false,
+        fullWidthImages: Boolean = false,
+        showUnreadComments: Boolean = true,
+        commentIndentAmount: Int = 2,
     ) = GetBy(
         id = id,
         theme = theme,
@@ -319,6 +338,12 @@ class DefaultSettingsRepositoryTest {
         commentFontScale = commentFontScale,
         titleFontScale = titleFontScale,
         separateUpAndDownVotes = if (separateUpAndDownVotes) 1 else 0,
-        defaultLanguageId = defaultLanguageId?.toLong(),
+        defaultLanguageId = defaultLanguageId,
+        inboxBackgroundCheckPeriod = inboxBackgroundCheckPeriod?.inWholeMilliseconds,
+        enableButtonsToScrollBetweenComments = if (enableButtonsToScrollBetweenComments) 1 else 0,
+        fadeReadPosts = if (fadeReadPosts) 1 else 0,
+        fullWidthImages = if (fullWidthImages) 1 else 0,
+        showUnreadComments = if (showUnreadComments) 1 else 0,
+        commentIndentAmount = commentIndentAmount.toLong(),
     )
 }
