@@ -91,6 +91,6 @@ sqldelight {
 allprojects {
     tasks.withType<Detekt> {
         setSource(files(project.projectDir))
-        exclude("**/build/**")
+        exclude("*")
     }
 }

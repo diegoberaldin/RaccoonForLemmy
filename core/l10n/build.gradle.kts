@@ -43,11 +43,6 @@ kotlin {
                 implementation(libs.lyricist)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
     }
 }
 

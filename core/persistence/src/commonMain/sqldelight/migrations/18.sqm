@@ -1,2 +1,1 @@
-ALTER TABLE SettingsEntity
-RENAME COLUMN  sharePostOriginal TO replyColor;
+ALTER TABLE SettingsEntity ADD COLUMN replyColor INTEGER DEFAULT NULL;
