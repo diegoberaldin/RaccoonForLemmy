@@ -44,9 +44,12 @@ kotlin {
                 implementation(projects.domain.lemmy.repository)
             }
         }
-        val commonTest by getting {
+        val androidUnitTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(kotlin("test-junit"))
+                implementation(libs.mockk)
+                implementation(projects.core.testutils)
             }
         }
     }
