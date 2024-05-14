@@ -41,6 +41,7 @@ class DefaultZombieModeHelperTest {
             assertEquals(-1, secondItem)
             advanceTimeBy(interval)
             assertEquals(-1, sut.index.value)
+            expectNoEvents()
         }
     }
 }
