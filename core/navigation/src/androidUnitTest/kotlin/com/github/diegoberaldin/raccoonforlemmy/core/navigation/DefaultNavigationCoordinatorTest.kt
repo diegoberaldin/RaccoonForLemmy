@@ -24,6 +24,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -230,6 +231,49 @@ class DefaultNavigationCoordinatorTest {
 
         verify {
             navigator.hide()
+        }
+    }
+
+    @Test
+    fun whenShowSideMenu_thenInteractionsAreAsExpected() = runTest {
+        val screen = object : Screen {
+            @Composable
+            override fun Content() {
+                Box(modifier = Modifier.fillMaxSize())
+            }
+        }
+        launch {
+            sut.openSideMenu(screen)
+        }
+
+        sut.sideMenuEvents.test {
+            val item = awaitItem()
+            assertEquals(SideMenuEvents.Open(screen), item)
+        }
+    }
+
+    @Test
+    fun whenCloseSideMenu_thenInteractionsAreAsExpected() = runTest {
+        launch {
+            sut.closeSideMenu()
+        }
+
+        sut.sideMenuEvents.test {
+            val item = awaitItem()
+            assertEquals(SideMenuEvents.Close, item)
+        }
+    }
+
+    @Test
+    fun whenShowGlobalMEssagethenInteractionsAreAsExpected() = runTest {
+        val message = "test message"
+        launch {
+            sut.showGlobalMessage(message)
+        }
+
+        sut.globalMessage.test {
+            val item = awaitItem()
+            assertEquals(message, item)
         }
     }
 }
