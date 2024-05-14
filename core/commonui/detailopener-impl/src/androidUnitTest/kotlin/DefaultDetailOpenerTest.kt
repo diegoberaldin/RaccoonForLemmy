@@ -22,7 +22,9 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import kotlin.test.Test
@@ -66,6 +68,7 @@ class DefaultDetailOpenerTest {
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun whenOpenCommunityDetailOnDifferentInstance_thenNavigatesAccordingly() = runTest {
         val token = "token"
@@ -86,6 +89,7 @@ class DefaultDetailOpenerTest {
         } returns listOf(SearchResult.Community(community))
 
         sut.openCommunityDetail(community, otherInstance)
+        advanceTimeBy(500)
 
         coVerify {
             lemmyItemCache.putCommunity(community)
