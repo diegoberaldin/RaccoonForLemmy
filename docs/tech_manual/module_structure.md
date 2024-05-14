@@ -58,8 +58,10 @@ These are purely business logic modules that can be reused to provide applicatio
   configuration;
 - `:domain:lemmy` contains all the Lemmy API interaction logic and is divided into two submodules:
     - `:data` contains all the domain models for Lemmy entities (posts, comments, communities, users, etc);
+    - `:pagination` contains the pagination utilities for posts within feeds or comments as well as the navigation logic
+      that allows to navigate to previous/next post within a list with automatic pagination;
     - `:repository` contains the repositories that access Lemmy APIs (through the :core:api module) and are used
-      to manage the entities contained in the :data module;
+      to manage the entities contained in the `:data` module;
 - `:domain:inbox` contains some uses cases needed to interact with the replies, mentions and private messages
   repositories and coordinate the interaction between inbox-related app components.
 
@@ -88,7 +90,7 @@ Here is a list of the main unit modules and their purpose:
 - `:unit:createpost` contains the create post form
 - `:unit:drafts` contains the screen uses to display post and comment drafts
 - `:unit:drawer` contains the navigation drawer
-- `:unit:filteredcontents` contains the screen to access moderated contents or liked/disliked contents
+- `:unit:filteredcontents` contains the screen to access moderated contents, liked/disliked items and bookmarks
 - `:unit:instanceinfo` contains the instance info bottom sheet with the list of communities
 - `:unit:login` contains the login modal bottom sheet
 - `:unit:manageaccounts` contains the modal bottom sheet used to change account
@@ -96,16 +98,16 @@ Here is a list of the main unit modules and their purpose:
 - `:unit:managesubscriptions` contains the subscription management screen
 - `:unit:mentions` contains the mentions section of the Inbox tab
 - `:unit:messages` contains the private messages section of the Inbox tab
+- `:unit:moderatewithreason` contains the modal bottom sheet for moderation actions that require a reason (remove,
+    purge, report, hide)
 - `:unit:modlog` contains the moderation log screen
 - `:unit:multicommunity` contains the multi-community detail and multi-community editor screens
 - `:unit:myaccount` contains the profile logged section of the Profile tab
 - `:unit:postdetail` contains the post detail screen
 - `:unit:postlist` contains the post list (home) screen
 - `:unit:rawcontent` contains the "Raw content" dialog with the custom (Android) text toolbar
-- `:unit:remove` contains the modal bottom sheet to remove a content (for moderators)
 - `:unit:replies` contains the replies section of the Inbox tab
 - `:unit:reportlist` contains the report list screen (for moderators)
-- `:unit:saveditems` contains the saved items screen
 - `:unit:selectcommunity` contains the dialog used to select communities (for cross-posts)
 - `:unit:selectinstance` contains the bottom sheet used to change instance in anonymous mode
 - `:unit:userdetail` contains the user detail screen
