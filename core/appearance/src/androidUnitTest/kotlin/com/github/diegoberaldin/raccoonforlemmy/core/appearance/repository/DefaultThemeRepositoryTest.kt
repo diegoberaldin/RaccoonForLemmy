@@ -114,15 +114,4 @@ class DefaultThemeRepositoryTest {
         val resAfter = sut.commentBarTheme.value
         assertEquals(CommentBarTheme.Green, resAfter)
     }
-
-    @Test
-    fun whenChangeCommentBarThickness_thenValueIsAsExpected() {
-        val resBefore = sut.commentBarThickness.value
-        assertEquals(1, resBefore)
-
-        sut.changeCommentBarThickness(2)
-
-        val resAfter = sut.commentBarThickness.value
-        assertEquals(2, resAfter)
-    }
 }
