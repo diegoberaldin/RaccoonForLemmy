@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postări</string>
     <string name="explore_result_type_users">Utilizatori</string>
     <string name="explore_search_placeholder">Căută</string>
-    <string name="home_instance_via">prin %1$s</string>
+    <string name="home_instance_via">prin</string>
     <string name="home_listing_title">Listări</string>
     <string name="home_listing_type_all">Toate</string>
     <string name="home_listing_type_local">Locale</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mesaje</string>
     <string name="inbox_section_replies">Răspunsuri</string>
     <string name="instance_detail_communities">Comunități</string>
-    <string name="instance_detail_title">Înstanță: %1$s</string>
+    <string name="instance_detail_title">Înstanță:</string>
     <string name="lang">ro</string>
     <string name="login_field_instance_name">Nume instanței</string>
     <string name="login_field_label_optional">(opțional)</string>

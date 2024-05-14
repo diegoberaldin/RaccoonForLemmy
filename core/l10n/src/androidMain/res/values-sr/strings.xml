@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Постови</string>
     <string name="explore_result_type_users">Корисници</string>
     <string name="explore_search_placeholder">Претрага</string>
-    <string name="home_instance_via">преко %1$s</string>
+    <string name="home_instance_via">преко</string>
     <string name="home_listing_title">Феедс</string>
     <string name="home_listing_type_all">Све</string>
     <string name="home_listing_type_local">Локални</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Messages</string>
     <string name="inbox_section_replies">Одговори</string>
     <string name="instance_detail_communities">Заједнице</string>
-    <string name="instance_detail_title">Пример: %1$s</string>
+    <string name="instance_detail_title">Пример:</string>
     <string name="lang">ср</string>
     <string name="login_field_instance_name">Име инстанце</string>
     <string name="login_field_label_optional">(опционо)</string>

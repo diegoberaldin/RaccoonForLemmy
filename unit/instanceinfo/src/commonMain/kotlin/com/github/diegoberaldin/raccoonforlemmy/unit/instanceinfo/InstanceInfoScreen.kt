@@ -110,7 +110,11 @@ class InstanceInfoScreen(
                     },
                     title = {
                         Text(
-                            text = LocalXmlStrings.current.instanceDetailTitle(instanceName),
+                            text = buildString {
+                                append(LocalXmlStrings.current.instanceDetailTitle)
+                                append(" ")
+                                append(instanceName)
+                            },
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )

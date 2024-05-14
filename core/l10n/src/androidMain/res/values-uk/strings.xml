@@ -50,7 +50,7 @@
     <string name="explore_result_type_posts">Записи</string>
     <string name="explore_result_type_users">Користувачі</string>
     <string name="explore_search_placeholder">Пошук</string>
-    <string name="home_instance_via">через %1$s</string>
+    <string name="home_instance_via">через</string>
     <string name="home_listing_title">Канали</string>
     <string name="home_listing_type_all">Усі</string>
     <string name="home_listing_type_local">Місцевий</string>
@@ -93,7 +93,7 @@
     <string name="inbox_section_messages">Повідомлення</string>
     <string name="inbox_section_replies">Відповіді</string>
     <string name="instance_detail_communities">Спільноти</string>
-    <string name="instance_detail_title">%1$s</string>
+    <string name="instance_detail_title">примірник:</string>
     <string name="lang">uk</string>
     <string name="login_field_instance_name">Назва екземпляра</string>
     <string name="login_field_label_optional">(необов\'язковий)</string>

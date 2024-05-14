@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Berichten</string>
     <string name="explore_result_type_users">Gebruikers</string>
     <string name="explore_search_placeholder">Zoeken</string>
-    <string name="home_instance_via">via%1$s</string>
+    <string name="home_instance_via">via</string>
     <string name="home_listing_title">Feeds</string>
     <string name="home_listing_type_all">Alle</string>
     <string name="home_listing_type_local">Lokaal</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Berichten</string>
     <string name="inbox_section_replies">Antwoorden</string>
     <string name="instance_detail_communities">Samenleving</string>
-    <string name="instance_detail_title">Instantie: %1$s</string>
+    <string name="instance_detail_title">Instantie:</string>
     <string name="lang">nl</string>
     <string name="login_field_instance_name">Instantienaam</string>
     <string name="login_field_label_optional">(optioneel)</string>

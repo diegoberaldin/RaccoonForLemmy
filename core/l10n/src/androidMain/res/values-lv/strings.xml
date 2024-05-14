@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Ieraksti</string>
     <string name="explore_result_type_users">Lietotāji</string>
     <string name="explore_search_placeholder">Meklēt</string>
-    <string name="home_instance_via">izmantojot%1$s</string>
+    <string name="home_instance_via">izmantojot</string>
     <string name="home_listing_title">Barība</string>
     <string name="home_listing_type_all">Viss</string>
     <string name="home_listing_type_local">Vietējais</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Ziņojumi</string>
     <string name="inbox_section_replies">Atbildes</string>
     <string name="instance_detail_communities">levieSanaspilnvaras</string>
-    <string name="instance_detail_title">Instance: %1$s</string>
+    <string name="instance_detail_title">Instance:</string>
     <string name="lang">lv</string>
     <string name="login_field_instance_name">Instances vārds</string>
     <string name="login_field_label_optional">(pēc izvēles)</string>

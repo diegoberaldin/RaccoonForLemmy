@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postai</string>
     <string name="explore_result_type_users">Naudotojai</string>
     <string name="explore_search_placeholder">Ieškoti</string>
-    <string name="home_instance_via">per%1$s</string>
+    <string name="home_instance_via">per</string>
     <string name="home_listing_title">Pašarai</string>
     <string name="home_listing_type_all">Viskas</string>
     <string name="home_listing_type_local">Vietinė</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Žinutės</string>
     <string name="inbox_section_replies">Atsakymai</string>
     <string name="instance_detail_communities">Bendruomenės</string>
-    <string name="instance_detail_title">Egzempliorius: %1$s</string>
+    <string name="instance_detail_title">Egzempliorius:</string>
     <string name="lang">lt</string>
     <string name="login_field_instance_name">Atvejo pavadinimas</string>
     <string name="login_field_label_optional">(pildyti nebūtina)</string>

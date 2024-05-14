@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Objave</string>
     <string name="explore_result_type_users">Korisnici</string>
     <string name="explore_search_placeholder">Traži</string>
-    <string name="home_instance_via">putem%1$s</string>
+    <string name="home_instance_via">putem</string>
     <string name="home_listing_title">Sažeci novosti</string>
     <string name="home_listing_type_all">Sve</string>
     <string name="home_listing_type_local">Lokalna</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Poruke</string>
     <string name="inbox_section_replies">Odgovori</string>
     <string name="instance_detail_communities">Zajednice</string>
-    <string name="instance_detail_title">Instanca: %1$s</string>
+    <string name="instance_detail_title">Instanca:</string>
     <string name="lang">hr</string>
     <string name="login_field_instance_name">Naziv inastance</string>
     <string name="login_field_label_optional">(neobvezno)</string>

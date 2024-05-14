@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Příspěvky</string>
     <string name="explore_result_type_users">Uživatelé</string>
     <string name="explore_search_placeholder">Vyhledávání</string>
-    <string name="home_instance_via">přes%1$s</string>
+    <string name="home_instance_via">přes</string>
     <string name="home_listing_title">Feedy</string>
     <string name="home_listing_type_all">Vše</string>
     <string name="home_listing_type_local">Místní</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Zprávy</string>
     <string name="inbox_section_replies">Odpovědi</string>
     <string name="instance_detail_communities">Obce</string>
-    <string name="instance_detail_title">Instance: %1$s</string>
+    <string name="instance_detail_title">Instance:</string>
     <string name="lang">cz</string>
     <string name="login_field_instance_name">Název instance</string>
     <string name="login_field_label_optional">(volitelné)</string>

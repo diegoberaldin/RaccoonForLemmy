@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">المنشورات</string>
     <string name="explore_result_type_users">المستخدمون</string>
     <string name="explore_search_placeholder">بحث</string>
-    <string name="home_instance_via">عبر%1$s</string>
+    <string name="home_instance_via">عبر</string>
     <string name="home_listing_title">المنشورات</string>
     <string name="home_listing_type_all">الجميع</string>
     <string name="home_listing_type_local">محليًا</string>
@@ -92,9 +92,9 @@
     <string name="inbox_not_logged_message">لم تقم بتسجيل الدخول حاليًا.\nيرجى إضافة حساب من شاشة الملف الشخصي لرؤية صندوق الوارد الخاص بكn</string>
     <string name="inbox_section_mentions">عدد المرات التي ذكر فيها</string>
     <string name="inbox_section_messages">رسائل</string>
-    <string name="inbox_section_replies">Replies</string>
+    <string name="inbox_section_replies">الردود</string>
     <string name="instance_detail_communities">طورت المجتمعات</string>
-    <string name="instance_detail_title">%1$s</string>
+    <string name="instance_detail_title">مثال:</string>
     <string name="lang">ar</string>
     <string name="login_field_instance_name">اسم المثيل</string>
     <string name="login_field_label_optional">(اختياري)</string>

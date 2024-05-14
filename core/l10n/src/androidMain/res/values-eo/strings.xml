@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Afiŝoj</string>
     <string name="explore_result_type_users">Uzantoj</string>
     <string name="explore_search_placeholder">Serĉi</string>
-    <string name="home_instance_via">per %1$s</string>
+    <string name="home_instance_via">per</string>
     <string name="home_listing_title">Listadoj</string>
     <string name="home_listing_type_all">Ĉiuj</string>
     <string name="home_listing_type_local">Lokaj</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mesaĝoj</string>
     <string name="inbox_section_replies">Respondoj</string>
     <string name="instance_detail_communities">Komunumoj</string>
-    <string name="instance_detail_title">Nodo: %1$s</string>
+    <string name="instance_detail_title">Nodo:</string>
     <string name="lang">eo</string>
     <string name="login_field_instance_name">Nomo de la nodo</string>
     <string name="login_field_label_optional">(nedeviga)</string>

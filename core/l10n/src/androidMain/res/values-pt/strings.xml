@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Publicações</string>
     <string name="explore_result_type_users">Usuários</string>
     <string name="explore_search_placeholder">Buscar</string>
-    <string name="home_instance_via">via %1$s</string>
+    <string name="home_instance_via">via</string>
     <string name="home_listing_title">Listagens</string>
     <string name="home_listing_type_all">Todas</string>
     <string name="home_listing_type_local">Locais</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mensagens</string>
     <string name="inbox_section_replies">Respostas</string>
     <string name="instance_detail_communities">Comunidades</string>
-    <string name="instance_detail_title">Instância: %1$s</string>
+    <string name="instance_detail_title">Instância:</string>
     <string name="lang">pt</string>
     <string name="login_field_instance_name">Nome da instância</string>
     <string name="login_field_label_optional">(optional)</string>

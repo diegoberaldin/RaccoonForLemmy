@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Objave</string>
     <string name="explore_result_type_users">Uporabniki</string>
     <string name="explore_search_placeholder">Išči</string>
-    <string name="home_instance_via">preko%1$s</string>
+    <string name="home_instance_via">preko</string>
     <string name="home_listing_title">Krma</string>
     <string name="home_listing_type_all">Vsi</string>
     <string name="home_listing_type_local">Lokalne</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Sporočila</string>
     <string name="inbox_section_replies">Odgovori</string>
     <string name="instance_detail_communities">Skupnosti</string>
-    <string name="instance_detail_title">Primer: %1$s</string>
+    <string name="instance_detail_title">Primer:</string>
     <string name="lang">sl</string>
     <string name="login_field_instance_name">Ime primera</string>
     <string name="login_field_label_optional">(neobvezno)</string>

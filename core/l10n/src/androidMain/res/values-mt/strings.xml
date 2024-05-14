@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postijet</string>
     <string name="explore_result_type_users">Utenti</string>
     <string name="explore_search_placeholder">Tfittxija</string>
-    <string name="home_instance_via">permezz%1$s</string>
+    <string name="home_instance_via">permezz</string>
     <string name="home_listing_title">Għalf</string>
     <string name="home_listing_type_all">Kollha</string>
     <string name="home_listing_type_local">Lokali</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Messaġġi</string>
     <string name="inbox_section_replies">Tweġibiet</string>
     <string name="instance_detail_communities">Komunitajiet</string>
-    <string name="instance_detail_title">Mument: %1$s</string>
+    <string name="instance_detail_title">Mument:</string>
     <string name="lang">mt</string>
     <string name="login_field_instance_name">Isem il-mument</string>
     <string name="login_field_label_optional">(fakultattiv)</string>

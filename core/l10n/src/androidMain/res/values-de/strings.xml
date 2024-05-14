@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Beiträge</string>
     <string name="explore_result_type_users">Benutzer</string>
     <string name="explore_search_placeholder">Suchen</string>
-    <string name="home_instance_via">per %1$s</string>
+    <string name="home_instance_via">per</string>
     <string name="home_listing_title">Feed</string>
     <string name="home_listing_type_all">Alle</string>
     <string name="home_listing_type_local">Lokal</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mitteilungen</string>
     <string name="inbox_section_replies">Antworten</string>
     <string name="instance_detail_communities">Kommentare</string>
-    <string name="instance_detail_title">Instanz: %1$s</string>
+    <string name="instance_detail_title">Instanz:</string>
     <string name="lang">de</string>
     <string name="login_field_instance_name">Instanzname</string>
     <string name="login_field_label_optional">(optional)</string>

@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Bejegyzések</string>
     <string name="explore_result_type_users">Felhasználók</string>
     <string name="explore_search_placeholder">Keresés</string>
-    <string name="home_instance_via">ezen keresztül: %1$s</string>
+    <string name="home_instance_via">ezen keresztül:</string>
     <string name="home_listing_title">Hírcsatornák</string>
     <string name="home_listing_type_all">Összes</string>
     <string name="home_listing_type_local">Helyi</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Üzenetek</string>
     <string name="inbox_section_replies">Válaszok</string>
     <string name="instance_detail_communities">Közösség</string>
-    <string name="instance_detail_title">Példány: %1$s</string>
+    <string name="instance_detail_title">Példány:</string>
     <string name="lang">hu</string>
     <string name="login_field_instance_name">A példány neve:</string>
     <string name="login_field_label_optional">(opcionális)</string>

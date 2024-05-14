@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postálacha</string>
     <string name="explore_result_type_users">Úsáideoirí</string>
     <string name="explore_search_placeholder">Cuardaigh</string>
-    <string name="home_instance_via">trí %1$s</string>
+    <string name="home_instance_via">trí</string>
     <string name="home_listing_title">Fothaí</string>
     <string name="home_listing_type_all">Gach</string>
     <string name="home_listing_type_local">Áitiúil</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Teachtaireachtaí</string>
     <string name="inbox_section_replies">Freagraí</string>
     <string name="instance_detail_communities">An Coimisiún Eorpach</string>
-    <string name="instance_detail_title">Ásc: %1$s</string>
+    <string name="instance_detail_title">Ásc:</string>
     <string name="lang">ga</string>
     <string name="login_field_instance_name">Ainm áisc:</string>
     <string name="login_field_label_optional">(roghnach)</string>

@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Viestit</string>
     <string name="explore_result_type_users">Käyttäjät</string>
     <string name="explore_search_placeholder">Hae</string>
-    <string name="home_instance_via">käyttäen %1$s</string>
+    <string name="home_instance_via">käyttäen</string>
     <string name="home_listing_title">Feedit</string>
     <string name="home_listing_type_all">Kaikki</string>
     <string name="home_listing_type_local">Paikallinen</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Viestit</string>
     <string name="inbox_section_replies">Vastausta</string>
     <string name="instance_detail_communities">Yhteisöt</string>
-    <string name="instance_detail_title">Instanssi: %1$s</string>
+    <string name="instance_detail_title">Instanssi:</string>
     <string name="lang">fi</string>
     <string name="login_field_instance_name">Esiintymän nimi</string>
     <string name="login_field_label_optional">(lisävaruste)</string>

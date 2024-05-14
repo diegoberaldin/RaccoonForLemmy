@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Nyheter</string>
     <string name="explore_result_type_users">Brukere</string>
     <string name="explore_search_placeholder">Søk</string>
-    <string name="home_instance_via">via%1$s</string>
+    <string name="home_instance_via">via</string>
     <string name="home_listing_title">Feeder</string>
     <string name="home_listing_type_all">Alle</string>
     <string name="home_listing_type_local">Lokal</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Meldinger</string>
     <string name="inbox_section_replies">Svar</string>
     <string name="instance_detail_communities">Samfunn</string>
-    <string name="instance_detail_title">Forekomst: %1$s</string>
+    <string name="instance_detail_title">Forekomst:</string>
     <string name="lang">no</string>
     <string name="login_field_instance_name">Instansnamn</string>
     <string name="login_field_label_optional">(valgfritt)</string>

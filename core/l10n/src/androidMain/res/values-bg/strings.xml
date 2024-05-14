@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Публикации</string>
     <string name="explore_result_type_users">Потребители</string>
     <string name="explore_search_placeholder">Търсене</string>
-    <string name="home_instance_via">чрез %1$s</string>
+    <string name="home_instance_via">чрез</string>
     <string name="home_listing_title">Новини</string>
     <string name="home_listing_type_all">Всички</string>
     <string name="home_listing_type_local">Местни</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Съобщения</string>
     <string name="inbox_section_replies">Отговори</string>
     <string name="instance_detail_communities">Общности</string>
-    <string name="instance_detail_title">Екземпляр: %1$s</string>
+    <string name="instance_detail_title">Екземпляр:</string>
     <string name="lang">bg</string>
     <string name="login_field_instance_name">Име на екземпляра</string>
     <string name="login_field_label_optional">(незадължително)</string>

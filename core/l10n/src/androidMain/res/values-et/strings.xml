@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postid</string>
     <string name="explore_result_type_users">Kasutajad</string>
     <string name="explore_search_placeholder">Otsi</string>
-    <string name="home_instance_via">kaudu%1$s</string>
+    <string name="home_instance_via">kaudu</string>
     <string name="home_listing_title">Söödad</string>
     <string name="home_listing_type_all">Kõik</string>
     <string name="home_listing_type_local">kohalik</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Sõnumid</string>
     <string name="inbox_section_replies">Vastused</string>
     <string name="instance_detail_communities">Kogukond</string>
-    <string name="instance_detail_title">Eksemplar: %1$s</string>
+    <string name="instance_detail_title">Eksemplar:</string>
     <string name="lang">et</string>
     <string name="login_field_instance_name">Eksemplari nimi</string>
     <string name="login_field_label_optional">(valikuline)</string>

@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">lipu</string>
     <string name="explore_result_type_users">jan</string>
     <string name="explore_search_placeholder">o lukin</string>
-    <string name="home_instance_via">tan %1$s</string>
+    <string name="home_instance_via">tan</string>
     <string name="home_listing_title">lipu mute</string>
     <string name="home_listing_type_all">ale</string>
     <string name="home_listing_type_local">tomo</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">toki</string>
     <string name="inbox_section_replies">toki lili</string>
     <string name="instance_detail_communities">kulupu</string>
-    <string name="instance_detail_title">ilo nanpa: %1$s</string>
+    <string name="instance_detail_title">ilo nanpa:</string>
     <string name="lang">tok</string>
     <string name="login_field_instance_name">nimi pi ilo nanpa</string>
     <string name="login_field_label_optional">(sina wile la)</string>

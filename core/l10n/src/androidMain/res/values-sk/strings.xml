@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Príspevky</string>
     <string name="explore_result_type_users">Užívatelia</string>
     <string name="explore_search_placeholder">Hľadať</string>
-    <string name="home_instance_via">cez%1$s</string>
+    <string name="home_instance_via">cez</string>
     <string name="home_listing_title">Krmivá</string>
     <string name="home_listing_type_all">Všetky</string>
     <string name="home_listing_type_local">Local</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Správy</string>
     <string name="inbox_section_replies">Odpovede</string>
     <string name="instance_detail_communities">Komunity</string>
-    <string name="instance_detail_title">Inštancia: %1$s</string>
+    <string name="instance_detail_title">Inštancia:</string>
     <string name="lang">sk</string>
     <string name="login_field_instance_name">Meno inštancie</string>
     <string name="login_field_label_optional">(voliteľné)</string>

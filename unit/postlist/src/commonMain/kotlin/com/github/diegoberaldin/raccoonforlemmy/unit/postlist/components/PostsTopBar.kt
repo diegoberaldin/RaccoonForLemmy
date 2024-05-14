@@ -132,7 +132,11 @@ internal fun PostsTopBar(
                             )
                         } else Modifier
                     ),
-                    text = LocalXmlStrings.current.homeInstanceVia(currentInstance),
+                    text = buildString {
+                        append(LocalXmlStrings.current.homeInstanceVia)
+                        append(" ")
+                        append(currentInstance)
+                    },
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                 )

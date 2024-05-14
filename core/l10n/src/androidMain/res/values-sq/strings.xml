@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postimet</string>
     <string name="explore_result_type_users">Përdorues</string>
     <string name="explore_search_placeholder">Kërko</string>
-    <string name="home_instance_via">%1$s</string>
+    <string name="home_instance_via">nëpërmjet</string>
     <string name="home_listing_title">Ushqen</string>
     <string name="home_listing_type_all">Të gjithë</string>
     <string name="home_listing_type_local">Lokale</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mesazhe</string>
     <string name="inbox_section_replies">Përgjigjet</string>
     <string name="instance_detail_communities">Komunitetet</string>
-    <string name="instance_detail_title">Shkalla: %1$s</string>
+    <string name="instance_detail_title">Shkalla:</string>
     <string name="lang">sq</string>
     <string name="login_field_instance_name">Emri i instancës</string>
     <string name="login_field_label_optional">(me zgjedhje)</string>

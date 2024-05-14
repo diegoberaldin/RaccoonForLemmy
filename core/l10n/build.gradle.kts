@@ -84,6 +84,10 @@ tasks.withType<KotlinCompile<*>>().configureEach {
     }
 }
 
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+
 allprojects {
     tasks.withType<Detekt> {
         setSource(files(project.projectDir))

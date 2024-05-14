@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Postlar</string>
     <string name="explore_result_type_users">Kullanıcılar</string>
     <string name="explore_search_placeholder">Ara</string>
-    <string name="home_instance_via">%1$s</string>
+    <string name="home_instance_via">aracılığıyla</string>
     <string name="home_listing_title">Bildirimler</string>
     <string name="home_listing_type_all">Hepsi</string>
     <string name="home_listing_type_local">Yerli</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Mesajlar</string>
     <string name="inbox_section_replies">Cevaplar</string>
     <string name="instance_detail_communities">Topluluk</string>
-    <string name="instance_detail_title">Örnek: %1$s</string>
+    <string name="instance_detail_title">Örnek:</string>
     <string name="lang">tr</string>
     <string name="login_field_instance_name">Örnek Adı</string>
     <string name="login_field_label_optional">(isteğe bağlı)</string>

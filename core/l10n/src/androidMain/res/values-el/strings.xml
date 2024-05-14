@@ -51,7 +51,7 @@
     <string name="explore_result_type_posts">Αναρτήσεις</string>
     <string name="explore_result_type_users">Χρήστες</string>
     <string name="explore_search_placeholder">Αναζήτηση</string>
-    <string name="home_instance_via">μέσω %1$s</string>
+    <string name="home_instance_via">μέσω</string>
     <string name="home_listing_title">Ροές</string>
     <string name="home_listing_type_all">Όλα</string>
     <string name="home_listing_type_local">Τοπικά</string>
@@ -94,7 +94,7 @@
     <string name="inbox_section_messages">Μηνύματα</string>
     <string name="inbox_section_replies">Απαντήσεις</string>
     <string name="instance_detail_communities">Κοινότητες</string>
-    <string name="instance_detail_title">Διακομιστής: %1$s</string>
+    <string name="instance_detail_title">Διακομιστής:</string>
     <string name="lang">el</string>
     <string name="login_field_instance_name">Όνομα διακομιστή</string>
     <string name="login_field_label_optional">(προαιρετικό)</string>
