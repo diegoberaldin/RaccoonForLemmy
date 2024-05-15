@@ -325,7 +325,7 @@ in `:core:notifications` is used.
 ### 6.2.1 General Kotlin rules
 
 Please refer to [this page](https://kotlinlang.org/docs/coding-conventions.html) for the conventions
-to apply to Kotlin code, most of which are already enforced by Android Studio inspections.
+to apply to Kotlin code.
 
 ### 6.2.2 Compose rules
 
@@ -333,6 +333,12 @@ As far as Compose code is concerned, we take Google’s indications as a baselin
 
 - [general Compose API](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/compose/docs/compose-api-guidelines.md)
 - [Compose component API](https://android.googlesource.com/platform/frameworks/support/+/androidx-main/compose/docs/compose-component-api-guidelines.md)
+
+### 6.2.3 Linter
+
+The recommended lint to use is [Ktlint](https://pinterest.github.io/ktlint/latest/) with the `ktlint_official` code
+style. There is a plugin for IntelliJ/Android Studio that allows to have distraction-free formatting upon saving, to
+make sure any new code is compliant with the rules.
 
 ### 6.3 Test structure
 
