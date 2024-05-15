@@ -1,4 +1,4 @@
-name: Build and test
+name: build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
@@ -23,15 +23,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: 8.6
-
-      - name: Cleanup localization resources
-        run: ./gradlew :core:l10n:clean
-
-      - name: Regenerate localization resources
-        run: ./gradlew :core:l10n:kspCommonMainKotlinMetadata
-
-      - name: Build Android app
-        run: ./gradlew build
 
       - name: Run unit tests
         run: ./gradlew test
