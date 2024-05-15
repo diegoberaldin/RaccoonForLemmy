@@ -32,7 +32,6 @@ import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DefaultDetailOpenerTest {
-
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
@@ -44,146 +43,164 @@ class DefaultDetailOpenerTest {
 
     private val navigationCoordinator = mockk<NavigationCoordinator>(relaxed = true)
 
-    private val sut: DetailOpener = DefaultDetailOpener(
-        navigationCoordinator = navigationCoordinator,
-        itemCache = lemmyItemCache,
-        identityRepository = identityRepository,
-        communityRepository = communityRepository,
-    )
+    private val sut: DetailOpener =
+        DefaultDetailOpener(
+            navigationCoordinator = navigationCoordinator,
+            itemCache = lemmyItemCache,
+            identityRepository = identityRepository,
+            communityRepository = communityRepository,
+        )
 
     @Test
-    fun whenOpenCommunityDetailOnSameInstance_thenNavigatesAccordingly() = runTest {
-        val community = CommunityModel(name = "test", id = 1)
+    fun whenOpenCommunityDetailOnSameInstance_thenNavigatesAccordingly() =
+        runTest {
+            val community = CommunityModel(name = "test", id = 1)
 
-        sut.openCommunityDetail(community)
+            sut.openCommunityDetail(community)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putCommunity(community)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<CommunityDetailScreen>(it)
-                },
-            )
-            identityRepository wasNot Called
-            communityRepository wasNot Called
+            coVerify {
+                lemmyItemCache.putCommunity(community)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<CommunityDetailScreen>(it)
+                    },
+                )
+                identityRepository wasNot Called
+                communityRepository wasNot Called
+            }
         }
-    }
 
     @Test
-    fun whenOpenCommunityDetailOnDifferentInstance_thenNavigatesAccordingly() = runTest {
-        val token = "token"
-        val communityName = "test"
-        val otherInstance = "otherInstance"
-        val community = CommunityModel(name = communityName, id = 1, host = otherInstance)
-        every { identityRepository.authToken } returns MutableStateFlow(token)
-        coEvery {
-            communityRepository.search(
-                query = any(),
-                auth = any(),
-                page = any(),
-                limit = any(),
-                listingType = any(),
-                sortType = any(),
-                resultType = any(),
-            )
-        } returns listOf(SearchResult.Community(community))
+    fun whenOpenCommunityDetailOnDifferentInstance_thenNavigatesAccordingly() =
+        runTest {
+            val token = "token"
+            val communityName = "test"
+            val otherInstance = "otherInstance"
+            val community = CommunityModel(name = communityName, id = 1, host = otherInstance)
+            every { identityRepository.authToken } returns MutableStateFlow(token)
+            coEvery {
+                communityRepository.search(
+                    query = any(),
+                    auth = any(),
+                    page = any(),
+                    limit = any(),
+                    listingType = any(),
+                    sortType = any(),
+                    resultType = any(),
+                )
+            } returns listOf(SearchResult.Community(community))
 
-        sut.openCommunityDetail(community, otherInstance)
-        advanceTimeBy(500)
+            sut.openCommunityDetail(community, otherInstance)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putCommunity(community)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<CommunityDetailScreen>(it)
-                },
-            )
-            communityRepository.search(
-                query = communityName,
-                auth = token,
-                page = any(),
-                limit = any(),
-                listingType = ListingType.All,
-                sortType = any(),
-                resultType = SearchResultType.Communities,
-            )
+            coVerify {
+                lemmyItemCache.putCommunity(community)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<CommunityDetailScreen>(it)
+                    },
+                )
+                communityRepository.search(
+                    query = communityName,
+                    auth = token,
+                    page = any(),
+                    limit = any(),
+                    listingType = ListingType.All,
+                    sortType = any(),
+                    resultType = SearchResultType.Communities,
+                )
+            }
         }
-    }
 
     @Test
-    fun whenOpenUserDetail_thenNavigatesAccordingly() = runTest {
-        val user = UserModel(name = "test", id = 1)
+    fun whenOpenUserDetail_thenNavigatesAccordingly() =
+        runTest {
+            val user = UserModel(name = "test", id = 1)
 
-        sut.openUserDetail(user)
+            sut.openUserDetail(user)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putUser(user)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<UserDetailScreen>(it)
-                },
-            )
+            coVerify {
+                lemmyItemCache.putUser(user)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<UserDetailScreen>(it)
+                    },
+                )
+            }
         }
-    }
 
     @Test
-    fun whenOpenPostDetail_thenNavigatesAccordingly() = runTest {
-        val post = PostModel(title = "test", id = 1)
+    fun whenOpenPostDetail_thenNavigatesAccordingly() =
+        runTest {
+            val post = PostModel(title = "test", id = 1)
 
-        sut.openPostDetail(post)
+            sut.openPostDetail(post)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putPost(post)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<PostDetailScreen>(it)
-                },
-            )
+            coVerify {
+                lemmyItemCache.putPost(post)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<PostDetailScreen>(it)
+                    },
+                )
+            }
         }
-    }
 
     @Test
-    fun whenOpenReplyToPost_thenNavigatesAccordingly() = runTest {
-        val post = PostModel(title = "test", id = 1)
+    fun whenOpenReplyToPost_thenNavigatesAccordingly() =
+        runTest {
+            val post = PostModel(title = "test", id = 1)
 
-        sut.openReply(originalPost = post)
+            sut.openReply(originalPost = post)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putPost(post)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<CreateCommentScreen>(it)
-                },
-            )
+            coVerify {
+                lemmyItemCache.putPost(post)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<CreateCommentScreen>(it)
+                    },
+                )
+            }
         }
-    }
 
     @Test
-    fun whenOpenReplyToComment_thenNavigatesAccordingly() = runTest {
-        val comment = CommentModel(text = "test", id = 1)
+    fun whenOpenReplyToComment_thenNavigatesAccordingly() =
+        runTest {
+            val comment = CommentModel(text = "test", id = 1)
 
-        sut.openReply(originalComment = comment)
+            sut.openReply(originalComment = comment)
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            lemmyItemCache.putComment(comment)
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<CreateCommentScreen>(it)
-                },
-            )
+            coVerify {
+                lemmyItemCache.putComment(comment)
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<CreateCommentScreen>(it)
+                    },
+                )
+            }
         }
-    }
 
     @Test
-    fun whenOpenCreatePost_thenNavigatesAccordingly() = runTest {
-        sut.openCreatePost()
+    fun whenOpenCreatePost_thenNavigatesAccordingly() =
+        runTest {
+            sut.openCreatePost()
+            advanceTimeBy(OPEN_DELAY)
 
-        coVerify {
-            navigationCoordinator.pushScreen(
-                withArg {
-                    assertIs<CreatePostScreen>(it)
-                },
-            )
+            coVerify {
+                navigationCoordinator.pushScreen(
+                    withArg {
+                        assertIs<CreatePostScreen>(it)
+                    },
+                )
+            }
         }
+
+    companion object {
+        private const val OPEN_DELAY = 500L
     }
 }
