@@ -91,7 +91,7 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             }
-                        }
+                        },
                     ) {
                         content()
                     }

@@ -64,7 +64,6 @@ class ZoomableImageScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-
         val model = getScreenModel<ZoomableImageMviModel>(tag = url, parameters = { parametersOf(url) })
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -115,7 +114,7 @@ class ZoomableImageScreen(
                                 .onClick(
                                     onClick = {
                                         model.reduce(
-                                            ZoomableImageMviModel.Intent.SaveToGallery(source)
+                                            ZoomableImageMviModel.Intent.SaveToGallery(source),
                                         )
                                     },
                                 ),
@@ -133,7 +132,7 @@ class ZoomableImageScreen(
                                             navigationCoordinator.showBottomSheet(sheet)
                                         } else {
                                             notificationCenter.send(
-                                                NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
+                                                NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url),
                                             )
                                         }
                                     },
@@ -194,8 +193,7 @@ class ZoomableImageScreen(
                                 }
                             }
                         }
-
-                    }
+                    },
                 )
             },
             snackbarHost = {
@@ -208,21 +206,21 @@ class ZoomableImageScreen(
                 }
             },
             content =
-            { paddingValues ->
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxWidth()
-                        .background(Color.Black),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    ZoomableImage(
-                        url = url,
-                        autoLoadImages = uiState.autoLoadImages,
-                        contentScale = uiState.contentScale,
-                    )
-                }
-            }
+                { paddingValues ->
+                    Box(
+                        modifier = Modifier
+                            .padding(paddingValues)
+                            .fillMaxWidth()
+                            .background(Color.Black),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        ZoomableImage(
+                            url = url,
+                            autoLoadImages = uiState.autoLoadImages,
+                            contentScale = uiState.contentScale,
+                        )
+                    }
+                },
         )
 
         if (uiState.loading) {

@@ -34,7 +34,7 @@ internal class DefaultInboxCoordinator(
     }.stateIn(
         scope = scope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = 0
+        initialValue = 0,
     )
 
     init {

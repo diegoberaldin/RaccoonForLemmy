@@ -57,7 +57,7 @@ class LikedTypeSheet : Screen {
                         .onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangedLikedType(true)
+                                    NotificationCenterEvent.ChangedLikedType(true),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },
@@ -79,7 +79,7 @@ class LikedTypeSheet : Screen {
                         ).onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangedLikedType(false)
+                                    NotificationCenterEvent.ChangedLikedType(false),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },

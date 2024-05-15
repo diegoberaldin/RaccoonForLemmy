@@ -75,7 +75,7 @@ fun PostCardVideo(
                     url = url,
                     onPlaybackStarted = {
                         loading = false
-                    }
+                    },
                 )
                 if (loading) {
                     Box(

@@ -34,12 +34,12 @@ fun CommentCardPlaceholder(
         if (!hideAuthor) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Spacing.s)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Box(
                     modifier = Modifier.size(IconSize.s)
                         .clip(CircleShape)
-                        .shimmerEffect()
+                        .shimmerEffect(),
                 )
                 Column(
                     modifier = Modifier.padding(vertical = Spacing.xxxs),
@@ -49,13 +49,13 @@ fun CommentCardPlaceholder(
                         modifier = Modifier.height(IconSize.s)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(CornerSize.m))
-                            .shimmerEffect()
+                            .shimmerEffect(),
                     )
                     Box(
                         modifier = Modifier.height(IconSize.s)
                             .fillMaxWidth(0.5f)
                             .clip(RoundedCornerShape(CornerSize.m))
-                            .shimmerEffect()
+                            .shimmerEffect(),
                     )
                 }
             }
@@ -65,14 +65,14 @@ fun CommentCardPlaceholder(
                 .height(80.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.s))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

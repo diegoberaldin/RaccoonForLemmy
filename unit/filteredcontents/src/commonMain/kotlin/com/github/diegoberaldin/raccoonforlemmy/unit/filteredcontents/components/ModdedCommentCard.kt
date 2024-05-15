@@ -78,7 +78,7 @@ fun ModdedCommentCard(
                     .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
-            }
+            },
         ).clickable(onClick = { onOpen?.invoke() }),
     ) {
         Column(
@@ -141,14 +141,14 @@ private fun ModdedCommentFooter(
                     Text(
                         text = title,
                         style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                        color = fullColor
+                        color = fullColor,
                     )
                 }
                 communityName?.also { community ->
                     Text(
                         text = community,
                         style = MaterialTheme.typography.labelSmall,
-                        color = ancillaryColor
+                        color = ancillaryColor,
                     )
                 }
             }

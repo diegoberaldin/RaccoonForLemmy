@@ -282,7 +282,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 BottomSheetNavigator(
                     sheetShape = RoundedCornerShape(
                         topStart = CornerSize.xl,
-                        topEnd = CornerSize.xl
+                        topEnd = CornerSize.xl,
                     ),
                     sheetBackgroundColor = MaterialTheme.colorScheme.background,
                 ) { bottomNavigator ->
@@ -346,7 +346,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                             },
                             content = {
                                 sideMenuContent?.invoke()
-                            }
+                            },
                         )
                     }
                 }

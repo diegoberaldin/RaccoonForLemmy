@@ -75,7 +75,7 @@ fun DraftCard(
                     .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
-            }
+            },
         ).onClick(onClick = onOpen),
     ) {
         Column(
@@ -126,7 +126,7 @@ fun DraftCard(
                     ),
                     text = draft.body,
                     maxLines = 40,
-                    onClick = onOpen
+                    onClick = onOpen,
                 )
             }
             DraftFooter(

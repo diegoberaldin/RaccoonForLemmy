@@ -57,7 +57,7 @@ class CustomTextToolbar(
                     onQuote = {
                         onCopyRequested?.invoke()
                         onQuote()
-                    }
+                    },
                 ),
                 ActionMode.TYPE_FLOATING,
             )
@@ -92,7 +92,7 @@ private class CustomTextActionModeCallback(
                 GROUP_ID,
                 ACTION_ID_COPY,
                 1, // position
-                android.R.string.copy
+                android.R.string.copy,
             ).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             add(
                 GROUP_ID,

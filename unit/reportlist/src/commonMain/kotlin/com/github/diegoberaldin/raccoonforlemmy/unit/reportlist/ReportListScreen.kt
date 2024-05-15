@@ -161,7 +161,7 @@ class ReportListScreen(
                         Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                     } else {
                         Modifier
-                    }
+                    },
                 ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
@@ -190,14 +190,14 @@ class ReportListScreen(
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem),
                     ) {
                         if (uiState.section == ReportListSection.Posts) {
                             if (uiState.postReports.isEmpty() && uiState.loading && uiState.initial) {
@@ -224,8 +224,10 @@ class ReportListScreen(
                             items(
                                 items = uiState.postReports,
                                 key = {
-                                    it.id.toString() + (it.updateDate
-                                        ?: it.publishDate) + it.resolved + uiState.unresolvedOnly
+                                    it.id.toString() + (
+                                        it.updateDate
+                                            ?: it.publishDate
+                                        ) + it.resolved + uiState.unresolvedOnly
                                 },
                             ) { report ->
                                 SwipeActionCard(
@@ -290,8 +292,8 @@ class ReportListScreen(
                                                     OptionId.ResolveReport -> {
                                                         model.reduce(
                                                             ReportListMviModel.Intent.ResolvePost(
-                                                                report.id
-                                                            )
+                                                                report.id,
+                                                            ),
                                                         )
                                                     }
 
@@ -396,8 +398,8 @@ class ReportListScreen(
                                                     OptionId.ResolveReport -> {
                                                         model.reduce(
                                                             ReportListMviModel.Intent.ResolveComment(
-                                                                report.id
-                                                            )
+                                                                report.id,
+                                                            ),
                                                         )
                                                     }
 

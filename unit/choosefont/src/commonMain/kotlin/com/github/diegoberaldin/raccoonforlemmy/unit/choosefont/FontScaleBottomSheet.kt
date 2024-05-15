@@ -36,7 +36,6 @@ private val defaultChoices: List<Float> = listOf(
     FontScale.Smallest,
 ).map { it.scaleFactor }
 
-
 class FontScaleBottomSheet(
     private val values: List<Float> = defaultChoices,
     private val contentClass: ContentFontClass? = null,
@@ -93,11 +92,11 @@ class FontScaleBottomSheet(
                                         if (contentClass != null) {
                                             NotificationCenterEvent.ChangeContentFontSize(
                                                 value = value,
-                                                contentClass = contentClass
+                                                contentClass = contentClass,
                                             )
                                         } else {
                                             NotificationCenterEvent.ChangeUiFontSize(value)
-                                        }
+                                        },
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

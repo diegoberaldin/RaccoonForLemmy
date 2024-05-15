@@ -67,7 +67,7 @@ fun SettingsRow(
             )
         }
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = title,

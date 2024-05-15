@@ -169,7 +169,7 @@ internal fun Person.toModel() = UserModel(
 )
 
 internal fun PersonView.toModel() = person.toModel().copy(
-    score = counts.toModel()
+    score = counts.toModel(),
 )
 
 internal fun PersonAggregates.toModel() = UserScoreModel(

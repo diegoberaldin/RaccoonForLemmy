@@ -114,7 +114,7 @@ class SelectCommunityDialog : Screen {
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 500.dp, max = 500.dp)
-                        .padding(horizontal = Spacing.xs)
+                        .padding(horizontal = Spacing.xs),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -132,7 +132,7 @@ class SelectCommunityDialog : Screen {
                                     .onClick(
                                         onClick = {
                                             notificationCenter.send(
-                                                NotificationCenterEvent.SelectCommunity(community)
+                                                NotificationCenterEvent.SelectCommunity(community),
                                             )
                                             notificationCenter.send(NotificationCenterEvent.CloseDialog)
                                         },

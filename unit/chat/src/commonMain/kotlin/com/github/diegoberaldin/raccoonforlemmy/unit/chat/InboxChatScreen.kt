@@ -96,7 +96,7 @@ class InboxChatScreen(
         var openImagePicker by remember { mutableStateOf(false) }
         var textFieldValue by remember {
             mutableStateOf(
-                TextFieldValue(text = "")
+                TextFieldValue(text = ""),
             )
         }
         val themeRepository = remember { getThemeRepository() }
@@ -178,7 +178,7 @@ class InboxChatScreen(
                         top = Spacing.xs,
                         bottom = Spacing.l,
                     ),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     TextFormattingBar(
                         modifier = Modifier.padding(horizontal = Spacing.s),
@@ -193,8 +193,8 @@ class InboxChatScreen(
                         onLastAction = rememberCallback {
                             model.reduce(
                                 InboxChatMviModel.Intent.SubmitNewMessage(
-                                    textFieldValue.text
-                                )
+                                    textFieldValue.text,
+                                ),
                             )
                             textFieldValue = TextFieldValue(text = "")
                         },
@@ -239,13 +239,13 @@ class InboxChatScreen(
                         },
                     )
                 }
-            }
+            },
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Box(
                     modifier = Modifier
                         .padding(padding)
-                        .consumeWindowInsets(padding)
+                        .consumeWindowInsets(padding),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -276,7 +276,7 @@ class InboxChatScreen(
                                         ZoomableImageScreen(
                                             url = url,
                                             source = message.creator?.readableHandle.orEmpty(),
-                                        )
+                                        ),
                                     )
                                 },
                                 onOpenCommunity = rememberCallbackArgs { community, instance ->
@@ -296,7 +296,7 @@ class InboxChatScreen(
                                 },
                                 onOpenWeb = rememberCallbackArgs { url ->
                                     navigationCoordinator.pushScreen(
-                                        WebViewScreen(url)
+                                        WebViewScreen(url),
                                     )
                                 },
                                 options = buildList {
@@ -319,7 +319,7 @@ class InboxChatScreen(
                                     when (optionId) {
                                         OptionId.Edit -> {
                                             model.reduce(
-                                                InboxChatMviModel.Intent.EditMessage(message.id)
+                                                InboxChatMviModel.Intent.EditMessage(message.id),
                                             )
                                             message.content?.also {
                                                 textFieldValue = TextFieldValue(text = it)

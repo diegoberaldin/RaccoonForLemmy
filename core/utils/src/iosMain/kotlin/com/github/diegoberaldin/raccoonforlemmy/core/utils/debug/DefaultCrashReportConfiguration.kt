@@ -2,8 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.core.utils.debug
 
 import platform.Foundation.NSUserDefaults
 
-class DefaultCrashReportConfiguration(
-) : CrashReportConfiguration {
+class DefaultCrashReportConfiguration() : CrashReportConfiguration {
 
     companion object {
         const val KEY = "crashReportEnabled"

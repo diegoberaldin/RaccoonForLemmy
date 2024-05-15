@@ -19,7 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 @Composable
 internal fun ProfileActionMenu(
     modifier: Modifier = Modifier,
-    isModerator: Boolean = false
+    isModerator: Boolean = false,
 ) {
     val notificationCenter = remember { getNotificationCenter() }
     Column(

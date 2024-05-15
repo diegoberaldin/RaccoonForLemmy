@@ -72,9 +72,8 @@ fun MultiCommunityItem(
             )
         }
 
-
         Column(
-            modifier = Modifier.weight(1f).padding(start = Spacing.xs)
+            modifier = Modifier.weight(1f).padding(start = Spacing.xs),
         ) {
             Text(
                 modifier = Modifier.padding(vertical = Spacing.s),
@@ -85,7 +84,6 @@ fun MultiCommunityItem(
                 style = MaterialTheme.typography.bodyLarge,
             )
         }
-
 
         if (options.isNotEmpty()) {
             Box {

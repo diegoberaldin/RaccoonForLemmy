@@ -149,7 +149,7 @@ internal object MainScreen : Screen {
                                     // wait for transition to finish
                                     delay(750)
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeFeedType(evt.value, "postList")
+                                        NotificationCenterEvent.ChangeFeedType(evt.value, "postList"),
                                     )
                                 }
                             }
@@ -206,7 +206,7 @@ internal object MainScreen : Screen {
                                     .offset {
                                         IntOffset(
                                             x = 0,
-                                            y = -uiState.bottomBarOffsetHeightPx.roundToInt()
+                                            y = -uiState.bottomBarOffsetHeightPx.roundToInt(),
                                         )
                                     },
                                 contentPadding = PaddingValues(

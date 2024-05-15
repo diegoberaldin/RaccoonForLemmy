@@ -31,24 +31,24 @@ internal fun ChatCardPlaceholder() {
             modifier = Modifier
                 .size(46.dp)
                 .clip(CircleShape)
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Column(
-            verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             Box(
                 modifier = Modifier
                     .height(50.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
             Box(
                 modifier = Modifier
                     .height(IconSize.m)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
         }
     }

@@ -10,5 +10,7 @@ import de.jensklingenberg.ktorfit.http.POST
 interface AuthService {
     @POST("user/login")
     @Headers("Content-Type: application/json")
-    suspend fun login(@Body form: LoginForm): Response<LoginResponse>
+    suspend fun login(
+        @Body form: LoginForm,
+    ): Response<LoginResponse>
 }

@@ -174,8 +174,8 @@ class AccountSettingsScreen : Screen {
                             initialValue = 0f,
                             targetValue = 360f,
                             animationSpec = InfiniteRepeatableSpec(
-                                animation = tween(1000)
-                            )
+                                animation = tween(1000),
+                            ),
                         )
                         Icon(
                             modifier = Modifier
@@ -183,13 +183,13 @@ class AccountSettingsScreen : Screen {
                                 .then(
                                     if (!uiState.loading) {
                                         Modifier
-                                    } else Modifier.rotate(iconRotate)
+                                    } else Modifier.rotate(iconRotate),
                                 ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                    }
+                    },
                 )
             },
             snackbarHost = {
@@ -210,8 +210,8 @@ class AccountSettingsScreen : Screen {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
-                    )
+                        },
+                    ),
             ) {
                 Column(
                     modifier = Modifier.weight(1f).verticalScroll(scrollState),
@@ -232,7 +232,7 @@ class AccountSettingsScreen : Screen {
                         url = uiState.avatar,
                         onEdit = rememberCallback {
                             openAvatarPicker = true
-                        }
+                        },
                     )
 
                     // banner
@@ -243,7 +243,7 @@ class AccountSettingsScreen : Screen {
                         url = uiState.banner,
                         onEdit = rememberCallback {
                             openBannerPicker = true
-                        }
+                        },
                     )
 
                     // display name
@@ -377,7 +377,7 @@ class AccountSettingsScreen : Screen {
                             model.reduce(
                                 AccountSettingsMviModel.Intent.ChangeSendNotificationsToEmail(
                                     value,
-                                )
+                                ),
                             )
                         },
                     )
@@ -408,7 +408,7 @@ class AccountSettingsScreen : Screen {
                     newValue?.also {
                         model.reduce(AccountSettingsMviModel.Intent.ChangeDisplayName(it))
                     }
-                }
+                },
             )
         }
 
@@ -421,7 +421,7 @@ class AccountSettingsScreen : Screen {
                     newValue?.also {
                         model.reduce(AccountSettingsMviModel.Intent.ChangeEmail(it))
                     }
-                }
+                },
             )
         }
 
@@ -434,7 +434,7 @@ class AccountSettingsScreen : Screen {
                     newValue?.also {
                         model.reduce(AccountSettingsMviModel.Intent.ChangeMatrixUserId(it))
                     }
-                }
+                },
             )
         }
 

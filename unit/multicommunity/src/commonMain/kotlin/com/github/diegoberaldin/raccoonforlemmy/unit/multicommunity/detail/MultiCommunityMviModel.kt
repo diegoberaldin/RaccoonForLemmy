@@ -24,7 +24,7 @@ interface MultiCommunityMviModel :
         data object ClearRead : Intent
         data class Share(val url: String) : Intent
         data class Copy(val value: String) : Intent
-        data object WillOpenDetail: Intent
+        data object WillOpenDetail : Intent
     }
 
     data class UiState(

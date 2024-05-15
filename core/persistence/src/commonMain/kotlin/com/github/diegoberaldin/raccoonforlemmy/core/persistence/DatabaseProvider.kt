@@ -5,4 +5,3 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.entities.AppDat
 interface DatabaseProvider {
     fun getDatabase(): AppDatabase
 }
-

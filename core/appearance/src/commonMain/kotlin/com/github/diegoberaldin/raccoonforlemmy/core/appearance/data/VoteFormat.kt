@@ -56,13 +56,13 @@ fun formatToReadableValue(
                 addStyle(
                     style = SpanStyle(color = upVoteColor),
                     start = 0,
-                    end = text.length
+                    end = text.length,
                 )
             } else if (downVoted) {
                 addStyle(
                     style = SpanStyle(color = downVoteColor),
                     start = 0,
-                    end = length
+                    end = length,
                 )
             }
         }
@@ -74,7 +74,7 @@ fun formatToReadableValue(
                 addStyle(
                     style = SpanStyle(color = upVoteColor),
                     start = 0,
-                    end = upvoteText.length
+                    end = upvoteText.length,
                 )
             }
             append(" / ")
@@ -84,7 +84,7 @@ fun formatToReadableValue(
                 addStyle(
                     style = SpanStyle(color = downVoteColor),
                     start = upvoteText.length + 3,
-                    end = upvoteText.length + 3 + downvoteText.length
+                    end = upvoteText.length + 3 + downvoteText.length,
                 )
             }
         }
@@ -96,13 +96,13 @@ fun formatToReadableValue(
                 addStyle(
                     style = SpanStyle(color = upVoteColor),
                     start = 0,
-                    end = text.length
+                    end = text.length,
                 )
             } else if (downVoted) {
                 addStyle(
                     style = SpanStyle(color = downVoteColor),
                     start = 0,
-                    end = length
+                    end = length,
                 )
             }
         }

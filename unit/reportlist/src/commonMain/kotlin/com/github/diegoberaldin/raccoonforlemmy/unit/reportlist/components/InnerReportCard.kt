@@ -80,7 +80,7 @@ internal fun InnerReportCard(
                     .padding(horizontal = Spacing.xs)
                     .shadow(
                         elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l)
+                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
@@ -90,7 +90,7 @@ internal fun InnerReportCard(
                     .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
-            }
+            },
         ),
     ) {
         Column(
@@ -117,7 +117,7 @@ internal fun InnerReportCard(
                                 color = MaterialTheme.colorScheme.secondary,
                                 shape = RoundedCornerShape(CornerSize.l),
                             )
-                            .padding(all = Spacing.s)
+                            .padding(all = Spacing.s),
                     ) {
                         originalContent()
                     }

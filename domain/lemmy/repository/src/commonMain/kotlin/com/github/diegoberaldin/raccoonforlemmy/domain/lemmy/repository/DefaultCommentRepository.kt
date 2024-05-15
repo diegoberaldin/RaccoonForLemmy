@@ -133,7 +133,7 @@ internal class DefaultCommentRepository(
         downvotes = when {
             comment.myVote < 0 -> comment.downvotes - 1
             else -> comment.downvotes
-        }
+        },
     )
 
     override fun asUpVoted(mention: PersonMentionModel, voted: Boolean) = mention.copy(
@@ -151,7 +151,7 @@ internal class DefaultCommentRepository(
         downvotes = when {
             mention.myVote < 0 -> mention.downvotes - 1
             else -> mention.downvotes
-        }
+        },
     )
 
     override suspend fun upVote(
@@ -184,7 +184,7 @@ internal class DefaultCommentRepository(
         upvotes = when {
             comment.myVote > 0 -> comment.upvotes - 1
             else -> comment.upvotes
-        }
+        },
     )
 
     override fun asDownVoted(mention: PersonMentionModel, downVoted: Boolean) = mention.copy(
@@ -202,7 +202,7 @@ internal class DefaultCommentRepository(
         upvotes = when {
             mention.myVote > 0 -> mention.upvotes - 1
             else -> mention.upvotes
-        }
+        },
     )
 
     override suspend fun downVote(comment: CommentModel, auth: String, downVoted: Boolean) =
@@ -350,7 +350,7 @@ internal class DefaultCommentRepository(
                 communityId = communityId,
                 page = page,
                 limit = limit,
-                unresolvedOnly = unresolvedOnly
+                unresolvedOnly = unresolvedOnly,
             )
             response.body()?.commentReports?.map {
                 it.toModel()

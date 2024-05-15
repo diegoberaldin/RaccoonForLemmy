@@ -174,7 +174,7 @@ class MultiCommunityEditorScreen(
 
                 Spacer(modifier = Modifier.height(Spacing.s))
                 Column(
-                    modifier = Modifier.padding(horizontal = Spacing.m)
+                    modifier = Modifier.padding(horizontal = Spacing.m),
                 ) {
                     Text(text = LocalXmlStrings.current.multiCommunityEditorIcon)
                     LazyRow(
@@ -211,7 +211,7 @@ class MultiCommunityEditorScreen(
                                                 model.reduce(
                                                     MultiCommunityEditorMviModel.Intent.SelectImage(
                                                         idx,
-                                                    )
+                                                    ),
                                                 )
                                             },
                                         ),
@@ -252,7 +252,7 @@ class MultiCommunityEditorScreen(
                                             model.reduce(
                                                 MultiCommunityEditorMviModel.Intent.SelectImage(
                                                     null,
-                                                )
+                                                ),
                                             )
                                         },
                                     ),
@@ -276,7 +276,7 @@ class MultiCommunityEditorScreen(
                         .padding(horizontal = Spacing.s),
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.multiCommunityEditorCommunities
+                        text = LocalXmlStrings.current.multiCommunityEditorCommunities,
                     )
 
                     // search field
@@ -305,7 +305,7 @@ class MultiCommunityEditorScreen(
                                     onClick = {
                                         if (uiState.searchText.isNotEmpty()) {
                                             model.reduce(
-                                                MultiCommunityEditorMviModel.Intent.SetSearch("")
+                                                MultiCommunityEditorMviModel.Intent.SetSearch(""),
                                             )
                                         }
                                     },
@@ -346,8 +346,8 @@ class MultiCommunityEditorScreen(
                                 onCheckedChange = {
                                     model.reduce(
                                         MultiCommunityEditorMviModel.Intent.ToggleCommunity(
-                                            community.id
-                                        )
+                                            community.id,
+                                        ),
                                     )
                                 },
                             )

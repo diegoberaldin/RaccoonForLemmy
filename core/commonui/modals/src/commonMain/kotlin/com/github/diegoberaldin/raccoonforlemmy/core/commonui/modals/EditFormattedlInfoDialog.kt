@@ -79,7 +79,7 @@ fun EditFormattedInfoDialog(
             Spacer(modifier = Modifier.height(Spacing.s))
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 SectionSelector(
                     titles = listOf(
@@ -96,7 +96,7 @@ fun EditFormattedInfoDialog(
                             else -> CreatePostSection.Edit
                         }
                         currentSection = section
-                    }
+                    },
                 )
 
                 if (currentSection == CreatePostSection.Edit) {
@@ -141,7 +141,7 @@ fun EditFormattedInfoDialog(
                     Box(
                         modifier = Modifier
                             .height(400.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
                     ) {
                         PostCardBody(
                             modifier = Modifier

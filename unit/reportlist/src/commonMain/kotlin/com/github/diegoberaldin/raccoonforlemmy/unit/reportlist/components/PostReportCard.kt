@@ -60,7 +60,7 @@ internal fun PostReportCard(
         onOpen = onOpen,
         originalContent = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
+                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 report.originalTitle?.also { title ->
                     PostCardTitle(
@@ -78,7 +78,7 @@ internal fun PostReportCard(
                         },
                         onOpenWeb = rememberCallbackArgs { url ->
                             navigationCoordinator.pushScreen(
-                                WebViewScreen(url)
+                                WebViewScreen(url),
                             )
                         },
                     )
@@ -108,7 +108,7 @@ internal fun PostReportCard(
                         },
                         onOpenWeb = rememberCallbackArgs { url ->
                             navigationCoordinator.pushScreen(
-                                WebViewScreen(url)
+                                WebViewScreen(url),
                             )
                         },
                     )
@@ -131,6 +131,6 @@ internal fun PostReportCard(
                     )
                 }
             }
-        }
+        },
     )
 }

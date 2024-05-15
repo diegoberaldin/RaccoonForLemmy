@@ -43,7 +43,7 @@ internal fun LicenceItem(
         }
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
                 text = item.title,

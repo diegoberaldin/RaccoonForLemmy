@@ -62,7 +62,7 @@ val corePersistenceModule = module {
     }
     single<CommunitySortRepository> {
         DefaultCommunitySortRepository(
-            keyStore = get()
+            keyStore = get(),
         )
     }
     single<ImportSettingsUseCase> {

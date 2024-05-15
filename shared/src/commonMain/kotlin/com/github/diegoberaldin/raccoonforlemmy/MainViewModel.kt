@@ -21,33 +21,33 @@ class MainViewModel(
     DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
         initialState = MainScreenMviModel.UiState(),
     ) {
-    init {
-        screenModelScope.launch {
-            identityRepository.startup()
+        init {
+            screenModelScope.launch {
+                identityRepository.startup()
 
-            inboxCoordinator.totalUnread.onEach { unreadCount ->
-                emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
-            }.launchIn(this)
+                inboxCoordinator.totalUnread.onEach { unreadCount ->
+                    emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
+                }.launchIn(this)
 
-            settingRepository.currentSettings.map {
-                it.inboxBackgroundCheckPeriod
-            }.distinctUntilChanged().onEach {
-                val minutes = it?.inWholeMinutes
-                if (minutes != null) {
-                    notificationChecker.setPeriod(minutes)
-                    notificationChecker.start()
-                } else {
-                    notificationChecker.stop()
+                settingRepository.currentSettings.map {
+                    it.inboxBackgroundCheckPeriod
+                }.distinctUntilChanged().onEach {
+                    val minutes = it?.inWholeMinutes
+                    if (minutes != null) {
+                        notificationChecker.setPeriod(minutes)
+                        notificationChecker.start()
+                    } else {
+                        notificationChecker.stop()
+                    }
+                }
+            }
+        }
+
+        override fun reduce(intent: MainScreenMviModel.Intent) {
+            when (intent) {
+                is MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx -> {
+                    updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
                 }
             }
         }
     }
-
-    override fun reduce(intent: MainScreenMviModel.Intent) {
-        when (intent) {
-            is MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx -> {
-                updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
-            }
-        }
-    }
-}

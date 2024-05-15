@@ -86,7 +86,7 @@ fun RawContentDialog(
                 modifier = Modifier
                     .padding(vertical = Spacing.s, horizontal = Spacing.m)
                     .heightIn(max = 400.dp),
-                verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 title?.takeIf { it.trim().isNotEmpty() }?.also {
                     item {
@@ -104,7 +104,7 @@ fun RawContentDialog(
                                     shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
-                                )
+                                ),
                             ) {
                                 SelectionContainer {
                                     Text(
@@ -136,7 +136,7 @@ fun RawContentDialog(
                                     shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
-                                )
+                                ),
                             ) {
                                 SelectionContainer {
                                     Text(
@@ -169,7 +169,7 @@ fun RawContentDialog(
                                     shareActionLabel = shareActionLabel,
                                     onShare = onShareLambda,
                                     onQuote = onQuoteLambda,
-                                )
+                                ),
                             ) {
                                 SelectionContainer {
                                     Text(

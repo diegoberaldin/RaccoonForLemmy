@@ -138,8 +138,10 @@ class UserDetailScreen(
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserDetailMviModel>(tag = userId.toString(),
-            parameters = { parametersOf(userId, otherInstance) })
+        val model = getScreenModel<UserDetailMviModel>(
+            tag = userId.toString(),
+            parameters = { parametersOf(userId, otherInstance) },
+        )
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -269,22 +271,22 @@ class UserDetailScreen(
                                 )
                                 this += Option(
                                     OptionId.Share,
-                                    LocalXmlStrings.current.postActionShare
+                                    LocalXmlStrings.current.postActionShare,
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
                                         OptionId.Block,
-                                        LocalXmlStrings.current.communityDetailBlock
+                                        LocalXmlStrings.current.communityDetailBlock,
                                     )
                                     this += Option(
                                         OptionId.BlockInstance,
-                                        LocalXmlStrings.current.communityDetailBlockInstance
+                                        LocalXmlStrings.current.communityDetailBlockInstance,
                                     )
                                 }
                                 if (uiState.isAdmin) {
                                     this += Option(
                                         OptionId.Purge,
-                                        LocalXmlStrings.current.adminActionPurge
+                                        LocalXmlStrings.current.adminActionPurge,
                                     )
                                 }
                             }
@@ -337,7 +339,7 @@ class UserDetailScreen(
                                                     }
                                                     if (urls.size == 1) {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.Share(urls.first())
+                                                            UserDetailMviModel.Intent.Share(urls.first()),
                                                         )
                                                     } else {
                                                         val screen = ShareBottomSheet(urls = urls)
@@ -445,7 +447,7 @@ class UserDetailScreen(
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     )
                     .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
@@ -463,7 +465,7 @@ class UserDetailScreen(
                                     ZoomableImageScreen(
                                         url = url,
                                         source = uiState.user.readableHandle,
-                                    )
+                                    ),
                                 )
                             },
                             onInfo = rememberCallback {
@@ -494,8 +496,8 @@ class UserDetailScreen(
                                 }
                                 model.reduce(
                                     UserDetailMviModel.Intent.ChangeSection(
-                                        section
-                                    )
+                                        section,
+                                    ),
                                 )
                             },
                         )
@@ -517,7 +519,8 @@ class UserDetailScreen(
                         }
                         items(
                             uiState.posts,
-                            { it.id.toString() + (it.updateDate ?: it.publishDate) }) { post ->
+                            { it.id.toString() + (it.updateDate ?: it.publishDate) },
+                        ) { post ->
 
                             @Composable
                             fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
@@ -552,7 +555,7 @@ class UserDetailScreen(
                                                 ?: defaultDownVoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.DownVotePost(post.id)
+                                                    UserDetailMviModel.Intent.DownVotePost(post.id),
                                                 )
                                             },
                                         )
@@ -588,7 +591,6 @@ class UserDetailScreen(
                                                 )
                                             },
                                         )
-
 
                                         else -> null
                                     }
@@ -677,7 +679,7 @@ class UserDetailScreen(
                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                             detailOpener.openUserDetail(
                                                 user = user,
-                                                otherInstance = instance
+                                                otherInstance = instance,
                                             )
                                         },
                                         onOpenPost = rememberCallbackArgs { p, instance ->
@@ -705,7 +707,7 @@ class UserDetailScreen(
                                         options = buildList {
                                             this += Option(
                                                 OptionId.Share,
-                                                LocalXmlStrings.current.postActionShare
+                                                LocalXmlStrings.current.postActionShare,
                                             )
                                             this += Option(
                                                 OptionId.Copy,
@@ -713,16 +715,16 @@ class UserDetailScreen(
                                             )
                                             this += Option(
                                                 OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
                                             if (uiState.isLogged && !isOnOtherInstance) {
                                                 this += Option(
                                                     OptionId.CrossPost,
-                                                    LocalXmlStrings.current.postActionCrossPost
+                                                    LocalXmlStrings.current.postActionCrossPost,
                                                 )
                                                 this += Option(
                                                     OptionId.Report,
-                                                    LocalXmlStrings.current.postActionReport
+                                                    LocalXmlStrings.current.postActionReport,
                                                 )
                                             }
                                         },
@@ -750,11 +752,11 @@ class UserDetailScreen(
                                                 OptionId.Share -> {
                                                     val urls = listOfNotNull(
                                                         post.originalUrl,
-                                                        "https://${uiState.instance}/post/${post.id}"
+                                                        "https://${uiState.instance}/post/${post.id}",
                                                     ).distinct()
                                                     if (urls.size == 1) {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.Share(urls.first())
+                                                            UserDetailMviModel.Intent.Share(urls.first()),
                                                         )
                                                     } else {
                                                         val screen = ShareBottomSheet(urls = urls)
@@ -769,12 +771,12 @@ class UserDetailScreen(
                                                     ).distinct()
                                                     if (texts.size == 1) {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.Copy(texts.first())
+                                                            UserDetailMviModel.Intent.Copy(texts.first()),
                                                         )
                                                     } else {
                                                         val screen = CopyPostBottomSheet(
                                                             post.title,
-                                                            post.text
+                                                            post.text,
                                                         )
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
@@ -782,7 +784,8 @@ class UserDetailScreen(
 
                                                 else -> Unit
                                             }
-                                        })
+                                        },
+                                    )
                                 },
                             )
                             if (uiState.postLayout != PostLayout.Card) {
@@ -811,7 +814,7 @@ class UserDetailScreen(
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                    thickness = 0.25.dp
+                                    thickness = 0.25.dp,
                                 )
                             }
                         }
@@ -835,7 +838,7 @@ class UserDetailScreen(
                                                 ?: defaultUpvoteColor,
                                             onTriggered = rememberCallback {
                                                 model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id)
+                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id),
                                                 )
                                             },
                                         )
@@ -853,7 +856,7 @@ class UserDetailScreen(
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     UserDetailMviModel.Intent.DownVoteComment(
-                                                        comment.id
+                                                        comment.id,
                                                     ),
                                                 )
                                             },
@@ -893,7 +896,6 @@ class UserDetailScreen(
                                                 )
                                             },
                                         )
-
 
                                         else -> null
                                     }
@@ -940,7 +942,7 @@ class UserDetailScreen(
                                                 ZoomableImageScreen(
                                                     url = url,
                                                     source = comment.community?.readableHandle.orEmpty(),
-                                                )
+                                                ),
                                             )
                                         },
                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
@@ -1044,7 +1046,7 @@ class UserDetailScreen(
 
                             HorizontalDivider(
                                 modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                thickness = 0.25.dp
+                                thickness = 0.25.dp,
                             )
                         }
 

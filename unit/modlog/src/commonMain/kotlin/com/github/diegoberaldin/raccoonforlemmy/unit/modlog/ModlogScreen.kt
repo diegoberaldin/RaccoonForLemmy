@@ -141,7 +141,7 @@ class ModlogScreen(
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
@@ -152,7 +152,7 @@ class ModlogScreen(
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .pullRefresh(pullRefreshState),
                 ) {

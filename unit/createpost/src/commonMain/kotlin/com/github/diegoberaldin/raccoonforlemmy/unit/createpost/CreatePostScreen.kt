@@ -145,8 +145,8 @@ class CreatePostScreen(
             editedPost?.community?.id?.also { communityId ->
                 model.reduce(
                     CreatePostMviModel.Intent.SetCommunity(
-                        CommunityModel(id = communityId)
-                    )
+                        CommunityModel(id = communityId),
+                    ),
                 )
             }
             val referencePost = uiState.editedPost ?: uiState.crossPost
@@ -294,8 +294,7 @@ class CreatePostScreen(
                     )
                 }
             },
-        )
-        { padding ->
+        ) { padding ->
             Column(
                 modifier = Modifier
                     .padding(padding)
@@ -468,7 +467,8 @@ class CreatePostScreen(
                 // NSFW
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(
-                        vertical = Spacing.s, horizontal = Spacing.m
+                        vertical = Spacing.s,
+                        horizontal = Spacing.m,
                     ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -487,7 +487,7 @@ class CreatePostScreen(
                 }
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SectionSelector(
                         titles = listOf(
@@ -619,7 +619,7 @@ class CreatePostScreen(
                 },
                 onDismiss = rememberCallback {
                     selectLanguageDialogOpen = false
-                }
+                },
             )
         }
 

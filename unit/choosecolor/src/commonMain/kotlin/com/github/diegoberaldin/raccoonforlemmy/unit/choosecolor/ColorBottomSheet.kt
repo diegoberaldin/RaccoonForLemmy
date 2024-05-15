@@ -89,8 +89,8 @@ class ColorBottomSheet : Screen {
                                     if (!isChooseCustom) {
                                         notificationCenter.send(
                                             NotificationCenterEvent.ChangeColor(
-                                                value.first
-                                            )
+                                                value.first,
+                                            ),
                                         )
                                         navigationCoordinator.hideBottomSheet()
                                     } else {
@@ -113,8 +113,8 @@ class ColorBottomSheet : Screen {
                                     .size(36.dp)
                                     .background(
                                         color = value.first ?: Color.Transparent,
-                                        shape = CircleShape
-                                    )
+                                        shape = CircleShape,
+                                    ),
                             )
                         } else {
                             Image(
@@ -139,7 +139,7 @@ class ColorBottomSheet : Screen {
                 onSubmit = { color ->
                     notificationCenter.send(NotificationCenterEvent.ChangeColor(color))
                     navigationCoordinator.hideBottomSheet()
-                }
+                },
             )
         }
     }

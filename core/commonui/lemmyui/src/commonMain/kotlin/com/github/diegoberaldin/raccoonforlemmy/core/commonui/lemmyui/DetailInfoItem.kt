@@ -36,13 +36,13 @@ fun DetailInfoItem(
                     SpanStyle(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary,
-                    )
+                    ),
                 ) {
                     append(value)
                 }
                 append(" ")
                 append(title)
-            }
+            },
         )
     }
 }

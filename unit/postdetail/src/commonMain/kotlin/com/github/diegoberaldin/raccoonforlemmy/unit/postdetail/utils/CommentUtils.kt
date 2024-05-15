@@ -30,16 +30,15 @@ internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Long? = null): Lis
                 memo = memo,
                 currentPath = comment.path,
                 currentNode = node,
-                rootCommentId = ancestorId
+                rootCommentId = ancestorId,
             )
         }
     }
 
-
     // joins the forest under a single root
     val root = joinForestUnderSingleRoot(
         ancestorId = ancestorId,
-        memo = memo
+        memo = memo,
     )
 
     // linearize the tree and convert to comment list
@@ -99,7 +98,7 @@ private fun connectNodesAndGeneratePlaceholders(
         if (memoizedNode is CommentNode.Placeholder) {
             memo[currentNode.id] = currentNode.copy(
                 parent = memoizedNode.parent,
-                children = memoizedNode.children
+                children = memoizedNode.children,
             )
         }
     }
@@ -132,7 +131,7 @@ private fun connectNodesAndGeneratePlaceholders(
                 memo = memo,
                 currentPath = parentPath,
                 currentNode = placeholder,
-                rootCommentId = rootCommentId
+                rootCommentId = rootCommentId,
             )
         }
     }
@@ -146,7 +145,7 @@ private fun joinForestUnderSingleRoot(
         missingComment = PlaceholderComment(
             id = 0,
             path = "",
-        )
+        ),
     ).apply {
         children += memo.values.filter { node ->
             node.parent?.id == ancestorId

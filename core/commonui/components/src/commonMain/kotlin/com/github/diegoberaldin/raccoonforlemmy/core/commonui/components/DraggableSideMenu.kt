@@ -44,7 +44,6 @@ fun DraggableSideMenu(
     onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit = {},
 ) {
-
     val density = LocalDensity.current
     val maxWidth = if (availableWidth.isSpecified) availableWidth * 0.85f else 500.dp
     val draggableState = remember(availableWidth) {
@@ -96,7 +95,7 @@ fun DraggableSideMenu(
                 top = Spacing.xxl,
                 bottom = Spacing.m,
                 end = Spacing.s,
-                start = Spacing.s
+                start = Spacing.s,
             ),
     ) {
         content()

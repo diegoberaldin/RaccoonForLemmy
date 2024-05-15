@@ -22,31 +22,30 @@ class UserInfoViewModel(
         initialState = UserInfoMviModel.UiState(),
     ) {
 
-    init {
-        screenModelScope.launch {
-            val user = itemCache.getUser(userId) ?: UserModel()
-            updateState {
-                it.copy(user = user)
-            }
-            settingsRepository.currentSettings.onEach {
-                updateState { it.copy(autoLoadImages = it.autoLoadImages) }
-            }.launchIn(this)
-
-
-            if (uiState.value.moderatedCommunities.isEmpty()) {
-                val updatedUser = userRepository.get(
-                    id = user.id,
-                    username = username,
-                    otherInstance = otherInstance,
-                )
-                if (updatedUser != null) {
-                    updateState {
-                        it.copy(user = updatedUser)
-                    }
+        init {
+            screenModelScope.launch {
+                val user = itemCache.getUser(userId) ?: UserModel()
+                updateState {
+                    it.copy(user = user)
                 }
-                val communities = userRepository.getModeratedCommunities(id = user.id)
-                updateState { it.copy(moderatedCommunities = communities) }
+                settingsRepository.currentSettings.onEach {
+                    updateState { it.copy(autoLoadImages = it.autoLoadImages) }
+                }.launchIn(this)
+
+                if (uiState.value.moderatedCommunities.isEmpty()) {
+                    val updatedUser = userRepository.get(
+                        id = user.id,
+                        username = username,
+                        otherInstance = otherInstance,
+                    )
+                    if (updatedUser != null) {
+                        updateState {
+                            it.copy(user = updatedUser)
+                        }
+                    }
+                    val communities = userRepository.getModeratedCommunities(id = user.id)
+                    updateState { it.copy(moderatedCommunities = communities) }
+                }
             }
         }
     }
-}

@@ -27,7 +27,7 @@ private const val CACHE_SIZE = 5
 val repositoryModule = module {
     single<GetSortTypesUseCase> {
         DefaultGetSortTypesUseCase(
-            siteRepository = get()
+            siteRepository = get(),
         )
     }
     single<PostRepository> {

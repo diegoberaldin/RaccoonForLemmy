@@ -144,7 +144,7 @@ class LoginBottomSheet : Screen {
                                     customTabsHelper = customTabsHelper,
                                     onOpenWeb = { url ->
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
-                                    }
+                                    },
                                 )
                             },
                         ) {
@@ -154,12 +154,12 @@ class LoginBottomSheet : Screen {
                                 tint = MaterialTheme.colorScheme.onBackground,
                             )
                         }
-                    }
+                    },
                 )
             },
             snackbarHost = {
                 SnackbarHost(
-                    hostState = snackbarHostState
+                    hostState = snackbarHostState,
                 ) { data ->
                     Snackbar(
                         containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -218,7 +218,7 @@ class LoginBottomSheet : Screen {
                                     modifier = Modifier.onClick(
                                         onClick = rememberCallback(model) {
                                             model.reduce(
-                                                LoginMviModel.Intent.SetInstanceName("")
+                                                LoginMviModel.Intent.SetInstanceName(""),
                                             )
                                         },
                                     ),
@@ -239,7 +239,7 @@ class LoginBottomSheet : Screen {
                                 ),
                                 onFill = { value ->
                                     model.reduce(LoginMviModel.Intent.SetUsername(value))
-                                }
+                                },
                             )
                             .focusRequester(usernameFocusRequester),
                         label = {
@@ -282,7 +282,7 @@ class LoginBottomSheet : Screen {
                                 autofillTypes = listOf(AutofillType.Password),
                                 onFill = { value ->
                                     model.reduce(LoginMviModel.Intent.SetPassword(value))
-                                }
+                                },
                             )
                             .focusRequester(passwordFocusRequester),
                         label = {
@@ -386,7 +386,7 @@ class LoginBottomSheet : Screen {
                         }
                     }
                 }
-            }
+            },
         )
     }
 }

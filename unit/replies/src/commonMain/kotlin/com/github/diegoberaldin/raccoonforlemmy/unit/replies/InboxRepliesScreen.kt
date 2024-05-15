@@ -245,7 +245,7 @@ class InboxRepliesScreen : Tab {
                                         ZoomableImageScreen(
                                             url = url,
                                             source = reply.post.community?.readableHandle.orEmpty(),
-                                        )
+                                        ),
                                     )
                                 },
                                 onUpVote = rememberCallback(model) {
@@ -269,7 +269,7 @@ class InboxRepliesScreen : Tab {
                                             } else {
                                                 LocalXmlStrings.current.inboxActionMarkRead
                                             },
-                                        )
+                                        ),
                                     )
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->

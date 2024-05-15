@@ -64,7 +64,7 @@ fun ColorPickerDialog(
                         shape = RoundedCornerShape(CornerSize.m),
                     )
                     .fillMaxWidth()
-                    .height(100.dp)
+                    .height(100.dp),
             )
             val alpha = (currentColor.alpha * 255).toInt().toHexDigit()
             val red = (currentColor.red * 255).toInt().toHexDigit()
@@ -105,7 +105,7 @@ fun ColorPickerDialog(
                     value = currentColor.red,
                     onValueChange = {
                         currentColor = currentColor.copy(red = it)
-                    }
+                    },
                 )
             }
             Row(
@@ -121,7 +121,7 @@ fun ColorPickerDialog(
                     value = currentColor.green,
                     onValueChange = {
                         currentColor = currentColor.copy(green = it)
-                    }
+                    },
                 )
             }
             Row(
@@ -137,7 +137,7 @@ fun ColorPickerDialog(
                     value = currentColor.blue,
                     onValueChange = {
                         currentColor = currentColor.copy(blue = it)
-                    }
+                    },
                 )
             }
 

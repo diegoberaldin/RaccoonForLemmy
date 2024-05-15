@@ -69,8 +69,8 @@ class CommentBarThemeBottomSheet : Screen {
                                 onClick = {
                                     notificationCenter.send(
                                         NotificationCenterEvent.ChangeCommentBarTheme(
-                                            value
-                                        )
+                                            value,
+                                        ),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

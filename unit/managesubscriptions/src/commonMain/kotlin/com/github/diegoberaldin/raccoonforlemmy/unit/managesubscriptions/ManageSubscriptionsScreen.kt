@@ -181,7 +181,7 @@ class ManageSubscriptionsScreen : Screen {
                                     }
                                 },
                             )
-                        }
+                        },
                     )
                 }
             },
@@ -249,7 +249,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .nestedScroll(fabNestedScrollConnection)
                         .nestedScroll(keyboardScrollConnection)
@@ -276,7 +276,7 @@ class ManageSubscriptionsScreen : Screen {
                                         .onClick(
                                             onClick = {
                                                 navigatorCoordinator.pushScreen(
-                                                    MultiCommunityEditorScreen()
+                                                    MultiCommunityEditorScreen(),
                                                 )
                                             },
                                         ),
@@ -380,13 +380,13 @@ class ManageSubscriptionsScreen : Screen {
 
                                         OptionId.Favorite -> {
                                             model.reduce(
-                                                ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id)
+                                                ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id),
                                             )
                                         }
 
                                         else -> Unit
                                     }
-                                }
+                                },
                             )
                         }
 

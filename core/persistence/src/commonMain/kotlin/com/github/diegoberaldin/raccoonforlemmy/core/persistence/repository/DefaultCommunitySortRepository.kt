@@ -5,7 +5,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeySto
 private const val SETTINGS_KEY = "communitySort"
 
 internal class DefaultCommunitySortRepository(
-    private val keyStore: TemporaryKeyStore
+    private val keyStore: TemporaryKeyStore,
 ) : CommunitySortRepository {
 
     override fun getSort(handle: String): Int? {

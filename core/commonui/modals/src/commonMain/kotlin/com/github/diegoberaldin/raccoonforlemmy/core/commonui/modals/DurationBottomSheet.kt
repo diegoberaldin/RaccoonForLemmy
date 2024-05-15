@@ -59,7 +59,7 @@ class DurationBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            val title =  when (type) {
+            val title = when (type) {
                 DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
                 DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
             }

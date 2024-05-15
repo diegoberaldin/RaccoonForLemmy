@@ -45,7 +45,6 @@ fun InboxCardHeader(
                         append(LocalXmlStrings.current.inboxItemReplyComment)
                     } else {
                         append(LocalXmlStrings.current.inboxItemReplyPost)
-
                     }
                 }
             }

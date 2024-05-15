@@ -4,7 +4,8 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.models.LicenceItem
 
-interface LicencesMviModel : ScreenModel,
+interface LicencesMviModel :
+    ScreenModel,
     MviModel<LicencesMviModel.Intent, LicencesMviModel.State, LicencesMviModel.Effect> {
 
     sealed interface Intent

@@ -113,7 +113,7 @@ internal fun ChatCard(
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(Spacing.xxs)
+            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Row(
                 modifier = Modifier.padding(end = Spacing.m),

@@ -37,7 +37,6 @@ import de.jensklingenberg.ktorfit.http.Url
 import io.ktor.client.request.forms.*
 
 interface PostService {
-
     @GET("post/list")
     suspend fun getAll(
         @Header("Authorization") authHeader: String? = null,

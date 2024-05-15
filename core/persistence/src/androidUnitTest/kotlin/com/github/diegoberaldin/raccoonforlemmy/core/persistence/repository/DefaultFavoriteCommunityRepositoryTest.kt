@@ -86,7 +86,6 @@ class DefaultFavoriteCommunityRepositoryTest {
         }
     }
 
-
     @Test
     fun whenCreate_thenInteractionsAreAsExpected() = runTest {
         every { query.executeAsOneOrNull() } returns createFakeFavoriteCommunityEntity(id = 2, accountId = 1)

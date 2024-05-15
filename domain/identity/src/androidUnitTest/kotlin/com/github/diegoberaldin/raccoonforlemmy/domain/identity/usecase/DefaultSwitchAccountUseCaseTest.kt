@@ -22,7 +22,6 @@ class DefaultSwitchAccountUseCaseTest {
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
-
     private val identityRepository = mockk<IdentityRepository>(relaxUnitFun = true)
     private val accountRepository = mockk<AccountRepository>(relaxUnitFun = true)
     private val settingsRepository = mockk<SettingsRepository>(relaxUnitFun = true)
@@ -46,13 +45,13 @@ class DefaultSwitchAccountUseCaseTest {
             id = accountId,
             username = "new-username",
             instance = "new-instance",
-            jwt = "new-token"
+            jwt = "new-token",
         )
         val oldAccount = AccountModel(
             id = oldAccountId,
             username = "old-username",
             instance = "old-instance",
-            jwt = "old-token"
+            jwt = "old-token",
         )
         val oldSettings = SettingsModel(id = 1)
         val newSettings = SettingsModel(id = 2)

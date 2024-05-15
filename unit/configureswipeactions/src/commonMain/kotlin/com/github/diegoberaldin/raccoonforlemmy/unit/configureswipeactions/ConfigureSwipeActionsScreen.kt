@@ -105,8 +105,8 @@ class ConfigureSwipeActionsScreen : Screen {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
-                    )
+                        },
+                    ),
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -121,18 +121,18 @@ class ConfigureSwipeActionsScreen : Screen {
                                 TextButton(
                                     contentPadding = PaddingValues(
                                         horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs
+                                        vertical = Spacing.xxs,
                                     ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsPosts)
-                                    }
+                                    },
                                 ) {
                                     Text(
                                         text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
-                            }
+                            },
                         )
                     }
                     item {
@@ -160,7 +160,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -170,7 +170,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionPosts(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToStart,
-                                            )
+                                            ),
                                         )
                                     }
 
@@ -218,7 +218,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -228,7 +228,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionPosts(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToEnd,
-                                            )
+                                            ),
                                         )
                                     }
 
@@ -264,18 +264,18 @@ class ConfigureSwipeActionsScreen : Screen {
                                 TextButton(
                                     contentPadding = PaddingValues(
                                         horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs
+                                        vertical = Spacing.xxs,
                                     ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsComments)
-                                    }
+                                    },
                                 ) {
                                     Text(
                                         text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
-                            }
+                            },
                         )
                     }
                     item {
@@ -303,7 +303,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -313,7 +313,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionComments(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToStart,
-                                            )
+                                            ),
                                         )
                                     }
 
@@ -361,7 +361,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -371,7 +371,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionComments(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToEnd,
-                                            )
+                                            ),
                                         )
                                     }
 
@@ -407,18 +407,18 @@ class ConfigureSwipeActionsScreen : Screen {
                                 TextButton(
                                     contentPadding = PaddingValues(
                                         horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs
+                                        vertical = Spacing.xxs,
                                     ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsInbox)
-                                    }
+                                    },
                                 ) {
                                     Text(
                                         text = LocalXmlStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
-                            }
+                            },
                         )
                     }
                     item {
@@ -446,7 +446,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -456,7 +456,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionInbox(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToStart,
-                                            )
+                                            ),
                                         )
                                     }
 
@@ -470,7 +470,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             ConfigureAddAction {
                                 val sheet = SelectActionOnSwipeBottomSheet(
                                     values = uiState.availableOptionsInbox.filterNot { a ->
-                                       uiState.actionsOnSwipeToStartInbox.contains(a)
+                                        uiState.actionsOnSwipeToStartInbox.contains(a)
                                     },
                                     direction = ActionOnSwipeDirection.ToStart,
                                     target = ActionOnSwipeTarget.Inbox,
@@ -504,7 +504,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             options = buildList {
                                 this += Option(
                                     OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete
+                                    LocalXmlStrings.current.commentActionDelete,
                                 )
                             },
                             onOptionSelected = { optionId ->
@@ -514,7 +514,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                             ConfigureSwipeActionsMviModel.Intent.DeleteActionInbox(
                                                 value = action,
                                                 direction = ActionOnSwipeDirection.ToEnd,
-                                            )
+                                            ),
                                         )
                                     }
 

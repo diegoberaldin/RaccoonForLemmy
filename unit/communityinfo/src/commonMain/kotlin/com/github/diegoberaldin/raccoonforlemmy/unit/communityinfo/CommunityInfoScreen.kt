@@ -103,9 +103,9 @@ class CommunityInfoScreen(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                    }
+                    },
                 )
-            }
+            },
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
@@ -206,7 +206,7 @@ class CommunityInfoScreen(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                         ) {
                             items(
-                                count = uiState.moderators.size
+                                count = uiState.moderators.size,
                             ) { idx ->
                                 val user = uiState.moderators[idx]
                                 ModeratorCell(
@@ -218,7 +218,7 @@ class CommunityInfoScreen(
                                             delay(100)
                                             detailOpener.openUserDetail(user, "")
                                         }
-                                    }
+                                    },
                                 )
                             }
                         }
@@ -237,7 +237,7 @@ class CommunityInfoScreen(
                                         ZoomableImageScreen(
                                             url = url,
                                             source = uiState.community.readableHandle,
-                                        )
+                                        ),
                                     )
                                 }
                             },
@@ -246,7 +246,6 @@ class CommunityInfoScreen(
                                 scope.launch {
                                     delay(100)
                                     detailOpener.openCommunityDetail(community, instance)
-
                                 }
                             },
                             onOpenPost = { post, instance ->
@@ -254,7 +253,6 @@ class CommunityInfoScreen(
                                 scope.launch {
                                     delay(100)
                                     detailOpener.openPostDetail(post, instance)
-
                                 }
                             },
                             onOpenUser = { user, instance ->

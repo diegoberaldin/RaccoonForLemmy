@@ -74,7 +74,7 @@ class DefaultCommunityRepositoryTest {
                 comments = emptyList(),
                 posts = emptyList(),
                 communities = listOf(
-                    mockk(relaxed = true)
+                    mockk(relaxed = true),
                 ),
                 users = emptyList(),
             )
@@ -126,7 +126,7 @@ class DefaultCommunityRepositoryTest {
             every { isSuccessful } returns true
             every { body() } returns mockk {
                 every { communities } returns listOf(
-                    mockk(relaxed = true)
+                    mockk(relaxed = true),
                 )
             }
         }
@@ -136,7 +136,7 @@ class DefaultCommunityRepositoryTest {
             page = 1,
             instance = otherInstance,
             limit = 20,
-            sortType = SortType.Active
+            sortType = SortType.Active,
         )
 
         assertEquals(1, res.size)
@@ -173,7 +173,7 @@ class DefaultCommunityRepositoryTest {
         val query = "q"
         val res = sut.getResolved(
             query = query,
-            auth = token
+            auth = token,
         )
 
         assertNotNull(res)
@@ -199,7 +199,7 @@ class DefaultCommunityRepositoryTest {
                     every { follows } returns listOf(
                         mockk {
                             every { community } returns mockk(relaxed = true)
-                        }
+                        },
                     )
                 }
             }
@@ -243,7 +243,7 @@ class DefaultCommunityRepositoryTest {
         val token = "fake-token"
         val res = sut.get(
             auth = token,
-            id = communityId
+            id = communityId,
         )
 
         assertNotNull(res)
@@ -327,7 +327,7 @@ class DefaultCommunityRepositoryTest {
                 withArg { data ->
                     assertEquals(communityId, data.communityId)
                     assertTrue(data.follow)
-                }
+                },
             )
         }
     }
@@ -362,7 +362,7 @@ class DefaultCommunityRepositoryTest {
                 withArg { data ->
                     assertEquals(communityId, data.communityId)
                     assertFalse(data.follow)
-                }
+                },
             )
         }
     }
@@ -389,7 +389,7 @@ class DefaultCommunityRepositoryTest {
                     withArg { data ->
                         assertEquals(communityId, data.communityId)
                         assertTrue(data.block)
-                    }
+                    },
                 )
             }
         }
@@ -421,7 +421,7 @@ class DefaultCommunityRepositoryTest {
                     assertEquals(communityId, data.communityId)
                     assertEquals(userId, data.personId)
                     assertTrue(data.ban)
-                }
+                },
             )
         }
     }
@@ -452,7 +452,7 @@ class DefaultCommunityRepositoryTest {
                     assertEquals(communityId, data.communityId)
                     assertEquals(userId, data.personId)
                     assertTrue(data.added)
-                }
+                },
             )
         }
     }
@@ -472,7 +472,7 @@ class DefaultCommunityRepositoryTest {
         val data = CommunityModel(id = communityId, name = newName)
         sut.update(
             auth = token,
-            community = data
+            community = data,
         )
 
         coVerify {
@@ -481,7 +481,7 @@ class DefaultCommunityRepositoryTest {
                 withArg { data ->
                     assertEquals(communityId, data.communityId)
                     assertEquals(newName, data.title)
-                }
+                },
             )
         }
     }

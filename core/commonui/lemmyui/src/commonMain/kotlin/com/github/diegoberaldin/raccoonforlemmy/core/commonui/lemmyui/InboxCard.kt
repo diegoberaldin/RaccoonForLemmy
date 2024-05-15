@@ -69,7 +69,7 @@ fun InboxCard(
                     .padding(vertical = Spacing.s)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
-            }
+            },
         ).onClick(
             onClick = {
                 onOpenPost(mention.post)

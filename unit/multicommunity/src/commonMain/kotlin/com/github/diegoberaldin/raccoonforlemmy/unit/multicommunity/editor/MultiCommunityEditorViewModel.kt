@@ -33,160 +33,160 @@ class MultiCommunityEditorViewModel(
     DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>(
         initialState = MultiCommunityEditorMviModel.UiState(),
     ) {
-    private var communities: List<Pair<CommunityModel, Boolean>> = emptyList()
-    private val searchEventChannel = Channel<Unit>()
+        private var communities: List<Pair<CommunityModel, Boolean>> = emptyList()
+        private val searchEventChannel = Channel<Unit>()
 
-    init {
-        screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
+        init {
+            screenModelScope.launch {
+                settingsRepository.currentSettings.onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
+
+                searchEventChannel.receiveAsFlow().debounce(1000).onEach {
+                    updateState {
+                        val filtered = filterCommunities()
+                        it.copy(communities = filtered)
+                    }
+                }.launchIn(this)
+            }
+            if (communities.isEmpty()) {
+                populate()
+            }
+        }
+
+        override fun reduce(intent: MultiCommunityEditorMviModel.Intent) {
+            when (intent) {
+                is MultiCommunityEditorMviModel.Intent.SelectImage -> selectImage(intent.index)
+                is MultiCommunityEditorMviModel.Intent.SetName -> updateState { it.copy(name = intent.value) }
+                is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
+                is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
+                MultiCommunityEditorMviModel.Intent.Submit -> submit()
+            }
+        }
+
+        private fun populate() {
+            screenModelScope.launch {
+                val editedCommunity =
+                    communityId?.let {
+                        multiCommunityRepository.getById(it)
+                    }
+                val auth = identityRepository.authToken.value
+                communities =
+                    communityRepository.getSubscribed(auth).sortedBy { it.name }.map { c ->
+                        c to (editedCommunity?.communityIds?.contains(c.id) == true)
+                    }
                 updateState {
+                    val newCommunities = communities
+                    val availableIcons = newCommunities.filter { i -> i.second }.mapNotNull { i -> i.first.icon }
                     it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
+                        communities = newCommunities,
+                        name = editedCommunity?.name.orEmpty(),
+                        icon = editedCommunity?.icon,
+                        availableIcons = availableIcons,
                     )
                 }
-            }.launchIn(this)
-
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                updateState {
-                    val filtered = filterCommunities()
-                    it.copy(communities = filtered)
-                }
-            }.launchIn(this)
+            }
         }
-        if (communities.isEmpty()) {
-            populate()
-        }
-    }
 
-    override fun reduce(intent: MultiCommunityEditorMviModel.Intent) {
-        when (intent) {
-            is MultiCommunityEditorMviModel.Intent.SelectImage -> selectImage(intent.index)
-            is MultiCommunityEditorMviModel.Intent.SetName -> updateState { it.copy(name = intent.value) }
-            is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
-            is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
-            MultiCommunityEditorMviModel.Intent.Submit -> submit()
+        private fun setSearch(value: String) {
+            updateState { it.copy(searchText = value) }
+            screenModelScope.launch {
+                searchEventChannel.send(Unit)
+            }
         }
-    }
 
-    private fun populate() {
-        screenModelScope.launch {
-            val editedCommunity =
-                communityId?.let {
-                    multiCommunityRepository.getById(it)
+        private fun filterCommunities(): List<Pair<CommunityModel, Boolean>> {
+            val searchText = uiState.value.searchText
+            val res =
+                if (searchText.isNotEmpty()) {
+                    communities.filter { it.first.name.contains(other = searchText, ignoreCase = true) }
+                } else {
+                    communities
                 }
-            val auth = identityRepository.authToken.value
-            communities =
-                communityRepository.getSubscribed(auth).sortedBy { it.name }.map { c ->
-                    c to (editedCommunity?.communityIds?.contains(c.id) == true)
+            return res
+        }
+
+        private fun selectImage(index: Int?) {
+            val image =
+                if (index == null) {
+                    null
+                } else {
+                    uiState.value.availableIcons[index]
                 }
-            updateState {
-                val newCommunities = communities
-                val availableIcons = newCommunities.filter { i -> i.second }.mapNotNull { i -> i.first.icon }
-                it.copy(
-                    communities = newCommunities,
-                    name = editedCommunity?.name.orEmpty(),
-                    icon = editedCommunity?.icon,
+            updateState { it.copy(icon = image) }
+        }
+
+        private fun toggleCommunity(communityId: Long) {
+            val newCommunities =
+                communities.map { item ->
+                    if (item.first.id == communityId) {
+                        item.first to !item.second
+                    } else {
+                        item
+                    }
+                }
+            val availableIcons =
+                newCommunities.filter { i ->
+                    i.second
+                }.mapNotNull { i ->
+                    i.first.icon
+                }
+            communities = newCommunities
+            val filtered = filterCommunities()
+            updateState { state ->
+                state.copy(
+                    communities = filtered,
                     availableIcons = availableIcons,
                 )
             }
         }
-    }
 
-    private fun setSearch(value: String) {
-        updateState { it.copy(searchText = value) }
-        screenModelScope.launch {
-            searchEventChannel.send(Unit)
-        }
-    }
-
-    private fun filterCommunities(): List<Pair<CommunityModel, Boolean>> {
-        val searchText = uiState.value.searchText
-        val res =
-            if (searchText.isNotEmpty()) {
-                communities.filter { it.first.name.contains(other = searchText, ignoreCase = true) }
-            } else {
-                communities
+        private fun submit() {
+            updateState { it.copy(nameError = null) }
+            val currentState = uiState.value
+            var valid = true
+            val name = currentState.name
+            if (name.isEmpty()) {
+                updateState { it.copy(nameError = ValidationError.MissingField) }
+                valid = false
             }
-        return res
-    }
-
-    private fun selectImage(index: Int?) {
-        val image =
-            if (index == null) {
-                null
-            } else {
-                uiState.value.availableIcons[index]
+            if (!valid) {
+                return
             }
-        updateState { it.copy(icon = image) }
-    }
 
-    private fun toggleCommunity(communityId: Long) {
-        val newCommunities =
-            communities.map { item ->
-                if (item.first.id == communityId) {
-                    item.first to !item.second
+            screenModelScope.launch {
+                val icon = currentState.icon
+                val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
+                val editedCommunity =
+                    communityId?.let {
+                        multiCommunityRepository.getById(it)
+                    }
+                val multiCommunity =
+                    editedCommunity?.copy(
+                        name = name,
+                        icon = icon,
+                        communityIds = communityIds,
+                    ) ?: MultiCommunityModel(
+                        name = name,
+                        icon = icon,
+                        communityIds = communityIds,
+                    )
+                val accountId = accountRepository.getActive()?.id ?: return@launch
+                if (multiCommunity.id == null) {
+                    val id = multiCommunityRepository.create(multiCommunity, accountId)
+                    notificationCenter.send(
+                        NotificationCenterEvent.MultiCommunityCreated(multiCommunity.copy(id = id)),
+                    )
                 } else {
-                    item
+                    multiCommunityRepository.update(multiCommunity)
+                    notificationCenter.send(NotificationCenterEvent.MultiCommunityCreated(multiCommunity))
                 }
+                emitEffect(MultiCommunityEditorMviModel.Effect.Close)
             }
-        val availableIcons =
-            newCommunities.filter { i ->
-                i.second
-            }.mapNotNull { i ->
-                i.first.icon
-            }
-        communities = newCommunities
-        val filtered = filterCommunities()
-        updateState { state ->
-            state.copy(
-                communities = filtered,
-                availableIcons = availableIcons,
-            )
         }
     }
-
-    private fun submit() {
-        updateState { it.copy(nameError = null) }
-        val currentState = uiState.value
-        var valid = true
-        val name = currentState.name
-        if (name.isEmpty()) {
-            updateState { it.copy(nameError = ValidationError.MissingField) }
-            valid = false
-        }
-        if (!valid) {
-            return
-        }
-
-        screenModelScope.launch {
-            val icon = currentState.icon
-            val communityIds = currentState.communities.filter { it.second }.map { it.first.id }
-            val editedCommunity =
-                communityId?.let {
-                    multiCommunityRepository.getById(it)
-                }
-            val multiCommunity =
-                editedCommunity?.copy(
-                    name = name,
-                    icon = icon,
-                    communityIds = communityIds,
-                ) ?: MultiCommunityModel(
-                    name = name,
-                    icon = icon,
-                    communityIds = communityIds,
-                )
-            val accountId = accountRepository.getActive()?.id ?: return@launch
-            if (multiCommunity.id == null) {
-                val id = multiCommunityRepository.create(multiCommunity, accountId)
-                notificationCenter.send(
-                    NotificationCenterEvent.MultiCommunityCreated(multiCommunity.copy(id = id)),
-                )
-            } else {
-                multiCommunityRepository.update(multiCommunity)
-                notificationCenter.send(NotificationCenterEvent.MultiCommunityCreated(multiCommunity))
-            }
-            emitEffect(MultiCommunityEditorMviModel.Effect.Close)
-        }
-    }
-}

@@ -43,7 +43,7 @@ class BarThemeBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHeader(LocalXmlStrings.current.settingsBarTheme,)
+            BottomSheetHeader(LocalXmlStrings.current.settingsBarTheme)
             val values = listOf(
                 UiBarTheme.Transparent,
                 UiBarTheme.Opaque,
@@ -62,7 +62,7 @@ class BarThemeBottomSheet : Screen {
                             .onClick(
                                 onClick = {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeSystemBarTheme(value)
+                                        NotificationCenterEvent.ChangeSystemBarTheme(value),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

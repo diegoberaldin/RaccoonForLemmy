@@ -12,7 +12,6 @@ import io.ktor.utils.io.core.*
 import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
-
 @Composable
 fun String.toLanguageName() = when (this) {
     Locales.Ar -> "العربية"
@@ -91,7 +90,7 @@ fun String.toLanguageFlag(): AnnotatedString = when (this) {
 }.let {
     AnnotatedString(
         text = it,
-        spanStyle = SpanStyle(fontFamily = FontFamily.Default)
+        spanStyle = SpanStyle(fontFamily = FontFamily.Default),
     )
 }
 
@@ -174,7 +173,6 @@ val String.showInEmbeddedWebView: Boolean
         )
         return patterns.any { this.contains(it) }
     }
-
 
 fun String?.ellipsize(length: Int = 100, ellipsis: String = "…"): String {
     if (isNullOrEmpty() || length == 0) {

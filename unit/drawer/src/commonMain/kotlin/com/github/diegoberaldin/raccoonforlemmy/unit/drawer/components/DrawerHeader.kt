@@ -48,7 +48,7 @@ internal fun DrawerHeader(
             bottom = Spacing.s,
         ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.m)
+        horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {
         if (user != null) {
             // avatar

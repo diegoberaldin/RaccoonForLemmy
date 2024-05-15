@@ -86,7 +86,7 @@ fun UserHeader(
         Row(
             modifier = Modifier.fillMaxWidth().padding(Spacing.s).align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.m)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.m),
         ) {
             // avatar
             val userAvatar = user.avatar.orEmpty()
@@ -142,7 +142,7 @@ fun UserHeader(
                         Icon(
                             modifier = Modifier.size(iconSize),
                             imageVector = Icons.AutoMirrored.Default.Article,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Text(
                             text = postScore.getPrettyNumber(
@@ -160,7 +160,7 @@ fun UserHeader(
                         Icon(
                             modifier = Modifier.size(iconSize),
                             imageVector = Icons.AutoMirrored.Default.Reply,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Text(
                             text = commentScore.getPrettyNumber(
@@ -179,7 +179,7 @@ fun UserHeader(
                         Icon(
                             modifier = Modifier.size(iconSize),
                             imageVector = Icons.Default.Cake,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                         Text(
                             text = user.accountAge.prettifyDate(),

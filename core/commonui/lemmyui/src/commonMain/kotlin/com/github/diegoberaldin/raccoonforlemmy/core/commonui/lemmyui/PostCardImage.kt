@@ -67,8 +67,8 @@ fun PostCardImage(
                         initialValue = 0f,
                         targetValue = 1f,
                         animationSpec = InfiniteRepeatableSpec(
-                            animation = tween(1000)
-                        )
+                            animation = tween(1000),
+                        ),
                     )
                     res
                 }

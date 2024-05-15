@@ -228,7 +228,7 @@ fun InboxReplySubtitle(
                                 ),
                             imageVector = Icons.Default.MoreHoriz,
                             contentDescription = null,
-                            tint = ancillaryColor
+                            tint = ancillaryColor,
                         )
                     }
                     Spacer(modifier = Modifier.weight(1f))

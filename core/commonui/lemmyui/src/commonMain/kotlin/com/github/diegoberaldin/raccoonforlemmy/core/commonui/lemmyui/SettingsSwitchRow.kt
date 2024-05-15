@@ -46,7 +46,7 @@ fun SettingsSwitchRow(
             checked = value,
             onCheckedChange = {
                 onValueChanged(it)
-            }
+            },
         )
     }
 }

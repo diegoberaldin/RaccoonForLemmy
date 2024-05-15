@@ -62,7 +62,7 @@ internal class DefaultIdentityRepository(
         val remoteUser = siteRepository.getCurrentUser(auth)?.let { user ->
             val communities = userRepository.getModeratedCommunities(auth, id = user.id)
             user.copy(
-                moderator = communities.isNotEmpty()
+                moderator = communities.isNotEmpty(),
             )
         }
         cachedUser = remoteUser

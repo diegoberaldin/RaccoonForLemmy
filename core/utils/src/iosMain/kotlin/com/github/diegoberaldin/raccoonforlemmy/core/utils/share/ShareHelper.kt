@@ -22,8 +22,6 @@ class DefaultShareHelper : ShareHelper {
     }
 }
 
-
-
 actual fun getShareHelper(): ShareHelper = ShareHelperInjectHelper.shareHelper
 
 private object ShareHelperInjectHelper : KoinComponent {

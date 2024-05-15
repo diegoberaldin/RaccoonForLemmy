@@ -75,7 +75,7 @@ class ResultTypeBottomSheet(
                                         NotificationCenterEvent.ChangeSearchResultType(
                                             value = value,
                                             screenKey = screenKey,
-                                        )
+                                        ),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

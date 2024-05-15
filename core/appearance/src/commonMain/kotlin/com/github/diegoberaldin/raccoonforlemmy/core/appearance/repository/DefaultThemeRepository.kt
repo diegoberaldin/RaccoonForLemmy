@@ -7,7 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiFontFamil
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 
-
 internal class DefaultThemeRepository : ThemeRepository {
 
     override val uiTheme = MutableStateFlow<UiTheme?>(null)

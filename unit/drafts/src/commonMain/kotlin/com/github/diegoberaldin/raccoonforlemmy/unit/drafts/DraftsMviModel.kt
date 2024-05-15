@@ -11,7 +11,8 @@ sealed interface DraftsSection {
     data object Comments : DraftsSection
 }
 
-interface DraftsMviModel : ScreenModel,
+interface DraftsMviModel :
+    ScreenModel,
     MviModel<DraftsMviModel.Intent, DraftsMviModel.State, DraftsMviModel.Effect> {
     sealed interface Intent {
         data object Refresh : Intent

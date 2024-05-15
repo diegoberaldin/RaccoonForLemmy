@@ -205,7 +205,6 @@ class DefaultNavigationCoordinatorTest {
         }
     }
 
-
     @Test
     fun whenShowBottomSheet_thenInteractionsAreAsExpected() = runTest {
         val screen = object : Screen {

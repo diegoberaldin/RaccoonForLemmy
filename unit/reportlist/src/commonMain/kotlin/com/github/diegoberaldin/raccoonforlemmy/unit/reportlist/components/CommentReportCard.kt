@@ -48,6 +48,6 @@ internal fun CommentReportCard(
                     )
                 }
             }
-        }
+        },
     )
 }

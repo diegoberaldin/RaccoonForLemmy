@@ -217,7 +217,8 @@ class DefaultCommentRepositoryTest {
         val token = "fake-token"
         coEvery {
             commentService.like(
-                any(), any()
+                any(),
+                any(),
             )
         } returns mockk {
             every { isSuccessful } returns true
@@ -237,7 +238,7 @@ class DefaultCommentRepositoryTest {
                     commentId = 1,
                     score = 1,
                     auth = token,
-                )
+                ),
             )
         }
     }
@@ -286,7 +287,8 @@ class DefaultCommentRepositoryTest {
         val token = "fake-token"
         coEvery {
             commentService.like(
-                any(), any()
+                any(),
+                any(),
             )
         } returns mockk {
             every { isSuccessful } returns true
@@ -306,7 +308,7 @@ class DefaultCommentRepositoryTest {
                     commentId = 1,
                     score = -1,
                     auth = token,
-                )
+                ),
             )
         }
     }
@@ -343,7 +345,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(postId, data.postId)
                     assertEquals(parentId, data.parentId)
                     assertEquals(text, data.content)
-                }
+                },
             )
         }
     }
@@ -366,7 +368,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(token, data.auth)
                     assertEquals(itemId, data.commentId)
                     assertEquals(text, data.content)
-                }
+                },
             )
         }
     }
@@ -386,7 +388,7 @@ class DefaultCommentRepositoryTest {
                 form = withArg { data ->
                     assertEquals(itemId, data.commentId)
                     assertTrue(data.deleted)
-                }
+                },
             )
         }
     }
@@ -409,7 +411,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(itemId, data.commentId)
                     assertEquals(token, data.auth)
                     assertEquals(reason, data.reason)
-                }
+                },
             )
         }
     }
@@ -434,7 +436,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(reason, data.reason)
                     assertEquals(token, data.auth)
                     assertTrue(data.removed)
-                }
+                },
             )
         }
     }
@@ -456,7 +458,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(itemId, data.commentId)
                     assertEquals(token, data.auth)
                     assertTrue(data.distinguished)
-                }
+                },
             )
         }
     }
@@ -501,7 +503,7 @@ class DefaultCommentRepositoryTest {
                     assertEquals(itemId, data.reportId)
                     assertEquals(token, data.auth)
                     assertTrue(data.resolved)
-                }
+                },
             )
         }
     }

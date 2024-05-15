@@ -65,7 +65,7 @@ class DefaultGalleryHelper(
                 if (uri != null) {
                     resolver.takePersistableUriPermission(
                         uri,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION,
                     )
 
                     scope.launch(Dispatchers.IO) {

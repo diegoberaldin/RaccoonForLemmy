@@ -26,7 +26,6 @@ fun Int.toFilteredContentsType(): FilteredContentsType = when (this) {
     else -> FilteredContentsType.Moderated
 }
 
-
 sealed interface FilteredContentsSection {
     data object Posts : FilteredContentsSection
     data object Comments : FilteredContentsSection

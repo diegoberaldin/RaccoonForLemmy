@@ -249,7 +249,7 @@ class InboxMentionsScreen : Tab {
                                         ZoomableImageScreen(
                                             url = url,
                                             source = mention.post.community?.readableHandle.orEmpty(),
-                                        )
+                                        ),
                                     )
                                 },
                                 onUpVote = rememberCallback(model) {
@@ -257,7 +257,7 @@ class InboxMentionsScreen : Tab {
                                 },
                                 onDownVote = rememberCallback(model) {
                                     model.reduce(
-                                        InboxMentionsMviModel.Intent.DownVoteComment(mention.id)
+                                        InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
                                     )
                                 },
                                 onReply = rememberCallback {
@@ -275,7 +275,7 @@ class InboxMentionsScreen : Tab {
                                             } else {
                                                 LocalXmlStrings.current.inboxActionMarkRead
                                             },
-                                        )
+                                        ),
                                     )
                                 },
                                 onOptionSelected = rememberCallbackArgs(model) { optionId ->

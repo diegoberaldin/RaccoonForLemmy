@@ -38,7 +38,7 @@ fun InboxCardPlaceholder(
                     .padding(Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -47,7 +47,7 @@ fun InboxCardPlaceholder(
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
@@ -55,14 +55,14 @@ fun InboxCardPlaceholder(
                 .height(50.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

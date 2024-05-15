@@ -33,16 +33,16 @@ fun Modifier.shimmerEffect(
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
-            animation = tween(duration)
-        )
+            animation = tween(duration),
+        ),
     )
 
     return this then background(
         brush = Brush.linearGradient(
             colors = colors,
             start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat())
-        )
+            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
+        ),
     ).alpha(0.5f).onGloballyPositioned {
         size = it.size
     }

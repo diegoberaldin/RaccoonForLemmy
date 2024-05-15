@@ -107,7 +107,7 @@ fun CustomMarkdownWrapper(
                 else -> {
                     MarkdownParagraph(
                         content = model.content,
-                        node = model.node
+                        node = model.node,
                     )
                 }
             }

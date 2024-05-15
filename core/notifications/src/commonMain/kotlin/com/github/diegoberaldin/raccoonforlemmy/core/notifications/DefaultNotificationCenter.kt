@@ -59,4 +59,3 @@ private fun <T : NotificationCenterEvent> isReplayable(clazz: KClass<T>): Boolea
         else -> false
     }
 }
-

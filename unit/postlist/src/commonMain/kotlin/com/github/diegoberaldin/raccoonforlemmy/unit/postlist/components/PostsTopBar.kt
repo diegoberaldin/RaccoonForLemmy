@@ -130,7 +130,9 @@ internal fun PostsTopBar(
                                     onSelectInstance.invoke()
                                 },
                             )
-                        } else Modifier
+                        } else {
+                            Modifier
+                        },
                     ),
                     text = buildString {
                         append(LocalXmlStrings.current.homeInstanceVia)
@@ -150,7 +152,7 @@ internal fun PostsTopBar(
                         append("(")
                         append(additionalLabel)
                         append(")")
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.width(Spacing.xs))
             }

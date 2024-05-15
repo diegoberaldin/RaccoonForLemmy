@@ -154,7 +154,7 @@ object ProfileLoggedScreen : Tab {
                                             ZoomableImageScreen(
                                                 url = url,
                                                 source = uiState.user?.readableHandle.orEmpty(),
-                                            )
+                                            ),
                                         )
                                     },
                                 )
@@ -189,7 +189,7 @@ object ProfileLoggedScreen : Tab {
                                         else -> ProfileLoggedSection.Posts
                                     }
                                     model.reduce(
-                                        ProfileLoggedMviModel.Intent.ChangeSection(section)
+                                        ProfileLoggedMviModel.Intent.ChangeSection(section),
                                     )
                                 },
                             )
@@ -244,7 +244,7 @@ object ProfileLoggedScreen : Tab {
                                     },
                                     onOpenWeb = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
-                                            WebViewScreen(url)
+                                            WebViewScreen(url),
                                         )
                                     },
                                     onOpenImage = rememberCallbackArgs { url ->
@@ -259,21 +259,21 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVotePost(
                                                 id = post.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVotePost(
                                                 id = post.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SavePost(
                                                 id = post.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     options = buildList {
@@ -281,31 +281,31 @@ object ProfileLoggedScreen : Tab {
                                             Option(
                                                 OptionId.Share,
                                                 LocalXmlStrings.current.postActionShare,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.CrossPost,
                                                 LocalXmlStrings.current.postActionCrossPost,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
                                                 LocalXmlStrings.current.postActionSeeRaw,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
                                                 LocalXmlStrings.current.postActionEdit,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
                                                 LocalXmlStrings.current.commentActionDelete,
-                                            )
+                                            ),
                                         )
                                     },
                                     onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -334,13 +334,13 @@ object ProfileLoggedScreen : Tab {
                                             OptionId.Share -> {
                                                 val urls = listOfNotNull(
                                                     post.originalUrl,
-                                                    "https://${uiState.instance}/post/${post.id}"
+                                                    "https://${uiState.instance}/post/${post.id}",
                                                 ).distinct()
                                                 if (urls.size == 1) {
                                                     model.reduce(
                                                         ProfileLoggedMviModel.Intent.Share(
-                                                            urls.first()
-                                                        )
+                                                            urls.first(),
+                                                        ),
                                                     )
                                                 } else {
                                                     val screen = ShareBottomSheet(urls = urls)
@@ -403,7 +403,7 @@ object ProfileLoggedScreen : Tab {
                                             ZoomableImageScreen(
                                                 url = url,
                                                 source = comment.community?.readableHandle.orEmpty(),
-                                            )
+                                            ),
                                         )
                                     },
                                     onOpenCommunity = rememberCallbackArgs { community, instance ->
@@ -425,21 +425,21 @@ object ProfileLoggedScreen : Tab {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.UpVoteComment(
                                                 id = comment.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     onDownVote = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.DownVoteComment(
                                                 id = comment.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     onSave = rememberCallback(model) {
                                         model.reduce(
                                             ProfileLoggedMviModel.Intent.SaveComment(
                                                 id = comment.id,
-                                            )
+                                            ),
                                         )
                                     },
                                     options = buildList {
@@ -447,19 +447,19 @@ object ProfileLoggedScreen : Tab {
                                             Option(
                                                 OptionId.SeeRaw,
                                                 LocalXmlStrings.current.postActionSeeRaw,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.Edit,
                                                 LocalXmlStrings.current.postActionEdit,
-                                            )
+                                            ),
                                         )
                                         add(
                                             Option(
                                                 OptionId.Delete,
                                                 LocalXmlStrings.current.commentActionDelete,
-                                            )
+                                            ),
                                         )
                                     },
                                     onOptionSelected = rememberCallbackArgs(model) { optionId ->
@@ -484,7 +484,7 @@ object ProfileLoggedScreen : Tab {
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                    thickness = 0.25.dp
+                                    thickness = 0.25.dp,
                                 )
                             }
 

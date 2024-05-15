@@ -85,7 +85,7 @@ fun CommunityHeader(
         Row(
             modifier = Modifier.fillMaxWidth().padding(Spacing.s).align(Alignment.Center),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.m)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.m),
         ) {
             val communityIcon = community.icon.orEmpty()
 

@@ -55,7 +55,7 @@ internal fun SettingsColorRow(
             modifier = Modifier
                 .padding(start = Spacing.xs)
                 .size(36.dp)
-                .background(color = value, shape = CircleShape)
+                .background(color = value, shape = CircleShape),
         )
     }
 }

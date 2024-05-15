@@ -46,14 +46,14 @@ fun CommunityItemPlaceholder() {
                     .height(40.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
             Box(
                 modifier = Modifier
                     .height(20.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
         }
     }

@@ -109,7 +109,7 @@ class LicencesScreen : Screen {
                                         )
                                     }
                                 },
-                            )
+                            ),
                     )
                 }
                 item {

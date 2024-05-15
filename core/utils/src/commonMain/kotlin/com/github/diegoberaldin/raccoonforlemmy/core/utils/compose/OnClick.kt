@@ -25,5 +25,5 @@ fun Modifier.onClick(
     },
     onLongClick = rememberCallback(key) {
         onLongClick()
-    }
+    },
 )

@@ -82,7 +82,7 @@ class AboutDialog : Screen {
                     modifier = Modifier
                         .padding(vertical = Spacing.s, horizontal = Spacing.m)
                         .heightIn(max = 400.dp),
-                    verticalArrangement = Arrangement.spacedBy(Spacing.xs)
+                    verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {
                         AboutItem(
@@ -105,7 +105,7 @@ class AboutDialog : Screen {
                                         navigationCoordinator.pushScreen(WebViewScreen(url))
                                     },
                                 )
-                            }
+                            },
                         )
                     }
                     item {
@@ -186,7 +186,7 @@ class AboutDialog : Screen {
                             onClick = {
                                 detailOpener.openCommunityDetail(
                                     community = CommunityModel(name = AboutConstants.LEMMY_COMMUNITY_NAME),
-                                    otherInstance = AboutConstants.LEMMY_COMMUNITY_INSTANCE
+                                    otherInstance = AboutConstants.LEMMY_COMMUNITY_INSTANCE,
                                 )
                             },
                         )
@@ -214,4 +214,3 @@ class AboutDialog : Screen {
         }
     }
 }
-

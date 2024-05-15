@@ -26,7 +26,7 @@ internal fun ContentPreview(
     showScores: Boolean,
     voteFormat: VoteFormat,
     fullHeightImage: Boolean,
-    fullWidthImage : Boolean,
+    fullWidthImage: Boolean,
     commentBarThickness: Int,
     commentIndentAmount: Int,
 ) {
@@ -59,7 +59,7 @@ internal fun ContentPreview(
         )
         HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
-            thickness = 0.25.dp
+            thickness = 0.25.dp,
         )
         CommentCard(
             comment = ContentPreviewData.comment2,
@@ -72,7 +72,7 @@ internal fun ContentPreview(
         )
         HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
-            thickness = 0.25.dp
+            thickness = 0.25.dp,
         )
         CommentCard(
             comment = ContentPreviewData.comment3,

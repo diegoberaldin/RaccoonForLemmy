@@ -76,7 +76,7 @@ class ListingTypeBottomSheet(
                                         NotificationCenterEvent.ChangeFeedType(
                                             value = value,
                                             screenKey = screenKey,
-                                        )
+                                        ),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

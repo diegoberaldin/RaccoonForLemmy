@@ -66,12 +66,12 @@ fun FloatingActionButtonMenu(
     val enterTransition = remember {
         fadeIn(
             initialAlpha = 0.3f,
-            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing)
+            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
         )
     }
     val exitTransition = remember {
         fadeOut(
-            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing)
+            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
         )
     }
     val numberOfItems by animateIntAsState(
@@ -79,7 +79,7 @@ fun FloatingActionButtonMenu(
         animationSpec = tween(
             durationMillis = ANIMATION_DURATION * items.size,
             easing = LinearEasing,
-        )
+        ),
     )
     val indices: List<Int> = if (numberOfItems == 0) {
         emptyList()
@@ -104,7 +104,7 @@ fun FloatingActionButtonMenu(
                 AnimatedVisibility(
                     visible = idx in indices,
                     enter = enterTransition,
-                    exit = exitTransition
+                    exit = exitTransition,
                 ) {
                     Row(
                         modifier = Modifier.onClick(
@@ -114,7 +114,7 @@ fun FloatingActionButtonMenu(
                             },
                         ).padding(end = 15.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.xxs)
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         Text(
                             modifier = Modifier
@@ -124,7 +124,7 @@ fun FloatingActionButtonMenu(
                                     shape = RoundedCornerShape(CornerSize.s),
                                 ).padding(
                                     vertical = Spacing.xs,
-                                    horizontal = Spacing.s
+                                    horizontal = Spacing.s,
                                 ),
                             text = item.text,
                             style = MaterialTheme.typography.bodyMedium,
@@ -135,7 +135,7 @@ fun FloatingActionButtonMenu(
                                 .size(IconSize.m)
                                 .background(
                                     color = MaterialTheme.colorScheme.primaryContainer,
-                                    shape = CircleShape
+                                    shape = CircleShape,
                                 ).padding(6.dp),
                             imageVector = item.icon,
                             contentDescription = null,
@@ -147,12 +147,11 @@ fun FloatingActionButtonMenu(
             Spacer(modifier = Modifier.height(Spacing.xxs))
         }
 
-
         val fabContainerColor = when (theme) {
             UiTheme.Black -> schemeProvider.getColorScheme(
                 theme = UiTheme.Dark,
                 dynamic = dynamicColors,
-                customSeed = seedColor
+                customSeed = seedColor,
             ).primaryContainer
 
             else -> MaterialTheme.colorScheme.primaryContainer

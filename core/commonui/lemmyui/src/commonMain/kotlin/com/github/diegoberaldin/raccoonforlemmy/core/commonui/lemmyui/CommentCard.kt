@@ -89,11 +89,11 @@ fun CommentCard(
         Box(
             modifier = Modifier.onClick(
                 onClick = onClick ?: {},
-                onDoubleClick = onDoubleClick ?: {}
+                onDoubleClick = onDoubleClick ?: {},
             ).padding(
                 start = indentAmount.takeIf { it > 0 }?.let {
                     (it * comment.depth).dp + Spacing.xxxs
-                } ?: 0.dp
+                } ?: 0.dp,
             ),
         ) {
             Column(
@@ -184,7 +184,7 @@ fun CommentCard(
                         .padding(top = Spacing.xxs)
                         .width(barWidth)
                         .height(commentHeight.toLocalDp())
-                        .background(color = barColor, shape = RoundedCornerShape(barWidth / 2))
+                        .background(color = barColor, shape = RoundedCornerShape(barWidth / 2)),
                 )
             }
         }

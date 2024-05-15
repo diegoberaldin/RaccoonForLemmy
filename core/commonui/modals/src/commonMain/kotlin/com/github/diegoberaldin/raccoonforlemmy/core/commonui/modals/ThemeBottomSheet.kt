@@ -70,7 +70,7 @@ class ThemeBottomSheet : Screen {
                             .onClick(
                                 onClick = {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeTheme(value)
+                                        NotificationCenterEvent.ChangeTheme(value),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

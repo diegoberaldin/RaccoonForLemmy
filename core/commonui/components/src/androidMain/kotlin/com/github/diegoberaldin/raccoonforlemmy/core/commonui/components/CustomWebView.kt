@@ -41,7 +41,7 @@ actual fun CustomWebView(
             WebView(context).apply {
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
+                    ViewGroup.LayoutParams.MATCH_PARENT,
                 )
                 webViewClient = object : WebViewClient() {
                     override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
@@ -55,7 +55,8 @@ actual fun CustomWebView(
                         available = Offset(
                             x = (oldScrollX - scrollX) / density,
                             y = (oldScrollY - scrollY) / density,
-                        ), source = NestedScrollSource.Drag
+                        ),
+                        source = NestedScrollSource.Drag,
                     )
                 }
 

@@ -34,7 +34,6 @@ private val defaultChoices: List<Int> = listOf(
     UiFontFamily.Default,
 ).map { it.toInt() }
 
-
 class FontFamilyBottomSheet(
     private val values: List<Int> = defaultChoices,
     private val content: Boolean = false,

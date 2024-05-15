@@ -4,10 +4,7 @@ import java.text.SimpleDateFormat
 import java.time.Period
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.GregorianCalendar
-import java.util.Locale
-import java.util.TimeZone
+import java.util.*
 
 actual fun epochMillis(): Long = System.currentTimeMillis()
 
@@ -49,38 +46,44 @@ actual fun getPrettyDate(
     val minutes = ((diffSeconds % 3600) / 60) % 60
     val seconds = diffSeconds % 60
     return when {
-        years >= 1 -> buildString {
-            append("${years}$yearLabel")
-            if (months >= 1) {
-                append(" ${months}$monthLabel")
+        years >= 1 ->
+            buildString {
+                append("${years}$yearLabel")
+                if (months >= 1) {
+                    append(" ${months}$monthLabel")
+                }
+                if (days >= 1) {
+                    append(" ${days}$dayLabel")
+                }
             }
-            if (days >= 1) {
-                append(" ${days}$dayLabel")
+
+        months >= 1 ->
+            buildString {
+                append("${months}$monthLabel")
+                if (days >= 1) {
+                    append(" ${days}$dayLabel")
+                }
             }
-        }
 
-        months >= 1 -> buildString {
-            append("${months}$monthLabel")
-            if (days >= 1) {
-                append(" ${days}$dayLabel")
+        days >= 1 ->
+            buildString {
+                append("${days}$dayLabel")
             }
-        }
 
-        days >= 1 -> buildString {
-            append("${days}$dayLabel")
-        }
+        hours >= 1 ->
+            buildString {
+                append(" ${hours}$hourLabel")
+            }
 
-        hours >= 1 -> buildString {
-            append(" ${hours}$hourLabel")
-        }
+        minutes >= 1 ->
+            buildString {
+                append(" ${minutes}$minuteLabel")
+            }
 
-        minutes >= 1 -> buildString {
-            append(" ${minutes}$minuteLabel")
-        }
-
-        else -> buildString {
-            append(" ${seconds}$secondLabel")
-        }
+        else ->
+            buildString {
+                append(" ${seconds}$secondLabel")
+            }
     }
 }
 

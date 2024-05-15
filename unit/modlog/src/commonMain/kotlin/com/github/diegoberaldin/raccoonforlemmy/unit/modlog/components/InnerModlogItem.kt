@@ -79,7 +79,7 @@ internal fun InnerModlogItem(
                     .padding(horizontal = Spacing.xs)
                     .shadow(
                         elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l)
+                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .padding(horizontal = Spacing.xs)
@@ -90,7 +90,7 @@ internal fun InnerModlogItem(
                     .padding(vertical = Spacing.xs)
             } else {
                 Modifier.background(MaterialTheme.colorScheme.background)
-            }
+            },
         ),
     ) {
         Column(
@@ -119,7 +119,7 @@ internal fun InnerModlogItem(
                             .padding(
                                 vertical = Spacing.xs,
                                 horizontal = Spacing.xs,
-                            )
+                            ),
                     ) {
                         innerContent()
                     }
@@ -219,7 +219,7 @@ private fun ModlogFooter(
                     modifier = Modifier.padding(start = Spacing.xxs),
                     text = date?.prettifyDate() ?: "",
                     style = MaterialTheme.typography.labelMedium,
-                    color = ancillaryColor
+                    color = ancillaryColor,
                 )
             }
             if (options.isNotEmpty()) {

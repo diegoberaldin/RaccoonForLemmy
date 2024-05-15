@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerCoordinato
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
 import org.koin.java.KoinJavaComponent.inject
 
-
 actual fun getNavigationCoordinator(): NavigationCoordinator {
     val res: NavigationCoordinator by inject(NavigationCoordinator::class.java)
     return res

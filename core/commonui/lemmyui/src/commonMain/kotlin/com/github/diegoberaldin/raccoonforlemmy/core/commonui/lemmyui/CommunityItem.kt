@@ -74,7 +74,7 @@ fun CommunityItem(
                 Modifier
             } else {
                 Modifier.padding(Spacing.s)
-            }
+            },
         ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -150,7 +150,7 @@ fun CommunityItem(
                     modifier = Modifier
                         .size(IconSize.m)
                         .onClick(
-                            onClick = { onSubscribe?.invoke() }
+                            onClick = { onSubscribe?.invoke() },
                         ),
                     imageVector = when (community.subscribed) {
                         true -> {

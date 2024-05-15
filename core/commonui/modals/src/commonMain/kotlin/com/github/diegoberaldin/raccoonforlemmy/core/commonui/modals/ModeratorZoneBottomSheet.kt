@@ -63,7 +63,7 @@ class ModeratorZoneBottomSheet : Screen {
                             notificationCenter.send(
                                 NotificationCenterEvent.ModeratorZoneActionSelected(
                                     value.toInt(),
-                                )
+                                ),
                             )
                         },
                     )

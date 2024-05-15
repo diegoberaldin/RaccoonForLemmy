@@ -39,7 +39,7 @@ fun DraftCardPlaceHolder(
                     .padding(Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -49,7 +49,7 @@ fun DraftCardPlaceHolder(
                 .height(14.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
@@ -57,14 +57,14 @@ fun DraftCardPlaceHolder(
                 .height(50.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

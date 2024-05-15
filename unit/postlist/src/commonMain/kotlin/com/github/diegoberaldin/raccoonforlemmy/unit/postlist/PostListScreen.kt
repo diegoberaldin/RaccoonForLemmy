@@ -209,7 +209,7 @@ class PostListScreen : Screen {
                     onSelectListingType = rememberCallback {
                         val sheet = ListingTypeBottomSheet(
                             isLogged = uiState.isLogged,
-                            screenKey = "postList"
+                            screenKey = "postList",
                         )
                         navigationCoordinator.showBottomSheet(sheet)
                     },
@@ -217,7 +217,9 @@ class PostListScreen : Screen {
                         rememberCallback {
                             navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
                         }
-                    } else null,
+                    } else {
+                        null
+                    },
                     onSelectSortType = rememberCallback {
                         val sheet = SortBottomSheet(
                             values = uiState.availableSortTypes.map { it.toInt() },
@@ -299,7 +301,7 @@ class PostListScreen : Screen {
                                     },
                                 )
                             }
-                        }
+                        },
                     )
                 }
             },
@@ -320,13 +322,13 @@ class PostListScreen : Screen {
                                 Modifier.nestedScroll(connection)
                             } else {
                                 Modifier
-                            }
+                            },
                         ).then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
@@ -352,8 +354,10 @@ class PostListScreen : Screen {
                             items = uiState.posts,
                             // isLogged is added to the key to force swipe action refresh
                             key = {
-                                it.id.toString() + (it.updateDate
-                                    ?: it.publishDate) + uiState.isLogged
+                                it.id.toString() + (
+                                    it.updateDate
+                                        ?: it.publishDate
+                                    ) + uiState.isLogged
                             },
                         ) { post ->
                             LaunchedEffect(post.id) {
@@ -392,8 +396,8 @@ class PostListScreen : Screen {
                                             onTriggered = rememberCallback {
                                                 model.reduce(
                                                     PostListMviModel.Intent.DownVotePost(
-                                                        post.id
-                                                    )
+                                                        post.id,
+                                                    ),
                                                 )
                                             },
                                         )
@@ -425,7 +429,6 @@ class PostListScreen : Screen {
                                                 model.reduce(PostListMviModel.Intent.SavePost(post.id))
                                             },
                                         )
-
 
                                         else -> null
                                     }
@@ -492,7 +495,7 @@ class PostListScreen : Screen {
                                         },
                                         onOpenWeb = rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(
-                                                WebViewScreen(url)
+                                                WebViewScreen(url),
                                             )
                                         },
                                         onUpVote = rememberCallback(model) {
@@ -527,7 +530,7 @@ class PostListScreen : Screen {
                                                 ZoomableImageScreen(
                                                     url = url,
                                                     source = post.community?.readableHandle.orEmpty(),
-                                                )
+                                                ),
                                             )
                                         },
                                         options = buildList {
@@ -605,20 +608,20 @@ class PostListScreen : Screen {
 
                                                 OptionId.Hide -> model.reduce(
                                                     PostListMviModel.Intent.Hide(
-                                                        post.id
-                                                    )
+                                                        post.id,
+                                                    ),
                                                 )
 
                                                 OptionId.Share -> {
                                                     val urls = listOfNotNull(
                                                         post.originalUrl,
-                                                        "https://${uiState.instance}/post/${post.id}"
+                                                        "https://${uiState.instance}/post/${post.id}",
                                                     ).distinct()
                                                     if (urls.size == 1) {
                                                         model.reduce(
                                                             PostListMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
+                                                                urls.first(),
+                                                            ),
                                                         )
                                                     } else {
                                                         val screen = ShareBottomSheet(urls = urls)
@@ -629,11 +632,11 @@ class PostListScreen : Screen {
                                                 OptionId.Block -> {
                                                     val screen = BlockBottomSheet(
                                                         userName = post.creator?.readableName(
-                                                            uiState.preferNicknames
+                                                            uiState.preferNicknames,
                                                         ),
                                                         userId = post.creator?.id,
                                                         communityName = post.community?.readableName(
-                                                            uiState.preferNicknames
+                                                            uiState.preferNicknames,
                                                         ),
                                                         communityId = post.community?.id,
                                                         instanceName = post.community?.host,
@@ -651,7 +654,7 @@ class PostListScreen : Screen {
                                                     ).distinct()
                                                     if (texts.size == 1) {
                                                         model.reduce(
-                                                            PostListMviModel.Intent.Copy(texts.first())
+                                                            PostListMviModel.Intent.Copy(texts.first()),
                                                         )
                                                     } else {
                                                         val screen = CopyPostBottomSheet(
@@ -664,7 +667,7 @@ class PostListScreen : Screen {
 
                                                 else -> Unit
                                             }
-                                        }
+                                        },
                                     )
                                 },
                             )
@@ -787,7 +790,7 @@ class PostListScreen : Screen {
                                     },
                                 )
                             }
-                        }
+                        },
                     )
                 }
             }

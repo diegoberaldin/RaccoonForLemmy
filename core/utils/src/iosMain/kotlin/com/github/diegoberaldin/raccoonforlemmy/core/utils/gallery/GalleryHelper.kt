@@ -29,7 +29,8 @@ typealias ImageBytes = NSData
 
 fun ByteArray.toImageBytes(): ImageBytes = memScoped {
     return NSData.create(
-        bytes = allocArrayOf(this@toImageBytes), length = this@toImageBytes.size.toULong()
+        bytes = allocArrayOf(this@toImageBytes),
+        length = this@toImageBytes.size.toULong(),
     )
 }
 
@@ -64,7 +65,6 @@ class DefaultGalleryHelper : GalleryHelper {
                         ) { data, _ ->
                             val bytes = data?.toByteArray() ?: byteArrayOf()
                             result(bytes)
-
                         }
                     } else {
                         result(byteArrayOf())
@@ -79,7 +79,7 @@ class DefaultGalleryHelper : GalleryHelper {
             uiViewController.presentViewController(
                 pickerController,
                 animated = true,
-                completion = null
+                completion = null,
             )
         }
     }

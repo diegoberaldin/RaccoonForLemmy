@@ -100,7 +100,7 @@ class LanguageBottomSheet : Screen {
                             .onClick(
                                 onClick = {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeLanguage(value)
+                                        NotificationCenterEvent.ChangeLanguage(value),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

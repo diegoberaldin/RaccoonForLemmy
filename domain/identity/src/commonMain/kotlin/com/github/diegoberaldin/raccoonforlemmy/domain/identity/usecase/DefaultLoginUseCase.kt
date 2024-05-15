@@ -50,7 +50,7 @@ internal class DefaultLoginUseCase(
             val account = AccountModel(
                 username = username,
                 instance = instance,
-                jwt = auth
+                jwt = auth,
             )
             val existingId = accountRepository.getBy(username, instance)?.id
             val id = existingId ?: run {

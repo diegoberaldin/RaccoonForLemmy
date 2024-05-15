@@ -51,7 +51,7 @@ fun SettingsIntValueRow(
             }
         }
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             FeedbackButton(
                 imageVector = Icons.Default.RemoveCircleOutline,

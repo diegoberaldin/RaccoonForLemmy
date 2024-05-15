@@ -36,7 +36,7 @@ actual fun VideoPlayer(
                 val defaultDataSourceFactory = DefaultDataSource.Factory(context)
                 val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
                     context,
-                    defaultDataSourceFactory
+                    defaultDataSourceFactory,
                 )
                 val source = ProgressiveMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(MediaItem.fromUri(url))
@@ -72,7 +72,7 @@ actual fun VideoPlayer(
                 player = exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             }
-        }
+        },
     )
 
     DisposableEffect(Unit) {

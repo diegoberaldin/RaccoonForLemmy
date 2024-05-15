@@ -76,7 +76,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class EditCommunityScreen(
-    private val communityId: Long
+    private val communityId: Long,
 ) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -176,8 +176,8 @@ class EditCommunityScreen(
                             initialValue = 0f,
                             targetValue = 360f,
                             animationSpec = InfiniteRepeatableSpec(
-                                animation = tween(1000)
-                            )
+                                animation = tween(1000),
+                            ),
                         )
                         Icon(
                             modifier = Modifier
@@ -185,13 +185,13 @@ class EditCommunityScreen(
                                 .then(
                                     if (!uiState.loading) {
                                         Modifier
-                                    } else Modifier.rotate(iconRotate)
+                                    } else Modifier.rotate(iconRotate),
                                 ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                    }
+                    },
                 )
             },
             snackbarHost = {
@@ -212,8 +212,8 @@ class EditCommunityScreen(
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
-                    )
+                        },
+                    ),
             ) {
                 Column(
                     modifier = Modifier
@@ -236,7 +236,7 @@ class EditCommunityScreen(
                         url = uiState.icon,
                         onEdit = rememberCallback {
                             openIconPicker = true
-                        }
+                        },
                     )
 
                     // banner
@@ -247,7 +247,7 @@ class EditCommunityScreen(
                         url = uiState.banner,
                         onEdit = rememberCallback {
                             openBannerPicker = true
-                        }
+                        },
                     )
 
                     SettingsHeader(
@@ -319,7 +319,7 @@ class EditCommunityScreen(
                     newValue?.also {
                         model.reduce(EditCommunityMviModel.Intent.ChangeTitle(it))
                     }
-                }
+                },
             )
         }
 

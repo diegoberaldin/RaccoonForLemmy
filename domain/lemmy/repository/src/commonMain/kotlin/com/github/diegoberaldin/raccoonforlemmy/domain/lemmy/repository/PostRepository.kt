@@ -36,7 +36,7 @@ interface PostRepository {
     suspend fun upVote(
         post: PostModel,
         auth: String,
-        voted: Boolean
+        voted: Boolean,
     ): Result<Response<PostResponse>>
 
     fun asDownVoted(post: PostModel, downVoted: Boolean): PostModel
@@ -44,7 +44,7 @@ interface PostRepository {
     suspend fun downVote(
         post: PostModel,
         auth: String,
-        downVoted: Boolean
+        downVoted: Boolean,
     ): Result<Response<PostResponse>>
 
     fun asSaved(post: PostModel, saved: Boolean): PostModel
@@ -74,7 +74,7 @@ interface PostRepository {
     suspend fun setRead(
         read: Boolean,
         postId: Long,
-        auth: String? = null
+        auth: String? = null,
     ): Result<Response<PostResponse>>
 
     suspend fun delete(id: Long, auth: String)

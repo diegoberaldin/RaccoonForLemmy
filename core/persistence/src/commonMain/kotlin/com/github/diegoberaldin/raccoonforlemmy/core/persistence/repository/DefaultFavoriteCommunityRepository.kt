@@ -37,7 +37,7 @@ internal class DefaultFavoriteCommunityRepository(
             )
             val id = db.favoritecommunitiesQueries.getBy(
                 communityId = communityId,
-                account_id = accountId
+                account_id = accountId,
             ).executeAsOneOrNull()?.id
             id ?: 0L
         }
@@ -47,11 +47,10 @@ internal class DefaultFavoriteCommunityRepository(
             val communityId = model.communityId?.toLong() ?: return@withContext
             val id = db.favoritecommunitiesQueries.getBy(
                 communityId = communityId,
-                account_id = accountId
+                account_id = accountId,
             ).executeAsOneOrNull()?.id ?: return@withContext
             db.favoritecommunitiesQueries.delete(id)
         }
-
 }
 
 private fun FavoriteCommunityEntity.toModel() = FavoriteCommunityModel(

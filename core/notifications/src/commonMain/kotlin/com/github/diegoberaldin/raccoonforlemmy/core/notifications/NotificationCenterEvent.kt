@@ -25,7 +25,7 @@ sealed interface NotificationCenterEvent {
     data class ChangeSortType(
         val value: SortType,
         val defaultForCommunity: Boolean,
-        val screenKey: String?
+        val screenKey: String?,
     ) :
         NotificationCenterEvent
 

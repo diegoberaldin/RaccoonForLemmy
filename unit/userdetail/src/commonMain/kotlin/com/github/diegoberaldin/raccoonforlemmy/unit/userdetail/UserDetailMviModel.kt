@@ -71,6 +71,6 @@ interface UserDetailMviModel :
         data object Success : Effect
         data class Error(val message: String?) : Effect
         data object BackToTop : Effect
-        data class TriggerCopy(val text: String): Effect
+        data class TriggerCopy(val text: String) : Effect
     }
 }

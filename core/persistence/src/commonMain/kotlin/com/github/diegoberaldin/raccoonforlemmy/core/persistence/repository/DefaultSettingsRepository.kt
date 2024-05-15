@@ -159,7 +159,9 @@ internal class DefaultSettingsRepository(
                 SettingsModel(
                     theme = if (keyStore.containsKey(KeyStoreKeys.UI_THEME)) {
                         keyStore[KeyStoreKeys.UI_THEME, 0]
-                    } else null,
+                    } else {
+                        null
+                    },
                     uiFontScale = keyStore[KeyStoreKeys.UI_FONT_SCALE, 1f],
                     uiFontFamily = keyStore[KeyStoreKeys.UI_FONT_FAMILY, 0],
                     contentFontScale = contentFontScale,
@@ -196,7 +198,9 @@ internal class DefaultSettingsRepository(
                     edgeToEdge = keyStore[KeyStoreKeys.EDGE_TO_EDGE, true],
                     postBodyMaxLines = if (keyStore.containsKey(KeyStoreKeys.POST_BODY_MAX_LINES)) {
                         keyStore[KeyStoreKeys.POST_BODY_MAX_LINES, 0]
-                    } else null,
+                    } else {
+                        null
+                    },
                     infiniteScrollEnabled = keyStore[KeyStoreKeys.INFINITE_SCROLL_ENABLED, true],
                     opaqueSystemBars = keyStore[KeyStoreKeys.OPAQUE_SYSTEM_BARS, false],
                     showScores = keyStore[KeyStoreKeys.SHOW_SCORES, true],
@@ -206,7 +210,9 @@ internal class DefaultSettingsRepository(
                     imageSourcePath = keyStore[KeyStoreKeys.IMAGE_SOURCE_PATH, false],
                     defaultLanguageId = if (keyStore.containsKey(KeyStoreKeys.DEFAULT_LANGUAGE_ID)) {
                         keyStore[KeyStoreKeys.DEFAULT_LANGUAGE_ID, 0L]
-                    } else null,
+                    } else {
+                        null
+                    },
                     fadeReadPosts = keyStore[KeyStoreKeys.FADE_READ_POSTS, false],
                     enableButtonsToScrollBetweenComments = keyStore[KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS, false],
                     fullWidthImages = keyStore[KeyStoreKeys.FULL_WIDTH_IMAGES, false],
@@ -231,16 +237,16 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.UI_FONT_FAMILY, settings.uiFontFamily)
                 keyStore.save(
                     KeyStoreKeys.CONTENT_TITLE_FONT_SCALE,
-                    settings.contentFontScale.title
+                    settings.contentFontScale.title,
                 )
                 keyStore.save(KeyStoreKeys.CONTENT_BODY_FONT_SCALE, settings.contentFontScale.body)
                 keyStore.save(
                     KeyStoreKeys.CONTENT_COMMENT_FONT_SCALE,
-                    settings.contentFontScale.comment
+                    settings.contentFontScale.comment,
                 )
                 keyStore.save(
                     KeyStoreKeys.CONTENT_ANCILLARY_FONT_SCALE,
-                    settings.contentFontScale.ancillary
+                    settings.contentFontScale.ancillary,
                 )
                 if (!settings.locale.isNullOrEmpty()) {
                     keyStore.save(KeyStoreKeys.LOCALE, settings.locale)
@@ -251,7 +257,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.DEFAULT_POST_SORT_TYPE, settings.defaultPostSortType)
                 keyStore.save(
                     KeyStoreKeys.DEFAULT_COMMENT_SORT_TYPE,
-                    settings.defaultCommentSortType
+                    settings.defaultCommentSortType,
                 )
                 keyStore.save(KeyStoreKeys.DEFAULT_INBOX_TYPE, settings.defaultInboxType)
                 keyStore.save(KeyStoreKeys.DEFAULT_EXPLORE_TYPE, settings.defaultExploreType)
@@ -259,12 +265,12 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.BLUR_NSFW, settings.blurNsfw)
                 keyStore.save(
                     KeyStoreKeys.NAV_ITEM_TITLES_VISIBLE,
-                    settings.navigationTitlesVisible
+                    settings.navigationTitlesVisible,
                 )
                 keyStore.save(KeyStoreKeys.DYNAMIC_COLORS, settings.dynamicColors)
                 keyStore.save(
                     key = KeyStoreKeys.OPEN_URLS_IN_EXTERNAL_BROWSER,
-                    value = settings.urlOpeningMode
+                    value = settings.urlOpeningMode,
                 )
                 keyStore.save(KeyStoreKeys.ENABLE_SWIPE_ACTIONS, settings.enableSwipeActions)
                 keyStore.save(KeyStoreKeys.ENABLE_DOUBLE_TAP_ACTION, settings.enableDoubleTapAction)
@@ -280,7 +286,7 @@ internal class DefaultSettingsRepository(
                 keyStore.save(KeyStoreKeys.FULL_HEIGHT_IMAGES, settings.fullHeightImages)
                 keyStore.save(
                     KeyStoreKeys.HIDE_NAVIGATION_BAR_WHILE_SCROLLING,
-                    settings.hideNavigationBarWhileScrolling
+                    settings.hideNavigationBarWhileScrolling,
                 )
                 keyStore.save(
                     KeyStoreKeys.ZOMBIE_MODE_INTERVAL,

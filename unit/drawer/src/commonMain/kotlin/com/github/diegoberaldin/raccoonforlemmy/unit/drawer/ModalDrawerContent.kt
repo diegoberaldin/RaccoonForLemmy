@@ -131,7 +131,7 @@ object ModalDrawerContent : Tab {
                     .padding(
                         top = Spacing.s,
                         bottom = Spacing.s,
-                    )
+                    ),
             )
 
             if (uiState.user != null) {
@@ -178,8 +178,8 @@ object ModalDrawerContent : Tab {
                                                 if (uiState.searchText.isNotEmpty()) {
                                                     model.reduce(
                                                         ModalDrawerMviModel.Intent.SetSearch(
-                                                            ""
-                                                        )
+                                                            "",
+                                                        ),
                                                     )
                                                 }
                                             },
@@ -211,7 +211,7 @@ object ModalDrawerContent : Tab {
                                                 focusManager.clearFocus()
                                                 coordinator.toggleDrawer()
                                                 coordinator.sendEvent(
-                                                    DrawerEvent.ChangeListingType(listingType)
+                                                    DrawerEvent.ChangeListingType(listingType),
                                                 )
                                             }
                                         },
@@ -298,7 +298,7 @@ object ModalDrawerContent : Tab {
                                     scope.launch {
                                         coordinator.toggleDrawer()
                                         coordinator.sendEvent(
-                                            DrawerEvent.ChangeListingType(listingType)
+                                            DrawerEvent.ChangeListingType(listingType),
                                         )
                                     }
                                 },

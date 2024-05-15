@@ -14,7 +14,6 @@ class DefaultDeleteAccountUseCaseTest {
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
-
     private val accountRepository = mockk<AccountRepository>(relaxUnitFun = true)
     private val sut = DefaultDeleteAccountUseCase(
         accountRepository = accountRepository,

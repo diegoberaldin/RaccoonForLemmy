@@ -11,23 +11,23 @@ class ProfileNotLoggedViewModel(
     private val identityRepository: IdentityRepository,
 ) : ProfileNotLoggedMviModel,
     DefaultMviModel<ProfileNotLoggedMviModel.Intent, ProfileNotLoggedMviModel.State, ProfileNotLoggedMviModel.Effect>(
-        initialState = ProfileNotLoggedMviModel.State()
+        initialState = ProfileNotLoggedMviModel.State(),
     ) {
 
-    init {
-        screenModelScope.launch {
-            identityRepository.isLogged.onEach { logged ->
-                val auth = identityRepository.authToken.value
-                updateState { it.copy(authError = !auth.isNullOrEmpty() && logged == false) }
-            }.launchIn(this)
+        init {
+            screenModelScope.launch {
+                identityRepository.isLogged.onEach { logged ->
+                    val auth = identityRepository.authToken.value
+                    updateState { it.copy(authError = !auth.isNullOrEmpty() && logged == false) }
+                }.launchIn(this)
+            }
         }
-    }
 
-    override fun reduce(intent: ProfileNotLoggedMviModel.Intent) {
-        when (intent) {
-            ProfileNotLoggedMviModel.Intent.Retry -> screenModelScope.launch {
-                identityRepository.refreshLoggedState()
+        override fun reduce(intent: ProfileNotLoggedMviModel.Intent) {
+            when (intent) {
+                ProfileNotLoggedMviModel.Intent.Retry -> screenModelScope.launch {
+                    identityRepository.refreshLoggedState()
+                }
             }
         }
     }
-}

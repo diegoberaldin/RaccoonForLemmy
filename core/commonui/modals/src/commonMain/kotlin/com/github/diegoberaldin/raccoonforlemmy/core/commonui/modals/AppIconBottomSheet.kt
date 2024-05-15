@@ -63,7 +63,7 @@ class AppIconBottomSheet : Screen {
                         onTap = {
                             navigationCoordinator.hideBottomSheet()
                             notificationCenter.send(
-                                NotificationCenterEvent.AppIconVariantSelected(value.toInt())
+                                NotificationCenterEvent.AppIconVariantSelected(value.toInt()),
                             )
                         },
                     )
@@ -72,4 +72,3 @@ class AppIconBottomSheet : Screen {
         }
     }
 }
-

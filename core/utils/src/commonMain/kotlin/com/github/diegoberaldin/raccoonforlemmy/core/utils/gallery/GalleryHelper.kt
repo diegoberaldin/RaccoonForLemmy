@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 
-
 @Stable
 interface GalleryHelper {
 

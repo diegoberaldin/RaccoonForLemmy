@@ -212,7 +212,7 @@ class ExploreScreen(
                     },
                     onBack = rememberCallback {
                         navigationCoordinator.popScreen()
-                    }
+                    },
                 )
             },
             snackbarHost = {
@@ -273,14 +273,14 @@ class ExploreScreen(
                                 Modifier.nestedScroll(connection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
@@ -318,10 +318,10 @@ class ExploreScreen(
                                         onSubscribe = rememberCallback(model) {
                                             model.reduce(
                                                 ExploreMviModel.Intent.ToggleSubscription(
-                                                    result.model.id
-                                                )
+                                                    result.model.id,
+                                                ),
                                             )
-                                        }
+                                        },
                                     )
                                 }
 
@@ -362,8 +362,8 @@ class ExploreScreen(
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.DownVotePost(
-                                                                result.model.id
-                                                            )
+                                                                result.model.id,
+                                                            ),
                                                         )
                                                     },
                                                 )
@@ -401,7 +401,6 @@ class ExploreScreen(
                                                         )
                                                     },
                                                 )
-
 
                                                 else -> null
                                             }
@@ -483,7 +482,7 @@ class ExploreScreen(
                                                     if (uiState.isLogged) {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.DownVotePost(
-                                                                result.model.id
+                                                                result.model.id,
                                                             ),
                                                         )
                                                     }
@@ -510,11 +509,10 @@ class ExploreScreen(
                                                             it.isNotEmpty()
                                                         } ?: otherInstanceName,
                                                     )
-
                                                 },
                                                 onOpenWeb = rememberCallbackArgs { url ->
                                                     navigationCoordinator.pushScreen(
-                                                        WebViewScreen(url)
+                                                        WebViewScreen(url),
                                                     )
                                                 },
                                             )
@@ -545,8 +543,8 @@ class ExploreScreen(
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.UpVoteComment(
-                                                                result.model.id
-                                                            )
+                                                                result.model.id,
+                                                            ),
                                                         )
                                                     },
                                                 )
@@ -564,7 +562,7 @@ class ExploreScreen(
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.DownVoteComment(
-                                                                result.model.id
+                                                                result.model.id,
                                                             ),
                                                         )
                                                     },
@@ -602,12 +600,11 @@ class ExploreScreen(
                                                     onTriggered = rememberCallback {
                                                         model.reduce(
                                                             ExploreMviModel.Intent.SaveComment(
-                                                                result.model.id
+                                                                result.model.id,
                                                             ),
                                                         )
                                                     },
                                                 )
-
 
                                                 else -> null
                                             }
@@ -716,8 +713,8 @@ class ExploreScreen(
                                                 onOpenWeb = rememberCallbackArgs { url ->
                                                     navigationCoordinator.pushScreen(
                                                         WebViewScreen(
-                                                            url
-                                                        )
+                                                            url,
+                                                        ),
                                                     )
                                                 },
                                             )
@@ -725,7 +722,7 @@ class ExploreScreen(
                                     )
                                     HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.interItem),
-                                        thickness = 0.25.dp
+                                        thickness = 0.25.dp,
                                     )
                                 }
 

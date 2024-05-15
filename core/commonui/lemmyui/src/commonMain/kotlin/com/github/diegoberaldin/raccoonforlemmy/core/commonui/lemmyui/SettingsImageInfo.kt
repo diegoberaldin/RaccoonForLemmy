@@ -24,7 +24,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 fun SettingsImageInfo(
     modifier: Modifier = Modifier,
     imageModifier: Modifier = Modifier,
-    contentScale : ContentScale = ContentScale.FillBounds,
+    contentScale: ContentScale = ContentScale.FillBounds,
     title: String = "",
     url: String = "",
     onEdit: (() -> Unit)? = null,

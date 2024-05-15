@@ -101,16 +101,16 @@ class BlockBottomSheet(
                                 onClick = {
                                     val event = when (value.first) {
                                         BlockActionType.Community -> NotificationCenterEvent.BlockActionSelected(
-                                            communityId = value.second
+                                            communityId = value.second,
                                         )
 
                                         BlockActionType.Instance ->
                                             NotificationCenterEvent.BlockActionSelected(
-                                                instanceId = value.second
+                                                instanceId = value.second,
                                             )
 
                                         BlockActionType.User -> NotificationCenterEvent.BlockActionSelected(
-                                            userId = value.second
+                                            userId = value.second,
                                         )
                                     }
                                     notificationCenter.send(event)

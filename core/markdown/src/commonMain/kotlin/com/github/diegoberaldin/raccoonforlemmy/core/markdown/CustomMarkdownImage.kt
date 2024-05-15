@@ -82,7 +82,7 @@ internal fun CustomMarkdownImage(
                     initialValue = 0f,
                     targetValue = 1f,
                     animationSpec = InfiniteRepeatableSpec(
-                        animation = tween(LOADING_ANIMATION_DURATION)
+                        animation = tween(LOADING_ANIMATION_DURATION),
                     ),
                 )
                 res

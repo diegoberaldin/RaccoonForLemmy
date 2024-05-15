@@ -3,7 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
-interface EditCommunityMviModel : ScreenModel,
+interface EditCommunityMviModel :
+    ScreenModel,
     MviModel<EditCommunityMviModel.Intent, EditCommunityMviModel.UiState, EditCommunityMviModel.Effect> {
 
     sealed interface Intent {

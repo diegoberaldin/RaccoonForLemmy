@@ -95,7 +95,7 @@ object InboxScreen : Tab {
                                         val sheet = InboxTypeSheet()
                                         navigationCoordinator.showBottomSheet(sheet)
                                     },
-                                )
+                                ),
                         ) {
                             Text(
                                 text = LocalXmlStrings.current.navigationInbox,
@@ -133,7 +133,7 @@ object InboxScreen : Tab {
             when (uiState.isLogged) {
                 false -> {
                     Column(
-                        modifier = Modifier.padding(paddingValues).padding(horizontal = Spacing.m)
+                        modifier = Modifier.padding(paddingValues).padding(horizontal = Spacing.m),
                     ) {
                         Text(
                             text = LocalXmlStrings.current.inboxNotLoggedMessage,
@@ -150,7 +150,7 @@ object InboxScreen : Tab {
                                     Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                 } else {
                                     Modifier
-                                }
+                                },
                             ),
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {

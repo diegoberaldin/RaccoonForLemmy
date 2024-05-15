@@ -30,7 +30,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 class SelectActionOnSwipeBottomSheet(
     private val values: List<ActionOnSwipe>,
@@ -74,7 +73,7 @@ class SelectActionOnSwipeBottomSheet(
                                             value = value,
                                             direction = direction,
                                             target = target,
-                                        )
+                                        ),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

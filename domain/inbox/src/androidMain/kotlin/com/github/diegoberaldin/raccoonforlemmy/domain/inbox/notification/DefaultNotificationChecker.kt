@@ -26,7 +26,7 @@ class DefaultInboxNotificationChecker(
         createNotificationChannel()
         PeriodicWorkRequestBuilder<CheckNotificationWorker>(
             repeatInterval = intervalMinutes,
-            repeatIntervalTimeUnit = TimeUnit.MINUTES
+            repeatIntervalTimeUnit = TimeUnit.MINUTES,
         )
             .addTag(TAG)
             .build().apply {

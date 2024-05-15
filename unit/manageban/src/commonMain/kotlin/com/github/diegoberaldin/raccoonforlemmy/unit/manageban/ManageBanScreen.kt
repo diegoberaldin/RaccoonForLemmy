@@ -117,7 +117,7 @@ class ManageBanScreen : Screen {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
@@ -150,14 +150,14 @@ class ManageBanScreen : Screen {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.s)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
                         when (uiState.section) {
                             ManageBanSection.Users -> {
@@ -194,8 +194,8 @@ class ManageBanScreen : Screen {
                                                     OptionId.Unban -> {
                                                         model.reduce(
                                                             ManageBanMviModel.Intent.UnblockUser(
-                                                                user.id
-                                                            )
+                                                                user.id,
+                                                            ),
                                                         )
                                                     }
 
@@ -241,8 +241,8 @@ class ManageBanScreen : Screen {
                                                     OptionId.Unban -> {
                                                         model.reduce(
                                                             ManageBanMviModel.Intent.UnblockCommunity(
-                                                                community.id
-                                                            )
+                                                                community.id,
+                                                            ),
                                                         )
                                                     }
 
@@ -286,8 +286,8 @@ class ManageBanScreen : Screen {
                                                     OptionId.Unban -> {
                                                         model.reduce(
                                                             ManageBanMviModel.Intent.UnblockInstance(
-                                                                instance.id
-                                                            )
+                                                                instance.id,
+                                                            ),
                                                         )
                                                     }
 

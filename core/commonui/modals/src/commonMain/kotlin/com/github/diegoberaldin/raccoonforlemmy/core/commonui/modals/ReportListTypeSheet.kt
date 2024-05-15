@@ -57,7 +57,7 @@ class ReportListTypeSheet : Screen {
                         .onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangeReportListType(true)
+                                    NotificationCenterEvent.ChangeReportListType(true),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },
@@ -79,7 +79,7 @@ class ReportListTypeSheet : Screen {
                         ).onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangeReportListType(false)
+                                    NotificationCenterEvent.ChangeReportListType(false),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },

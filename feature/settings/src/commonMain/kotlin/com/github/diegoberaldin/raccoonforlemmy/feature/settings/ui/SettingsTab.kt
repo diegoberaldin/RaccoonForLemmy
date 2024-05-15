@@ -23,7 +23,6 @@ object SettingsTab : Tab {
             )
         }
 
-
     @Composable
     override fun Content() {
         Navigator(SettingsScreen())

@@ -30,7 +30,7 @@ interface ConfigureSwipeActionsMviModel :
         data object ResetActionsInbox : Intent
         data class DeleteActionInbox(
             val value: ActionOnSwipe,
-            val direction: ActionOnSwipeDirection
+            val direction: ActionOnSwipeDirection,
         ) :
             Intent
     }

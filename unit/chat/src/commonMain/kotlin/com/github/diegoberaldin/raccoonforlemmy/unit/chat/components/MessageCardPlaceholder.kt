@@ -21,6 +21,6 @@ internal fun MessageCardPlaceholder() {
             .fillMaxWidth()
             .padding(horizontal = Spacing.xs, vertical = Spacing.xs)
             .clip(RoundedCornerShape(CornerSize.s))
-            .shimmerEffect()
+            .shimmerEffect(),
     )
 }

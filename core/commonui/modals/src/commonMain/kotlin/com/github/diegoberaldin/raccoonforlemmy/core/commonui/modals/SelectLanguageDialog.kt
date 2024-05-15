@@ -50,7 +50,7 @@ fun SelectLanguageDialog(
             )
             Spacer(modifier = Modifier.height(Spacing.xs))
             LazyColumn(
-                modifier = Modifier.fillMaxHeight(0.6f)
+                modifier = Modifier.fillMaxHeight(0.6f),
             ) {
                 items(items = languages, key = { it.id }) { lang ->
                     LanguageItem(

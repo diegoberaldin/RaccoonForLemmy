@@ -225,7 +225,7 @@ internal object ProfileMainScreen : Tab {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     ),
                 contentAlignment = Alignment.Center,
             ) {

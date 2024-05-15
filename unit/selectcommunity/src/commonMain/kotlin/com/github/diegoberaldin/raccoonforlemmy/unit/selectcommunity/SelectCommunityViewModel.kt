@@ -26,65 +26,65 @@ class SelectCommunityViewModel(
         initialState = SelectCommunityMviModel.UiState(),
     ) {
 
-    private var communities: List<CommunityModel> = emptyList()
-    private val searchEventChannel = Channel<Unit>()
+        private var communities: List<CommunityModel> = emptyList()
+        private val searchEventChannel = Channel<Unit>()
 
-    init {
-        screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                    )
-                }
-            }.launchIn(this)
+        init {
+            screenModelScope.launch {
+                settingsRepository.currentSettings.onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                updateState {
-                    val filtered = filterCommunities()
-                    it.copy(communities = filtered)
-                }
-            }.launchIn(this)
-        }
-        if (communities.isEmpty()) {
-            populate()
-        }
-    }
-
-    override fun reduce(intent: SelectCommunityMviModel.Intent) {
-        when (intent) {
-            is SelectCommunityMviModel.Intent.SetSearch -> setSearch(intent.value)
-        }
-    }
-
-    private fun setSearch(value: String) {
-        updateState { it.copy(searchText = value) }
-        screenModelScope.launch {
-            searchEventChannel.send(Unit)
-        }
-    }
-
-    private fun populate() {
-        screenModelScope.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value
-            communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
-            updateState {
-                it.copy(
-                    initial = false,
-                    communities = communities,
-                )
+                searchEventChannel.receiveAsFlow().debounce(1000).onEach {
+                    updateState {
+                        val filtered = filterCommunities()
+                        it.copy(communities = filtered)
+                    }
+                }.launchIn(this)
+            }
+            if (communities.isEmpty()) {
+                populate()
             }
         }
-    }
 
-    private fun filterCommunities(): List<CommunityModel> {
-        val searchText = uiState.value.searchText
-        val res = if (searchText.isNotEmpty()) {
-            communities.filter { it.name.contains(searchText) }
-        } else {
-            communities
+        override fun reduce(intent: SelectCommunityMviModel.Intent) {
+            when (intent) {
+                is SelectCommunityMviModel.Intent.SetSearch -> setSearch(intent.value)
+            }
         }
-        return res
+
+        private fun setSearch(value: String) {
+            updateState { it.copy(searchText = value) }
+            screenModelScope.launch {
+                searchEventChannel.send(Unit)
+            }
+        }
+
+        private fun populate() {
+            screenModelScope.launch(Dispatchers.IO) {
+                val auth = identityRepository.authToken.value
+                communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
+                updateState {
+                    it.copy(
+                        initial = false,
+                        communities = communities,
+                    )
+                }
+            }
+        }
+
+        private fun filterCommunities(): List<CommunityModel> {
+            val searchText = uiState.value.searchText
+            val res = if (searchText.isNotEmpty()) {
+                communities.filter { it.name.contains(searchText) }
+            } else {
+                communities
+            }
+            return res
+        }
     }
-}

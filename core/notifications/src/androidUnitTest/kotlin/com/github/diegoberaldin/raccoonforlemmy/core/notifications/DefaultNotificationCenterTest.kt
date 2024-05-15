@@ -21,7 +21,6 @@ class DefaultNotificationCenterTest {
             sut.send(NotificationCenterEvent.Logout)
         }
 
-
         sut.subscribe(NotificationCenterEvent.Logout::class).test {
             val evt = awaitItem()
             assertEquals(NotificationCenterEvent.Logout, evt)

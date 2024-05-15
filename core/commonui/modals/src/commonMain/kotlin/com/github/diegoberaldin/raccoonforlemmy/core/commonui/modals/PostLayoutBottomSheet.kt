@@ -66,7 +66,7 @@ class PostLayoutBottomSheet : Screen {
                             .onClick(
                                 onClick = {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangePostLayout(value)
+                                        NotificationCenterEvent.ChangePostLayout(value),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

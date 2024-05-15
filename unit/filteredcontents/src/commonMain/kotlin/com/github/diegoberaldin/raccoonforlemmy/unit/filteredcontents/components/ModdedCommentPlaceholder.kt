@@ -37,7 +37,7 @@ fun ModdedCommentPlaceholder(
                     .padding(Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -46,7 +46,7 @@ fun ModdedCommentPlaceholder(
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
@@ -54,14 +54,14 @@ fun ModdedCommentPlaceholder(
                 .height(40.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

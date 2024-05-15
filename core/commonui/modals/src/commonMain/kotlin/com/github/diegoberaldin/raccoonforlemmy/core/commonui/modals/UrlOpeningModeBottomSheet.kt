@@ -32,7 +32,7 @@ class UrlOpeningModeBottomSheet(
     private val values: List<UrlOpeningMode> = listOf(
         UrlOpeningMode.Internal,
         UrlOpeningMode.External,
-    )
+    ),
 ) : Screen {
 
     @Composable

@@ -188,7 +188,7 @@ class SettingsScreen : Screen {
                         disclosureIndicator = true,
                         onTap = rememberCallback {
                             navigationCoordinator.pushScreen(SettingsColorAndFontScreen())
-                        }
+                        },
                     )
 
                     // content view configuration
@@ -197,7 +197,7 @@ class SettingsScreen : Screen {
                         disclosureIndicator = true,
                         onTap = rememberCallback {
                             navigationCoordinator.pushScreen(ConfigureContentViewScreen())
-                        }
+                        },
                     )
 
                     SettingsHeader(
@@ -253,7 +253,7 @@ class SettingsScreen : Screen {
                             value = uiState.enableSwipeActions,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    SettingsMviModel.Intent.ChangeEnableSwipeActions(value)
+                                    SettingsMviModel.Intent.ChangeEnableSwipeActions(value),
                                 )
                             },
                         )
@@ -279,7 +279,7 @@ class SettingsScreen : Screen {
                                         this += UrlOpeningMode.CustomTabs
                                     }
                                     this += UrlOpeningMode.External
-                                }
+                                },
                             )
                             navigationCoordinator.showBottomSheet(screen)
                         },

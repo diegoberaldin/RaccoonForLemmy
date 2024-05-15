@@ -34,8 +34,8 @@ class PostBodyMaxLinesBottomSheet(
         10,
         30,
         50,
-        -1,// custom number
-        null,// unlimited
+        -1, // custom number
+        null, // unlimited
     ),
 ) : Screen {
 
@@ -57,7 +57,7 @@ class PostBodyMaxLinesBottomSheet(
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-           BottomSheetHeader(LocalXmlStrings.current.settingsPostBodyMaxLines)
+            BottomSheetHeader(LocalXmlStrings.current.settingsPostBodyMaxLines)
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -76,7 +76,7 @@ class PostBodyMaxLinesBottomSheet(
                                         customDialogOpened = true
                                     } else {
                                         notificationCenter.send(
-                                            NotificationCenterEvent.ChangePostBodyMaxLines(value)
+                                            NotificationCenterEvent.ChangePostBodyMaxLines(value),
                                         )
                                         navigationCoordinator.hideBottomSheet()
                                     }
@@ -110,7 +110,7 @@ class PostBodyMaxLinesBottomSheet(
                 onSubmit = { value ->
                     notificationCenter.send(NotificationCenterEvent.ChangePostBodyMaxLines(value))
                     navigationCoordinator.hideBottomSheet()
-                }
+                },
             )
         }
     }

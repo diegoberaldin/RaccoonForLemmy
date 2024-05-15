@@ -77,7 +77,7 @@ internal fun MessageCard(
         modifier = modifier.padding(
             horizontal = Spacing.xs,
             vertical = Spacing.xs,
-        )
+        ),
     ) {
         Canvas(
             modifier = Modifier
@@ -87,8 +87,8 @@ internal fun MessageCard(
                         Modifier.align(Alignment.TopEnd)
                     } else {
                         Modifier.align(Alignment.TopStart)
-                    }
-                )
+                    },
+                ),
         ) {
             if (isMyMessage) {
                 val path = Path().apply {
@@ -114,15 +114,16 @@ internal fun MessageCard(
                     Modifier.padding(start = longDistance, end = mediumDistance)
                 } else {
                     Modifier.padding(end = longDistance, start = mediumDistance)
-                }
+                },
             ).background(
-                color = color, shape = RoundedCornerShape(
+                color = color,
+                shape = RoundedCornerShape(
                     topStart = if (isMyMessage) CornerSize.m else 0.dp,
                     topEnd = if (isMyMessage) 0.dp else CornerSize.m,
                     bottomStart = CornerSize.m,
                     bottomEnd = CornerSize.m,
-                )
-            ).fillMaxWidth().padding(Spacing.s)
+                ),
+            ).fillMaxWidth().padding(Spacing.s),
         ) {
             CustomizedContent(ContentFontClass.Body) {
                 Column {
@@ -154,7 +155,7 @@ internal fun MessageCard(
                                         ),
                                     imageVector = Icons.Default.MoreHoriz,
                                     contentDescription = null,
-                                    tint = ancillaryColor
+                                    tint = ancillaryColor,
                                 )
                             }
                             Spacer(modifier = Modifier.weight(1f))

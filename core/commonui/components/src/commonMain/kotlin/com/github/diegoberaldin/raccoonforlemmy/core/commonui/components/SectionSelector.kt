@@ -45,11 +45,11 @@ fun SectionSelector(
                                     } else {
                                         onSectionSelected((currentSection + 1).coerceAtMost(titles.lastIndex))
                                     }
-                                }
+                                },
                             )
                         } else {
                             Modifier
-                        }
+                        },
                     ),
                     selected = i == currentSection,
                     text = {
@@ -64,6 +64,6 @@ fun SectionSelector(
                     },
                 )
             }
-        }
+        },
     )
 }

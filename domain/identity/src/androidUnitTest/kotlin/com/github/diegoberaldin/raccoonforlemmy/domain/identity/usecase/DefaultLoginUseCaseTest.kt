@@ -27,7 +27,6 @@ class DefaultLoginUseCaseTest {
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
-
     private val authRepository = mockk<AuthRepository>()
     private val apiConfigurationRepository = mockk<ApiConfigurationRepository>(relaxUnitFun = true) {
         every { instance } returns MutableStateFlow("")
@@ -78,9 +77,11 @@ class DefaultLoginUseCaseTest {
             authRepository.login("fake-username", "fake-password")
             siteRepository.getAccountSettings("fake-token")
             accountRepository.getBy("fake-username", "fake-instance")
-            accountRepository.createAccount(withArg {
-                assertEquals("fake-username", it.username)
-            })
+            accountRepository.createAccount(
+                withArg {
+                    assertEquals("fake-username", it.username)
+                },
+            )
             accountRepository.setActive(accountId, true)
             settingsRepository.createSettings(anonymousSettings, accountId)
             settingsRepository.changeCurrentSettings(anonymousSettings)
@@ -108,7 +109,7 @@ class DefaultLoginUseCaseTest {
             id = oldAccountId,
             username = "old-username",
             instance = "old-instance",
-            jwt = "old-token"
+            jwt = "old-token",
         )
         coEvery {
             accountRepository.createAccount(any())
@@ -125,9 +126,11 @@ class DefaultLoginUseCaseTest {
             authRepository.login("fake-username", "fake-password")
             siteRepository.getAccountSettings("fake-token")
             accountRepository.getBy("fake-username", "fake-instance")
-            accountRepository.createAccount(withArg {
-                assertEquals("fake-username", it.username)
-            })
+            accountRepository.createAccount(
+                withArg {
+                    assertEquals("fake-username", it.username)
+                },
+            )
             accountRepository.setActive(oldAccountId, false)
             accountRepository.setActive(accountId, true)
             settingsRepository.createSettings(anonymousSettings, accountId)
@@ -152,7 +155,7 @@ class DefaultLoginUseCaseTest {
             id = accountId,
             username = "old-username",
             instance = "old-instance",
-            jwt = "old-token"
+            jwt = "old-token",
         )
         coEvery {
             accountRepository.getActive()

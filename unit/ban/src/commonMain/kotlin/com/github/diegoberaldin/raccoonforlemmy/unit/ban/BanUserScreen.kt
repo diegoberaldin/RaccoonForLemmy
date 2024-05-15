@@ -243,7 +243,7 @@ class BanUserScreen(
 
             SnackbarHost(
                 modifier = Modifier.padding(bottom = Spacing.xxxl),
-                hostState = snackbarHostState
+                hostState = snackbarHostState,
             ) { data ->
                 Snackbar(
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,

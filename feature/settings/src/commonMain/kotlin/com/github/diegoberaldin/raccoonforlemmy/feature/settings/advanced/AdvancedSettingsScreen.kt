@@ -179,7 +179,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.edgeToEdge,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeEdgeToEdge(value)
+                                AdvancedSettingsMviModel.Intent.ChangeEdgeToEdge(value),
                             )
                         },
                     )
@@ -208,8 +208,8 @@ class AdvancedSettingsScreen : Screen {
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
                                 AdvancedSettingsMviModel.Intent.ChangeHideNavigationBarWhileScrolling(
-                                    value
-                                )
+                                    value,
+                                ),
                             )
                         },
                     )
@@ -225,7 +225,7 @@ class AdvancedSettingsScreen : Screen {
                             value = uiState.fadeReadPosts,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts(value)
+                                    AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts(value),
                                 )
                             },
                         )
@@ -236,7 +236,7 @@ class AdvancedSettingsScreen : Screen {
                             value = uiState.showUnreadComments,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments(value)
+                                    AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments(value),
                                 )
                             },
                         )
@@ -290,7 +290,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.infiniteScrollDisabled,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeInfiniteScrollDisabled(value)
+                                AdvancedSettingsMviModel.Intent.ChangeInfiniteScrollDisabled(value),
                             )
                         },
                     )
@@ -301,7 +301,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.autoExpandComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeAutoExpandComments(value)
+                                AdvancedSettingsMviModel.Intent.ChangeAutoExpandComments(value),
                             )
                         },
                     )
@@ -314,8 +314,8 @@ class AdvancedSettingsScreen : Screen {
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
                                     AdvancedSettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling(
-                                        value
-                                    )
+                                        value,
+                                    ),
                                 )
                             },
                         )
@@ -361,7 +361,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.enableButtonsToScrollBetweenComments,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments(value)
+                                AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments(value),
                             )
                         },
                     )
@@ -376,7 +376,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.autoLoadImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeAutoLoadImages(value)
+                                AdvancedSettingsMviModel.Intent.ChangeAutoLoadImages(value),
                             )
                         },
                     )
@@ -407,12 +407,11 @@ class AdvancedSettingsScreen : Screen {
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
                                     AdvancedSettingsMviModel.Intent.ChangeEnableDoubleTapAction(
-                                        value
-                                    )
+                                        value,
+                                    ),
                                 )
                             },
                         )
-
                     }
                     // search posts only in title
                     SettingsSwitchRow(
@@ -420,7 +419,7 @@ class AdvancedSettingsScreen : Screen {
                         value = uiState.searchPostTitleOnly,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly(value)
+                                AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly(value),
                             )
                         },
                     )
@@ -474,7 +473,7 @@ class AdvancedSettingsScreen : Screen {
                             title = LocalXmlStrings.current.settingsExport,
                             onTap = rememberCallback(model) {
                                 model.reduce(AdvancedSettingsMviModel.Intent.ExportSettings)
-                            }
+                            },
                         )
                         SettingsRow(
                             title = LocalXmlStrings.current.settingsImport,
@@ -502,7 +501,7 @@ class AdvancedSettingsScreen : Screen {
                 },
                 onDismiss = {
                     languageDialogOpened = false
-                }
+                },
             )
         }
 
@@ -519,7 +518,7 @@ class AdvancedSettingsScreen : Screen {
             fileSystemManager.writeToFile(
                 mimeType = SETTINGS_MIME_TYPE,
                 name = SETTINGS_FILE_NAME,
-                data = content
+                data = content,
             ) { success ->
                 scope.launch {
                     snackbarHostState.showSnackbar(
@@ -527,7 +526,7 @@ class AdvancedSettingsScreen : Screen {
                             successMessage
                         } else {
                             errorMessage
-                        }
+                        },
                     )
                 }
                 settingsContent = null

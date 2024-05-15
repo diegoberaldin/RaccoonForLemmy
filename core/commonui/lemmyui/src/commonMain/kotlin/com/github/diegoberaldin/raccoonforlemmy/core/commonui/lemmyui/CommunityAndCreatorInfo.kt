@@ -76,7 +76,7 @@ fun CommunityAndCreatorInfo(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.s)
+        horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {
         if (communityIcon.isNotEmpty()) {
             if (autoLoadImages) {

@@ -40,7 +40,7 @@ fun PostLinkBanner(
                 text = url,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.labelMedium
+                style = MaterialTheme.typography.labelMedium,
             )
             Icon(
                 imageVector = Icons.Default.Link,

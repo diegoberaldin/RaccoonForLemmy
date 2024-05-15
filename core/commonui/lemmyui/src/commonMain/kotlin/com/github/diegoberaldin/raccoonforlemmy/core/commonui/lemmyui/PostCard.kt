@@ -96,7 +96,7 @@ fun PostCard(
                     .padding(horizontal = Spacing.xs)
                     .shadow(
                         elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l)
+                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
@@ -105,7 +105,7 @@ fun PostCard(
                     .padding(vertical = Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ).onClick(
             onClick = onClick ?: {},
             onDoubleClick = onDoubleClick ?: {},
@@ -228,7 +228,7 @@ private fun CompactPost(
                     },
                     onTap = {
                         onClick?.invoke()
-                    }
+                    },
                 )
             },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -258,7 +258,7 @@ private fun CompactPost(
         Row(
             modifier = Modifier.padding(horizontal = Spacing.xs),
             verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.xs)
+            horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             CustomizedContent(ContentFontClass.Title) {
                 PostCardTitle(
@@ -313,7 +313,7 @@ private fun CompactPost(
                                 Modifier
                             } else {
                                 Modifier.aspectRatio(1f)
-                            }
+                            },
                         )
                         .padding(vertical = Spacing.xs)
                         .clip(RoundedCornerShape(CornerSize.s)),
@@ -422,11 +422,11 @@ private fun ExtendedPost(
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val optionsMenuOpen = remember { mutableStateOf(false) }
     val postLinkUrl = post.url.orEmpty().takeIf {
-        it != post.imageUrl
-                && it != post.videoUrl
-                && !it.looksLikeAnImage
-                && !it.looksLikeAVideo
-                && !it.showInEmbeddedWebView
+        it != post.imageUrl &&
+            it != post.videoUrl &&
+            !it.looksLikeAnImage &&
+            !it.looksLikeAVideo &&
+            !it.showInEmbeddedWebView
     }.orEmpty()
 
     Column(
@@ -439,7 +439,7 @@ private fun ExtendedPost(
                     },
                     onTap = {
                         onClick?.invoke()
-                    }
+                    },
                 )
             },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -556,13 +556,13 @@ private fun ExtendedPost(
                             Modifier.clip(RoundedCornerShape(CornerSize.xl))
                         } else {
                             Modifier
-                        }
+                        },
                     ).then(
                         if (fullHeightImage) {
                             Modifier
                         } else {
                             Modifier.heightIn(max = 200.dp)
-                        }
+                        },
                     ),
                 imageUrl = post.imageUrl,
                 blurred = blurNsfw && post.nsfw,

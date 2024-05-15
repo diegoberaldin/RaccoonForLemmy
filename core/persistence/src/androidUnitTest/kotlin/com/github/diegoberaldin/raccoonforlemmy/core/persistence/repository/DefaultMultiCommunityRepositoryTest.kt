@@ -100,7 +100,7 @@ class DefaultMultiCommunityRepositoryTest {
                 name = "test",
                 icon = null,
                 communityIds = "1,2,3",
-                account_id = 1
+                account_id = 1,
             )
         }
     }

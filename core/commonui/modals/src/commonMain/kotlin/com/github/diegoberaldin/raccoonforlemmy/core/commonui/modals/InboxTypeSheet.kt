@@ -57,7 +57,7 @@ class InboxTypeSheet : Screen {
                         .onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangeInboxType(true)
+                                    NotificationCenterEvent.ChangeInboxType(true),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },
@@ -79,7 +79,7 @@ class InboxTypeSheet : Screen {
                         ).onClick(
                             onClick = {
                                 notificationCenter.send(
-                                    NotificationCenterEvent.ChangeInboxType(false)
+                                    NotificationCenterEvent.ChangeInboxType(false),
                                 )
                                 navigationCoordinator.hideBottomSheet()
                             },

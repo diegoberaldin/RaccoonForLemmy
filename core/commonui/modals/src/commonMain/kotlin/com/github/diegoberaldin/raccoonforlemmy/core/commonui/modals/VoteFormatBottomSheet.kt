@@ -69,7 +69,7 @@ class VoteFormatBottomSheet : Screen {
                             .onClick(
                                 onClick = {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeVoteFormat(value)
+                                        NotificationCenterEvent.ChangeVoteFormat(value),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 },

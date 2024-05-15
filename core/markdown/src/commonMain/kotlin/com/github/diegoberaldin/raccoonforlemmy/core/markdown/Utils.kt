@@ -29,7 +29,6 @@ private fun String.removeEntities(): String =
         .replace("&nbsp;", " ")
         .replace("&hellip;", "…")
 
-
 private fun String.spoilerFixUp(): String = run {
     val finalLines = mutableListOf<String>()
     var isInsideSpoiler = false

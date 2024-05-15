@@ -22,4 +22,3 @@ interface UserInfoMviModel :
 
     sealed interface Effect
 }
-

@@ -37,7 +37,7 @@ internal fun ModlogItemPlaceholder(
                     .padding(Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -46,7 +46,7 @@ internal fun ModlogItemPlaceholder(
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
@@ -54,14 +54,14 @@ internal fun ModlogItemPlaceholder(
                 .height(60.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

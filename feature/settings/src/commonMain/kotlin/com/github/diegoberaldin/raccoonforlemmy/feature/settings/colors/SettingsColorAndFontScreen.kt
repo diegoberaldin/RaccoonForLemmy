@@ -133,7 +133,7 @@ class SettingsColorAndFontScreen : Screen {
                             value = uiState.dynamicColors,
                             onValueChanged = rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    SettingsColorAndFontMviModel.Intent.ChangeDynamicColors(value)
+                                    SettingsColorAndFontMviModel.Intent.ChangeDynamicColors(value),
                                 )
                             },
                         )
@@ -206,7 +206,7 @@ class SettingsColorAndFontScreen : Screen {
                         onTap = rememberCallback {
                             val screen = CommentBarThemeBottomSheet()
                             navigationCoordinator.showBottomSheet(screen)
-                        }
+                        },
                     )
 
                     // font family
@@ -218,7 +218,6 @@ class SettingsColorAndFontScreen : Screen {
                             navigationCoordinator.showBottomSheet(sheet)
                         },
                     )
-
 
                     // font scale
                     SettingsRow(

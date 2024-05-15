@@ -26,9 +26,8 @@ internal class DefaultFabNestedScrollConnection : FabNestedScrollConnection {
             .stateIn(
                 scope = scope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = true
+                initialValue = true,
             )
-
 
     override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
         if (available.y < -THRESHOLD) {

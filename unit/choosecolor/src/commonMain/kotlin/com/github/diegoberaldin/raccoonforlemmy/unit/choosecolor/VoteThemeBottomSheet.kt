@@ -121,7 +121,7 @@ class VoteThemeBottomSheet(
                                                 }
                                             },
                                             actionType = actionType,
-                                        )
+                                        ),
                                     )
                                     navigationCoordinator.hideBottomSheet()
                                 } else {
@@ -149,8 +149,8 @@ class VoteThemeBottomSheet(
                                             1 -> value.toDownVoteColor()
                                             else -> value.toUpVoteColor()
                                         },
-                                        shape = CircleShape
-                                    )
+                                        shape = CircleShape,
+                                    ),
                             )
                         } else {
                             Image(
@@ -192,10 +192,10 @@ class VoteThemeBottomSheet(
                         NotificationCenterEvent.ChangeActionColor(
                             color = color,
                             actionType = actionType,
-                        )
+                        ),
                     )
                     navigationCoordinator.hideBottomSheet()
-                }
+                },
             )
         }
     }

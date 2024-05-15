@@ -107,9 +107,9 @@ class UserInfoScreen(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                    }
+                    },
                 )
-            }
+            },
         ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
@@ -118,7 +118,7 @@ class UserInfoScreen(
                     .padding(
                         top = Spacing.s,
                         start = Spacing.m,
-                        end = Spacing.m
+                        end = Spacing.m,
                     ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
@@ -199,7 +199,7 @@ class UserInfoScreen(
                                                 ZoomableImageScreen(
                                                     url = url,
                                                     source = uiState.user.readableHandle,
-                                                )
+                                                ),
                                             )
                                         }
                                     },
@@ -211,7 +211,6 @@ class UserInfoScreen(
                                                 community,
                                                 instance,
                                             )
-
                                         }
                                     },
                                     onOpenPost = { post, instance ->
@@ -219,7 +218,6 @@ class UserInfoScreen(
                                         scope.launch {
                                             delay(100)
                                             detailOpener.openPostDetail(post, instance)
-
                                         }
                                     },
                                     onOpenUser = { user, instance ->
@@ -257,7 +255,7 @@ class UserInfoScreen(
                                     Text(
                                         text = matrixUserId,
                                         style = MaterialTheme.typography.bodyMedium.copy(
-                                            fontFamily = FontFamily.Monospace
+                                            fontFamily = FontFamily.Monospace,
                                         ),
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -283,7 +281,7 @@ class UserInfoScreen(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                         ) {
                             items(
-                                count = uiState.moderatedCommunities.size
+                                count = uiState.moderatedCommunities.size,
                             ) { idx ->
                                 val community = uiState.moderatedCommunities[idx]
                                 ModeratedCommunityCell(
@@ -295,7 +293,7 @@ class UserInfoScreen(
                                             delay(100)
                                             detailOpener.openCommunityDetail(community)
                                         }
-                                    }
+                                    },
                                 )
                             }
                         }

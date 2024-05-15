@@ -65,7 +65,6 @@ actual val hapticFeedbackModule = module {
     }
 }
 
-
 actual val shareHelperModule = module {
     single<ShareHelper> {
         DefaultShareHelper(
@@ -77,7 +76,7 @@ actual val shareHelperModule = module {
 actual val fileSystemModule = module {
     single<FileSystemManager> {
         DefaultFileSystemManager(
-            context = get()
+            context = get(),
         )
     }
 }
@@ -85,7 +84,7 @@ actual val fileSystemModule = module {
 actual val galleryHelperModule = module {
     single<GalleryHelper> {
         DefaultGalleryHelper(
-            context = get()
+            context = get(),
         )
     }
 }

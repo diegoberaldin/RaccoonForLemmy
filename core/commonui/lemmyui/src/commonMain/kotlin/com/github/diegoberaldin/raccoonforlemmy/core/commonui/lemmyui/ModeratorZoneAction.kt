@@ -13,7 +13,6 @@ sealed interface ModeratorZoneAction {
     data object GlobalReports : ModeratorZoneAction
 
     data object ModeratedContents : ModeratorZoneAction
-
 }
 
 fun Int.toModeratorZoneAction(): ModeratorZoneAction = when (this) {

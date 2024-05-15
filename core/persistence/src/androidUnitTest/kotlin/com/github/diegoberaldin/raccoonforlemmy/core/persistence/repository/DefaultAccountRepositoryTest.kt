@@ -65,7 +65,6 @@ class DefaultAccountRepositoryTest {
         }
     }
 
-
     @Test
     fun givenNoActiveAccount_whenGetActive_thenResultIsAsExpected() = runTest {
         every { query.executeAsOneOrNull() } returns null

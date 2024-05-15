@@ -59,14 +59,14 @@ class SliderBottomSheet(
                 valueRange = min.rangeTo(max),
                 onValueChange = {
                     value = it
-                }
+                },
             )
 
             Spacer(modifier = Modifier.height(Spacing.s))
             Button(
                 onClick = {
                     notificationCenter.send(
-                        NotificationCenterEvent.ChangeZombieScrollAmount(value)
+                        NotificationCenterEvent.ChangeZombieScrollAmount(value),
                     )
                     navigationCoordinator.hideBottomSheet()
                 },

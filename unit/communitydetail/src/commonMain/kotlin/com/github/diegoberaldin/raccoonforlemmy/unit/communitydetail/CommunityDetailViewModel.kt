@@ -68,647 +68,647 @@ class CommunityDetailViewModel(
     DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
     ) {
-    private var hideReadPosts = false
-    private val searchEventChannel = Channel<Unit>()
+        private var hideReadPosts = false
+        private val searchEventChannel = Channel<Unit>()
 
-    init {
-        screenModelScope.launch {
-            if (uiState.value.community.id == 0L) {
-                val community = itemCache.getCommunity(communityId) ?: CommunityModel()
-                updateState {
-                    it.copy(
-                        community = community,
-                        instance =
-                            otherInstance.takeIf { n -> n.isNotEmpty() }
-                                ?: apiConfigurationRepository.instance.value,
-                    )
-                }
-            }
-
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-                updateAvailableSortTypes()
-            }.launchIn(this)
-
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        showScores = settings.showScores,
-                        fadeReadPosts = settings.fadeReadPosts,
-                        showUnreadComments = settings.showUnreadComments,
-                    )
-                }
-            }.launchIn(this)
-
-            zombieModeHelper.index.onEach { index ->
-                if (uiState.value.zombieModeActive) {
-                    emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
-                }
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
-                handlePostDelete(evt.model.id)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.UserBannedPost::class)
-                .onEach { evt ->
-                    val postId = evt.postId
-                    val newUser = evt.user
+        init {
+            screenModelScope.launch {
+                if (uiState.value.community.id == 0L) {
+                    val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                     updateState {
                         it.copy(
-                            posts =
-                                it.posts.map { p ->
-                                    if (p.id == postId) {
-                                        p.copy(
-                                            creator = newUser,
-                                            updateDate = newUser.updateDate,
-                                        )
-                                    } else {
-                                        p
-                                    }
-                                },
+                            community = community,
+                            instance =
+                                otherInstance.takeIf { n -> n.isNotEmpty() }
+                                    ?: apiConfigurationRepository.instance.value,
+                        )
+                    }
+                }
+
+                themeRepository.postLayout.onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+                identityRepository.isLogged.onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                    updateAvailableSortTypes()
+                }.launchIn(this)
+
+                settingsRepository.currentSettings.onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            showScores = settings.showScores,
+                            fadeReadPosts = settings.fadeReadPosts,
+                            showUnreadComments = settings.showUnreadComments,
                         )
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
-                .onEach { evt ->
-                    val postId = evt.model.postId
-                    uiState.value.posts.firstOrNull { it.id == postId }?.also {
-                        val newPost = it.copy(comments = (it.comments - 1).coerceAtLeast(0))
-                        handlePostUpdate(newPost)
+
+                zombieModeHelper.index.onEach { index ->
+                    if (uiState.value.zombieModeActive) {
+                        emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                .onEach { evt ->
-                    if (evt.screenKey == uiState.value.community.readableHandle) {
-                        if (evt.defaultForCommunity) {
-                            val handle = uiState.value.community.readableHandle
-                            communitySortRepository.saveSort(handle, evt.value.toInt())
+
+                notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
+                    handlePostDelete(evt.model.id)
+                }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.UserBannedPost::class)
+                    .onEach { evt ->
+                        val postId = evt.postId
+                        val newUser = evt.user
+                        updateState {
+                            it.copy(
+                                posts =
+                                    it.posts.map { p ->
+                                        if (p.id == postId) {
+                                            p.copy(
+                                                creator = newUser,
+                                                updateDate = newUser.updateDate,
+                                            )
+                                        } else {
+                                            p
+                                        }
+                                    },
+                            )
                         }
-                        applySortType(evt.value)
-                    }
+                    }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
+                    .onEach { evt ->
+                        val postId = evt.model.postId
+                        uiState.value.posts.firstOrNull { it.id == postId }?.also {
+                            val newPost = it.copy(comments = (it.comments - 1).coerceAtLeast(0))
+                            handlePostUpdate(newPost)
+                        }
+                    }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                    .onEach { evt ->
+                        if (evt.screenKey == uiState.value.community.readableHandle) {
+                            if (evt.defaultForCommunity) {
+                                val handle = uiState.value.community.readableHandle
+                                communitySortRepository.saveSort(handle, evt.value.toInt())
+                            }
+                            applySortType(evt.value)
+                        }
+                    }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
+                    shareHelper.share(evt.url)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
+                notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
+                    emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
-                updateState { it.copy(loading = false) }
-                emitEffect(CommunityDetailMviModel.Effect.BackToTop)
-                refresh()
-            }.launchIn(this)
+                searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
+                    updateState { it.copy(loading = false) }
+                    emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                    refresh()
+                }.launchIn(this)
 
-            if (uiState.value.currentUserId == null) {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val user = siteRepository.getCurrentUser(auth)
+                if (uiState.value.currentUserId == null) {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    val user = siteRepository.getCurrentUser(auth)
+                    updateState {
+                        it.copy(
+                            currentUserId = user?.id ?: 0,
+                            isAdmin = user?.admin == true,
+                        )
+                    }
+                }
+                if (uiState.value.posts.isEmpty()) {
+                    val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
+                    val customPostSortType =
+                        communitySortRepository.getSort(uiState.value.community.readableHandle)?.toSortType()
+                    updateState { it.copy(sortType = customPostSortType ?: defaultPostSortType) }
+                    refresh()
+                }
+            }
+        }
+
+        private suspend fun updateAvailableSortTypes() {
+            val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+            updateState { it.copy(availableSortTypes = sortTypes) }
+        }
+
+        override fun reduce(intent: CommunityDetailMviModel.Intent) {
+            when (intent) {
+                CommunityDetailMviModel.Intent.LoadNextPage ->
+                    screenModelScope.launch {
+                        loadNextPage()
+                    }
+
+                CommunityDetailMviModel.Intent.Refresh ->
+                    screenModelScope.launch {
+                        refresh()
+                    }
+
+                is CommunityDetailMviModel.Intent.DownVotePost -> {
+                    if (intent.feedback) {
+                        hapticFeedback.vibrate()
+                    }
+                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                        toggleDownVotePost(post = post)
+                    }
+                }
+
+                is CommunityDetailMviModel.Intent.Share -> {
+                    shareHelper.share(intent.url)
+                }
+
+                is CommunityDetailMviModel.Intent.SavePost -> {
+                    if (intent.feedback) {
+                        hapticFeedback.vibrate()
+                    }
+                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                        toggleSavePost(post = post)
+                    }
+                }
+
+                is CommunityDetailMviModel.Intent.UpVotePost -> {
+                    if (intent.feedback) {
+                        hapticFeedback.vibrate()
+                    }
+                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                        toggleUpVotePost(post = post)
+                    }
+                }
+
+                CommunityDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+                CommunityDetailMviModel.Intent.Subscribe -> subscribe()
+                CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
+                is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
+
+                CommunityDetailMviModel.Intent.Block -> blockCommunity()
+                CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
+                is CommunityDetailMviModel.Intent.MarkAsRead -> {
+                    markAsRead(uiState.value.posts.first { it.id == intent.id })
+                }
+
+                CommunityDetailMviModel.Intent.ClearRead -> clearRead()
+                is CommunityDetailMviModel.Intent.Hide -> {
+                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                        hide(post = post)
+                    }
+                }
+
+                CommunityDetailMviModel.Intent.PauseZombieMode -> {
+                    updateState { it.copy(zombieModeActive = false) }
+                    zombieModeHelper.pause()
+                }
+
+                is CommunityDetailMviModel.Intent.StartZombieMode -> {
+                    updateState { it.copy(zombieModeActive = true) }
+                    zombieModeHelper.start(
+                        initialValue = intent.index,
+                        interval = settingsRepository.currentSettings.value.zombieModeInterval,
+                    )
+                }
+
+                is CommunityDetailMviModel.Intent.ModFeaturePost ->
+                    uiState.value.posts.firstOrNull { it.id == intent.id }
+                        ?.also { post ->
+                            feature(post = post)
+                        }
+
+                is CommunityDetailMviModel.Intent.ModLockPost ->
+                    uiState.value.posts.firstOrNull { it.id == intent.id }
+                        ?.also { post ->
+                            lock(post = post)
+                        }
+
+                is CommunityDetailMviModel.Intent.ModToggleModUser -> {
+                    toggleModeratorStatus(intent.id)
+                }
+
+                CommunityDetailMviModel.Intent.ToggleFavorite -> {
+                    toggleFavorite()
+                }
+
+                is CommunityDetailMviModel.Intent.ChangeSearching -> {
+                    updateState { it.copy(searching = intent.value) }
+                    if (!intent.value) {
+                        updateSearchText("")
+                    }
+                }
+
+                is CommunityDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
+                is CommunityDetailMviModel.Intent.Copy ->
+                    screenModelScope.launch {
+                        emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(intent.value))
+                    }
+
+                CommunityDetailMviModel.Intent.WillOpenDetail -> {
+                    val state = postPaginationManager.extractState()
+                    postNavigationManager.push(state)
+                }
+
+                CommunityDetailMviModel.Intent.UnhideCommunity -> {
+                    unhideCommunity()
+                }
+            }
+        }
+
+        private suspend fun refresh() {
+            hideReadPosts = false
+            val currentState = uiState.value
+            zombieModeHelper.pause()
+            postPaginationManager.reset(
+                PostPaginationSpecification.Community(
+                    id = currentState.community.id,
+                    sortType = currentState.sortType,
+                    name = currentState.community.name,
+                    otherInstance = otherInstance,
+                    query = currentState.searchText.takeIf { currentState.searching },
+                    includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
+                ),
+            )
+            updateState { it.copy(canFetchMore = true, refreshing = true) }
+            val auth = identityRepository.authToken.value
+            val accountId = accountRepository.getActive()?.id
+            val isFavorite = favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
+            val refreshedCommunity =
+                communityRepository.get(
+                    auth = auth,
+                    name = currentState.community.name,
+                    id = currentState.community.id,
+                    instance = otherInstance,
+                )?.copy(favorite = isFavorite)
+            val moderators =
+                communityRepository.getModerators(
+                    auth = auth,
+                    id = currentState.community.id,
+                )
+            if (refreshedCommunity != null) {
                 updateState {
                     it.copy(
-                        currentUserId = user?.id ?: 0,
-                        isAdmin = user?.admin == true,
+                        community = refreshedCommunity,
+                        moderators = moderators,
+                        loading = false,
+                        zombieModeActive = false,
                     )
                 }
             }
-            if (uiState.value.posts.isEmpty()) {
-                val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
-                val customPostSortType =
-                    communitySortRepository.getSort(uiState.value.community.readableHandle)?.toSortType()
-                updateState { it.copy(sortType = customPostSortType ?: defaultPostSortType) }
+
+            loadNextPage()
+        }
+
+        private fun applySortType(value: SortType) {
+            if (uiState.value.sortType == value) {
+                return
+            }
+            updateState { it.copy(sortType = value) }
+            screenModelScope.launch {
+                emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                delay(50)
                 refresh()
             }
         }
-    }
 
-    private suspend fun updateAvailableSortTypes() {
-        val sortTypes = getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
-        updateState { it.copy(availableSortTypes = sortTypes) }
-    }
-
-    override fun reduce(intent: CommunityDetailMviModel.Intent) {
-        when (intent) {
-            CommunityDetailMviModel.Intent.LoadNextPage ->
-                screenModelScope.launch {
-                    loadNextPage()
-                }
-
-            CommunityDetailMviModel.Intent.Refresh ->
-                screenModelScope.launch {
-                    refresh()
-                }
-
-            is CommunityDetailMviModel.Intent.DownVotePost -> {
-                if (intent.feedback) {
-                    hapticFeedback.vibrate()
-                }
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleDownVotePost(post = post)
-                }
+        private suspend fun loadNextPage() {
+            val currentState = uiState.value
+            if (!currentState.canFetchMore || currentState.loading) {
+                updateState { it.copy(refreshing = false) }
+                return
             }
-
-            is CommunityDetailMviModel.Intent.Share -> {
-                shareHelper.share(intent.url)
-            }
-
-            is CommunityDetailMviModel.Intent.SavePost -> {
-                if (intent.feedback) {
-                    hapticFeedback.vibrate()
-                }
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleSavePost(post = post)
-                }
-            }
-
-            is CommunityDetailMviModel.Intent.UpVotePost -> {
-                if (intent.feedback) {
-                    hapticFeedback.vibrate()
-                }
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    toggleUpVotePost(post = post)
-                }
-            }
-
-            CommunityDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            CommunityDetailMviModel.Intent.Subscribe -> subscribe()
-            CommunityDetailMviModel.Intent.Unsubscribe -> unsubscribe()
-            is CommunityDetailMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
-
-            CommunityDetailMviModel.Intent.Block -> blockCommunity()
-            CommunityDetailMviModel.Intent.BlockInstance -> blockInstance()
-            is CommunityDetailMviModel.Intent.MarkAsRead -> {
-                markAsRead(uiState.value.posts.first { it.id == intent.id })
-            }
-
-            CommunityDetailMviModel.Intent.ClearRead -> clearRead()
-            is CommunityDetailMviModel.Intent.Hide -> {
-                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                    hide(post = post)
-                }
-            }
-
-            CommunityDetailMviModel.Intent.PauseZombieMode -> {
-                updateState { it.copy(zombieModeActive = false) }
-                zombieModeHelper.pause()
-            }
-
-            is CommunityDetailMviModel.Intent.StartZombieMode -> {
-                updateState { it.copy(zombieModeActive = true) }
-                zombieModeHelper.start(
-                    initialValue = intent.index,
-                    interval = settingsRepository.currentSettings.value.zombieModeInterval,
-                )
-            }
-
-            is CommunityDetailMviModel.Intent.ModFeaturePost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
-                    ?.also { post ->
-                        feature(post = post)
+            updateState { it.copy(loading = true) }
+            val posts =
+                postPaginationManager.loadNextPage().let {
+                    if (!hideReadPosts) {
+                        it
+                    } else {
+                        it.filter { post -> !post.read }
                     }
-
-            is CommunityDetailMviModel.Intent.ModLockPost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
-                    ?.also { post ->
-                        lock(post = post)
+                }.let {
+                    if (currentState.searching) {
+                        it.filter { post ->
+                            listOf(post.title, post.text).any { s ->
+                                s.contains(
+                                    other = currentState.searchText,
+                                    ignoreCase = true,
+                                )
+                            }
+                        }
+                    } else {
+                        it
                     }
-
-            is CommunityDetailMviModel.Intent.ModToggleModUser -> {
-                toggleModeratorStatus(intent.id)
-            }
-
-            CommunityDetailMviModel.Intent.ToggleFavorite -> {
-                toggleFavorite()
-            }
-
-            is CommunityDetailMviModel.Intent.ChangeSearching -> {
-                updateState { it.copy(searching = intent.value) }
-                if (!intent.value) {
-                    updateSearchText("")
+                }
+            if (uiState.value.autoLoadImages) {
+                posts.forEach { post ->
+                    post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                        imagePreloadManager.preload(url)
+                    }
                 }
             }
-
-            is CommunityDetailMviModel.Intent.SetSearch -> updateSearchText(intent.value)
-            is CommunityDetailMviModel.Intent.Copy ->
-                screenModelScope.launch {
-                    emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(intent.value))
-                }
-
-            CommunityDetailMviModel.Intent.WillOpenDetail -> {
-                val state = postPaginationManager.extractState()
-                postNavigationManager.push(state)
-            }
-
-            CommunityDetailMviModel.Intent.UnhideCommunity -> {
-                unhideCommunity()
-            }
-        }
-    }
-
-    private suspend fun refresh() {
-        hideReadPosts = false
-        val currentState = uiState.value
-        zombieModeHelper.pause()
-        postPaginationManager.reset(
-            PostPaginationSpecification.Community(
-                id = currentState.community.id,
-                sortType = currentState.sortType,
-                name = currentState.community.name,
-                otherInstance = otherInstance,
-                query = currentState.searchText.takeIf { currentState.searching },
-                includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
-            ),
-        )
-        updateState { it.copy(canFetchMore = true, refreshing = true) }
-        val auth = identityRepository.authToken.value
-        val accountId = accountRepository.getActive()?.id
-        val isFavorite = favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
-        val refreshedCommunity =
-            communityRepository.get(
-                auth = auth,
-                name = currentState.community.name,
-                id = currentState.community.id,
-                instance = otherInstance,
-            )?.copy(favorite = isFavorite)
-        val moderators =
-            communityRepository.getModerators(
-                auth = auth,
-                id = currentState.community.id,
-            )
-        if (refreshedCommunity != null) {
             updateState {
                 it.copy(
-                    community = refreshedCommunity,
-                    moderators = moderators,
+                    posts = posts,
                     loading = false,
-                    zombieModeActive = false,
+                    canFetchMore = postPaginationManager.canFetchMore,
+                    refreshing = false,
                 )
             }
         }
 
-        loadNextPage()
-    }
-
-    private fun applySortType(value: SortType) {
-        if (uiState.value.sortType == value) {
-            return
-        }
-        updateState { it.copy(sortType = value) }
-        screenModelScope.launch {
-            emitEffect(CommunityDetailMviModel.Effect.BackToTop)
-            delay(50)
-            refresh()
-        }
-    }
-
-    private suspend fun loadNextPage() {
-        val currentState = uiState.value
-        if (!currentState.canFetchMore || currentState.loading) {
-            updateState { it.copy(refreshing = false) }
-            return
-        }
-        updateState { it.copy(loading = true) }
-        val posts =
-            postPaginationManager.loadNextPage().let {
-                if (!hideReadPosts) {
-                    it
-                } else {
-                    it.filter { post -> !post.read }
-                }
-            }.let {
-                if (currentState.searching) {
-                    it.filter { post ->
-                        listOf(post.title, post.text).any { s ->
-                            s.contains(
-                                other = currentState.searchText,
-                                ignoreCase = true,
-                            )
-                        }
-                    }
-                } else {
-                    it
-                }
-            }
-        if (uiState.value.autoLoadImages) {
-            posts.forEach { post ->
-                post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                    imagePreloadManager.preload(url)
-                }
-            }
-        }
-        updateState {
-            it.copy(
-                posts = posts,
-                loading = false,
-                canFetchMore = postPaginationManager.canFetchMore,
-                refreshing = false,
-            )
-        }
-    }
-
-    private fun toggleUpVotePost(post: PostModel) {
-        val newValue = post.myVote <= 0
-        val newPost =
-            postRepository.asUpVoted(
-                post = post,
-                voted = newValue,
-            )
-        handlePostUpdate(newPost)
-        screenModelScope.launch {
-            try {
-                val auth = identityRepository.authToken.value.orEmpty()
-                postRepository.upVote(
-                    auth = auth,
+        private fun toggleUpVotePost(post: PostModel) {
+            val newValue = post.myVote <= 0
+            val newPost =
+                postRepository.asUpVoted(
                     post = post,
                     voted = newValue,
                 )
-                markAsRead(newPost)
-                notificationCenter.send(
-                    event = NotificationCenterEvent.PostUpdated(newPost),
-                )
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                handlePostUpdate(post)
+            handlePostUpdate(newPost)
+            screenModelScope.launch {
+                try {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    postRepository.upVote(
+                        auth = auth,
+                        post = post,
+                        voted = newValue,
+                    )
+                    markAsRead(newPost)
+                    notificationCenter.send(
+                        event = NotificationCenterEvent.PostUpdated(newPost),
+                    )
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    handlePostUpdate(post)
+                }
             }
         }
-    }
 
-    private fun markAsRead(post: PostModel) {
-        if (post.read) {
-            return
-        }
-        val newPost = post.copy(read = true)
-        screenModelScope.launch {
-            try {
-                val auth = identityRepository.authToken.value.orEmpty()
-                postRepository.setRead(
-                    read = true,
-                    postId = post.id,
-                    auth = auth,
-                )
-                handlePostUpdate(newPost)
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                handlePostUpdate(post)
+        private fun markAsRead(post: PostModel) {
+            if (post.read) {
+                return
+            }
+            val newPost = post.copy(read = true)
+            screenModelScope.launch {
+                try {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    postRepository.setRead(
+                        read = true,
+                        postId = post.id,
+                        auth = auth,
+                    )
+                    handlePostUpdate(newPost)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    handlePostUpdate(post)
+                }
             }
         }
-    }
 
-    private fun toggleDownVotePost(post: PostModel) {
-        val newValue = post.myVote >= 0
-        val newPost =
-            postRepository.asDownVoted(
-                post = post,
-                downVoted = newValue,
-            )
-        handlePostUpdate(newPost)
-        screenModelScope.launch {
-            try {
-                val auth = identityRepository.authToken.value.orEmpty()
-                postRepository.downVote(
-                    auth = auth,
+        private fun toggleDownVotePost(post: PostModel) {
+            val newValue = post.myVote >= 0
+            val newPost =
+                postRepository.asDownVoted(
                     post = post,
                     downVoted = newValue,
                 )
-                markAsRead(newPost)
-                notificationCenter.send(
-                    event = NotificationCenterEvent.PostUpdated(newPost),
-                )
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                handlePostUpdate(post)
+            handlePostUpdate(newPost)
+            screenModelScope.launch {
+                try {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    postRepository.downVote(
+                        auth = auth,
+                        post = post,
+                        downVoted = newValue,
+                    )
+                    markAsRead(newPost)
+                    notificationCenter.send(
+                        event = NotificationCenterEvent.PostUpdated(newPost),
+                    )
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    handlePostUpdate(post)
+                }
             }
         }
-    }
 
-    private fun toggleSavePost(post: PostModel) {
-        val newValue = !post.saved
-        val newPost =
-            postRepository.asSaved(
-                post = post,
-                saved = newValue,
-            )
-        handlePostUpdate(newPost)
-        screenModelScope.launch {
-            try {
-                val auth = identityRepository.authToken.value.orEmpty()
-                postRepository.save(
-                    auth = auth,
+        private fun toggleSavePost(post: PostModel) {
+            val newValue = !post.saved
+            val newPost =
+                postRepository.asSaved(
                     post = post,
                     saved = newValue,
                 )
-                markAsRead(newPost)
-                notificationCenter.send(
-                    event = NotificationCenterEvent.PostUpdated(newPost),
-                )
-            } catch (e: Throwable) {
-                e.printStackTrace()
-                handlePostUpdate(post)
-            }
-        }
-    }
-
-    private fun subscribe() {
-        hapticFeedback.vibrate()
-        screenModelScope.launch {
-            val community =
-                communityRepository.subscribe(
-                    auth = identityRepository.authToken.value,
-                    id = communityId,
-                )
-            if (community != null) {
-                updateState { it.copy(community = community) }
-                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
-            }
-        }
-    }
-
-    private fun unsubscribe() {
-        hapticFeedback.vibrate()
-        screenModelScope.launch {
-            val community =
-                communityRepository.unsubscribe(
-                    auth = identityRepository.authToken.value,
-                    id = communityId,
-                )
-            if (community != null) {
-                updateState { it.copy(community = community) }
-                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
-            }
-        }
-    }
-
-    private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
-        }
-    }
-
-    private fun handlePostDelete(id: Long) {
-        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
-    }
-
-    private fun blockCommunity() {
-        updateState { it.copy(asyncInProgress = true) }
-        screenModelScope.launch {
-            try {
-                val auth = identityRepository.authToken.value
-                communityRepository.block(communityId, true, auth).getOrThrow()
-                emitEffect(CommunityDetailMviModel.Effect.Success)
-            } catch (e: Throwable) {
-                emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
-            } finally {
-                updateState { it.copy(asyncInProgress = false) }
-            }
-        }
-    }
-
-    private fun blockInstance() {
-        updateState { it.copy(asyncInProgress = true) }
-        screenModelScope.launch {
-            try {
-                val community = uiState.value.community
-                val instanceId = community.instanceId
-                val auth = identityRepository.authToken.value
-                siteRepository.block(instanceId, true, auth).getOrThrow()
-                emitEffect(CommunityDetailMviModel.Effect.Success)
-            } catch (e: Throwable) {
-                emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
-            } finally {
-                updateState { it.copy(asyncInProgress = false) }
-            }
-        }
-    }
-
-    private fun clearRead() {
-        hideReadPosts = true
-        updateState {
-            val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(
-                posts = newPosts,
-            )
-        }
-    }
-
-    private fun hide(post: PostModel) {
-        updateState {
-            val newPosts = it.posts.filter { e -> e.id != post.id }
-            it.copy(
-                posts = newPosts,
-            )
-        }
-        markAsRead(post)
-    }
-
-    private fun feature(post: PostModel) {
-        screenModelScope.launch {
-            val auth = identityRepository.authToken.value.orEmpty()
-            val newPost =
-                postRepository.featureInCommunity(
-                    postId = post.id,
-                    auth = auth,
-                    featured = !post.featuredCommunity,
-                )
-            if (newPost != null) {
-                handlePostUpdate(newPost)
-            }
-        }
-    }
-
-    private fun lock(post: PostModel) {
-        screenModelScope.launch {
-            val auth = identityRepository.authToken.value.orEmpty()
-            val newPost =
-                postRepository.lock(
-                    postId = post.id,
-                    auth = auth,
-                    locked = !post.locked,
-                )
-            if (newPost != null) {
-                handlePostUpdate(newPost)
-            }
-        }
-    }
-
-    private fun toggleModeratorStatus(userId: Long) {
-        screenModelScope.launch {
-            val isModerator = uiState.value.moderators.containsId(userId)
-            val auth = identityRepository.authToken.value.orEmpty()
-            val newModerators =
-                communityRepository.addModerator(
-                    auth = auth,
-                    communityId = communityId,
-                    added = !isModerator,
-                    userId = userId,
-                )
-            updateState {
-                it.copy(moderators = newModerators)
-            }
-        }
-    }
-
-    private fun toggleFavorite() {
-        screenModelScope.launch {
-            val accountId = accountRepository.getActive()?.id ?: 0L
-            val newValue = !uiState.value.community.favorite
-            if (newValue) {
-                val model = FavoriteCommunityModel(communityId = communityId)
-                favoriteCommunityRepository.create(model, accountId)
-            } else {
-                favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
-                    favoriteCommunityRepository.delete(accountId, toDelete)
+            handlePostUpdate(newPost)
+            screenModelScope.launch {
+                try {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    postRepository.save(
+                        auth = auth,
+                        post = post,
+                        saved = newValue,
+                    )
+                    markAsRead(newPost)
+                    notificationCenter.send(
+                        event = NotificationCenterEvent.PostUpdated(newPost),
+                    )
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                    handlePostUpdate(post)
                 }
             }
-            val newCommunity = uiState.value.community.copy(favorite = newValue)
-            updateState { it.copy(community = newCommunity) }
-            emitEffect(CommunityDetailMviModel.Effect.Success)
         }
-    }
 
-    private fun updateSearchText(value: String) {
-        updateState { it.copy(searchText = value) }
-        screenModelScope.launch {
-            searchEventChannel.send(Unit)
+        private fun subscribe() {
+            hapticFeedback.vibrate()
+            screenModelScope.launch {
+                val community =
+                    communityRepository.subscribe(
+                        auth = identityRepository.authToken.value,
+                        id = communityId,
+                    )
+                if (community != null) {
+                    updateState { it.copy(community = community) }
+                    notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
+                }
+            }
         }
-    }
 
-    private fun unhideCommunity() {
-        screenModelScope.launch {
-            val auth = identityRepository.authToken.value
-            try {
-                communityRepository.hide(
-                    auth = auth,
-                    communityId = communityId,
-                    hidden = false,
+        private fun unsubscribe() {
+            hapticFeedback.vibrate()
+            screenModelScope.launch {
+                val community =
+                    communityRepository.unsubscribe(
+                        auth = identityRepository.authToken.value,
+                        id = communityId,
+                    )
+                if (community != null) {
+                    updateState { it.copy(community = community) }
+                    notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
+                }
+            }
+        }
+
+        private fun handlePostUpdate(post: PostModel) {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
                 )
+            }
+        }
+
+        private fun handlePostDelete(id: Long) {
+            updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        }
+
+        private fun blockCommunity() {
+            updateState { it.copy(asyncInProgress = true) }
+            screenModelScope.launch {
+                try {
+                    val auth = identityRepository.authToken.value
+                    communityRepository.block(communityId, true, auth).getOrThrow()
+                    emitEffect(CommunityDetailMviModel.Effect.Success)
+                } catch (e: Throwable) {
+                    emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
+                } finally {
+                    updateState { it.copy(asyncInProgress = false) }
+                }
+            }
+        }
+
+        private fun blockInstance() {
+            updateState { it.copy(asyncInProgress = true) }
+            screenModelScope.launch {
+                try {
+                    val community = uiState.value.community
+                    val instanceId = community.instanceId
+                    val auth = identityRepository.authToken.value
+                    siteRepository.block(instanceId, true, auth).getOrThrow()
+                    emitEffect(CommunityDetailMviModel.Effect.Success)
+                } catch (e: Throwable) {
+                    emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
+                } finally {
+                    updateState { it.copy(asyncInProgress = false) }
+                }
+            }
+        }
+
+        private fun clearRead() {
+            hideReadPosts = true
+            updateState {
+                val newPosts = it.posts.filter { e -> !e.read }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
+        }
+
+        private fun hide(post: PostModel) {
+            updateState {
+                val newPosts = it.posts.filter { e -> e.id != post.id }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
+            markAsRead(post)
+        }
+
+        private fun feature(post: PostModel) {
+            screenModelScope.launch {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val newPost =
+                    postRepository.featureInCommunity(
+                        postId = post.id,
+                        auth = auth,
+                        featured = !post.featuredCommunity,
+                    )
+                if (newPost != null) {
+                    handlePostUpdate(newPost)
+                }
+            }
+        }
+
+        private fun lock(post: PostModel) {
+            screenModelScope.launch {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val newPost =
+                    postRepository.lock(
+                        postId = post.id,
+                        auth = auth,
+                        locked = !post.locked,
+                    )
+                if (newPost != null) {
+                    handlePostUpdate(newPost)
+                }
+            }
+        }
+
+        private fun toggleModeratorStatus(userId: Long) {
+            screenModelScope.launch {
+                val isModerator = uiState.value.moderators.containsId(userId)
+                val auth = identityRepository.authToken.value.orEmpty()
+                val newModerators =
+                    communityRepository.addModerator(
+                        auth = auth,
+                        communityId = communityId,
+                        added = !isModerator,
+                        userId = userId,
+                    )
+                updateState {
+                    it.copy(moderators = newModerators)
+                }
+            }
+        }
+
+        private fun toggleFavorite() {
+            screenModelScope.launch {
+                val accountId = accountRepository.getActive()?.id ?: 0L
+                val newValue = !uiState.value.community.favorite
+                if (newValue) {
+                    val model = FavoriteCommunityModel(communityId = communityId)
+                    favoriteCommunityRepository.create(model, accountId)
+                } else {
+                    favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
+                        favoriteCommunityRepository.delete(accountId, toDelete)
+                    }
+                }
+                val newCommunity = uiState.value.community.copy(favorite = newValue)
+                updateState { it.copy(community = newCommunity) }
                 emitEffect(CommunityDetailMviModel.Effect.Success)
-            } catch (e: Throwable) {
-                val message = e.message
-                emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+            }
+        }
+
+        private fun updateSearchText(value: String) {
+            updateState { it.copy(searchText = value) }
+            screenModelScope.launch {
+                searchEventChannel.send(Unit)
+            }
+        }
+
+        private fun unhideCommunity() {
+            screenModelScope.launch {
+                val auth = identityRepository.authToken.value
+                try {
+                    communityRepository.hide(
+                        auth = auth,
+                        communityId = communityId,
+                        hidden = false,
+                    )
+                    emitEffect(CommunityDetailMviModel.Effect.Success)
+                } catch (e: Throwable) {
+                    val message = e.message
+                    emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+                }
             }
         }
     }
-}

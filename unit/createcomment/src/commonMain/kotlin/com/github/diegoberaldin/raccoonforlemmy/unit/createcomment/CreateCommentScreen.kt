@@ -142,8 +142,8 @@ class CreateCommentScreen(
                                             originalPost.comments + 1
                                         } else {
                                             originalPost.comments
-                                        }
-                                    )
+                                        },
+                                    ),
                                 ),
                             )
                         }
@@ -218,7 +218,7 @@ class CreateCommentScreen(
                                 model.reduce(CreateCommentMviModel.Intent.Send)
                             },
                         )
-                    }
+                    },
                 )
             },
         ) { padding ->
@@ -235,7 +235,7 @@ class CreateCommentScreen(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .fillMaxWidth()
-                        .verticalScroll(rememberScrollState())
+                        .verticalScroll(rememberScrollState()),
                 ) {
                     val referenceModifier = Modifier.padding(
                         horizontal = Spacing.s,
@@ -259,8 +259,8 @@ class CreateCommentScreen(
                                     add(
                                         Option(
                                             OptionId.SeeRaw,
-                                            LocalXmlStrings.current.postActionSeeRaw
-                                        )
+                                            LocalXmlStrings.current.postActionSeeRaw,
+                                        ),
                                     )
                                 },
                                 onOptionSelected = {
@@ -290,8 +290,8 @@ class CreateCommentScreen(
                                 add(
                                     Option(
                                         OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw
-                                    )
+                                        LocalXmlStrings.current.postActionSeeRaw,
+                                    ),
                                 )
                             },
                             onOptionSelected = {
@@ -324,7 +324,7 @@ class CreateCommentScreen(
                                 else -> CreatePostSection.Edit
                             }
                             model.reduce(CreateCommentMviModel.Intent.ChangeSection(section))
-                        }
+                        },
                     )
 
                     if (uiState.section == CreatePostSection.Edit) {
@@ -388,7 +388,7 @@ class CreateCommentScreen(
                         Box(
                             modifier = Modifier
                                 .heightIn(min = 300.dp, max = 500.dp)
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
                         ) {
                             PostCardBody(
                                 modifier = Modifier
@@ -480,7 +480,7 @@ class CreateCommentScreen(
                     },
                     onDismiss = rememberCallback {
                         selectLanguageDialogOpen = false
-                    }
+                    },
                 )
             }
         }

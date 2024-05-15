@@ -84,12 +84,12 @@ class WebViewScreen(
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
-                    }
+                    },
                 )
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier.padding(paddingValues)
+                modifier = Modifier.padding(paddingValues),
             ) {
                 val webNavigator = rememberWebViewNavigator()
 

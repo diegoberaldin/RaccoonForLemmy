@@ -17,7 +17,7 @@ class DefaultCrashReportWriter : CrashReportWriter {
     }
 
     override fun write(reportText: String) {
-        val paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true);
+        val paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, true)
         val file = (paths.first() as NSString).stringByAppendingPathComponent(FILE_NAME)
         val data = NSString.create(string = reportText).dataUsingEncoding(NSUTF8StringEncoding)
         NSFileManager.defaultManager.createFileAtPath(file, data, null)

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 
 @Composable
 internal fun DrawerShortcut(
@@ -35,7 +34,6 @@ internal fun DrawerShortcut(
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-
         },
         onClick = {
             onSelected?.invoke()

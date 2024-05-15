@@ -6,7 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.licences.models.LicenceItem
 
 class LicencesViewModel : LicencesMviModel,
     DefaultMviModel<LicencesMviModel.Intent, LicencesMviModel.State, LicencesMviModel.Effect>(
-        initialState = LicencesMviModel.State()
+        initialState = LicencesMviModel.State(),
     ) {
 
     init {
@@ -122,7 +122,7 @@ class LicencesViewModel : LicencesMviModel,
                         subtitle = "A multiplatform navigation library built for, and seamlessly integrated with, Jetpack Compose",
                         url = LicenceUrls.VOYAGER,
                     )
-                }
+                },
             )
         }
     }

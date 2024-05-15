@@ -375,7 +375,8 @@ class CommunityDetailScreen(
                                     },
                                 )
                                 this += Option(
-                                    OptionId.Share, LocalXmlStrings.current.postActionShare,
+                                    OptionId.Share,
+                                    LocalXmlStrings.current.postActionShare,
                                 )
                                 if (uiState.isLogged) {
                                     this += Option(
@@ -465,11 +466,11 @@ class CommunityDetailScreen(
                                             optionsExpanded = false
                                             when (option.id) {
                                                 OptionId.BlockInstance -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.BlockInstance
+                                                    CommunityDetailMviModel.Intent.BlockInstance,
                                                 )
 
                                                 OptionId.Block -> model.reduce(
-                                                    CommunityDetailMviModel.Intent.Block
+                                                    CommunityDetailMviModel.Intent.Block,
                                                 )
 
                                                 OptionId.InfoInstance -> {
@@ -482,7 +483,7 @@ class CommunityDetailScreen(
 
                                                 OptionId.OpenReports -> {
                                                     val screen = ReportListScreen(
-                                                        communityId = uiState.community.id
+                                                        communityId = uiState.community.id,
                                                     )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
@@ -510,8 +511,8 @@ class CommunityDetailScreen(
                                                     if (urls.size == 1) {
                                                         model.reduce(
                                                             CommunityDetailMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
+                                                                urls.first(),
+                                                            ),
                                                         )
                                                     } else {
                                                         val screen = ShareBottomSheet(urls = urls)
@@ -532,8 +533,8 @@ class CommunityDetailScreen(
                                                 OptionId.Search -> {
                                                     model.reduce(
                                                         CommunityDetailMviModel.Intent.ChangeSearching(
-                                                            !uiState.searching
-                                                        )
+                                                            !uiState.searching,
+                                                        ),
                                                     )
                                                 }
 
@@ -618,7 +619,7 @@ class CommunityDetailScreen(
                                     text = LocalXmlStrings.current.actionActivateZombieMode,
                                     onSelected = rememberCallback(model) {
                                         model.reduce(
-                                            CommunityDetailMviModel.Intent.StartZombieMode(-1)
+                                            CommunityDetailMviModel.Intent.StartZombieMode(-1),
                                         )
                                     },
                                 )
@@ -705,8 +706,8 @@ class CommunityDetailScreen(
                                             if (uiState.searchText.isNotEmpty()) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.SetSearch(
-                                                        ""
-                                                    )
+                                                        "",
+                                                    ),
                                                 )
                                             }
                                         },
@@ -732,7 +733,7 @@ class CommunityDetailScreen(
                                     Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                 } else {
                                     Modifier
-                                }
+                                },
                             )
                             .nestedScroll(fabNestedScrollConnection)
                             .nestedScroll(keyboardScrollConnection)
@@ -754,7 +755,7 @@ class CommunityDetailScreen(
                                                 ZoomableImageScreen(
                                                     url = url,
                                                     source = uiState.community.readableHandle,
-                                                )
+                                                ),
                                             )
                                         },
                                         onInfo = rememberCallback {
@@ -764,7 +765,7 @@ class CommunityDetailScreen(
                                                 otherInstance = otherInstanceName,
                                             )
                                             navigationCoordinator.openSideMenu(screen)
-                                        }
+                                        },
                                     )
                                 }
                             }
@@ -807,7 +808,7 @@ class CommunityDetailScreen(
                                                 onTriggered = rememberCallback {
                                                     model.reduce(
                                                         CommunityDetailMviModel.Intent.UpVotePost(
-                                                            post.id
+                                                            post.id,
                                                         ),
                                                     )
                                                 },
@@ -826,7 +827,7 @@ class CommunityDetailScreen(
                                                 onTriggered = rememberCallback {
                                                     model.reduce(
                                                         CommunityDetailMviModel.Intent.DownVotePost(
-                                                            post.id
+                                                            post.id,
                                                         ),
                                                     )
                                                 },
@@ -863,7 +864,6 @@ class CommunityDetailScreen(
                                                     )
                                                 },
                                             )
-
 
                                             else -> null
                                         }
@@ -908,8 +908,8 @@ class CommunityDetailScreen(
                                             onClick = rememberCallback(model) {
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.MarkAsRead(
-                                                        post.id
-                                                    )
+                                                        post.id,
+                                                    ),
                                                 )
                                                 model.reduce(CommunityDetailMviModel.Intent.WillOpenDetail)
                                                 detailOpener.openPostDetail(
@@ -938,7 +938,7 @@ class CommunityDetailScreen(
                                             },
                                             onOpenWeb = rememberCallbackArgs { url ->
                                                 navigationCoordinator.pushScreen(
-                                                    WebViewScreen(url)
+                                                    WebViewScreen(url),
                                                 )
                                             },
                                             onUpVote = rememberCallback(model) {
@@ -972,8 +972,8 @@ class CommunityDetailScreen(
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     model.reduce(
                                                         CommunityDetailMviModel.Intent.MarkAsRead(
-                                                            post.id
-                                                        )
+                                                            post.id,
+                                                        ),
                                                     )
                                                     model.reduce(CommunityDetailMviModel.Intent.WillOpenDetail)
                                                     detailOpener.openPostDetail(post)
@@ -982,8 +982,8 @@ class CommunityDetailScreen(
                                             onOpenImage = rememberCallbackArgs(model) { url ->
                                                 model.reduce(
                                                     CommunityDetailMviModel.Intent.MarkAsRead(
-                                                        post.id
-                                                    )
+                                                        post.id,
+                                                    ),
                                                 )
                                                 navigationCoordinator.pushScreen(
                                                     ZoomableImageScreen(
@@ -1014,7 +1014,7 @@ class CommunityDetailScreen(
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     this += Option(
                                                         OptionId.CrossPost,
-                                                        LocalXmlStrings.current.postActionCrossPost
+                                                        LocalXmlStrings.current.postActionCrossPost,
                                                     )
                                                     this += Option(
                                                         OptionId.Report,
@@ -1065,7 +1065,7 @@ class CommunityDetailScreen(
                                                             this += Option(
                                                                 OptionId.AddMod,
                                                                 if (uiState.moderators.containsId(
-                                                                        creatorId
+                                                                        creatorId,
                                                                     )
                                                                 ) {
                                                                     LocalXmlStrings.current.modActionRemoveMod
@@ -1123,37 +1123,37 @@ class CommunityDetailScreen(
                                                     }
 
                                                     OptionId.Hide -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.Hide(post.id)
+                                                        CommunityDetailMviModel.Intent.Hide(post.id),
                                                     )
 
                                                     OptionId.Share -> {
                                                         val urls = listOfNotNull(
                                                             post.originalUrl,
-                                                            "https://${uiState.instance}/post/${post.id}"
+                                                            "https://${uiState.instance}/post/${post.id}",
                                                         ).distinct()
                                                         if (urls.size == 1) {
                                                             model.reduce(
                                                                 CommunityDetailMviModel.Intent.Share(
-                                                                    urls.first()
-                                                                )
+                                                                    urls.first(),
+                                                                ),
                                                             )
                                                         } else {
                                                             val screen =
                                                                 ShareBottomSheet(urls = urls)
                                                             navigationCoordinator.showBottomSheet(
-                                                                screen
+                                                                screen,
                                                             )
                                                         }
                                                     }
 
                                                     OptionId.FeaturePost -> model.reduce(
                                                         CommunityDetailMviModel.Intent.ModFeaturePost(
-                                                            post.id
-                                                        )
+                                                            post.id,
+                                                        ),
                                                     )
 
                                                     OptionId.LockPost -> model.reduce(
-                                                        CommunityDetailMviModel.Intent.ModLockPost(post.id)
+                                                        CommunityDetailMviModel.Intent.ModLockPost(post.id),
                                                     )
 
                                                     OptionId.Remove -> {
@@ -1180,8 +1180,8 @@ class CommunityDetailScreen(
                                                         post.creator?.id?.also { userId ->
                                                             model.reduce(
                                                                 CommunityDetailMviModel.Intent.ModToggleModUser(
-                                                                    userId
-                                                                )
+                                                                    userId,
+                                                                ),
                                                             )
                                                         }
                                                     }
@@ -1194,16 +1194,16 @@ class CommunityDetailScreen(
                                                         if (texts.size == 1) {
                                                             model.reduce(
                                                                 CommunityDetailMviModel.Intent.Copy(
-                                                                    texts.first()
-                                                                )
+                                                                    texts.first(),
+                                                                ),
                                                             )
                                                         } else {
                                                             val screen = CopyPostBottomSheet(
                                                                 post.title,
-                                                                post.text
+                                                                post.text,
                                                             )
                                                             navigationCoordinator.showBottomSheet(
-                                                                screen
+                                                                screen,
                                                             )
                                                         }
                                                     }

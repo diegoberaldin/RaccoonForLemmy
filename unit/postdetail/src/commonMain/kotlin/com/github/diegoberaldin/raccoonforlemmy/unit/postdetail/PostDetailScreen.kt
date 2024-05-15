@@ -480,7 +480,7 @@ class PostDetailScreen(
                                                 OptionId.Report -> {
                                                     val screen = ModerateWithReasonScreen(
                                                         actionId = ModerateWithReasonAction.ReportPost.toInt(),
-                                                        contentId = uiState . post . id,
+                                                        contentId = uiState.post.id,
                                                     )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
@@ -499,13 +499,13 @@ class PostDetailScreen(
                                                 OptionId.Share -> {
                                                     val urls = listOfNotNull(
                                                         uiState.post.originalUrl,
-                                                        "https://${uiState.instance}/post/${uiState.post.id}"
+                                                        "https://${uiState.instance}/post/${uiState.post.id}",
                                                     ).distinct()
                                                     if (urls.size == 1) {
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.Share(
-                                                                urls.first()
-                                                            )
+                                                                urls.first(),
+                                                            ),
                                                         )
                                                     } else {
                                                         val screen = ShareBottomSheet(urls = urls)
@@ -546,8 +546,8 @@ class PostDetailScreen(
                                                     uiState.post.creator?.id?.also { userId ->
                                                         model.reduce(
                                                             PostDetailMviModel.Intent.ModToggleModUser(
-                                                                userId
-                                                            )
+                                                                userId,
+                                                            ),
                                                         )
                                                     }
                                                 }
@@ -559,13 +559,13 @@ class PostDetailScreen(
                                                     ).distinct()
                                                     if (texts.size == 1) {
                                                         model.reduce(
-                                                            PostDetailMviModel.Intent.Copy(texts.first())
+                                                            PostDetailMviModel.Intent.Copy(texts.first()),
                                                         )
                                                     } else {
                                                         val screen =
                                                             CopyPostBottomSheet(
                                                                 uiState.post.title,
-                                                                uiState.post.text
+                                                                uiState.post.text,
                                                             )
                                                         navigationCoordinator.showBottomSheet(screen)
                                                     }
@@ -574,8 +574,8 @@ class PostDetailScreen(
                                                 OptionId.Search -> {
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.ChangeSearching(
-                                                            !uiState.searching
-                                                        )
+                                                            !uiState.searching,
+                                                        ),
                                                     )
                                                 }
 
@@ -647,7 +647,7 @@ class PostDetailScreen(
                                 )
                             } else {
                                 Modifier
-                            }
+                            },
                         ),
                         items = buildList {
                             this += FloatingActionButtonMenuItem(
@@ -702,7 +702,7 @@ class PostDetailScreen(
                                 Modifier.nestedScroll(buttonBarScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         ),
                 ) {
                     if (uiState.searching) {
@@ -757,7 +757,7 @@ class PostDetailScreen(
                                     Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                 } else {
                                     Modifier
-                                }
+                                },
                             )
                             .nestedScroll(fabNestedScrollConnection)
                             .nestedScroll(keyboardScrollConnection)
@@ -765,14 +765,14 @@ class PostDetailScreen(
                     ) {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
-                            state = lazyListState
+                            state = lazyListState,
                         ) {
                             item {
                                 PostCard(
                                     post = uiState.post,
                                     isFromModerator = uiState.post.creator?.id.let { creatorId ->
                                         uiState.isModerator && uiState.moderators.containsId(
-                                            creatorId
+                                            creatorId,
                                         )
                                     },
                                     postLayout = if (uiState.postLayout == PostLayout.Card) {
@@ -800,7 +800,7 @@ class PostDetailScreen(
                                     },
                                     onOpenWeb = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
-                                            WebViewScreen(url)
+                                            WebViewScreen(url),
                                         )
                                     },
                                     onUpVote = rememberCallback(model) {
@@ -898,7 +898,7 @@ class PostDetailScreen(
                                     CommentCardPlaceholder()
                                     HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                        thickness = 0.25.dp
+                                        thickness = 0.25.dp,
                                     )
                                 }
                             }
@@ -913,7 +913,6 @@ class PostDetailScreen(
                                             fadeIn(animationSpec = tween(250)).togetherWith(fadeOut())
                                         },
                                     ) {
-
                                         @Composable
                                         fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                             mapNotNull {
@@ -932,7 +931,7 @@ class PostDetailScreen(
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.UpVoteComment(
                                                                     comment.id,
-                                                                )
+                                                                ),
                                                             )
                                                         },
                                                     )
@@ -950,7 +949,7 @@ class PostDetailScreen(
                                                         onTriggered = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.DownVoteComment(
-                                                                    comment.id
+                                                                    comment.id,
                                                                 ),
                                                             )
                                                         },
@@ -993,7 +992,6 @@ class PostDetailScreen(
                                                         },
                                                     )
 
-
                                                     else -> null
                                                 }
                                             }
@@ -1023,12 +1021,12 @@ class PostDetailScreen(
                                                                 if (comment.id == commentIdToHighlight) {
                                                                     Modifier.background(
                                                                         MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                            5.dp
-                                                                        ).copy(alpha = 0.75f)
+                                                                            5.dp,
+                                                                        ).copy(alpha = 0.75f),
                                                                     )
                                                                 } else {
                                                                     Modifier
-                                                                }
+                                                                },
                                                             ),
                                                         comment = comment,
                                                         isOp = comment.creator?.id == uiState.post.creator?.id,
@@ -1043,15 +1041,15 @@ class PostDetailScreen(
                                                         onToggleExpanded = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.ToggleExpandComment(
-                                                                    comment.id
-                                                                )
+                                                                    comment.id,
+                                                                ),
                                                             )
                                                         },
                                                         onClick = rememberCallback(model) {
                                                             model.reduce(
                                                                 PostDetailMviModel.Intent.ToggleExpandComment(
-                                                                    comment.id
-                                                                )
+                                                                    comment.id,
+                                                                ),
                                                             )
                                                         },
                                                         onDoubleClick = if (!uiState.doubleTapActionEnabled) {
@@ -1104,7 +1102,7 @@ class PostDetailScreen(
                                                         onOpenCreator = rememberCallbackArgs { user, instance ->
                                                             detailOpener.openUserDetail(
                                                                 user,
-                                                                instance
+                                                                instance,
                                                             )
                                                         },
                                                         onOpenCommunity = rememberCallbackArgs { community, instance ->
@@ -1118,7 +1116,7 @@ class PostDetailScreen(
                                                         },
                                                         onOpenWeb = rememberCallbackArgs { url ->
                                                             navigationCoordinator.pushScreen(
-                                                                WebViewScreen(url)
+                                                                WebViewScreen(url),
                                                             )
                                                         },
                                                         onImageClick = rememberCallbackArgs { url ->
@@ -1126,7 +1124,7 @@ class PostDetailScreen(
                                                                 ZoomableImageScreen(
                                                                     url = url,
                                                                     source = uiState.post.community?.readableHandle.orEmpty(),
-                                                                )
+                                                                ),
                                                             )
                                                         },
                                                         options = buildList {
@@ -1174,7 +1172,7 @@ class PostDetailScreen(
                                                                         this += Option(
                                                                             OptionId.AddMod,
                                                                             if (uiState.moderators.containsId(
-                                                                                    creatorId
+                                                                                    creatorId,
                                                                                 )
                                                                             ) {
                                                                                 LocalXmlStrings.current.modActionRemoveMod
@@ -1203,7 +1201,7 @@ class PostDetailScreen(
                                                             }
                                                         },
                                                         onOptionSelected = rememberCallbackArgs(
-                                                            model
+                                                            model,
                                                         ) { optionId ->
                                                             when (optionId) {
                                                                 OptionId.Delete -> {
@@ -1231,7 +1229,7 @@ class PostDetailScreen(
                                                                 OptionId.DistinguishComment -> model.reduce(
                                                                     PostDetailMviModel.Intent.ModDistinguishComment(
                                                                         comment.id,
-                                                                    )
+                                                                    ),
                                                                 )
 
                                                                 OptionId.Remove -> {
@@ -1262,7 +1260,7 @@ class PostDetailScreen(
                                                                         model.reduce(
                                                                             PostDetailMviModel.Intent.ModToggleModUser(
                                                                                 userId,
-                                                                            )
+                                                                            ),
                                                                         )
                                                                     }
                                                                 }
@@ -1304,7 +1302,7 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.ToggleExpandComment(
                                                             comment.id,
-                                                        )
+                                                        ),
 
                                                     )
                                                 },
@@ -1312,7 +1310,7 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.ToggleExpandComment(
                                                             comment.id,
-                                                        )
+                                                        ),
                                                     )
                                                 },
                                                 onUpVote = rememberCallback(model) {
@@ -1353,7 +1351,7 @@ class PostDetailScreen(
                                                 onOpenCreator = rememberCallbackArgs { user ->
                                                     detailOpener.openUserDetail(
                                                         user,
-                                                        otherInstanceName
+                                                        otherInstanceName,
                                                     )
                                                 },
                                                 options = buildList {
@@ -1440,7 +1438,7 @@ class PostDetailScreen(
                                                         OptionId.DistinguishComment -> model.reduce(
                                                             PostDetailMviModel.Intent.ModDistinguishComment(
                                                                 comment.id,
-                                                            )
+                                                            ),
                                                         )
 
                                                         OptionId.Remove -> {
@@ -1471,7 +1469,7 @@ class PostDetailScreen(
                                                                 model.reduce(
                                                                     PostDetailMviModel.Intent.ModToggleModUser(
                                                                         userId,
-                                                                    )
+                                                                    ),
                                                                 )
                                                             }
                                                         }
@@ -1485,7 +1483,7 @@ class PostDetailScreen(
 
                                     HorizontalDivider(
                                         modifier = Modifier.padding(vertical = Spacing.xxxs),
-                                        thickness = 0.25.dp
+                                        thickness = 0.25.dp,
                                     )
 
                                     // load more button
@@ -1499,7 +1497,7 @@ class PostDetailScreen(
                                                     model.reduce(
                                                         PostDetailMviModel.Intent.FetchMoreComments(
                                                             parentId = comment.id,
-                                                        )
+                                                        ),
                                                     )
                                                 },
                                             ) {
@@ -1611,7 +1609,7 @@ class PostDetailScreen(
                             .offset {
                                 IntOffset(
                                     x = 0,
-                                    y = -bottomBarOffsetHeightPx.roundToInt()
+                                    y = -bottomBarOffsetHeightPx.roundToInt(),
                                 )
                             }
                             .background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.45f)),
@@ -1639,7 +1637,7 @@ class PostDetailScreen(
                                     onClick = rememberCallback(lazyListState) {
                                         val idx = lazyListState.firstVisibleItemIndex
                                         model.reduce(
-                                            PostDetailMviModel.Intent.NavigatePreviousComment(idx)
+                                            PostDetailMviModel.Intent.NavigatePreviousComment(idx),
                                         )
                                     },
                                 ),
@@ -1654,9 +1652,9 @@ class PostDetailScreen(
                                 .onClick(
                                     onClick = rememberCallback(lazyListState) {
                                         val idx = lazyListState.firstVisibleItemIndex +
-                                                lazyListState.layoutInfo.visibleItemsInfo.size
+                                            lazyListState.layoutInfo.visibleItemsInfo.size
                                         model.reduce(
-                                            PostDetailMviModel.Intent.NavigateNextComment(idx)
+                                            PostDetailMviModel.Intent.NavigateNextComment(idx),
                                         )
                                     },
                                 ),

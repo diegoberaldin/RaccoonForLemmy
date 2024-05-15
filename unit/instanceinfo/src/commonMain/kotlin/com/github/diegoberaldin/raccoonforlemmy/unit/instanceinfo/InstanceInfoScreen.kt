@@ -67,7 +67,7 @@ class InstanceInfoScreen(
         val instanceName = url.replace("https://", "")
         val model = getScreenModel<InstanceInfoMviModel>(
             tag = instanceName,
-            parameters = { parametersOf(url) }
+            parameters = { parametersOf(url) },
         )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -127,7 +127,7 @@ class InstanceInfoScreen(
                                     append("(")
                                     append(additionalLabel)
                                     append(")")
-                                }
+                                },
                             )
                             Spacer(modifier = Modifier.width(Spacing.xs))
                         }
@@ -148,7 +148,7 @@ class InstanceInfoScreen(
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
-                    }
+                    },
                 )
             },
         ) { paddingValues ->
@@ -165,7 +165,7 @@ class InstanceInfoScreen(
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     )
                     .padding(paddingValues)
                     .pullRefresh(pullRefreshState),

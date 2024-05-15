@@ -193,7 +193,7 @@ class MultiCommunityScreen(
                                     append("(")
                                     append(additionalLabel)
                                     append(")")
-                                }
+                                },
                             )
                             Spacer(modifier = Modifier.width(Spacing.xs))
                         }
@@ -216,7 +216,7 @@ class MultiCommunityScreen(
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                             )
                         }
-                    }
+                    },
                 )
             },
             floatingActionButton = {
@@ -258,10 +258,10 @@ class MultiCommunityScreen(
                                     }
                                 },
                             )
-                        }
+                        },
                     )
                 }
-            }
+            },
         ) { padding ->
             val pullRefreshState = rememberPullRefreshState(
                 refreshing = uiState.refreshing,
@@ -278,7 +278,7 @@ class MultiCommunityScreen(
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {
                             Modifier
-                        }
+                        },
                     )
                     .nestedScroll(fabNestedScrollConnection)
                     .pullRefresh(pullRefreshState),
@@ -342,7 +342,7 @@ class MultiCommunityScreen(
                                             model.reduce(
                                                 MultiCommunityMviModel.Intent.DownVotePost(
                                                     post.id,
-                                                )
+                                                ),
                                             )
                                         },
                                     )
@@ -378,7 +378,6 @@ class MultiCommunityScreen(
                                             )
                                         },
                                     )
-
 
                                     else -> null
                                 }
@@ -445,7 +444,7 @@ class MultiCommunityScreen(
                                     },
                                     onOpenWeb = rememberCallbackArgs { url ->
                                         navigationCoordinator.pushScreen(
-                                            WebViewScreen(url)
+                                            WebViewScreen(url),
                                         )
                                     },
                                     onUpVote = rememberCallback(model) {
@@ -479,7 +478,7 @@ class MultiCommunityScreen(
                                             ZoomableImageScreen(
                                                 url = url,
                                                 source = post.community?.readableHandle.orEmpty(),
-                                            )
+                                            ),
                                         )
                                     },
                                     options = buildList {
@@ -514,20 +513,20 @@ class MultiCommunityScreen(
 
                                             OptionId.Hide -> model.reduce(
                                                 MultiCommunityMviModel.Intent.Hide(
-                                                    post.id
-                                                )
+                                                    post.id,
+                                                ),
                                             )
 
                                             OptionId.Share -> {
                                                 val urls = listOfNotNull(
                                                     post.originalUrl,
-                                                    "https://${uiState.instance}/post/${post.id}"
+                                                    "https://${uiState.instance}/post/${post.id}",
                                                 ).distinct()
                                                 if (urls.size == 1) {
                                                     model.reduce(
                                                         MultiCommunityMviModel.Intent.Share(
-                                                            urls.first()
-                                                        )
+                                                            urls.first(),
+                                                        ),
                                                     )
                                                 } else {
                                                     val screen = ShareBottomSheet(urls = urls)
@@ -542,7 +541,7 @@ class MultiCommunityScreen(
                                                 ).distinct()
                                                 if (texts.size == 1) {
                                                     model.reduce(
-                                                        MultiCommunityMviModel.Intent.Copy(texts.first())
+                                                        MultiCommunityMviModel.Intent.Copy(texts.first()),
                                                     )
                                                 } else {
                                                     val screen = CopyPostBottomSheet(post.title, post.text)
@@ -552,7 +551,7 @@ class MultiCommunityScreen(
 
                                             else -> Unit
                                         }
-                                    }
+                                    },
                                 )
                             },
                         )

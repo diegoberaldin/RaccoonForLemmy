@@ -62,7 +62,7 @@ actual fun CustomImage(
                 },
                 onSuccess = {
                     painterState = it
-                }
+                },
             )
 
             when (val state = painterState) {

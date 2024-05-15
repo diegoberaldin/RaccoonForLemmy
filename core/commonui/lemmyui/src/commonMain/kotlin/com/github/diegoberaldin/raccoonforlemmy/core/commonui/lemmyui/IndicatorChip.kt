@@ -26,7 +26,7 @@ fun IndicatorChip(
             .border(
                 color = MaterialTheme.colorScheme.onBackground,
                 width = Dp.Hairline,
-                shape = RoundedCornerShape(CornerSize.m)
+                shape = RoundedCornerShape(CornerSize.m),
             )
             .padding(
                 vertical = Spacing.xxxs,

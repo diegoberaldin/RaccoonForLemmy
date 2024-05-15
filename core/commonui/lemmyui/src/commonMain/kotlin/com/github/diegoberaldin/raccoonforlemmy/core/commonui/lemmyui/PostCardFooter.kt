@@ -124,7 +124,7 @@ fun PostCardFooter(
                         .padding(start = Spacing.xxs)
                         .background(
                             color = MaterialTheme.colorScheme.secondary,
-                            shape = RoundedCornerShape(CornerSize.s)
+                            shape = RoundedCornerShape(CornerSize.s),
                         )
                         .padding(horizontal = Spacing.xxs),
                     text = "+$unreadComments",
@@ -149,7 +149,7 @@ fun PostCardFooter(
                                 Modifier.padding(0.5.dp)
                             } else {
                                 Modifier
-                            }
+                            },
                         ),
                         imageVector = if (isShowingUpdateDate) {
                             Icons.Default.Update
@@ -285,5 +285,3 @@ fun PostCardFooter(
         }
     }
 }
-
-

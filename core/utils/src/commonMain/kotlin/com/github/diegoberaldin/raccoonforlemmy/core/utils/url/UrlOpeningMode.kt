@@ -9,7 +9,6 @@ sealed interface UrlOpeningMode {
     data object Internal : UrlOpeningMode
 }
 
-
 fun UrlOpeningMode.toInt(): Int = when (this) {
     UrlOpeningMode.CustomTabs -> 2
     UrlOpeningMode.External -> 1

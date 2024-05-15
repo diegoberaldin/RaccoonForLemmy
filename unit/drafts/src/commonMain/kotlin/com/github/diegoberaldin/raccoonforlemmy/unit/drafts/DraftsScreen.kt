@@ -116,7 +116,7 @@ class DraftsScreen : Screen {
                         Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                     } else {
                         Modifier
-                    }
+                    },
                 ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
@@ -146,7 +146,7 @@ class DraftsScreen : Screen {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
-                            }
+                            },
                         )
                         .pullRefresh(pullRefreshState),
                 ) {
@@ -155,7 +155,7 @@ class DraftsScreen : Screen {
                             .fillMaxSize()
                             .padding(horizontal = Spacing.xs),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem)
+                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem),
                     ) {
                         if (uiState.section == DraftsSection.Posts) {
                             if (uiState.postDrafts.isEmpty() && uiState.loading && uiState.initial) {

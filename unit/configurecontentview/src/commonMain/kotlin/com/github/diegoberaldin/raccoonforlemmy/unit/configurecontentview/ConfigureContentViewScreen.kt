@@ -192,7 +192,7 @@ class ConfigureContentViewScreen : Screen {
                         value = uiState.preferUserNicknames,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames(value)
+                                ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames(value),
                             )
                         },
                     )
@@ -203,7 +203,7 @@ class ConfigureContentViewScreen : Screen {
                         value = uiState.fullHeightImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value)
+                                ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value),
                             )
                         },
                     )
@@ -214,7 +214,7 @@ class ConfigureContentViewScreen : Screen {
                         value = uiState.fullWidthImages,
                         onValueChanged = rememberCallbackArgs(model) { value ->
                             model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangeFullWidthImages(value)
+                                ConfigureContentViewMviModel.Intent.ChangeFullWidthImages(value),
                             )
                         },
                     )
@@ -269,7 +269,7 @@ class ConfigureContentViewScreen : Screen {
                         commentBarThickness = uiState.commentBarThickness,
                         commentIndentAmount = uiState.commentIndentAmount,
 
-                        )
+                    )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }

@@ -106,7 +106,7 @@ internal class DefaultCommunityRepository(
         runCatching {
             val resolveResponse = services.search.resolveObject(
                 authHeader = auth.toAuthHeader(),
-                q = query
+                q = query,
             ).body()
             resolveResponse?.community?.toModel()
         }.getOrNull()
@@ -174,7 +174,7 @@ internal class DefaultCommunityRepository(
             )
             val response = services.community.follow(
                 authHeader = auth.toAuthHeader(),
-                form = data
+                form = data,
             )
             response.body()?.communityView?.toModel()
         }.getOrNull()
@@ -192,7 +192,7 @@ internal class DefaultCommunityRepository(
             )
             val response = services.community.follow(
                 authHeader = auth.toAuthHeader(),
-                form = data
+                form = data,
             )
             response.body()?.communityView?.toModel()
         }.getOrNull()
@@ -280,7 +280,7 @@ internal class DefaultCommunityRepository(
             )
             val response = services.community.edit(
                 authHeader = auth.toAuthHeader(),
-                form = data
+                form = data,
             )
             if (!response.isSuccessful) {
                 val error = response.errorBody().toString()

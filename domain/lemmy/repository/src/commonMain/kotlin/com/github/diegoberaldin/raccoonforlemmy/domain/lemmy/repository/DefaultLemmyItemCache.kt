@@ -32,7 +32,7 @@ internal class DefaultLemmyItemCache(
         communityCache.put(value = value, key = value.id)
     }
 
-    override suspend fun getCommunity(id: Long): CommunityModel?  = withContext(Dispatchers.IO) { communityCache.get(id) }
+    override suspend fun getCommunity(id: Long): CommunityModel? = withContext(Dispatchers.IO) { communityCache.get(id) }
 
     override suspend fun putUser(value: UserModel) = withContext(Dispatchers.IO) {
         userCache.put(value = value, key = value.id)

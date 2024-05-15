@@ -29,7 +29,7 @@ internal fun ConfigureAddAction(
         modifier = Modifier
             .padding(
                 horizontal = Spacing.s,
-                vertical = Spacing.xs
+                vertical = Spacing.xs,
             ).onClick(onClick = onAdd),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,

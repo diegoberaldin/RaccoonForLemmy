@@ -70,7 +70,7 @@ class SelectInstanceBottomSheet : Screen {
                     SelectInstanceMviModel.Intent.SwapIntances(
                         from = from.index - 1,
                         to = to.index - 1,
-                    )
+                    ),
                 )
             }
         var instanceToDelete by remember { mutableStateOf<String?>(null) }
@@ -139,7 +139,7 @@ class SelectInstanceBottomSheet : Screen {
                             state = reorderableLazyColumnState,
                             key = "dummy",
                             enabled = false,
-                            modifier = Modifier.fillMaxWidth().height(Dp.Hairline)
+                            modifier = Modifier.fillMaxWidth().height(Dp.Hairline),
                         ) {}
                     }
                 }
@@ -181,7 +181,7 @@ class SelectInstanceBottomSheet : Screen {
 
                                         else -> Unit
                                     }
-                                }
+                                },
                             )
                         }
                     }

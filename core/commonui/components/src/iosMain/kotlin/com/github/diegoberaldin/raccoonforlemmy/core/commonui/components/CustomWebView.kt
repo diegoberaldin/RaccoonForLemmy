@@ -55,7 +55,7 @@ actual fun CustomWebView(
             }
             WKWebView(
                 frame = CGRectZero.readValue(),
-                configuration = config
+                configuration = config,
             ).apply {
                 userInteractionEnabled = true
                 allowsBackForwardNavigationGestures = true
@@ -82,7 +82,6 @@ actual fun CustomWebView(
                         }
                     }
                 }
-
             }.also {
                 webView = it
             }
@@ -90,6 +89,6 @@ actual fun CustomWebView(
         modifier = modifier,
         onRelease = {
             webView = null
-        }
+        },
     )
 }

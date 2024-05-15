@@ -33,7 +33,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 
 @Composable
@@ -49,7 +48,7 @@ internal fun ConfigureActionItem(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.xs),
@@ -81,7 +80,7 @@ internal fun ConfigureActionItem(
                         ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
-                    tint = ancillaryColor
+                    tint = ancillaryColor,
                 )
             }
         }

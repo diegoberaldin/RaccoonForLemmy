@@ -68,7 +68,7 @@ class SortBottomSheet(
                     comments = comments,
                     defaultForCommunity = defaultForCommunity,
                     screenKey = screenKey,
-                )
+                ),
             )
         }
     }
@@ -109,7 +109,7 @@ internal class SortBottomSheetMain(
                                                 comments = comments,
                                                 defaultForCommunity = defaultForCommunity,
                                                 screenKey = screenKey,
-                                            )
+                                            ),
                                         )
                                     } else {
                                         val event = if (comments) {
@@ -183,7 +183,7 @@ internal class SortBottomSheetTop(
             ) {
                 BottomSheetHeader(SortType.Top.Generic.toReadableName() + "…")
                 Row(
-                    modifier = Modifier.padding(start = Spacing.xxs)
+                    modifier = Modifier.padding(start = Spacing.xxs),
                 ) {
                     Icon(
                         modifier = Modifier

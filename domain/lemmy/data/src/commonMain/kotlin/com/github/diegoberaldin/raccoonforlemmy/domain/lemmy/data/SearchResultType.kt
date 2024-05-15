@@ -20,7 +20,6 @@ sealed interface SearchResultType {
     data object Urls : SearchResultType
 }
 
-
 fun SearchResultType.toIcon(): ImageVector = when (this) {
     SearchResultType.All -> Icons.Default.AllInclusive
     SearchResultType.Comments -> Icons.AutoMirrored.Default.Message

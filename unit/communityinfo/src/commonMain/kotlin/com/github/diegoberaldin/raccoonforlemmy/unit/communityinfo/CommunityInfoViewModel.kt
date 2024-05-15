@@ -22,30 +22,30 @@ class CommunityInfoViewModel(
         initialState = CommunityInfoMviModel.UiState(),
     ) {
 
-    init {
-        screenModelScope.launch {
-            if (uiState.value.community.id == 0L) {
-                val community = itemCache.getCommunity(communityId) ?: CommunityModel()
-                updateState { it.copy(community = community) }
-            }
-            settingsRepository.currentSettings.onEach {
-                updateState { it.copy(autoLoadImages = it.autoLoadImages) }
-            }.launchIn(this)
-
-            if (uiState.value.moderators.isEmpty()) {
-                val community = communityRepository.get(
-                    id = communityId,
-                    name = communityName,
-                    instance = otherInstance,
-                )
-                if (community != null) {
+        init {
+            screenModelScope.launch {
+                if (uiState.value.community.id == 0L) {
+                    val community = itemCache.getCommunity(communityId) ?: CommunityModel()
                     updateState { it.copy(community = community) }
                 }
-                val moderators = communityRepository.getModerators(
-                    id = communityId,
-                )
-                updateState { it.copy(moderators = moderators) }
+                settingsRepository.currentSettings.onEach {
+                    updateState { it.copy(autoLoadImages = it.autoLoadImages) }
+                }.launchIn(this)
+
+                if (uiState.value.moderators.isEmpty()) {
+                    val community = communityRepository.get(
+                        id = communityId,
+                        name = communityName,
+                        instance = otherInstance,
+                    )
+                    if (community != null) {
+                        updateState { it.copy(community = community) }
+                    }
+                    val moderators = communityRepository.getModerators(
+                        id = communityId,
+                    )
+                    updateState { it.copy(moderators = moderators) }
+                }
             }
         }
     }
-}

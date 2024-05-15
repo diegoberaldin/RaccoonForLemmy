@@ -3,7 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
 internal class DefaultGetSortTypesUseCase(
-    private val siteRepository: SiteRepository
+    private val siteRepository: SiteRepository,
 ) : GetSortTypesUseCase {
 
     companion object {

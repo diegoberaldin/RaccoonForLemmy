@@ -45,7 +45,6 @@ fun Float.toFontScale(): FontScale = when (this) {
     else -> FontScale.Normal
 }
 
-
 // log(2 + 0.1 * n) / log(2)
 private object ReferenceValues {
     const val largest = 1.2f

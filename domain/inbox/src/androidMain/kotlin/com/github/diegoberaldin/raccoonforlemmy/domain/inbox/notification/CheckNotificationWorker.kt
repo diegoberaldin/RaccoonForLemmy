@@ -18,7 +18,6 @@ import org.koin.java.KoinJavaComponent
 import java.util.Collections.max
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.R as resourcesR
 
-
 internal class CheckNotificationWorker(
     private val context: Context,
     parameters: WorkerParameters,
@@ -27,16 +26,13 @@ internal class CheckNotificationWorker(
     private val inboxCoordinator by KoinJavaComponent.inject<InboxCoordinator>(InboxCoordinator::class.java)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun doWork(
-    ): Result {
-
+    override fun doWork(): Result {
         scope.launch {
             inboxCoordinator.updateUnreadCount()
             val unread = inboxCoordinator.totalUnread.value
             if (unread > 0) {
                 sendNotification(unread)
             }
-
         }
 
         return Result.success()

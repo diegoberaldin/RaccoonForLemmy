@@ -32,7 +32,7 @@ internal fun ReportCardPlaceHolder(
                     .padding(horizontal = Spacing.xs)
                     .shadow(
                         elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l)
+                        shape = RoundedCornerShape(CornerSize.l),
                     )
                     .clip(RoundedCornerShape(CornerSize.l))
                     .background(
@@ -41,7 +41,7 @@ internal fun ReportCardPlaceHolder(
                     .padding(vertical = Spacing.s)
             } else {
                 Modifier
-            }
+            },
         ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -50,7 +50,7 @@ internal fun ReportCardPlaceHolder(
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
@@ -58,14 +58,14 @@ internal fun ReportCardPlaceHolder(
                 .height(80.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
         Box(
             modifier = Modifier
                 .height(IconSize.l)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect()
+                .shimmerEffect(),
         )
     }
 }

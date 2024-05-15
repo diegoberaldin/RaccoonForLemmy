@@ -48,7 +48,7 @@ fun SettingsFormattedInfo(
                     text = value,
                     onClick = {
                         onEdit?.invoke()
-                    }
+                    },
                 )
             }
         }

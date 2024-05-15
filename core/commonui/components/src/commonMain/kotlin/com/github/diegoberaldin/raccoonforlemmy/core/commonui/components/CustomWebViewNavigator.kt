@@ -29,7 +29,7 @@ fun rememberWebViewNavigator(): WebViewNavigator {
     val scope = rememberCoroutineScope()
     return remember {
         WebViewNavigator(
-            coroutineScope = scope
+            coroutineScope = scope,
         )
     }
 }

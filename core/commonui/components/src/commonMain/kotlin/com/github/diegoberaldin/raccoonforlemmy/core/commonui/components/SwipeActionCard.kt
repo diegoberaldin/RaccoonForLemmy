@@ -61,7 +61,6 @@ fun SwipeActionCard(
                             swipeToEndActions.getOrNull(1)?.onTriggered?.invoke()
                         } else {
                             swipeToEndActions.firstOrNull()?.onTriggered?.invoke()
-
                         }
                     }
 
@@ -129,9 +128,9 @@ fun SwipeActionCard(
                 val enableSecondAction = actions.size > 1
                 val bgColor by animateColorAsState(
                     targetValue = if (
-                        dismissState.progress < SECOND_ACTION_THRESHOLD
-                        || dismissState.targetValue == SwipeToDismissBoxValue.Settled
-                        || !enableSecondAction
+                        dismissState.progress < SECOND_ACTION_THRESHOLD ||
+                        dismissState.targetValue == SwipeToDismissBoxValue.Settled ||
+                        !enableSecondAction
                     ) {
                         actions.firstOrNull()?.backgroundColor ?: Color.Transparent
                     } else {
@@ -184,14 +183,14 @@ private fun rememberNoFlingSwipeToDismissBoxState(
         saver = SwipeToDismissBoxState.Saver(
             confirmValueChange = confirmValueChange,
             density = density,
-            positionalThreshold = positionalThreshold
-        )
+            positionalThreshold = positionalThreshold,
+        ),
     ) {
         SwipeToDismissBoxState(
             initialValue = initialValue,
             density = density,
             confirmValueChange = confirmValueChange,
-            positionalThreshold = positionalThreshold
+            positionalThreshold = positionalThreshold,
         )
     }
 }
