@@ -6,8 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.notification.InboxNotificationChecker
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -23,9 +21,8 @@ class MainViewModel(
     DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
         initialState = MainScreenMviModel.UiState(),
     ) {
-
     init {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             identityRepository.startup()
 
             inboxCoordinator.totalUnread.onEach { unreadCount ->

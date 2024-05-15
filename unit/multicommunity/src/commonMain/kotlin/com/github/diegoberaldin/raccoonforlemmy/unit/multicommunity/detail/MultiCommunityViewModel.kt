@@ -22,13 +22,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MultiCommunityViewModel(
     private val communityId: Long,
@@ -47,9 +44,8 @@ class MultiCommunityViewModel(
     private val postNavigationManager: PostNavigationManager,
 ) : MultiCommunityMviModel,
     DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>(
-        initialState = MultiCommunityMviModel.UiState()
+        initialState = MultiCommunityMviModel.UiState(),
     ) {
-
     private var hideReadPosts = false
 
     init {
@@ -105,18 +101,16 @@ class MultiCommunityViewModel(
                 val user = siteRepository.getCurrentUser(auth)
                 updateState { it.copy(currentUserId = user?.id ?: 0) }
             }
-            withContext(Dispatchers.IO) {
-                if (uiState.value.posts.isEmpty()) {
-                    val settings = settingsRepository.currentSettings.value
-                    val sortTypes = getSortTypesUseCase.getTypesForPosts()
-                    updateState {
-                        it.copy(
-                            sortType = settings.defaultPostSortType.toSortType(),
-                            availableSortTypes = sortTypes,
-                        )
-                    }
-                    refresh(initial = true)
+            if (uiState.value.posts.isEmpty()) {
+                val settings = settingsRepository.currentSettings.value
+                val sortTypes = getSortTypesUseCase.getTypesForPosts()
+                updateState {
+                    it.copy(
+                        sortType = settings.defaultPostSortType.toSortType(),
+                        availableSortTypes = sortTypes,
+                    )
                 }
+                refresh(initial = true)
             }
         }
     }
@@ -133,13 +127,15 @@ class MultiCommunityViewModel(
             }
 
             MultiCommunityMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            MultiCommunityMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            MultiCommunityMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            MultiCommunityMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-            }
+            MultiCommunityMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
 
             is MultiCommunityMviModel.Intent.SavePost -> {
                 if (intent.feedback) {
@@ -162,17 +158,20 @@ class MultiCommunityViewModel(
             }
 
             MultiCommunityMviModel.Intent.ClearRead -> clearRead()
-            is MultiCommunityMviModel.Intent.MarkAsRead -> markAsRead(
-                post = uiState.value.posts.first { it.id == intent.id },
-            )
+            is MultiCommunityMviModel.Intent.MarkAsRead ->
+                markAsRead(
+                    post = uiState.value.posts.first { it.id == intent.id },
+                )
 
-            is MultiCommunityMviModel.Intent.Hide -> hide(
-                post = uiState.value.posts.first { it.id == intent.id },
-            )
+            is MultiCommunityMviModel.Intent.Hide ->
+                hide(
+                    post = uiState.value.posts.first { it.id == intent.id },
+                )
 
-            is MultiCommunityMviModel.Intent.Copy -> screenModelScope.launch {
-                emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(intent.value))
-            }
+            is MultiCommunityMviModel.Intent.Copy ->
+                screenModelScope.launch {
+                    emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(intent.value))
+                }
 
             MultiCommunityMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
@@ -189,7 +188,7 @@ class MultiCommunityViewModel(
                 communityIds = uiState.value.community.communityIds,
                 sortType = sortType,
                 includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
-            )
+            ),
         )
         updateState {
             it.copy(
@@ -211,13 +210,14 @@ class MultiCommunityViewModel(
 
         updateState { it.copy(loading = true) }
 
-        val posts = postPaginationManager.loadNextPage().let {
-            if (!hideReadPosts) {
-                it
-            } else {
-                it.filter { post -> !post.read }
+        val posts =
+            postPaginationManager.loadNextPage().let {
+                if (!hideReadPosts) {
+                    it
+                } else {
+                    it.filter { post -> !post.read }
+                }
             }
-        }
         val canFetchMore = postPaginationManager.canFetchMore
         if (uiState.value.autoLoadImages) {
             posts.forEach { post ->
@@ -251,12 +251,13 @@ class MultiCommunityViewModel(
 
     private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
-        val newPost = postRepository.asUpVoted(
-            post = post,
-            voted = newVote,
-        )
+        val newPost =
+            postRepository.asUpVoted(
+                post = post,
+                voted = newVote,
+            )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -277,7 +278,7 @@ class MultiCommunityViewModel(
             return
         }
         val newPost = post.copy(read = true)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.setRead(
@@ -295,12 +296,13 @@ class MultiCommunityViewModel(
 
     private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
-        val newPost = postRepository.asDownVoted(
-            post = post,
-            downVoted = newValue,
-        )
+        val newPost =
+            postRepository.asDownVoted(
+                post = post,
+                downVoted = newValue,
+            )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -318,12 +320,13 @@ class MultiCommunityViewModel(
 
     private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
-        val newPost = postRepository.asSaved(
-            post = post,
-            saved = newValue,
-        )
+        val newPost =
+            postRepository.asSaved(
+                post = post,
+                saved = newValue,
+            )
         handlePostUpdate(newPost)
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -342,13 +345,14 @@ class MultiCommunityViewModel(
     private fun handlePostUpdate(post: PostModel) {
         updateState {
             it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        post
-                    } else {
-                        p
-                    }
-                },
+                posts =
+                    it.posts.map { p ->
+                        if (p.id == post.id) {
+                            post
+                        } else {
+                            p
+                        }
+                    },
             )
         }
     }

@@ -6,9 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Inst
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -24,7 +22,6 @@ class SelectInstanceViewModel(
     DefaultMviModel<SelectInstanceMviModel.Intent, SelectInstanceMviModel.State, SelectInstanceMviModel.Effect>(
         initialState = SelectInstanceMviModel.State(),
     ) {
-
     private val saveOperationChannel = Channel<List<String>>()
 
     init {
@@ -40,7 +37,7 @@ class SelectInstanceViewModel(
         }
 
         if (uiState.value.instances.isEmpty()) {
-            screenModelScope.launch(Dispatchers.IO) {
+            screenModelScope.launch {
                 val instances = instanceRepository.getAll()
                 updateState { it.copy(instances = instances) }
             }
@@ -64,7 +61,7 @@ class SelectInstanceViewModel(
     }
 
     private fun deleteInstance(value: String) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             instanceRepository.remove(value)
             val instances = instanceRepository.getAll()
             updateState { it.copy(instances = instances) }
@@ -83,13 +80,14 @@ class SelectInstanceViewModel(
             return
         }
 
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             updateState { it.copy(changeInstanceLoading = true) }
-            val res = communityRepository.getList(
-                instance = instanceName,
-                page = 1,
-                limit = 1
-            )
+            val res =
+                communityRepository.getList(
+                    instance = instanceName,
+                    page = 1,
+                    limit = 1,
+                )
             if (res.isEmpty()) {
                 updateState {
                     it.copy(
@@ -115,11 +113,15 @@ class SelectInstanceViewModel(
         }
     }
 
-    private fun swapInstances(from: Int, to: Int) {
-        val newInstances = uiState.value.instances.toMutableList().apply {
-            val element = removeAt(from)
-            add(to, element)
-        }
+    private fun swapInstances(
+        from: Int,
+        to: Int,
+    ) {
+        val newInstances =
+            uiState.value.instances.toMutableList().apply {
+                val element = removeAt(from)
+                add(to, element)
+            }
         screenModelScope.launch {
             saveOperationChannel.send(newInstances)
             updateState {

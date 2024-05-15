@@ -13,8 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -29,9 +27,8 @@ class ConfigureContentViewViewModel(
     private val notificationCenter: NotificationCenter,
 ) : ConfigureContentViewMviModel,
     DefaultMviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>(
-        initialState = ConfigureContentViewMviModel.State()
+        initialState = ConfigureContentViewMviModel.State(),
     ) {
-
     init {
         screenModelScope.launch {
             themeRepository.postLayout.onEach { value ->
@@ -124,114 +121,128 @@ class ConfigureContentViewViewModel(
 
     private fun changePostLayout(value: PostLayout) {
         themeRepository.changePostLayout(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                postLayout = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    postLayout = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeVoteFormat(value: VoteFormat) {
         updateState { it.copy(voteFormat = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.let {
-                if (value == VoteFormat.Hidden) {
-                    it.copy(showScores = false)
-                } else {
-                    it.copy(
-                        voteFormat = value,
-                        showScores = true,
-                    )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.let {
+                    if (value == VoteFormat.Hidden) {
+                        it.copy(showScores = false)
+                    } else {
+                        it.copy(
+                            voteFormat = value,
+                            showScores = true,
+                        )
+                    }
                 }
-            }
             saveSettings(settings)
         }
     }
 
     private fun changeFullHeightImages(value: Boolean) {
         updateState { it.copy(fullHeightImages = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                fullHeightImages = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    fullHeightImages = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeFullWidthImages(value: Boolean) {
         updateState { it.copy(fullWidthImages = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                fullWidthImages = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    fullWidthImages = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changePreferUserNicknames(value: Boolean) {
         updateState { it.copy(preferUserNicknames = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                preferUserNicknames = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    preferUserNicknames = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changePostBodyMaxLines(value: Int?) {
         updateState { it.copy(postBodyMaxLines = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                postBodyMaxLines = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    postBodyMaxLines = value,
+                )
             saveSettings(settings)
         }
     }
 
-    private fun changeContentFontScale(value: Float, contentClass: ContentFontClass) {
-        val contentFontScale = themeRepository.contentFontScale.value.let {
-            when (contentClass) {
-                ContentFontClass.Title -> it.copy(title = value)
-                ContentFontClass.Body -> it.copy(body = value)
-                ContentFontClass.Comment -> it.copy(comment = value)
-                ContentFontClass.AncillaryText -> it.copy(ancillary = value)
+    private fun changeContentFontScale(
+        value: Float,
+        contentClass: ContentFontClass,
+    ) {
+        val contentFontScale =
+            themeRepository.contentFontScale.value.let {
+                when (contentClass) {
+                    ContentFontClass.Title -> it.copy(title = value)
+                    ContentFontClass.Body -> it.copy(body = value)
+                    ContentFontClass.Comment -> it.copy(comment = value)
+                    ContentFontClass.AncillaryText -> it.copy(ancillary = value)
+                }
             }
-        }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontScale = contentFontScale,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    contentFontScale = contentFontScale,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeContentFontFamily(value: UiFontFamily) {
         themeRepository.changeContentFontFamily(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                contentFontFamily = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    contentFontFamily = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeCommentBarThickness(value: Int) {
         updateState { it.copy(commentBarThickness = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                commentBarThickness = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    commentBarThickness = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeCommentIndentAmount(value: Int) {
         updateState { it.copy(commentIndentAmount = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                commentIndentAmount = value,
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    commentIndentAmount = value,
+                )
             saveSettings(settings)
         }
     }

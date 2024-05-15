@@ -31,14 +31,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class UserDetailViewModel(
     private val userId: Long,
@@ -64,12 +62,12 @@ class UserDetailViewModel(
     DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
         initialState = UserDetailMviModel.UiState(),
     ) {
-
     init {
         updateState {
             it.copy(
-                instance = otherInstance.takeIf { n -> n.isNotEmpty() }
-                    ?: apiConfigurationRepository.instance.value,
+                instance =
+                    otherInstance.takeIf { n -> n.isNotEmpty() }
+                        ?: apiConfigurationRepository.instance.value,
             )
         }
         screenModelScope.launch {
@@ -141,9 +139,7 @@ class UserDetailViewModel(
                     settingsRepository.currentSettings.value.defaultPostSortType
                 updateState { it.copy(sortType = defaultPostSortType.toSortType()) }
 
-                withContext(Dispatchers.IO) {
-                    refresh(initial = true)
-                }
+                refresh(initial = true)
             }
         }
     }
@@ -172,13 +168,15 @@ class UserDetailViewModel(
             }
 
             UserDetailMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            UserDetailMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            UserDetailMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            UserDetailMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-            }
+            UserDetailMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
 
             is UserDetailMviModel.Intent.SaveComment -> {
                 if (intent.feedback) {
@@ -222,9 +220,10 @@ class UserDetailViewModel(
 
             UserDetailMviModel.Intent.Block -> blockUser()
             UserDetailMviModel.Intent.BlockInstance -> blockInstance()
-            is UserDetailMviModel.Intent.Copy -> screenModelScope.launch {
-                emitEffect(UserDetailMviModel.Effect.TriggerCopy(intent.value))
-            }
+            is UserDetailMviModel.Intent.Copy ->
+                screenModelScope.launch {
+                    emitEffect(UserDetailMviModel.Effect.TriggerCopy(intent.value))
+                }
 
             UserDetailMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()
@@ -253,11 +252,12 @@ class UserDetailViewModel(
 
     private fun updateAvailableSortTypes() {
         screenModelScope.launch {
-            val sortTypes = if (uiState.value.section == UserDetailSection.Posts) {
-                getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
-            } else {
-                getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
-            }
+            val sortTypes =
+                if (uiState.value.section == UserDetailSection.Posts) {
+                    getSortTypesUseCase.getTypesForPosts(otherInstance = otherInstance)
+                } else {
+                    getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
+                }
             updateState { it.copy(availableSortTypes = sortTypes) }
         }
     }
@@ -269,7 +269,7 @@ class UserDetailViewModel(
                 name = uiState.value.user.name,
                 sortType = uiState.value.sortType,
                 otherInstance = otherInstance,
-            )
+            ),
         )
         commentPaginationManager.reset(
             CommentPaginationSpecification.User(
@@ -277,7 +277,7 @@ class UserDetailViewModel(
                 name = uiState.value.user.name,
                 sortType = uiState.value.sortType,
                 otherInstance = otherInstance,
-            )
+            ),
         )
         updateState {
             it.copy(
@@ -288,12 +288,13 @@ class UserDetailViewModel(
             )
         }
         val auth = identityRepository.authToken.value
-        val refreshedUser = userRepository.get(
-            id = userId,
-            auth = auth,
-            otherInstance = otherInstance,
-            username = uiState.value.user.name,
-        )
+        val refreshedUser =
+            userRepository.get(
+                id = userId,
+                auth = auth,
+                otherInstance = otherInstance,
+                username = uiState.value.user.name,
+            )
         if (refreshedUser != null) {
             updateState { it.copy(user = refreshedUser) }
         }
@@ -311,18 +312,20 @@ class UserDetailViewModel(
         val section = currentState.section
         if (section == UserDetailSection.Posts) {
             coroutineScope {
-                val posts = async {
-                    postPaginationManager.loadNextPage()
-                }.await()
-                val comments = async {
-                    if (currentState.comments.isEmpty() || refreshing) {
-                        // this is needed because otherwise on first selector change
-                        // the lazy column scrolls back to top (it must have an empty data set)
-                        commentPaginationManager.loadNextPage()
-                    } else {
-                        currentState.comments
-                    }
-                }.await()
+                val posts =
+                    async {
+                        postPaginationManager.loadNextPage()
+                    }.await()
+                val comments =
+                    async {
+                        if (currentState.comments.isEmpty() || refreshing) {
+                            // this is needed because otherwise on first selector change
+                            // the lazy column scrolls back to top (it must have an empty data set)
+                            commentPaginationManager.loadNextPage()
+                        } else {
+                            currentState.comments
+                        }
+                    }.await()
                 updateState {
                     if (uiState.value.autoLoadImages) {
                         posts.forEach { post ->
@@ -357,10 +360,11 @@ class UserDetailViewModel(
 
     private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
-        val newPost = postRepository.asUpVoted(
-            post = post,
-            voted = newVote,
-        )
+        val newPost =
+            postRepository.asUpVoted(
+                post = post,
+                voted = newVote,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -379,10 +383,11 @@ class UserDetailViewModel(
 
     private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
-        val newPost = postRepository.asDownVoted(
-            post = post,
-            downVoted = newValue,
-        )
+        val newPost =
+            postRepository.asDownVoted(
+                post = post,
+                downVoted = newValue,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -401,10 +406,11 @@ class UserDetailViewModel(
 
     private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
-        val newPost = postRepository.asSaved(
-            post = post,
-            saved = newValue,
-        )
+        val newPost =
+            postRepository.asSaved(
+                post = post,
+                saved = newValue,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -423,10 +429,11 @@ class UserDetailViewModel(
 
     private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        val newComment = commentRepository.asUpVoted(
-            comment = comment,
-            voted = newValue,
-        )
+        val newComment =
+            commentRepository.asUpVoted(
+                comment = comment,
+                voted = newValue,
+            )
         handleCommentUpdate(newComment)
         screenModelScope.launch {
             try {
@@ -464,10 +471,11 @@ class UserDetailViewModel(
 
     private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        val newComment = commentRepository.asSaved(
-            comment = comment,
-            saved = newValue,
-        )
+        val newComment =
+            commentRepository.asSaved(
+                comment = comment,
+                saved = newValue,
+            )
         handleCommentUpdate(newComment)
         screenModelScope.launch {
             try {
@@ -487,13 +495,14 @@ class UserDetailViewModel(
     private fun handlePostUpdate(post: PostModel) {
         updateState {
             it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        post
-                    } else {
-                        p
-                    }
-                },
+                posts =
+                    it.posts.map { p ->
+                        if (p.id == post.id) {
+                            post
+                        } else {
+                            p
+                        }
+                    },
             )
         }
     }
@@ -501,20 +510,21 @@ class UserDetailViewModel(
     private fun handleCommentUpdate(comment: CommentModel) {
         updateState {
             it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        comment
-                    } else {
-                        c
-                    }
-                },
+                comments =
+                    it.comments.map { c ->
+                        if (c.id == comment.id) {
+                            comment
+                        } else {
+                            c
+                        }
+                    },
             )
         }
     }
 
     private fun blockUser() {
         updateState { it.copy(asyncInProgress = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
@@ -529,7 +539,7 @@ class UserDetailViewModel(
 
     private fun blockInstance() {
         updateState { it.copy(asyncInProgress = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val user = uiState.value.user
                 val instanceId = user.instanceId

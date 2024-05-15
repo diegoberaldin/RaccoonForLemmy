@@ -13,10 +13,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.channelFlow
@@ -28,7 +26,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
@@ -44,9 +41,8 @@ class ModalDrawerViewModel(
     private val notificationCenter: NotificationCenter,
 ) : ModalDrawerMviModel,
     DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
-        initialState = ModalDrawerMviModel.UiState()
+        initialState = ModalDrawerMviModel.UiState(),
     ) {
-
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -85,11 +81,9 @@ class ModalDrawerViewModel(
 
             observeChangesInFavoriteCommunities()
 
-            withContext(Dispatchers.IO) {
-                delay(250)
-                refreshUser()
-                refresh()
-            }
+            delay(250)
+            refreshUser()
+            refresh()
         }
     }
 
@@ -111,20 +105,22 @@ class ModalDrawerViewModel(
                 }
             }.distinctUntilChanged()
         }.onEach { favoriteCommunityIds ->
-            val newCommunities = uiState.value.communities.map { community ->
-                community.copy(favorite = community.id in favoriteCommunityIds)
-            }
-                .sortedBy { it.name }
-                .sortedByDescending { it.favorite }
+            val newCommunities =
+                uiState.value.communities.map { community ->
+                    community.copy(favorite = community.id in favoriteCommunityIds)
+                }
+                    .sortedBy { it.name }
+                    .sortedByDescending { it.favorite }
             updateState { it.copy(communities = newCommunities) }
         }.launchIn(this)
     }
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-            }
+            ModalDrawerMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
 
             is ModalDrawerMviModel.Intent.SetSearch -> {
                 updateState { it.copy(searchText = intent.value) }
@@ -166,35 +162,37 @@ class ModalDrawerViewModel(
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val searchText = uiState.value.searchText
-        val communities = communityRepository.getSubscribed(auth)
-            .let {
-                if (searchText.isEmpty()) {
-                    it
-                } else {
-                    it.filter { e ->
-                        listOf(e.name, e.title).any { s -> s.contains(other = searchText, ignoreCase = true) }
-                    }
-                }
-            }.map { community ->
-                community.copy(favorite = community.id in favoriteCommunityIds)
-            }
-            .sortedBy { it.name }
-            .let {
-                val favorites = it.filter { e -> e.favorite }
-                val res = it - favorites.toSet()
-                favorites + res
-            }
-        val multiCommunitites = accountId?.let {
-            multiCommunityRepository.getAll(it)
-                .let { communities ->
+        val communities =
+            communityRepository.getSubscribed(auth)
+                .let {
                     if (searchText.isEmpty()) {
-                        communities
+                        it
                     } else {
-                        communities.filter { c -> c.name.contains(other = searchText, ignoreCase = true) }
+                        it.filter { e ->
+                            listOf(e.name, e.title).any { s -> s.contains(other = searchText, ignoreCase = true) }
+                        }
                     }
+                }.map { community ->
+                    community.copy(favorite = community.id in favoriteCommunityIds)
                 }
-                .sortedBy { e -> e.name }
-        }.orEmpty()
+                .sortedBy { it.name }
+                .let {
+                    val favorites = it.filter { e -> e.favorite }
+                    val res = it - favorites.toSet()
+                    favorites + res
+                }
+        val multiCommunitites =
+            accountId?.let {
+                multiCommunityRepository.getAll(it)
+                    .let { communities ->
+                        if (searchText.isEmpty()) {
+                            communities
+                        } else {
+                            communities.filter { c -> c.name.contains(other = searchText, ignoreCase = true) }
+                        }
+                    }
+                    .sortedBy { e -> e.name }
+            }.orEmpty()
         updateState {
             it.copy(
                 isFiltering = searchText.isNotEmpty(),

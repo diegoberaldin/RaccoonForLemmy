@@ -12,8 +12,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -34,7 +32,6 @@ class ReportListViewModel(
     DefaultMviModel<ReportListMviModel.Intent, ReportListMviModel.UiState, ReportListMviModel.Effect>(
         initialState = ReportListMviModel.UiState(),
     ) {
-
     private val currentPage = mutableMapOf<ReportListSection, Int>()
 
     init {
@@ -66,23 +63,27 @@ class ReportListViewModel(
         when (intent) {
             is ReportListMviModel.Intent.ChangeSection -> changeSection(intent.value)
             is ReportListMviModel.Intent.ChangeUnresolvedOnly -> changeUnresolvedOnly(intent.value)
-            ReportListMviModel.Intent.Refresh -> screenModelScope.launch(Dispatchers.IO) {
-                refresh()
-            }
-
-            ReportListMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
-
-            is ReportListMviModel.Intent.ResolveComment -> uiState.value.commentReports
-                .firstOrNull { it.id == intent.id }?.also {
-                    resolve(it)
+            ReportListMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
                 }
 
-            is ReportListMviModel.Intent.ResolvePost -> uiState.value.postReports
-                .firstOrNull { it.id == intent.id }?.also {
-                    resolve(it)
+            ReportListMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
                 }
+
+            is ReportListMviModel.Intent.ResolveComment ->
+                uiState.value.commentReports
+                    .firstOrNull { it.id == intent.id }?.also {
+                        resolve(it)
+                    }
+
+            is ReportListMviModel.Intent.ResolvePost ->
+                uiState.value.postReports
+                    .firstOrNull { it.id == intent.id }?.also {
+                        resolve(it)
+                    }
 
             ReportListMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
         }
@@ -100,7 +101,7 @@ class ReportListViewModel(
         updateState {
             it.copy(unresolvedOnly = value)
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(ReportListMviModel.Effect.BackToTop)
             delay(50)
             refresh(initial = true)
@@ -136,34 +137,37 @@ class ReportListViewModel(
         if (section == ReportListSection.Posts) {
             val page = currentPage[ReportListSection.Posts] ?: 1
             coroutineScope {
-                val itemList = async {
-                    postRepository.getReports(
-                        auth = auth,
-                        communityId = communityId,
-                        page = page,
-                        unresolvedOnly = unresolvedOnly,
-                    )
-                }.await()
-                val commentReports = async {
-                    if (page == 1 && (currentState.commentReports.isEmpty() || refreshing)) {
-                        // this is needed because otherwise on first selector change
-                        // the lazy column scrolls back to top (it must have an empty data set)
-                        commentRepository.getReports(
+                val itemList =
+                    async {
+                        postRepository.getReports(
                             auth = auth,
                             communityId = communityId,
-                            page = 1,
+                            page = page,
                             unresolvedOnly = unresolvedOnly,
-                        ).orEmpty()
-                    } else {
-                        currentState.commentReports
-                    }
-                }.await()
+                        )
+                    }.await()
+                val commentReports =
+                    async {
+                        if (page == 1 && (currentState.commentReports.isEmpty() || refreshing)) {
+                            // this is needed because otherwise on first selector change
+                            // the lazy column scrolls back to top (it must have an empty data set)
+                            commentRepository.getReports(
+                                auth = auth,
+                                communityId = communityId,
+                                page = 1,
+                                unresolvedOnly = unresolvedOnly,
+                            ).orEmpty()
+                        } else {
+                            currentState.commentReports
+                        }
+                    }.await()
                 updateState {
-                    val postReports = if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.postReports + itemList.orEmpty()
-                    }
+                    val postReports =
+                        if (refreshing) {
+                            itemList.orEmpty()
+                        } else {
+                            it.postReports + itemList.orEmpty()
+                        }
                     it.copy(
                         postReports = postReports,
                         commentReports = commentReports,
@@ -179,19 +183,21 @@ class ReportListViewModel(
             }
         } else {
             val page = currentPage[ReportListSection.Comments] ?: 1
-            val itemList = commentRepository.getReports(
-                auth = auth,
-                communityId = communityId,
-                page = page,
-                unresolvedOnly = unresolvedOnly,
-            )
+            val itemList =
+                commentRepository.getReports(
+                    auth = auth,
+                    communityId = communityId,
+                    page = page,
+                    unresolvedOnly = unresolvedOnly,
+                )
 
             updateState {
-                val commentReports = if (refreshing) {
-                    itemList.orEmpty()
-                } else {
-                    it.commentReports + itemList.orEmpty()
-                }
+                val commentReports =
+                    if (refreshing) {
+                        itemList.orEmpty()
+                    } else {
+                        it.commentReports + itemList.orEmpty()
+                    }
                 it.copy(
                     commentReports = commentReports,
                     loading = false,
@@ -210,11 +216,12 @@ class ReportListViewModel(
         screenModelScope.launch {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
-            val newReport = postRepository.resolveReport(
-                reportId = report.id,
-                auth = auth,
-                resolved = !report.resolved
-            )
+            val newReport =
+                postRepository.resolveReport(
+                    reportId = report.id,
+                    auth = auth,
+                    resolved = !report.resolved,
+                )
             updateState { it.copy(asyncInProgress = false) }
             if (newReport != null) {
                 if (uiState.value.unresolvedOnly && newReport.resolved) {
@@ -230,11 +237,12 @@ class ReportListViewModel(
         screenModelScope.launch {
             updateState { it.copy(asyncInProgress = true) }
             val auth = identityRepository.authToken.value.orEmpty()
-            val newReport = commentRepository.resolveReport(
-                reportId = report.id,
-                auth = auth,
-                resolved = !report.resolved
-            )
+            val newReport =
+                commentRepository.resolveReport(
+                    reportId = report.id,
+                    auth = auth,
+                    resolved = !report.resolved,
+                )
             updateState { it.copy(asyncInProgress = false) }
             if (newReport != null) {
                 if (uiState.value.unresolvedOnly && newReport.resolved) {
@@ -249,13 +257,14 @@ class ReportListViewModel(
     private fun handleReportUpdate(report: PostReportModel) {
         updateState {
             it.copy(
-                postReports = it.postReports.map { r ->
-                    if (r.id == report.id) {
-                        report
-                    } else {
-                        r
-                    }
-                }
+                postReports =
+                    it.postReports.map { r ->
+                        if (r.id == report.id) {
+                            report
+                        } else {
+                            r
+                        }
+                    },
             )
         }
     }
@@ -263,13 +272,14 @@ class ReportListViewModel(
     private fun handleReportUpdate(report: CommentReportModel) {
         updateState {
             it.copy(
-                commentReports = it.commentReports.map { r ->
-                    if (r.id == report.id) {
-                        report
-                    } else {
-                        r
-                    }
-                }
+                commentReports =
+                    it.commentReports.map { r ->
+                        if (r.id == report.id) {
+                            report
+                        } else {
+                            r
+                        }
+                    },
             )
         }
     }
@@ -277,7 +287,7 @@ class ReportListViewModel(
     private fun handleReporDelete(report: PostReportModel) {
         updateState {
             it.copy(
-                postReports = it.postReports.filter { r -> r.id != report.id }
+                postReports = it.postReports.filter { r -> r.id != report.id },
             )
         }
     }
@@ -285,7 +295,7 @@ class ReportListViewModel(
     private fun handleReporDelete(report: CommentReportModel) {
         updateState {
             it.copy(
-                commentReports = it.commentReports.filter { r -> r.id != report.id }
+                commentReports = it.commentReports.filter { r -> r.id != report.id },
             )
         }
     }

@@ -23,8 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -43,7 +41,6 @@ class SettingsViewModel(
     DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
         initialState = SettingsMviModel.UiState(),
     ) {
-
     init {
         screenModelScope.launch {
             themeRepository.uiTheme.onEach { value ->
@@ -130,30 +127,33 @@ class SettingsViewModel(
 
     private fun changeTheme(value: UiTheme?) {
         themeRepository.changeUiTheme(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                theme = value?.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    theme = value?.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeLanguage(value: String) {
         l10nManager.changeLanguage(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                locale = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    locale = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeDefaultListingType(value: ListingType) {
         updateState { it.copy(defaultListingType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                defaultListingType = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultListingType = value.toInt(),
+                )
             saveSettings(settings)
             notificationCenter.send(NotificationCenterEvent.ResetHome)
         }
@@ -161,10 +161,11 @@ class SettingsViewModel(
 
     private fun changeDefaultPostSortType(value: SortType) {
         updateState { it.copy(defaultPostSortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                defaultPostSortType = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultPostSortType = value.toInt(),
+                )
             saveSettings(settings)
             notificationCenter.send(NotificationCenterEvent.ResetHome)
         }
@@ -172,20 +173,22 @@ class SettingsViewModel(
 
     private fun changeDefaultCommentSortType(value: SortType) {
         updateState { it.copy(defaultCommentSortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                defaultCommentSortType = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultCommentSortType = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeIncludeNsfw(value: Boolean) {
         updateState { it.copy(includeNsfw = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                includeNsfw = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    includeNsfw = value,
+                )
             saveSettings(settings)
             notificationCenter.send(NotificationCenterEvent.ResetHome)
             notificationCenter.send(NotificationCenterEvent.ResetExplore)
@@ -194,30 +197,33 @@ class SettingsViewModel(
 
     private fun changeBlurNsfw(value: Boolean) {
         updateState { it.copy(blurNsfw = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                blurNsfw = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    blurNsfw = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeUrlOpeningMode(value: UrlOpeningMode) {
         updateState { it.copy(urlOpeningMode = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                urlOpeningMode = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    urlOpeningMode = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeEnableSwipeActions(value: Boolean) {
         updateState { it.copy(enableSwipeActions = value) }
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                enableSwipeActions = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    enableSwipeActions = value,
+                )
             saveSettings(settings)
         }
     }
@@ -234,7 +240,7 @@ class SettingsViewModel(
     }
 
     private fun handleLogout() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val settings = settingsRepository.getSettings(null)
             updateState {
                 it.copy(

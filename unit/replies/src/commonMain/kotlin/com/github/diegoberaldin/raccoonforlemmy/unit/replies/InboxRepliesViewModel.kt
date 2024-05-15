@@ -14,8 +14,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -34,7 +32,6 @@ class InboxRepliesViewModel(
     DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>(
         initialState = InboxRepliesMviModel.UiState(),
     ) {
-
     private var currentPage: Int = 1
     private var currentUserId: Long? = null
 
@@ -81,14 +78,16 @@ class InboxRepliesViewModel(
 
     override fun reduce(intent: InboxRepliesMviModel.Intent) {
         when (intent) {
-            InboxRepliesMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            InboxRepliesMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            InboxRepliesMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-                emitEffect(InboxRepliesMviModel.Effect.BackToTop)
-            }
+            InboxRepliesMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                    emitEffect(InboxRepliesMviModel.Effect.BackToTop)
+                }
 
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
                 markAsRead(
@@ -96,7 +95,6 @@ class InboxRepliesViewModel(
                     reply = uiState.value.replies.first { it.id == intent.id },
                 )
             }
-
 
             InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxRepliesMviModel.Intent.DownVoteComment -> {
@@ -149,24 +147,26 @@ class InboxRepliesViewModel(
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
-        val itemList = userRepository.getReplies(
-            auth = auth,
-            page = currentPage,
-            unreadOnly = unreadOnly,
-            sort = SortType.New,
-        )?.map {
-            it.copy(isCommentReply = it.comment.depth > 0)
-        }
+        val itemList =
+            userRepository.getReplies(
+                auth = auth,
+                page = currentPage,
+                unreadOnly = unreadOnly,
+                sort = SortType.New,
+            )?.map {
+                it.copy(isCommentReply = it.comment.depth > 0)
+            }
 
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
         updateState {
-            val newItems = if (refreshing) {
-                itemList.orEmpty()
-            } else {
-                it.replies + itemList.orEmpty()
-            }
+            val newItems =
+                if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.replies + itemList.orEmpty()
+                }
             it.copy(
                 replies = newItems,
                 loading = false,
@@ -180,18 +180,22 @@ class InboxRepliesViewModel(
     private fun handleItemUpdate(item: PersonMentionModel) {
         updateState {
             it.copy(
-                replies = it.replies.map { i ->
-                    if (i.id == item.id) {
-                        item
-                    } else {
-                        i
-                    }
-                }
+                replies =
+                    it.replies.map { i ->
+                        if (i.id == item.id) {
+                            item
+                        } else {
+                            i
+                        }
+                    },
             )
         }
     }
 
-    private fun markAsRead(read: Boolean, reply: PersonMentionModel) {
+    private fun markAsRead(
+        read: Boolean,
+        reply: PersonMentionModel,
+    ) {
         val auth = identityRepository.authToken.value
         screenModelScope.launch {
             userRepository.setReplyRead(
@@ -203,9 +207,10 @@ class InboxRepliesViewModel(
             if (read && currentState.unreadOnly) {
                 updateState {
                     it.copy(
-                        replies = currentState.replies.filter { r ->
-                            r.id != reply.id
-                        }
+                        replies =
+                            currentState.replies.filter { r ->
+                                r.id != reply.id
+                            },
                     )
                 }
             } else {
@@ -218,10 +223,11 @@ class InboxRepliesViewModel(
 
     private fun toggleUpVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote <= 0
-        val newMention = commentRepository.asUpVoted(
-            mention = mention,
-            voted = newValue,
-        )
+        val newMention =
+            commentRepository.asUpVoted(
+                mention = mention,
+                voted = newValue,
+            )
         handleItemUpdate(newMention)
         screenModelScope.launch {
             try {
@@ -239,10 +245,11 @@ class InboxRepliesViewModel(
 
     private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
-        val newMention = commentRepository.asDownVoted(
-            mention = mention,
-            downVoted = newValue
-        )
+        val newMention =
+            commentRepository.asDownVoted(
+                mention = mention,
+                downVoted = newValue,
+            )
         handleItemUpdate(newMention)
         screenModelScope.launch {
             try {
@@ -265,7 +272,7 @@ class InboxRepliesViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(replies = emptyList()) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh(initial = true)
         }
     }

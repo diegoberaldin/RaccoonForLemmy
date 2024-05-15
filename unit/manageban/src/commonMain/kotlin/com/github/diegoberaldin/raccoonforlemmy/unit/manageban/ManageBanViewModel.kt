@@ -7,12 +7,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ManageBanViewModel(
     private val identityRepository: IdentityRepository,
@@ -24,7 +21,6 @@ class ManageBanViewModel(
     DefaultMviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect>(
         initialState = ManageBanMviModel.UiState(),
     ) {
-
     init {
         screenModelScope.launch {
             settingsRepository.currentSettings.onEach { settings ->
@@ -36,10 +32,8 @@ class ManageBanViewModel(
                 }
             }.launchIn(this)
 
-            withContext(Dispatchers.IO) {
-                if (uiState.value.initial) {
-                    refresh()
-                }
+            if (uiState.value.initial) {
+                refresh()
             }
         }
     }
@@ -82,7 +76,7 @@ class ManageBanViewModel(
                 userRepository.block(
                     id = id,
                     blocked = false,
-                    auth = auth
+                    auth = auth,
                 )
                 updateState {
                     it.copy(bannedUsers = it.bannedUsers.filter { e -> e.id != id })
@@ -98,7 +92,7 @@ class ManageBanViewModel(
                 communityRepository.block(
                     id = id,
                     blocked = false,
-                    auth = auth
+                    auth = auth,
                 )
                 updateState {
                     it.copy(bannedCommunities = it.bannedCommunities.filter { e -> e.id != id })
@@ -114,7 +108,7 @@ class ManageBanViewModel(
                 siteRepository.block(
                     id = id,
                     blocked = false,
-                    auth = auth
+                    auth = auth,
                 )
                 updateState {
                     it.copy(bannedInstances = it.bannedInstances.filter { e -> e.id != id })

@@ -13,8 +13,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,9 +28,8 @@ class InboxMentionsViewModel(
     private val notificationCenter: NotificationCenter,
 ) : InboxMentionsMviModel,
     DefaultMviModel<InboxMentionsMviModel.Intent, InboxMentionsMviModel.UiState, InboxMentionsMviModel.Effect>(
-        initialState = InboxMentionsMviModel.UiState()
+        initialState = InboxMentionsMviModel.UiState(),
     ) {
-
     private var currentPage: Int = 1
 
     init {
@@ -78,14 +75,16 @@ class InboxMentionsViewModel(
 
     override fun reduce(intent: InboxMentionsMviModel.Intent) {
         when (intent) {
-            InboxMentionsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            InboxMentionsMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            InboxMentionsMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-                emitEffect(InboxMentionsMviModel.Effect.BackToTop)
-            }
+            InboxMentionsMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                    emitEffect(InboxMentionsMviModel.Effect.BackToTop)
+                }
 
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
                 markAsRead(
@@ -138,28 +137,29 @@ class InboxMentionsViewModel(
             return
         }
 
-
         updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
-        val itemList = userRepository.getMentions(
-            auth = auth,
-            page = currentPage,
-            unreadOnly = unreadOnly,
-            sort = SortType.New,
-        )?.map {
-            it.copy(isCommentReply = it.comment.depth > 0)
-        }
+        val itemList =
+            userRepository.getMentions(
+                auth = auth,
+                page = currentPage,
+                unreadOnly = unreadOnly,
+                sort = SortType.New,
+            )?.map {
+                it.copy(isCommentReply = it.comment.depth > 0)
+            }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
         updateState {
-            val newItems = if (refreshing) {
-                itemList.orEmpty()
-            } else {
-                it.mentions + itemList.orEmpty()
-            }
+            val newItems =
+                if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.mentions + itemList.orEmpty()
+                }
             it.copy(
                 mentions = newItems,
                 loading = false,
@@ -173,18 +173,22 @@ class InboxMentionsViewModel(
     private fun handleItemUpdate(item: PersonMentionModel) {
         updateState {
             it.copy(
-                mentions = it.mentions.map { i ->
-                    if (i.id == item.id) {
-                        item
-                    } else {
-                        i
-                    }
-                }
+                mentions =
+                    it.mentions.map { i ->
+                        if (i.id == item.id) {
+                            item
+                        } else {
+                            i
+                        }
+                    },
             )
         }
     }
 
-    private fun markAsRead(read: Boolean, mention: PersonMentionModel) {
+    private fun markAsRead(
+        read: Boolean,
+        mention: PersonMentionModel,
+    ) {
         val auth = identityRepository.authToken.value
         screenModelScope.launch {
             userRepository.setMentionRead(
@@ -196,9 +200,10 @@ class InboxMentionsViewModel(
             if (read && currentState.unreadOnly) {
                 updateState {
                     it.copy(
-                        mentions = currentState.mentions.filter { m ->
-                            m.id != mention.id
-                        }
+                        mentions =
+                            currentState.mentions.filter { m ->
+                                m.id != mention.id
+                            },
                     )
                 }
             } else {
@@ -211,14 +216,16 @@ class InboxMentionsViewModel(
 
     private fun toggleUpVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote <= 0
-        val newComment = commentRepository.asUpVoted(
-            comment = mention.comment,
-            voted = newValue,
-        )
-        val newMention = mention.copy(
-            myVote = newComment.myVote,
-            score = newComment.score,
-        )
+        val newComment =
+            commentRepository.asUpVoted(
+                comment = mention.comment,
+                voted = newValue,
+            )
+        val newMention =
+            mention.copy(
+                myVote = newComment.myVote,
+                score = newComment.score,
+            )
         handleItemUpdate(newMention)
         screenModelScope.launch {
             try {
@@ -237,10 +244,11 @@ class InboxMentionsViewModel(
     private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
         val newComment = commentRepository.asDownVoted(mention.comment, newValue)
-        val newMention = mention.copy(
-            myVote = newComment.myVote,
-            score = newComment.score,
-        )
+        val newMention =
+            mention.copy(
+                myVote = newComment.myVote,
+                score = newComment.score,
+            )
         handleItemUpdate(newMention)
         screenModelScope.launch {
             try {
@@ -265,7 +273,7 @@ class InboxMentionsViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(mentions = emptyList()) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh(initial = true)
         }
     }

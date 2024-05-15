@@ -9,8 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,7 +23,6 @@ class InboxViewModel(
     DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>(
         initialState = InboxMviModel.UiState(),
     ) {
-
     init {
         screenModelScope.launch {
             identityRepository.isLogged.onEach { logged ->
@@ -62,9 +59,10 @@ class InboxViewModel(
 
     override fun reduce(intent: InboxMviModel.Intent) {
         when (intent) {
-            is InboxMviModel.Intent.ChangeSection -> updateState {
-                it.copy(section = intent.value)
-            }
+            is InboxMviModel.Intent.ChangeSection ->
+                updateState {
+                    it.copy(section = intent.value)
+                }
 
             InboxMviModel.Intent.ReadAll -> markAllRead()
         }
@@ -78,7 +76,7 @@ class InboxViewModel(
     }
 
     private fun markAllRead() {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
             emitEffect(InboxMviModel.Effect.Refresh)

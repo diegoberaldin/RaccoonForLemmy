@@ -21,9 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -32,7 +30,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
@@ -51,9 +48,8 @@ class ProfileLoggedViewModel(
     private val postNavigationManager: PostNavigationManager,
 ) : ProfileLoggedMviModel,
     DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
-        initialState = ProfileLoggedMviModel.UiState()
+        initialState = ProfileLoggedMviModel.UiState(),
     ) {
-
     init {
         updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
         screenModelScope.launch {
@@ -110,14 +106,10 @@ class ProfileLoggedViewModel(
                             initial = false,
                         )
                     }
-                    withContext(Dispatchers.IO) {
-                        refresh(initial = false)
-                    }
+                    refresh(initial = false)
                 } else {
-                    withContext(Dispatchers.IO) {
-                        refreshUser()
-                        refresh(initial = true)
-                    }
+                    refreshUser()
+                    refresh(initial = true)
                 }
             }
         }
@@ -128,13 +120,15 @@ class ProfileLoggedViewModel(
             is ProfileLoggedMviModel.Intent.ChangeSection -> changeSection(intent.section)
             is ProfileLoggedMviModel.Intent.DeleteComment -> deleteComment(intent.id)
             is ProfileLoggedMviModel.Intent.DeletePost -> deletePost(intent.id)
-            ProfileLoggedMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            ProfileLoggedMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            ProfileLoggedMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-            }
+            ProfileLoggedMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
 
             is ProfileLoggedMviModel.Intent.Share -> {
                 shareHelper.share(intent.url)
@@ -228,13 +222,13 @@ class ProfileLoggedViewModel(
             PostPaginationSpecification.User(
                 id = userId,
                 sortType = SortType.New,
-            )
+            ),
         )
         commentPaginationManager.reset(
             CommentPaginationSpecification.User(
                 id = userId,
                 sortType = SortType.New,
-            )
+            ),
         )
         updateState {
             it.copy(
@@ -268,18 +262,20 @@ class ProfileLoggedViewModel(
         val section = currentState.section
         if (section == ProfileLoggedSection.Posts) {
             coroutineScope {
-                val posts = async {
-                    postPaginationManager.loadNextPage()
-                }.await()
-                val comments = async {
-                    if (currentState.comments.isEmpty() || refreshing) {
-                        // this is needed because otherwise on first selector change
-                        // the lazy column scrolls back to top (it must have an empty data set)
-                        commentPaginationManager.loadNextPage()
-                    } else {
-                        currentState.comments
-                    }
-                }.await()
+                val posts =
+                    async {
+                        postPaginationManager.loadNextPage()
+                    }.await()
+                val comments =
+                    async {
+                        if (currentState.comments.isEmpty() || refreshing) {
+                            // this is needed because otherwise on first selector change
+                            // the lazy column scrolls back to top (it must have an empty data set)
+                            commentPaginationManager.loadNextPage()
+                        } else {
+                            currentState.comments
+                        }
+                    }.await()
                 updateState {
                     it.copy(
                         posts = posts,
@@ -307,10 +303,11 @@ class ProfileLoggedViewModel(
 
     private fun toggleUpVotePost(post: PostModel) {
         val newVote = post.myVote <= 0
-        val newPost = postRepository.asUpVoted(
-            post = post,
-            voted = newVote,
-        )
+        val newPost =
+            postRepository.asUpVoted(
+                post = post,
+                voted = newVote,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -329,10 +326,11 @@ class ProfileLoggedViewModel(
 
     private fun toggleDownVotePost(post: PostModel) {
         val newValue = post.myVote >= 0
-        val newPost = postRepository.asDownVoted(
-            post = post,
-            downVoted = newValue,
-        )
+        val newPost =
+            postRepository.asDownVoted(
+                post = post,
+                downVoted = newValue,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -351,10 +349,11 @@ class ProfileLoggedViewModel(
 
     private fun toggleSavePost(post: PostModel) {
         val newValue = !post.saved
-        val newPost = postRepository.asSaved(
-            post = post,
-            saved = newValue,
-        )
+        val newPost =
+            postRepository.asSaved(
+                post = post,
+                saved = newValue,
+            )
         handlePostUpdate(newPost)
         screenModelScope.launch {
             try {
@@ -373,10 +372,11 @@ class ProfileLoggedViewModel(
 
     private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        val newComment = commentRepository.asUpVoted(
-            comment = comment,
-            voted = newValue,
-        )
+        val newComment =
+            commentRepository.asUpVoted(
+                comment = comment,
+                voted = newValue,
+            )
         handleCommentUpdate(newComment)
         screenModelScope.launch {
             try {
@@ -414,10 +414,11 @@ class ProfileLoggedViewModel(
 
     private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        val newComment = commentRepository.asSaved(
-            comment = comment,
-            saved = newValue,
-        )
+        val newComment =
+            commentRepository.asSaved(
+                comment = comment,
+                saved = newValue,
+            )
         handleCommentUpdate(newComment)
         screenModelScope.launch {
             try {
@@ -437,13 +438,14 @@ class ProfileLoggedViewModel(
     private fun handlePostUpdate(post: PostModel) {
         updateState {
             it.copy(
-                posts = it.posts.map { p ->
-                    if (p.id == post.id) {
-                        post
-                    } else {
-                        p
-                    }
-                },
+                posts =
+                    it.posts.map { p ->
+                        if (p.id == post.id) {
+                            post
+                        } else {
+                            p
+                        }
+                    },
             )
         }
     }
@@ -451,13 +453,14 @@ class ProfileLoggedViewModel(
     private fun handleCommentUpdate(comment: CommentModel) {
         updateState {
             it.copy(
-                comments = it.comments.map { c ->
-                    if (c.id == comment.id) {
-                        comment
-                    } else {
-                        c
-                    }
-                },
+                comments =
+                    it.comments.map { c ->
+                        if (c.id == comment.id) {
+                            comment
+                        } else {
+                            c
+                        }
+                    },
             )
         }
     }
@@ -467,7 +470,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun deletePost(id: Long) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             postRepository.delete(id = id, auth = auth)
             handlePostDelete(id)
@@ -475,7 +478,7 @@ class ProfileLoggedViewModel(
     }
 
     private fun deleteComment(id: Long) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             commentRepository.delete(id, auth)
             refresh()

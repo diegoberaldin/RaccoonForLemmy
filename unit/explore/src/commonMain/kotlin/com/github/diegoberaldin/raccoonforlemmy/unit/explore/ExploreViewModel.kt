@@ -23,9 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -51,18 +49,18 @@ class ExploreViewModel(
     DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
         initialState = ExploreMviModel.UiState(),
     ) {
-
     private var currentPage: Int = 1
     private var searchEventChannel = Channel<Unit>()
     private val isOnOtherInstance: Boolean get() = otherInstance.isNotEmpty()
     private val notificationEventKey: String
-        get() = buildString {
-            append("explore")
-            if (isOnOtherInstance) {
-                append("-")
-                append(otherInstance)
+        get() =
+            buildString {
+                append("explore")
+                if (isOnOtherInstance) {
+                    append("-")
+                    append(otherInstance)
+                }
             }
-        }
 
     init {
         updateState {
@@ -152,7 +150,7 @@ class ExploreViewModel(
                 sortType = sortType,
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh()
             emitEffect(ExploreMviModel.Effect.BackToTop)
         }
@@ -166,13 +164,13 @@ class ExploreViewModel(
     override fun reduce(intent: ExploreMviModel.Intent) {
         when (intent) {
             ExploreMviModel.Intent.LoadNextPage -> {
-                screenModelScope.launch(Dispatchers.IO) {
+                screenModelScope.launch {
                     loadNextPage()
                 }
             }
 
             ExploreMviModel.Intent.Refresh -> {
-                screenModelScope.launch(Dispatchers.IO) {
+                screenModelScope.launch {
                     refresh()
                 }
             }
@@ -270,7 +268,7 @@ class ExploreViewModel(
 
     private fun changeListingType(value: ListingType) {
         updateState { it.copy(listingType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -278,7 +276,7 @@ class ExploreViewModel(
 
     private fun changeSortType(value: SortType) {
         updateState { it.copy(sortType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -286,7 +284,7 @@ class ExploreViewModel(
 
     private fun changeResultType(value: SearchResultType) {
         updateState { it.copy(resultType = value) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             emitEffect(ExploreMviModel.Effect.BackToTop)
             refresh()
         }
@@ -318,15 +316,16 @@ class ExploreViewModel(
         val sortType = currentState.sortType
         val resultType = currentState.resultType
         val settings = settingsRepository.currentSettings.value
-        val itemList = communityRepository.search(
-            query = searchText,
-            auth = auth,
-            resultType = resultType,
-            page = currentPage,
-            listingType = listingType,
-            sortType = sortType,
-            instance = otherInstance,
-        )
+        val itemList =
+            communityRepository.search(
+                query = searchText,
+                auth = auth,
+                resultType = resultType,
+                page = currentPage,
+                listingType = listingType,
+                sortType = sortType,
+                instance = otherInstance,
+            )
         val additionalResolvedCommunity =
             if (resultType == SearchResultType.All || resultType == SearchResultType.Communities && currentPage == 1) {
                 communityRepository.getResolved(
@@ -348,56 +347,68 @@ class ExploreViewModel(
         if (itemList.isNotEmpty()) {
             currentPage++
         }
-        val itemsToAdd = itemList.filter { item ->
-            if (settings.includeNsfw) {
-                true
-            } else {
-                isSafeForWork(item)
-            }
-        }.let {
-            when (resultType) {
-                SearchResultType.Communities -> {
-                    if (additionalResolvedCommunity != null && it.none { r -> r is SearchResult.Community && r.model.id == additionalResolvedCommunity.id }) {
-                        it + SearchResult.Community(additionalResolvedCommunity)
-                    } else {
-                        it
-                    }
+        val itemsToAdd =
+            itemList.filter { item ->
+                if (settings.includeNsfw) {
+                    true
+                } else {
+                    isSafeForWork(item)
                 }
-
-                SearchResultType.Users -> {
-                    if (additionalResolvedUser != null && it.none { r -> r is SearchResult.User && r.model.id == additionalResolvedUser.id }) {
-                        it + SearchResult.User(additionalResolvedUser)
-                    } else {
-                        it
+            }.let {
+                when (resultType) {
+                    SearchResultType.Communities -> {
+                        if (additionalResolvedCommunity != null &&
+                            it.none {
+                                    r ->
+                                r is SearchResult.Community && r.model.id == additionalResolvedCommunity.id
+                            }
+                        ) {
+                            it + SearchResult.Community(additionalResolvedCommunity)
+                        } else {
+                            it
+                        }
                     }
-                }
 
-                SearchResultType.Posts -> {
-                    if (settings.searchPostTitleOnly && searchText.isNotEmpty()) {
-                        // apply the more restrictive title-only search
-                        it.filterIsInstance<SearchResult.Post>()
-                            .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
-                    } else {
-                        it
+                    SearchResultType.Users -> {
+                        if (additionalResolvedUser != null &&
+                            it.none {
+                                    r ->
+                                r is SearchResult.User && r.model.id == additionalResolvedUser.id
+                            }
+                        ) {
+                            it + SearchResult.User(additionalResolvedUser)
+                        } else {
+                            it
+                        }
                     }
-                }
 
-                else -> it
+                    SearchResultType.Posts -> {
+                        if (settings.searchPostTitleOnly && searchText.isNotEmpty()) {
+                            // apply the more restrictive title-only search
+                            it.filterIsInstance<SearchResult.Post>()
+                                .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
+                        } else {
+                            it
+                        }
+                    }
+
+                    else -> it
+                }
+            }.filter { item ->
+                if (refreshing) {
+                    true
+                } else {
+                    // prevents accidental duplication
+                    currentState.results.none { other -> getItemKey(item) == getItemKey(other) }
+                }
             }
-        }.filter { item ->
-            if (refreshing) {
-                true
-            } else {
-                // prevents accidental duplication
-                currentState.results.none { other -> getItemKey(item) == getItemKey(other) }
-            }
-        }
         updateState {
-            val newItems = if (refreshing) {
-                itemsToAdd
-            } else {
-                it.results + itemsToAdd
-            }
+            val newItems =
+                if (refreshing) {
+                    itemsToAdd
+                } else {
+                    it.results + itemsToAdd
+                }
             it.copy(
                 results = newItems,
                 loading = false,
@@ -407,13 +418,14 @@ class ExploreViewModel(
         }
     }
 
-    private fun isSafeForWork(element: SearchResult): Boolean = when (element) {
-        is SearchResult.Community -> !element.model.nsfw
-        is SearchResult.Post -> !element.model.nsfw
-        is SearchResult.Comment -> true
-        is SearchResult.User -> true
-        else -> false
-    }
+    private fun isSafeForWork(element: SearchResult): Boolean =
+        when (element) {
+            is SearchResult.Community -> !element.model.nsfw
+            is SearchResult.Post -> !element.model.nsfw
+            is SearchResult.Comment -> true
+            is SearchResult.User -> true
+            else -> false
+        }
 
     private fun handleLogout() {
         currentPage = 1
@@ -429,13 +441,14 @@ class ExploreViewModel(
     private fun handlePostUpdate(post: PostModel) {
         updateState {
             it.copy(
-                results = it.results.map { r ->
-                    if (r is SearchResult.Post && r.model.id == post.id) {
-                        r.copy(model = post)
-                    } else {
-                        r
-                    }
-                },
+                results =
+                    it.results.map { r ->
+                        if (r is SearchResult.Post && r.model.id == post.id) {
+                            r.copy(model = post)
+                        } else {
+                            r
+                        }
+                    },
             )
         }
     }
@@ -443,36 +456,39 @@ class ExploreViewModel(
     private fun handleCommentUpdate(comment: CommentModel) {
         updateState {
             it.copy(
-                results = it.results.map { r ->
-                    if (r is SearchResult.Comment && r.model.id == comment.id) {
-                        r.copy(model = comment)
-                    } else {
-                        r
-                    }
-                },
+                results =
+                    it.results.map { r ->
+                        if (r is SearchResult.Comment && r.model.id == comment.id) {
+                            r.copy(model = comment)
+                        } else {
+                            r
+                        }
+                    },
             )
         }
     }
 
     private fun toggleUpVote(post: PostModel) {
         val newVote = post.myVote <= 0
-        val newPost = postRepository.asUpVoted(
-            post = post,
-            voted = newVote,
-        )
+        val newPost =
+            postRepository.asUpVoted(
+                post = post,
+                voted = newVote,
+            )
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Post) return@map res
-                    if (res.model.id == post.id) {
-                        res.copy(model = newPost)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Post) return@map res
+                        if (res.model.id == post.id) {
+                            res.copy(model = newPost)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -484,14 +500,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Post) return@map res
-                            if (res.model.id == post.id) {
-                                res.copy(model = post)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Post) return@map res
+                                if (res.model.id == post.id) {
+                                    res.copy(model = post)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -500,23 +517,25 @@ class ExploreViewModel(
 
     private fun toggleDownVote(post: PostModel) {
         val newValue = post.myVote >= 0
-        val newPost = postRepository.asDownVoted(
-            post = post,
-            downVoted = newValue,
-        )
+        val newPost =
+            postRepository.asDownVoted(
+                post = post,
+                downVoted = newValue,
+            )
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Post) return@map res
-                    if (res.model.id == post.id) {
-                        res.copy(model = newPost)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Post) return@map res
+                        if (res.model.id == post.id) {
+                            res.copy(model = newPost)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -528,14 +547,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Post) return@map res
-                            if (res.model.id == post.id) {
-                                res.copy(model = post)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Post) return@map res
+                                if (res.model.id == post.id) {
+                                    res.copy(model = post)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -544,23 +564,25 @@ class ExploreViewModel(
 
     private fun toggleSave(post: PostModel) {
         val newValue = !post.saved
-        val newPost = postRepository.asSaved(
-            post = post,
-            saved = newValue,
-        )
+        val newPost =
+            postRepository.asSaved(
+                post = post,
+                saved = newValue,
+            )
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Post) return@map res
-                    if (res.model.id == post.id) {
-                        res.copy(model = newPost)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Post) return@map res
+                        if (res.model.id == post.id) {
+                            res.copy(model = newPost)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -572,14 +594,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Post) return@map res
-                            if (res.model.id == post.id) {
-                                res.copy(model = post)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Post) return@map res
+                                if (res.model.id == post.id) {
+                                    res.copy(model = post)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -588,23 +611,25 @@ class ExploreViewModel(
 
     private fun toggleUpVoteComment(comment: CommentModel) {
         val newValue = comment.myVote <= 0
-        val newComment = commentRepository.asUpVoted(
-            comment = comment,
-            voted = newValue,
-        )
+        val newComment =
+            commentRepository.asUpVoted(
+                comment = comment,
+                voted = newValue,
+            )
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Comment) return@map res
-                    if (res.model.id == comment.id) {
-                        res.copy(model = newComment)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Comment) return@map res
+                        if (res.model.id == comment.id) {
+                            res.copy(model = newComment)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.upVote(
@@ -616,14 +641,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Comment) return@map res
-                            if (res.model.id == comment.id) {
-                                res.copy(model = comment)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Comment) return@map res
+                                if (res.model.id == comment.id) {
+                                    res.copy(model = comment)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -635,17 +661,18 @@ class ExploreViewModel(
         val newComment = commentRepository.asDownVoted(comment, newValue)
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Comment) return@map res
-                    if (res.model.id == comment.id) {
-                        res.copy(model = newComment)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Comment) return@map res
+                        if (res.model.id == comment.id) {
+                            res.copy(model = newComment)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.downVote(
@@ -657,14 +684,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Comment) return@map res
-                            if (res.model.id == comment.id) {
-                                res.copy(model = comment)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Comment) return@map res
+                                if (res.model.id == comment.id) {
+                                    res.copy(model = comment)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -673,23 +701,25 @@ class ExploreViewModel(
 
     private fun toggleSaveComment(comment: CommentModel) {
         val newValue = !comment.saved
-        val newComment = commentRepository.asSaved(
-            comment = comment,
-            saved = newValue,
-        )
+        val newComment =
+            commentRepository.asSaved(
+                comment = comment,
+                saved = newValue,
+            )
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Comment) return@map res
-                    if (res.model.id == comment.id) {
-                        res.copy(model = newComment)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Comment) return@map res
+                        if (res.model.id == comment.id) {
+                            res.copy(model = newComment)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 commentRepository.save(
@@ -701,14 +731,15 @@ class ExploreViewModel(
                 e.printStackTrace()
                 updateState {
                     it.copy(
-                        results = it.results.map { res ->
-                            if (res !is SearchResult.Comment) return@map res
-                            if (res.model.id == comment.id) {
-                                res.copy(model = comment)
-                            } else {
-                                res
-                            }
-                        },
+                        results =
+                            it.results.map { res ->
+                                if (res !is SearchResult.Comment) return@map res
+                                if (res.model.id == comment.id) {
+                                    res.copy(model = comment)
+                                } else {
+                                    res
+                                }
+                            },
                     )
                 }
             }
@@ -716,29 +747,31 @@ class ExploreViewModel(
     }
 
     private fun toggleSubscription(communityId: Long) {
-        val community = uiState.value.results.firstOrNull {
-            (it as? SearchResult.Community)?.model?.id == communityId
-        }.let { (it as? SearchResult.Community)?.model } ?: return
-        screenModelScope.launch(Dispatchers.IO) {
-            val newValue = when (community.subscribed) {
-                true -> {
-                    hapticFeedback.vibrate()
-                    communityRepository.unsubscribe(
-                        auth = identityRepository.authToken.value,
-                        id = communityId,
-                    )
-                }
+        val community =
+            uiState.value.results.firstOrNull {
+                (it as? SearchResult.Community)?.model?.id == communityId
+            }.let { (it as? SearchResult.Community)?.model } ?: return
+        screenModelScope.launch {
+            val newValue =
+                when (community.subscribed) {
+                    true -> {
+                        hapticFeedback.vibrate()
+                        communityRepository.unsubscribe(
+                            auth = identityRepository.authToken.value,
+                            id = communityId,
+                        )
+                    }
 
-                false -> {
-                    hapticFeedback.vibrate()
-                    communityRepository.subscribe(
-                        auth = identityRepository.authToken.value,
-                        id = communityId,
-                    )
-                }
+                    false -> {
+                        hapticFeedback.vibrate()
+                        communityRepository.subscribe(
+                            auth = identityRepository.authToken.value,
+                            id = communityId,
+                        )
+                    }
 
-                else -> community
-            }
+                    else -> community
+                }
             if (newValue == null) {
                 emitEffect(ExploreMviModel.Effect.OperationFailure)
             } else {
@@ -750,22 +783,24 @@ class ExploreViewModel(
     private fun handleCommunityUpdate(community: CommunityModel) {
         updateState {
             it.copy(
-                results = it.results.map { res ->
-                    if (res !is SearchResult.Community) return@map res
-                    if (res.model.id == community.id) {
-                        res.copy(model = community)
-                    } else {
-                        res
-                    }
-                },
+                results =
+                    it.results.map { res ->
+                        if (res !is SearchResult.Community) return@map res
+                        if (res.model.id == community.id) {
+                            res.copy(model = community)
+                        } else {
+                            res
+                        }
+                    },
             )
         }
     }
 }
 
-internal fun getItemKey(result: SearchResult): String = when (result) {
-    is SearchResult.Post -> "post" + result.model.id.toString() + result.model.updateDate
-    is SearchResult.Comment -> "comment" + result.model.id.toString() + result.model.updateDate
-    is SearchResult.User -> "user" + result.model.id.toString()
-    is SearchResult.Community -> "community" + result.model.id.toString()
-}
+internal fun getItemKey(result: SearchResult): String =
+    when (result) {
+        is SearchResult.Post -> "post" + result.model.id.toString() + result.model.updateDate
+        is SearchResult.Comment -> "comment" + result.model.id.toString() + result.model.updateDate
+        is SearchResult.User -> "user" + result.model.id.toString()
+        is SearchResult.Community -> "community" + result.model.id.toString()
+    }

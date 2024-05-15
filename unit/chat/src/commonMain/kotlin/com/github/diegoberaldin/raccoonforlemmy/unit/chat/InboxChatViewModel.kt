@@ -11,12 +11,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class InboxChatViewModel(
     private val otherUserId: Long,
@@ -31,7 +28,6 @@ class InboxChatViewModel(
     DefaultMviModel<InboxChatMviModel.Intent, InboxChatMviModel.UiState, InboxChatMviModel.Effect>(
         initialState = InboxChatMviModel.UiState(),
     ) {
-
     private var currentPage: Int = 1
 
     init {
@@ -51,24 +47,23 @@ class InboxChatViewModel(
                     handleLogout()
                 }.launchIn(this)
 
-                withContext(Dispatchers.IO) {
-                    val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
-                    updateState { it.copy(currentUserId = currentUserId) }
+                val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
+                updateState { it.copy(currentUserId = currentUserId) }
 
-                    val user = userRepository.get(
+                val user =
+                    userRepository.get(
                         id = otherUserId,
                         auth = auth,
                     )
-                    updateState {
-                        it.copy(
-                            otherUserName = user?.name.orEmpty(),
-                            otherUserAvatar = user?.avatar,
-                        )
-                    }
+                updateState {
+                    it.copy(
+                        otherUserName = user?.name.orEmpty(),
+                        otherUserAvatar = user?.avatar,
+                    )
+                }
 
-                    if (uiState.value.messages.isEmpty()) {
-                        refresh(initial = true)
-                    }
+                if (uiState.value.messages.isEmpty()) {
+                    refresh(initial = true)
                 }
             }
         }
@@ -127,30 +122,33 @@ class InboxChatViewModel(
         updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
-        val itemList = messageRepository.getAll(
-            creatorId = otherUserId,
-            auth = auth,
-            page = currentPage,
-            unreadOnly = false,
-        )?.onEach {
-            if (!it.read) {
-                markAsRead(true, it.id)
+        val itemList =
+            messageRepository.getAll(
+                creatorId = otherUserId,
+                auth = auth,
+                page = currentPage,
+                unreadOnly = false,
+            )?.onEach {
+                if (!it.read) {
+                    markAsRead(true, it.id)
+                }
             }
-        }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
 
-        val itemsToAdd = itemList.orEmpty().filter {
-            it.creator?.id == otherUserId || it.recipient?.id == otherUserId
-        }
+        val itemsToAdd =
+            itemList.orEmpty().filter {
+                it.creator?.id == otherUserId || it.recipient?.id == otherUserId
+            }
         val shouldTryNextPage = itemsToAdd.isEmpty() && tryCount < 10
         updateState {
-            val newItems = if (refreshing) {
-                itemsToAdd
-            } else {
-                it.messages + itemsToAdd
-            }
+            val newItems =
+                if (refreshing) {
+                    itemsToAdd
+                } else {
+                    it.messages + itemsToAdd
+                }
             it.copy(
                 messages = newItems,
                 loading = false,
@@ -164,14 +162,18 @@ class InboxChatViewModel(
         }
     }
 
-    private fun markAsRead(read: Boolean, messageId: Long) {
+    private fun markAsRead(
+        read: Boolean,
+        messageId: Long,
+    ) {
         val auth = identityRepository.authToken.value
         screenModelScope.launch {
-            val newMessage = messageRepository.markAsRead(
-                read = read,
-                messageId = messageId,
-                auth = auth,
-            )
+            val newMessage =
+                messageRepository.markAsRead(
+                    read = read,
+                    messageId = messageId,
+                    auth = auth,
+                )
             if (newMessage != null) {
                 handleMessageUpdate(newMessage)
             }
@@ -181,13 +183,14 @@ class InboxChatViewModel(
     private fun handleMessageUpdate(newMessage: PrivateMessageModel) {
         updateState {
             it.copy(
-                messages = it.messages.map { msg ->
-                    if (msg.id == newMessage.id) {
-                        newMessage
-                    } else {
-                        msg
-                    }
-                }
+                messages =
+                    it.messages.map { msg ->
+                        if (msg.id == newMessage.id) {
+                            newMessage
+                        } else {
+                            msg
+                        }
+                    },
             )
         }
     }
@@ -225,30 +228,32 @@ class InboxChatViewModel(
         if (text.isNotEmpty()) {
             screenModelScope.launch {
                 val auth = identityRepository.authToken.value
-                val newMessage = if (isEditing) {
-                    messageRepository.edit(
-                        messageId = editedMessageId ?: 0,
-                        message = text,
-                        auth = auth,
-                    )
-                } else {
-                    messageRepository.create(
-                        message = text,
-                        recipientId = otherUserId,
-                        auth = auth,
-                    )
-                }
-                val newMessages = if (isEditing) {
-                    uiState.value.messages.map { msg ->
-                        if (msg.id == newMessage?.id) {
-                            newMessage
-                        } else {
-                            msg
-                        }
+                val newMessage =
+                    if (isEditing) {
+                        messageRepository.edit(
+                            messageId = editedMessageId ?: 0,
+                            message = text,
+                            auth = auth,
+                        )
+                    } else {
+                        messageRepository.create(
+                            message = text,
+                            recipientId = otherUserId,
+                            auth = auth,
+                        )
                     }
-                } else {
-                    (newMessage?.let { listOf(it) } ?: emptyList()) + uiState.value.messages
-                }
+                val newMessages =
+                    if (isEditing) {
+                        uiState.value.messages.map { msg ->
+                            if (msg.id == newMessage?.id) {
+                                newMessage
+                            } else {
+                                msg
+                            }
+                        }
+                    } else {
+                        (newMessage?.let { listOf(it) } ?: emptyList()) + uiState.value.messages
+                    }
                 updateState {
                     it.copy(
                         messages = newMessages,

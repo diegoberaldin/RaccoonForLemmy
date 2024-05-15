@@ -10,12 +10,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.otherUser
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PrivateMessageRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class InboxMessagesViewModel(
     private val identityRepository: IdentityRepository,
@@ -28,7 +25,6 @@ class InboxMessagesViewModel(
     DefaultMviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect>(
         initialState = InboxMessagesMviModel.UiState(),
     ) {
-
     private var currentPage: Int = 1
 
     init {
@@ -58,32 +54,31 @@ class InboxMessagesViewModel(
                 handleLogout()
             }.launchIn(this)
 
-            withContext(Dispatchers.IO) {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
-                updateState { it.copy(currentUserId = currentUserId) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
+            updateState { it.copy(currentUserId = currentUserId) }
 
-                if (uiState.value.initial) {
-                    val value = coordinator.unreadOnly.value
-                    changeUnreadOnly(value)
-                    refresh(initial = true)
-                }
-                updateUnreadItems()
+            if (uiState.value.initial) {
+                val value = coordinator.unreadOnly.value
+                changeUnreadOnly(value)
+                refresh(initial = true)
             }
-
+            updateUnreadItems()
         }
     }
 
     override fun reduce(intent: InboxMessagesMviModel.Intent) {
         when (intent) {
-            InboxMessagesMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            InboxMessagesMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
-            InboxMessagesMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-                emitEffect(InboxMessagesMviModel.Effect.BackToTop)
-            }
+            InboxMessagesMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                    emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+                }
         }
     }
 
@@ -123,31 +118,34 @@ class InboxMessagesViewModel(
         val auth = identityRepository.authToken.value
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
-        val itemList = messageRepository.getAll(
-            auth = auth,
-            page = currentPage,
-            unreadOnly = unreadOnly,
-        )?.groupBy {
-            it.otherUser(currentState.currentUserId)?.id ?: 0
-        }?.mapNotNull { entry ->
-            val messages = entry.value.sortedBy { m -> m.publishDate }
-            messages.lastOrNull()
-        }
+        val itemList =
+            messageRepository.getAll(
+                auth = auth,
+                page = currentPage,
+                unreadOnly = unreadOnly,
+            )?.groupBy {
+                it.otherUser(currentState.currentUserId)?.id ?: 0
+            }?.mapNotNull { entry ->
+                val messages = entry.value.sortedBy { m -> m.publishDate }
+                messages.lastOrNull()
+            }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
         updateState {
-            val newItems = if (refreshing) {
-                itemList.orEmpty()
-            } else {
-                it.chats + itemList.orEmpty().filter { outerChat ->
-                    val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
-                    currentState.chats.none { chat ->
-                        val otherUser = chat.otherUser(currentState.currentUserId)
-                        outerOtherUser == otherUser
-                    }
+            val newItems =
+                if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.chats +
+                        itemList.orEmpty().filter { outerChat ->
+                            val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
+                            currentState.chats.none { chat ->
+                                val otherUser = chat.otherUser(currentState.currentUserId)
+                                outerOtherUser == otherUser
+                            }
+                        }
                 }
-            }
             it.copy(
                 chats = newItems,
                 loading = false,
@@ -167,7 +165,7 @@ class InboxMessagesViewModel(
 
     private fun handleLogout() {
         updateState { it.copy(chats = emptyList()) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             refresh(initial = true)
         }
     }

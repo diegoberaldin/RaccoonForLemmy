@@ -14,9 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedbac
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
@@ -38,7 +36,6 @@ class ManageSubscriptionsViewModel(
     DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ) {
-
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -81,7 +78,7 @@ class ManageSubscriptionsViewModel(
             }
 
             is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> {
-                uiState.value.multiCommunities.firstOrNull() {
+                uiState.value.multiCommunities.firstOrNull {
                     (it.id ?: 0L) == intent.id
                 }?.also { community ->
                     deleteMultiCommunity(community)
@@ -103,37 +100,39 @@ class ManageSubscriptionsViewModel(
             return
         }
         updateState { it.copy(refreshing = true) }
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value
             val accountId = accountRepository.getActive()?.id ?: 0L
             val favoriteCommunityIds =
                 favoriteCommunityRepository.getAll(accountId).map { it.communityId }
-            val communities = communityRepository.getSubscribed(auth)
-                .let {
-                    val searchText = uiState.value.searchText
-                    if (searchText.isNotEmpty()) {
-                        it.filter { c ->
-                            c.title.contains(searchText, ignoreCase = true)
-                                    || c.name.contains(searchText, ignoreCase = true)
+            val communities =
+                communityRepository.getSubscribed(auth)
+                    .let {
+                        val searchText = uiState.value.searchText
+                        if (searchText.isNotEmpty()) {
+                            it.filter { c ->
+                                c.title.contains(searchText, ignoreCase = true) ||
+                                    c.name.contains(searchText, ignoreCase = true)
+                            }
+                        } else {
+                            it
                         }
-                    } else {
-                        it
-                    }
-                }.map { community ->
-                    community.copy(favorite = community.id in favoriteCommunityIds)
-                }.sortedBy { it.name }
-            val multiCommunitites = multiCommunityRepository.getAll(accountId)
-                .let {
-                    val searchText = uiState.value.searchText
-                    if (searchText.isNotEmpty()) {
-                        it.filter { c ->
-                            c.name.contains(searchText, ignoreCase = true)
+                    }.map { community ->
+                        community.copy(favorite = community.id in favoriteCommunityIds)
+                    }.sortedBy { it.name }
+            val multiCommunitites =
+                multiCommunityRepository.getAll(accountId)
+                    .let {
+                        val searchText = uiState.value.searchText
+                        if (searchText.isNotEmpty()) {
+                            it.filter { c ->
+                                c.name.contains(searchText, ignoreCase = true)
+                            }
+                        } else {
+                            it
                         }
-                    } else {
-                        it
                     }
-                }
-                .sortedBy { it.name }
+                    .sortedBy { it.name }
 
             updateState {
                 it.copy(
@@ -147,10 +146,11 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun unsubscribe(community: CommunityModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value
             communityRepository.unsubscribe(
-                auth = auth, id = community.id
+                auth = auth,
+                id = community.id,
             )
             updateState {
                 it.copy(communities = it.communities.filter { c -> c.id != community.id })
@@ -159,7 +159,7 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun deleteMultiCommunity(community: MultiCommunityModel) {
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             multiCommunityRepository.delete(community)
             updateState {
                 val newCommunities = it.multiCommunities.filter { c -> c.id != community.id }
@@ -170,23 +170,24 @@ class ManageSubscriptionsViewModel(
 
     private fun handleMultiCommunityCreated(community: MultiCommunityModel) {
         val oldCommunities = uiState.value.multiCommunities
-        val newCommunities = if (oldCommunities.any { it.id == community.id }) {
-            oldCommunities.map {
-                if (it.id == community.id) {
-                    community
-                } else {
-                    it
+        val newCommunities =
+            if (oldCommunities.any { it.id == community.id }) {
+                oldCommunities.map {
+                    if (it.id == community.id) {
+                        community
+                    } else {
+                        it
+                    }
                 }
-            }
-        } else {
-            oldCommunities + community
-        }.sortedBy { it.name }
+            } else {
+                oldCommunities + community
+            }.sortedBy { it.name }
         updateState { it.copy(multiCommunities = newCommunities) }
     }
 
     private fun toggleFavorite(community: CommunityModel) {
         val communityId = community.id
-        screenModelScope.launch(Dispatchers.IO) {
+        screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: 0L
             val newValue = !community.favorite
             if (newValue) {
@@ -206,13 +207,14 @@ class ManageSubscriptionsViewModel(
     private fun handleCommunityUpdate(community: CommunityModel) {
         updateState {
             it.copy(
-                communities = it.communities.map { c ->
-                    if (c.id == community.id) {
-                        community
-                    } else {
-                        c
-                    }
-                },
+                communities =
+                    it.communities.map { c ->
+                        if (c.id == community.id) {
+                            community
+                        } else {
+                            c
+                        }
+                    },
             )
         }
     }

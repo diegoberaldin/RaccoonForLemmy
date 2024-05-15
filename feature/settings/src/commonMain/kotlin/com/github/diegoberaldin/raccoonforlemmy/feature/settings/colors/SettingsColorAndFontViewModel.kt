@@ -15,8 +15,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -32,7 +30,6 @@ class SettingsColorAndFontViewModel(
     DefaultMviModel<SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect>(
         initialState = SettingsColorAndFontMviModel.UiState(),
     ) {
-
     init {
         screenModelScope.launch {
             themeRepository.uiTheme.onEach { value ->
@@ -112,92 +109,99 @@ class SettingsColorAndFontViewModel(
 
     private fun changeFontFamily(value: UiFontFamily) {
         themeRepository.changeUiFontFamily(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                uiFontFamily = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    uiFontFamily = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeUiFontScale(value: Float) {
         themeRepository.changeUiFontScale(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                uiFontScale = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    uiFontScale = value,
+                )
             saveSettings(settings)
         }
     }
 
-
-
     private fun changeDynamicColors(value: Boolean) {
         themeRepository.changeDynamicColors(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                dynamicColors = value
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    dynamicColors = value,
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeCustomSeedColor(value: Color?) {
         themeRepository.changeCustomSeedColor(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                customSeedColor = value?.toArgb()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    customSeedColor = value?.toArgb(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeUpVoteColor(value: Color?) {
         themeRepository.changeUpVoteColor(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                upVoteColor = value?.toArgb()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    upVoteColor = value?.toArgb(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeDownVoteColor(value: Color?) {
         themeRepository.changeDownVoteColor(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                downVoteColor = value?.toArgb()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    downVoteColor = value?.toArgb(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeReplyColor(value: Color?) {
         themeRepository.changeReplyColor(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                replyColor = value?.toArgb()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    replyColor = value?.toArgb(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeSaveColor(value: Color?) {
         themeRepository.changeSaveColor(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                saveColor = value?.toArgb()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    saveColor = value?.toArgb(),
+                )
             saveSettings(settings)
         }
     }
 
     private fun changeCommentBarTheme(value: CommentBarTheme) {
         themeRepository.changeCommentBarTheme(value)
-        screenModelScope.launch(Dispatchers.IO) {
-            val settings = settingsRepository.currentSettings.value.copy(
-                commentBarTheme = value.toInt()
-            )
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    commentBarTheme = value.toInt(),
+                )
             saveSettings(settings)
         }
     }
