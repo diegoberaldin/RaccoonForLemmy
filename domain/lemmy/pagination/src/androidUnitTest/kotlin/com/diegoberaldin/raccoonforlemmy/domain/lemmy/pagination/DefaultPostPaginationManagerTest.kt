@@ -56,7 +56,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenListingSpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenListingSpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 postRepository.getAll(
@@ -92,7 +92,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenListingSpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenListingSpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -140,7 +140,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenListingSpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenListingSpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -199,7 +199,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenMultiCommunitySpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenMultiCommunitySpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 multiCommunityPaginator.loadNextPage(any(), any())
@@ -222,7 +222,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenMultiCommunitySpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenMultiCommunitySpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 multiCommunityPaginator.loadNextPage(any(), any())
@@ -251,7 +251,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenMultiCommunitySpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenMultiCommunitySpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             var invokeCount = 0
             coEvery {
@@ -293,7 +293,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 postRepository.getAll(
@@ -328,7 +328,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecSearchingAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecSearchingAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 communityRepository.search(
@@ -361,7 +361,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -408,7 +408,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecSearchingAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecSearchingAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -455,7 +455,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -511,7 +511,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenCommunitySpecSearchingAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenCommunitySpecSearchingAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -567,7 +567,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenUserSpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenUserSpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             coEvery {
@@ -598,7 +598,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenUserSpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenUserSpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             val page = slot<Int>()
@@ -641,7 +641,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenUserSpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenUserSpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             val page = slot<Int>()
@@ -692,7 +692,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenVotesSpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenVotesSpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             coEvery {
                 userRepository.getLikedPosts(
@@ -723,7 +723,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenVotesSpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenVotesSpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -766,7 +766,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenVotesSpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenVotesSpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val page = slot<Int>()
             coEvery {
@@ -818,7 +818,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenSavedSpecAndNoPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenSavedSpecAndNoResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             coEvery { identityRepository.cachedUser } returns UserModel(id = userId)
@@ -849,7 +849,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenSavedSpecAndPosts_whenLoadNextPage_thenResultIsAsExpected() =
+    fun givenSavedSpecAndResults_whenLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             coEvery { identityRepository.cachedUser } returns UserModel(id = userId)
@@ -892,7 +892,7 @@ class DefaultPostPaginationManagerTest {
         }
 
     @Test
-    fun givenSavedSpecAndPosts_whenSecondLoadNextPage_thenResultIsAsExpected() =
+    fun givenSavedSpecAndResults_whenSecondLoadNextPage_thenResultIsAsExpected() =
         runTest {
             val userId = 1L
             coEvery { identityRepository.cachedUser } returns UserModel(id = userId)
