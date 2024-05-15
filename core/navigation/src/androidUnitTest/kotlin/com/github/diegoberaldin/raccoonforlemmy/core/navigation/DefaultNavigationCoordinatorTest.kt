@@ -17,17 +17,19 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultNavigationCoordinatorTest {
 
     @get:Rule
@@ -151,6 +153,7 @@ class DefaultNavigationCoordinatorTest {
         sut.setRootNavigator(navigator)
 
         sut.pushScreen(screen)
+        advanceTimeBy(500)
 
         val canPop = sut.canPop.value
         assertTrue(canPop)
@@ -202,6 +205,7 @@ class DefaultNavigationCoordinatorTest {
         }
     }
 
+
     @Test
     fun whenShowBottomSheet_thenInteractionsAreAsExpected() = runTest {
         val screen = object : Screen {
@@ -214,6 +218,7 @@ class DefaultNavigationCoordinatorTest {
         sut.setBottomNavigator(navigator)
 
         sut.showBottomSheet(screen)
+        advanceTimeBy(500)
 
         verify {
             navigator.show(screen)
@@ -228,6 +233,7 @@ class DefaultNavigationCoordinatorTest {
         sut.setBottomNavigator(navigator)
 
         sut.hideBottomSheet()
+        advanceTimeBy(500)
 
         verify {
             navigator.hide()

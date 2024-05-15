@@ -30,6 +30,7 @@ import org.junit.Rule
 import kotlin.test.Test
 import kotlin.test.assertIs
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultDetailOpenerTest {
 
     @get:Rule
@@ -68,7 +69,6 @@ class DefaultDetailOpenerTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun whenOpenCommunityDetailOnDifferentInstance_thenNavigatesAccordingly() = runTest {
         val token = "token"

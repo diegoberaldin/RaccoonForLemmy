@@ -10,6 +10,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DefaultZombieModeHelperTest {
 
     @get:Rule
@@ -29,7 +30,6 @@ class DefaultZombieModeHelperTest {
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun whenPauseThenIndexIsReset() = runTest {
         sut.start(initialValue = 0, interval = interval)
