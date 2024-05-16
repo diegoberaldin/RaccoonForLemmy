@@ -114,12 +114,14 @@ class FilteredContentsScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(FilteredContentsMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(FilteredContentsMviModel.Intent.Refresh)
+                    },
+            )
         val detailOpener = remember { getDetailOpener() }
         var rawContent by remember { mutableStateOf<Any?>(null) }
         val themeRepository = remember { getThemeRepository() }
@@ -162,11 +164,12 @@ class FilteredContentsScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -175,24 +178,27 @@ class FilteredContentsScreen(
                     title = {
                         Column(modifier = Modifier.padding(horizontal = Spacing.s)) {
                             Text(
-                                text = when (uiState.contentsType) {
-                                    FilteredContentsType.Moderated -> LocalXmlStrings.current.moderatorZoneActionContents
-                                    FilteredContentsType.Votes -> LocalXmlStrings.current.profileUpvotesDownvotes
-                                    FilteredContentsType.Bookmarks -> LocalXmlStrings.current.navigationDrawerTitleBookmarks
-                                },
+                                text =
+                                    when (uiState.contentsType) {
+                                        FilteredContentsType.Moderated -> LocalXmlStrings.current.moderatorZoneActionContents
+                                        FilteredContentsType.Votes -> LocalXmlStrings.current.profileUpvotesDownvotes
+                                        FilteredContentsType.Bookmarks -> LocalXmlStrings.current.navigationDrawerTitleBookmarks
+                                    },
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             if (uiState.contentsType == FilteredContentsType.Votes) {
-                                val text = when (uiState.liked) {
-                                    true -> LocalXmlStrings.current.actionUpvote
-                                    else -> LocalXmlStrings.current.actionDownvote
-                                }
+                                val text =
+                                    when (uiState.liked) {
+                                        true -> LocalXmlStrings.current.actionUpvote
+                                        else -> LocalXmlStrings.current.actionDownvote
+                                    }
                                 Text(
-                                    modifier = Modifier.onClick(
-                                        onClick = {
-                                            navigationCoordinator.showBottomSheet(LikedTypeSheet())
-                                        },
-                                    ),
+                                    modifier =
+                                        Modifier.onClick(
+                                            onClick = {
+                                                navigationCoordinator.showBottomSheet(LikedTypeSheet())
+                                            },
+                                        ),
                                     text = text,
                                     style = MaterialTheme.typography.titleSmall,
                                 )
@@ -204,29 +210,34 @@ class FilteredContentsScreen(
             floatingActionButton = {
                 AnimatedVisibility(
                     visible = isFabVisible,
-                    enter = slideInVertically(
-                        initialOffsetY = { it * 2 },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { it * 2 },
-                    ),
+                    enter =
+                        slideInVertically(
+                            initialOffsetY = { it * 2 },
+                        ),
+                    exit =
+                        slideOutVertically(
+                            targetOffsetY = { it * 2 },
+                        ),
                 ) {
                     FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = LocalXmlStrings.current.actionBackToTop,
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        runCatching {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
-                                        }
-                                    }
-                                },
-                            )
-                        },
+                        items =
+                            buildList {
+                                this +=
+                                    FloatingActionButtonMenuItem(
+                                        icon = Icons.Default.ExpandLess,
+                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        onSelected =
+                                            rememberCallback {
+                                                scope.launch {
+                                                    runCatching {
+                                                        lazyListState.scrollToItem(0)
+                                                        topAppBarState.heightOffset = 0f
+                                                        topAppBarState.contentOffset = 0f
+                                                    }
+                                                }
+                                            },
+                                    )
+                            },
                     )
                 }
             },
@@ -241,46 +252,52 @@ class FilteredContentsScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
-                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-            ) {
-                SectionSelector(
-                    titles = listOf(
-                        LocalXmlStrings.current.profileSectionPosts,
-                        LocalXmlStrings.current.profileSectionComments,
-                    ),
-                    currentSection = when (uiState.section) {
-                        FilteredContentsSection.Comments -> 1
-                        else -> 0
-                    },
-                    onSectionSelected = {
-                        val section = when (it) {
-                            1 -> FilteredContentsSection.Comments
-                            else -> FilteredContentsSection.Posts
-                        }
-                        model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
-                    },
-                )
-
-                Box(
-                    modifier = Modifier
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
                             },
-                        )
-                        .nestedScroll(fabNestedScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                        ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
+            ) {
+                SectionSelector(
+                    titles =
+                        listOf(
+                            LocalXmlStrings.current.profileSectionPosts,
+                            LocalXmlStrings.current.profileSectionComments,
+                        ),
+                    currentSection =
+                        when (uiState.section) {
+                            FilteredContentsSection.Comments -> 1
+                            else -> 0
+                        },
+                    onSectionSelected = {
+                        val section =
+                            when (it) {
+                                1 -> FilteredContentsSection.Comments
+                                else -> FilteredContentsSection.Posts
+                            }
+                        model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
+                    },
+                )
+
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .nestedScroll(fabNestedScrollConnection)
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -322,74 +339,83 @@ class FilteredContentsScreen(
                                 fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                     mapNotNull {
                                         when (it) {
-                                            ActionOnSwipe.UpVote -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleUp,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.UpVotePost(
-                                                            post.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.UpVote ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleUp,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.UpVotePost(
+                                                                    post.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.DownVote -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleDown,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = downVoteColor
-                                                    ?: defaultDownVoteColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.DownVotePost(
-                                                            post.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.DownVote ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor =
+                                                        downVoteColor
+                                                            ?: defaultDownVoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.DownVotePost(
+                                                                    post.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.Reply -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.AutoMirrored.Default.Reply,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = replyColor ?: defaultReplyColor,
-                                                onTriggered = rememberCallback {
-                                                    detailOpener.openReply(originalPost = post)
-                                                },
-                                            )
+                                            ActionOnSwipe.Reply ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.AutoMirrored.Default.Reply,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor ?: defaultReplyColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            detailOpener.openReply(originalPost = post)
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.Save -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.Bookmark,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = saveColor ?: defaultSaveColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.SavePost(
-                                                            post.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.Save ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Bookmark,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = saveColor ?: defaultSaveColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.SavePost(
+                                                                    post.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
                                             else -> null
                                         }
@@ -397,9 +423,10 @@ class FilteredContentsScreen(
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
-                                    onGestureBegin = rememberCallback(model) {
-                                        model.reduce(FilteredContentsMviModel.Intent.HapticIndication)
-                                    },
+                                    onGestureBegin =
+                                        rememberCallback(model) {
+                                            model.reduce(FilteredContentsMviModel.Intent.HapticIndication)
+                                        },
                                     swipeToStartActions = uiState.actionsOnSwipeToStartPosts.toSwipeActions(),
                                     swipeToEndActions = uiState.actionsOnSwipeToEndPosts.toSwipeActions(),
                                     content = {
@@ -414,165 +441,190 @@ class FilteredContentsScreen(
                                             preferNicknames = uiState.preferNicknames,
                                             fadeRead = uiState.fadeReadPosts,
                                             showUnreadComments = uiState.showUnreadComments,
-                                            onClick = rememberCallback(model) {
-                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(post)
-                                            },
-                                            onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                                detailOpener.openCommunityDetail(
-                                                    community,
-                                                    instance,
-                                                )
-                                            },
-                                            onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                detailOpener.openUserDetail(user, instance)
-                                            },
-                                            onOpenPost = rememberCallbackArgs { p, instance ->
-                                                detailOpener.openPostDetail(p, instance)
-                                            },
-                                            onOpenWeb = rememberCallbackArgs { url ->
-                                                navigationCoordinator.pushScreen(
-                                                    WebViewScreen(url),
-                                                )
-                                            },
-                                            onUpVote = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.UpVotePost(post.id),
-                                                )
-                                            },
-                                            onDownVote = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.DownVotePost(
-                                                        post.id,
-                                                    ),
-                                                )
-                                            },
-                                            onSave = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.SavePost(post.id),
-                                                )
-                                            },
-                                            onReply = rememberCallback(model) {
-                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(post)
-                                            },
-                                            onOpenImage = rememberCallbackArgs(model, post) { url ->
-                                                navigationCoordinator.pushScreen(
-                                                    ZoomableImageScreen(
-                                                        url = url,
-                                                        source = post.community?.readableHandle.orEmpty(),
-                                                    ),
-                                                )
-                                            },
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
-                                                )
-                                                if (uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.FeaturePost,
-                                                        if (post.featuredCommunity) {
-                                                            LocalXmlStrings.current.modActionUnmarkAsFeatured
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionMarkAsFeatured
-                                                        },
+                                            onClick =
+                                                rememberCallback(model) {
+                                                    model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
+                                                    detailOpener.openPostDetail(post)
+                                                },
+                                            onOpenCommunity =
+                                                rememberCallbackArgs { community, instance ->
+                                                    detailOpener.openCommunityDetail(
+                                                        community,
+                                                        instance,
                                                     )
-                                                    this += Option(
-                                                        OptionId.LockPost,
-                                                        if (post.locked) {
-                                                            LocalXmlStrings.current.modActionUnlock
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionLock
-                                                        },
+                                                },
+                                            onOpenCreator =
+                                                rememberCallbackArgs { user, instance ->
+                                                    detailOpener.openUserDetail(user, instance)
+                                                },
+                                            onOpenPost =
+                                                rememberCallbackArgs { p, instance ->
+                                                    detailOpener.openPostDetail(p, instance)
+                                                },
+                                            onOpenWeb =
+                                                rememberCallbackArgs { url ->
+                                                    navigationCoordinator.pushScreen(
+                                                        WebViewScreen(url),
                                                     )
-                                                    this += Option(
-                                                        OptionId.BanUser,
-                                                        if (post.creator?.banned == true) {
-                                                            LocalXmlStrings.current.modActionAllow
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionBan
-                                                        },
+                                                },
+                                            onUpVote =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.UpVotePost(post.id),
                                                     )
-                                                    this += Option(
-                                                        OptionId.Remove,
-                                                        LocalXmlStrings.current.modActionRemove,
+                                                },
+                                            onDownVote =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.DownVotePost(
+                                                            post.id,
+                                                        ),
                                                     )
-                                                }
-                                                if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.Purge,
-                                                        LocalXmlStrings.current.adminActionPurge,
+                                                },
+                                            onSave =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.SavePost(post.id),
                                                     )
-                                                    post.creator?.also { creator ->
-                                                        this += Option(
-                                                            OptionId.PurgeCreator,
-                                                            buildString {
-                                                                append(LocalXmlStrings.current.adminActionPurge)
-                                                                append(" ")
-                                                                append(creator.readableName(uiState.preferNicknames))
-                                                            },
+                                                },
+                                            onReply =
+                                                rememberCallback(model) {
+                                                    model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
+                                                    detailOpener.openPostDetail(post)
+                                                },
+                                            onOpenImage =
+                                                rememberCallbackArgs(model, post) { url ->
+                                                    navigationCoordinator.pushScreen(
+                                                        ZoomableImageScreen(
+                                                            url = url,
+                                                            source = post.community?.readableHandle.orEmpty(),
+                                                        ),
+                                                    )
+                                                },
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.SeeRaw,
+                                                            LocalXmlStrings.current.postActionSeeRaw,
                                                         )
+                                                    if (uiState.contentsType == FilteredContentsType.Moderated) {
+                                                        this +=
+                                                            Option(
+                                                                OptionId.FeaturePost,
+                                                                if (post.featuredCommunity) {
+                                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionMarkAsFeatured
+                                                                },
+                                                            )
+                                                        this +=
+                                                            Option(
+                                                                OptionId.LockPost,
+                                                                if (post.locked) {
+                                                                    LocalXmlStrings.current.modActionUnlock
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionLock
+                                                                },
+                                                            )
+                                                        this +=
+                                                            Option(
+                                                                OptionId.BanUser,
+                                                                if (post.creator?.banned == true) {
+                                                                    LocalXmlStrings.current.modActionAllow
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionBan
+                                                                },
+                                                            )
+                                                        this +=
+                                                            Option(
+                                                                OptionId.Remove,
+                                                                LocalXmlStrings.current.modActionRemove,
+                                                            )
                                                     }
-                                                }
-                                            },
-                                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                                when (optionId) {
-                                                    OptionId.SeeRaw -> {
-                                                        rawContent = post
-                                                    }
-
-                                                    OptionId.FeaturePost -> model.reduce(
-                                                        FilteredContentsMviModel.Intent.ModFeaturePost(post.id),
-                                                    )
-
-                                                    OptionId.LockPost -> model.reduce(
-                                                        FilteredContentsMviModel.Intent.ModLockPost(post.id),
-                                                    )
-
-                                                    OptionId.Remove -> {
-                                                        val screen = ModerateWithReasonScreen(
-                                                            actionId = ModerateWithReasonAction.RemovePost.toInt(),
-                                                            contentId = post.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-
-                                                    OptionId.BanUser -> {
-                                                        post.creator?.id?.also { userId ->
-                                                            post.community?.id?.also { communityId ->
-                                                                val screen = BanUserScreen(
-                                                                    userId = userId,
-                                                                    communityId = communityId,
-                                                                    newValue = post.creator?.banned != true,
-                                                                    postId = post.id,
+                                                    if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
+                                                        this +=
+                                                            Option(
+                                                                OptionId.Purge,
+                                                                LocalXmlStrings.current.adminActionPurge,
+                                                            )
+                                                        post.creator?.also { creator ->
+                                                            this +=
+                                                                Option(
+                                                                    OptionId.PurgeCreator,
+                                                                    buildString {
+                                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                                        append(" ")
+                                                                        append(creator.readableName(uiState.preferNicknames))
+                                                                    },
                                                                 )
+                                                        }
+                                                    }
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs(model) { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.SeeRaw -> {
+                                                            rawContent = post
+                                                        }
+
+                                                        OptionId.FeaturePost ->
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.ModFeaturePost(post.id),
+                                                            )
+
+                                                        OptionId.LockPost ->
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.ModLockPost(post.id),
+                                                            )
+
+                                                        OptionId.Remove -> {
+                                                            val screen =
+                                                                ModerateWithReasonScreen(
+                                                                    actionId = ModerateWithReasonAction.RemovePost.toInt(),
+                                                                    contentId = post.id,
+                                                                )
+                                                            navigationCoordinator.pushScreen(screen)
+                                                        }
+
+                                                        OptionId.BanUser -> {
+                                                            post.creator?.id?.also { userId ->
+                                                                post.community?.id?.also { communityId ->
+                                                                    val screen =
+                                                                        BanUserScreen(
+                                                                            userId = userId,
+                                                                            communityId = communityId,
+                                                                            newValue = post.creator?.banned != true,
+                                                                            postId = post.id,
+                                                                        )
+                                                                    navigationCoordinator.pushScreen(screen)
+                                                                }
+                                                            }
+                                                        }
+
+                                                        OptionId.Purge -> {
+                                                            val screen =
+                                                                ModerateWithReasonScreen(
+                                                                    actionId = ModerateWithReasonAction.PurgePost.toInt(),
+                                                                    contentId = post.id,
+                                                                )
+                                                            navigationCoordinator.pushScreen(screen)
+                                                        }
+
+                                                        OptionId.PurgeCreator -> {
+                                                            post.creator?.id?.also { userId ->
+                                                                val screen =
+                                                                    ModerateWithReasonScreen(
+                                                                        actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                        contentId = userId,
+                                                                    )
                                                                 navigationCoordinator.pushScreen(screen)
                                                             }
                                                         }
-                                                    }
 
-                                                    OptionId.Purge -> {
-                                                        val screen = ModerateWithReasonScreen(
-                                                            actionId = ModerateWithReasonAction.PurgePost.toInt(),
-                                                            contentId = post.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
+                                                        else -> Unit
                                                     }
-
-                                                    OptionId.PurgeCreator -> {
-                                                        post.creator?.id?.also { userId ->
-                                                            val screen = ModerateWithReasonScreen(
-                                                                actionId = ModerateWithReasonAction.PurgeUser.toInt(),
-                                                                contentId = userId,
-                                                            )
-                                                            navigationCoordinator.pushScreen(screen)
-                                                        }
-                                                    }
-
-                                                    else -> Unit
-                                                }
-                                            },
+                                                },
                                         )
                                     },
                                 )
@@ -608,74 +660,83 @@ class FilteredContentsScreen(
                                 fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                     mapNotNull {
                                         when (it) {
-                                            ActionOnSwipe.UpVote -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleUp,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.UpVoteComment(
-                                                            comment.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.UpVote ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleUp,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.UpVoteComment(
+                                                                    comment.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.DownVote -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleDown,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = downVoteColor
-                                                    ?: defaultDownVoteColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.DownVoteComment(
-                                                            comment.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.DownVote ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor =
+                                                        downVoteColor
+                                                            ?: defaultDownVoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.DownVoteComment(
+                                                                    comment.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.Reply -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.AutoMirrored.Default.Reply,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = replyColor ?: defaultReplyColor,
-                                                onTriggered = rememberCallback {
-                                                    detailOpener.openReply(originalComment = comment)
-                                                },
-                                            )
+                                            ActionOnSwipe.Reply ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.AutoMirrored.Default.Reply,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = replyColor ?: defaultReplyColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            detailOpener.openReply(originalComment = comment)
+                                                        },
+                                                )
 
-                                            ActionOnSwipe.Save -> SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.Bookmark,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor = saveColor ?: defaultSaveColor,
-                                                onTriggered = rememberCallback {
-                                                    model.reduce(
-                                                        FilteredContentsMviModel.Intent.SaveComment(
-                                                            comment.id,
-                                                        ),
-                                                    )
-                                                },
-                                            )
+                                            ActionOnSwipe.Save ->
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.Bookmark,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = saveColor ?: defaultSaveColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.SaveComment(
+                                                                    comment.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
 
                                             else -> null
                                         }
@@ -684,9 +745,10 @@ class FilteredContentsScreen(
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
-                                    onGestureBegin = rememberCallback(model) {
-                                        model.reduce(FilteredContentsMviModel.Intent.HapticIndication)
-                                    },
+                                    onGestureBegin =
+                                        rememberCallback(model) {
+                                            model.reduce(FilteredContentsMviModel.Intent.HapticIndication)
+                                        },
                                     swipeToStartActions = uiState.actionsOnSwipeToStartComments.toSwipeActions(),
                                     swipeToEndActions = uiState.actionsOnSwipeToEndComments.toSwipeActions(),
                                     content = {
@@ -696,136 +758,155 @@ class FilteredContentsScreen(
                                             voteFormat = uiState.voteFormat,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
-                                            onOpenUser = rememberCallbackArgs { user, instance ->
-                                                detailOpener.openUserDetail(user, instance)
-                                            },
-                                            onOpen = rememberCallback {
-                                                model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
-                                                detailOpener.openPostDetail(
-                                                    post = PostModel(id = comment.postId),
-                                                    highlightCommentId = comment.id,
-                                                    isMod = true,
-                                                )
-                                            },
-                                            onUpVote = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.UpVoteComment(comment.id),
-                                                )
-                                            },
-                                            onDownVote = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.DownVoteComment(comment.id),
-                                                )
-                                            },
-                                            onSave = rememberCallback(model) {
-                                                model.reduce(
-                                                    FilteredContentsMviModel.Intent.SaveComment(comment.id),
-                                                )
-                                            },
-                                            onReply = rememberCallback {
-                                                detailOpener.openReply(originalComment = comment)
-                                            },
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
-                                                )
-                                                if (uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.DistinguishComment,
-                                                        if (comment.distinguished) {
-                                                            LocalXmlStrings.current.modActionUnmarkAsDistinguished
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionMarkAsDistinguished
-                                                        },
+                                            onOpenUser =
+                                                rememberCallbackArgs { user, instance ->
+                                                    detailOpener.openUserDetail(user, instance)
+                                                },
+                                            onOpen =
+                                                rememberCallback {
+                                                    model.reduce(FilteredContentsMviModel.Intent.WillOpenDetail)
+                                                    detailOpener.openPostDetail(
+                                                        post = PostModel(id = comment.postId),
+                                                        highlightCommentId = comment.id,
+                                                        isMod = true,
                                                     )
-                                                    this += Option(
-                                                        OptionId.BanUser,
-                                                        if (comment.creator?.banned == true) {
-                                                            LocalXmlStrings.current.modActionAllow
-                                                        } else {
-                                                            LocalXmlStrings.current.modActionBan
-                                                        },
+                                                },
+                                            onUpVote =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.UpVoteComment(comment.id),
                                                     )
-                                                    this += Option(
-                                                        OptionId.Remove,
-                                                        LocalXmlStrings.current.modActionRemove,
+                                                },
+                                            onDownVote =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.DownVoteComment(comment.id),
                                                     )
-                                                }
-                                                if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
-                                                    this += Option(
-                                                        OptionId.Purge,
-                                                        LocalXmlStrings.current.adminActionPurge,
+                                                },
+                                            onSave =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        FilteredContentsMviModel.Intent.SaveComment(comment.id),
                                                     )
-                                                    comment.creator?.also { creator ->
-                                                        this += Option(
-                                                            OptionId.PurgeCreator,
-                                                            buildString {
-                                                                append(LocalXmlStrings.current.adminActionPurge)
-                                                                append(" ")
-                                                                append(creator.readableName(uiState.preferNicknames))
-                                                            },
+                                                },
+                                            onReply =
+                                                rememberCallback {
+                                                    detailOpener.openReply(originalComment = comment)
+                                                },
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.SeeRaw,
+                                                            LocalXmlStrings.current.postActionSeeRaw,
                                                         )
+                                                    if (uiState.contentsType == FilteredContentsType.Moderated) {
+                                                        this +=
+                                                            Option(
+                                                                OptionId.DistinguishComment,
+                                                                if (comment.distinguished) {
+                                                                    LocalXmlStrings.current.modActionUnmarkAsDistinguished
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionMarkAsDistinguished
+                                                                },
+                                                            )
+                                                        this +=
+                                                            Option(
+                                                                OptionId.BanUser,
+                                                                if (comment.creator?.banned == true) {
+                                                                    LocalXmlStrings.current.modActionAllow
+                                                                } else {
+                                                                    LocalXmlStrings.current.modActionBan
+                                                                },
+                                                            )
+                                                        this +=
+                                                            Option(
+                                                                OptionId.Remove,
+                                                                LocalXmlStrings.current.modActionRemove,
+                                                            )
                                                     }
-                                                }
-                                            },
-                                            onOptionSelected = rememberCallbackArgs { optionId ->
-                                                when (optionId) {
-                                                    OptionId.Remove -> {
-                                                        val screen = ModerateWithReasonScreen(
-                                                            actionId = ModerateWithReasonAction.RemoveComment.toInt(),
-                                                            contentId = comment.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-
-                                                    OptionId.SeeRaw -> {
-                                                        rawContent = comment
-                                                    }
-
-                                                    OptionId.DistinguishComment -> model.reduce(
-                                                        FilteredContentsMviModel.Intent.ModDistinguishComment(
-                                                            comment.id,
-                                                        ),
-                                                    )
-
-                                                    OptionId.BanUser -> {
-                                                        comment.creator?.id?.also { userId ->
-                                                            comment.community?.id?.also { communityId ->
-                                                                val screen = BanUserScreen(
-                                                                    userId = userId,
-                                                                    communityId = communityId,
-                                                                    newValue = comment.creator?.banned != true,
-                                                                    commentId = comment.id,
+                                                    if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
+                                                        this +=
+                                                            Option(
+                                                                OptionId.Purge,
+                                                                LocalXmlStrings.current.adminActionPurge,
+                                                            )
+                                                        comment.creator?.also { creator ->
+                                                            this +=
+                                                                Option(
+                                                                    OptionId.PurgeCreator,
+                                                                    buildString {
+                                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                                        append(" ")
+                                                                        append(creator.readableName(uiState.preferNicknames))
+                                                                    },
                                                                 )
-                                                                navigationCoordinator.pushScreen(
-                                                                    screen,
-                                                                )
-                                                            }
                                                         }
                                                     }
-
-                                                    OptionId.Purge -> {
-                                                        val screen = ModerateWithReasonScreen(
-                                                            actionId = ModerateWithReasonAction.PurgeComment.toInt(),
-                                                            contentId = comment.id,
-                                                        )
-                                                        navigationCoordinator.pushScreen(screen)
-                                                    }
-
-                                                    OptionId.PurgeCreator -> {
-                                                        comment.creator?.id?.also { userId ->
-                                                            val screen = ModerateWithReasonScreen(
-                                                                actionId = ModerateWithReasonAction.PurgeUser.toInt(),
-                                                                contentId = userId,
-                                                            )
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.Remove -> {
+                                                            val screen =
+                                                                ModerateWithReasonScreen(
+                                                                    actionId = ModerateWithReasonAction.RemoveComment.toInt(),
+                                                                    contentId = comment.id,
+                                                                )
                                                             navigationCoordinator.pushScreen(screen)
                                                         }
-                                                    }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        OptionId.SeeRaw -> {
+                                                            rawContent = comment
+                                                        }
+
+                                                        OptionId.DistinguishComment ->
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.ModDistinguishComment(
+                                                                    comment.id,
+                                                                ),
+                                                            )
+
+                                                        OptionId.BanUser -> {
+                                                            comment.creator?.id?.also { userId ->
+                                                                comment.community?.id?.also { communityId ->
+                                                                    val screen =
+                                                                        BanUserScreen(
+                                                                            userId = userId,
+                                                                            communityId = communityId,
+                                                                            newValue = comment.creator?.banned != true,
+                                                                            commentId = comment.id,
+                                                                        )
+                                                                    navigationCoordinator.pushScreen(
+                                                                        screen,
+                                                                    )
+                                                                }
+                                                            }
+                                                        }
+
+                                                        OptionId.Purge -> {
+                                                            val screen =
+                                                                ModerateWithReasonScreen(
+                                                                    actionId = ModerateWithReasonAction.PurgeComment.toInt(),
+                                                                    contentId = comment.id,
+                                                                )
+                                                            navigationCoordinator.pushScreen(screen)
+                                                        }
+
+                                                        OptionId.PurgeCreator -> {
+                                                            comment.creator?.id?.also { userId ->
+                                                                val screen =
+                                                                    ModerateWithReasonScreen(
+                                                                        actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                                        contentId = userId,
+                                                                    )
+                                                                navigationCoordinator.pushScreen(screen)
+                                                            }
+                                                        }
+
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     },
                                 )
@@ -877,19 +958,21 @@ class FilteredContentsScreen(
                             onDismiss = {
                                 rawContent = null
                             },
-                            onQuote = rememberCallbackArgs { quotation ->
-                                rawContent = null
-                                if (quotation != null) {
-                                    detailOpener.openReply(
-                                        originalPost = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                }
-                            },
+                            onQuote =
+                                rememberCallbackArgs { quotation ->
+                                    rawContent = null
+                                    if (quotation != null) {
+                                        detailOpener.openReply(
+                                            originalPost = content,
+                                            initialText =
+                                                buildString {
+                                                    append("> ")
+                                                    append(quotation)
+                                                    append("\n\n")
+                                                },
+                                        )
+                                    }
+                                },
                         )
                     }
 
@@ -903,19 +986,21 @@ class FilteredContentsScreen(
                             onDismiss = {
                                 rawContent = null
                             },
-                            onQuote = rememberCallbackArgs { quotation ->
-                                rawContent = null
-                                if (quotation != null) {
-                                    detailOpener.openReply(
-                                        originalComment = content,
-                                        initialText = buildString {
-                                            append("> ")
-                                            append(quotation)
-                                            append("\n\n")
-                                        },
-                                    )
-                                }
-                            },
+                            onQuote =
+                                rememberCallbackArgs { quotation ->
+                                    rawContent = null
+                                    if (quotation != null) {
+                                        detailOpener.openReply(
+                                            originalComment = content,
+                                            initialText =
+                                                buildString {
+                                                    append("> ")
+                                                    append(quotation)
+                                                    append("\n\n")
+                                                },
+                                        )
+                                    }
+                                },
                         )
                     }
                 }
