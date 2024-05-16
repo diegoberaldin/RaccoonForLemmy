@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.VideoPlayer
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+
+private const val DEFAULT_ASPECT_RATIO = 1f
 
 @Composable
 fun PostCardVideo(
@@ -71,7 +72,7 @@ fun PostCardVideo(
             var loading by remember { mutableStateOf(true) }
             if (shouldBeRendered) {
                 VideoPlayer(
-                    modifier = Modifier.aspectRatio(1f),
+                    modifier = Modifier.aspectRatio(DEFAULT_ASPECT_RATIO),
                     url = url,
                     onPlaybackStarted = {
                         loading = false
@@ -79,7 +80,11 @@ fun PostCardVideo(
                 )
                 if (loading) {
                     Box(
-                        modifier = Modifier.fillMaxSize().background(backgroundColor),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(DEFAULT_ASPECT_RATIO)
+                                .background(backgroundColor),
                         contentAlignment = Alignment.Center,
                     ) {
                         CircularProgressIndicator(
