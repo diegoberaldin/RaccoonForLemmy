@@ -29,6 +29,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import kotlin.test.Test
 import kotlin.test.assertIs
+import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DefaultDetailOpenerTest {
@@ -201,6 +202,6 @@ class DefaultDetailOpenerTest {
         }
 
     companion object {
-        private const val OPEN_DELAY = 500L
+        private val OPEN_DELAY = 1.seconds
     }
 }
