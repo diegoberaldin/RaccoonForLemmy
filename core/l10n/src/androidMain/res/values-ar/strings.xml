@@ -396,4 +396,5 @@
     <string name="settings_comment_indent_amount">عرض المسافة البادئة للتعليقات</string>
     <string name="post_action_unhide">إرجاع الإخفاء</string>
     <string name="admin_action_purge">تطهير</string>
+    <string name="settings_url_opening_mode_no_history">لا تاريخ</string>
 </resources>

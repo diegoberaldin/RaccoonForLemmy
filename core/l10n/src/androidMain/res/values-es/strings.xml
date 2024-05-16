@@ -396,4 +396,5 @@
     <string name="settings_comment_indent_amount">Ancho de indentación de los comentarios</string>
     <string name="post_action_unhide">Revertir ocultar</string>
     <string name="admin_action_purge">Purgar</string>
+    <string name="settings_url_opening_mode_no_history">no historia</string>
 </resources>

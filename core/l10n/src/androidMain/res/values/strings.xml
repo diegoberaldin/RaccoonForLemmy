@@ -404,4 +404,5 @@
     <string name="settings_comment_indent_amount">Comment indentation amount</string>
     <string name="post_action_unhide">Revert hide</string>
     <string name="admin_action_purge">Purge</string>
+    <string name="settings_url_opening_mode_no_history">no history</string>
 </resources>
