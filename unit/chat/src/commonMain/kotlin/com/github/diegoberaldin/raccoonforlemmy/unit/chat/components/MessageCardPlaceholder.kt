@@ -16,11 +16,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 @Composable
 internal fun MessageCardPlaceholder() {
     Box(
-        modifier = Modifier
-            .height(100.dp)
-            .fillMaxWidth()
-            .padding(horizontal = Spacing.xs, vertical = Spacing.xs)
-            .clip(RoundedCornerShape(CornerSize.s))
-            .shimmerEffect(),
+        modifier =
+            Modifier
+                .height(100.dp)
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.xs, vertical = Spacing.xs)
+                .clip(RoundedCornerShape(CornerSize.s))
+                .shimmerEffect(),
     )
 }

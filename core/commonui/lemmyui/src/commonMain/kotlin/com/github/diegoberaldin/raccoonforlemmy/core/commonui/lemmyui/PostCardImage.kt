@@ -37,14 +37,15 @@ fun PostCardImage(
 ) {
     if (imageUrl.isNotEmpty()) {
         CustomImage(
-            modifier = modifier.fillMaxWidth()
-                .heightIn(min = minHeight, max = maxHeight)
-                .blur(radius = if (blurred) 60.dp else 0.dp)
-                .onClick(
-                    onClick = { onImageClick?.invoke(imageUrl) },
-                    onDoubleClick = onDoubleClick ?: {},
-                    onLongClick = onLongClick ?: {},
-                ),
+            modifier =
+                modifier.fillMaxWidth()
+                    .heightIn(min = minHeight, max = maxHeight)
+                    .blur(radius = if (blurred) 60.dp else 0.dp)
+                    .onClick(
+                        onClick = { onImageClick?.invoke(imageUrl) },
+                        onDoubleClick = onDoubleClick ?: {},
+                        onLongClick = onLongClick ?: {},
+                    ),
             url = imageUrl,
             quality = FilterQuality.Low,
             autoload = autoLoadImages,
@@ -59,19 +60,21 @@ fun PostCardImage(
                 )
             },
             onLoading = { progress ->
-                val prog = if (progress != null) {
-                    progress
-                } else {
-                    val transition = rememberInfiniteTransition()
-                    val res by transition.animateFloat(
-                        initialValue = 0f,
-                        targetValue = 1f,
-                        animationSpec = InfiniteRepeatableSpec(
-                            animation = tween(1000),
-                        ),
-                    )
-                    res
-                }
+                val prog =
+                    if (progress != null) {
+                        progress
+                    } else {
+                        val transition = rememberInfiniteTransition()
+                        val res by transition.animateFloat(
+                            initialValue = 0f,
+                            targetValue = 1f,
+                            animationSpec =
+                                InfiniteRepeatableSpec(
+                                    animation = tween(1000),
+                                ),
+                        )
+                        res
+                    }
                 CircularProgressIndicator(
                     progress = { prog },
                     color = MaterialTheme.colorScheme.primary,

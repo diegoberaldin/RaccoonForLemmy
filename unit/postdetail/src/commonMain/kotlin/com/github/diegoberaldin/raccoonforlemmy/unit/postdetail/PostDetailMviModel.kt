@@ -15,33 +15,57 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface PostDetailMviModel :
     MviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data object RefreshPost : Intent
+
         data object LoadNextPage : Intent
+
         data class FetchMoreComments(val parentId: Long) : Intent
+
         data class UpVotePost(val feedback: Boolean = false) : Intent
+
         data class DownVotePost(val feedback: Boolean = false) : Intent
+
         data class SavePost(val post: PostModel, val feedback: Boolean = false) : Intent
+
         data class UpVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data class DownVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data class SaveComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data class ToggleExpandComment(val commentId: Long) : Intent
+
         data class DeleteComment(val commentId: Long) : Intent
+
         data object DeletePost : Intent
+
         data object HapticIndication : Intent
+
         data object ModFeaturePost : Intent
+
         data object ModLockPost : Intent
+
         data class ModDistinguishComment(val commentId: Long) : Intent
+
         data class ModToggleModUser(val id: Long) : Intent
+
         data class Share(val url: String) : Intent
+
         data class Copy(val value: String) : Intent
+
         data class SetSearch(val value: String) : Intent
+
         data class ChangeSearching(val value: Boolean) : Intent
+
         data object NavigatePrevious : Intent
+
         data object NavigateNext : Intent
+
         data class NavigatePreviousComment(val currentIndex: Int) : Intent
+
         data class NavigateNextComment(val currentIndex: Int) : Intent
     }
 
@@ -81,8 +105,11 @@ interface PostDetailMviModel :
 
     sealed interface Effect {
         data object Close : Effect
+
         data class ScrollToComment(val index: Int) : Effect
+
         data object BackToTop : Effect
+
         data class TriggerCopy(val text: String) : Effect
     }
 }

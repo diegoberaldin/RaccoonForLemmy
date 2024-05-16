@@ -37,42 +37,47 @@ fun CommentCardPlaceholder(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Box(
-                    modifier = Modifier.size(IconSize.s)
-                        .clip(CircleShape)
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier.size(IconSize.s)
+                            .clip(CircleShape)
+                            .shimmerEffect(),
                 )
                 Column(
                     modifier = Modifier.padding(vertical = Spacing.xxxs),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Box(
-                        modifier = Modifier.height(IconSize.s)
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(CornerSize.m))
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier.height(IconSize.s)
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(CornerSize.m))
+                                .shimmerEffect(),
                     )
                     Box(
-                        modifier = Modifier.height(IconSize.s)
-                            .fillMaxWidth(0.5f)
-                            .clip(RoundedCornerShape(CornerSize.m))
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier.height(IconSize.s)
+                                .fillMaxWidth(0.5f)
+                                .clip(RoundedCornerShape(CornerSize.m))
+                                .shimmerEffect(),
                     )
                 }
             }
         }
         Box(
-            modifier = Modifier
-                .height(80.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.s))
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .height(80.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(CornerSize.s))
+                    .shimmerEffect(),
         )
         Box(
-            modifier = Modifier
-                .height(IconSize.l)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .height(IconSize.l)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(CornerSize.m))
+                    .shimmerEffect(),
         )
     }
 }

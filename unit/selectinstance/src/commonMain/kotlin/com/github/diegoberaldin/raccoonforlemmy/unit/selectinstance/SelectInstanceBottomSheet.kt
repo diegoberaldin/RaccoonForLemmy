@@ -91,12 +91,13 @@ class SelectInstanceBottomSheet : Screen {
         }
 
         Column(
-            modifier = Modifier.padding(
-                top = Spacing.s,
-                start = Spacing.s,
-                end = Spacing.s,
-                bottom = Spacing.m,
-            ).fillMaxHeight(0.6f),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.s,
+                    start = Spacing.s,
+                    end = Spacing.s,
+                    bottom = Spacing.m,
+                ).fillMaxHeight(0.6f),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Box(
@@ -160,28 +161,32 @@ class SelectInstanceBottomSheet : Screen {
                                 modifier = Modifier.draggableHandle(),
                                 instance = instance,
                                 isActive = isActive,
-                                onClick = rememberCallback(model) {
-                                    model.reduce(
-                                        SelectInstanceMviModel.Intent.SelectInstance(instance),
-                                    )
-                                },
-                                options = buildList {
-                                    if (!isActive) {
-                                        this += Option(
-                                            OptionId.Delete,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                onClick =
+                                    rememberCallback(model) {
+                                        model.reduce(
+                                            SelectInstanceMviModel.Intent.SelectInstance(instance),
                                         )
-                                    }
-                                },
-                                onOptionSelected = rememberCallbackArgs { optionId ->
-                                    when (optionId) {
-                                        OptionId.Delete -> {
-                                            instanceToDelete = instance
+                                    },
+                                options =
+                                    buildList {
+                                        if (!isActive) {
+                                            this +=
+                                                Option(
+                                                    OptionId.Delete,
+                                                    LocalXmlStrings.current.commentActionDelete,
+                                                )
                                         }
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs { optionId ->
+                                        when (optionId) {
+                                            OptionId.Delete -> {
+                                                instanceToDelete = instance
+                                            }
 
-                                        else -> Unit
-                                    }
-                                },
+                                            else -> Unit
+                                        }
+                                    },
                             )
                         }
                     }

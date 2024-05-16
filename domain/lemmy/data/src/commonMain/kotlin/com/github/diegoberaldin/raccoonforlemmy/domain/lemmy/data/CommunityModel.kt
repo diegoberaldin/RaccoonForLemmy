@@ -35,9 +35,10 @@ fun CommunityModel.readableName(preferNickname: Boolean): String {
 }
 
 val CommunityModel.readableHandle: String
-    get() = buildString {
-        append(name)
-        if (host.isNotEmpty()) {
-            append("@$host")
+    get() =
+        buildString {
+            append(name)
+            if (host.isNotEmpty()) {
+                append("@$host")
+            }
         }
-    }

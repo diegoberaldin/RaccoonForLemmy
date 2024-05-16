@@ -6,11 +6,12 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerCoordinato
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.NavigationCoordinator
 import org.koin.dsl.module
 
-val navigationModule = module {
-    single<NavigationCoordinator> {
-        DefaultNavigationCoordinator()
+val navigationModule =
+    module {
+        single<NavigationCoordinator> {
+            DefaultNavigationCoordinator()
+        }
+        single<DrawerCoordinator> {
+            DefaultDrawerCoordinator()
+        }
     }
-    single<DrawerCoordinator> {
-        DefaultDrawerCoordinator()
-    }
-}

@@ -32,21 +32,23 @@ internal fun RemoveCommunityItem(
         postLayout = postLayout,
         moderator = item.moderator,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.moderator?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
+        onOpen =
+            rememberCallback {
+                item.moderator?.also {
+                    onOpenUser?.invoke(it)
+                }
+            },
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.community?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                    append(" ")
-                    append(LocalXmlStrings.current.modlogItemPostRemoved)
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            val name = item.community?.readableName(preferNicknames).orEmpty()
+                            append(name)
+                        }
+                        append(" ")
+                        append(LocalXmlStrings.current.modlogItemPostRemoved)
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

@@ -33,9 +33,10 @@ fun SettingsIntValueRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = Spacing.s),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(vertical = Spacing.s),
         ) {
             Text(
                 text = title,
@@ -59,9 +60,10 @@ fun SettingsIntValueRow(
                 onClick = onDecrement,
             )
             Text(
-                modifier = Modifier
-                    .sizeIn(minWidth = 40.dp)
-                    .padding(horizontal = Spacing.s),
+                modifier =
+                    Modifier
+                        .sizeIn(minWidth = 40.dp)
+                        .padding(horizontal = Spacing.s),
                 textAlign = TextAlign.Center,
                 text = value.toString(),
                 style = MaterialTheme.typography.bodyMedium,

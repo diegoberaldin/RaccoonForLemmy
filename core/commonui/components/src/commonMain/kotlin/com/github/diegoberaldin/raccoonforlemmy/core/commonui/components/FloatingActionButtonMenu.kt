@@ -63,33 +63,37 @@ fun FloatingActionButtonMenu(
     val dynamicColors by themeRepository.dynamicColors.collectAsState()
     var fabExpanded by remember { mutableStateOf(false) }
     val fabRotation by animateFloatAsState(if (fabExpanded) 45f else 0f)
-    val enterTransition = remember {
-        fadeIn(
-            initialAlpha = 0.3f,
-            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
-        )
-    }
-    val exitTransition = remember {
-        fadeOut(
-            animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
-        )
-    }
+    val enterTransition =
+        remember {
+            fadeIn(
+                initialAlpha = 0.3f,
+                animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
+            )
+        }
+    val exitTransition =
+        remember {
+            fadeOut(
+                animationSpec = tween(ANIMATION_DURATION, easing = FastOutSlowInEasing),
+            )
+        }
     val numberOfItems by animateIntAsState(
         targetValue = if (fabExpanded) items.size else 0,
-        animationSpec = tween(
-            durationMillis = ANIMATION_DURATION * items.size,
-            easing = LinearEasing,
-        ),
+        animationSpec =
+            tween(
+                durationMillis = ANIMATION_DURATION * items.size,
+                easing = LinearEasing,
+            ),
     )
-    val indices: List<Int> = if (numberOfItems == 0) {
-        emptyList()
-    } else {
-        buildList {
-            for (i in 0 until numberOfItems) {
-                add(items.size - i - 1)
+    val indices: List<Int> =
+        if (numberOfItems == 0) {
+            emptyList()
+        } else {
+            buildList {
+                for (i in 0 until numberOfItems) {
+                    add(items.size - i - 1)
+                }
             }
         }
-    }
 
     Column(
         modifier = modifier,
@@ -107,36 +111,39 @@ fun FloatingActionButtonMenu(
                     exit = exitTransition,
                 ) {
                     Row(
-                        modifier = Modifier.onClick(
-                            onClick = {
-                                fabExpanded = false
-                                item.onSelected?.invoke()
-                            },
-                        ).padding(end = 15.dp),
+                        modifier =
+                            Modifier.onClick(
+                                onClick = {
+                                    fabExpanded = false
+                                    item.onSelected?.invoke()
+                                },
+                            ).padding(end = 15.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         Text(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .background(
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    shape = RoundedCornerShape(CornerSize.s),
-                                ).padding(
-                                    vertical = Spacing.xs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surfaceVariant,
+                                        shape = RoundedCornerShape(CornerSize.s),
+                                    ).padding(
+                                        vertical = Spacing.xs,
+                                        horizontal = Spacing.s,
+                                    ),
                             text = item.text,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                         Icon(
-                            modifier = Modifier
-                                .size(IconSize.m)
-                                .background(
-                                    color = MaterialTheme.colorScheme.primaryContainer,
-                                    shape = CircleShape,
-                                ).padding(6.dp),
+                            modifier =
+                                Modifier
+                                    .size(IconSize.m)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.primaryContainer,
+                                        shape = CircleShape,
+                                    ).padding(6.dp),
                             imageVector = item.icon,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -147,15 +154,17 @@ fun FloatingActionButtonMenu(
             Spacer(modifier = Modifier.height(Spacing.xxs))
         }
 
-        val fabContainerColor = when (theme) {
-            UiTheme.Black -> schemeProvider.getColorScheme(
-                theme = UiTheme.Dark,
-                dynamic = dynamicColors,
-                customSeed = seedColor,
-            ).primaryContainer
+        val fabContainerColor =
+            when (theme) {
+                UiTheme.Black ->
+                    schemeProvider.getColorScheme(
+                        theme = UiTheme.Dark,
+                        dynamic = dynamicColors,
+                        customSeed = seedColor,
+                    ).primaryContainer
 
-            else -> MaterialTheme.colorScheme.primaryContainer
-        }
+                else -> MaterialTheme.colorScheme.primaryContainer
+            }
         FloatingActionButton(
             containerColor = fabContainerColor,
             shape = CircleShape,

@@ -9,7 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import de.jensklingenberg.ktorfit.Response
 
 interface CommentRepository {
-
     companion object {
         const val DEFAULT_PAGE_SIZE = 20
         const val MAX_COMMENT_DEPTH = 6
@@ -26,7 +25,11 @@ interface CommentRepository {
         maxDepth: Int = MAX_COMMENT_DEPTH,
     ): List<CommentModel>?
 
-    suspend fun getBy(id: Long, auth: String?, instance: String? = null): CommentModel?
+    suspend fun getBy(
+        id: Long,
+        auth: String?,
+        instance: String? = null,
+    ): CommentModel?
 
     suspend fun getChildren(
         parentId: Long,
@@ -38,8 +41,15 @@ interface CommentRepository {
         maxDepth: Int = MAX_COMMENT_DEPTH,
     ): List<CommentModel>?
 
-    fun asUpVoted(comment: CommentModel, voted: Boolean): CommentModel
-    fun asUpVoted(mention: PersonMentionModel, voted: Boolean): PersonMentionModel
+    fun asUpVoted(
+        comment: CommentModel,
+        voted: Boolean,
+    ): CommentModel
+
+    fun asUpVoted(
+        mention: PersonMentionModel,
+        voted: Boolean,
+    ): PersonMentionModel
 
     suspend fun upVote(
         comment: CommentModel,
@@ -47,8 +57,15 @@ interface CommentRepository {
         voted: Boolean,
     ): Result<Response<CommentResponse>>
 
-    fun asDownVoted(comment: CommentModel, downVoted: Boolean): CommentModel
-    fun asDownVoted(mention: PersonMentionModel, downVoted: Boolean): PersonMentionModel
+    fun asDownVoted(
+        comment: CommentModel,
+        downVoted: Boolean,
+    ): CommentModel
+
+    fun asDownVoted(
+        mention: PersonMentionModel,
+        downVoted: Boolean,
+    ): PersonMentionModel
 
     suspend fun downVote(
         comment: CommentModel,
@@ -56,7 +73,10 @@ interface CommentRepository {
         downVoted: Boolean,
     ): Result<Response<CommentResponse>>
 
-    fun asSaved(comment: CommentModel, saved: Boolean): CommentModel
+    fun asSaved(
+        comment: CommentModel,
+        saved: Boolean,
+    ): CommentModel
 
     suspend fun save(
         comment: CommentModel,

@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class DefaultDrawerCoordinator : DrawerCoordinator {
-
     override val events = MutableSharedFlow<DrawerEvent>()
     override val gesturesEnabled = MutableStateFlow(true)
     override val drawerOpened = MutableStateFlow(false)

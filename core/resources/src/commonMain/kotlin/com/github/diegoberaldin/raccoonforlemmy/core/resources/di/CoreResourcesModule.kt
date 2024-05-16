@@ -4,8 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.DefaultCoreResources
 import org.koin.dsl.module
 
-val coreResourceModule = module {
-    single<CoreResources> {
-        DefaultCoreResources()
+val coreResourceModule =
+    module {
+        single<CoreResources> {
+            DefaultCoreResources()
+        }
     }
-}

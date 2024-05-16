@@ -41,12 +41,13 @@ internal fun DrawerHeader(
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
     Row(
-        modifier = modifier.padding(
-            top = Spacing.m,
-            start = Spacing.s,
-            end = Spacing.s,
-            bottom = Spacing.s,
-        ),
+        modifier =
+            modifier.padding(
+                top = Spacing.m,
+                start = Spacing.s,
+                end = Spacing.s,
+                bottom = Spacing.s,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {
@@ -55,8 +56,9 @@ internal fun DrawerHeader(
             val userAvatar = user.avatar.orEmpty()
             if (userAvatar.isNotEmpty()) {
                 CustomImage(
-                    modifier = Modifier.padding(Spacing.xxxs).size(avatarSize)
-                        .clip(RoundedCornerShape(avatarSize / 2)),
+                    modifier =
+                        Modifier.padding(Spacing.xxxs).size(avatarSize)
+                            .clip(RoundedCornerShape(avatarSize / 2)),
                     url = userAvatar,
                     autoload = autoLoadImages,
                     quality = FilterQuality.Low,
@@ -74,22 +76,24 @@ internal fun DrawerHeader(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Text(
-                        text = buildString {
-                            if (user.displayName.isNotEmpty()) {
-                                append(user.displayName)
-                            } else {
-                                append(user.name)
-                            }
-                        },
+                        text =
+                            buildString {
+                                if (user.displayName.isNotEmpty()) {
+                                    append(user.displayName)
+                                } else {
+                                    append(user.name)
+                                }
+                            },
                         style = MaterialTheme.typography.titleMedium,
                         color = fullColor,
                     )
                     Text(
-                        text = buildString {
-                            append(user.name)
-                            append("@")
-                            append(user.host)
-                        },
+                        text =
+                            buildString {
+                                append(user.name)
+                                append("@")
+                                append(user.host)
+                            },
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleSmall,
@@ -98,11 +102,12 @@ internal fun DrawerHeader(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Icon(
-                    modifier = Modifier.onClick(
-                        onClick = {
-                            onOpenSwitchAccount?.invoke()
-                        },
-                    ),
+                    modifier =
+                        Modifier.onClick(
+                            onClick = {
+                                onOpenSwitchAccount?.invoke()
+                            },
+                        ),
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null,
                 )
@@ -129,11 +134,12 @@ internal fun DrawerHeader(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
-                        modifier = Modifier.onClick(
-                            onClick = {
-                                onOpenChangeInstance?.invoke()
-                            },
-                        ),
+                        modifier =
+                            Modifier.onClick(
+                                onClick = {
+                                    onOpenChangeInstance?.invoke()
+                                },
+                            ),
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = null,
                     )

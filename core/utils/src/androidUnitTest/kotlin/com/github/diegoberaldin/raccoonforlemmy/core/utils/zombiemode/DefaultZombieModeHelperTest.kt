@@ -12,7 +12,6 @@ import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class DefaultZombieModeHelperTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
@@ -20,28 +19,30 @@ class DefaultZombieModeHelperTest {
     private val interval = 1.seconds
 
     @Test
-    fun whenStartThenEventsAreEmitted() = runTest {
-        sut.start(initialValue = 0, interval = interval)
-        sut.index.test {
-            val item = awaitItem()
-            assertEquals(0, item)
-            val secondItem = awaitItem()
-            assertEquals(1, secondItem)
+    fun whenStartThenEventsAreEmitted() =
+        runTest {
+            sut.start(initialValue = 0, interval = interval)
+            sut.index.test {
+                val item = awaitItem()
+                assertEquals(0, item)
+                val secondItem = awaitItem()
+                assertEquals(1, secondItem)
+            }
         }
-    }
 
     @Test
-    fun whenPauseThenIndexIsReset() = runTest {
-        sut.start(initialValue = 0, interval = interval)
-        sut.index.test {
-            val item = awaitItem()
-            assertEquals(0, item)
-            sut.pause()
-            val secondItem = awaitItem()
-            assertEquals(-1, secondItem)
-            advanceTimeBy(interval)
-            assertEquals(-1, sut.index.value)
-            expectNoEvents()
+    fun whenPauseThenIndexIsReset() =
+        runTest {
+            sut.start(initialValue = 0, interval = interval)
+            sut.index.test {
+                val item = awaitItem()
+                assertEquals(0, item)
+                sut.pause()
+                val secondItem = awaitItem()
+                assertEquals(-1, secondItem)
+                advanceTimeBy(interval)
+                assertEquals(-1, sut.index.value)
+                expectNoEvents()
+            }
         }
-    }
 }

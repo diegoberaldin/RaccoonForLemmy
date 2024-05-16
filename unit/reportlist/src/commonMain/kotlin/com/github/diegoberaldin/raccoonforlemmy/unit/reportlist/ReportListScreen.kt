@@ -90,41 +90,46 @@ class ReportListScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(ReportListMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(ReportListMviModel.Intent.Refresh)
+                    },
+            )
         val detailOpener = remember { getDetailOpener() }
         val defaultResolveColor = MaterialTheme.colorScheme.secondary
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
-                    ReportListMviModel.Effect.BackToTop -> kotlin.runCatching {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
-                    }
+                    ReportListMviModel.Effect.BackToTop ->
+                        kotlin.runCatching {
+                            lazyListState.scrollToItem(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                 }
             }.launchIn(this)
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -136,17 +141,19 @@ class ReportListScreen(
                                 text = LocalXmlStrings.current.reportListTitle,
                                 style = MaterialTheme.typography.titleMedium,
                             )
-                            val text = when (uiState.unresolvedOnly) {
-                                true -> LocalXmlStrings.current.reportListTypeUnresolved
-                                else -> LocalXmlStrings.current.reportListTypeAll
-                            }
+                            val text =
+                                when (uiState.unresolvedOnly) {
+                                    true -> LocalXmlStrings.current.reportListTypeUnresolved
+                                    else -> LocalXmlStrings.current.reportListTypeAll
+                                }
                             Text(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        val sheet = ReportListTypeSheet()
-                                        navigationCoordinator.showBottomSheet(sheet)
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            val sheet = ReportListTypeSheet()
+                                            navigationCoordinator.showBottomSheet(sheet)
+                                        },
+                                    ),
                                 text = text,
                                 style = MaterialTheme.typography.titleSmall,
                             )
@@ -156,43 +163,48 @@ class ReportListScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).then(
-                    if (settings.hideNavigationBarWhileScrolling) {
-                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    } else {
-                        Modifier
-                    },
-                ),
+                modifier =
+                    Modifier.padding(paddingValues).then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        },
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
-                    titles = listOf(
-                        LocalXmlStrings.current.profileSectionPosts,
-                        LocalXmlStrings.current.profileSectionComments,
-                    ),
-                    currentSection = when (uiState.section) {
-                        ReportListSection.Comments -> 1
-                        else -> 0
-                    },
+                    titles =
+                        listOf(
+                            LocalXmlStrings.current.profileSectionPosts,
+                            LocalXmlStrings.current.profileSectionComments,
+                        ),
+                    currentSection =
+                        when (uiState.section) {
+                            ReportListSection.Comments -> 1
+                            else -> 0
+                        },
                     onSectionSelected = {
-                        val section = when (it) {
-                            1 -> ReportListSection.Comments
-                            else -> ReportListSection.Posts
-                        }
+                        val section =
+                            when (it) {
+                                1 -> ReportListSection.Comments
+                                else -> ReportListSection.Posts
+                            }
                         model.reduce(ReportListMviModel.Intent.ChangeSection(section))
                     },
                 )
 
                 Box(
-                    modifier = Modifier
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            },
-                        )
-                        .pullRefresh(pullRefreshState),
+                    modifier =
+                        Modifier
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -227,79 +239,89 @@ class ReportListScreen(
                                     it.id.toString() + (
                                         it.updateDate
                                             ?: it.publishDate
-                                        ) + it.resolved + uiState.unresolvedOnly
+                                    ) + it.resolved + uiState.unresolvedOnly
                                 },
                             ) { report ->
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
-                                    onGestureBegin = rememberCallback(model) {
-                                        model.reduce(ReportListMviModel.Intent.HapticIndication)
-                                    },
-                                    swipeToStartActions = buildList {
-                                        this += SwipeAction(
-                                            swipeContent = {
-                                                val icon = when {
-                                                    report.resolved -> Icons.Default.Report
-                                                    else -> Icons.Default.ReportOff
-                                                }
-                                                Icon(
-                                                    imageVector = icon,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
+                                    onGestureBegin =
+                                        rememberCallback(model) {
+                                            model.reduce(ReportListMviModel.Intent.HapticIndication)
+                                        },
+                                    swipeToStartActions =
+                                        buildList {
+                                            this +=
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        val icon =
+                                                            when {
+                                                                report.resolved -> Icons.Default.Report
+                                                                else -> Icons.Default.ReportOff
+                                                            }
+                                                        Icon(
+                                                            imageVector = icon,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = defaultResolveColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                ReportListMviModel.Intent.ResolvePost(report.id),
+                                                            )
+                                                        },
                                                 )
-                                            },
-                                            backgroundColor = defaultResolveColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    ReportListMviModel.Intent.ResolvePost(report.id),
-                                                )
-                                            },
-                                        )
-                                    },
+                                        },
                                     content = {
                                         PostReportCard(
                                             report = report,
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
-                                            onOpen = rememberCallback {
-                                                detailOpener.openPostDetail(
-                                                    post = PostModel(id = report.postId),
-                                                    isMod = true,
-                                                )
-                                            },
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
-                                                )
-                                                this += Option(
-                                                    OptionId.ResolveReport,
-                                                    if (report.resolved) {
-                                                        LocalXmlStrings.current.reportActionUnresolve
-                                                    } else {
-                                                        LocalXmlStrings.current.reportActionResolve
-                                                    },
-                                                )
-                                            },
-                                            onOptionSelected = rememberCallbackArgs { optionId ->
-                                                when (optionId) {
-                                                    OptionId.SeeRaw -> {
-                                                        rawContent = report
-                                                    }
-
-                                                    OptionId.ResolveReport -> {
-                                                        model.reduce(
-                                                            ReportListMviModel.Intent.ResolvePost(
-                                                                report.id,
-                                                            ),
+                                            onOpen =
+                                                rememberCallback {
+                                                    detailOpener.openPostDetail(
+                                                        post = PostModel(id = report.postId),
+                                                        isMod = true,
+                                                    )
+                                                },
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.SeeRaw,
+                                                            LocalXmlStrings.current.postActionSeeRaw,
                                                         )
-                                                    }
+                                                    this +=
+                                                        Option(
+                                                            OptionId.ResolveReport,
+                                                            if (report.resolved) {
+                                                                LocalXmlStrings.current.reportActionUnresolve
+                                                            } else {
+                                                                LocalXmlStrings.current.reportActionResolve
+                                                            },
+                                                        )
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.SeeRaw -> {
+                                                            rawContent = report
+                                                        }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        OptionId.ResolveReport -> {
+                                                            model.reduce(
+                                                                ReportListMviModel.Intent.ResolvePost(
+                                                                    report.id,
+                                                                ),
+                                                            )
+                                                        }
+
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     },
                                 )
@@ -338,74 +360,84 @@ class ReportListScreen(
                                 SwipeActionCard(
                                     modifier = Modifier.fillMaxWidth(),
                                     enabled = uiState.swipeActionsEnabled,
-                                    onGestureBegin = rememberCallback(model) {
-                                        model.reduce(ReportListMviModel.Intent.HapticIndication)
-                                    },
-                                    swipeToStartActions = buildList {
-                                        this += SwipeAction(
-                                            swipeContent = {
-                                                val icon = when {
-                                                    report.resolved -> Icons.Default.Report
-                                                    else -> Icons.Default.ReportOff
-                                                }
-                                                Icon(
-                                                    imageVector = icon,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
+                                    onGestureBegin =
+                                        rememberCallback(model) {
+                                            model.reduce(ReportListMviModel.Intent.HapticIndication)
+                                        },
+                                    swipeToStartActions =
+                                        buildList {
+                                            this +=
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        val icon =
+                                                            when {
+                                                                report.resolved -> Icons.Default.Report
+                                                                else -> Icons.Default.ReportOff
+                                                            }
+                                                        Icon(
+                                                            imageVector = icon,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
+                                                        )
+                                                    },
+                                                    backgroundColor = defaultResolveColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                ReportListMviModel.Intent.ResolveComment(report.id),
+                                                            )
+                                                        },
                                                 )
-                                            },
-                                            backgroundColor = defaultResolveColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    ReportListMviModel.Intent.ResolveComment(report.id),
-                                                )
-                                            },
-                                        )
-                                    },
+                                        },
                                     content = {
                                         CommentReportCard(
                                             report = report,
                                             postLayout = uiState.postLayout,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
-                                            onOpen = rememberCallback {
-                                                detailOpener.openPostDetail(
-                                                    post = PostModel(id = report.postId),
-                                                    highlightCommentId = report.commentId,
-                                                    isMod = true,
-                                                )
-                                            },
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
-                                                )
-                                                this += Option(
-                                                    OptionId.ResolveReport,
-                                                    if (report.resolved) {
-                                                        LocalXmlStrings.current.reportActionUnresolve
-                                                    } else {
-                                                        LocalXmlStrings.current.reportActionResolve
-                                                    },
-                                                )
-                                            },
-                                            onOptionSelected = rememberCallbackArgs { optionId ->
-                                                when (optionId) {
-                                                    OptionId.SeeRaw -> {
-                                                        rawContent = report
-                                                    }
-
-                                                    OptionId.ResolveReport -> {
-                                                        model.reduce(
-                                                            ReportListMviModel.Intent.ResolveComment(
-                                                                report.id,
-                                                            ),
+                                            onOpen =
+                                                rememberCallback {
+                                                    detailOpener.openPostDetail(
+                                                        post = PostModel(id = report.postId),
+                                                        highlightCommentId = report.commentId,
+                                                        isMod = true,
+                                                    )
+                                                },
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.SeeRaw,
+                                                            LocalXmlStrings.current.postActionSeeRaw,
                                                         )
-                                                    }
+                                                    this +=
+                                                        Option(
+                                                            OptionId.ResolveReport,
+                                                            if (report.resolved) {
+                                                                LocalXmlStrings.current.reportActionUnresolve
+                                                            } else {
+                                                                LocalXmlStrings.current.reportActionResolve
+                                                            },
+                                                        )
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.SeeRaw -> {
+                                                            rawContent = report
+                                                        }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        OptionId.ResolveReport -> {
+                                                            model.reduce(
+                                                                ReportListMviModel.Intent.ResolveComment(
+                                                                    report.id,
+                                                                ),
+                                                            )
+                                                        }
+
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     },
                                 )

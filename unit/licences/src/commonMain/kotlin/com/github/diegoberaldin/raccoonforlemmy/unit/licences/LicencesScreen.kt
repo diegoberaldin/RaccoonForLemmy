@@ -54,10 +54,11 @@ class LicencesScreen : Screen {
         val customTabsHelper = remember { getCustomTabsHelper() }
 
         Scaffold(
-            modifier = Modifier
-                .safeContentPadding()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .safeContentPadding()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -71,12 +72,13 @@ class LicencesScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier
-                                    .onClick(
-                                        onClick = {
-                                            navigationCoordinator.popScreen()
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .onClick(
+                                            onClick = {
+                                                navigationCoordinator.popScreen()
+                                            },
+                                        ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -93,23 +95,24 @@ class LicencesScreen : Screen {
                 items(uiState.items) { item ->
                     LicenceItem(
                         item = item,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    if (item.url.isNotBlank()) {
-                                        navigationCoordinator.handleUrl(
-                                            url = item.url,
-                                            openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
-                                            uriHandler = uriHandler,
-                                            customTabsHelper = customTabsHelper,
-                                            onOpenWeb = { url ->
-                                                navigationCoordinator.pushScreen(WebViewScreen(url))
-                                            },
-                                        )
-                                    }
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        if (item.url.isNotBlank()) {
+                                            navigationCoordinator.handleUrl(
+                                                url = item.url,
+                                                openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
+                                                uriHandler = uriHandler,
+                                                customTabsHelper = customTabsHelper,
+                                                onOpenWeb = { url ->
+                                                    navigationCoordinator.pushScreen(WebViewScreen(url))
+                                                },
+                                            )
+                                        }
+                                    },
+                                ),
                     )
                 }
                 item {

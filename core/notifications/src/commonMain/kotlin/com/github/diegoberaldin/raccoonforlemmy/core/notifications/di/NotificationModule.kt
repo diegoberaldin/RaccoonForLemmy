@@ -4,8 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.DefaultNotifi
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import org.koin.dsl.module
 
-val coreNotificationModule = module {
-    single<NotificationCenter> {
-        DefaultNotificationCenter
+val coreNotificationModule =
+    module {
+        single<NotificationCenter> {
+            DefaultNotificationCenter
+        }
     }
-}

@@ -38,9 +38,10 @@ fun SelectLanguageDialog(
         onDismissRequest = { onDismiss?.invoke() },
     ) {
         Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(vertical = Spacing.s),
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(vertical = Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -56,9 +57,10 @@ fun SelectLanguageDialog(
                     LanguageItem(
                         name = lang.name,
                         selected = (currentLanguageId ?: 0L) == lang.id,
-                        onSelected = rememberCallback {
-                            onSelect?.invoke(lang.id)
-                        },
+                        onSelected =
+                            rememberCallback {
+                                onSelect?.invoke(lang.id)
+                            },
                     )
                 }
             }
@@ -82,16 +84,17 @@ private fun LanguageItem(
     onSelected: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .onClick(
-                onClick = {
-                    onSelected?.invoke()
-                },
-            ).padding(
-                horizontal = Spacing.m,
-                vertical = Spacing.s,
-            ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .onClick(
+                    onClick = {
+                        onSelected?.invoke()
+                    },
+                ).padding(
+                    horizontal = Spacing.m,
+                    vertical = Spacing.s,
+                ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {

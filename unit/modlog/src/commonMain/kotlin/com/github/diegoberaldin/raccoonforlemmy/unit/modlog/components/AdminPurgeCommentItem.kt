@@ -33,14 +33,15 @@ internal fun AdminPurgeCommentItem(
         onOpenUser = onOpenUser,
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    append(LocalXmlStrings.current.modlogItemCommentPurged)
-                    if (item.post != null) {
-                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                            append(item.post?.title.ellipsize())
+                text =
+                    buildAnnotatedString {
+                        append(LocalXmlStrings.current.modlogItemCommentPurged)
+                        if (item.post != null) {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                                append(item.post?.title.ellipsize())
+                            }
                         }
-                    }
-                },
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PrivateMessageModel
 
 interface PrivateMessageRepository {
-
     companion object {
         private const val DEFAULT_PAGE_SIZE = 50
     }

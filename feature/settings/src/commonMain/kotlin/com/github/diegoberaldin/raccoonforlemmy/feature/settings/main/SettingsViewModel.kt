@@ -41,214 +41,214 @@ class SettingsViewModel(
     DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
         initialState = SettingsMviModel.UiState(),
     ) {
-        init {
-            screenModelScope.launch {
-                themeRepository.uiTheme.onEach { value ->
-                    updateState { it.copy(uiTheme = value) }
+    init {
+        screenModelScope.launch {
+            themeRepository.uiTheme.onEach { value ->
+                updateState { it.copy(uiTheme = value) }
+            }.launchIn(this)
+
+            l10nManager.lyricist.state.onEach { lang ->
+                updateState { it.copy(lang = lang.languageTag) }
+            }.launchIn(this)
+
+            identityRepository.isLogged.onEach { logged ->
+                updateState { it.copy(isLogged = logged ?: false) }
+            }.launchIn(this)
+
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
+                handleLogout()
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeLanguage::class)
+                .onEach { evt ->
+                    changeLanguage(evt.value)
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
+                changeTheme(evt.value)
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "settings") {
+                        changeDefaultListingType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "settings") {
+                        changeDefaultPostSortType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "settings") {
+                        changeDefaultCommentSortType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeUrlOpeningMode::class)
+                .onEach { evt ->
+                    changeUrlOpeningMode(evt.value.toUrlOpeningMode())
                 }.launchIn(this)
 
-                l10nManager.lyricist.state.onEach { lang ->
-                    updateState { it.copy(lang = lang.languageTag) }
-                }.launchIn(this)
-
-                identityRepository.isLogged.onEach { logged ->
-                    updateState { it.copy(isLogged = logged ?: false) }
-                }.launchIn(this)
-
-                notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                    handleLogout()
-                }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeLanguage::class)
-                    .onEach { evt ->
-                        changeLanguage(evt.value)
-                    }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeTheme::class).onEach { evt ->
-                    changeTheme(evt.value)
-                }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
-                    .onEach { evt ->
-                        if (evt.screenKey == "settings") {
-                            changeDefaultListingType(evt.value)
-                        }
-                    }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                    .onEach { evt ->
-                        if (evt.screenKey == "settings") {
-                            changeDefaultPostSortType(evt.value)
-                        }
-                    }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
-                    .onEach { evt ->
-                        if (evt.screenKey == "settings") {
-                            changeDefaultCommentSortType(evt.value)
-                        }
-                    }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeUrlOpeningMode::class)
-                    .onEach { evt ->
-                        changeUrlOpeningMode(evt.value.toUrlOpeningMode())
-                    }.launchIn(this)
-
-                val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
-                val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
-                updateState {
-                    it.copy(
-                        availableSortTypesForPosts = availableSortTypesForPosts,
-                        availableSortTypesForComments = availableSortTypesForComments,
-                    )
-                }
+            val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
+            val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
+            updateState {
+                it.copy(
+                    availableSortTypesForPosts = availableSortTypesForPosts,
+                    availableSortTypesForComments = availableSortTypesForComments,
+                )
             }
+        }
 
-            val settings = settingsRepository.currentSettings.value
+        val settings = settingsRepository.currentSettings.value
+        updateState {
+            it.copy(
+                defaultListingType = settings.defaultListingType.toListingType(),
+                defaultPostSortType = settings.defaultPostSortType.toSortType(),
+                defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
+                includeNsfw = settings.includeNsfw,
+                blurNsfw = settings.blurNsfw,
+                urlOpeningMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                enableSwipeActions = settings.enableSwipeActions,
+                crashReportEnabled = crashReportConfiguration.isEnabled(),
+                customTabsEnabled = customTabsHelper.isSupported,
+            )
+        }
+    }
+
+    override fun reduce(intent: SettingsMviModel.Intent) {
+        when (intent) {
+            is SettingsMviModel.Intent.ChangeUiTheme -> changeTheme(intent.value)
+            is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
+            is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
+            is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
+            is SettingsMviModel.Intent.ChangeEnableSwipeActions -> changeEnableSwipeActions(intent.value)
+            is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
+        }
+    }
+
+    private fun changeTheme(value: UiTheme?) {
+        themeRepository.changeUiTheme(value)
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    theme = value?.toInt(),
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeLanguage(value: String) {
+        l10nManager.changeLanguage(value)
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    locale = value,
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeDefaultListingType(value: ListingType) {
+        updateState { it.copy(defaultListingType = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultListingType = value.toInt(),
+                )
+            saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+        }
+    }
+
+    private fun changeDefaultPostSortType(value: SortType) {
+        updateState { it.copy(defaultPostSortType = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultPostSortType = value.toInt(),
+                )
+            saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+        }
+    }
+
+    private fun changeDefaultCommentSortType(value: SortType) {
+        updateState { it.copy(defaultCommentSortType = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    defaultCommentSortType = value.toInt(),
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeIncludeNsfw(value: Boolean) {
+        updateState { it.copy(includeNsfw = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    includeNsfw = value,
+                )
+            saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
+        }
+    }
+
+    private fun changeBlurNsfw(value: Boolean) {
+        updateState { it.copy(blurNsfw = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    blurNsfw = value,
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeUrlOpeningMode(value: UrlOpeningMode) {
+        updateState { it.copy(urlOpeningMode = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    urlOpeningMode = value.toInt(),
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeEnableSwipeActions(value: Boolean) {
+        updateState { it.copy(enableSwipeActions = value) }
+        screenModelScope.launch {
+            val settings =
+                settingsRepository.currentSettings.value.copy(
+                    enableSwipeActions = value,
+                )
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeCrashReportEnabled(value: Boolean) {
+        crashReportConfiguration.setEnabled(value)
+        updateState { it.copy(crashReportEnabled = value) }
+    }
+
+    private suspend fun saveSettings(settings: SettingsModel) {
+        val accountId = accountRepository.getActive()?.id
+        settingsRepository.updateSettings(settings, accountId)
+        settingsRepository.changeCurrentSettings(settings)
+    }
+
+    private fun handleLogout() {
+        screenModelScope.launch {
+            val settings = settingsRepository.getSettings(null)
             updateState {
                 it.copy(
                     defaultListingType = settings.defaultListingType.toListingType(),
                     defaultPostSortType = settings.defaultPostSortType.toSortType(),
                     defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
-                    includeNsfw = settings.includeNsfw,
-                    blurNsfw = settings.blurNsfw,
-                    urlOpeningMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                    enableSwipeActions = settings.enableSwipeActions,
-                    crashReportEnabled = crashReportConfiguration.isEnabled(),
-                    customTabsEnabled = customTabsHelper.isSupported,
                 )
             }
         }
-
-        override fun reduce(intent: SettingsMviModel.Intent) {
-            when (intent) {
-                is SettingsMviModel.Intent.ChangeUiTheme -> changeTheme(intent.value)
-                is SettingsMviModel.Intent.ChangeLanguage -> changeLanguage(intent.value)
-                is SettingsMviModel.Intent.ChangeBlurNsfw -> changeBlurNsfw(intent.value)
-                is SettingsMviModel.Intent.ChangeIncludeNsfw -> changeIncludeNsfw(intent.value)
-                is SettingsMviModel.Intent.ChangeEnableSwipeActions -> changeEnableSwipeActions(intent.value)
-                is SettingsMviModel.Intent.ChangeCrashReportEnabled -> changeCrashReportEnabled(intent.value)
-            }
-        }
-
-        private fun changeTheme(value: UiTheme?) {
-            themeRepository.changeUiTheme(value)
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        theme = value?.toInt(),
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeLanguage(value: String) {
-            l10nManager.changeLanguage(value)
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        locale = value,
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeDefaultListingType(value: ListingType) {
-            updateState { it.copy(defaultListingType = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        defaultListingType = value.toInt(),
-                    )
-                saveSettings(settings)
-                notificationCenter.send(NotificationCenterEvent.ResetHome)
-            }
-        }
-
-        private fun changeDefaultPostSortType(value: SortType) {
-            updateState { it.copy(defaultPostSortType = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        defaultPostSortType = value.toInt(),
-                    )
-                saveSettings(settings)
-                notificationCenter.send(NotificationCenterEvent.ResetHome)
-            }
-        }
-
-        private fun changeDefaultCommentSortType(value: SortType) {
-            updateState { it.copy(defaultCommentSortType = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        defaultCommentSortType = value.toInt(),
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeIncludeNsfw(value: Boolean) {
-            updateState { it.copy(includeNsfw = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        includeNsfw = value,
-                    )
-                saveSettings(settings)
-                notificationCenter.send(NotificationCenterEvent.ResetHome)
-                notificationCenter.send(NotificationCenterEvent.ResetExplore)
-            }
-        }
-
-        private fun changeBlurNsfw(value: Boolean) {
-            updateState { it.copy(blurNsfw = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        blurNsfw = value,
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeUrlOpeningMode(value: UrlOpeningMode) {
-            updateState { it.copy(urlOpeningMode = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        urlOpeningMode = value.toInt(),
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeEnableSwipeActions(value: Boolean) {
-            updateState { it.copy(enableSwipeActions = value) }
-            screenModelScope.launch {
-                val settings =
-                    settingsRepository.currentSettings.value.copy(
-                        enableSwipeActions = value,
-                    )
-                saveSettings(settings)
-            }
-        }
-
-        private fun changeCrashReportEnabled(value: Boolean) {
-            crashReportConfiguration.setEnabled(value)
-            updateState { it.copy(crashReportEnabled = value) }
-        }
-
-        private suspend fun saveSettings(settings: SettingsModel) {
-            val accountId = accountRepository.getActive()?.id
-            settingsRepository.updateSettings(settings, accountId)
-            settingsRepository.changeCurrentSettings(settings)
-        }
-
-        private fun handleLogout() {
-            screenModelScope.launch {
-                val settings = settingsRepository.getSettings(null)
-                updateState {
-                    it.copy(
-                        defaultListingType = settings.defaultListingType.toListingType(),
-                        defaultPostSortType = settings.defaultPostSortType.toSortType(),
-                        defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
-                    )
-                }
-            }
-        }
     }
+}

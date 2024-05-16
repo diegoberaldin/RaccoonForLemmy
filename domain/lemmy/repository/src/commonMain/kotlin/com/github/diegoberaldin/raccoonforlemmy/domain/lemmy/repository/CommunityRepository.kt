@@ -8,7 +8,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 interface CommunityRepository {
-
     companion object {
         const val DEFAULT_PAGE_SIZE = 20
     }
@@ -37,9 +36,7 @@ interface CommunityRepository {
         auth: String? = null,
     ): CommunityModel?
 
-    suspend fun getSubscribed(
-        auth: String? = null,
-    ): List<CommunityModel>
+    suspend fun getSubscribed(auth: String? = null): List<CommunityModel>
 
     suspend fun get(
         auth: String? = null,

@@ -16,22 +16,35 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface UserDetailMviModel :
     MviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
+
         data class ChangeSection(val section: UserDetailSection) : Intent
+
         data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data object HapticIndication : Intent
+
         data class Share(val url: String) : Intent
+
         data object Block : Intent
+
         data object BlockInstance : Intent
+
         data class Copy(val value: String) : Intent
+
         data object WillOpenDetail : Intent
     }
 
@@ -69,8 +82,11 @@ interface UserDetailMviModel :
 
     sealed interface Effect {
         data object Success : Effect
+
         data class Error(val message: String?) : Effect
+
         data object BackToTop : Effect
+
         data class TriggerCopy(val text: String) : Effect
     }
 }

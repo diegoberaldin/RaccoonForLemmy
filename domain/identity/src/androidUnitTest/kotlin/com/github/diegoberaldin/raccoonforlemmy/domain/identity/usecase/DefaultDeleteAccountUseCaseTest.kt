@@ -10,20 +10,21 @@ import org.junit.Rule
 import org.junit.Test
 
 class DefaultDeleteAccountUseCaseTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
     private val accountRepository = mockk<AccountRepository>(relaxUnitFun = true)
-    private val sut = DefaultDeleteAccountUseCase(
-        accountRepository = accountRepository,
-    )
+    private val sut =
+        DefaultDeleteAccountUseCase(
+            accountRepository = accountRepository,
+        )
 
     @Test
-    fun whenExecute_thenInteractionsAreAsExpected() = runTest {
-        val account = AccountModel(id = 1, username = "test", jwt = "fake-token", instance = "test")
-        sut(account)
+    fun whenExecute_thenInteractionsAreAsExpected() =
+        runTest {
+            val account = AccountModel(id = 1, username = "test", jwt = "fake-token", instance = "test")
+            sut(account)
 
-        coVerify { accountRepository.delete(1) }
-    }
+            coVerify { accountRepository.delete(1) }
+        }
 }

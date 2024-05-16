@@ -14,19 +14,21 @@ internal class DefaultAuthRepository(
         username: String,
         password: String,
         totp2faToken: String?,
-    ): Result<LoginResponse> = withContext(Dispatchers.IO) {
-        runCatching {
-            val data = LoginForm(
-                username = username,
-                password = password,
-                totp2faToken = totp2faToken,
-            )
-            val response = services.auth.login(data)
-            if (!response.isSuccessful) {
-                val error = response.errorBody().toString()
-                throw Exception(error)
+    ): Result<LoginResponse> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data =
+                    LoginForm(
+                        username = username,
+                        password = password,
+                        totp2faToken = totp2faToken,
+                    )
+                val response = services.auth.login(data)
+                if (!response.isSuccessful) {
+                    val error = response.errorBody().toString()
+                    throw Exception(error)
+                }
+                response.body() ?: throw Exception("No response from login endpoint")
             }
-            response.body() ?: throw Exception("No response from login endpoint")
         }
-    }
 }

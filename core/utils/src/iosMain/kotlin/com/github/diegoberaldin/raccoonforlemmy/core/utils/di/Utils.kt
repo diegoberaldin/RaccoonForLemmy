@@ -22,57 +22,66 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.DefaultHaptic
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import org.koin.dsl.module
 
-actual val imagePreloadModule = module {
-    single<ImagePreloadManager> {
-        DefaultImagePreloadManager()
+actual val imagePreloadModule =
+    module {
+        single<ImagePreloadManager> {
+            DefaultImagePreloadManager()
+        }
     }
-}
 
-actual val networkModule = module {
-    single<NetworkManager> { DefaultNetworkManager() }
-}
+actual val networkModule =
+    module {
+        single<NetworkManager> { DefaultNetworkManager() }
+    }
 
-actual val appIconModule = module {
-    single<AppIconManager> {
-        DefaultAppIconManager()
+actual val appIconModule =
+    module {
+        single<AppIconManager> {
+            DefaultAppIconManager()
+        }
     }
-}
 
-actual val crashReportModule = module {
-    single<CrashReportConfiguration> {
-        DefaultCrashReportConfiguration()
+actual val crashReportModule =
+    module {
+        single<CrashReportConfiguration> {
+            DefaultCrashReportConfiguration()
+        }
+        single<CrashReportWriter> {
+            DefaultCrashReportWriter()
+        }
     }
-    single<CrashReportWriter> {
-        DefaultCrashReportWriter()
-    }
-}
 
-actual val fileSystemModule = module {
-    single<FileSystemManager> {
-        DefaultFileSystemManager()
+actual val fileSystemModule =
+    module {
+        single<FileSystemManager> {
+            DefaultFileSystemManager()
+        }
     }
-}
 
-actual val galleryHelperModule = module {
-    single<GalleryHelper> {
-        DefaultGalleryHelper()
+actual val galleryHelperModule =
+    module {
+        single<GalleryHelper> {
+            DefaultGalleryHelper()
+        }
     }
-}
 
-actual val shareHelperModule = module {
-    single<ShareHelper> {
-        DefaultShareHelper()
+actual val shareHelperModule =
+    module {
+        single<ShareHelper> {
+            DefaultShareHelper()
+        }
     }
-}
 
-actual val customTabsModule = module {
-    single<CustomTabsHelper> {
-        DefaultCustomTabsHelper()
+actual val customTabsModule =
+    module {
+        single<CustomTabsHelper> {
+            DefaultCustomTabsHelper()
+        }
     }
-}
 
-actual val hapticFeedbackModule = module {
-    single<HapticFeedback> {
-        DefaultHapticFeedback()
+actual val hapticFeedbackModule =
+    module {
+        single<HapticFeedback> {
+            DefaultHapticFeedback()
+        }
     }
-}

@@ -24,14 +24,15 @@ fun PostLinkBanner(
 ) {
     if (url.isNotEmpty()) {
         Row(
-            modifier = modifier
-                .background(
-                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f),
-                    shape = RoundedCornerShape(CornerSize.l),
-                ).padding(
-                    horizontal = Spacing.m,
-                    vertical = Spacing.s,
-                ),
+            modifier =
+                modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(CornerSize.l),
+                    ).padding(
+                        horizontal = Spacing.m,
+                        vertical = Spacing.s,
+                    ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.m),
         ) {

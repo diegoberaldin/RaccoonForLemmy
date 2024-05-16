@@ -56,7 +56,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 internal object MainScreen : Screen {
-
     @Composable
     override fun Content() {
         val themeRepository = remember { getThemeRepository() }
@@ -69,12 +68,14 @@ internal object MainScreen : Screen {
         val exitMessage = LocalXmlStrings.current.messageConfirmExit
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
-        val bottomNavigationInsetPx = with(LocalDensity.current) {
-            WindowInsets.navigationBars.getBottom(this)
-        }
-        val bottomNavigationInset = with(LocalDensity.current) {
-            bottomNavigationInsetPx.toDp()
-        }
+        val bottomNavigationInsetPx =
+            with(LocalDensity.current) {
+                WindowInsets.navigationBars.getBottom(this)
+            }
+        val bottomNavigationInset =
+            with(LocalDensity.current) {
+                bottomNavigationInsetPx.toDp()
+            }
 
         LaunchedEffect(model) {
             model.effects.onEach {
@@ -86,21 +87,24 @@ internal object MainScreen : Screen {
             }.launchIn(this)
         }
 
-        val scrollConnection = remember {
-            object : NestedScrollConnection {
-
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    val delta = available.y
-                    val newOffset =
-                        (uiState.bottomBarOffsetHeightPx + delta).coerceIn(
-                            -(bottomBarHeightPx + bottomNavigationInsetPx),
-                            0f,
-                        )
-                    model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
-                    return Offset.Zero
+        val scrollConnection =
+            remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(
+                        available: Offset,
+                        source: NestedScrollSource,
+                    ): Offset {
+                        val delta = available.y
+                        val newOffset =
+                            (uiState.bottomBarOffsetHeightPx + delta).coerceIn(
+                                -(bottomBarHeightPx + bottomNavigationInsetPx),
+                                0f,
+                            )
+                        model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
+                        return Offset.Zero
+                    }
                 }
             }
-        }
         navigationCoordinator.setBottomBarScrollConnection(scrollConnection)
 
         LaunchedEffect(navigationCoordinator) {
@@ -167,12 +171,13 @@ internal object MainScreen : Screen {
                 snackbarHost = {
                     SnackbarHost(snackbarHostState) { data ->
                         Snackbar(
-                            modifier = Modifier
-                                .graphicsLayer {
-                                    translationY =
-                                        (-uiState.bottomBarOffsetHeightPx)
-                                            .coerceAtMost(bottomBarHeightPx - bottomNavigationInsetPx)
-                                },
+                            modifier =
+                                Modifier
+                                    .graphicsLayer {
+                                        translationY =
+                                            (-uiState.bottomBarOffsetHeightPx)
+                                                .coerceAtMost(bottomBarHeightPx - bottomNavigationInsetPx)
+                                    },
                             containerColor = MaterialTheme.colorScheme.surfaceVariant,
                             contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             snackbarData = data,
@@ -181,10 +186,11 @@ internal object MainScreen : Screen {
                 },
                 bottomBar = {
                     CompositionLocalProvider(
-                        LocalDensity provides Density(
-                            density = LocalDensity.current.density,
-                            fontScale = uiFontScale,
-                        ),
+                        LocalDensity provides
+                            Density(
+                                density = LocalDensity.current.density,
+                                fontScale = uiFontScale,
+                            ),
                     ) {
                         val titleVisible by themeRepository.navItemTitles.collectAsState()
                         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
@@ -197,24 +203,26 @@ internal object MainScreen : Screen {
                         }
                         if (uiFontSizeWorkaround) {
                             BottomAppBar(
-                                modifier = Modifier
-                                    .onGloballyPositioned {
-                                        if (bottomBarHeightPx == 0f) {
-                                            bottomBarHeightPx = it.size.toSize().height
+                                modifier =
+                                    Modifier
+                                        .onGloballyPositioned {
+                                            if (bottomBarHeightPx == 0f) {
+                                                bottomBarHeightPx = it.size.toSize().height
+                                            }
                                         }
-                                    }
-                                    .offset {
-                                        IntOffset(
-                                            x = 0,
-                                            y = -uiState.bottomBarOffsetHeightPx.roundToInt(),
-                                        )
-                                    },
-                                contentPadding = PaddingValues(
-                                    start = 0.dp,
-                                    top = 0.dp,
-                                    end = 0.dp,
-                                    bottom = bottomNavigationInset,
-                                ),
+                                        .offset {
+                                            IntOffset(
+                                                x = 0,
+                                                y = -uiState.bottomBarOffsetHeightPx.roundToInt(),
+                                            )
+                                        },
+                                contentPadding =
+                                    PaddingValues(
+                                        start = 0.dp,
+                                        top = 0.dp,
+                                        end = 0.dp,
+                                        bottom = bottomNavigationInset,
+                                    ),
                                 backgroundColor = MaterialTheme.colorScheme.background,
                             ) {
                                 TabNavigationItem(HomeTab, withText = titleVisible)

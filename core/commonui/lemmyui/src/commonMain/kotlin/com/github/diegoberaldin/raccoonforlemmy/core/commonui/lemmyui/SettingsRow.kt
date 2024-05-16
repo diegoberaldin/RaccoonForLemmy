@@ -38,16 +38,17 @@ fun SettingsRow(
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
     Row(
-        modifier = modifier
-            .padding(
-                vertical = Spacing.s,
-                horizontal = Spacing.m,
-            )
-            .onClick(
-                onClick = {
-                    onTap?.invoke()
-                },
-            ),
+        modifier =
+            modifier
+                .padding(
+                    vertical = Spacing.s,
+                    horizontal = Spacing.m,
+                )
+                .onClick(
+                    onClick = {
+                        onTap?.invoke()
+                    },
+                ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {

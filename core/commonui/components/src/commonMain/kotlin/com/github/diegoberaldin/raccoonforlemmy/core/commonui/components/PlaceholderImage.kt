@@ -23,20 +23,22 @@ fun PlaceholderImage(
     title: String,
 ) {
     Box(
-        modifier = modifier
-            .padding(Spacing.xxxs)
-            .size(size)
-            .background(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(size / 2),
-            ),
+        modifier =
+            modifier
+                .padding(Spacing.xxxs)
+                .size(size)
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(size / 2),
+                ),
         contentAlignment = Alignment.Center,
     ) {
         val translationAmount = with(LocalDensity.current) { 2.dp.toPx() }
         Text(
-            modifier = Modifier.graphicsLayer {
-                translationY = -translationAmount
-            },
+            modifier =
+                Modifier.graphicsLayer {
+                    translationY = -translationAmount
+                },
             text = title.firstOrNull()?.toString().orEmpty().uppercase(),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary,

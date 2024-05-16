@@ -101,14 +101,18 @@ class ManageSubscriptionsScreen : Screen {
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
         val detailOpener = remember { getDetailOpener() }
         val focusManager = LocalFocusManager.current
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
+        val keyboardScrollConnection =
+            remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(
+                        available: Offset,
+                        source: NestedScrollSource,
+                    ): Offset {
+                        focusManager.clearFocus()
+                        return Offset.Zero
+                    }
                 }
             }
-        }
         var multiCommunityIdToDelete by remember { mutableStateOf<Long?>(null) }
         val snackbarHostState = remember { SnackbarHostState() }
         val successMessage = LocalXmlStrings.current.messageOperationSuccessful
@@ -144,11 +148,12 @@ class ManageSubscriptionsScreen : Screen {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigatorCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigatorCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -159,29 +164,34 @@ class ManageSubscriptionsScreen : Screen {
             floatingActionButton = {
                 AnimatedVisibility(
                     visible = isFabVisible,
-                    enter = slideInVertically(
-                        initialOffsetY = { it * 2 },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { it * 2 },
-                    ),
+                    enter =
+                        slideInVertically(
+                            initialOffsetY = { it * 2 },
+                        ),
+                    exit =
+                        slideOutVertically(
+                            targetOffsetY = { it * 2 },
+                        ),
                 ) {
                     FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = LocalXmlStrings.current.actionBackToTop,
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        runCatching {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
-                                        }
-                                    }
-                                },
-                            )
-                        },
+                        items =
+                            buildList {
+                                this +=
+                                    FloatingActionButtonMenuItem(
+                                        icon = Icons.Default.ExpandLess,
+                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        onSelected =
+                                            rememberCallback {
+                                                scope.launch {
+                                                    runCatching {
+                                                        lazyListState.scrollToItem(0)
+                                                        topAppBarState.heightOffset = 0f
+                                                        topAppBarState.contentOffset = 0f
+                                                    }
+                                                }
+                                            },
+                                    )
+                            },
                     )
                 }
             },
@@ -199,61 +209,68 @@ class ManageSubscriptionsScreen : Screen {
                 modifier = Modifier.padding(padding),
             ) {
                 TextField(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        ).fillMaxWidth(),
+                    modifier =
+                        Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            ).fillMaxWidth(),
                     label = {
                         Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search,
+                        ),
                     onValueChange = { value ->
                         model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(value))
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    if (uiState.searchText.isNotEmpty()) {
-                                        model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(""))
-                                    }
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        if (uiState.searchText.isNotEmpty()) {
+                                            model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(""))
+                                        }
+                                    },
+                                ),
+                            imageVector =
+                                if (uiState.searchText.isEmpty()) {
+                                    Icons.Default.Search
+                                } else {
+                                    Icons.Default.Clear
                                 },
-                            ),
-                            imageVector = if (uiState.searchText.isEmpty()) {
-                                Icons.Default.Search
-                            } else {
-                                Icons.Default.Clear
-                            },
                             contentDescription = null,
                         )
                     },
                 )
 
-                val pullRefreshState = rememberPullRefreshState(
-                    refreshing = uiState.refreshing,
-                    onRefresh = rememberCallback(model) {
-                        model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
-                    },
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
+                val pullRefreshState =
+                    rememberPullRefreshState(
+                        refreshing = uiState.refreshing,
+                        onRefresh =
+                            rememberCallback(model) {
+                                model.reduce(ManageSubscriptionsMviModel.Intent.Refresh)
                             },
-                        )
-                        .nestedScroll(fabNestedScrollConnection)
-                        .nestedScroll(keyboardScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                    )
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .nestedScroll(fabNestedScrollConnection)
+                            .nestedScroll(keyboardScrollConnection)
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -272,14 +289,15 @@ class ManageSubscriptionsScreen : Screen {
                                 )
                                 Spacer(modifier = Modifier.weight(1f))
                                 Icon(
-                                    modifier = Modifier
-                                        .onClick(
-                                            onClick = {
-                                                navigatorCoordinator.pushScreen(
-                                                    MultiCommunityEditorScreen(),
-                                                )
-                                            },
-                                        ),
+                                    modifier =
+                                        Modifier
+                                            .onClick(
+                                                onClick = {
+                                                    navigatorCoordinator.pushScreen(
+                                                        MultiCommunityEditorScreen(),
+                                                    )
+                                                },
+                                            ),
                                     imageVector = Icons.Default.AddCircle,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onBackground,
@@ -288,45 +306,50 @@ class ManageSubscriptionsScreen : Screen {
                         }
                         items(uiState.multiCommunities) { community ->
                             MultiCommunityItem(
-                                modifier = Modifier.fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.background).onClick(
-                                        onClick = {
-                                            community.id?.also {
-                                                navigatorCoordinator.pushScreen(
-                                                    MultiCommunityScreen(it),
-                                                )
-                                            }
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier.fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background).onClick(
+                                            onClick = {
+                                                community.id?.also {
+                                                    navigatorCoordinator.pushScreen(
+                                                        MultiCommunityScreen(it),
+                                                    )
+                                                }
+                                            },
+                                        ),
                                 community = community,
                                 autoLoadImages = uiState.autoLoadImages,
-                                options = buildList {
-                                    this += Option(
-                                        OptionId.Edit,
-                                        LocalXmlStrings.current.postActionEdit,
-                                    )
-                                    this += Option(
-                                        OptionId.Delete,
-                                        LocalXmlStrings.current.commentActionDelete,
-                                    )
-                                },
-                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                    when (optionId) {
-                                        OptionId.Edit -> {
-                                            navigatorCoordinator.pushScreen(
-                                                MultiCommunityEditorScreen(community.id),
+                                options =
+                                    buildList {
+                                        this +=
+                                            Option(
+                                                OptionId.Edit,
+                                                LocalXmlStrings.current.postActionEdit,
                                             )
-                                        }
-
-                                        OptionId.Delete -> {
-                                            community.id?.also {
-                                                multiCommunityIdToDelete = it
+                                        this +=
+                                            Option(
+                                                OptionId.Delete,
+                                                LocalXmlStrings.current.commentActionDelete,
+                                            )
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.Edit -> {
+                                                navigatorCoordinator.pushScreen(
+                                                    MultiCommunityEditorScreen(community.id),
+                                                )
                                             }
-                                        }
 
-                                        else -> Unit
-                                    }
-                                },
+                                            OptionId.Delete -> {
+                                                community.id?.also {
+                                                    multiCommunityIdToDelete = it
+                                                }
+                                            }
+
+                                            else -> Unit
+                                        }
+                                    },
                             )
                         }
                         item {
@@ -348,45 +371,50 @@ class ManageSubscriptionsScreen : Screen {
                         }
                         items(uiState.communities) { community ->
                             CommunityItem(
-                                modifier = Modifier.fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.background)
-                                    .onClick(
-                                        onClick = {
-                                            detailOpener.openCommunityDetail(community = community)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier.fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background)
+                                        .onClick(
+                                            onClick = {
+                                                detailOpener.openCommunityDetail(community = community)
+                                            },
+                                        ),
                                 community = community,
                                 autoLoadImages = uiState.autoLoadImages,
                                 showFavorite = true,
-                                options = buildList {
-                                    this += Option(
-                                        OptionId.Unsubscribe,
-                                        LocalXmlStrings.current.communityActionUnsubscribe,
-                                    )
-                                    this += Option(
-                                        OptionId.Favorite,
-                                        if (community.favorite) {
-                                            LocalXmlStrings.current.communityActionRemoveFavorite
-                                        } else {
-                                            LocalXmlStrings.current.communityActionAddFavorite
-                                        },
-                                    )
-                                },
-                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                    when (optionId) {
-                                        OptionId.Unsubscribe -> {
-                                            model.reduce(ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id))
-                                        }
-
-                                        OptionId.Favorite -> {
-                                            model.reduce(
-                                                ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id),
+                                options =
+                                    buildList {
+                                        this +=
+                                            Option(
+                                                OptionId.Unsubscribe,
+                                                LocalXmlStrings.current.communityActionUnsubscribe,
                                             )
-                                        }
+                                        this +=
+                                            Option(
+                                                OptionId.Favorite,
+                                                if (community.favorite) {
+                                                    LocalXmlStrings.current.communityActionRemoveFavorite
+                                                } else {
+                                                    LocalXmlStrings.current.communityActionAddFavorite
+                                                },
+                                            )
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.Unsubscribe -> {
+                                                model.reduce(ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id))
+                                            }
 
-                                        else -> Unit
-                                    }
-                                },
+                                            OptionId.Favorite -> {
+                                                model.reduce(
+                                                    ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id),
+                                                )
+                                            }
+
+                                            else -> Unit
+                                        }
+                                    },
                             )
                         }
 

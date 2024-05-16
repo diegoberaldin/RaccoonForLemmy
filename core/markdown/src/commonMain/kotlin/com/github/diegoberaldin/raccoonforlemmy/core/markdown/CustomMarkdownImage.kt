@@ -29,11 +29,12 @@ internal fun CustomMarkdownImage(
     onOpenImage: ((String) -> Unit)?,
     autoLoadImages: Boolean,
 ) {
-    val link = runCatching {
-        node.findChildOfTypeRecursive(MarkdownElementTypes.LINK_DESTINATION)
-            ?.getTextInNode(content)
-            ?.toString().orEmpty()
-    }.getOrElse { "" }
+    val link =
+        runCatching {
+            node.findChildOfTypeRecursive(MarkdownElementTypes.LINK_DESTINATION)
+                ?.getTextInNode(content)
+                ?.toString().orEmpty()
+        }.getOrElse { "" }
     CustomMarkdownImage(
         url = link,
         autoLoadImages = autoLoadImages,
@@ -54,13 +55,14 @@ internal fun CustomMarkdownImage(
     }
 
     CustomImage(
-        modifier = Modifier
-            .fillMaxWidth()
-            .onClick(
-                onClick = {
-                    onOpenImage?.invoke(url)
-                },
-            ),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .onClick(
+                    onClick = {
+                        onOpenImage?.invoke(url)
+                    },
+                ),
         url = url,
         autoload = autoLoadImages,
         quality = FilterQuality.Low,
@@ -74,19 +76,21 @@ internal fun CustomMarkdownImage(
             )
         },
         onLoading = { progress ->
-            val prog = if (progress != null) {
-                progress
-            } else {
-                val transition = rememberInfiniteTransition()
-                val res by transition.animateFloat(
-                    initialValue = 0f,
-                    targetValue = 1f,
-                    animationSpec = InfiniteRepeatableSpec(
-                        animation = tween(LOADING_ANIMATION_DURATION),
-                    ),
-                )
-                res
-            }
+            val prog =
+                if (progress != null) {
+                    progress
+                } else {
+                    val transition = rememberInfiniteTransition()
+                    val res by transition.animateFloat(
+                        initialValue = 0f,
+                        targetValue = 1f,
+                        animationSpec =
+                            InfiniteRepeatableSpec(
+                                animation = tween(LOADING_ANIMATION_DURATION),
+                            ),
+                    )
+                    res
+                }
             CircularProgressIndicator(
                 progress = { prog },
                 color = MaterialTheme.colorScheme.primary,

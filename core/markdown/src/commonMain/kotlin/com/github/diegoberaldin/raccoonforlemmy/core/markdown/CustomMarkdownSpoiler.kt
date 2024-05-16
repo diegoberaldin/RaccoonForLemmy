@@ -31,25 +31,28 @@ internal fun CustomMarkdownSpoiler(
             val openingStart = match.range.first
             val openingEnd = match.range.last
             if (openingStart > lastIndex) {
-                val subcontent = content.substring(
-                    startIndex = lastIndex,
-                    endIndex = openingStart,
-                )
+                val subcontent =
+                    content.substring(
+                        startIndex = lastIndex,
+                        endIndex = openingStart,
+                    )
                 MarkdownText(content = subcontent)
             }
             val spoilerTitle = match.groups["title"]?.value.orEmpty()
-            val closeMatch = SpoilerRegex.spoilerClosing.find(
-                input = content,
-                startIndex = openingEnd,
-            )
-            val spoilerContent = closeMatch?.let {
-                content.substring(
-                    startIndex = openingEnd + 1,
-                    endIndex = it.range.last - 3,
+            val closeMatch =
+                SpoilerRegex.spoilerClosing.find(
+                    input = content,
+                    startIndex = openingEnd,
                 )
-            } ?: content.substring(
-                startIndex = openingEnd + 1,
-            )
+            val spoilerContent =
+                closeMatch?.let {
+                    content.substring(
+                        startIndex = openingEnd + 1,
+                        endIndex = it.range.last - 3,
+                    )
+                } ?: content.substring(
+                    startIndex = openingEnd + 1,
+                )
 
             InnerSpoilerElement(
                 title = spoilerTitle,
@@ -59,9 +62,10 @@ internal fun CustomMarkdownSpoiler(
             lastIndex = closeMatch?.range?.last ?: content.lastIndex
         }
         if (lastIndex < content.lastIndex) {
-            val subcontent = content.substring(
-                startIndex = lastIndex,
-            )
+            val subcontent =
+                content.substring(
+                    startIndex = lastIndex,
+                )
             MarkdownText(content = subcontent)
         }
     }
@@ -80,33 +84,38 @@ private fun InnerSpoilerElement(
     ) {
         if (!expanded) {
             MarkdownText(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onClick(onClick = { expanded = !expanded }),
-                content = buildAnnotatedString {
-                    withStyle(SpanStyle(fontSize = 20.sp)) {
-                        append("▶︎ ")
-                    }
-                    append(title)
-                },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .onClick(onClick = { expanded = !expanded }),
+                content =
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(fontSize = 20.sp)) {
+                            append("▶︎ ")
+                        }
+                        append(title)
+                    },
             )
         } else {
             MarkdownText(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onClick(onClick = { expanded = !expanded }),
-                content = buildAnnotatedString {
-                    withStyle(SpanStyle(fontSize = 20.sp)) {
-                        append("▼︎ ")
-                    }
-                    append(title)
-                },
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .onClick(onClick = { expanded = !expanded }),
+                content =
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(fontSize = 20.sp)) {
+                            append("▼︎ ")
+                        }
+                        append(title)
+                    },
             )
             MarkdownText(
-                modifier = Modifier.padding(
-                    start = 18.dp,
-                    bottom = 10.dp,
-                ),
+                modifier =
+                    Modifier.padding(
+                        start = 18.dp,
+                        bottom = 10.dp,
+                    ),
                 content = content,
             )
         }

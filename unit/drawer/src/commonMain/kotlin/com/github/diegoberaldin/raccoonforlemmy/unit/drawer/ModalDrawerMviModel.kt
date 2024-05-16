@@ -13,6 +13,7 @@ interface ModalDrawerMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+
         data class SetSearch(val value: String) : Intent
     }
 

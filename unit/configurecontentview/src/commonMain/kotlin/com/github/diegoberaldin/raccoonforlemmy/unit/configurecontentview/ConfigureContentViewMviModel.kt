@@ -11,14 +11,19 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 interface ConfigureContentViewMviModel :
     MviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class ChangePreferUserNicknames(val value: Boolean) : Intent
+
         data class ChangeFullHeightImages(val value: Boolean) : Intent
+
         data class ChangeFullWidthImages(val value: Boolean) : Intent
+
         data object IncrementCommentBarThickness : Intent
+
         data object DecrementCommentBarThickness : Intent
+
         data object IncrementCommentIndentAmount : Intent
+
         data object DecrementCommentIndentAmount : Intent
     }
 

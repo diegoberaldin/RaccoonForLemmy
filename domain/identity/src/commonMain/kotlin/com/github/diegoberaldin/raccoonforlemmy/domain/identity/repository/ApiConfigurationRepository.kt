@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Stable
 interface ApiConfigurationRepository {
-
     val instance: StateFlow<String>
 
     fun changeInstance(value: String)

@@ -13,19 +13,24 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 
 class DefaultBarColorProvider : BarColorProvider {
     @Composable
-    override fun setBarColorAccordingToTheme(theme: UiTheme, barTheme: UiBarTheme) {
+    override fun setBarColorAccordingToTheme(
+        theme: UiTheme,
+        barTheme: UiBarTheme,
+    ) {
         val view = LocalView.current
         LaunchedEffect(theme, barTheme) {
             (view.context as? Activity)?.window?.apply {
-                val baseColor = when (theme) {
-                    UiTheme.Light -> Color.White
-                    else -> Color.Black
-                }
-                val barColor = when (barTheme) {
-                    UiBarTheme.Opaque -> baseColor.copy(alpha = 0.25f)
-                    UiBarTheme.Transparent -> baseColor.copy(alpha = 0.01f)
-                    else -> baseColor
-                }.toArgb()
+                val baseColor =
+                    when (theme) {
+                        UiTheme.Light -> Color.White
+                        else -> Color.Black
+                    }
+                val barColor =
+                    when (barTheme) {
+                        UiBarTheme.Opaque -> baseColor.copy(alpha = 0.25f)
+                        UiBarTheme.Transparent -> baseColor.copy(alpha = 0.01f)
+                        else -> baseColor
+                    }.toArgb()
                 statusBarColor = barColor
                 navigationBarColor = barColor
 
@@ -40,14 +45,16 @@ class DefaultBarColorProvider : BarColorProvider {
                 }
 
                 WindowCompat.getInsetsController(this, decorView).apply {
-                    isAppearanceLightStatusBars = when (theme) {
-                        UiTheme.Light -> true
-                        else -> false
-                    }
-                    isAppearanceLightNavigationBars = when (theme) {
-                        UiTheme.Light -> true
-                        else -> false
-                    }
+                    isAppearanceLightStatusBars =
+                        when (theme) {
+                            UiTheme.Light -> true
+                            else -> false
+                        }
+                    isAppearanceLightNavigationBars =
+                        when (theme) {
+                            UiTheme.Light -> true
+                            else -> false
+                        }
                 }
             }
         }

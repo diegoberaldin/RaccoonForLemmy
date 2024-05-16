@@ -103,9 +103,10 @@ class CreatePostScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<CreatePostMviModel> {
-            parametersOf(editedPostId, crossPostId, draftId)
-        }
+        val model =
+            getScreenModel<CreatePostMviModel> {
+                parametersOf(editedPostId, crossPostId, draftId)
+            }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = LocalXmlStrings.current.messageGenericError
@@ -158,23 +159,24 @@ class CreatePostScreen(
             }
 
             if (uiState.bodyValue.text.isEmpty() && uiState.title.isEmpty()) {
-                val text = buildString {
-                    when {
-                        crossPost != null -> {
-                            append(crossPostText)
-                            append(" ")
-                            append(crossPost.originalUrl)
-                        }
+                val text =
+                    buildString {
+                        when {
+                            crossPost != null -> {
+                                append(crossPostText)
+                                append(" ")
+                                append(crossPost.originalUrl)
+                            }
 
-                        editedPost != null -> {
-                            append(editedPost.text)
-                        }
+                            editedPost != null -> {
+                                append(editedPost.text)
+                            }
 
-                        !initialText.isNullOrEmpty() -> {
-                            append(initialText)
+                            !initialText.isNullOrEmpty() -> {
+                                append(initialText)
+                            }
                         }
                     }
-                }
                 model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(TextFieldValue(text)))
 
                 initialTitle?.also { title ->
@@ -235,11 +237,12 @@ class CreatePostScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.padding(start = Spacing.s).onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.padding(start = Spacing.s).onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -247,10 +250,11 @@ class CreatePostScreen(
                     },
                     title = {
                         Text(
-                            text = when {
-                                editedPost != null -> LocalXmlStrings.current.editPostTitle
-                                else -> LocalXmlStrings.current.createPostTitle
-                            },
+                            text =
+                                when {
+                                    editedPost != null -> LocalXmlStrings.current.editPostTitle
+                                    else -> LocalXmlStrings.current.createPostTitle
+                                },
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -265,9 +269,10 @@ class CreatePostScreen(
                                         contentDescription = null,
                                     )
                                 },
-                                onClick = rememberCallback(model) {
-                                    model.reduce(CreatePostMviModel.Intent.SaveDraft)
-                                },
+                                onClick =
+                                    rememberCallback(model) {
+                                        model.reduce(CreatePostMviModel.Intent.SaveDraft)
+                                    },
                             )
                         }
                         IconButton(
@@ -278,9 +283,10 @@ class CreatePostScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model) {
-                                model.reduce(CreatePostMviModel.Intent.Send)
-                            },
+                            onClick =
+                                rememberCallback(model) {
+                                    model.reduce(CreatePostMviModel.Intent.Send)
+                                },
                         )
                     },
                 )
@@ -296,27 +302,30 @@ class CreatePostScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .navigationBarsPadding()
-                    .imePadding()
-                    .verticalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .navigationBarsPadding()
+                        .imePadding()
+                        .verticalScroll(rememberScrollState()),
             ) {
                 // community
                 if (forceCommunitySelection) {
                     TextField(
-                        modifier = Modifier.fillMaxWidth().onFocusChanged(
-                            rememberCallbackArgs { state ->
-                                if (state.hasFocus) {
-                                    openSelectCommunity = true
-                                }
-                            },
-                        ),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                        ),
+                        modifier =
+                            Modifier.fillMaxWidth().onFocusChanged(
+                                rememberCallbackArgs { state ->
+                                    if (state.hasFocus) {
+                                        openSelectCommunity = true
+                                    }
+                                },
+                            ),
+                        colors =
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                            ),
                         label = {
                             Text(
                                 text = LocalXmlStrings.current.createPostCommunity,
@@ -350,11 +359,12 @@ class CreatePostScreen(
                 // title
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     label = {
                         Text(
                             text = LocalXmlStrings.current.createPostName,
@@ -367,18 +377,19 @@ class CreatePostScreen(
                     trailingIcon = {
                         if (uiState.url.isNotBlank()) {
                             Text(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.s)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        shape = RoundedCornerShape(CornerSize.m),
-                                    )
-                                    .padding(Spacing.xs)
-                                    .onClick(
-                                        onClick = {
-                                            model.reduce(CreatePostMviModel.Intent.AutoFillTitle)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.s)
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primary,
+                                            shape = RoundedCornerShape(CornerSize.m),
+                                        )
+                                        .padding(Spacing.xs)
+                                        .onClick(
+                                            onClick = {
+                                                model.reduce(CreatePostMviModel.Intent.AutoFillTitle)
+                                            },
+                                        ),
                                 text = "auto".uppercase(),
                                 style = MaterialTheme.typography.labelSmall,
                                 fontFamily = FontFamily.Default,
@@ -387,18 +398,21 @@ class CreatePostScreen(
                             )
                         }
                     },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Ascii,
-                        autoCorrect = true,
-                        imeAction = ImeAction.Next,
-                        capitalization = KeyboardCapitalization.Sentences,
-                    ),
-                    keyboardActions = KeyboardActions(onNext = {
-                        urlFocusRequester.requestFocus()
-                    }),
-                    onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(CreatePostMviModel.Intent.SetTitle(value))
-                    },
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Ascii,
+                            autoCorrect = true,
+                            imeAction = ImeAction.Next,
+                            capitalization = KeyboardCapitalization.Sentences,
+                        ),
+                    keyboardActions =
+                        KeyboardActions(onNext = {
+                            urlFocusRequester.requestFocus()
+                        }),
+                    onValueChange =
+                        rememberCallbackArgs(model) { value ->
+                            model.reduce(CreatePostMviModel.Intent.SetTitle(value))
+                        },
                     isError = uiState.titleError != null,
                     supportingText = {
                         val error = uiState.titleError
@@ -414,11 +428,12 @@ class CreatePostScreen(
                 // image
                 TextField(
                     modifier = Modifier.fillMaxWidth().focusRequester(urlFocusRequester),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     label = {
                         Text(
                             text = LocalXmlStrings.current.createPostUrl,
@@ -427,31 +442,36 @@ class CreatePostScreen(
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    openImagePicker = true
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        openImagePicker = true
+                                    },
+                                ),
                             imageVector = Icons.Default.Image,
                             contentDescription = null,
                         )
                     },
-                    textStyle = typography.bodyMedium.copy(
-                        fontFamily = FontFamily.Monospace,
-                    ),
+                    textStyle =
+                        typography.bodyMedium.copy(
+                            fontFamily = FontFamily.Monospace,
+                        ),
                     value = uiState.url,
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Ascii,
-                        autoCorrect = false,
-                        imeAction = ImeAction.Next,
-                    ),
-                    keyboardActions = KeyboardActions(onNext = {
-                        bodyFocusRequester.requestFocus()
-                    }),
-                    onValueChange = rememberCallbackArgs(model) { value ->
-                        model.reduce(CreatePostMviModel.Intent.SetUrl(value))
-                    },
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Ascii,
+                            autoCorrect = false,
+                            imeAction = ImeAction.Next,
+                        ),
+                    keyboardActions =
+                        KeyboardActions(onNext = {
+                            bodyFocusRequester.requestFocus()
+                        }),
+                    onValueChange =
+                        rememberCallbackArgs(model) { value ->
+                            model.reduce(CreatePostMviModel.Intent.SetUrl(value))
+                        },
                     isError = uiState.urlError != null,
                     supportingText = {
                         val error = uiState.urlError
@@ -466,10 +486,11 @@ class CreatePostScreen(
 
                 // NSFW
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(
-                        vertical = Spacing.s,
-                        horizontal = Spacing.m,
-                    ),
+                    modifier =
+                        Modifier.fillMaxWidth().padding(
+                            vertical = Spacing.s,
+                            horizontal = Spacing.m,
+                        ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -480,9 +501,10 @@ class CreatePostScreen(
                     Spacer(modifier = Modifier.weight(1f))
                     Switch(
                         checked = uiState.nsfw,
-                        onCheckedChange = rememberCallbackArgs(model) { value ->
-                            model.reduce(CreatePostMviModel.Intent.ChangeNsfw(value))
-                        },
+                        onCheckedChange =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(CreatePostMviModel.Intent.ChangeNsfw(value))
+                            },
                     )
                 }
 
@@ -490,30 +512,35 @@ class CreatePostScreen(
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SectionSelector(
-                        titles = listOf(
-                            LocalXmlStrings.current.createPostTabEditor,
-                            LocalXmlStrings.current.createPostTabPreview,
-                        ),
-                        currentSection = when (uiState.section) {
-                            CreatePostSection.Preview -> 1
-                            else -> 0
-                        },
-                        onSectionSelected = rememberCallbackArgs(model) { id ->
-                            val section = when (id) {
-                                1 -> CreatePostSection.Preview
-                                else -> CreatePostSection.Edit
-                            }
-                            model.reduce(CreatePostMviModel.Intent.ChangeSection(section))
-                        },
+                        titles =
+                            listOf(
+                                LocalXmlStrings.current.createPostTabEditor,
+                                LocalXmlStrings.current.createPostTabPreview,
+                            ),
+                        currentSection =
+                            when (uiState.section) {
+                                CreatePostSection.Preview -> 1
+                                else -> 0
+                            },
+                        onSectionSelected =
+                            rememberCallbackArgs(model) { id ->
+                                val section =
+                                    when (id) {
+                                        1 -> CreatePostSection.Preview
+                                        else -> CreatePostSection.Edit
+                                    }
+                                model.reduce(CreatePostMviModel.Intent.ChangeSection(section))
+                            },
                     )
 
                     if (uiState.section == CreatePostSection.Edit) {
                         TextFormattingBar(
-                            modifier = Modifier.padding(
-                                top = Spacing.s,
-                                start = Spacing.s,
-                                end = Spacing.s,
-                            ),
+                            modifier =
+                                Modifier.padding(
+                                    top = Spacing.s,
+                                    start = Spacing.s,
+                                    end = Spacing.s,
+                                ),
                             textFieldValue = uiState.bodyValue,
                             onTextFieldValueChanged = { value ->
                                 model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(value))
@@ -528,15 +555,17 @@ class CreatePostScreen(
                             },
                         )
                         TextField(
-                            modifier = Modifier
-                                .heightIn(min = 300.dp, max = 400.dp)
-                                .fillMaxWidth()
-                                .focusRequester(bodyFocusRequester),
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent,
-                                disabledContainerColor = Color.Transparent,
-                            ),
+                            modifier =
+                                Modifier
+                                    .heightIn(min = 300.dp, max = 400.dp)
+                                    .fillMaxWidth()
+                                    .focusRequester(bodyFocusRequester),
+                            colors =
+                                TextFieldDefaults.colors(
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent,
+                                    disabledContainerColor = Color.Transparent,
+                                ),
                             label = {
                                 Text(
                                     text = LocalXmlStrings.current.createPostBody,
@@ -545,11 +574,12 @@ class CreatePostScreen(
                             },
                             textStyle = typography.bodyMedium,
                             value = uiState.bodyValue,
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Text,
-                                autoCorrect = true,
-                                capitalization = KeyboardCapitalization.Sentences,
-                            ),
+                            keyboardOptions =
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.Text,
+                                    autoCorrect = true,
+                                    capitalization = KeyboardCapitalization.Sentences,
+                                ),
                             onValueChange = { value ->
                                 model.reduce(CreatePostMviModel.Intent.ChangeBodyValue(value))
                             },
@@ -565,12 +595,13 @@ class CreatePostScreen(
                             },
                         )
                     } else {
-                        val post = PostModel(
-                            text = uiState.bodyValue.text,
-                            title = uiState.title,
-                            url = uiState.url,
-                            thumbnailUrl = uiState.url,
-                        )
+                        val post =
+                            PostModel(
+                                text = uiState.bodyValue.text,
+                                title = uiState.title,
+                                url = uiState.url,
+                                thumbnailUrl = uiState.url,
+                            )
 
                         PostCard(
                             post = post,
@@ -587,18 +618,20 @@ class CreatePostScreen(
 
                     if (uiState.currentUser.isNotEmpty()) {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = Spacing.m),
-                            text = buildString {
-                                append(LocalXmlStrings.current.postReplySourceAccount)
-                                append(" ")
-                                append(uiState.currentUser)
-                                if (uiState.currentInstance.isNotEmpty()) {
-                                    append("@")
-                                    append(uiState.currentInstance)
-                                }
-                            },
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = Spacing.m),
+                            text =
+                                buildString {
+                                    append(LocalXmlStrings.current.postReplySourceAccount)
+                                    append(" ")
+                                    append(uiState.currentUser)
+                                    if (uiState.currentInstance.isNotEmpty()) {
+                                        append("@")
+                                        append(uiState.currentInstance)
+                                    }
+                                },
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.labelSmall,
                             textDecoration = TextDecoration.Underline,
@@ -613,13 +646,15 @@ class CreatePostScreen(
             SelectLanguageDialog(
                 languages = uiState.availableLanguages,
                 currentLanguageId = uiState.currentLanguageId,
-                onSelect = rememberCallbackArgs { langId ->
-                    model.reduce(CreatePostMviModel.Intent.ChangeLanguage(langId))
-                    selectLanguageDialogOpen = false
-                },
-                onDismiss = rememberCallback {
-                    selectLanguageDialogOpen = false
-                },
+                onSelect =
+                    rememberCallbackArgs { langId ->
+                        model.reduce(CreatePostMviModel.Intent.ChangeLanguage(langId))
+                        selectLanguageDialogOpen = false
+                    },
+                onDismiss =
+                    rememberCallback {
+                        selectLanguageDialogOpen = false
+                    },
             )
         }
 

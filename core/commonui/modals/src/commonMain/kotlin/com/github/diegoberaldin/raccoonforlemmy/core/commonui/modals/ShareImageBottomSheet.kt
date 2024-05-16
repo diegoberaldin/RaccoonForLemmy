@@ -29,21 +29,21 @@ class ShareImageBottomSheet(
     val url: String,
     val source: String,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.postActionShare)
@@ -52,20 +52,21 @@ class ShareImageBottomSheet(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Row(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                        .fillMaxWidth()
-                        .onClick(
-                            onClick = {
-                                val event =
-                                    NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
-                                notificationCenter.send(event)
-                                navigationCoordinator.hideBottomSheet()
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = {
+                                    val event =
+                                        NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url)
+                                    notificationCenter.send(event)
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -75,22 +76,24 @@ class ShareImageBottomSheet(
                     )
                 }
                 Row(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                        .fillMaxWidth()
-                        .onClick(
-                            onClick = {
-                                val event = NotificationCenterEvent.ShareImageModeSelected.ModeFile(
-                                    url = url,
-                                    source = source,
-                                )
-                                notificationCenter.send(event)
-                                navigationCoordinator.hideBottomSheet()
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = {
+                                    val event =
+                                        NotificationCenterEvent.ShareImageModeSelected.ModeFile(
+                                            url = url,
+                                            source = source,
+                                        )
+                                    notificationCenter.send(event)
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(

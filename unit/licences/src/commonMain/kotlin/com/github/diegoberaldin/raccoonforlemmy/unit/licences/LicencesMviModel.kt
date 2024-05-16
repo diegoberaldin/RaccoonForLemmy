@@ -7,7 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.licences.models.LicenceItem
 interface LicencesMviModel :
     ScreenModel,
     MviModel<LicencesMviModel.Intent, LicencesMviModel.State, LicencesMviModel.Effect> {
-
     sealed interface Intent
 
     data class State(

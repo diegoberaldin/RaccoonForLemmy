@@ -8,7 +8,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import de.jensklingenberg.ktorfit.Response
 
 interface PostRepository {
-
     companion object {
         const val DEFAULT_PAGE_SIZE = 20
     }
@@ -31,7 +30,10 @@ interface PostRepository {
         instance: String? = null,
     ): PostModel?
 
-    fun asUpVoted(post: PostModel, voted: Boolean): PostModel
+    fun asUpVoted(
+        post: PostModel,
+        voted: Boolean,
+    ): PostModel
 
     suspend fun upVote(
         post: PostModel,
@@ -39,7 +41,10 @@ interface PostRepository {
         voted: Boolean,
     ): Result<Response<PostResponse>>
 
-    fun asDownVoted(post: PostModel, downVoted: Boolean): PostModel
+    fun asDownVoted(
+        post: PostModel,
+        downVoted: Boolean,
+    ): PostModel
 
     suspend fun downVote(
         post: PostModel,
@@ -47,9 +52,16 @@ interface PostRepository {
         downVoted: Boolean,
     ): Result<Response<PostResponse>>
 
-    fun asSaved(post: PostModel, saved: Boolean): PostModel
+    fun asSaved(
+        post: PostModel,
+        saved: Boolean,
+    ): PostModel
 
-    suspend fun save(post: PostModel, auth: String, saved: Boolean): Result<Response<PostResponse>>
+    suspend fun save(
+        post: PostModel,
+        auth: String,
+        saved: Boolean,
+    ): Result<Response<PostResponse>>
 
     suspend fun create(
         communityId: Long,
@@ -77,11 +89,21 @@ interface PostRepository {
         auth: String? = null,
     ): Result<Response<PostResponse>>
 
-    suspend fun delete(id: Long, auth: String)
+    suspend fun delete(
+        id: Long,
+        auth: String,
+    )
 
-    suspend fun uploadImage(auth: String, bytes: ByteArray): String?
+    suspend fun uploadImage(
+        auth: String,
+        bytes: ByteArray,
+    ): String?
 
-    suspend fun report(postId: Long, reason: String, auth: String)
+    suspend fun report(
+        postId: Long,
+        reason: String,
+        auth: String,
+    )
 
     suspend fun featureInCommunity(
         postId: Long,

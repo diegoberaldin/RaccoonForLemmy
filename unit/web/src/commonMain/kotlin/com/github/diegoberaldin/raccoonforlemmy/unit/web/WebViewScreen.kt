@@ -33,7 +33,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 class WebViewScreen(
     private val url: String,
 ) : Screen {
-
     override val key: ScreenKey
         get() = super.key + url.md5()
 
@@ -61,11 +60,12 @@ class WebViewScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -73,13 +73,14 @@ class WebViewScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .onClick(
-                                    onClick = {
-                                        shareHelper.share(url)
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = {
+                                            shareHelper.share(url)
+                                        },
+                                    ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,

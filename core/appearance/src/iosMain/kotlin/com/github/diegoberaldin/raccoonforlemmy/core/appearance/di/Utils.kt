@@ -11,19 +11,19 @@ import org.koin.dsl.module
 
 actual fun getThemeRepository(): ThemeRepository = CoreAppearanceHelper.repository
 
-actual val nativeAppearanceModule = module {
-    single<ColorSchemeProvider> {
-        DefaultColorSchemeProvider()
+actual val nativeAppearanceModule =
+    module {
+        single<ColorSchemeProvider> {
+            DefaultColorSchemeProvider()
+        }
+        single<BarColorProvider> {
+            DefaultBarColorProvider()
+        }
     }
-    single<BarColorProvider> {
-        DefaultBarColorProvider()
-    }
-}
 
 actual fun getColorSchemeProvider(): ColorSchemeProvider = CoreAppearanceHelper.colorSchemeProvider
 
-actual fun getBarColorProvider(): BarColorProvider =
-    CoreAppearanceHelper.barColorProvider
+actual fun getBarColorProvider(): BarColorProvider = CoreAppearanceHelper.barColorProvider
 
 object CoreAppearanceHelper : KoinComponent {
     internal val repository: ThemeRepository by inject()

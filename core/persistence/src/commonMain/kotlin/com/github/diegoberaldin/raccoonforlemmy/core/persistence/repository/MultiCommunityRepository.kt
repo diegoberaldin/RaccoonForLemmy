@@ -4,9 +4,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommu
 
 interface MultiCommunityRepository {
     suspend fun getById(id: Long): MultiCommunityModel?
+
     suspend fun getAll(accountId: Long): List<MultiCommunityModel>
 
-    suspend fun create(model: MultiCommunityModel, accountId: Long): Long
+    suspend fun create(
+        model: MultiCommunityModel,
+        accountId: Long,
+    ): Long
 
     suspend fun update(model: MultiCommunityModel)
 

@@ -34,35 +34,37 @@ enum class DurationBottomSheetType {
 }
 
 class DurationBottomSheet(
-    private val values: List<Duration> = listOf(
-        1.seconds,
-        2.seconds,
-        3.seconds,
-        5.seconds,
-        10.seconds,
-    ),
+    private val values: List<Duration> =
+        listOf(
+            1.seconds,
+            2.seconds,
+            3.seconds,
+            5.seconds,
+            10.seconds,
+        ),
     private val type: DurationBottomSheetType = DurationBottomSheetType.ZOMBIE_MODE_INTERVAL,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            val title = when (type) {
-                DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
-                DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
-            }
+            val title =
+                when (type) {
+                    DurationBottomSheetType.ZOMBIE_MODE_INTERVAL -> LocalXmlStrings.current.settingsZombieModeInterval
+                    DurationBottomSheetType.INBOX_CHECK_PERIOD -> LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod
+                }
             BottomSheetHeader(title)
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
@@ -70,33 +72,36 @@ class DurationBottomSheet(
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event = when (type) {
-                                        DurationBottomSheetType.ZOMBIE_MODE_INTERVAL ->
-                                            NotificationCenterEvent.ChangeZombieInterval(value)
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event =
+                                            when (type) {
+                                                DurationBottomSheetType.ZOMBIE_MODE_INTERVAL ->
+                                                    NotificationCenterEvent.ChangeZombieInterval(value)
 
-                                        DurationBottomSheetType.INBOX_CHECK_PERIOD ->
-                                            NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod(value)
-                                    }
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                                                DurationBottomSheetType.INBOX_CHECK_PERIOD ->
+                                                    NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod(value)
+                                            }
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = value.getPrettyDuration(
-                                secondsLabel = LocalXmlStrings.current.postSecondShort,
-                                minutesLabel = LocalXmlStrings.current.postMinuteShort,
-                                hoursLabel = LocalXmlStrings.current.postHourShort,
-                            ),
+                            text =
+                                value.getPrettyDuration(
+                                    secondsLabel = LocalXmlStrings.current.postSecondShort,
+                                    minutesLabel = LocalXmlStrings.current.postMinuteShort,
+                                    hoursLabel = LocalXmlStrings.current.postHourShort,
+                                ),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

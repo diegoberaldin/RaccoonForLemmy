@@ -14,16 +14,20 @@ fun Modifier.onClick(
     onClick: () -> Unit = {},
     onDoubleClick: () -> Unit = {},
     onLongClick: () -> Unit = {},
-): Modifier = combinedClickable(
-    indication = null,
-    interactionSource = remember { MutableInteractionSource() },
-    onClick = rememberCallback(key) {
-        onClick()
-    },
-    onDoubleClick = rememberCallback(key) {
-        onDoubleClick()
-    },
-    onLongClick = rememberCallback(key) {
-        onLongClick()
-    },
-)
+): Modifier =
+    combinedClickable(
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() },
+        onClick =
+            rememberCallback(key) {
+                onClick()
+            },
+        onDoubleClick =
+            rememberCallback(key) {
+                onDoubleClick()
+            },
+        onLongClick =
+            rememberCallback(key) {
+                onLongClick()
+            },
+    )

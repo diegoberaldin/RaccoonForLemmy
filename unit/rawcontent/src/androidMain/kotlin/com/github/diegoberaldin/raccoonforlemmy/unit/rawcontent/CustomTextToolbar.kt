@@ -41,26 +41,27 @@ class CustomTextToolbar(
     ) {
         if (actionMode == null) {
             status = TextToolbarStatus.Shown
-            actionMode = view.startActionMode(
-                CustomTextActionModeCallback(
-                    rect = rect,
-                    isLogged = isLogged,
-                    quoteActionLabel = quoteActionLabel,
-                    shareActionLabel = shareActionLabel,
-                    onCopy = {
-                        onCopyRequested?.invoke()
-                    },
-                    onShare = {
-                        onCopyRequested?.invoke()
-                        onShare()
-                    },
-                    onQuote = {
-                        onCopyRequested?.invoke()
-                        onQuote()
-                    },
-                ),
-                ActionMode.TYPE_FLOATING,
-            )
+            actionMode =
+                view.startActionMode(
+                    CustomTextActionModeCallback(
+                        rect = rect,
+                        isLogged = isLogged,
+                        quoteActionLabel = quoteActionLabel,
+                        shareActionLabel = shareActionLabel,
+                        onCopy = {
+                            onCopyRequested?.invoke()
+                        },
+                        onShare = {
+                            onCopyRequested?.invoke()
+                            onShare()
+                        },
+                        onQuote = {
+                            onCopyRequested?.invoke()
+                            onQuote()
+                        },
+                    ),
+                    ActionMode.TYPE_FLOATING,
+                )
         } else {
             actionMode?.invalidate()
             actionMode = null
@@ -77,8 +78,10 @@ private class CustomTextActionModeCallback(
     private val onShare: () -> Unit,
     private val onQuote: () -> Unit,
 ) : ActionMode.Callback2() {
-
-    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+    override fun onCreateActionMode(
+        mode: ActionMode?,
+        menu: Menu?,
+    ): Boolean {
         menu?.apply {
             if (isLogged) {
                 add(
@@ -104,27 +107,34 @@ private class CustomTextActionModeCallback(
         return true
     }
 
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = false
+    override fun onPrepareActionMode(
+        mode: ActionMode?,
+        menu: Menu?,
+    ): Boolean = false
 
-    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-        val res = when (item?.itemId) {
-            ACTION_ID_COPY -> {
-                onCopy()
-                true
+    override fun onActionItemClicked(
+        mode: ActionMode?,
+        item: MenuItem?,
+    ): Boolean {
+        val res =
+            when (item?.itemId) {
+                ACTION_ID_COPY -> {
+                    onCopy()
+                    true
+                }
+
+                ACTION_ID_SEARCH -> {
+                    onShare()
+                    true
+                }
+
+                ACTION_ID_QUOTE -> {
+                    onQuote()
+                    true
+                }
+
+                else -> false
             }
-
-            ACTION_ID_SEARCH -> {
-                onShare()
-                true
-            }
-
-            ACTION_ID_QUOTE -> {
-                onQuote()
-                true
-            }
-
-            else -> false
-        }
         mode?.finish()
         return res
     }
@@ -133,7 +143,11 @@ private class CustomTextActionModeCallback(
         // no-op
     }
 
-    override fun onGetContentRect(mode: ActionMode?, view: View?, outRect: android.graphics.Rect?) {
+    override fun onGetContentRect(
+        mode: ActionMode?,
+        view: View?,
+        outRect: android.graphics.Rect?,
+    ) {
         rect.apply {
             outRect?.set(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
         }

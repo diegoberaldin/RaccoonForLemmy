@@ -11,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.service.SiteService
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.UserService
 
 interface ServiceProvider {
-
     val currentInstance: String
     val auth: AuthService
     val post: PostService

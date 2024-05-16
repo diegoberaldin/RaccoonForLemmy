@@ -26,10 +26,11 @@ internal fun LicenceItem(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
     Row(
-        modifier = modifier.padding(
-            vertical = Spacing.xs,
-            horizontal = Spacing.m,
-        ),
+        modifier =
+            modifier.padding(
+                vertical = Spacing.xs,
+                horizontal = Spacing.m,
+            ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
         verticalAlignment = Alignment.CenterVertically,
     ) {

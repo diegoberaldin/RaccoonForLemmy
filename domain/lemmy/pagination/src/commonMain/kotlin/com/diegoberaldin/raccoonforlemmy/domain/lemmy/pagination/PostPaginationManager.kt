@@ -9,7 +9,10 @@ interface PostPaginationManager {
     val history: List<PostModel>
 
     fun reset(specification: PostPaginationSpecification? = null)
+
     suspend fun loadNextPage(): List<PostModel>
+
     fun extractState(): PostPaginationManagerState
+
     fun restoreState(state: PostPaginationManagerState)
 }

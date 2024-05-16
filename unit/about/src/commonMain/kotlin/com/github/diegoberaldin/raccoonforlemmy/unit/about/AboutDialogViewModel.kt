@@ -7,7 +7,6 @@ class AboutDialogViewModel : AboutDialogMviModel,
     DefaultMviModel<AboutDialogMviModel.Intent, AboutDialogMviModel.UiState, AboutDialogMviModel.Effect>(
         initialState = AboutDialogMviModel.UiState(),
     ) {
-
     init {
         updateState {
             it.copy(

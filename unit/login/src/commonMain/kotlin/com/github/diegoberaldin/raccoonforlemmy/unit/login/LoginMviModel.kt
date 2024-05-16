@@ -9,8 +9,11 @@ interface LoginMviModel :
     ScreenModel {
     sealed interface Intent {
         data class SetInstanceName(val value: String) : Intent
+
         data class SetUsername(val value: String) : Intent
+
         data class SetPassword(val value: String) : Intent
+
         data class SetTotp2faToken(val value: String) : Intent
 
         data object Confirm : Intent
@@ -29,6 +32,7 @@ interface LoginMviModel :
 
     sealed interface Effect {
         data class LoginError(val message: String?) : Effect
+
         data object LoginSuccess : Effect
     }
 }

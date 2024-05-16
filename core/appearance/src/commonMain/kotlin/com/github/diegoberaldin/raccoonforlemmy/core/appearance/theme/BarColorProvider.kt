@@ -6,5 +6,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 
 interface BarColorProvider {
     @Composable
-    fun setBarColorAccordingToTheme(theme: UiTheme, barTheme: UiBarTheme)
+    fun setBarColorAccordingToTheme(
+        theme: UiTheme,
+        barTheme: UiBarTheme,
+    )
 }

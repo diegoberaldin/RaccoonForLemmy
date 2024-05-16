@@ -29,460 +29,514 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
 class DefaultCommunityRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
     private val communityService = mockk<CommunityService>()
     private val searchService = mockk<SearchService>()
     private val siteService = mockk<SiteService>()
-    private val serviceProvider = mockk<ServiceProvider> {
-        every { community } returns communityService
-        every { search } returns searchService
-        every { site } returns siteService
-    }
-    private val customServiceProvider = mockk<ServiceProvider>(relaxUnitFun = true) {
-        every { community } returns communityService
-        every { search } returns searchService
-        every { site } returns siteService
-    }
-    private val sut = DefaultCommunityRepository(
-        services = serviceProvider,
-        customServices = customServiceProvider,
-    )
-
-    @Test
-    fun givenSuccess_whenSearch_thenResultIsAsExpected() = runTest {
-        coEvery {
-            searchService.search(
-                authHeader = any(),
-                auth = any(),
-                q = any(),
-                communityId = any(),
-                communityName = any(),
-                creatorId = any(),
-                type = any(),
-                sort = any(),
-                listingType = any(),
-                page = any(),
-                limit = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns SearchResponse(
-                type = SearchType.Communities,
-                comments = emptyList(),
-                posts = emptyList(),
-                communities = listOf(
-                    mockk(relaxed = true),
-                ),
-                users = emptyList(),
-            )
+    private val serviceProvider =
+        mockk<ServiceProvider> {
+            every { community } returns communityService
+            every { search } returns searchService
+            every { site } returns siteService
         }
-
-        val token = "fake-token"
-        val query = "q"
-        val res = sut.search(
-            query = query,
-            auth = token,
-            page = 1,
-            limit = 20,
-            listingType = ListingType.All,
-            sortType = SortType.Active,
-            resultType = SearchResultType.Communities,
+    private val customServiceProvider =
+        mockk<ServiceProvider>(relaxUnitFun = true) {
+            every { community } returns communityService
+            every { search } returns searchService
+            every { site } returns siteService
+        }
+    private val sut =
+        DefaultCommunityRepository(
+            services = serviceProvider,
+            customServices = customServiceProvider,
         )
 
-        assertEquals(1, res.size)
-        assertIs<SearchResult.Community>(res.first())
-        coVerify {
-            customServiceProvider wasNot Called
-            searchService.search(
-                authHeader = token.toAuthHeader(),
-                auth = token,
-                q = query,
-                communityId = null,
-                communityName = null,
-                creatorId = null,
-                type = SearchType.Communities,
-                sort = SortType.Active.toDto(),
-                listingType = ListingType.All.toDto(),
-                page = 1,
-                limit = 20,
-            )
-        }
-    }
-
     @Test
-    fun givenSuccess_whenGetList_thenResultIsAsExpected() = runTest {
-        coEvery {
-            communityService.getAll(
-                authHeader = any(),
-                auth = any(),
-                sort = any(),
-                page = any(),
-                limit = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { communities } returns listOf(
-                    mockk(relaxed = true),
+    fun givenSuccess_whenSearch_thenResultIsAsExpected() =
+        runTest {
+            coEvery {
+                searchService.search(
+                    authHeader = any(),
+                    auth = any(),
+                    q = any(),
+                    communityId = any(),
+                    communityName = any(),
+                    creatorId = any(),
+                    type = any(),
+                    sort = any(),
+                    listingType = any(),
+                    page = any(),
+                    limit = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        SearchResponse(
+                            type = SearchType.Communities,
+                            comments = emptyList(),
+                            posts = emptyList(),
+                            communities =
+                                listOf(
+                                    mockk(relaxed = true),
+                                ),
+                            users = emptyList(),
+                        )
+                }
+
+            val token = "fake-token"
+            val query = "q"
+            val res =
+                sut.search(
+                    query = query,
+                    auth = token,
+                    page = 1,
+                    limit = 20,
+                    listingType = ListingType.All,
+                    sortType = SortType.Active,
+                    resultType = SearchResultType.Communities,
+                )
+
+            assertEquals(1, res.size)
+            assertIs<SearchResult.Community>(res.first())
+            coVerify {
+                customServiceProvider wasNot Called
+                searchService.search(
+                    authHeader = token.toAuthHeader(),
+                    auth = token,
+                    q = query,
+                    communityId = null,
+                    communityName = null,
+                    creatorId = null,
+                    type = SearchType.Communities,
+                    sort = SortType.Active.toDto(),
+                    listingType = ListingType.All.toDto(),
+                    page = 1,
+                    limit = 20,
                 )
             }
         }
 
-        val otherInstance = "other-instance"
-        val res = sut.getList(
-            page = 1,
-            instance = otherInstance,
-            limit = 20,
-            sortType = SortType.Active,
-        )
-
-        assertEquals(1, res.size)
-        coVerify {
-            serviceProvider wasNot Called
-            customServiceProvider.changeInstance(otherInstance)
-            customServiceProvider.community
-            communityService.getAll(
-                authHeader = null,
-                auth = null,
-                page = 1,
-                showNsfw = any(),
-                limit = 20,
-                sort = SortType.Active.toDto(),
-            )
-        }
-    }
-
     @Test
-    fun givenSuccess_whenGetResolved_thenResultIsAsExpected() = runTest {
-        coEvery {
-            searchService.resolveObject(
-                authHeader = any(),
-                q = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { community } returns mockk(relaxed = true)
+    fun givenSuccess_whenGetList_thenResultIsAsExpected() =
+        runTest {
+            coEvery {
+                communityService.getAll(
+                    authHeader = any(),
+                    auth = any(),
+                    sort = any(),
+                    page = any(),
+                    limit = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { communities } returns
+                                listOf(
+                                    mockk(relaxed = true),
+                                )
+                        }
+                }
+
+            val otherInstance = "other-instance"
+            val res =
+                sut.getList(
+                    page = 1,
+                    instance = otherInstance,
+                    limit = 20,
+                    sortType = SortType.Active,
+                )
+
+            assertEquals(1, res.size)
+            coVerify {
+                serviceProvider wasNot Called
+                customServiceProvider.changeInstance(otherInstance)
+                customServiceProvider.community
+                communityService.getAll(
+                    authHeader = null,
+                    auth = null,
+                    page = 1,
+                    showNsfw = any(),
+                    limit = 20,
+                    sort = SortType.Active.toDto(),
+                )
             }
         }
 
-        val token = "fake-token"
-        val query = "q"
-        val res = sut.getResolved(
-            query = query,
-            auth = token,
-        )
-
-        assertNotNull(res)
-        coVerify {
-            searchService.resolveObject(
-                authHeader = token.toAuthHeader(),
-                q = query,
-            )
-        }
-    }
-
     @Test
-    fun givenSuccess_whenGetSubscribed_thenResultIsAsExpected() = runTest {
-        coEvery {
-            siteService.get(
-                authHeader = any(),
-                auth = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { myUser } returns mockk {
-                    every { follows } returns listOf(
+    fun givenSuccess_whenGetResolved_thenResultIsAsExpected() =
+        runTest {
+            coEvery {
+                searchService.resolveObject(
+                    authHeader = any(),
+                    q = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
                         mockk {
                             every { community } returns mockk(relaxed = true)
-                        },
-                    )
+                        }
                 }
-            }
-        }
-
-        val token = "fake-token"
-        val res = sut.getSubscribed(
-            auth = token,
-        )
-
-        assertEquals(1, res.size)
-        coVerify {
-            siteService.get(
-                auth = token,
-                authHeader = token.toAuthHeader(),
-            )
-        }
-    }
-
-    @Test
-    fun givenSuccess_whenGet_thenResultIsAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.get(
-                authHeader = any(),
-                auth = any(),
-                id = any(),
-                name = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { communityView } returns mockk(relaxed = true) {
-                    every { community } returns mockk(relaxed = true) {
-                        every { id } returns communityId
-                    }
-                }
-            }
-        }
-
-        val token = "fake-token"
-        val res = sut.get(
-            auth = token,
-            id = communityId,
-        )
-
-        assertNotNull(res)
-        assertEquals(communityId, res.id)
-        coVerify {
-            communityService.get(
-                id = communityId,
-                name = null,
-                auth = token,
-                authHeader = token.toAuthHeader(),
-            )
-        }
-    }
-
-    @Test
-    fun givenSuccess_whenGetModerators_thenResultIsAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.get(
-                authHeader = any(),
-                auth = any(),
-                id = any(),
-                name = any(),
-            )
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { communityView } returns mockk(relaxed = true) {
-                    every { community } returns mockk(relaxed = true) {
-                        every { id } returns communityId
-                        every { moderators } returns listOf(mockk(relaxed = true))
-                    }
-                }
-            }
-        }
-
-        val token = "fake-token"
-        val res = sut.getModerators(
-            auth = token,
-            id = communityId,
-        )
-
-        assertEquals(1, res.size)
-        coVerify {
-            communityService.get(
-                id = communityId,
-                name = null,
-                auth = token,
-                authHeader = token.toAuthHeader(),
-            )
-        }
-    }
-
-    @Test
-    fun givenSuccess_whenSubscribe_thenResultIsAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.follow(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { communityView } returns mockk(relaxed = true) {
-                    every { community } returns mockk(relaxed = true) {
-                        every { id } returns communityId
-                    }
-                }
-            }
-        }
-
-        val token = "fake-token"
-        val res = sut.subscribe(
-            auth = token,
-            id = communityId,
-        )
-
-        assertNotNull(res)
-        assertEquals(communityId, res.id)
-        coVerify {
-            communityService.follow(
-                authHeader = token.toAuthHeader(),
-                withArg { data ->
-                    assertEquals(communityId, data.communityId)
-                    assertTrue(data.follow)
-                },
-            )
-        }
-    }
-
-    @Test
-    fun givenSuccess_whenUnsubscribe_thenResultIsAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.follow(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk {
-                every { communityView } returns mockk(relaxed = true) {
-                    every { community } returns mockk(relaxed = true) {
-                        every { id } returns communityId
-                    }
-                }
-            }
-        }
-
-        val token = "fake-token"
-        val res = sut.unsubscribe(
-            auth = token,
-            id = communityId,
-        )
-
-        assertNotNull(res)
-        assertEquals(communityId, res.id)
-        coVerify {
-            communityService.follow(
-                authHeader = token.toAuthHeader(),
-                withArg { data ->
-                    assertEquals(communityId, data.communityId)
-                    assertFalse(data.follow)
-                },
-            )
-        }
-    }
-
-    @Test
-    fun givenSuccess_whenBlock_thenResultIsAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.block(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk()
 
             val token = "fake-token"
-            sut.block(
-                auth = token,
-                id = communityId,
-                blocked = true,
-            )
+            val query = "q"
+            val res =
+                sut.getResolved(
+                    query = query,
+                    auth = token,
+                )
 
+            assertNotNull(res)
             coVerify {
-                communityService.block(
+                searchService.resolveObject(
+                    authHeader = token.toAuthHeader(),
+                    q = query,
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenGetSubscribed_thenResultIsAsExpected() =
+        runTest {
+            coEvery {
+                siteService.get(
+                    authHeader = any(),
+                    auth = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { myUser } returns
+                                mockk {
+                                    every { follows } returns
+                                        listOf(
+                                            mockk {
+                                                every { community } returns mockk(relaxed = true)
+                                            },
+                                        )
+                                }
+                        }
+                }
+
+            val token = "fake-token"
+            val res =
+                sut.getSubscribed(
+                    auth = token,
+                )
+
+            assertEquals(1, res.size)
+            coVerify {
+                siteService.get(
+                    auth = token,
+                    authHeader = token.toAuthHeader(),
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenGet_thenResultIsAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.get(
+                    authHeader = any(),
+                    auth = any(),
+                    id = any(),
+                    name = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { communityView } returns
+                                mockk(relaxed = true) {
+                                    every { community } returns
+                                        mockk(relaxed = true) {
+                                            every { id } returns communityId
+                                        }
+                                }
+                        }
+                }
+
+            val token = "fake-token"
+            val res =
+                sut.get(
+                    auth = token,
+                    id = communityId,
+                )
+
+            assertNotNull(res)
+            assertEquals(communityId, res.id)
+            coVerify {
+                communityService.get(
+                    id = communityId,
+                    name = null,
+                    auth = token,
+                    authHeader = token.toAuthHeader(),
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenGetModerators_thenResultIsAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.get(
+                    authHeader = any(),
+                    auth = any(),
+                    id = any(),
+                    name = any(),
+                )
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { communityView } returns
+                                mockk(relaxed = true) {
+                                    every { community } returns
+                                        mockk(relaxed = true) {
+                                            every { id } returns communityId
+                                            every { moderators } returns listOf(mockk(relaxed = true))
+                                        }
+                                }
+                        }
+                }
+
+            val token = "fake-token"
+            val res =
+                sut.getModerators(
+                    auth = token,
+                    id = communityId,
+                )
+
+            assertEquals(1, res.size)
+            coVerify {
+                communityService.get(
+                    id = communityId,
+                    name = null,
+                    auth = token,
+                    authHeader = token.toAuthHeader(),
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenSubscribe_thenResultIsAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.follow(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { communityView } returns
+                                mockk(relaxed = true) {
+                                    every { community } returns
+                                        mockk(relaxed = true) {
+                                            every { id } returns communityId
+                                        }
+                                }
+                        }
+                }
+
+            val token = "fake-token"
+            val res =
+                sut.subscribe(
+                    auth = token,
+                    id = communityId,
+                )
+
+            assertNotNull(res)
+            assertEquals(communityId, res.id)
+            coVerify {
+                communityService.follow(
                     authHeader = token.toAuthHeader(),
                     withArg { data ->
                         assertEquals(communityId, data.communityId)
-                        assertTrue(data.block)
+                        assertTrue(data.follow)
                     },
                 )
             }
         }
-    }
 
     @Test
-    fun givenSuccess_whenBanUser_thenInteractionsAreAsExpected() = runTest {
-        val communityId = 1L
-        val userId = 2L
-        coEvery {
-            communityService.ban(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk()
-        }
+    fun givenSuccess_whenUnsubscribe_thenResultIsAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.follow(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns
+                        mockk {
+                            every { communityView } returns
+                                mockk(relaxed = true) {
+                                    every { community } returns
+                                        mockk(relaxed = true) {
+                                            every { id } returns communityId
+                                        }
+                                }
+                        }
+                }
 
-        val token = "fake-token"
-        sut.banUser(
-            auth = token,
-            communityId = communityId,
-            userId = userId,
-            ban = true,
-        )
+            val token = "fake-token"
+            val res =
+                sut.unsubscribe(
+                    auth = token,
+                    id = communityId,
+                )
 
-        coVerify {
-            communityService.ban(
-                authHeader = token.toAuthHeader(),
-                withArg { data ->
-                    assertEquals(communityId, data.communityId)
-                    assertEquals(userId, data.personId)
-                    assertTrue(data.ban)
-                },
-            )
+            assertNotNull(res)
+            assertEquals(communityId, res.id)
+            coVerify {
+                communityService.follow(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(communityId, data.communityId)
+                        assertFalse(data.follow)
+                    },
+                )
+            }
         }
-    }
 
     @Test
-    fun givenSuccess_whenAddModerator_thenInteractionsAreAsExpected() = runTest {
-        val communityId = 1L
-        val userId = 2L
-        coEvery {
-            communityService.addMod(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk()
-        }
+    fun givenSuccess_whenBlock_thenResultIsAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.block(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns mockk()
 
-        val token = "fake-token"
-        sut.addModerator(
-            auth = token,
-            communityId = communityId,
-            userId = userId,
-            added = true,
-        )
+                    val token = "fake-token"
+                    sut.block(
+                        auth = token,
+                        id = communityId,
+                        blocked = true,
+                    )
 
-        coVerify {
-            communityService.addMod(
-                authHeader = token.toAuthHeader(),
-                withArg { data ->
-                    assertEquals(communityId, data.communityId)
-                    assertEquals(userId, data.personId)
-                    assertTrue(data.added)
-                },
-            )
+                    coVerify {
+                        communityService.block(
+                            authHeader = token.toAuthHeader(),
+                            withArg { data ->
+                                assertEquals(communityId, data.communityId)
+                                assertTrue(data.block)
+                            },
+                        )
+                    }
+                }
         }
-    }
 
     @Test
-    fun givenSuccess_whenUpdate_thenInteractionsAreAsExpected() = runTest {
-        val communityId = 1L
-        coEvery {
-            communityService.edit(any(), any())
-        } returns mockk {
-            every { isSuccessful } returns true
-            every { body() } returns mockk()
-        }
+    fun givenSuccess_whenBanUser_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            val userId = 2L
+            coEvery {
+                communityService.ban(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns mockk()
+                }
 
-        val token = "fake-token"
-        val newName = "fake-community-name"
-        val data = CommunityModel(id = communityId, name = newName)
-        sut.update(
-            auth = token,
-            community = data,
-        )
-
-        coVerify {
-            communityService.edit(
-                authHeader = token.toAuthHeader(),
-                withArg { data ->
-                    assertEquals(communityId, data.communityId)
-                    assertEquals(newName, data.title)
-                },
+            val token = "fake-token"
+            sut.banUser(
+                auth = token,
+                communityId = communityId,
+                userId = userId,
+                ban = true,
             )
+
+            coVerify {
+                communityService.ban(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(communityId, data.communityId)
+                        assertEquals(userId, data.personId)
+                        assertTrue(data.ban)
+                    },
+                )
+            }
         }
-    }
+
+    @Test
+    fun givenSuccess_whenAddModerator_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            val userId = 2L
+            coEvery {
+                communityService.addMod(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns mockk()
+                }
+
+            val token = "fake-token"
+            sut.addModerator(
+                auth = token,
+                communityId = communityId,
+                userId = userId,
+                added = true,
+            )
+
+            coVerify {
+                communityService.addMod(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(communityId, data.communityId)
+                        assertEquals(userId, data.personId)
+                        assertTrue(data.added)
+                    },
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenUpdate_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.edit(any(), any())
+            } returns
+                mockk {
+                    every { isSuccessful } returns true
+                    every { body() } returns mockk()
+                }
+
+            val token = "fake-token"
+            val newName = "fake-community-name"
+            val data = CommunityModel(id = communityId, name = newName)
+            sut.update(
+                auth = token,
+                community = data,
+            )
+
+            coVerify {
+                communityService.edit(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(communityId, data.communityId)
+                        assertEquals(newName, data.title)
+                    },
+                )
+            }
+        }
 }

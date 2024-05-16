@@ -31,16 +31,17 @@ fun SettingsImageInfo(
 ) {
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                vertical = Spacing.xs,
-                horizontal = Spacing.m,
-            ).onClick(
-                onClick = {
-                    onEdit?.invoke()
-                },
-            ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = Spacing.xs,
+                    horizontal = Spacing.m,
+                ).onClick(
+                    onClick = {
+                        onEdit?.invoke()
+                    },
+                ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),

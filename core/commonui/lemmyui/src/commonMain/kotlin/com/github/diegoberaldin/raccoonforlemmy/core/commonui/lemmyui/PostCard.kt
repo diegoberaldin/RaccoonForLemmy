@@ -90,36 +90,38 @@ fun PostCard(
 ) {
     val markRead = post.read && fadeRead
     Box(
-        modifier = modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .shadow(
-                        elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    )
-                    .padding(vertical = Spacing.s)
-            } else {
-                Modifier
-            },
-        ).onClick(
-            onClick = onClick ?: {},
-            onDoubleClick = onDoubleClick ?: {},
-        ),
+        modifier =
+            modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .shadow(
+                            elevation = 5.dp,
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        )
+                        .padding(vertical = Spacing.s)
+                } else {
+                    Modifier
+                },
+            ).onClick(
+                onClick = onClick ?: {},
+                onDoubleClick = onDoubleClick ?: {},
+            ),
     ) {
         if (postLayout != PostLayout.Compact) {
             ExtendedPost(
                 post = post,
                 isFromModerator = isFromModerator,
                 hideAuthor = hideAuthor,
-                backgroundColor = when (postLayout) {
-                    PostLayout.Card -> MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp)
-                    else -> MaterialTheme.colorScheme.background
-                },
+                backgroundColor =
+                    when (postLayout) {
+                        PostLayout.Card -> MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp)
+                        else -> MaterialTheme.colorScheme.background
+                    },
                 showBody = includeFullBody || postLayout == PostLayout.Full,
                 limitBodyHeight = limitBodyHeight,
                 voteFormat = voteFormat,
@@ -218,19 +220,20 @@ private fun CompactPost(
         post.url.orEmpty().takeIf { !it.looksLikeAnImage && !it.looksLikeAVideo }.orEmpty()
 
     Column(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = Spacing.xs)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onLongPress = {
-                        optionsMenuOpen.value = true
-                    },
-                    onTap = {
-                        onClick?.invoke()
-                    },
-                )
-            },
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.background)
+                .padding(horizontal = Spacing.xs)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onLongPress = {
+                            optionsMenuOpen.value = true
+                        },
+                        onTap = {
+                            onClick?.invoke()
+                        },
+                    )
+                },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
@@ -242,18 +245,21 @@ private fun CompactPost(
             locked = post.locked,
             markRead = markRead,
             isFromModerator = isFromModerator,
-            onOpenCommunity = rememberCallbackArgs { community ->
-                onOpenCommunity?.invoke(community, "")
-            },
-            onOpenCreator = rememberCallbackArgs { user ->
-                onOpenCreator?.invoke(user, "")
-            },
+            onOpenCommunity =
+                rememberCallbackArgs { community ->
+                    onOpenCommunity?.invoke(community, "")
+                },
+            onOpenCreator =
+                rememberCallbackArgs { user ->
+                    onOpenCreator?.invoke(user, "")
+                },
             autoLoadImages = autoLoadImages,
             preferNicknames = preferNicknames,
             onDoubleClick = onDoubleClick,
-            onLongClick = rememberCallback {
-                optionsMenuOpen.value = true
-            },
+            onLongClick =
+                rememberCallback {
+                    optionsMenuOpen.value = true
+                },
         )
         Row(
             modifier = Modifier.padding(horizontal = Spacing.xs),
@@ -281,42 +287,45 @@ private fun CompactPost(
 
             if (post.videoUrl.isNotEmpty()) {
                 PostCardVideo(
-                    modifier = Modifier
-                        .weight(0.25f)
-                        .padding(vertical = Spacing.xxs),
+                    modifier =
+                        Modifier
+                            .weight(0.25f)
+                            .padding(vertical = Spacing.xxs),
                     url = post.videoUrl,
                     blurred = blurNsfw && post.nsfw,
                     autoLoadImages = autoLoadImages,
-                    onOpen = rememberCallback {
-                        if (postLinkUrl.isNotEmpty()) {
-                            navigationCoordinator.handleUrl(
-                                url = postLinkUrl,
-                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                                uriHandler = uriHandler,
-                                customTabsHelper = customTabsHelper,
-                                onOpenWeb = onOpenWeb,
-                                onOpenCommunity = onOpenCommunity,
-                                onOpenPost = onOpenPost,
-                                onOpenUser = onOpenCreator,
-                            )
-                        } else {
-                            onClick?.invoke()
-                        }
-                    },
+                    onOpen =
+                        rememberCallback {
+                            if (postLinkUrl.isNotEmpty()) {
+                                navigationCoordinator.handleUrl(
+                                    url = postLinkUrl,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                                    uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
+                                    onOpenWeb = onOpenWeb,
+                                    onOpenCommunity = onOpenCommunity,
+                                    onOpenPost = onOpenPost,
+                                    onOpenUser = onOpenCreator,
+                                )
+                            } else {
+                                onClick?.invoke()
+                            }
+                        },
                 )
             } else {
                 PostCardImage(
-                    modifier = Modifier
-                        .weight(0.25f)
-                        .then(
-                            if (fullHeightImage) {
-                                Modifier
-                            } else {
-                                Modifier.aspectRatio(1f)
-                            },
-                        )
-                        .padding(vertical = Spacing.xs)
-                        .clip(RoundedCornerShape(CornerSize.s)),
+                    modifier =
+                        Modifier
+                            .weight(0.25f)
+                            .then(
+                                if (fullHeightImage) {
+                                    Modifier
+                                } else {
+                                    Modifier.aspectRatio(1f)
+                                },
+                            )
+                            .padding(vertical = Spacing.xs)
+                            .clip(RoundedCornerShape(CornerSize.s)),
                     minHeight = Dp.Unspecified,
                     maxHeight = Dp.Unspecified,
                     imageUrl = post.imageUrl,
@@ -325,43 +334,47 @@ private fun CompactPost(
                         Icon(imageVector = Icons.Default.Download, contentDescription = null)
                     },
                     blurred = blurNsfw && post.nsfw,
-                    onImageClick = rememberCallbackArgs { url ->
-                        if (postLinkUrl.isNotEmpty()) {
-                            navigationCoordinator.handleUrl(
-                                url = postLinkUrl,
-                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                                uriHandler = uriHandler,
-                                customTabsHelper = customTabsHelper,
-                                onOpenWeb = onOpenWeb,
-                                onOpenCommunity = onOpenCommunity,
-                                onOpenPost = onOpenPost,
-                                onOpenUser = onOpenCreator,
-                            )
-                        } else {
-                            onOpenImage?.invoke(url)
-                        }
-                    },
+                    onImageClick =
+                        rememberCallbackArgs { url ->
+                            if (postLinkUrl.isNotEmpty()) {
+                                navigationCoordinator.handleUrl(
+                                    url = postLinkUrl,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                                    uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
+                                    onOpenWeb = onOpenWeb,
+                                    onOpenCommunity = onOpenCommunity,
+                                    onOpenPost = onOpenPost,
+                                    onOpenUser = onOpenCreator,
+                                )
+                            } else {
+                                onOpenImage?.invoke(url)
+                            }
+                        },
                     onDoubleClick = onDoubleClick,
-                    onLongClick = rememberCallback {
-                        optionsMenuOpen.value = true
-                    },
+                    onLongClick =
+                        rememberCallback {
+                            optionsMenuOpen.value = true
+                        },
                 )
             }
         }
         PostCardFooter(
-            modifier = Modifier.padding(
-                top = Spacing.xxs,
-                start = Spacing.xs,
-                end = Spacing.xs,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.xxs,
+                    start = Spacing.xs,
+                    end = Spacing.xs,
+                ),
             markRead = markRead,
             comments = post.comments,
             voteFormat = voteFormat,
             score = post.score,
             showScores = showScores,
-            unreadComments = post.unreadComments.takeIf {
-                it != null && it > 0 && showUnreadComments && it != post.comments
-            },
+            unreadComments =
+                post.unreadComments.takeIf {
+                    it != null && it > 0 && showUnreadComments && it != post.comments
+                },
             upVotes = post.upvotes,
             downVotes = post.downvotes,
             upVoted = post.myVote > 0,
@@ -421,27 +434,29 @@ private fun ExtendedPost(
     val customTabsHelper = remember { getCustomTabsHelper() }
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val optionsMenuOpen = remember { mutableStateOf(false) }
-    val postLinkUrl = post.url.orEmpty().takeIf {
-        it != post.imageUrl &&
-            it != post.videoUrl &&
-            !it.looksLikeAnImage &&
-            !it.looksLikeAVideo &&
-            !it.showInEmbeddedWebView
-    }.orEmpty()
+    val postLinkUrl =
+        post.url.orEmpty().takeIf {
+            it != post.imageUrl &&
+                it != post.videoUrl &&
+                !it.looksLikeAnImage &&
+                !it.looksLikeAVideo &&
+                !it.showInEmbeddedWebView
+        }.orEmpty()
 
     Column(
-        modifier = modifier
-            .background(backgroundColor)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onLongPress = {
-                        optionsMenuOpen.value = true
-                    },
-                    onTap = {
-                        onClick?.invoke()
-                    },
-                )
-            },
+        modifier =
+            modifier
+                .background(backgroundColor)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onLongPress = {
+                            optionsMenuOpen.value = true
+                        },
+                        onTap = {
+                            onClick?.invoke()
+                        },
+                    )
+                },
         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
     ) {
         CommunityAndCreatorInfo(
@@ -453,25 +468,29 @@ private fun ExtendedPost(
             locked = post.locked,
             markRead = markRead,
             isFromModerator = isFromModerator,
-            onOpenCommunity = rememberCallbackArgs { community ->
-                onOpenCommunity?.invoke(community, "")
-            },
-            onOpenCreator = rememberCallbackArgs { user ->
-                onOpenCreator?.invoke(user, "")
-            },
+            onOpenCommunity =
+                rememberCallbackArgs { community ->
+                    onOpenCommunity?.invoke(community, "")
+                },
+            onOpenCreator =
+                rememberCallbackArgs { user ->
+                    onOpenCreator?.invoke(user, "")
+                },
             autoLoadImages = autoLoadImages,
             preferNicknames = preferNicknames,
             onDoubleClick = onDoubleClick,
-            onLongClick = rememberCallback {
-                optionsMenuOpen.value = true
-            },
+            onLongClick =
+                rememberCallback {
+                    optionsMenuOpen.value = true
+                },
         )
         CustomizedContent(ContentFontClass.Title) {
             PostCardTitle(
-                modifier = Modifier.padding(
-                    vertical = Spacing.xs,
-                    horizontal = Spacing.s,
-                ),
+                modifier =
+                    Modifier.padding(
+                        vertical = Spacing.xs,
+                        horizontal = Spacing.s,
+                    ),
                 text = post.title,
                 markRead = markRead,
                 bolder = showBody,
@@ -483,19 +502,21 @@ private fun ExtendedPost(
                 onClick = onClick,
                 onOpenImage = onOpenImage,
                 onDoubleClick = onDoubleClick,
-                onLongClick = rememberCallback {
-                    optionsMenuOpen.value = true
-                },
+                onLongClick =
+                    rememberCallback {
+                        optionsMenuOpen.value = true
+                    },
             )
         }
 
         if (post.embeddedUrl.isNotEmpty()) {
             PostCardEmbeddedWebView(
-                modifier = Modifier
-                    .padding(
-                        vertical = Spacing.xxs,
-                        horizontal = if (fullWidthImage) 0.dp else Spacing.s,
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            vertical = Spacing.xxs,
+                            horizontal = if (fullWidthImage) 0.dp else Spacing.s,
+                        ),
                 blurred = blurNsfw && post.nsfw,
                 autoLoadImages = autoLoadImages,
                 url = post.embeddedUrl,
@@ -518,11 +539,12 @@ private fun ExtendedPost(
             )
         } else if (post.videoUrl.isNotEmpty()) {
             PostCardVideo(
-                modifier = Modifier
-                    .padding(
-                        vertical = Spacing.xxs,
-                        horizontal = if (fullWidthImage) 0.dp else Spacing.s,
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            vertical = Spacing.xxs,
+                            horizontal = if (fullWidthImage) 0.dp else Spacing.s,
+                        ),
                 url = post.videoUrl,
                 blurred = blurNsfw && post.nsfw,
                 autoLoadImages = autoLoadImages,
@@ -546,42 +568,44 @@ private fun ExtendedPost(
             )
         } else {
             PostCardImage(
-                modifier = Modifier
-                    .padding(
-                        vertical = Spacing.xs,
-                        horizontal = if (fullWidthImage) 0.dp else Spacing.s,
-                    )
-                    .then(
-                        if (roundedCornerImage && !fullWidthImage) {
-                            Modifier.clip(RoundedCornerShape(CornerSize.xl))
-                        } else {
-                            Modifier
-                        },
-                    ).then(
-                        if (fullHeightImage) {
-                            Modifier
-                        } else {
-                            Modifier.heightIn(max = 200.dp)
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            vertical = Spacing.xs,
+                            horizontal = if (fullWidthImage) 0.dp else Spacing.s,
+                        )
+                        .then(
+                            if (roundedCornerImage && !fullWidthImage) {
+                                Modifier.clip(RoundedCornerShape(CornerSize.xl))
+                            } else {
+                                Modifier
+                            },
+                        ).then(
+                            if (fullHeightImage) {
+                                Modifier
+                            } else {
+                                Modifier.heightIn(max = 200.dp)
+                            },
+                        ),
                 imageUrl = post.imageUrl,
                 blurred = blurNsfw && post.nsfw,
-                onImageClick = rememberCallbackArgs { url ->
-                    if (postLinkUrl.isNotEmpty()) {
-                        navigationCoordinator.handleUrl(
-                            url = postLinkUrl,
-                            openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                            uriHandler = uriHandler,
-                            customTabsHelper = customTabsHelper,
-                            onOpenWeb = onOpenWeb,
-                            onOpenCommunity = onOpenCommunity,
-                            onOpenPost = onOpenPost,
-                            onOpenUser = onOpenCreator,
-                        )
-                    } else {
-                        onOpenImage?.invoke(url)
-                    }
-                },
+                onImageClick =
+                    rememberCallbackArgs { url ->
+                        if (postLinkUrl.isNotEmpty()) {
+                            navigationCoordinator.handleUrl(
+                                url = postLinkUrl,
+                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                                uriHandler = uriHandler,
+                                customTabsHelper = customTabsHelper,
+                                onOpenWeb = onOpenWeb,
+                                onOpenCommunity = onOpenCommunity,
+                                onOpenPost = onOpenPost,
+                                onOpenUser = onOpenCreator,
+                            )
+                        } else {
+                            onOpenImage?.invoke(url)
+                        }
+                    },
                 onDoubleClick = onDoubleClick,
                 autoLoadImages = autoLoadImages,
                 onLongClick = {
@@ -601,17 +625,19 @@ private fun ExtendedPost(
             } else {
                 CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
-                        modifier = Modifier.padding(
-                            top = Spacing.xxs,
-                            start = Spacing.s,
-                            end = Spacing.s,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                top = Spacing.xxs,
+                                start = Spacing.s,
+                                end = Spacing.s,
+                            ),
                         text = post.text,
-                        maxLines = if (limitBodyHeight) {
-                            settings.postBodyMaxLines
-                        } else {
-                            null
-                        },
+                        maxLines =
+                            if (limitBodyHeight) {
+                                settings.postBodyMaxLines
+                            } else {
+                                null
+                            },
                         autoLoadImages = autoLoadImages,
                         markRead = markRead,
                         onClick = onClick,
@@ -630,45 +656,48 @@ private fun ExtendedPost(
         }
         if (postLinkUrl.isNotEmpty()) {
             PostLinkBanner(
-                modifier = Modifier
-                    .padding(
-                        top = Spacing.s,
-                        bottom = Spacing.xxs,
-                        start = Spacing.s,
-                        end = Spacing.s,
-                    )
-                    .onClick(
-                        onClick = {
-                            navigationCoordinator.handleUrl(
-                                url = postLinkUrl,
-                                openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                                uriHandler = uriHandler,
-                                customTabsHelper = customTabsHelper,
-                                onOpenWeb = onOpenWeb,
-                                onOpenCommunity = onOpenCommunity,
-                                onOpenPost = onOpenPost,
-                                onOpenUser = onOpenCreator,
-                            )
-                        },
-                        onDoubleClick = onDoubleClick ?: {},
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            top = Spacing.s,
+                            bottom = Spacing.xxs,
+                            start = Spacing.s,
+                            end = Spacing.s,
+                        )
+                        .onClick(
+                            onClick = {
+                                navigationCoordinator.handleUrl(
+                                    url = postLinkUrl,
+                                    openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                                    uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
+                                    onOpenWeb = onOpenWeb,
+                                    onOpenCommunity = onOpenCommunity,
+                                    onOpenPost = onOpenPost,
+                                    onOpenUser = onOpenCreator,
+                                )
+                            },
+                            onDoubleClick = onDoubleClick ?: {},
+                        ),
                 url = postLinkUrl,
             )
         }
         PostCardFooter(
-            modifier = Modifier.padding(
-                top = Spacing.xs,
-                start = Spacing.s,
-                end = Spacing.s,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.xs,
+                    start = Spacing.s,
+                    end = Spacing.s,
+                ),
             markRead = markRead,
             comments = post.comments,
             voteFormat = voteFormat,
             score = post.score,
             showScores = showScores,
-            unreadComments = post.unreadComments.takeIf {
-                it != null && it > 0 && showUnreadComments && it != post.comments
-            },
+            unreadComments =
+                post.unreadComments.takeIf {
+                    it != null && it > 0 && showUnreadComments && it != post.comments
+                },
             upVotes = post.upvotes,
             downVotes = post.downvotes,
             upVoted = post.myVote > 0,

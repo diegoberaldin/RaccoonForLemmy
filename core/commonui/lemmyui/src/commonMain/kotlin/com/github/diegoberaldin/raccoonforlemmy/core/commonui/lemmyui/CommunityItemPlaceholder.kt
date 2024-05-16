@@ -23,37 +23,41 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 @Composable
 fun CommunityItemPlaceholder() {
     Row(
-        modifier = Modifier.padding(
-            vertical = Spacing.xs,
-            horizontal = Spacing.s,
-        ),
+        modifier =
+            Modifier.padding(
+                vertical = Spacing.xs,
+                horizontal = Spacing.s,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         Box(
-            modifier = Modifier
-                .padding(Spacing.xxxs)
-                .size(IconSize.l)
-                .clip(CircleShape)
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .padding(Spacing.xxxs)
+                    .size(IconSize.l)
+                    .clip(CircleShape)
+                    .shimmerEffect(),
         )
         Column(
             modifier = Modifier.padding(start = Spacing.xs),
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect(),
+                modifier =
+                    Modifier
+                        .height(40.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(CornerSize.s))
+                        .shimmerEffect(),
             )
             Box(
-                modifier = Modifier
-                    .height(20.dp)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(CornerSize.s))
-                    .shimmerEffect(),
+                modifier =
+                    Modifier
+                        .height(20.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(CornerSize.s))
+                        .shimmerEffect(),
             )
         }
     }

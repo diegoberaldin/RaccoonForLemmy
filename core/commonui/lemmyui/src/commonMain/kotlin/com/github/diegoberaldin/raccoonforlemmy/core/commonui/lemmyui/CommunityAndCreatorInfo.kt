@@ -81,32 +81,34 @@ fun CommunityAndCreatorInfo(
         if (communityIcon.isNotEmpty()) {
             if (autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier
-                        .onClick(
-                            onClick = {
-                                if (community != null) {
-                                    onOpenCommunity?.invoke(community)
-                                }
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                        )
-                        .padding(Spacing.xxxs)
-                        .size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
+                    modifier =
+                        Modifier
+                            .onClick(
+                                onClick = {
+                                    if (community != null) {
+                                        onOpenCommunity?.invoke(community)
+                                    }
+                                },
+                                onDoubleClick = onDoubleClick ?: {},
+                            )
+                            .padding(Spacing.xxxs)
+                            .size(iconSize)
+                            .clip(RoundedCornerShape(iconSize / 2)),
                     url = communityIcon,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {
                 PlaceholderImage(
-                    modifier = Modifier.onClick(
-                        onClick = {
-                            if (community != null) {
-                                onOpenCommunity?.invoke(community)
-                            }
-                        },
-                        onDoubleClick = onDoubleClick ?: {},
-                    ),
+                    modifier =
+                        Modifier.onClick(
+                            onClick = {
+                                if (community != null) {
+                                    onOpenCommunity?.invoke(community)
+                                }
+                            },
+                            onDoubleClick = onDoubleClick ?: {},
+                        ),
                     size = IconSize.l,
                     title = communityName,
                 )
@@ -114,32 +116,34 @@ fun CommunityAndCreatorInfo(
         } else if (creatorAvatar.isNotEmpty()) {
             if (autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier
-                        .onClick(
-                            onClick = {
-                                if (creator != null) {
-                                    onOpenCreator?.invoke(creator)
-                                }
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                        )
-                        .padding(Spacing.xxxs)
-                        .size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
+                    modifier =
+                        Modifier
+                            .onClick(
+                                onClick = {
+                                    if (creator != null) {
+                                        onOpenCreator?.invoke(creator)
+                                    }
+                                },
+                                onDoubleClick = onDoubleClick ?: {},
+                            )
+                            .padding(Spacing.xxxs)
+                            .size(iconSize)
+                            .clip(RoundedCornerShape(iconSize / 2)),
                     url = creatorAvatar,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
                 )
             } else {
                 PlaceholderImage(
-                    modifier = Modifier.onClick(
-                        onClick = {
-                            if (creator != null) {
-                                onOpenCreator?.invoke(creator)
-                            }
-                        },
-                        onDoubleClick = onDoubleClick ?: {},
-                    ),
+                    modifier =
+                        Modifier.onClick(
+                            onClick = {
+                                if (creator != null) {
+                                    onOpenCreator?.invoke(creator)
+                                }
+                            },
+                            onDoubleClick = onDoubleClick ?: {},
+                        ),
                     size = iconSize,
                     title = creatorName,
                 )
@@ -151,14 +155,15 @@ fun CommunityAndCreatorInfo(
             if (community != null) {
                 CustomizedContent(ContentFontClass.AncillaryText) {
                     Text(
-                        modifier = Modifier
-                            .onClick(
-                                onClick = {
-                                    onOpenCommunity?.invoke(community)
-                                },
-                                onDoubleClick = onDoubleClick ?: {},
-                                onLongClick = onLongClick ?: {},
-                            ),
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        onOpenCommunity?.invoke(community)
+                                    },
+                                    onDoubleClick = onDoubleClick ?: {},
+                                    onLongClick = onLongClick ?: {},
+                                ),
                         text = communityName,
                         style = MaterialTheme.typography.bodySmall,
                         color = if (creator == null) ancillaryColor else fullColor,
@@ -168,14 +173,15 @@ fun CommunityAndCreatorInfo(
             if (creator != null) {
                 CustomizedContent(ContentFontClass.AncillaryText) {
                     Text(
-                        modifier = Modifier
-                            .onClick(
-                                onClick = {
-                                    onOpenCreator?.invoke(creator)
-                                },
-                                onDoubleClick = onDoubleClick ?: {},
-                                onLongClick = onLongClick ?: {},
-                            ),
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        onOpenCreator?.invoke(creator)
+                                    },
+                                    onDoubleClick = onDoubleClick ?: {},
+                                    onLongClick = onLongClick ?: {},
+                                ),
                         text = creatorName,
                         style = MaterialTheme.typography.bodySmall,
                         color = ancillaryColor,
@@ -234,13 +240,14 @@ fun CommunityAndCreatorInfo(
             )
         }
         if (indicatorExpanded != null) {
-            val expandedModifier = Modifier
-                .padding(end = Spacing.xs)
-                .onClick(
-                    onClick = {
-                        onToggleExpanded?.invoke()
-                    },
-                )
+            val expandedModifier =
+                Modifier
+                    .padding(end = Spacing.xs)
+                    .onClick(
+                        onClick = {
+                            onToggleExpanded?.invoke()
+                        },
+                    )
             if (indicatorExpanded) {
                 Icon(
                     modifier = expandedModifier,

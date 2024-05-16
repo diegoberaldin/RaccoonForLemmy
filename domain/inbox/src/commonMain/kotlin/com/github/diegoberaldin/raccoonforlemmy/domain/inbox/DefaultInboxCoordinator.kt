@@ -17,7 +17,6 @@ internal class DefaultInboxCoordinator(
     private val identityRepository: IdentityRepository,
     private val getUnreadItemsUseCase: GetUnreadItemsUseCase,
 ) : InboxCoordinator {
-
     private val scope = CoroutineScope(SupervisorJob())
 
     override val events = MutableSharedFlow<InboxCoordinator.Event>()
@@ -25,17 +24,18 @@ internal class DefaultInboxCoordinator(
     override val unreadReplies = MutableStateFlow(0)
     override val unreadMentions = MutableStateFlow(0)
     override val unreadMessages = MutableStateFlow(0)
-    override val totalUnread = combine(
-        unreadMentions,
-        unreadMessages,
-        unreadReplies,
-    ) { res1, res2, res3 ->
-        res1 + res2 + res3
-    }.stateIn(
-        scope = scope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = 0,
-    )
+    override val totalUnread =
+        combine(
+            unreadMentions,
+            unreadMessages,
+            unreadReplies,
+        ) { res1, res2, res3 ->
+            res1 + res2 + res3
+        }.stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = 0,
+        )
 
     init {
         scope.launch {

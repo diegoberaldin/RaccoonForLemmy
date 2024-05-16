@@ -70,15 +70,18 @@ fun UserHeader(
                     contentScale = ContentScale.Crop,
                 )
                 Box(
-                    modifier = Modifier.fillMaxSize().background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                                Color.Transparent,
-                                MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
-                            ),
+                    modifier =
+                        Modifier.fillMaxSize().background(
+                            brush =
+                                Brush.horizontalGradient(
+                                    colors =
+                                        listOf(
+                                            MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
+                                            Color.Transparent,
+                                            MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
+                                        ),
+                                ),
                         ),
-                    ),
                 )
             }
         }
@@ -92,14 +95,15 @@ fun UserHeader(
             val userAvatar = user.avatar.orEmpty()
             if (userAvatar.isNotEmpty() && autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier.padding(Spacing.xxxs)
-                        .size(IconSize.xxl)
-                        .clip(RoundedCornerShape(IconSize.xxl / 2))
-                        .onClick(
-                            onClick = {
-                                onOpenImage?.invoke(userAvatar)
-                            },
-                        ),
+                    modifier =
+                        Modifier.padding(Spacing.xxxs)
+                            .size(IconSize.xxl)
+                            .clip(RoundedCornerShape(IconSize.xxl / 2))
+                            .onClick(
+                                onClick = {
+                                    onOpenImage?.invoke(userAvatar)
+                                },
+                            ),
                     url = userAvatar,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
@@ -145,10 +149,11 @@ fun UserHeader(
                             contentDescription = null,
                         )
                         Text(
-                            text = postScore.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            text =
+                                postScore.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -163,10 +168,11 @@ fun UserHeader(
                             contentDescription = null,
                         )
                         Text(
-                            text = commentScore.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            text =
+                                commentScore.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -199,10 +205,11 @@ fun UserHeader(
 
                     if (onInfo != null) {
                         Icon(
-                            modifier = Modifier
-                                .padding(end = Spacing.s)
-                                .size(iconSize)
-                                .onClick(onClick = onInfo),
+                            modifier =
+                                Modifier
+                                    .padding(end = Spacing.s)
+                                    .size(iconSize)
+                                    .onClick(onClick = onInfo),
                             imageVector = Icons.Default.Info,
                             contentDescription = null,
                         )

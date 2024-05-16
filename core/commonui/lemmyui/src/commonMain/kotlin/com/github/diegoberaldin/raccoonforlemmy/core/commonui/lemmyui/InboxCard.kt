@@ -31,6 +31,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 sealed interface InboxCardType {
     data object Mention : InboxCardType
+
     data object Reply : InboxCardType
 }
 
@@ -54,27 +55,28 @@ fun InboxCard(
     onReply: (() -> Unit)? = null,
 ) {
     Box(
-        modifier = Modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .shadow(
-                        elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    )
-                    .padding(vertical = Spacing.s)
-            } else {
-                Modifier.background(MaterialTheme.colorScheme.background)
-            },
-        ).onClick(
-            onClick = {
-                onOpenPost(mention.post)
-            },
-        ),
+        modifier =
+            Modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .shadow(
+                            elevation = 5.dp,
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        )
+                        .padding(vertical = Spacing.s)
+                } else {
+                    Modifier.background(MaterialTheme.colorScheme.background)
+                },
+            ).onClick(
+                onClick = {
+                    onOpenPost(mention.post)
+                },
+            ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -94,9 +96,10 @@ fun InboxCard(
             } else {
                 CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.s,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.s,
+                            ),
                         // takes just the first line
                         text = mention.comment.text.substringBefore("\n"),
                         autoLoadImages = autoLoadImages,
@@ -108,11 +111,12 @@ fun InboxCard(
                 }
             }
             InboxReplySubtitle(
-                modifier = Modifier.padding(
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    top = Spacing.s,
-                ),
+                modifier =
+                    Modifier.padding(
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        top = Spacing.s,
+                    ),
                 creator = mention.creator,
                 community = mention.community,
                 autoLoadImages = autoLoadImages,
@@ -127,9 +131,10 @@ fun InboxCard(
                 downVoted = mention.myVote < 0,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
-                onOpenCreator = rememberCallbackArgs { user ->
-                    onOpenCreator(user)
-                },
+                onOpenCreator =
+                    rememberCallbackArgs { user ->
+                        onOpenCreator(user)
+                    },
                 onUpVote = onUpVote,
                 onDownVote = onDownVote,
                 onOptionSelected = onOptionSelected,

@@ -9,13 +9,17 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 interface BanUserMviModel :
     MviModel<BanUserMviModel.Intent, BanUserMviModel.UiState, BanUserMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class SetText(val value: String) : Intent
+
         data class ChangePermanent(val value: Boolean) : Intent
+
         data class ChangeRemoveData(val value: Boolean) : Intent
+
         data object DecrementDays : Intent
+
         data object IncrementDays : Intent
+
         data object Submit : Intent
     }
 

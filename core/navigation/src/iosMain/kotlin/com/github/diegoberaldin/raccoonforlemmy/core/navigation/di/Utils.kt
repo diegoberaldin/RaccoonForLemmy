@@ -10,7 +10,6 @@ actual fun getNavigationCoordinator() = CoreNavigationHelper.navigationCoordinat
 actual fun getDrawerCoordinator() = CoreNavigationHelper.drawerCoordinator
 
 object CoreNavigationHelper : KoinComponent {
-
     val navigationCoordinator: NavigationCoordinator by inject()
     val drawerCoordinator: DrawerCoordinator by inject()
 }

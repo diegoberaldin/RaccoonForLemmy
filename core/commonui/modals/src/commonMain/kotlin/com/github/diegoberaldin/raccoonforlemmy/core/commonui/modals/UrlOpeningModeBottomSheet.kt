@@ -29,26 +29,27 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toReadableName
 
 class UrlOpeningModeBottomSheet(
-    private val values: List<UrlOpeningMode> = listOf(
-        UrlOpeningMode.Internal,
-        UrlOpeningMode.External,
-    ),
+    private val values: List<UrlOpeningMode> =
+        listOf(
+            UrlOpeningMode.Internal,
+            UrlOpeningMode.External,
+        ),
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsOpenUrlExternal)
@@ -58,20 +59,21 @@ class UrlOpeningModeBottomSheet(
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event =
-                                        NotificationCenterEvent.ChangeUrlOpeningMode(value.toInt())
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event =
+                                            NotificationCenterEvent.ChangeUrlOpeningMode(value.toInt())
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

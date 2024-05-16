@@ -13,28 +13,35 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 
 sealed interface SearchResultType {
     data object All : SearchResultType
+
     data object Posts : SearchResultType
+
     data object Comments : SearchResultType
+
     data object Users : SearchResultType
+
     data object Communities : SearchResultType
+
     data object Urls : SearchResultType
 }
 
-fun SearchResultType.toIcon(): ImageVector = when (this) {
-    SearchResultType.All -> Icons.Default.AllInclusive
-    SearchResultType.Comments -> Icons.AutoMirrored.Default.Message
-    SearchResultType.Communities -> Icons.Default.Groups
-    SearchResultType.Posts -> Icons.AutoMirrored.Default.Article
-    SearchResultType.Users -> Icons.Default.Person
-    SearchResultType.Urls -> Icons.Default.AlternateEmail
-}
+fun SearchResultType.toIcon(): ImageVector =
+    when (this) {
+        SearchResultType.All -> Icons.Default.AllInclusive
+        SearchResultType.Comments -> Icons.AutoMirrored.Default.Message
+        SearchResultType.Communities -> Icons.Default.Groups
+        SearchResultType.Posts -> Icons.AutoMirrored.Default.Article
+        SearchResultType.Users -> Icons.Default.Person
+        SearchResultType.Urls -> Icons.Default.AlternateEmail
+    }
 
 @Composable
-fun SearchResultType.toReadableName(): String = when (this) {
-    SearchResultType.All -> LocalXmlStrings.current.exploreResultTypeAll
-    SearchResultType.Comments -> LocalXmlStrings.current.exploreResultTypeComments
-    SearchResultType.Communities -> LocalXmlStrings.current.exploreResultTypeCommunities
-    SearchResultType.Posts -> LocalXmlStrings.current.exploreResultTypePosts
-    SearchResultType.Users -> LocalXmlStrings.current.exploreResultTypeUsers
-    SearchResultType.Urls -> LocalXmlStrings.current.createPostUrl
-}
+fun SearchResultType.toReadableName(): String =
+    when (this) {
+        SearchResultType.All -> LocalXmlStrings.current.exploreResultTypeAll
+        SearchResultType.Comments -> LocalXmlStrings.current.exploreResultTypeComments
+        SearchResultType.Communities -> LocalXmlStrings.current.exploreResultTypeCommunities
+        SearchResultType.Posts -> LocalXmlStrings.current.exploreResultTypePosts
+        SearchResultType.Users -> LocalXmlStrings.current.exploreResultTypeUsers
+        SearchResultType.Urls -> LocalXmlStrings.current.createPostUrl
+    }

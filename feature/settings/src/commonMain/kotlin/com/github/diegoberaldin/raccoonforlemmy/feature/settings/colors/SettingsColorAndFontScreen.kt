@@ -57,7 +57,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class SettingsColorAndFontScreen : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -69,11 +68,12 @@ class SettingsColorAndFontScreen : Screen {
         val themeRepository = remember { getThemeRepository() }
         val scrollState = rememberScrollState()
         val colorSchemeProvider = remember { getColorSchemeProvider() }
-        val defaultTheme = if (isSystemInDarkTheme()) {
-            UiTheme.Dark
-        } else {
-            UiTheme.Light
-        }
+        val defaultTheme =
+            if (isSystemInDarkTheme()) {
+                UiTheme.Dark
+            } else {
+                UiTheme.Light
+            }
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
 
         LaunchedEffect(themeRepository) {
@@ -103,11 +103,12 @@ class SettingsColorAndFontScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            navigationCoordinator.popScreen()
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -118,9 +119,10 @@ class SettingsColorAndFontScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
@@ -131,25 +133,28 @@ class SettingsColorAndFontScreen : Screen {
                         SettingsSwitchRow(
                             title = LocalXmlStrings.current.settingsDynamicColors,
                             value = uiState.dynamicColors,
-                            onValueChanged = rememberCallbackArgs(model) { value ->
-                                model.reduce(
-                                    SettingsColorAndFontMviModel.Intent.ChangeDynamicColors(value),
-                                )
-                            },
+                            onValueChanged =
+                                rememberCallbackArgs(model) { value ->
+                                    model.reduce(
+                                        SettingsColorAndFontMviModel.Intent.ChangeDynamicColors(value),
+                                    )
+                                },
                         )
                     }
 
                     // custom scheme seed color
                     SettingsColorRow(
                         title = LocalXmlStrings.current.settingsCustomSeedColor,
-                        value = uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
-                            theme = uiState.uiTheme ?: defaultTheme,
-                            dynamic = uiState.dynamicColors,
-                        ).primary,
-                        onTap = rememberCallback {
-                            val sheet = ColorBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        value =
+                            uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
+                                theme = uiState.uiTheme ?: defaultTheme,
+                                dynamic = uiState.dynamicColors,
+                            ).primary,
+                        onTap =
+                            rememberCallback {
+                                val sheet = ColorBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     if (uiState.isLogged) {
@@ -157,43 +162,52 @@ class SettingsColorAndFontScreen : Screen {
                         SettingsColorRow(
                             title = LocalXmlStrings.current.settingsUpvoteColor,
                             value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
-                            onTap = rememberCallback {
-                                val screen = VoteThemeBottomSheet(
-                                    actionType = 0,
-                                )
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen =
+                                        VoteThemeBottomSheet(
+                                            actionType = 0,
+                                        )
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
                         )
                         SettingsColorRow(
                             title = LocalXmlStrings.current.settingsDownvoteColor,
                             value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
-                            onTap = rememberCallback {
-                                val screen = VoteThemeBottomSheet(
-                                    actionType = 1,
-                                )
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen =
+                                        VoteThemeBottomSheet(
+                                            actionType = 1,
+                                        )
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
                         )
                         SettingsColorRow(
                             title = LocalXmlStrings.current.settingsReplyColor,
                             value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
-                            onTap = rememberCallback {
-                                val screen = VoteThemeBottomSheet(
-                                    actionType = 2,
-                                )
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen =
+                                        VoteThemeBottomSheet(
+                                            actionType = 2,
+                                        )
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
                         )
                         SettingsColorRow(
                             title = LocalXmlStrings.current.settingsSaveColor,
-                            value = uiState.saveColor
-                                ?: MaterialTheme.colorScheme.secondaryContainer,
-                            onTap = rememberCallback {
-                                val screen = VoteThemeBottomSheet(
-                                    actionType = 3,
-                                )
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
+                            value =
+                                uiState.saveColor
+                                    ?: MaterialTheme.colorScheme.secondaryContainer,
+                            onTap =
+                                rememberCallback {
+                                    val screen =
+                                        VoteThemeBottomSheet(
+                                            actionType = 3,
+                                        )
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
                         )
                     }
 
@@ -203,30 +217,33 @@ class SettingsColorAndFontScreen : Screen {
                     SettingsMultiColorRow(
                         title = LocalXmlStrings.current.settingsCommentBarTheme,
                         values = commentBarColors,
-                        onTap = rememberCallback {
-                            val screen = CommentBarThemeBottomSheet()
-                            navigationCoordinator.showBottomSheet(screen)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val screen = CommentBarThemeBottomSheet()
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
                     )
 
                     // font family
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiFontFamily,
                         value = uiState.uiFontFamily.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontFamilyBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = FontFamilyBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // font scale
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiFontScale,
                         value = uiState.uiFontScale.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = FontScaleBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
                 }
             }

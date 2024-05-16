@@ -19,120 +19,129 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DefaultMultiCommunityRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
     private val query = mockk<Query<MultiCommunityEntity>>()
-    private val queries = mockk<MulticommunitiesQueries>(relaxUnitFun = true) {
-        every { getAll(any()) } returns query
-        every { getBy(name = any(), account_id = any()) } returns query
-        every { getById(any()) } returns query
-    }
-    private val provider = mockk<DatabaseProvider> {
-        every { getDatabase() } returns mockk<AppDatabase> {
-            every { multicommunitiesQueries } returns queries
+    private val queries =
+        mockk<MulticommunitiesQueries>(relaxUnitFun = true) {
+            every { getAll(any()) } returns query
+            every { getBy(name = any(), account_id = any()) } returns query
+            every { getById(any()) } returns query
         }
-    }
+    private val provider =
+        mockk<DatabaseProvider> {
+            every { getDatabase() } returns
+                mockk<AppDatabase> {
+                    every { multicommunitiesQueries } returns queries
+                }
+        }
 
     private val sut = DefaultMultiCommunityRepository(provider)
 
     @Test
-    fun givenEmpty_whenGetAll_thenResultIsAsExpected() = runTest {
-        every { query.executeAsList() } returns listOf()
+    fun givenEmpty_whenGetAll_thenResultIsAsExpected() =
+        runTest {
+            every { query.executeAsList() } returns listOf()
 
-        val res = sut.getAll(1)
+            val res = sut.getAll(1)
 
-        assertTrue(res.isEmpty())
-        verify {
-            queries.getAll(1)
+            assertTrue(res.isEmpty())
+            verify {
+                queries.getAll(1)
+            }
         }
-    }
 
     @Test
-    fun givenNotEmpty_whenGetAll_thenResultIsAsExpected() = runTest {
-        every { query.executeAsList() } returns listOf(createFakeMultiCommunityEntity(id = 2))
+    fun givenNotEmpty_whenGetAll_thenResultIsAsExpected() =
+        runTest {
+            every { query.executeAsList() } returns listOf(createFakeMultiCommunityEntity(id = 2))
 
-        val res = sut.getAll(1)
+            val res = sut.getAll(1)
 
-        assertTrue(res.isNotEmpty())
-        assertEquals(2, res.first().id)
-        verify {
-            queries.getAll(1)
+            assertTrue(res.isNotEmpty())
+            assertEquals(2, res.first().id)
+            verify {
+                queries.getAll(1)
+            }
         }
-    }
 
     @Test
-    fun givenEmpty_whenGetById_thenResultIsAsExpected() = runTest {
-        every { query.executeAsOneOrNull() } returns null
+    fun givenEmpty_whenGetById_thenResultIsAsExpected() =
+        runTest {
+            every { query.executeAsOneOrNull() } returns null
 
-        val res = sut.getById(1)
+            val res = sut.getById(1)
 
-        assertNull(res)
-        verify {
-            queries.getById(1)
+            assertNull(res)
+            verify {
+                queries.getById(1)
+            }
         }
-    }
 
     @Test
-    fun givenNotEmpty_whenGetById_thenResultIsAsExpected() = runTest {
-        every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
+    fun givenNotEmpty_whenGetById_thenResultIsAsExpected() =
+        runTest {
+            every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
 
-        val res = sut.getById(2)
+            val res = sut.getById(2)
 
-        assertNotNull(res)
-        assertEquals(2, res.id)
-        verify {
-            queries.getById(2)
+            assertNotNull(res)
+            assertEquals(2, res.id)
+            verify {
+                queries.getById(2)
+            }
         }
-    }
 
     @Test
-    fun whenCreate_thenInteractionsAreAsExpected() = runTest {
-        val model = MultiCommunityModel(name = "test", communityIds = listOf(1, 2, 3))
-        every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
+    fun whenCreate_thenInteractionsAreAsExpected() =
+        runTest {
+            val model = MultiCommunityModel(name = "test", communityIds = listOf(1, 2, 3))
+            every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
 
-        val res = sut.create(model = model, accountId = 1)
+            val res = sut.create(model = model, accountId = 1)
 
-        assertEquals(2, res)
-        verify {
-            queries.create(
-                name = "test",
-                icon = null,
-                communityIds = "1,2,3",
-                account_id = 1,
-            )
+            assertEquals(2, res)
+            verify {
+                queries.create(
+                    name = "test",
+                    icon = null,
+                    communityIds = "1,2,3",
+                    account_id = 1,
+                )
+            }
         }
-    }
 
     @Test
-    fun whenUpdate_thenInteractionsAreAsExpected() = runTest {
-        val model = MultiCommunityModel(name = "test", id = 2, icon = "fake-icon", communityIds = listOf(1, 2, 3))
-        every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
+    fun whenUpdate_thenInteractionsAreAsExpected() =
+        runTest {
+            val model = MultiCommunityModel(name = "test", id = 2, icon = "fake-icon", communityIds = listOf(1, 2, 3))
+            every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
 
-        sut.update(model = model)
+            sut.update(model = model)
 
-        verify {
-            queries.update(
-                id = 2,
-                name = "test",
-                icon = "fake-icon",
-                communityIds = "1,2,3",
-            )
+            verify {
+                queries.update(
+                    id = 2,
+                    name = "test",
+                    icon = "fake-icon",
+                    communityIds = "1,2,3",
+                )
+            }
         }
-    }
 
     @Test
-    fun whenDelete_thenInteractionsAreAsExpected() = runTest {
-        val model = MultiCommunityModel(name = "test", id = 2)
-        every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
+    fun whenDelete_thenInteractionsAreAsExpected() =
+        runTest {
+            val model = MultiCommunityModel(name = "test", id = 2)
+            every { query.executeAsOneOrNull() } returns createFakeMultiCommunityEntity(id = 2)
 
-        sut.delete(model)
+            sut.delete(model)
 
-        verify {
-            queries.delete(id = 2)
+            verify {
+                queries.delete(id = 2)
+            }
         }
-    }
 
     private fun createFakeMultiCommunityEntity(
         id: Long,

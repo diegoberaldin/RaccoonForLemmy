@@ -64,9 +64,10 @@ class ModerateWithReasonScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<ModerateWithReasonMviModel>(tag = "$actionId-$contentId") {
-            parametersOf(actionId, contentId)
-        }
+        val model =
+            getScreenModel<ModerateWithReasonMviModel>(tag = "$actionId-$contentId") {
+                parametersOf(actionId, contentId)
+            }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = LocalXmlStrings.current.messageGenericError
@@ -97,28 +98,30 @@ class ModerateWithReasonScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.padding(start = Spacing.s).onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.padding(start = Spacing.s).onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
                     },
                     title = {
-                        val title = when (uiState.action) {
-                            is ModerateWithReasonAction.HideCommunity -> LocalXmlStrings.current.postActionHide
-                            is ModerateWithReasonAction.PurgeComment -> LocalXmlStrings.current.adminActionPurge
-                            is ModerateWithReasonAction.PurgeCommunity -> LocalXmlStrings.current.adminActionPurge
-                            is ModerateWithReasonAction.PurgePost -> LocalXmlStrings.current.adminActionPurge
-                            is ModerateWithReasonAction.PurgeUser -> LocalXmlStrings.current.adminActionPurge
-                            is ModerateWithReasonAction.RemoveComment -> LocalXmlStrings.current.modActionRemove
-                            is ModerateWithReasonAction.RemovePost -> LocalXmlStrings.current.modActionRemove
-                            is ModerateWithReasonAction.ReportComment -> LocalXmlStrings.current.createReportTitleComment
-                            is ModerateWithReasonAction.ReportPost -> LocalXmlStrings.current.createReportTitlePost
-                        }
+                        val title =
+                            when (uiState.action) {
+                                is ModerateWithReasonAction.HideCommunity -> LocalXmlStrings.current.postActionHide
+                                is ModerateWithReasonAction.PurgeComment -> LocalXmlStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgeCommunity -> LocalXmlStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgePost -> LocalXmlStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgeUser -> LocalXmlStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.RemoveComment -> LocalXmlStrings.current.modActionRemove
+                                is ModerateWithReasonAction.RemovePost -> LocalXmlStrings.current.modActionRemove
+                                is ModerateWithReasonAction.ReportComment -> LocalXmlStrings.current.createReportTitleComment
+                                is ModerateWithReasonAction.ReportPost -> LocalXmlStrings.current.createReportTitlePost
+                            }
                         Text(
                             text = title,
                             color = MaterialTheme.colorScheme.onBackground,
@@ -134,10 +137,11 @@ class ModerateWithReasonScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model) {
-                                focusManager.clearFocus()
-                                model.reduce(ModerateWithReasonMviModel.Intent.Submit)
-                            },
+                            onClick =
+                                rememberCallback(model) {
+                                    focusManager.clearFocus()
+                                    model.reduce(ModerateWithReasonMviModel.Intent.Submit)
+                                },
                         )
                     },
                 )
@@ -153,34 +157,38 @@ class ModerateWithReasonScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .navigationBarsPadding()
-                    .imePadding(),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .consumeWindowInsets(padding)
+                        .navigationBarsPadding()
+                        .imePadding(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val commentFocusRequester = remember { FocusRequester() }
                 TextField(
-                    modifier = Modifier
-                        .focusRequester(commentFocusRequester)
-                        .heightIn(min = 300.dp, max = 500.dp)
-                        .fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                    modifier =
+                        Modifier
+                            .focusRequester(commentFocusRequester)
+                            .heightIn(min = 300.dp, max = 500.dp)
+                            .fillMaxWidth(),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     label = {
                         Text(text = LocalXmlStrings.current.createReportPlaceholder)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.text,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        autoCorrect = true,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            autoCorrect = true,
+                        ),
                     onValueChange = { value ->
                         model.reduce(ModerateWithReasonMviModel.Intent.SetText(value))
                     },

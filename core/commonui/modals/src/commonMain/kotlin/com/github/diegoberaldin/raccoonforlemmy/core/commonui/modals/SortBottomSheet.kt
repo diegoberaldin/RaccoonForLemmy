@@ -51,14 +51,15 @@ class SortBottomSheet(
     @Composable
     override fun Content() {
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Navigator(
@@ -95,48 +96,51 @@ internal class SortBottomSheetMain(
                 for (value in values) {
                     val sortValue = value.toSortType()
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    if (sortValue == SortType.Top.Generic && expandTop) {
-                                        navigator.push(
-                                            SortBottomSheetTop(
-                                                comments = comments,
-                                                defaultForCommunity = defaultForCommunity,
-                                                screenKey = screenKey,
-                                            ),
-                                        )
-                                    } else {
-                                        val event = if (comments) {
-                                            NotificationCenterEvent.ChangeCommentSortType(
-                                                value = sortValue,
-                                                screenKey = screenKey,
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        if (sortValue == SortType.Top.Generic && expandTop) {
+                                            navigator.push(
+                                                SortBottomSheetTop(
+                                                    comments = comments,
+                                                    defaultForCommunity = defaultForCommunity,
+                                                    screenKey = screenKey,
+                                                ),
                                             )
                                         } else {
-                                            NotificationCenterEvent.ChangeSortType(
-                                                value = sortValue,
-                                                defaultForCommunity = defaultForCommunity,
-                                                screenKey = screenKey,
-                                            )
+                                            val event =
+                                                if (comments) {
+                                                    NotificationCenterEvent.ChangeCommentSortType(
+                                                        value = sortValue,
+                                                        screenKey = screenKey,
+                                                    )
+                                                } else {
+                                                    NotificationCenterEvent.ChangeSortType(
+                                                        value = sortValue,
+                                                        defaultForCommunity = defaultForCommunity,
+                                                        screenKey = screenKey,
+                                                    )
+                                                }
+                                            notificationCenter.send(event)
+                                            navigationCoordinator.hideBottomSheet()
                                         }
-                                        notificationCenter.send(event)
-                                        navigationCoordinator.hideBottomSheet()
-                                    }
-                                },
-                            ),
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        val name = buildString {
-                            append(sortValue.toReadableName())
-                            if (sortValue == SortType.Top.Generic && expandTop) {
-                                append("…")
+                        val name =
+                            buildString {
+                                append(sortValue.toReadableName())
+                                if (sortValue == SortType.Top.Generic && expandTop) {
+                                    append("…")
+                                }
                             }
-                        }
                         Text(
                             text = name,
                             style = MaterialTheme.typography.bodyLarge,
@@ -144,9 +148,12 @@ internal class SortBottomSheetMain(
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Image(
-                            imageVector = if (sortValue == SortType.Top.Generic && expandTop) {
-                                Icons.Default.ChevronRight
-                            } else sortValue.toIcon(),
+                            imageVector =
+                                if (sortValue == SortType.Top.Generic && expandTop) {
+                                    Icons.Default.ChevronRight
+                                } else {
+                                    sortValue.toIcon()
+                                },
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
@@ -159,15 +166,16 @@ internal class SortBottomSheetMain(
 
 internal class SortBottomSheetTop(
     private val comments: Boolean,
-    private val values: List<Int> = listOf(
-        SortType.Top.PastHour,
-        SortType.Top.Past6Hours,
-        SortType.Top.Past12Hours,
-        SortType.Top.Day,
-        SortType.Top.Week,
-        SortType.Top.Month,
-        SortType.Top.Year,
-    ).map { it.toInt() },
+    private val values: List<Int> =
+        listOf(
+            SortType.Top.PastHour,
+            SortType.Top.Past6Hours,
+            SortType.Top.Past12Hours,
+            SortType.Top.Day,
+            SortType.Top.Week,
+            SortType.Top.Month,
+            SortType.Top.Year,
+        ).map { it.toInt() },
     private val defaultForCommunity: Boolean = false,
     private val screenKey: String?,
 ) : Screen {
@@ -186,12 +194,13 @@ internal class SortBottomSheetTop(
                     modifier = Modifier.padding(start = Spacing.xxs),
                 ) {
                     Icon(
-                        modifier = Modifier
-                            .onClick(
-                                onClick = {
-                                    navigator.pop()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        navigator.pop()
+                                    },
+                                ),
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         tint = MaterialTheme.colorScheme.onBackground,
                         contentDescription = null,
@@ -206,30 +215,32 @@ internal class SortBottomSheetTop(
                 for (value in values) {
                     val sortValue = value.toSortType()
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event = if (comments) {
-                                        NotificationCenterEvent.ChangeCommentSortType(
-                                            value = sortValue,
-                                            screenKey = screenKey,
-                                        )
-                                    } else {
-                                        NotificationCenterEvent.ChangeSortType(
-                                            value = sortValue,
-                                            defaultForCommunity = defaultForCommunity,
-                                            screenKey = screenKey,
-                                        )
-                                    }
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event =
+                                            if (comments) {
+                                                NotificationCenterEvent.ChangeCommentSortType(
+                                                    value = sortValue,
+                                                    screenKey = screenKey,
+                                                )
+                                            } else {
+                                                NotificationCenterEvent.ChangeSortType(
+                                                    value = sortValue,
+                                                    defaultForCommunity = defaultForCommunity,
+                                                    screenKey = screenKey,
+                                                )
+                                            }
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

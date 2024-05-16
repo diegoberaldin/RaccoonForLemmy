@@ -10,7 +10,6 @@ internal class DefaultDriverFactory(
     private val context: Context,
     private val keyProvider: DatabaseKeyProvider,
 ) : DriverFactory {
-
     companion object {
         private const val DATABASE_NAME = "raccoonforlemmy.db"
     }

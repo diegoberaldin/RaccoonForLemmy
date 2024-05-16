@@ -32,24 +32,26 @@ fun FeedbackButton(
         animationSpec = spring(stiffness = StiffnessMediumLow),
     )
     Image(
-        modifier = modifier
-            .scale(scale)
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        zoomed = true
-                        tryAwaitRelease()
-                        zoomed = false
-                    },
-                    onTap = {
-                        onClick()
-                    },
-                )
-            },
+        modifier =
+            modifier
+                .scale(scale)
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onPress = {
+                            zoomed = true
+                            tryAwaitRelease()
+                            zoomed = false
+                        },
+                        onTap = {
+                            onClick()
+                        },
+                    )
+                },
         imageVector = imageVector,
         contentDescription = null,
-        colorFilter = ColorFilter.tint(
-            color = tintColor,
-        ),
+        colorFilter =
+            ColorFilter.tint(
+                color = tintColor,
+            ),
     )
 }

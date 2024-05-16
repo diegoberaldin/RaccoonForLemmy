@@ -14,12 +14,12 @@ import kotlin.reflect.safeCast
 private const val REPLAY_EVENT_COUNT = 5
 
 object DefaultNotificationCenter : NotificationCenter {
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val events = MutableSharedFlow<NotificationCenterEvent>()
-    private val replayedEvents = MutableSharedFlow<NotificationCenterEvent>(
-        replay = REPLAY_EVENT_COUNT,
-    )
+    private val replayedEvents =
+        MutableSharedFlow<NotificationCenterEvent>(
+            replay = REPLAY_EVENT_COUNT,
+        )
 
     override fun send(event: NotificationCenterEvent) {
         scope.launch(Dispatchers.Main) {
@@ -31,9 +31,7 @@ object DefaultNotificationCenter : NotificationCenter {
         }
     }
 
-    override fun <T : NotificationCenterEvent> subscribe(
-        clazz: KClass<T>,
-    ): Flow<T> {
+    override fun <T : NotificationCenterEvent> subscribe(clazz: KClass<T>): Flow<T> {
         return if (isReplayable(clazz)) {
             replayedEvents.mapNotNull { clazz.safeCast(it) }
         } else {

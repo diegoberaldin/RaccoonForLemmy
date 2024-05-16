@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
 sealed interface CommentPaginationSpecification {
-
     data class Replies(
         val postId: Long? = null,
         val listingType: ListingType? = null,

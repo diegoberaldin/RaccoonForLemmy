@@ -42,25 +42,28 @@ fun PostCardPlaceholder(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     Box(
-                        modifier = Modifier.size(IconSize.s)
-                            .clip(CircleShape)
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier.size(IconSize.s)
+                                .clip(CircleShape)
+                                .shimmerEffect(),
                     )
                     Column(
                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth(0.5f)
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth(0.5f)
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                     }
                 }
@@ -69,39 +72,43 @@ fun PostCardPlaceholder(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     Box(
-                        modifier = Modifier
-                            .weight(0.2f)
-                            .aspectRatio(1.33f)
-                            .clip(RoundedCornerShape(CornerSize.s))
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier
+                                .weight(0.2f)
+                                .aspectRatio(1.33f)
+                                .clip(RoundedCornerShape(CornerSize.s))
+                                .shimmerEffect(),
                     )
                     Box(
-                        modifier = Modifier
-                            .height(40.dp)
-                            .weight(1f)
-                            .clip(RoundedCornerShape(CornerSize.m))
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier
+                                .height(40.dp)
+                                .weight(1f)
+                                .clip(RoundedCornerShape(CornerSize.m))
+                                .shimmerEffect(),
                     )
                 }
                 Box(
-                    modifier = Modifier
-                        .height(IconSize.l)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.s))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(IconSize.l)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.s))
+                            .shimmerEffect(),
                 )
             }
         }
 
         PostLayout.Card -> {
             Column(
-                modifier = Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    )
-                    .padding(Spacing.s),
+                modifier =
+                    Modifier
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        )
+                        .padding(Spacing.s),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Row(
@@ -109,48 +116,54 @@ fun PostCardPlaceholder(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     Box(
-                        modifier = Modifier
-                            .size(IconSize.l)
-                            .clip(CircleShape)
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier
+                                .size(IconSize.l)
+                                .clip(CircleShape)
+                                .shimmerEffect(),
                     )
                     Column(
                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth(0.5f)
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth(0.5f)
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                     }
                 }
                 Box(
-                    modifier = Modifier.height(IconSize.l)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.m))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier.height(IconSize.l)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.m))
+                            .shimmerEffect(),
                 )
                 Box(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.s))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.s))
+                            .shimmerEffect(),
                 )
                 Box(
-                    modifier = Modifier
-                        .height(IconSize.l)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.m))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(IconSize.l)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.m))
+                            .shimmerEffect(),
                 )
             }
         }
@@ -165,49 +178,55 @@ fun PostCardPlaceholder(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                 ) {
                     Box(
-                        modifier = Modifier
-                            .size(IconSize.l)
-                            .clip(CircleShape)
-                            .shimmerEffect(),
+                        modifier =
+                            Modifier
+                                .size(IconSize.l)
+                                .clip(CircleShape)
+                                .shimmerEffect(),
                     )
                     Column(
                         modifier = Modifier.padding(vertical = Spacing.xxxs),
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth()
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                         Box(
-                            modifier = Modifier.height(IconSize.s)
-                                .fillMaxWidth(0.5f)
-                                .clip(RoundedCornerShape(CornerSize.m))
-                                .shimmerEffect(),
+                            modifier =
+                                Modifier.height(IconSize.s)
+                                    .fillMaxWidth(0.5f)
+                                    .clip(RoundedCornerShape(CornerSize.m))
+                                    .shimmerEffect(),
                         )
                     }
                 }
                 Box(
-                    modifier = Modifier
-                        .height(IconSize.l)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.m))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(IconSize.l)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.m))
+                            .shimmerEffect(),
                 )
                 Box(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.s))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.s))
+                            .shimmerEffect(),
                 )
                 Box(
-                    modifier = Modifier
-                        .height(IconSize.l)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.m))
-                        .shimmerEffect(),
+                    modifier =
+                        Modifier
+                            .height(IconSize.l)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(CornerSize.m))
+                            .shimmerEffect(),
                 )
             }
         }

@@ -31,7 +31,6 @@ class DefaultDetailOpener(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
 ) : DetailOpener {
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun openCommunityDetail(
@@ -39,19 +38,20 @@ class DefaultDetailOpener(
         otherInstance: String,
     ) {
         scope.launch {
-            val (actualCommunity, actualInstance) = withContext(Dispatchers.IO) {
-                val defaultResult = community to otherInstance
-                if (otherInstance.isNotEmpty()) {
-                    val found = searchCommunity(name = community.name, host = otherInstance)
-                    if (found != null) {
-                        found to ""
+            val (actualCommunity, actualInstance) =
+                withContext(Dispatchers.IO) {
+                    val defaultResult = community to otherInstance
+                    if (otherInstance.isNotEmpty()) {
+                        val found = searchCommunity(name = community.name, host = otherInstance)
+                        if (found != null) {
+                            found to ""
+                        } else {
+                            defaultResult
+                        }
                     } else {
                         defaultResult
                     }
-                } else {
-                    defaultResult
                 }
-            }
             withContext(Dispatchers.IO) {
                 itemCache.putCommunity(actualCommunity)
             }
@@ -64,7 +64,10 @@ class DefaultDetailOpener(
         }
     }
 
-    override fun openUserDetail(user: UserModel, otherInstance: String) {
+    override fun openUserDetail(
+        user: UserModel,
+        otherInstance: String,
+    ) {
         scope.launch {
             withContext(Dispatchers.IO) {
                 itemCache.putUser(user)
@@ -118,13 +121,14 @@ class DefaultDetailOpener(
                     itemCache.putComment(editedComment)
                 }
             }
-            val screen = CreateCommentScreen(
-                draftId = draftId,
-                originalPostId = originalPost?.id,
-                originalCommentId = originalComment?.id,
-                editedCommentId = editedComment?.id,
-                initialText = initialText,
-            )
+            val screen =
+                CreateCommentScreen(
+                    draftId = draftId,
+                    originalPostId = originalPost?.id,
+                    originalCommentId = originalComment?.id,
+                    editedCommentId = editedComment?.id,
+                    initialText = initialText,
+                )
             navigationCoordinator.pushScreen(screen)
         }
     }
@@ -149,36 +153,42 @@ class DefaultDetailOpener(
                     itemCache.putPost(crossPost)
                 }
             }
-            val screen = CreatePostScreen(
-                draftId = draftId,
-                editedPostId = editedPost?.id,
-                crossPostId = crossPost?.id,
-                communityId = communityId,
-                initialText = initialText,
-                initialTitle = initialTitle,
-                initialUrl = initialUrl,
-                initialNsfw = initialNsfw,
-                forceCommunitySelection = forceCommunitySelection,
-            )
+            val screen =
+                CreatePostScreen(
+                    draftId = draftId,
+                    editedPostId = editedPost?.id,
+                    crossPostId = crossPost?.id,
+                    communityId = communityId,
+                    initialText = initialText,
+                    initialTitle = initialTitle,
+                    initialUrl = initialUrl,
+                    initialNsfw = initialNsfw,
+                    forceCommunitySelection = forceCommunitySelection,
+                )
             navigationCoordinator.pushScreen(screen)
         }
     }
 
-    private suspend fun searchCommunity(name: String, host: String): CommunityModel? {
+    private suspend fun searchCommunity(
+        name: String,
+        host: String,
+    ): CommunityModel? {
         val auth = identityRepository.authToken.value
 
         tailrec suspend fun searchRec(page: Int = 0): CommunityModel? {
-            val results = communityRepository.search(
-                auth = auth,
-                query = name,
-                resultType = SearchResultType.Communities,
-                page = page,
-                limit = 50,
-            ).filterIsInstance<SearchResult.Community>()
+            val results =
+                communityRepository.search(
+                    auth = auth,
+                    query = name,
+                    resultType = SearchResultType.Communities,
+                    page = page,
+                    limit = 50,
+                ).filterIsInstance<SearchResult.Community>()
 
-            val found = results.firstOrNull {
-                it.model.name == name && it.model.host == host
-            }?.model
+            val found =
+                results.firstOrNull {
+                    it.model.name == name && it.model.host == host
+                }?.model
             // iterates for no more than a number of pages before giving up
             if (found != null || page >= MAX_PAGE_NUMBER_IN_COMMUNITY_REC_SEARCH) {
                 return found

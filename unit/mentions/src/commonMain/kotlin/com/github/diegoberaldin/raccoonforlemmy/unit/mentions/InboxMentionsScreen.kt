@@ -60,7 +60,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class InboxMentionsScreen : Tab {
-
     override val options: TabOptions
         @Composable get() {
             return TabOptions(1u, "")
@@ -107,12 +106,14 @@ class InboxMentionsScreen : Tab {
             }.launchIn(this)
         }
 
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(InboxMentionsMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(InboxMentionsMviModel.Intent.Refresh)
+                    },
+            )
         Box(
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
@@ -151,64 +152,71 @@ class InboxMentionsScreen : Tab {
                     fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                         mapNotNull {
                             when (it) {
-                                ActionOnSwipe.UpVote -> SwipeAction(
-                                    swipeContent = {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowCircleUp,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(
-                                            InboxMentionsMviModel.Intent.UpVoteComment(
-                                                mention.id,
-                                            ),
-                                        )
-                                    },
-                                )
+                                ActionOnSwipe.UpVote ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowCircleUp,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(
+                                                    InboxMentionsMviModel.Intent.UpVoteComment(
+                                                        mention.id,
+                                                    ),
+                                                )
+                                            },
+                                    )
 
-                                ActionOnSwipe.DownVote -> SwipeAction(
-                                    swipeContent = {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowCircleDown,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(
-                                            InboxMentionsMviModel.Intent.DownVoteComment(
-                                                mention.id,
-                                            ),
-                                        )
-                                    },
-                                )
+                                ActionOnSwipe.DownVote ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowCircleDown,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(
+                                                    InboxMentionsMviModel.Intent.DownVoteComment(
+                                                        mention.id,
+                                                    ),
+                                                )
+                                            },
+                                    )
 
-                                ActionOnSwipe.ToggleRead -> SwipeAction(
-                                    swipeContent = {
-                                        val icon = when {
-                                            mention.read -> Icons.Default.MarkChatUnread
-                                            else -> Icons.Default.MarkChatRead
-                                        }
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = toggleReadColor ?: defaultToggleReadColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(
-                                            InboxMentionsMviModel.Intent.MarkAsRead(
-                                                read = !mention.read,
-                                                id = mention.id,
-                                            ),
-                                        )
-                                    },
-                                )
+                                ActionOnSwipe.ToggleRead ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            val icon =
+                                                when {
+                                                    mention.read -> Icons.Default.MarkChatUnread
+                                                    else -> Icons.Default.MarkChatRead
+                                                }
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = toggleReadColor ?: defaultToggleReadColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(
+                                                    InboxMentionsMviModel.Intent.MarkAsRead(
+                                                        read = !mention.read,
+                                                        id = mention.id,
+                                                    ),
+                                                )
+                                            },
+                                    )
 
                                 else -> null
                             }
@@ -217,9 +225,10 @@ class InboxMentionsScreen : Tab {
                     SwipeActionCard(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = uiState.swipeActionsEnabled,
-                        onGestureBegin = rememberCallback(model) {
-                            model.reduce(InboxMentionsMviModel.Intent.HapticIndication)
-                        },
+                        onGestureBegin =
+                            rememberCallback(model) {
+                                model.reduce(InboxMentionsMviModel.Intent.HapticIndication)
+                            },
                         swipeToStartActions = uiState.actionsOnSwipeToStartInbox.toSwipeActions(),
                         swipeToEndActions = uiState.actionsOnSwipeToEndInbox.toSwipeActions(),
                         content = {
@@ -231,65 +240,75 @@ class InboxMentionsScreen : Tab {
                                 preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
-                                onOpenPost = rememberCallbackArgs { post ->
-                                    detailOpener.openPostDetail(
-                                        post = post,
-                                        highlightCommentId = mention.comment.id,
-                                        otherInstance = "",
-                                    )
-                                },
-                                onOpenCreator = rememberCallbackArgs { user ->
-                                    detailOpener.openUserDetail(user)
-                                },
-                                onOpenCommunity = rememberCallbackArgs { community ->
-                                    detailOpener.openCommunityDetail(community = community)
-                                },
-                                onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(
-                                            url = url,
-                                            source = mention.post.community?.readableHandle.orEmpty(),
-                                        ),
-                                    )
-                                },
-                                onUpVote = rememberCallback(model) {
-                                    model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(mention.id))
-                                },
-                                onDownVote = rememberCallback(model) {
-                                    model.reduce(
-                                        InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
-                                    )
-                                },
-                                onReply = rememberCallback {
-                                    detailOpener.openReply(
-                                        originalPost = mention.post,
-                                        originalComment = mention.comment,
-                                    )
-                                },
-                                options = buildList {
-                                    add(
-                                        Option(
-                                            OptionId.ToggleRead,
-                                            if (mention.read) {
-                                                LocalXmlStrings.current.inboxActionMarkUnread
-                                            } else {
-                                                LocalXmlStrings.current.inboxActionMarkRead
-                                            },
-                                        ),
-                                    )
-                                },
-                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                    when (optionId) {
-                                        OptionId.ToggleRead -> model.reduce(
-                                            InboxMentionsMviModel.Intent.MarkAsRead(
-                                                read = !mention.read,
-                                                id = mention.id,
+                                onOpenPost =
+                                    rememberCallbackArgs { post ->
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            highlightCommentId = mention.comment.id,
+                                            otherInstance = "",
+                                        )
+                                    },
+                                onOpenCreator =
+                                    rememberCallbackArgs { user ->
+                                        detailOpener.openUserDetail(user)
+                                    },
+                                onOpenCommunity =
+                                    rememberCallbackArgs { community ->
+                                        detailOpener.openCommunityDetail(community = community)
+                                    },
+                                onImageClick =
+                                    rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = mention.post.community?.readableHandle.orEmpty(),
                                             ),
                                         )
+                                    },
+                                onUpVote =
+                                    rememberCallback(model) {
+                                        model.reduce(InboxMentionsMviModel.Intent.UpVoteComment(mention.id))
+                                    },
+                                onDownVote =
+                                    rememberCallback(model) {
+                                        model.reduce(
+                                            InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
+                                        )
+                                    },
+                                onReply =
+                                    rememberCallback {
+                                        detailOpener.openReply(
+                                            originalPost = mention.post,
+                                            originalComment = mention.comment,
+                                        )
+                                    },
+                                options =
+                                    buildList {
+                                        add(
+                                            Option(
+                                                OptionId.ToggleRead,
+                                                if (mention.read) {
+                                                    LocalXmlStrings.current.inboxActionMarkUnread
+                                                } else {
+                                                    LocalXmlStrings.current.inboxActionMarkRead
+                                                },
+                                            ),
+                                        )
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.ToggleRead ->
+                                                model.reduce(
+                                                    InboxMentionsMviModel.Intent.MarkAsRead(
+                                                        read = !mention.read,
+                                                        id = mention.id,
+                                                    ),
+                                                )
 
-                                        else -> Unit
-                                    }
-                                },
+                                            else -> Unit
+                                        }
+                                    },
                             )
                         },
                     )

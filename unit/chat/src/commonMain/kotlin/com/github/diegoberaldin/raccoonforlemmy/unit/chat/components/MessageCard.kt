@@ -62,11 +62,12 @@ internal fun MessageCard(
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val color = if (isMyMessage) {
-        MaterialTheme.colorScheme.tertiaryContainer
-    } else {
-        MaterialTheme.colorScheme.secondaryContainer
-    }
+    val color =
+        if (isMyMessage) {
+            MaterialTheme.colorScheme.tertiaryContainer
+        } else {
+            MaterialTheme.colorScheme.secondaryContainer
+        }
     val longDistance = Spacing.l
     val mediumDistance = Spacing.s
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
@@ -74,56 +75,62 @@ internal fun MessageCard(
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
 
     Box(
-        modifier = modifier.padding(
-            horizontal = Spacing.xs,
-            vertical = Spacing.xs,
-        ),
+        modifier =
+            modifier.padding(
+                horizontal = Spacing.xs,
+                vertical = Spacing.xs,
+            ),
     ) {
         Canvas(
-            modifier = Modifier
-                .size(mediumDistance)
-                .then(
-                    if (isMyMessage) {
-                        Modifier.align(Alignment.TopEnd)
-                    } else {
-                        Modifier.align(Alignment.TopStart)
-                    },
-                ),
+            modifier =
+                Modifier
+                    .size(mediumDistance)
+                    .then(
+                        if (isMyMessage) {
+                            Modifier.align(Alignment.TopEnd)
+                        } else {
+                            Modifier.align(Alignment.TopStart)
+                        },
+                    ),
         ) {
             if (isMyMessage) {
-                val path = Path().apply {
-                    moveTo(0f, 0f)
-                    lineTo(size.width, 0f)
-                    lineTo(0f, size.height)
-                    close()
-                }
+                val path =
+                    Path().apply {
+                        moveTo(0f, 0f)
+                        lineTo(size.width, 0f)
+                        lineTo(0f, size.height)
+                        close()
+                    }
                 drawPath(path = path, color = color)
             } else {
-                val path = Path().apply {
-                    moveTo(size.width, 0f)
-                    lineTo(0f, 0f)
-                    lineTo(size.width, size.height)
-                    close()
-                }
+                val path =
+                    Path().apply {
+                        moveTo(size.width, 0f)
+                        lineTo(0f, 0f)
+                        lineTo(size.width, size.height)
+                        close()
+                    }
                 drawPath(path = path, color = color)
             }
         }
         Box(
-            modifier = Modifier.then(
-                if (isMyMessage) {
-                    Modifier.padding(start = longDistance, end = mediumDistance)
-                } else {
-                    Modifier.padding(end = longDistance, start = mediumDistance)
-                },
-            ).background(
-                color = color,
-                shape = RoundedCornerShape(
-                    topStart = if (isMyMessage) CornerSize.m else 0.dp,
-                    topEnd = if (isMyMessage) 0.dp else CornerSize.m,
-                    bottomStart = CornerSize.m,
-                    bottomEnd = CornerSize.m,
-                ),
-            ).fillMaxWidth().padding(Spacing.s),
+            modifier =
+                Modifier.then(
+                    if (isMyMessage) {
+                        Modifier.padding(start = longDistance, end = mediumDistance)
+                    } else {
+                        Modifier.padding(end = longDistance, start = mediumDistance)
+                    },
+                ).background(
+                    color = color,
+                    shape =
+                        RoundedCornerShape(
+                            topStart = if (isMyMessage) CornerSize.m else 0.dp,
+                            topEnd = if (isMyMessage) 0.dp else CornerSize.m,
+                            bottomStart = CornerSize.m,
+                            bottomEnd = CornerSize.m,
+                        ),
+                ).fillMaxWidth().padding(Spacing.s),
         ) {
             CustomizedContent(ContentFontClass.Body) {
                 Column {
@@ -142,17 +149,18 @@ internal fun MessageCard(
                         ) {
                             if (options.isNotEmpty()) {
                                 Icon(
-                                    modifier = Modifier
-                                        .size(IconSize.m)
-                                        .padding(Spacing.xs)
-                                        .onGloballyPositioned {
-                                            optionsOffset = it.positionInParent()
-                                        }
-                                        .onClick(
-                                            onClick = {
-                                                optionsExpanded = true
-                                            },
-                                        ),
+                                    modifier =
+                                        Modifier
+                                            .size(IconSize.m)
+                                            .padding(Spacing.xs)
+                                            .onGloballyPositioned {
+                                                optionsOffset = it.positionInParent()
+                                            }
+                                            .onClick(
+                                                onClick = {
+                                                    optionsExpanded = true
+                                                },
+                                            ),
                                     imageVector = Icons.Default.MoreHoriz,
                                     contentDescription = null,
                                     tint = ancillaryColor,
@@ -189,10 +197,11 @@ internal fun MessageCard(
                             onDismiss = {
                                 optionsExpanded = false
                             },
-                            offset = DpOffset(
-                                x = optionsOffset.x.toLocalDp(),
-                                y = optionsOffset.y.toLocalDp(),
-                            ),
+                            offset =
+                                DpOffset(
+                                    x = optionsOffset.x.toLocalDp(),
+                                    y = optionsOffset.y.toLocalDp(),
+                                ),
                         ) {
                             options.forEach { option ->
                                 DropdownMenuItem(

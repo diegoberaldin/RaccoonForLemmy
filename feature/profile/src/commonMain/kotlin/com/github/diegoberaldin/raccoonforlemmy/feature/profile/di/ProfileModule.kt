@@ -9,21 +9,22 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.di.manageAcc
 import com.github.diegoberaldin.raccoonforlemmy.unit.myaccount.di.myAccountModule
 import org.koin.dsl.module
 
-val profileTabModule = module {
-    includes(
-        loginModule,
-        manageAccountsModule,
-        myAccountModule,
-    )
-    factory<ProfileMainMviModel> {
-        ProfileMainViewModel(
-            identityRepository = get(),
-            logout = get(),
+val profileTabModule =
+    module {
+        includes(
+            loginModule,
+            manageAccountsModule,
+            myAccountModule,
         )
+        factory<ProfileMainMviModel> {
+            ProfileMainViewModel(
+                identityRepository = get(),
+                logout = get(),
+            )
+        }
+        factory<ProfileNotLoggedMviModel> {
+            ProfileNotLoggedViewModel(
+                identityRepository = get(),
+            )
+        }
     }
-    factory<ProfileNotLoggedMviModel> {
-        ProfileNotLoggedViewModel(
-            identityRepository = get(),
-        )
-    }
-}

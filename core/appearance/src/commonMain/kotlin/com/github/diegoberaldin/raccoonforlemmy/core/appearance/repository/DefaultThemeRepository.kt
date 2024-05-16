@@ -8,7 +8,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 
 internal class DefaultThemeRepository : ThemeRepository {
-
     override val uiTheme = MutableStateFlow<UiTheme?>(null)
     override val uiFontFamily = MutableStateFlow(UiFontFamily.Poppins)
     override val uiFontScale = MutableStateFlow(1f)
@@ -52,7 +51,10 @@ internal class DefaultThemeRepository : ThemeRepository {
         dynamicColors.value = value
     }
 
-    override fun getCommentBarColor(depth: Int, commentBarTheme: CommentBarTheme): Color {
+    override fun getCommentBarColor(
+        depth: Int,
+        commentBarTheme: CommentBarTheme,
+    ): Color {
         val colors = getCommentBarColors(commentBarTheme)
         if (colors.isEmpty()) {
             return Color.Transparent
@@ -91,40 +93,44 @@ internal class DefaultThemeRepository : ThemeRepository {
 
     override fun getCommentBarColors(commentBarTheme: CommentBarTheme): List<Color> =
         when (commentBarTheme) {
-            CommentBarTheme.Green -> buildList {
-                this += Color(0xFF1B4332)
-                this += Color(0xFF2D6A4F)
-                this += Color(0xFF40916C)
-                this += Color(0xFF52B788)
-                this += Color(0xFF74C69D)
-                this += Color(0xFF95D5B2)
-            }
+            CommentBarTheme.Green ->
+                buildList {
+                    this += Color(0xFF1B4332)
+                    this += Color(0xFF2D6A4F)
+                    this += Color(0xFF40916C)
+                    this += Color(0xFF52B788)
+                    this += Color(0xFF74C69D)
+                    this += Color(0xFF95D5B2)
+                }
 
-            CommentBarTheme.Red -> buildList {
-                this += Color(0xFF6A040F)
-                this += Color(0xFF9D0208)
-                this += Color(0xFFD00000)
-                this += Color(0xFFDC2F02)
-                this += Color(0xFFE85D04)
-                this += Color(0xFFF48C06)
-            }
+            CommentBarTheme.Red ->
+                buildList {
+                    this += Color(0xFF6A040F)
+                    this += Color(0xFF9D0208)
+                    this += Color(0xFFD00000)
+                    this += Color(0xFFDC2F02)
+                    this += Color(0xFFE85D04)
+                    this += Color(0xFFF48C06)
+                }
 
-            CommentBarTheme.Blue -> buildList {
-                this += Color(0xFF012A4A)
-                this += Color(0xFF013A63)
-                this += Color(0xFF014F86)
-                this += Color(0xFF2C7DA0)
-                this += Color(0xFF61A5C2)
-                this += Color(0xFFA9D6E5)
-            }
+            CommentBarTheme.Blue ->
+                buildList {
+                    this += Color(0xFF012A4A)
+                    this += Color(0xFF013A63)
+                    this += Color(0xFF014F86)
+                    this += Color(0xFF2C7DA0)
+                    this += Color(0xFF61A5C2)
+                    this += Color(0xFFA9D6E5)
+                }
 
-            CommentBarTheme.Rainbow -> buildList {
-                this += Color(0xFF9400D3)
-                this += Color(0xFF0000FF)
-                this += Color(0xFF00FF00)
-                this += Color(0xFFFFFF00)
-                this += Color(0xFFFF7F00)
-                this += Color(0xFFFF0000)
-            }
+            CommentBarTheme.Rainbow ->
+                buildList {
+                    this += Color(0xFF9400D3)
+                    this += Color(0xFF0000FF)
+                    this += Color(0xFF00FF00)
+                    this += Color(0xFFFFFF00)
+                    this += Color(0xFFFF7F00)
+                    this += Color(0xFFFF0000)
+                }
         }
 }

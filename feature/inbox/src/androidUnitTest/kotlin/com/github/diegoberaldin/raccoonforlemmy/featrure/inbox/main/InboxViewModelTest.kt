@@ -28,119 +28,128 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class InboxViewModelTest {
-
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
     private val identityRepository = mockk<IdentityRepository>(relaxUnitFun = true)
     private val userRepository = mockk<UserRepository>(relaxUnitFun = true)
-    private val inboxCoordinator = mockk<InboxCoordinator>(relaxUnitFun = true) {
-        every { unreadReplies } returns MutableStateFlow(0)
-        every { unreadMentions } returns MutableStateFlow(0)
-        every { unreadMessages } returns MutableStateFlow(0)
-    }
-    private val settingsRepository = mockk<SettingsRepository>(relaxUnitFun = true) {
-        every { currentSettings } returns MutableStateFlow(SettingsModel())
-    }
+    private val inboxCoordinator =
+        mockk<InboxCoordinator>(relaxUnitFun = true) {
+            every { unreadReplies } returns MutableStateFlow(0)
+            every { unreadMentions } returns MutableStateFlow(0)
+            every { unreadMessages } returns MutableStateFlow(0)
+        }
+    private val settingsRepository =
+        mockk<SettingsRepository>(relaxUnitFun = true) {
+            every { currentSettings } returns MutableStateFlow(SettingsModel())
+        }
     private val notificationChannel = Channel<NotificationCenterEvent>()
-    private val notificationCenter = mockk<NotificationCenter>(relaxUnitFun = true) {
-        every { subscribe(any<KClass<NotificationCenterEvent>>()) } returns notificationChannel.receiveAsFlow()
-    }
+    private val notificationCenter =
+        mockk<NotificationCenter>(relaxUnitFun = true) {
+            every { subscribe(any<KClass<NotificationCenterEvent>>()) } returns notificationChannel.receiveAsFlow()
+        }
     private lateinit var sut: InboxViewModel
 
     private fun createModel() {
-        sut = InboxViewModel(
-            identityRepository = identityRepository,
-            userRepository = userRepository,
-            coordinator = inboxCoordinator,
-            settingsRepository = settingsRepository,
-            notificationCenter = notificationCenter,
-        )
+        sut =
+            InboxViewModel(
+                identityRepository = identityRepository,
+                userRepository = userRepository,
+                coordinator = inboxCoordinator,
+                settingsRepository = settingsRepository,
+                notificationCenter = notificationCenter,
+            )
     }
 
     @Test
-    fun givenNotLogged_whenInitialized_thenStateIsAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(false)
-        createModel()
+    fun givenNotLogged_whenInitialized_thenStateIsAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(false)
+            createModel()
 
-        val state = sut.uiState.value
+            val state = sut.uiState.value
 
-        assertTrue(state.isLogged == false)
-    }
-
-    @Test
-    fun givenLoggedAndDefaultUnreadOnly_whenInitialized_thenStateIsAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 0))
-        createModel()
-
-        val state = sut.uiState.value
-
-        assertTrue(state.isLogged == true)
-        assertTrue(state.unreadOnly)
-    }
-
-    @Test
-    fun givenLoggedAndDefaultNotUnreadOnly_whenInitialized_thenStateIsAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 1))
-        createModel()
-
-        val state = sut.uiState.value
-
-        assertTrue(state.isLogged == true)
-        assertFalse(state.unreadOnly)
-    }
-
-    @Test
-    fun givenLoggedWithUnreads_whenInitialized_thenStateIsAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
-        every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
-        every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
-        createModel()
-
-        val state = sut.uiState.value
-
-        assertEquals(1, state.unreadReplies)
-        assertEquals(2, state.unreadMentions)
-        assertEquals(3, state.unreadMessages)
-    }
-
-    @Test
-    fun whenChangeInboxReadOnlyEventReceived_thenInteractionsAndStateAreAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { identityRepository.authToken } returns MutableStateFlow("fake-token")
-        createModel()
-
-        notificationChannel.send(NotificationCenterEvent.ChangeInboxType(unreadOnly = false))
-
-        val state = sut.uiState.value
-        assertFalse(state.unreadOnly)
-
-        verify {
-            inboxCoordinator.setUnreadOnly(false)
-        }
-    }
-
-    @Test
-    fun whenMarkAllAsReadIntentReceived_thenInteractionsAreAsExpected() = runTest {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { identityRepository.authToken } returns MutableStateFlow("fake-token")
-        createModel()
-
-        launch {
-            sut.reduce(InboxMviModel.Intent.ReadAll)
+            assertTrue(state.isLogged == false)
         }
 
-        sut.effects.test {
-            val item = awaitItem()
-            assertEquals(InboxMviModel.Effect.Refresh, item)
+    @Test
+    fun givenLoggedAndDefaultUnreadOnly_whenInitialized_thenStateIsAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 0))
+            createModel()
+
+            val state = sut.uiState.value
+
+            assertTrue(state.isLogged == true)
+            assertTrue(state.unreadOnly)
         }
 
-        coVerify {
-            userRepository.readAll("fake-token")
-            inboxCoordinator.sendEvent(InboxCoordinator.Event.Refresh)
+    @Test
+    fun givenLoggedAndDefaultNotUnreadOnly_whenInitialized_thenStateIsAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 1))
+            createModel()
+
+            val state = sut.uiState.value
+
+            assertTrue(state.isLogged == true)
+            assertFalse(state.unreadOnly)
         }
-    }
+
+    @Test
+    fun givenLoggedWithUnreads_whenInitialized_thenStateIsAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
+            every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
+            every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
+            createModel()
+
+            val state = sut.uiState.value
+
+            assertEquals(1, state.unreadReplies)
+            assertEquals(2, state.unreadMentions)
+            assertEquals(3, state.unreadMessages)
+        }
+
+    @Test
+    fun whenChangeInboxReadOnlyEventReceived_thenInteractionsAndStateAreAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { identityRepository.authToken } returns MutableStateFlow("fake-token")
+            createModel()
+
+            notificationChannel.send(NotificationCenterEvent.ChangeInboxType(unreadOnly = false))
+
+            val state = sut.uiState.value
+            assertFalse(state.unreadOnly)
+
+            verify {
+                inboxCoordinator.setUnreadOnly(false)
+            }
+        }
+
+    @Test
+    fun whenMarkAllAsReadIntentReceived_thenInteractionsAreAsExpected() =
+        runTest {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { identityRepository.authToken } returns MutableStateFlow("fake-token")
+            createModel()
+
+            launch {
+                sut.reduce(InboxMviModel.Intent.ReadAll)
+            }
+
+            sut.effects.test {
+                val item = awaitItem()
+                assertEquals(InboxMviModel.Effect.Refresh, item)
+            }
+
+            coVerify {
+                userRepository.readAll("fake-token")
+                inboxCoordinator.sendEvent(InboxCoordinator.Event.Refresh)
+            }
+        }
 }

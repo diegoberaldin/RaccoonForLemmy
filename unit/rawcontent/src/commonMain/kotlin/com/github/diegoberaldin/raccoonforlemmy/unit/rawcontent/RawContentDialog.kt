@@ -56,14 +56,16 @@ fun RawContentDialog(
 ) {
     val clipboardManager = LocalClipboardManager.current
     val shareHelper = remember { getShareHelper() }
-    val onShareLambda = rememberCallback {
-        val query = clipboardManager.getText()?.text.orEmpty()
-        shareHelper.share(query)
-    }
-    val onQuoteLambda = rememberCallback {
-        val query = clipboardManager.getText()?.text.orEmpty()
-        onQuote?.invoke(query)
-    }
+    val onShareLambda =
+        rememberCallback {
+            val query = clipboardManager.getText()?.text.orEmpty()
+            shareHelper.share(query)
+        }
+    val onQuoteLambda =
+        rememberCallback {
+            val query = clipboardManager.getText()?.text.orEmpty()
+            onQuote?.invoke(query)
+        }
     val quoteActionLabel = LocalXmlStrings.current.actionQuote
     val shareActionLabel = LocalXmlStrings.current.postActionShare
     val fullColor = MaterialTheme.colorScheme.onBackground
@@ -72,8 +74,9 @@ fun RawContentDialog(
         onDismissRequest = { onDismiss?.invoke() },
     ) {
         Column(
-            modifier = Modifier.background(color = MaterialTheme.colorScheme.surface)
-                .padding(vertical = Spacing.s),
+            modifier =
+                Modifier.background(color = MaterialTheme.colorScheme.surface)
+                    .padding(vertical = Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -83,9 +86,10 @@ fun RawContentDialog(
             )
             Spacer(modifier = Modifier.height(Spacing.s))
             LazyColumn(
-                modifier = Modifier
-                    .padding(vertical = Spacing.s, horizontal = Spacing.m)
-                    .heightIn(max = 400.dp),
+                modifier =
+                    Modifier
+                        .padding(vertical = Spacing.s, horizontal = Spacing.m)
+                        .heightIn(max = 400.dp),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 title?.takeIf { it.trim().isNotEmpty() }?.also {
@@ -98,21 +102,23 @@ fun RawContentDialog(
                                 color = fullColor,
                             )
                             CompositionLocalProvider(
-                                LocalTextToolbar provides getCustomTextToolbar(
-                                    isLogged = isLogged,
-                                    quoteActionLabel = quoteActionLabel,
-                                    shareActionLabel = shareActionLabel,
-                                    onShare = onShareLambda,
-                                    onQuote = onQuoteLambda,
-                                ),
+                                LocalTextToolbar provides
+                                    getCustomTextToolbar(
+                                        isLogged = isLogged,
+                                        quoteActionLabel = quoteActionLabel,
+                                        shareActionLabel = shareActionLabel,
+                                        onShare = onShareLambda,
+                                        onQuote = onQuoteLambda,
+                                    ),
                             ) {
                                 SelectionContainer {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         text = it,
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            fontFamily = FontFamily.Monospace,
-                                        ),
+                                        style =
+                                            MaterialTheme.typography.bodyLarge.copy(
+                                                fontFamily = FontFamily.Monospace,
+                                            ),
                                         color = fullColor,
                                     )
                                 }
@@ -130,21 +136,23 @@ fun RawContentDialog(
                                 color = fullColor,
                             )
                             CompositionLocalProvider(
-                                LocalTextToolbar provides getCustomTextToolbar(
-                                    isLogged = isLogged,
-                                    quoteActionLabel = quoteActionLabel,
-                                    shareActionLabel = shareActionLabel,
-                                    onShare = onShareLambda,
-                                    onQuote = onQuoteLambda,
-                                ),
+                                LocalTextToolbar provides
+                                    getCustomTextToolbar(
+                                        isLogged = isLogged,
+                                        quoteActionLabel = quoteActionLabel,
+                                        shareActionLabel = shareActionLabel,
+                                        onShare = onShareLambda,
+                                        onQuote = onQuoteLambda,
+                                    ),
                             ) {
                                 SelectionContainer {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         text = it,
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            fontFamily = FontFamily.Monospace,
-                                        ),
+                                        style =
+                                            MaterialTheme.typography.bodyMedium.copy(
+                                                fontFamily = FontFamily.Monospace,
+                                            ),
                                         color = fullColor,
                                     )
                                 }
@@ -163,21 +171,23 @@ fun RawContentDialog(
                             )
 
                             CompositionLocalProvider(
-                                LocalTextToolbar provides getCustomTextToolbar(
-                                    isLogged = isLogged,
-                                    quoteActionLabel = quoteActionLabel,
-                                    shareActionLabel = shareActionLabel,
-                                    onShare = onShareLambda,
-                                    onQuote = onQuoteLambda,
-                                ),
+                                LocalTextToolbar provides
+                                    getCustomTextToolbar(
+                                        isLogged = isLogged,
+                                        quoteActionLabel = quoteActionLabel,
+                                        shareActionLabel = shareActionLabel,
+                                        onShare = onShareLambda,
+                                        onQuote = onQuoteLambda,
+                                    ),
                             ) {
                                 SelectionContainer {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
                                         text = it,
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            fontFamily = FontFamily.Monospace,
-                                        ),
+                                        style =
+                                            MaterialTheme.typography.bodyMedium.copy(
+                                                fontFamily = FontFamily.Monospace,
+                                            ),
                                         color = fullColor,
                                     )
                                 }
@@ -204,9 +214,10 @@ fun RawContentDialog(
                                 Text(
                                     modifier = Modifier.weight(1f).padding(start = Spacing.xxs),
                                     text = it,
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        fontFamily = FontFamily.Monospace,
-                                    ),
+                                    style =
+                                        MaterialTheme.typography.bodyMedium.copy(
+                                            fontFamily = FontFamily.Monospace,
+                                        ),
                                     color = fullColor,
                                 )
                             }
@@ -228,9 +239,10 @@ fun RawContentDialog(
                             Text(
                                 modifier = Modifier.weight(1f),
                                 text = it,
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontFamily = FontFamily.Monospace,
-                                ),
+                                style =
+                                    MaterialTheme.typography.bodyMedium.copy(
+                                        fontFamily = FontFamily.Monospace,
+                                    ),
                                 color = fullColor,
                             )
                         }

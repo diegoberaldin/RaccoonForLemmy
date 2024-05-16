@@ -10,9 +10,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 interface ConfigureSwipeActionsMviModel :
     MviModel<ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object ResetActionsPosts : Intent
+
         data class DeleteActionPosts(
             val value: ActionOnSwipe,
             val direction: ActionOnSwipeDirection,
@@ -28,6 +28,7 @@ interface ConfigureSwipeActionsMviModel :
             Intent
 
         data object ResetActionsInbox : Intent
+
         data class DeleteActionInbox(
             val value: ActionOnSwipe,
             val direction: ActionOnSwipeDirection,

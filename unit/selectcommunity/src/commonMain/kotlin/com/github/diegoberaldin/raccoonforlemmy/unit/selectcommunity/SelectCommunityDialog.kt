@@ -54,15 +54,17 @@ class SelectCommunityDialog : Screen {
         val notificationCenter = remember { getNotificationCenter() }
 
         BasicAlertDialog(
-            onDismissRequest = rememberCallback {
-                model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
-                notificationCenter.send(NotificationCenterEvent.CloseDialog)
-            },
+            onDismissRequest =
+                rememberCallback {
+                    model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
+                    notificationCenter.send(NotificationCenterEvent.CloseDialog)
+                },
         ) {
             Column(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.surface)
-                    .padding(vertical = Spacing.s),
+                modifier =
+                    Modifier
+                        .background(color = MaterialTheme.colorScheme.surface)
+                        .padding(vertical = Spacing.s),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -75,46 +77,51 @@ class SelectCommunityDialog : Screen {
 
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     label = {
                         Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search,
+                        ),
                     onValueChange = { value ->
                         model.reduce(SelectCommunityMviModel.Intent.SetSearch(value))
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    if (uiState.searchText.isNotEmpty()) {
-                                        model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
-                                    }
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        if (uiState.searchText.isNotEmpty()) {
+                                            model.reduce(SelectCommunityMviModel.Intent.SetSearch(""))
+                                        }
+                                    },
+                                ),
+                            imageVector =
+                                if (uiState.searchText.isEmpty()) {
+                                    Icons.Default.Search
+                                } else {
+                                    Icons.Default.Clear
                                 },
-                            ),
-                            imageVector = if (uiState.searchText.isEmpty()) {
-                                Icons.Default.Search
-                            } else {
-                                Icons.Default.Clear
-                            },
                             contentDescription = null,
                         )
                     },
                 )
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 500.dp, max = 500.dp)
-                        .padding(horizontal = Spacing.xs),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .heightIn(min = 500.dp, max = 500.dp)
+                            .padding(horizontal = Spacing.xs),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -127,16 +134,17 @@ class SelectCommunityDialog : Screen {
                         }
                         items(uiState.communities, { it.id }) { community ->
                             CommunityItem(
-                                modifier = Modifier.fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.background)
-                                    .onClick(
-                                        onClick = {
-                                            notificationCenter.send(
-                                                NotificationCenterEvent.SelectCommunity(community),
-                                            )
-                                            notificationCenter.send(NotificationCenterEvent.CloseDialog)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier.fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background)
+                                        .onClick(
+                                            onClick = {
+                                                notificationCenter.send(
+                                                    NotificationCenterEvent.SelectCommunity(community),
+                                                )
+                                                notificationCenter.send(NotificationCenterEvent.CloseDialog)
+                                            },
+                                        ),
                                 autoLoadImages = uiState.autoLoadImages,
                                 preferNicknames = uiState.preferNicknames,
                                 community = community,

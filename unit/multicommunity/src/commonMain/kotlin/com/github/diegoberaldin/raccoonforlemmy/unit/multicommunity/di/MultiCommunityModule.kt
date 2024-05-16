@@ -6,34 +6,35 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.Multi
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorViewModel
 import org.koin.dsl.module
 
-val multiCommunityModule = module {
-    factory<MultiCommunityMviModel> { params ->
-        MultiCommunityViewModel(
-            communityId = params[0],
-            postRepository = get(),
-            identityRepository = get(),
-            siteRepository = get(),
-            themeRepository = get(),
-            shareHelper = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
-            hapticFeedback = get(),
-            postPaginationManager = get(),
-            imagePreloadManager = get(),
-            getSortTypesUseCase = get(),
-            multiCommunityRepository = get(),
-            postNavigationManager = get(),
-        )
+val multiCommunityModule =
+    module {
+        factory<MultiCommunityMviModel> { params ->
+            MultiCommunityViewModel(
+                communityId = params[0],
+                postRepository = get(),
+                identityRepository = get(),
+                siteRepository = get(),
+                themeRepository = get(),
+                shareHelper = get(),
+                settingsRepository = get(),
+                notificationCenter = get(),
+                hapticFeedback = get(),
+                postPaginationManager = get(),
+                imagePreloadManager = get(),
+                getSortTypesUseCase = get(),
+                multiCommunityRepository = get(),
+                postNavigationManager = get(),
+            )
+        }
+        factory<MultiCommunityEditorMviModel> { params ->
+            MultiCommunityEditorViewModel(
+                communityId = params[0],
+                identityRepository = get(),
+                communityRepository = get(),
+                accountRepository = get(),
+                multiCommunityRepository = get(),
+                notificationCenter = get(),
+                settingsRepository = get(),
+            )
+        }
     }
-    factory<MultiCommunityEditorMviModel> { params ->
-        MultiCommunityEditorViewModel(
-            communityId = params[0],
-            identityRepository = get(),
-            communityRepository = get(),
-            accountRepository = get(),
-            multiCommunityRepository = get(),
-            notificationCenter = get(),
-            settingsRepository = get(),
-        )
-    }
-}

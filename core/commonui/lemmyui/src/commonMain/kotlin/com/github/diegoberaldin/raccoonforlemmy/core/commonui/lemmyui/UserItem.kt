@@ -60,17 +60,19 @@ fun UserItem(
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.padding(
-            vertical = Spacing.xs,
-            horizontal = Spacing.s,
-        ),
+        modifier =
+            modifier.padding(
+                vertical = Spacing.xs,
+                horizontal = Spacing.s,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         if (avatar.isNotEmpty() && autoLoadImages) {
             CustomImage(
-                modifier = Modifier.padding(Spacing.xxxs).size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2)),
+                modifier =
+                    Modifier.padding(Spacing.xxxs).size(iconSize)
+                        .clip(RoundedCornerShape(iconSize / 2)),
                 url = avatar,
                 quality = FilterQuality.Low,
                 contentScale = ContentScale.FillBounds,
@@ -86,19 +88,21 @@ fun UserItem(
             modifier = Modifier.weight(1f).padding(start = Spacing.xs),
         ) {
             Text(
-                text = buildString {
-                    append(displayName)
-                },
+                text =
+                    buildString {
+                        append(displayName)
+                    },
                 style = MaterialTheme.typography.bodyLarge,
                 color = fullColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                text = buildString {
-                    append("!")
-                    append(userHandle)
-                },
+                text =
+                    buildString {
+                        append("!")
+                        append(userHandle)
+                    },
                 style = MaterialTheme.typography.bodySmall,
                 color = ancillaryColor,
             )
@@ -107,16 +111,17 @@ fun UserItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -127,10 +132,11 @@ fun UserItem(
                     onDismiss = {
                         optionsMenuOpen = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

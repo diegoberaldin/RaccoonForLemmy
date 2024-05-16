@@ -9,9 +9,13 @@ interface SelectInstanceMviModel :
     ScreenModel {
     sealed interface Intent {
         data class SelectInstance(val value: String) : Intent
+
         data class DeleteInstance(val value: String) : Intent
+
         data class ChangeInstanceName(val value: String) : Intent
+
         data class SwapIntances(val from: Int, val to: Int) : Intent
+
         data object SubmitChangeInstanceDialog : Intent
     }
 
@@ -25,6 +29,7 @@ interface SelectInstanceMviModel :
 
     sealed interface Effect {
         data object CloseDialog : Effect
+
         data class Confirm(val instance: String) : Effect
     }
 }

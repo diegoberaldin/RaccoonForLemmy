@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.CrashReportConf
 class DefaultCrashReportConfiguration(
     private val context: Context,
 ) : CrashReportConfiguration {
-
     companion object {
         const val KEY = "crashReportEnabled"
     }

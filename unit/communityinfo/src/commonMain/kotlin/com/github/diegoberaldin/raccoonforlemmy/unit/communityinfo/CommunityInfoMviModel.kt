@@ -10,7 +10,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface CommunityInfoMviModel :
     MviModel<CommunityInfoMviModel.Intent, CommunityInfoMviModel.UiState, CommunityInfoMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent
 
     data class UiState(

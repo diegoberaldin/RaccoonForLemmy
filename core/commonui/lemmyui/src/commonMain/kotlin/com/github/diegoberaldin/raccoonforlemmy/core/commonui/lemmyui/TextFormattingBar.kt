@@ -57,45 +57,49 @@ fun TextFormattingBar(
         // bold
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val selection = textFieldValue.selection
-                        val newValue = textFieldValue.let {
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("**")
-                                if (selection.collapsed) {
-                                    append(textPlaceholder)
-                                } else {
-                                    append(
-                                        it.text.substring(
-                                            selection.start,
-                                            selection.end,
-                                        ),
-                                    )
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val selection = textFieldValue.selection
+                            val newValue =
+                                textFieldValue.let {
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("**")
+                                            if (selection.collapsed) {
+                                                append(textPlaceholder)
+                                            } else {
+                                                append(
+                                                    it.text.substring(
+                                                        selection.start,
+                                                        selection.end,
+                                                    ),
+                                                )
+                                            }
+                                            append("**")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection =
+                                        if (selection.collapsed) {
+                                            TextRange(index = selection.start + textPlaceholder.length + 2)
+                                        } else {
+                                            TextRange(
+                                                start = it.selection.start + 2,
+                                                end = it.selection.end + 2,
+                                            )
+                                        }
+                                    it.copy(text = newText, selection = newSelection)
                                 }
-                                append("**")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = if (selection.collapsed) {
-                                TextRange(index = selection.start + textPlaceholder.length + 2)
-                            } else {
-                                TextRange(
-                                    start = it.selection.start + 2,
-                                    end = it.selection.end + 2,
-                                )
-                            }
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.FormatBold,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -105,45 +109,49 @@ fun TextFormattingBar(
         // italic
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val selection = textFieldValue.selection
-                        val newValue = textFieldValue.let {
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("*")
-                                if (selection.collapsed) {
-                                    append(textPlaceholder)
-                                } else {
-                                    append(
-                                        it.text.substring(
-                                            selection.start,
-                                            selection.end,
-                                        ),
-                                    )
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val selection = textFieldValue.selection
+                            val newValue =
+                                textFieldValue.let {
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("*")
+                                            if (selection.collapsed) {
+                                                append(textPlaceholder)
+                                            } else {
+                                                append(
+                                                    it.text.substring(
+                                                        selection.start,
+                                                        selection.end,
+                                                    ),
+                                                )
+                                            }
+                                            append("*")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection =
+                                        if (selection.collapsed) {
+                                            TextRange(index = selection.start + textPlaceholder.length + 1)
+                                        } else {
+                                            TextRange(
+                                                start = it.selection.start + 1,
+                                                end = it.selection.end + 1,
+                                            )
+                                        }
+                                    it.copy(text = newText, selection = newSelection)
                                 }
-                                append("*")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = if (selection.collapsed) {
-                                TextRange(index = selection.start + textPlaceholder.length + 1)
-                            } else {
-                                TextRange(
-                                    start = it.selection.start + 1,
-                                    end = it.selection.end + 1,
-                                )
-                            }
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.FormatItalic,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -153,45 +161,49 @@ fun TextFormattingBar(
         // strikethrough
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val selection = textFieldValue.selection
-                        val newValue = textFieldValue.let {
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("~~")
-                                if (selection.collapsed) {
-                                    append(textPlaceholder)
-                                } else {
-                                    append(
-                                        it.text.substring(
-                                            selection.start,
-                                            selection.end,
-                                        ),
-                                    )
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val selection = textFieldValue.selection
+                            val newValue =
+                                textFieldValue.let {
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("~~")
+                                            if (selection.collapsed) {
+                                                append(textPlaceholder)
+                                            } else {
+                                                append(
+                                                    it.text.substring(
+                                                        selection.start,
+                                                        selection.end,
+                                                    ),
+                                                )
+                                            }
+                                            append("~~")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection =
+                                        if (selection.collapsed) {
+                                            TextRange(index = selection.start + textPlaceholder.length + 2)
+                                        } else {
+                                            TextRange(
+                                                start = it.selection.start + 2,
+                                                end = it.selection.end + 2,
+                                            )
+                                        }
+                                    it.copy(text = newText, selection = newSelection)
                                 }
-                                append("~~")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = if (selection.collapsed) {
-                                TextRange(index = selection.start + textPlaceholder.length + 2)
-                            } else {
-                                TextRange(
-                                    start = it.selection.start + 2,
-                                    end = it.selection.end + 2,
-                                )
-                            }
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.FormatStrikethrough,
                 tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null,
@@ -202,11 +214,12 @@ fun TextFormattingBar(
         if (onSelectImage != null) {
             item {
                 Icon(
-                    modifier = Modifier.onClick(
-                        onClick = {
-                            onSelectImage.invoke()
-                        },
-                    ),
+                    modifier =
+                        Modifier.onClick(
+                            onClick = {
+                                onSelectImage.invoke()
+                            },
+                        ),
                     imageVector = Icons.Default.Image,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground,
@@ -217,47 +230,51 @@ fun TextFormattingBar(
         // hyperlink
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val newValue = textFieldValue.let {
-                            val selection = it.selection
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("[")
-                                if (selection.collapsed) {
-                                    append(textPlaceholder)
-                                } else {
-                                    append(
-                                        it.text.substring(
-                                            selection.start,
-                                            selection.end,
-                                        ),
-                                    )
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val newValue =
+                                textFieldValue.let {
+                                    val selection = it.selection
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("[")
+                                            if (selection.collapsed) {
+                                                append(textPlaceholder)
+                                            } else {
+                                                append(
+                                                    it.text.substring(
+                                                        selection.start,
+                                                        selection.end,
+                                                    ),
+                                                )
+                                            }
+                                            append("](")
+                                            append(urlPlaceholder)
+                                            append(")")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection =
+                                        if (selection.collapsed) {
+                                            TextRange(index = selection.start + textPlaceholder.length + 1)
+                                        } else {
+                                            TextRange(
+                                                start = it.selection.start + 1,
+                                                end = it.selection.end + 1,
+                                            )
+                                        }
+                                    it.copy(text = newText, selection = newSelection)
                                 }
-                                append("](")
-                                append(urlPlaceholder)
-                                append(")")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = if (selection.collapsed) {
-                                TextRange(index = selection.start + textPlaceholder.length + 1)
-                            } else {
-                                TextRange(
-                                    start = it.selection.start + 1,
-                                    end = it.selection.end + 1,
-                                )
-                            }
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.InsertLink,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -267,45 +284,49 @@ fun TextFormattingBar(
         // inline code
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val newValue = textFieldValue.let {
-                            val selection = it.selection
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("`")
-                                if (selection.collapsed) {
-                                    append(textPlaceholder)
-                                } else {
-                                    append(
-                                        it.text.substring(
-                                            selection.start,
-                                            selection.end,
-                                        ),
-                                    )
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val newValue =
+                                textFieldValue.let {
+                                    val selection = it.selection
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("`")
+                                            if (selection.collapsed) {
+                                                append(textPlaceholder)
+                                            } else {
+                                                append(
+                                                    it.text.substring(
+                                                        selection.start,
+                                                        selection.end,
+                                                    ),
+                                                )
+                                            }
+                                            append("`")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection =
+                                        if (selection.collapsed) {
+                                            TextRange(index = selection.start + textPlaceholder.length + 1)
+                                        } else {
+                                            TextRange(
+                                                start = it.selection.start + 1,
+                                                end = it.selection.end + 1,
+                                            )
+                                        }
+                                    it.copy(text = newText, selection = newSelection)
                                 }
-                                append("`")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = if (selection.collapsed) {
-                                TextRange(index = selection.start + textPlaceholder.length + 1)
-                            } else {
-                                TextRange(
-                                    start = it.selection.start + 1,
-                                    end = it.selection.end + 1,
-                                )
-                            }
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.Code,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -315,27 +336,30 @@ fun TextFormattingBar(
         // block quote
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val newValue = textFieldValue.let {
-                            val selection = it.selection
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("\n> ")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = TextRange(index = selection.start + 3)
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val newValue =
+                                textFieldValue.let {
+                                    val selection = it.selection
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("\n> ")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection = TextRange(index = selection.start + 3)
+                                    it.copy(text = newText, selection = newSelection)
+                                }
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.FormatQuote,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -345,27 +369,30 @@ fun TextFormattingBar(
         // bulleted list
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val newValue = textFieldValue.let {
-                            val selection = it.selection
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("\n- ")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = TextRange(index = selection.start + 3)
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val newValue =
+                                textFieldValue.let {
+                                    val selection = it.selection
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("\n- ")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection = TextRange(index = selection.start + 3)
+                                    it.copy(text = newText, selection = newSelection)
+                                }
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.AutoMirrored.Default.FormatListBulleted,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -375,27 +402,30 @@ fun TextFormattingBar(
         // numbered list
         item {
             Icon(
-                modifier = Modifier.onClick(
-                    key = textFieldValue,
-                    onClick = {
-                        val newValue = textFieldValue.let {
-                            val selection = it.selection
-                            val newText = buildString {
-                                append(it.text.substring(0, selection.start))
-                                append("\n1. ")
-                                append(
-                                    it.text.substring(
-                                        selection.end,
-                                        it.text.length,
-                                    ),
-                                )
-                            }
-                            val newSelection = TextRange(index = selection.start + 4)
-                            it.copy(text = newText, selection = newSelection)
-                        }
-                        onTextFieldValueChanged(newValue)
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        key = textFieldValue,
+                        onClick = {
+                            val newValue =
+                                textFieldValue.let {
+                                    val selection = it.selection
+                                    val newText =
+                                        buildString {
+                                            append(it.text.substring(0, selection.start))
+                                            append("\n1. ")
+                                            append(
+                                                it.text.substring(
+                                                    selection.end,
+                                                    it.text.length,
+                                                ),
+                                            )
+                                        }
+                                    val newSelection = TextRange(index = selection.start + 4)
+                                    it.copy(text = newText, selection = newSelection)
+                                }
+                            onTextFieldValueChanged(newValue)
+                        },
+                    ),
                 imageVector = Icons.Default.FormatListNumbered,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -406,22 +436,24 @@ fun TextFormattingBar(
         if (onSelectLanguage != null) {
             item {
                 Box(
-                    modifier = Modifier
-                        .size(IconSize.m)
-                        .border(
-                            color = MaterialTheme.colorScheme.onBackground,
-                            width = Dp.Hairline,
-                            shape = RoundedCornerShape(CornerSize.m),
-                        )
-                        .clickable(onClick = onSelectLanguage)
-                        .padding(Spacing.xxxs),
+                    modifier =
+                        Modifier
+                            .size(IconSize.m)
+                            .border(
+                                color = MaterialTheme.colorScheme.onBackground,
+                                width = Dp.Hairline,
+                                shape = RoundedCornerShape(CornerSize.m),
+                            )
+                            .clickable(onClick = onSelectLanguage)
+                            .padding(Spacing.xxxs),
                     contentAlignment = Alignment.Center,
                 ) {
-                    val languageCode = availableLanguages.firstOrNull { l ->
-                        l.id == currentLanguageId
-                    }?.takeIf { l ->
-                        l.id > 0 // undetermined language
-                    }?.code ?: "λ"
+                    val languageCode =
+                        availableLanguages.firstOrNull { l ->
+                            l.id == currentLanguageId
+                        }?.takeIf { l ->
+                            l.id > 0 // undetermined language
+                        }?.code ?: "λ"
                     Text(
                         text = languageCode,
                         style = MaterialTheme.typography.labelSmall,
@@ -436,11 +468,12 @@ fun TextFormattingBar(
         if (lastActionIcon != null && onLastAction != null) {
             item {
                 Icon(
-                    modifier = Modifier.onClick(
-                        onClick = {
-                            onLastAction()
-                        },
-                    ),
+                    modifier =
+                        Modifier.onClick(
+                            onClick = {
+                                onLastAction()
+                            },
+                        ),
                     imageVector = lastActionIcon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground,

@@ -38,7 +38,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 class ColorBottomSheet : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -46,30 +45,32 @@ class ColorBottomSheet : Screen {
         var customPickerDialogOpened by remember { mutableStateOf(false) }
         val settingsRepository = remember { getSettingsRepository() }
         Column(
-            modifier = Modifier.padding(
-                top = Spacing.s,
-                start = Spacing.s,
-                end = Spacing.s,
-                bottom = Spacing.m,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.s,
+                    start = Spacing.s,
+                    end = Spacing.s,
+                    bottom = Spacing.m,
+                ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsCustomSeedColor)
             val customText = LocalXmlStrings.current.settingsColorCustom
-            val values: List<Pair<Color?, String>> = listOf(
-                Color(0xFF001F7D) to LocalXmlStrings.current.settingsColorBlue,
-                Color(0xFF36B3B3) to LocalXmlStrings.current.settingsColorAquamarine,
-                Color(0xFF884DFF) to LocalXmlStrings.current.settingsColorPurple,
-                Color(0xFF00B300) to LocalXmlStrings.current.settingsColorGreen,
-                Color(0xFFFF0000) to LocalXmlStrings.current.settingsColorRed,
-                Color(0xFFFF66600) to LocalXmlStrings.current.settingsColorOrange,
-                Color(0x94786818) to LocalXmlStrings.current.settingsColorBanana,
-                Color(0xFFFC0FC0) to LocalXmlStrings.current.settingsColorPink,
-                Color(0xFF303B47) to LocalXmlStrings.current.settingsColorGray,
-                Color(0xFFd7d7d7) to LocalXmlStrings.current.settingsColorWhite,
-                null to customText,
-                null to LocalXmlStrings.current.buttonReset,
-            )
+            val values: List<Pair<Color?, String>> =
+                listOf(
+                    Color(0xFF001F7D) to LocalXmlStrings.current.settingsColorBlue,
+                    Color(0xFF36B3B3) to LocalXmlStrings.current.settingsColorAquamarine,
+                    Color(0xFF884DFF) to LocalXmlStrings.current.settingsColorPurple,
+                    Color(0xFF00B300) to LocalXmlStrings.current.settingsColorGreen,
+                    Color(0xFFFF0000) to LocalXmlStrings.current.settingsColorRed,
+                    Color(0xFFFF66600) to LocalXmlStrings.current.settingsColorOrange,
+                    Color(0x94786818) to LocalXmlStrings.current.settingsColorBanana,
+                    Color(0xFFFC0FC0) to LocalXmlStrings.current.settingsColorPink,
+                    Color(0xFF303B47) to LocalXmlStrings.current.settingsColorGray,
+                    Color(0xFFd7d7d7) to LocalXmlStrings.current.settingsColorWhite,
+                    null to customText,
+                    null to LocalXmlStrings.current.buttonReset,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -78,26 +79,27 @@ class ColorBottomSheet : Screen {
                     val text = value.second
                     val isChooseCustom = text == customText
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    if (!isChooseCustom) {
-                                        notificationCenter.send(
-                                            NotificationCenterEvent.ChangeColor(
-                                                value.first,
-                                            ),
-                                        )
-                                        navigationCoordinator.hideBottomSheet()
-                                    } else {
-                                        customPickerDialogOpened = true
-                                    }
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        if (!isChooseCustom) {
+                                            notificationCenter.send(
+                                                NotificationCenterEvent.ChangeColor(
+                                                    value.first,
+                                                ),
+                                            )
+                                            navigationCoordinator.hideBottomSheet()
+                                        } else {
+                                            customPickerDialogOpened = true
+                                        }
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -109,12 +111,13 @@ class ColorBottomSheet : Screen {
 
                         if (!isChooseCustom) {
                             Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .background(
-                                        color = value.first ?: Color.Transparent,
-                                        shape = CircleShape,
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .size(36.dp)
+                                        .background(
+                                            color = value.first ?: Color.Transparent,
+                                            shape = CircleShape,
+                                        ),
                             )
                         } else {
                             Image(

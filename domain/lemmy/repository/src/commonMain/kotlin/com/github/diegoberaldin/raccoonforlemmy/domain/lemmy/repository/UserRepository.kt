@@ -8,7 +8,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 interface UserRepository {
-
     suspend fun getResolved(
         query: String,
         auth: String? = null,
@@ -73,9 +72,7 @@ interface UserRepository {
         unreadOnly: Boolean = true,
     ): List<PersonMentionModel>?
 
-    suspend fun readAll(
-        auth: String? = null,
-    )
+    suspend fun readAll(auth: String? = null)
 
     suspend fun setMentionRead(
         read: Boolean,
@@ -89,7 +86,11 @@ interface UserRepository {
         auth: String? = null,
     )
 
-    suspend fun block(id: Long, blocked: Boolean, auth: String? = null): Result<Unit>
+    suspend fun block(
+        id: Long,
+        blocked: Boolean,
+        auth: String? = null,
+    ): Result<Unit>
 
     suspend fun getModeratedCommunities(
         auth: String? = null,

@@ -107,12 +107,14 @@ class InboxRepliesScreen : Tab {
             }.launchIn(this)
         }
 
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(InboxRepliesMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(InboxRepliesMviModel.Intent.Refresh)
+                    },
+            )
         Box(
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
@@ -152,60 +154,67 @@ class InboxRepliesScreen : Tab {
                     fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                         mapNotNull {
                             when (it) {
-                                ActionOnSwipe.UpVote -> SwipeAction(
-                                    swipeContent = {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowCircleUp,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
-                                    },
-                                )
+                                ActionOnSwipe.UpVote ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowCircleUp,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
+                                            },
+                                    )
 
-                                ActionOnSwipe.DownVote -> SwipeAction(
-                                    swipeContent = {
-                                        Icon(
-                                            imageVector = Icons.Default.ArrowCircleDown,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(
-                                            InboxRepliesMviModel.Intent.DownVoteComment(
-                                                reply.id,
-                                            ),
-                                        )
-                                    },
-                                )
+                                ActionOnSwipe.DownVote ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            Icon(
+                                                imageVector = Icons.Default.ArrowCircleDown,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(
+                                                    InboxRepliesMviModel.Intent.DownVoteComment(
+                                                        reply.id,
+                                                    ),
+                                                )
+                                            },
+                                    )
 
-                                ActionOnSwipe.ToggleRead -> SwipeAction(
-                                    swipeContent = {
-                                        val icon = when {
-                                            reply.read -> Icons.Default.MarkChatUnread
-                                            else -> Icons.Default.MarkChatRead
-                                        }
-                                        Icon(
-                                            imageVector = icon,
-                                            contentDescription = null,
-                                            tint = Color.White,
-                                        )
-                                    },
-                                    backgroundColor = toggleReadColor ?: defaultToggleReadColor,
-                                    onTriggered = rememberCallback {
-                                        model.reduce(
-                                            InboxRepliesMviModel.Intent.MarkAsRead(
-                                                read = !reply.read,
-                                                id = reply.id,
-                                            ),
-                                        )
-                                    },
-                                )
+                                ActionOnSwipe.ToggleRead ->
+                                    SwipeAction(
+                                        swipeContent = {
+                                            val icon =
+                                                when {
+                                                    reply.read -> Icons.Default.MarkChatUnread
+                                                    else -> Icons.Default.MarkChatRead
+                                                }
+                                            Icon(
+                                                imageVector = icon,
+                                                contentDescription = null,
+                                                tint = Color.White,
+                                            )
+                                        },
+                                        backgroundColor = toggleReadColor ?: defaultToggleReadColor,
+                                        onTriggered =
+                                            rememberCallback {
+                                                model.reduce(
+                                                    InboxRepliesMviModel.Intent.MarkAsRead(
+                                                        read = !reply.read,
+                                                        id = reply.id,
+                                                    ),
+                                                )
+                                            },
+                                    )
 
                                 else -> null
                             }
@@ -214,9 +223,10 @@ class InboxRepliesScreen : Tab {
                     SwipeActionCard(
                         modifier = Modifier.fillMaxWidth(),
                         enabled = uiState.swipeActionsEnabled,
-                        onGestureBegin = rememberCallback(model) {
-                            model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
-                        },
+                        onGestureBegin =
+                            rememberCallback(model) {
+                                model.reduce(InboxRepliesMviModel.Intent.HapticIndication)
+                            },
                         swipeToStartActions = uiState.actionsOnSwipeToStartInbox.toSwipeActions(),
                         swipeToEndActions = uiState.actionsOnSwipeToEndInbox.toSwipeActions(),
                         content = {
@@ -228,62 +238,72 @@ class InboxRepliesScreen : Tab {
                                 preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
-                                onOpenPost = rememberCallbackArgs { post ->
-                                    detailOpener.openPostDetail(
-                                        post = post,
-                                        highlightCommentId = reply.comment.id,
-                                    )
-                                },
-                                onOpenCreator = rememberCallbackArgs { user ->
-                                    detailOpener.openUserDetail(user)
-                                },
-                                onOpenCommunity = rememberCallbackArgs { community ->
-                                    detailOpener.openCommunityDetail(community = community)
-                                },
-                                onImageClick = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(
-                                            url = url,
-                                            source = reply.post.community?.readableHandle.orEmpty(),
-                                        ),
-                                    )
-                                },
-                                onUpVote = rememberCallback(model) {
-                                    model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
-                                },
-                                onDownVote = rememberCallback(model) {
-                                    model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
-                                },
-                                onReply = rememberCallback {
-                                    detailOpener.openReply(
-                                        originalPost = reply.post,
-                                        originalComment = reply.comment,
-                                    )
-                                },
-                                options = buildList {
-                                    add(
-                                        Option(
-                                            OptionId.ToggleRead,
-                                            if (reply.read) {
-                                                LocalXmlStrings.current.inboxActionMarkUnread
-                                            } else {
-                                                LocalXmlStrings.current.inboxActionMarkRead
-                                            },
-                                        ),
-                                    )
-                                },
-                                onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                    when (optionId) {
-                                        OptionId.ToggleRead -> model.reduce(
-                                            InboxRepliesMviModel.Intent.MarkAsRead(
-                                                read = !reply.read,
-                                                id = reply.id,
+                                onOpenPost =
+                                    rememberCallbackArgs { post ->
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            highlightCommentId = reply.comment.id,
+                                        )
+                                    },
+                                onOpenCreator =
+                                    rememberCallbackArgs { user ->
+                                        detailOpener.openUserDetail(user)
+                                    },
+                                onOpenCommunity =
+                                    rememberCallbackArgs { community ->
+                                        detailOpener.openCommunityDetail(community = community)
+                                    },
+                                onImageClick =
+                                    rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = reply.post.community?.readableHandle.orEmpty(),
                                             ),
                                         )
+                                    },
+                                onUpVote =
+                                    rememberCallback(model) {
+                                        model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
+                                    },
+                                onDownVote =
+                                    rememberCallback(model) {
+                                        model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
+                                    },
+                                onReply =
+                                    rememberCallback {
+                                        detailOpener.openReply(
+                                            originalPost = reply.post,
+                                            originalComment = reply.comment,
+                                        )
+                                    },
+                                options =
+                                    buildList {
+                                        add(
+                                            Option(
+                                                OptionId.ToggleRead,
+                                                if (reply.read) {
+                                                    LocalXmlStrings.current.inboxActionMarkUnread
+                                                } else {
+                                                    LocalXmlStrings.current.inboxActionMarkRead
+                                                },
+                                            ),
+                                        )
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs(model) { optionId ->
+                                        when (optionId) {
+                                            OptionId.ToggleRead ->
+                                                model.reduce(
+                                                    InboxRepliesMviModel.Intent.MarkAsRead(
+                                                        read = !reply.read,
+                                                        id = reply.id,
+                                                    ),
+                                                )
 
-                                        else -> Unit
-                                    }
-                                },
+                                            else -> Unit
+                                        }
+                                    },
                             )
                         },
                     )

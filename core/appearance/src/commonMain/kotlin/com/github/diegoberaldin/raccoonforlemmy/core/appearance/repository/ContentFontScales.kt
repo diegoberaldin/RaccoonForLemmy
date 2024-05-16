@@ -9,7 +9,10 @@ data class ContentFontScales(
 
 sealed interface ContentFontClass {
     data object Title : ContentFontClass
+
     data object Body : ContentFontClass
+
     data object Comment : ContentFontClass
+
     data object AncillaryText : ContentFontClass
 }

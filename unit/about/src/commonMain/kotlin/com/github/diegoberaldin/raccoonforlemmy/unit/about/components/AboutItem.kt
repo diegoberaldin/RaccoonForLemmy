@@ -29,14 +29,15 @@ internal fun AboutItem(
     onClick: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = Modifier.padding(
-            horizontal = Spacing.xs,
-            vertical = Spacing.s,
-        ).onClick(
-            onClick = {
-                onClick?.invoke()
-            },
-        ),
+        modifier =
+            Modifier.padding(
+                horizontal = Spacing.xs,
+                vertical = Spacing.s,
+            ).onClick(
+                onClick = {
+                    onClick?.invoke()
+                },
+            ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {

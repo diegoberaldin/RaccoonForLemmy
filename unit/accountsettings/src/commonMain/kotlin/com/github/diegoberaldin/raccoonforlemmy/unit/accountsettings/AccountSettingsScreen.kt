@@ -135,10 +135,11 @@ class AccountSettingsScreen : Screen {
         }
 
         Scaffold(
-            modifier = Modifier
-                .safeContentPadding()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .safeContentPadding()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -152,16 +153,17 @@ class AccountSettingsScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier
-                                    .onClick(
-                                        onClick = {
-                                            if (uiState.hasUnsavedChanges) {
-                                                confirmBackWithUnsavedChangesDialog = true
-                                            } else {
-                                                navigationCoordinator.popScreen()
-                                            }
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .onClick(
+                                            onClick = {
+                                                if (uiState.hasUnsavedChanges) {
+                                                    confirmBackWithUnsavedChangesDialog = true
+                                                } else {
+                                                    navigationCoordinator.popScreen()
+                                                }
+                                            },
+                                        ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -173,18 +175,22 @@ class AccountSettingsScreen : Screen {
                         val iconRotate by transition.animateFloat(
                             initialValue = 0f,
                             targetValue = 360f,
-                            animationSpec = InfiniteRepeatableSpec(
-                                animation = tween(1000),
-                            ),
+                            animationSpec =
+                                InfiniteRepeatableSpec(
+                                    animation = tween(1000),
+                                ),
                         )
                         Icon(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .then(
-                                    if (!uiState.loading) {
-                                        Modifier
-                                    } else Modifier.rotate(iconRotate),
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .then(
+                                        if (!uiState.loading) {
+                                            Modifier
+                                        } else {
+                                            Modifier.rotate(iconRotate)
+                                        },
+                                    ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -203,15 +209,16 @@ class AccountSettingsScreen : Screen {
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
             ) {
                 Column(
                     modifier = Modifier.weight(1f).verticalScroll(scrollState),
@@ -226,13 +233,15 @@ class AccountSettingsScreen : Screen {
                     val avatarSize = IconSize.xxl
                     SettingsImageInfo(
                         title = LocalXmlStrings.current.settingsWebAvatar,
-                        imageModifier = Modifier
-                            .size(avatarSize)
-                            .clip(RoundedCornerShape(avatarSize / 2)),
+                        imageModifier =
+                            Modifier
+                                .size(avatarSize)
+                                .clip(RoundedCornerShape(avatarSize / 2)),
                         url = uiState.avatar,
-                        onEdit = rememberCallback {
-                            openAvatarPicker = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openAvatarPicker = true
+                            },
                     )
 
                     // banner
@@ -241,9 +250,10 @@ class AccountSettingsScreen : Screen {
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
                         contentScale = ContentScale.Crop,
                         url = uiState.banner,
-                        onEdit = rememberCallback {
-                            openBannerPicker = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openBannerPicker = true
+                            },
                     )
 
                     // display name
@@ -251,9 +261,10 @@ class AccountSettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsWebDisplayName,
                         value = uiState.displayName,
                         valueStyle = contentTypography.bodyMedium,
-                        onEdit = rememberCallback {
-                            openDisplayNameEditDialog = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openDisplayNameEditDialog = true
+                            },
                     )
 
                     // email
@@ -261,39 +272,44 @@ class AccountSettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsWebEmail,
                         value = uiState.email,
                         valueStyle = contentTypography.bodyMedium,
-                        onEdit = rememberCallback {
-                            openEmailEditDialog = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openEmailEditDialog = true
+                            },
                     )
 
                     // Matrix user ID
                     SettingsTextualInfo(
                         title = LocalXmlStrings.current.settingsWebMatrix,
                         value = uiState.matrixUserId,
-                        valueStyle = contentTypography.bodyMedium.copy(
-                            fontFamily = FontFamily.Monospace,
-                        ),
-                        onEdit = rememberCallback {
-                            openMatrixUserIdEditDialog = true
-                        },
+                        valueStyle =
+                            contentTypography.bodyMedium.copy(
+                                fontFamily = FontFamily.Monospace,
+                            ),
+                        onEdit =
+                            rememberCallback {
+                                openMatrixUserIdEditDialog = true
+                            },
                     )
 
                     // bio
                     SettingsFormattedInfo(
                         title = LocalXmlStrings.current.settingsWebBio,
                         value = uiState.bio,
-                        onEdit = rememberCallback {
-                            openBioEditDialog = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openBioEditDialog = true
+                            },
                     )
 
                     // bots account
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsWebBot,
                         value = uiState.bot,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(AccountSettingsMviModel.Intent.ChangeBot(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeBot(value))
+                            },
                     )
 
                     SettingsHeader(
@@ -305,63 +321,71 @@ class AccountSettingsScreen : Screen {
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultListingType,
                         value = uiState.defaultListingType.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = ListingTypeBottomSheet(
-                                isLogged = true,
-                                screenKey = "accountSettings",
-                            )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    ListingTypeBottomSheet(
+                                        isLogged = true,
+                                        screenKey = "accountSettings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // default sort type
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultPostSortType,
                         value = uiState.defaultSortType.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = SortBottomSheet(
-                                values = uiState.availableSortTypes.map { it.toInt() },
-                                expandTop = true,
-                                screenKey = "accountSettings",
-                            )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    SortBottomSheet(
+                                        values = uiState.availableSortTypes.map { it.toInt() },
+                                        expandTop = true,
+                                        screenKey = "accountSettings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // show bots
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsWebShowBot,
                         value = uiState.showBotAccounts,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(AccountSettingsMviModel.Intent.ChangeShowBotAccounts(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowBotAccounts(value))
+                            },
                     )
 
                     // show NSFW
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsWebShowNsfw,
                         value = uiState.showNsfw,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(AccountSettingsMviModel.Intent.ChangeShowNsfw(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowNsfw(value))
+                            },
                     )
 
                     // show scores
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsShowScores,
                         value = uiState.showScores,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(AccountSettingsMviModel.Intent.ChangeShowScores(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowScores(value))
+                            },
                     )
 
                     // show read posts
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsWebShowRead,
                         value = uiState.showReadPosts,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(AccountSettingsMviModel.Intent.ChangeShowReadPosts(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowReadPosts(value))
+                            },
                     )
 
                     SettingsHeader(
@@ -373,13 +397,14 @@ class AccountSettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsWebEmailNotifications,
                         value = uiState.sendNotificationsToEmail,
-                        onValueChanged = rememberCallbackArgs { value ->
-                            model.reduce(
-                                AccountSettingsMviModel.Intent.ChangeSendNotificationsToEmail(
-                                    value,
-                                ),
-                            )
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(
+                                    AccountSettingsMviModel.Intent.ChangeSendNotificationsToEmail(
+                                        value,
+                                    ),
+                                )
+                            },
                     )
                 }
 
@@ -403,12 +428,13 @@ class AccountSettingsScreen : Screen {
             EditTextualInfoDialog(
                 title = LocalXmlStrings.current.settingsWebDisplayName,
                 value = uiState.displayName,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openDisplayNameEditDialog = false
-                    newValue?.also {
-                        model.reduce(AccountSettingsMviModel.Intent.ChangeDisplayName(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openDisplayNameEditDialog = false
+                        newValue?.also {
+                            model.reduce(AccountSettingsMviModel.Intent.ChangeDisplayName(it))
+                        }
+                    },
             )
         }
 
@@ -416,12 +442,13 @@ class AccountSettingsScreen : Screen {
             EditTextualInfoDialog(
                 title = LocalXmlStrings.current.settingsWebEmail,
                 value = uiState.email,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openEmailEditDialog = false
-                    newValue?.also {
-                        model.reduce(AccountSettingsMviModel.Intent.ChangeEmail(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openEmailEditDialog = false
+                        newValue?.also {
+                            model.reduce(AccountSettingsMviModel.Intent.ChangeEmail(it))
+                        }
+                    },
             )
         }
 
@@ -429,12 +456,13 @@ class AccountSettingsScreen : Screen {
             EditTextualInfoDialog(
                 title = LocalXmlStrings.current.settingsWebMatrix,
                 value = uiState.matrixUserId,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openMatrixUserIdEditDialog = false
-                    newValue?.also {
-                        model.reduce(AccountSettingsMviModel.Intent.ChangeMatrixUserId(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openMatrixUserIdEditDialog = false
+                        newValue?.also {
+                            model.reduce(AccountSettingsMviModel.Intent.ChangeMatrixUserId(it))
+                        }
+                    },
             )
         }
 
@@ -442,12 +470,13 @@ class AccountSettingsScreen : Screen {
             EditFormattedInfoDialog(
                 title = LocalXmlStrings.current.settingsWebBio,
                 value = uiState.bio,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openBioEditDialog = false
-                    newValue?.also {
-                        model.reduce(AccountSettingsMviModel.Intent.ChangeBio(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openBioEditDialog = false
+                        newValue?.also {
+                            model.reduce(AccountSettingsMviModel.Intent.ChangeBio(it))
+                        }
+                    },
             )
         }
 

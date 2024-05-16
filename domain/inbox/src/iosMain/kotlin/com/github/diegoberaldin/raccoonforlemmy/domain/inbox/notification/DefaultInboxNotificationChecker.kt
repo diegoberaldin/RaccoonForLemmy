@@ -1,7 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.inbox.notification
 
 class DefaultInboxNotificationChecker : InboxNotificationChecker {
-
     override val isBackgroundCheckSupported = false
 
     override fun setPeriod(minutes: Long) {

@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 
 interface InboxCoordinator {
-
     sealed interface Event {
         data object Refresh : Event
     }

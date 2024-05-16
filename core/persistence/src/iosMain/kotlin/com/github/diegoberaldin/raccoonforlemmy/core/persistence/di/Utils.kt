@@ -8,11 +8,12 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.dsl.module
 
-actual val persistenceInnerModule = module {
-    single<DriverFactory> {
-        DefaultDriverFactory()
+actual val persistenceInnerModule =
+    module {
+        single<DriverFactory> {
+            DefaultDriverFactory()
+        }
     }
-}
 
 actual fun getAccountRepository(): AccountRepository = PersistenceDiHelper.accountRepository
 

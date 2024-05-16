@@ -69,29 +69,31 @@ internal fun ChatCard(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
     Row(
-        modifier = modifier
-            .padding(horizontal = Spacing.xs, vertical = Spacing.s)
-            .onClick(
-                onClick = {
-                    onOpen?.invoke()
-                },
-            ),
+        modifier =
+            modifier
+                .padding(horizontal = Spacing.xs, vertical = Spacing.s)
+                .onClick(
+                    onClick = {
+                        onOpen?.invoke()
+                    },
+                ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
     ) {
         if (creatorAvatar.isNotEmpty()) {
             CustomImage(
-                modifier = Modifier
-                    .padding(Spacing.xxxs)
-                    .size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2))
-                    .onClick(
-                        onClick = {
-                            if (user != null) {
-                                onOpenUser?.invoke(user)
-                            }
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(Spacing.xxxs)
+                        .size(iconSize)
+                        .clip(RoundedCornerShape(iconSize / 2))
+                        .onClick(
+                            onClick = {
+                                if (user != null) {
+                                    onOpenUser?.invoke(user)
+                                }
+                            },
+                        ),
                 quality = FilterQuality.Low,
                 url = creatorAvatar,
                 autoload = autoLoadImages,
@@ -99,13 +101,14 @@ internal fun ChatCard(
             )
         } else {
             PlaceholderImage(
-                modifier = Modifier.onClick(
-                    onClick = {
-                        if (user != null) {
-                            onOpenUser?.invoke(user)
-                        }
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        onClick = {
+                            if (user != null) {
+                                onOpenUser?.invoke(user)
+                            }
+                        },
+                    ),
                 size = iconSize,
                 title = creatorName,
             )
@@ -164,16 +167,17 @@ internal fun ChatCard(
                         Spacer(modifier = Modifier.weight(1f))
                         if (options.isNotEmpty()) {
                             Icon(
-                                modifier = Modifier.size(IconSize.m)
-                                    .padding(Spacing.xs)
-                                    .onGloballyPositioned {
-                                        optionsOffset = it.positionInParent()
-                                    }
-                                    .onClick(
-                                        onClick = {
-                                            optionsExpanded = true
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier.size(IconSize.m)
+                                        .padding(Spacing.xs)
+                                        .onGloballyPositioned {
+                                            optionsOffset = it.positionInParent()
+                                        }
+                                        .onClick(
+                                            onClick = {
+                                                optionsExpanded = true
+                                            },
+                                        ),
                                 imageVector = Icons.Default.MoreHoriz,
                                 contentDescription = null,
                                 tint = ancillaryColor,
@@ -186,10 +190,11 @@ internal fun ChatCard(
                         onDismiss = {
                             optionsExpanded = false
                         },
-                        offset = DpOffset(
-                            x = optionsOffset.x.toLocalDp(),
-                            y = optionsOffset.y.toLocalDp(),
-                        ),
+                        offset =
+                            DpOffset(
+                                x = optionsOffset.x.toLocalDp(),
+                                y = optionsOffset.y.toLocalDp(),
+                            ),
                     ) {
                         options.forEach { option ->
                             DropdownMenuItem(

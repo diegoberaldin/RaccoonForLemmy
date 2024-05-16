@@ -12,7 +12,6 @@ private const val TAG = "InboxNotificationCheck"
 class DefaultInboxNotificationChecker(
     private val context: Context,
 ) : InboxNotificationChecker {
-
     override val isBackgroundCheckSupported = true
     private var intervalMinutes = 15L
 
@@ -41,13 +40,14 @@ class DefaultInboxNotificationChecker(
     private fun createNotificationChannel() {
         val descriptionText = ""
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(
-            NotificationConstants.CHANNEL_ID,
-            NotificationConstants.CHANNEL_NAME,
-            importance,
-        ).apply {
-            description = descriptionText
-        }
+        val channel =
+            NotificationChannel(
+                NotificationConstants.CHANNEL_ID,
+                NotificationConstants.CHANNEL_NAME,
+                importance,
+            ).apply {
+                description = descriptionText
+            }
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)

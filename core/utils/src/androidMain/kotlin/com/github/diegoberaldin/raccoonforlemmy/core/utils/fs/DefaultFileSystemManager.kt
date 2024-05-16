@@ -12,36 +12,45 @@ import java.io.OutputStreamWriter
 class DefaultFileSystemManager(
     private val context: Context,
 ) : FileSystemManager {
-
     override val isSupported = true
 
     @Composable
-    override fun readFromFile(mimeTypes: Array<String>, callback: (String?) -> Unit) {
-        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-            if (uri != null) {
-                val stream = context.contentResolver.openInputStream(uri)
-                InputStreamReader(stream).use { reader ->
-                    val content = reader.readText()
-                    callback(content)
+    override fun readFromFile(
+        mimeTypes: Array<String>,
+        callback: (String?) -> Unit,
+    ) {
+        val launcher =
+            rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+                if (uri != null) {
+                    val stream = context.contentResolver.openInputStream(uri)
+                    InputStreamReader(stream).use { reader ->
+                        val content = reader.readText()
+                        callback(content)
+                    }
                 }
             }
-        }
         SideEffect {
             launcher.launch(mimeTypes)
         }
     }
 
     @Composable
-    override fun writeToFile(mimeType: String, name: String, data: String, callback: (Boolean) -> Unit) {
-        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(mimeType)) { uri ->
-            if (uri != null) {
-                val stream = context.contentResolver.openOutputStream(uri)
-                OutputStreamWriter(stream).use { writer ->
-                    writer.write(data)
-                    callback(true)
+    override fun writeToFile(
+        mimeType: String,
+        name: String,
+        data: String,
+        callback: (Boolean) -> Unit,
+    ) {
+        val launcher =
+            rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument(mimeType)) { uri ->
+                if (uri != null) {
+                    val stream = context.contentResolver.openOutputStream(uri)
+                    OutputStreamWriter(stream).use { writer ->
+                        writer.write(data)
+                        callback(true)
+                    }
                 }
             }
-        }
         SideEffect {
             launcher.launch(name)
         }

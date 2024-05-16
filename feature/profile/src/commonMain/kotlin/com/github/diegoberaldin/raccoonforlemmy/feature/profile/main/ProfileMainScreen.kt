@@ -69,7 +69,6 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 internal object ProfileMainScreen : Tab {
-
     override val options: TabOptions
         @Composable get() {
             return TabOptions(0u, "")
@@ -158,21 +157,23 @@ internal object ProfileMainScreen : Tab {
                 }.launchIn(scope)
 
                 TopAppBar(
-                    windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset.roundToInt(), 0, 0)
-                    } else {
-                        TopAppBarDefaults.windowInsets
-                    },
+                    windowInsets =
+                        if (settings.edgeToEdge) {
+                            WindowInsets(0, topInset.roundToInt(), 0, 0)
+                        } else {
+                            TopAppBarDefaults.windowInsets
+                        },
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    scope.launch {
-                                        drawerCoordinator.toggleDrawer()
-                                    }
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        scope.launch {
+                                            drawerCoordinator.toggleDrawer()
+                                        }
+                                    },
+                                ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -188,25 +189,27 @@ internal object ProfileMainScreen : Tab {
                     actions = {
                         if (uiState.logged == true) {
                             Icon(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onClick(
-                                        onClick = {
-                                            notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.xs)
+                                        .onClick(
+                                            onClick = {
+                                                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageAccounts)
+                                            },
+                                        ),
                                 imageVector = Icons.Default.ManageAccounts,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onBackground,
                             )
                             Icon(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onClick(
-                                        onClick = {
-                                            logoutConfirmDialogOpen = true
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.xs)
+                                        .onClick(
+                                            onClick = {
+                                                logoutConfirmDialogOpen = true
+                                            },
+                                        ),
                                 imageVector = Icons.AutoMirrored.Default.Logout,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
@@ -217,27 +220,29 @@ internal object ProfileMainScreen : Tab {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .nestedScroll(fabNestedScrollConnection)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .nestedScroll(fabNestedScrollConnection)
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
                 contentAlignment = Alignment.Center,
             ) {
                 // wait until logging status is determined
                 val logged = uiState.logged
                 if (logged != null) {
-                    val screens = remember {
-                        listOf(
-                            ProfileNotLoggedScreen,
-                            ProfileLoggedScreen,
-                        )
-                    }
+                    val screens =
+                        remember {
+                            listOf(
+                                ProfileNotLoggedScreen,
+                                ProfileLoggedScreen,
+                            )
+                        }
                     val root = if (logged) screens[1] else screens[0]
                     TabNavigator(root) {
                         CurrentScreen()
@@ -245,10 +250,11 @@ internal object ProfileMainScreen : Tab {
                         LaunchedEffect(model) {
                             model.uiState.map { s -> s.logged }.distinctUntilChanged()
                                 .onEach { logged ->
-                                    val index = when (logged) {
-                                        true -> 1
-                                        else -> 0
-                                    }
+                                    val index =
+                                        when (logged) {
+                                            true -> 1
+                                            else -> 0
+                                        }
                                     navigator.current = screens[index]
                                 }.launchIn(this)
                         }

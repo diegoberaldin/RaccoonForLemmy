@@ -60,7 +60,6 @@ class ZoomableImageScreen(
     private val url: String,
     private val source: String = "",
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -97,11 +96,12 @@ class ZoomableImageScreen(
                     title = {},
                     navigationIcon = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -109,34 +109,36 @@ class ZoomableImageScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .onClick(
-                                    onClick = {
-                                        model.reduce(
-                                            ZoomableImageMviModel.Intent.SaveToGallery(source),
-                                        )
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = {
+                                            model.reduce(
+                                                ZoomableImageMviModel.Intent.SaveToGallery(source),
+                                            )
+                                        },
+                                    ),
                             imageVector = Icons.Default.Download,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
                         )
                         Icon(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .onClick(
-                                    onClick = {
-                                        if (shareHelper.supportsShareImage) {
-                                            val sheet = ShareImageBottomSheet(url, source)
-                                            navigationCoordinator.showBottomSheet(sheet)
-                                        } else {
-                                            notificationCenter.send(
-                                                NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url),
-                                            )
-                                        }
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = {
+                                            if (shareHelper.supportsShareImage) {
+                                                val sheet = ShareImageBottomSheet(url, source)
+                                                navigationCoordinator.showBottomSheet(sheet)
+                                            } else {
+                                                notificationCenter.send(
+                                                    NotificationCenterEvent.ShareImageModeSelected.ModeUrl(url),
+                                                )
+                                            }
+                                        },
+                                    ),
                             imageVector = Icons.Default.Share,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -144,23 +146,25 @@ class ZoomableImageScreen(
 
                         // content scale option menu
                         Box {
-                            val options = buildList {
-                                this += ContentScale.Fit
-                                this += ContentScale.FillWidth
-                                this += ContentScale.FillHeight
-                            }
+                            val options =
+                                buildList {
+                                    this += ContentScale.Fit
+                                    this += ContentScale.FillWidth
+                                    this += ContentScale.FillHeight
+                                }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onGloballyPositioned {
-                                        optionsOffset = it.positionInParent()
-                                    }.onClick(
-                                        onClick = {
-                                            optionsExpanded = true
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.xs)
+                                        .onGloballyPositioned {
+                                            optionsOffset = it.positionInParent()
+                                        }.onClick(
+                                            onClick = {
+                                                optionsExpanded = true
+                                            },
+                                        ),
                                 imageVector = Icons.Default.AspectRatio,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -170,19 +174,21 @@ class ZoomableImageScreen(
                                 onDismiss = {
                                     optionsExpanded = false
                                 },
-                                offset = DpOffset(
-                                    x = optionsOffset.x.toLocalDp(),
-                                    y = optionsOffset.y.toLocalDp(),
-                                ),
+                                offset =
+                                    DpOffset(
+                                        x = optionsOffset.x.toLocalDp(),
+                                        y = optionsOffset.y.toLocalDp(),
+                                    ),
                             ) {
                                 options.forEach { option ->
                                     DropdownMenuItem(
                                         text = {
-                                            val text = when (option) {
-                                                ContentScale.FillHeight -> LocalXmlStrings.current.contentScaleFillHeight
-                                                ContentScale.FillWidth -> LocalXmlStrings.current.contentScaleFillWidth
-                                                else -> LocalXmlStrings.current.contentScaleFit
-                                            }
+                                            val text =
+                                                when (option) {
+                                                    ContentScale.FillHeight -> LocalXmlStrings.current.contentScaleFillHeight
+                                                    ContentScale.FillWidth -> LocalXmlStrings.current.contentScaleFillWidth
+                                                    else -> LocalXmlStrings.current.contentScaleFit
+                                                }
                                             Text(text)
                                         },
                                         onClick = {
@@ -208,10 +214,11 @@ class ZoomableImageScreen(
             content =
                 { paddingValues ->
                     Box(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxWidth()
-                            .background(Color.Black),
+                        modifier =
+                            Modifier
+                                .padding(paddingValues)
+                                .fillMaxWidth()
+                                .background(Color.Black),
                         contentAlignment = Alignment.Center,
                     ) {
                         ZoomableImage(

@@ -29,9 +29,10 @@ internal fun AdminPurgeCommunityItem(
         onOpenUser = onOpenUser,
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    append(LocalXmlStrings.current.modlogItemCommunityPurged)
-                },
+                text =
+                    buildAnnotatedString {
+                        append(LocalXmlStrings.current.modlogItemCommunityPurged)
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

@@ -16,7 +16,9 @@ interface DraftsMviModel :
     MviModel<DraftsMviModel.Intent, DraftsMviModel.State, DraftsMviModel.Effect> {
     sealed interface Intent {
         data object Refresh : Intent
+
         data class ChangeSection(val section: DraftsSection) : Intent
+
         data class Delete(val model: DraftModel) : Intent
     }
 

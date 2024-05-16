@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 internal class DefaultGetSortTypesUseCase(
     private val siteRepository: SiteRepository,
 ) : GetSortTypesUseCase {
-
     companion object {
         private const val LEMMY_VERSION_CONTROVERSIAL = "0.19"
         private const val LEMMY_VERSION_SCALED = "0.19"
@@ -50,9 +49,10 @@ internal class DefaultGetSortTypesUseCase(
             this += SortType.MostComments
         }
 
-    override suspend fun getTypesForSavedItems(): List<SortType> = buildList {
-        this += SortType.Hot
-        this += SortType.New
-        this += SortType.Old
-    }
+    override suspend fun getTypesForSavedItems(): List<SortType> =
+        buildList {
+            this += SortType.Hot
+            this += SortType.New
+            this += SortType.Old
+        }
 }

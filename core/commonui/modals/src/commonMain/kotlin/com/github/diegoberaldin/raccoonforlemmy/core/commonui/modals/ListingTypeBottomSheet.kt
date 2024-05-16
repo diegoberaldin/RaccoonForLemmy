@@ -41,46 +41,49 @@ class ListingTypeBottomSheet(
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.homeListingTitle)
-            val values = buildList {
-                if (isLogged) {
-                    this += ListingType.Subscribed
+            val values =
+                buildList {
+                    if (isLogged) {
+                        this += ListingType.Subscribed
+                    }
+                    this += ListingType.All
+                    this += ListingType.Local
                 }
-                this += ListingType.All
-                this += ListingType.Local
-            }
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeFeedType(
-                                            value = value,
-                                            screenKey = screenKey,
-                                        ),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeFeedType(
+                                                value = value,
+                                                screenKey = screenKey,
+                                            ),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

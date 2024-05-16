@@ -31,18 +31,19 @@ fun DetailInfoItem(
             Icon(imageVector = icon, contentDescription = null)
         }
         Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    SpanStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                    ),
-                ) {
-                    append(value)
-                }
-                append(" ")
-                append(title)
-            },
+            text =
+                buildAnnotatedString {
+                    withStyle(
+                        SpanStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
+                    ) {
+                        append(value)
+                    }
+                    append(" ")
+                    append(title)
+                },
         )
     }
 }

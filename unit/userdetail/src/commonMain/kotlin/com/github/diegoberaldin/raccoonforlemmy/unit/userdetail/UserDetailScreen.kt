@@ -131,17 +131,17 @@ class UserDetailScreen(
     private val userId: Long,
     private val otherInstance: String = "",
 ) : Screen {
-
     override val key: ScreenKey
         get() = super.key + userId.toString()
 
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserDetailMviModel>(
-            tag = userId.toString(),
-            parameters = { parametersOf(userId, otherInstance) },
-        )
+        val model =
+            getScreenModel<UserDetailMviModel>(
+                tag = userId.toString(),
+                parameters = { parametersOf(userId, otherInstance) },
+            )
         val uiState by model.uiState.collectAsState()
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
@@ -220,11 +220,12 @@ class UserDetailScreen(
                 }.launchIn(scope)
 
                 TopAppBar(
-                    windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset.roundToInt(), 0, 0)
-                    } else {
-                        TopAppBarDefaults.windowInsets
-                    },
+                    windowInsets =
+                        if (settings.edgeToEdge) {
+                            WindowInsets(0, topInset.roundToInt(), 0, 0)
+                        } else {
+                            TopAppBarDefaults.windowInsets
+                        },
                     scrollBehavior = scrollBehavior,
                     title = {
                         Text(
@@ -238,18 +239,20 @@ class UserDetailScreen(
                     actions = {
                         // sort button
                         Image(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .onClick(
-                                    onClick = {
-                                        val sheet = SortBottomSheet(
-                                            values = uiState.availableSortTypes.map { it.toInt() },
-                                            expandTop = true,
-                                            screenKey = uiState.user.readableHandle,
-                                        )
-                                        navigationCoordinator.showBottomSheet(sheet)
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = {
+                                            val sheet =
+                                                SortBottomSheet(
+                                                    values = uiState.availableSortTypes.map { it.toInt() },
+                                                    expandTop = true,
+                                                    screenKey = uiState.user.readableHandle,
+                                                )
+                                            navigationCoordinator.showBottomSheet(sheet)
+                                        },
+                                    ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -257,49 +260,56 @@ class UserDetailScreen(
 
                         // options menu
                         Box {
-                            val options = buildList {
-                                this += Option(
-                                    OptionId.ExploreInstance,
-                                    buildString {
-                                        append(LocalXmlStrings.current.navigationSearch)
-                                        append(" ")
-                                        append(uiState.user.host)
-                                        append(" (")
-                                        append(LocalXmlStrings.current.beta)
-                                        append(")")
-                                    },
-                                )
-                                this += Option(
-                                    OptionId.Share,
-                                    LocalXmlStrings.current.postActionShare,
-                                )
-                                if (uiState.isLogged) {
-                                    this += Option(
-                                        OptionId.Block,
-                                        LocalXmlStrings.current.communityDetailBlock,
-                                    )
-                                    this += Option(
-                                        OptionId.BlockInstance,
-                                        LocalXmlStrings.current.communityDetailBlockInstance,
-                                    )
+                            val options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.ExploreInstance,
+                                            buildString {
+                                                append(LocalXmlStrings.current.navigationSearch)
+                                                append(" ")
+                                                append(uiState.user.host)
+                                                append(" (")
+                                                append(LocalXmlStrings.current.beta)
+                                                append(")")
+                                            },
+                                        )
+                                    this +=
+                                        Option(
+                                            OptionId.Share,
+                                            LocalXmlStrings.current.postActionShare,
+                                        )
+                                    if (uiState.isLogged) {
+                                        this +=
+                                            Option(
+                                                OptionId.Block,
+                                                LocalXmlStrings.current.communityDetailBlock,
+                                            )
+                                        this +=
+                                            Option(
+                                                OptionId.BlockInstance,
+                                                LocalXmlStrings.current.communityDetailBlockInstance,
+                                            )
+                                    }
+                                    if (uiState.isAdmin) {
+                                        this +=
+                                            Option(
+                                                OptionId.Purge,
+                                                LocalXmlStrings.current.adminActionPurge,
+                                            )
+                                    }
                                 }
-                                if (uiState.isAdmin) {
-                                    this += Option(
-                                        OptionId.Purge,
-                                        LocalXmlStrings.current.adminActionPurge,
-                                    )
-                                }
-                            }
                             var optionsExpanded by remember { mutableStateOf(false) }
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
-                                modifier = Modifier.onGloballyPositioned {
-                                    optionsOffset = it.positionInParent()
-                                }.onClick(
-                                    onClick = {
-                                        optionsExpanded = true
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onGloballyPositioned {
+                                        optionsOffset = it.positionInParent()
+                                    }.onClick(
+                                        onClick = {
+                                            optionsExpanded = true
+                                        },
+                                    ),
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -309,10 +319,11 @@ class UserDetailScreen(
                                 onDismiss = {
                                     optionsExpanded = false
                                 },
-                                offset = DpOffset(
-                                    x = optionsOffset.x.toLocalDp(),
-                                    y = optionsOffset.y.toLocalDp(),
-                                ),
+                                offset =
+                                    DpOffset(
+                                        x = optionsOffset.x.toLocalDp(),
+                                        y = optionsOffset.y.toLocalDp(),
+                                    ),
                             ) {
                                 options.forEach { option ->
                                     DropdownMenuItem(
@@ -331,12 +342,13 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.Share -> {
-                                                    val urls = buildList {
-                                                        if (uiState.user.host != uiState.instance) {
-                                                            this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"
+                                                    val urls =
+                                                        buildList {
+                                                            if (uiState.user.host != uiState.instance) {
+                                                                this += "https://${uiState.instance}/u/${uiState.user.readableHandle}"
+                                                            }
+                                                            this += "https://${uiState.user.host}/u/${uiState.user.name}"
                                                         }
-                                                        this += "https://${uiState.user.host}/u/${uiState.user.name}"
-                                                    }
                                                     if (urls.size == 1) {
                                                         model.reduce(
                                                             UserDetailMviModel.Intent.Share(urls.first()),
@@ -353,10 +365,11 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.Purge -> {
-                                                    val screen = ModerateWithReasonScreen(
-                                                        actionId = ModerateWithReasonAction.PurgeUser.toInt(),
-                                                        contentId = uiState.user.id,
-                                                    )
+                                                    val screen =
+                                                        ModerateWithReasonScreen(
+                                                            actionId = ModerateWithReasonAction.PurgeUser.toInt(),
+                                                            contentId = uiState.user.id,
+                                                        )
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -371,11 +384,12 @@ class UserDetailScreen(
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            navigationCoordinator.popScreen()
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -387,39 +401,46 @@ class UserDetailScreen(
             floatingActionButton = {
                 AnimatedVisibility(
                     visible = isFabVisible,
-                    enter = slideInVertically(
-                        initialOffsetY = { it * 2 },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { it * 2 },
-                    ),
+                    enter =
+                        slideInVertically(
+                            initialOffsetY = { it * 2 },
+                        ),
+                    exit =
+                        slideOutVertically(
+                            targetOffsetY = { it * 2 },
+                        ),
                 ) {
                     FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = LocalXmlStrings.current.actionBackToTop,
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        runCatching {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
-                                        }
-                                    }
-                                },
-                            )
-                            if (uiState.isLogged && !isOnOtherInstance) {
-                                this += FloatingActionButtonMenuItem(
-                                    icon = Icons.AutoMirrored.Default.Chat,
-                                    text = LocalXmlStrings.current.actionChat,
-                                    onSelected = rememberCallback {
-                                        val screen = InboxChatScreen(otherUserId = userId)
-                                        navigationCoordinator.pushScreen(screen)
-                                    },
-                                )
-                            }
-                        },
+                        items =
+                            buildList {
+                                this +=
+                                    FloatingActionButtonMenuItem(
+                                        icon = Icons.Default.ExpandLess,
+                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        onSelected =
+                                            rememberCallback {
+                                                scope.launch {
+                                                    runCatching {
+                                                        lazyListState.scrollToItem(0)
+                                                        topAppBarState.heightOffset = 0f
+                                                        topAppBarState.contentOffset = 0f
+                                                    }
+                                                }
+                                            },
+                                    )
+                                if (uiState.isLogged && !isOnOtherInstance) {
+                                    this +=
+                                        FloatingActionButtonMenuItem(
+                                            icon = Icons.AutoMirrored.Default.Chat,
+                                            text = LocalXmlStrings.current.actionChat,
+                                            onSelected =
+                                                rememberCallback {
+                                                    val screen = InboxChatScreen(otherUserId = userId)
+                                                    navigationCoordinator.pushScreen(screen)
+                                                },
+                                        )
+                                }
+                            },
                     )
                 }
             },
@@ -433,24 +454,27 @@ class UserDetailScreen(
                 }
             },
         ) { padding ->
-            val pullRefreshState = rememberPullRefreshState(
-                refreshing = uiState.refreshing,
-                onRefresh = rememberCallback(model) {
-                    model.reduce(UserDetailMviModel.Intent.Refresh)
-                },
-            )
-            Box(
-                modifier = Modifier
-                    .padding(padding)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
+            val pullRefreshState =
+                rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh =
+                        rememberCallback(model) {
+                            model.reduce(UserDetailMviModel.Intent.Refresh)
                         },
-                    )
-                    .nestedScroll(fabNestedScrollConnection)
-                    .pullRefresh(pullRefreshState),
+                )
+            Box(
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        )
+                        .nestedScroll(fabNestedScrollConnection)
+                        .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -460,46 +484,53 @@ class UserDetailScreen(
                         UserHeader(
                             user = uiState.user,
                             autoLoadImages = uiState.autoLoadImages,
-                            onOpenImage = rememberCallbackArgs { url ->
-                                navigationCoordinator.pushScreen(
-                                    ZoomableImageScreen(
-                                        url = url,
-                                        source = uiState.user.readableHandle,
-                                    ),
-                                )
-                            },
-                            onInfo = rememberCallback {
-                                val screen = UserInfoScreen(
-                                    userId = uiState.user.id,
-                                    username = uiState.user.name,
-                                    otherInstance = otherInstanceName,
-                                )
-                                navigationCoordinator.openSideMenu(screen)
-                            },
+                            onOpenImage =
+                                rememberCallbackArgs { url ->
+                                    navigationCoordinator.pushScreen(
+                                        ZoomableImageScreen(
+                                            url = url,
+                                            source = uiState.user.readableHandle,
+                                        ),
+                                    )
+                                },
+                            onInfo =
+                                rememberCallback {
+                                    val screen =
+                                        UserInfoScreen(
+                                            userId = uiState.user.id,
+                                            username = uiState.user.name,
+                                            otherInstance = otherInstanceName,
+                                        )
+                                    navigationCoordinator.openSideMenu(screen)
+                                },
                         )
                     }
                     item {
                         SectionSelector(
                             modifier = Modifier.padding(bottom = Spacing.s),
-                            titles = listOf(
-                                LocalXmlStrings.current.profileSectionPosts,
-                                LocalXmlStrings.current.profileSectionComments,
-                            ),
-                            currentSection = when (uiState.section) {
-                                UserDetailSection.Comments -> 1
-                                else -> 0
-                            },
-                            onSectionSelected = rememberCallbackArgs { idx ->
-                                val section = when (idx) {
-                                    1 -> UserDetailSection.Comments
-                                    else -> UserDetailSection.Posts
-                                }
-                                model.reduce(
-                                    UserDetailMviModel.Intent.ChangeSection(
-                                        section,
-                                    ),
-                                )
-                            },
+                            titles =
+                                listOf(
+                                    LocalXmlStrings.current.profileSectionPosts,
+                                    LocalXmlStrings.current.profileSectionComments,
+                                ),
+                            currentSection =
+                                when (uiState.section) {
+                                    UserDetailSection.Comments -> 1
+                                    else -> 0
+                                },
+                            onSectionSelected =
+                                rememberCallbackArgs { idx ->
+                                    val section =
+                                        when (idx) {
+                                            1 -> UserDetailSection.Comments
+                                            else -> UserDetailSection.Posts
+                                        }
+                                    model.reduce(
+                                        UserDetailMviModel.Intent.ChangeSection(
+                                            section,
+                                        ),
+                                    )
+                                },
                         )
                         Spacer(modifier = Modifier.height(Spacing.xs))
                     }
@@ -526,71 +557,83 @@ class UserDetailScreen(
                             fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                 mapNotNull {
                                     when (it) {
-                                        ActionOnSwipe.UpVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleUp,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = upVoteColor
-                                                ?: defaultUpvoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(post.id),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.UpVote ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleUp,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    upVoteColor
+                                                        ?: defaultUpvoteColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.UpVotePost(post.id),
+                                                        )
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.DownVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleDown,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = downVoteColor
-                                                ?: defaultDownVoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.DownVotePost(post.id),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.DownVote ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleDown,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    downVoteColor
+                                                        ?: defaultDownVoteColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.DownVotePost(post.id),
+                                                        )
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.Reply -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Default.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor
-                                                ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(originalPost = post)
-                                            },
-                                        )
+                                        ActionOnSwipe.Reply ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.AutoMirrored.Default.Reply,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    replyColor
+                                                        ?: defaultReplyColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        detailOpener.openReply(originalPost = post)
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.Save -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Bookmark,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = saveColor
-                                                ?: defaultSaveColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.SavePost(id = post.id),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.Save ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Bookmark,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    saveColor
+                                                        ?: defaultSaveColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.SavePost(id = post.id),
+                                                        )
+                                                    },
+                                            )
 
                                         else -> null
                                     }
@@ -599,19 +642,22 @@ class UserDetailScreen(
                             SwipeActionCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = if (uiState.isLogged && !isOnOtherInstance) {
-                                    uiState.actionsOnSwipeToStartPosts.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
-                                swipeToEndActions = if (uiState.isLogged && !isOnOtherInstance) {
-                                    uiState.actionsOnSwipeToEndPosts.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
+                                onGestureBegin =
+                                    rememberCallback(model) {
+                                        model.reduce(UserDetailMviModel.Intent.HapticIndication)
+                                    },
+                                swipeToStartActions =
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
+                                swipeToEndActions =
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
                                 content = {
                                     PostCard(
                                         modifier = Modifier.padding(horizontal = Spacing.s),
@@ -631,160 +677,181 @@ class UserDetailScreen(
                                             model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
                                             detailOpener.openPostDetail(post)
                                         },
-                                        onDoubleClick = if (!uiState.doubleTapActionEnabled) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(
-                                                        id = post.id,
-                                                        feedback = true,
+                                        onDoubleClick =
+                                            if (!uiState.doubleTapActionEnabled) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.UpVotePost(
+                                                            id = post.id,
+                                                            feedback = true,
+                                                        ),
+                                                    )
+                                                }
+                                            },
+                                        onUpVote =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.UpVotePost(id = post.id),
+                                                    )
+                                                }
+                                            },
+                                        onDownVote =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.DownVotePost(post.id),
+                                                    )
+                                                }
+                                            },
+                                        onSave =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.SavePost(post.id),
+                                                    )
+                                                }
+                                            },
+                                        onOpenCommunity =
+                                            rememberCallbackArgs { community, instance ->
+                                                detailOpener.openCommunityDetail(
+                                                    community = community,
+                                                    otherInstance = instance,
+                                                )
+                                            },
+                                        onOpenCreator =
+                                            rememberCallbackArgs { user, instance ->
+                                                detailOpener.openUserDetail(
+                                                    user = user,
+                                                    otherInstance = instance,
+                                                )
+                                            },
+                                        onOpenPost =
+                                            rememberCallbackArgs { p, instance ->
+                                                detailOpener.openPostDetail(p, instance)
+                                            },
+                                        onOpenWeb =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(WebViewScreen(url))
+                                            },
+                                        onReply =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
+                                                rememberCallback {
+                                                    detailOpener.openPostDetail(post)
+                                                }
+                                            },
+                                        onOpenImage =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(
+                                                    ZoomableImageScreen(
+                                                        url = url,
+                                                        source = post.community?.readableHandle.orEmpty(),
                                                     ),
                                                 )
-                                            }
-                                        },
-                                        onUpVote = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVotePost(id = post.id),
-                                                )
-                                            }
-                                        },
-                                        onDownVote = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.DownVotePost(post.id),
-                                                )
-                                            }
-                                        },
-                                        onSave = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.SavePost(post.id),
-                                                )
-                                            }
-                                        },
-                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(
-                                                community = community,
-                                                otherInstance = instance,
-                                            )
-                                        },
-                                        onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(
-                                                user = user,
-                                                otherInstance = instance,
-                                            )
-                                        },
-                                        onOpenPost = rememberCallbackArgs { p, instance ->
-                                            detailOpener.openPostDetail(p, instance)
-                                        },
-                                        onOpenWeb = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(WebViewScreen(url))
-                                        },
-                                        onReply = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
-                                            rememberCallback {
-                                                detailOpener.openPostDetail(post)
-                                            }
-                                        },
-                                        onOpenImage = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(
-                                                    url = url,
-                                                    source = post.community?.readableHandle.orEmpty(),
-                                                ),
-                                            )
-                                        },
-                                        options = buildList {
-                                            this += Option(
-                                                OptionId.Share,
-                                                LocalXmlStrings.current.postActionShare,
-                                            )
-                                            this += Option(
-                                                OptionId.Copy,
-                                                LocalXmlStrings.current.actionCopyClipboard,
-                                            )
-                                            this += Option(
-                                                OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw,
-                                            )
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                this += Option(
-                                                    OptionId.CrossPost,
-                                                    LocalXmlStrings.current.postActionCrossPost,
-                                                )
-                                                this += Option(
-                                                    OptionId.Report,
-                                                    LocalXmlStrings.current.postActionReport,
-                                                )
-                                            }
-                                        },
-                                        onOptionSelected = rememberCallbackArgs { optionId ->
-                                            when (optionId) {
-                                                OptionId.Report -> {
-                                                    val screen = ModerateWithReasonScreen(
-                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
-                                                        contentId = post.id,
+                                            },
+                                        options =
+                                            buildList {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Share,
+                                                        LocalXmlStrings.current.postActionShare,
                                                     )
-                                                    navigationCoordinator.pushScreen(screen)
-                                                }
-
-                                                OptionId.CrossPost -> {
-                                                    detailOpener.openCreatePost(
-                                                        crossPost = post,
-                                                        forceCommunitySelection = true,
+                                                this +=
+                                                    Option(
+                                                        OptionId.Copy,
+                                                        LocalXmlStrings.current.actionCopyClipboard,
                                                     )
-                                                }
-
-                                                OptionId.SeeRaw -> {
-                                                    rawContent = post
-                                                }
-
-                                                OptionId.Share -> {
-                                                    val urls = listOfNotNull(
-                                                        post.originalUrl,
-                                                        "https://${uiState.instance}/post/${post.id}",
-                                                    ).distinct()
-                                                    if (urls.size == 1) {
-                                                        model.reduce(
-                                                            UserDetailMviModel.Intent.Share(urls.first()),
+                                                this +=
+                                                    Option(
+                                                        OptionId.SeeRaw,
+                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                    )
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.CrossPost,
+                                                            LocalXmlStrings.current.postActionCrossPost,
                                                         )
-                                                    } else {
-                                                        val screen = ShareBottomSheet(urls = urls)
-                                                        navigationCoordinator.showBottomSheet(screen)
+                                                    this +=
+                                                        Option(
+                                                            OptionId.Report,
+                                                            LocalXmlStrings.current.postActionReport,
+                                                        )
+                                                }
+                                            },
+                                        onOptionSelected =
+                                            rememberCallbackArgs { optionId ->
+                                                when (optionId) {
+                                                    OptionId.Report -> {
+                                                        val screen =
+                                                            ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                                contentId = post.id,
+                                                            )
+                                                        navigationCoordinator.pushScreen(screen)
                                                     }
-                                                }
 
-                                                OptionId.Copy -> {
-                                                    val texts = listOfNotNull(
-                                                        post.title.takeIf { it.isNotBlank() },
-                                                        post.text.takeIf { it.isNotBlank() },
-                                                    ).distinct()
-                                                    if (texts.size == 1) {
-                                                        model.reduce(
-                                                            UserDetailMviModel.Intent.Copy(texts.first()),
+                                                    OptionId.CrossPost -> {
+                                                        detailOpener.openCreatePost(
+                                                            crossPost = post,
+                                                            forceCommunitySelection = true,
                                                         )
-                                                    } else {
-                                                        val screen = CopyPostBottomSheet(
-                                                            post.title,
-                                                            post.text,
-                                                        )
-                                                        navigationCoordinator.showBottomSheet(screen)
                                                     }
-                                                }
 
-                                                else -> Unit
-                                            }
-                                        },
+                                                    OptionId.SeeRaw -> {
+                                                        rawContent = post
+                                                    }
+
+                                                    OptionId.Share -> {
+                                                        val urls =
+                                                            listOfNotNull(
+                                                                post.originalUrl,
+                                                                "https://${uiState.instance}/post/${post.id}",
+                                                            ).distinct()
+                                                        if (urls.size == 1) {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.Share(urls.first()),
+                                                            )
+                                                        } else {
+                                                            val screen = ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(screen)
+                                                        }
+                                                    }
+
+                                                    OptionId.Copy -> {
+                                                        val texts =
+                                                            listOfNotNull(
+                                                                post.title.takeIf { it.isNotBlank() },
+                                                                post.text.takeIf { it.isNotBlank() },
+                                                            ).distinct()
+                                                        if (texts.size == 1) {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.Copy(texts.first()),
+                                                            )
+                                                        } else {
+                                                            val screen =
+                                                                CopyPostBottomSheet(
+                                                                    post.title,
+                                                                    post.text,
+                                                                )
+                                                            navigationCoordinator.showBottomSheet(screen)
+                                                        }
+                                                    }
+
+                                                    else -> Unit
+                                                }
+                                            },
                                     )
                                 },
                             )
@@ -826,76 +893,88 @@ class UserDetailScreen(
                             fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                 mapNotNull {
                                     when (it) {
-                                        ActionOnSwipe.UpVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleUp,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = upVoteColor
-                                                ?: defaultUpvoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(comment.id),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.UpVote ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleUp,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    upVoteColor
+                                                        ?: defaultUpvoteColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.UpVoteComment(comment.id),
+                                                        )
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.DownVote -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleDown,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = downVoteColor
-                                                ?: defaultDownVoteColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.DownVoteComment(
-                                                        comment.id,
-                                                    ),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.DownVote ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleDown,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    downVoteColor
+                                                        ?: defaultDownVoteColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.DownVoteComment(
+                                                                comment.id,
+                                                            ),
+                                                        )
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.Reply -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.AutoMirrored.Default.Reply,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = replyColor
-                                                ?: defaultReplyColor,
-                                            onTriggered = rememberCallback {
-                                                detailOpener.openReply(
-                                                    originalPost = PostModel(id = comment.postId),
-                                                    originalComment = comment,
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.Reply ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.AutoMirrored.Default.Reply,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    replyColor
+                                                        ?: defaultReplyColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        detailOpener.openReply(
+                                                            originalPost = PostModel(id = comment.postId),
+                                                            originalComment = comment,
+                                                        )
+                                                    },
+                                            )
 
-                                        ActionOnSwipe.Save -> SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.Bookmark,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = saveColor
-                                                ?: defaultSaveColor,
-                                            onTriggered = rememberCallback {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.SaveComment(comment.id),
-                                                )
-                                            },
-                                        )
+                                        ActionOnSwipe.Save ->
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.Bookmark,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
+                                                    )
+                                                },
+                                                backgroundColor =
+                                                    saveColor
+                                                        ?: defaultSaveColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            UserDetailMviModel.Intent.SaveComment(comment.id),
+                                                        )
+                                                    },
+                                            )
 
                                         else -> null
                                     }
@@ -904,24 +983,28 @@ class UserDetailScreen(
                             SwipeActionCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = uiState.swipeActionsEnabled,
-                                onGestureBegin = rememberCallback(model) {
-                                    model.reduce(UserDetailMviModel.Intent.HapticIndication)
-                                },
-                                swipeToStartActions = if (uiState.isLogged && !isOnOtherInstance) {
-                                    uiState.actionsOnSwipeToStartComments.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
-                                swipeToEndActions = if (uiState.isLogged && !isOnOtherInstance) {
-                                    uiState.actionsOnSwipeToEndComments.toSwipeActions()
-                                } else {
-                                    emptyList()
-                                },
+                                onGestureBegin =
+                                    rememberCallback(model) {
+                                        model.reduce(UserDetailMviModel.Intent.HapticIndication)
+                                    },
+                                swipeToStartActions =
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        uiState.actionsOnSwipeToStartComments.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
+                                swipeToEndActions =
+                                    if (uiState.isLogged && !isOnOtherInstance) {
+                                        uiState.actionsOnSwipeToEndComments.toSwipeActions()
+                                    } else {
+                                        emptyList()
+                                    },
                                 content = {
                                     CommentCard(
-                                        modifier = Modifier
-                                            .padding(horizontal = Spacing.s)
-                                            .background(MaterialTheme.colorScheme.background),
+                                        modifier =
+                                            Modifier
+                                                .padding(horizontal = Spacing.s)
+                                                .background(MaterialTheme.colorScheme.background),
                                         comment = comment,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
@@ -937,109 +1020,124 @@ class UserDetailScreen(
                                                 highlightCommentId = comment.id,
                                             )
                                         },
-                                        onImageClick = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(
-                                                    url = url,
-                                                    source = comment.community?.readableHandle.orEmpty(),
-                                                ),
-                                            )
-                                        },
-                                        onDoubleClick = if (!uiState.doubleTapActionEnabled) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.UpVoteComment(
-                                                        id = comment.id,
-                                                        feedback = true,
+                                        onImageClick =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(
+                                                    ZoomableImageScreen(
+                                                        url = url,
+                                                        source = comment.community?.readableHandle.orEmpty(),
                                                     ),
                                                 )
-                                            }
-                                        },
-                                        onSave = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(
-                                                    UserDetailMviModel.Intent.SaveComment(comment.id),
-                                                )
-                                            }
-                                        },
-                                        onUpVote = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(UserDetailMviModel.Intent.UpVoteComment(comment.id))
-                                            }
-                                        },
-                                        onDownVote = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback(model) {
-                                                model.reduce(UserDetailMviModel.Intent.DownVoteComment(comment.id))
-                                            }
-                                        },
-                                        onReply = if (!uiState.isLogged || isOnOtherInstance) {
-                                            null
-                                        } else {
-                                            rememberCallback {
-                                                detailOpener.openReply(
-                                                    originalPost = PostModel(id = comment.postId),
-                                                    originalComment = comment,
-                                                )
-                                            }
-                                        },
-                                        onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(
-                                                community = community,
-                                                otherInstance = instance,
-                                            )
-                                        },
-                                        onOpenCreator = rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(
-                                                user = user,
-                                                otherInstance = instance,
-                                            )
-                                        },
-                                        onOpenPost = rememberCallbackArgs { post, instance ->
-                                            detailOpener.openPostDetail(
-                                                post = post,
-                                                otherInstance = instance,
-                                            )
-                                        },
-                                        onOpenWeb = rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(WebViewScreen(url))
-                                        },
-                                        options = buildList {
-                                            this += Option(
-                                                OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw,
-                                            )
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                this += Option(
-                                                    OptionId.Report,
-                                                    LocalXmlStrings.current.postActionReport,
-                                                )
-                                            }
-                                        },
-                                        onOptionSelected = rememberCallbackArgs { optionId ->
-                                            when (optionId) {
-                                                OptionId.Report -> {
-                                                    val screen = ModerateWithReasonScreen(
-                                                        actionId = ModerateWithReasonAction.ReportComment.toInt(),
-                                                        contentId = comment.id,
+                                            },
+                                        onDoubleClick =
+                                            if (!uiState.doubleTapActionEnabled) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.UpVoteComment(
+                                                            id = comment.id,
+                                                            feedback = true,
+                                                        ),
                                                     )
-                                                    navigationCoordinator.pushScreen(screen)
                                                 }
-
-                                                OptionId.SeeRaw -> {
-                                                    rawContent = comment
+                                            },
+                                        onSave =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.SaveComment(comment.id),
+                                                    )
                                                 }
+                                            },
+                                        onUpVote =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(UserDetailMviModel.Intent.UpVoteComment(comment.id))
+                                                }
+                                            },
+                                        onDownVote =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback(model) {
+                                                    model.reduce(UserDetailMviModel.Intent.DownVoteComment(comment.id))
+                                                }
+                                            },
+                                        onReply =
+                                            if (!uiState.isLogged || isOnOtherInstance) {
+                                                null
+                                            } else {
+                                                rememberCallback {
+                                                    detailOpener.openReply(
+                                                        originalPost = PostModel(id = comment.postId),
+                                                        originalComment = comment,
+                                                    )
+                                                }
+                                            },
+                                        onOpenCommunity =
+                                            rememberCallbackArgs { community, instance ->
+                                                detailOpener.openCommunityDetail(
+                                                    community = community,
+                                                    otherInstance = instance,
+                                                )
+                                            },
+                                        onOpenCreator =
+                                            rememberCallbackArgs { user, instance ->
+                                                detailOpener.openUserDetail(
+                                                    user = user,
+                                                    otherInstance = instance,
+                                                )
+                                            },
+                                        onOpenPost =
+                                            rememberCallbackArgs { post, instance ->
+                                                detailOpener.openPostDetail(
+                                                    post = post,
+                                                    otherInstance = instance,
+                                                )
+                                            },
+                                        onOpenWeb =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(WebViewScreen(url))
+                                            },
+                                        options =
+                                            buildList {
+                                                this +=
+                                                    Option(
+                                                        OptionId.SeeRaw,
+                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                    )
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.Report,
+                                                            LocalXmlStrings.current.postActionReport,
+                                                        )
+                                                }
+                                            },
+                                        onOptionSelected =
+                                            rememberCallbackArgs { optionId ->
+                                                when (optionId) {
+                                                    OptionId.Report -> {
+                                                        val screen =
+                                                            ModerateWithReasonScreen(
+                                                                actionId = ModerateWithReasonAction.ReportComment.toInt(),
+                                                                contentId = comment.id,
+                                                            )
+                                                        navigationCoordinator.pushScreen(screen)
+                                                    }
 
-                                                else -> Unit
-                                            }
-                                        },
+                                                    OptionId.SeeRaw -> {
+                                                        rawContent = comment
+                                                    }
+
+                                                    else -> Unit
+                                                }
+                                            },
                                     )
                                 },
                             )
@@ -1068,21 +1166,24 @@ class UserDetailScreen(
                                 model.reduce(UserDetailMviModel.Intent.LoadNextPage)
                             } else {
                                 Row(
-                                    modifier = Modifier.fillMaxWidth()
-                                        .padding(top = Spacing.s),
+                                    modifier =
+                                        Modifier.fillMaxWidth()
+                                            .padding(top = Spacing.s),
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
                                     Button(
-                                        onClick = rememberCallback(model) {
-                                            model.reduce(UserDetailMviModel.Intent.LoadNextPage)
-                                        },
+                                        onClick =
+                                            rememberCallback(model) {
+                                                model.reduce(UserDetailMviModel.Intent.LoadNextPage)
+                                            },
                                     ) {
                                         Text(
-                                            text = if (uiState.section == UserDetailSection.Posts) {
-                                                LocalXmlStrings.current.postListLoadMorePosts
-                                            } else {
-                                                LocalXmlStrings.current.postDetailLoadMoreComments
-                                            },
+                                            text =
+                                                if (uiState.section == UserDetailSection.Posts) {
+                                                    LocalXmlStrings.current.postListLoadMorePosts
+                                                } else {
+                                                    LocalXmlStrings.current.postDetailLoadMoreComments
+                                                },
                                             style = MaterialTheme.typography.labelSmall,
                                         )
                                     }
@@ -1131,22 +1232,25 @@ class UserDetailScreen(
                         upVotes = content.upvotes,
                         downVotes = content.downvotes,
                         isLogged = uiState.isLogged,
-                        onDismiss = rememberCallback {
-                            rawContent = null
-                        },
-                        onQuote = rememberCallbackArgs { quotation ->
-                            rawContent = null
-                            if (quotation != null) {
-                                detailOpener.openReply(
-                                    originalPost = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    },
-                                )
-                            }
-                        },
+                        onDismiss =
+                            rememberCallback {
+                                rawContent = null
+                            },
+                        onQuote =
+                            rememberCallbackArgs { quotation ->
+                                rawContent = null
+                                if (quotation != null) {
+                                    detailOpener.openReply(
+                                        originalPost = content,
+                                        initialText =
+                                            buildString {
+                                                append("> ")
+                                                append(quotation)
+                                                append("\n\n")
+                                            },
+                                    )
+                                }
+                            },
                     )
                 }
 
@@ -1161,19 +1265,21 @@ class UserDetailScreen(
                         onDismiss = {
                             rawContent = null
                         },
-                        onQuote = rememberCallbackArgs { quotation ->
-                            rawContent = null
-                            if (quotation != null) {
-                                detailOpener.openReply(
-                                    originalComment = content,
-                                    initialText = buildString {
-                                        append("> ")
-                                        append(quotation)
-                                        append("\n\n")
-                                    },
-                                )
-                            }
-                        },
+                        onQuote =
+                            rememberCallbackArgs { quotation ->
+                                rawContent = null
+                                if (quotation != null) {
+                                    detailOpener.openReply(
+                                        originalComment = content,
+                                        initialText =
+                                            buildString {
+                                                append("> ")
+                                                append(quotation)
+                                                append("\n\n")
+                                            },
+                                    )
+                                }
+                            },
                     )
                 }
             }

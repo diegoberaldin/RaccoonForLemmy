@@ -10,16 +10,17 @@ import org.koin.dsl.module
 
 private const val DEFAULT_NAME = "secret_shared_prefs"
 
-actual val corePreferencesModule = module {
-    single<Settings> { params ->
-        val name: String? = params[0]
-        @OptIn(ExperimentalSettingsImplementation::class)
-        KeychainSettings(service = name ?: DEFAULT_NAME)
+actual val corePreferencesModule =
+    module {
+        single<Settings> { params ->
+            val name: String? = params[0]
+            @OptIn(ExperimentalSettingsImplementation::class)
+            KeychainSettings(service = name ?: DEFAULT_NAME)
+        }
+        single<TemporaryKeyStore> {
+            TemporaryKeyStoreHelper.temporaryKeyStore
+        }
     }
-    single<TemporaryKeyStore> {
-        TemporaryKeyStoreHelper.temporaryKeyStore
-    }
-}
 
 internal object TemporaryKeyStoreHelper : KoinComponent {
     val temporaryKeyStore: TemporaryKeyStore by inject()

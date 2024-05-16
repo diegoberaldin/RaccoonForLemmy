@@ -10,31 +10,32 @@ import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostNavigationM
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.PostPaginationManager
 import org.koin.dsl.module
 
-val paginationModule = module {
-    factory<MultiCommunityPaginator> {
-        DefaultMultiCommunityPaginator(
-            postRepository = get(),
-        )
+val paginationModule =
+    module {
+        factory<MultiCommunityPaginator> {
+            DefaultMultiCommunityPaginator(
+                postRepository = get(),
+            )
+        }
+        factory<PostPaginationManager> {
+            DefaultPostPaginationManager(
+                identityRepository = get(),
+                postRepository = get(),
+                communityRepository = get(),
+                userRepository = get(),
+                multiCommunityPaginator = get(),
+            )
+        }
+        factory<CommentPaginationManager> {
+            DefaultCommentPaginationManager(
+                identityRepository = get(),
+                userRepository = get(),
+                commentRepository = get(),
+            )
+        }
+        single<PostNavigationManager> {
+            DefaultPostNavigationManager(
+                postPaginationManager = get(),
+            )
+        }
     }
-    factory<PostPaginationManager> {
-        DefaultPostPaginationManager(
-            identityRepository = get(),
-            postRepository = get(),
-            communityRepository = get(),
-            userRepository = get(),
-            multiCommunityPaginator = get(),
-        )
-    }
-    factory<CommentPaginationManager> {
-        DefaultCommentPaginationManager(
-            identityRepository = get(),
-            userRepository = get(),
-            commentRepository = get(),
-        )
-    }
-    single<PostNavigationManager> {
-        DefaultPostNavigationManager(
-            postPaginationManager = get(),
-        )
-    }
-}

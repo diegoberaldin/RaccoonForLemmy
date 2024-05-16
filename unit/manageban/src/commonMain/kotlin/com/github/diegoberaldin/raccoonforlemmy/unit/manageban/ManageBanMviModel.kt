@@ -17,12 +17,15 @@ enum class ManageBanSection {
 interface ManageBanMviModel :
     MviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class ChangeSection(val section: ManageBanSection) : Intent
+
         data object Refresh : Intent
+
         data class UnblockUser(val id: Long) : Intent
+
         data class UnblockCommunity(val id: Long) : Intent
+
         data class UnblockInstance(val id: Long) : Intent
     }
 

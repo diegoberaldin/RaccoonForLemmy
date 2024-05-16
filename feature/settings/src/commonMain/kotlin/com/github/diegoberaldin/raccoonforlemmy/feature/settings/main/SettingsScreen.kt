@@ -79,7 +79,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class SettingsScreen : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -120,13 +119,14 @@ class SettingsScreen : Screen {
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    scope.launch {
-                                        drawerCoordinator.toggleDrawer()
-                                    }
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        scope.launch {
+                                            drawerCoordinator.toggleDrawer()
+                                        }
+                                    },
+                                ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -143,9 +143,10 @@ class SettingsScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
@@ -159,45 +160,50 @@ class SettingsScreen : Screen {
                     // language
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsLanguage,
-                        annotatedValue = buildAnnotatedString {
-                            with(uiState.lang) {
-                                append(toLanguageFlag())
-                                append("  ")
-                                append(toLanguageName())
-                            }
-                        },
-                        onTap = rememberCallback {
-                            val sheet = LanguageBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        annotatedValue =
+                            buildAnnotatedString {
+                                with(uiState.lang) {
+                                    append(toLanguageFlag())
+                                    append("  ")
+                                    append(toLanguageName())
+                                }
+                            },
+                        onTap =
+                            rememberCallback {
+                                val sheet = LanguageBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // theme
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsUiTheme,
                         value = uiState.uiTheme.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = ThemeBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = ThemeBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // colors and fonts
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsColorsAndFonts,
                         disclosureIndicator = true,
-                        onTap = rememberCallback {
-                            navigationCoordinator.pushScreen(SettingsColorAndFontScreen())
-                        },
+                        onTap =
+                            rememberCallback {
+                                navigationCoordinator.pushScreen(SettingsColorAndFontScreen())
+                            },
                     )
 
                     // content view configuration
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsConfigureContent,
                         disclosureIndicator = true,
-                        onTap = rememberCallback {
-                            navigationCoordinator.pushScreen(ConfigureContentViewScreen())
-                        },
+                        onTap =
+                            rememberCallback {
+                                navigationCoordinator.pushScreen(ConfigureContentViewScreen())
+                            },
                     )
 
                     SettingsHeader(
@@ -209,41 +215,47 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultListingType,
                         value = uiState.defaultListingType.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = ListingTypeBottomSheet(
-                                isLogged = uiState.isLogged,
-                                screenKey = "settings",
-                            )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    ListingTypeBottomSheet(
+                                        isLogged = uiState.isLogged,
+                                        screenKey = "settings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // default post sort type
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultPostSortType,
                         value = uiState.defaultPostSortType.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = SortBottomSheet(
-                                values = uiState.availableSortTypesForPosts.map { it.toInt() },
-                                expandTop = true,
-                                screenKey = "settings",
-                            )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    SortBottomSheet(
+                                        values = uiState.availableSortTypesForPosts.map { it.toInt() },
+                                        expandTop = true,
+                                        screenKey = "settings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // default comment sort type
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsDefaultCommentSortType,
                         value = uiState.defaultCommentSortType.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = SortBottomSheet(
-                                comments = true,
-                                values = uiState.availableSortTypesForComments.map { it.toInt() },
-                                screenKey = "settings",
-                            )
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    SortBottomSheet(
+                                        comments = true,
+                                        values = uiState.availableSortTypesForComments.map { it.toInt() },
+                                        screenKey = "settings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     if (uiState.isLogged) {
@@ -251,19 +263,21 @@ class SettingsScreen : Screen {
                         SettingsSwitchRow(
                             title = LocalXmlStrings.current.settingsEnableSwipeActions,
                             value = uiState.enableSwipeActions,
-                            onValueChanged = rememberCallbackArgs(model) { value ->
-                                model.reduce(
-                                    SettingsMviModel.Intent.ChangeEnableSwipeActions(value),
-                                )
-                            },
+                            onValueChanged =
+                                rememberCallbackArgs(model) { value ->
+                                    model.reduce(
+                                        SettingsMviModel.Intent.ChangeEnableSwipeActions(value),
+                                    )
+                                },
                         )
                         SettingsRow(
                             title = LocalXmlStrings.current.settingsConfigureSwipeActions,
                             disclosureIndicator = true,
-                            onTap = rememberCallback {
-                                val screen = ConfigureSwipeActionsScreen()
-                                navigationCoordinator.pushScreen(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen = ConfigureSwipeActionsScreen()
+                                    navigationCoordinator.pushScreen(screen)
+                                },
                         )
                     }
 
@@ -271,28 +285,32 @@ class SettingsScreen : Screen {
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsOpenUrlExternal,
                         value = uiState.urlOpeningMode.toReadableName(),
-                        onTap = rememberCallback {
-                            val screen = UrlOpeningModeBottomSheet(
-                                values = buildList {
-                                    this += UrlOpeningMode.Internal
-                                    if (uiState.customTabsEnabled) {
-                                        this += UrlOpeningMode.CustomTabs
-                                    }
-                                    this += UrlOpeningMode.External
-                                },
-                            )
-                            navigationCoordinator.showBottomSheet(screen)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val screen =
+                                    UrlOpeningModeBottomSheet(
+                                        values =
+                                            buildList {
+                                                this += UrlOpeningMode.Internal
+                                                if (uiState.customTabsEnabled) {
+                                                    this += UrlOpeningMode.CustomTabs
+                                                }
+                                                this += UrlOpeningMode.External
+                                            },
+                                    )
+                                navigationCoordinator.showBottomSheet(screen)
+                            },
                     )
 
                     // advanced settings
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsAdvanced,
                         disclosureIndicator = true,
-                        onTap = rememberCallback {
-                            val screen = AdvancedSettingsScreen()
-                            navigationCoordinator.pushScreen(screen)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val screen = AdvancedSettingsScreen()
+                                navigationCoordinator.pushScreen(screen)
+                            },
                     )
 
                     if (uiState.isLogged) {
@@ -305,20 +323,22 @@ class SettingsScreen : Screen {
                         SettingsRow(
                             title = LocalXmlStrings.current.settingsWebPreferences,
                             disclosureIndicator = true,
-                            onTap = rememberCallback {
-                                val screen = AccountSettingsScreen()
-                                navigationCoordinator.pushScreen(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen = AccountSettingsScreen()
+                                    navigationCoordinator.pushScreen(screen)
+                                },
                         )
 
                         // bans and filters
                         SettingsRow(
                             title = LocalXmlStrings.current.settingsManageBan,
                             disclosureIndicator = true,
-                            onTap = rememberCallback {
-                                val screen = ManageBanScreen()
-                                navigationCoordinator.pushScreen(screen)
-                            },
+                            onTap =
+                                rememberCallback {
+                                    val screen = ManageBanScreen()
+                                    navigationCoordinator.pushScreen(screen)
+                                },
                         )
                     }
 
@@ -331,16 +351,18 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsIncludeNsfw,
                         value = uiState.includeNsfw,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(SettingsMviModel.Intent.ChangeIncludeNsfw(value))
+                            },
                     )
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsBlurNsfw,
                         value = uiState.blurNsfw,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(SettingsMviModel.Intent.ChangeBlurNsfw(value))
+                            },
                     )
 
                     SettingsHeader(
@@ -352,9 +374,10 @@ class SettingsScreen : Screen {
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsEnableCrashReport,
                         value = uiState.crashReportEnabled,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(SettingsMviModel.Intent.ChangeCrashReportEnabled(value))
+                            },
                     )
 
                     // about
@@ -362,9 +385,10 @@ class SettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsAbout,
                         value = "",
                         disclosureIndicator = true,
-                        onTap = rememberCallback {
-                            infoDialogOpened = true
-                        },
+                        onTap =
+                            rememberCallback {
+                                infoDialogOpened = true
+                            },
                     )
 
                     // user manual
@@ -372,17 +396,18 @@ class SettingsScreen : Screen {
                         title = LocalXmlStrings.current.settingsUserManual,
                         value = "",
                         disclosureIndicator = true,
-                        onTap = rememberCallback {
-                            navigationCoordinator.handleUrl(
-                                url = "https://diegoberaldin.github.io/RaccoonForLemmy/user_manual/main",
-                                openingMode = uiState.urlOpeningMode,
-                                uriHandler = uriHandler,
-                                customTabsHelper = customTabsHelper,
-                                onOpenWeb = { url ->
-                                    navigationCoordinator.pushScreen(WebViewScreen(url))
-                                },
-                            )
-                        },
+                        onTap =
+                            rememberCallback {
+                                navigationCoordinator.handleUrl(
+                                    url = "https://diegoberaldin.github.io/RaccoonForLemmy/user_manual/main",
+                                    openingMode = uiState.urlOpeningMode,
+                                    uriHandler = uriHandler,
+                                    customTabsHelper = customTabsHelper,
+                                    onOpenWeb = { url ->
+                                        navigationCoordinator.pushScreen(WebViewScreen(url))
+                                    },
+                                )
+                            },
                     )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))

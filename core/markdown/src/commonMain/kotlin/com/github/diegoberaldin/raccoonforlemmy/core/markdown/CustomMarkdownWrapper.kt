@@ -55,96 +55,103 @@ fun CustomMarkdownWrapper(
     onDoubleClick: (() -> Unit)?,
     onLongClick: (() -> Unit)?,
 ) {
-    val maxHeightDp = with(LocalDensity.current) {
-        if (maxLines == null) {
-            Dp.Unspecified
-        } else {
-            val lineHeight =
-                typography.paragraph.lineHeight
-            val base = if (lineHeight.isUnspecified) {
-                floor(typography.paragraph.fontSize.toPx() * MAX_LINES_SCALE_FACTOR)
+    val maxHeightDp =
+        with(LocalDensity.current) {
+            if (maxLines == null) {
+                Dp.Unspecified
             } else {
-                lineHeight.toPx() * MAX_LINES_SCALE_FACTOR
+                val lineHeight =
+                    typography.paragraph.lineHeight
+                val base =
+                    if (lineHeight.isUnspecified) {
+                        floor(typography.paragraph.fontSize.toPx() * MAX_LINES_SCALE_FACTOR)
+                    } else {
+                        lineHeight.toPx() * MAX_LINES_SCALE_FACTOR
+                    }
+                (base * maxLines).toDp()
             }
-            (base * maxLines).toDp()
         }
-    }
     val scope = rememberCoroutineScope()
     var isOpeningUrl by remember { mutableStateOf(false) }
-    val customUriHandler = remember {
-        object : UriHandler {
-            override fun openUri(uri: String) {
-                isOpeningUrl = true
-                onOpenUrl?.invoke(uri)
-                scope.launch {
-                    delay(LINK_DELAY)
-                    isOpeningUrl = false
+    val customUriHandler =
+        remember {
+            object : UriHandler {
+                override fun openUri(uri: String) {
+                    isOpeningUrl = true
+                    onOpenUrl?.invoke(uri)
+                    scope.launch {
+                        delay(LINK_DELAY)
+                        isOpeningUrl = false
+                    }
                 }
             }
         }
-    }
-    val components = markdownComponents(
-        paragraph = { model ->
-            val substring = model.content.substring(
-                startIndex = model.node.startOffset,
-                endIndex = model.node.endOffset,
-            )
-            when {
-                substring.containsSpoiler -> {
-                    CustomMarkdownSpoiler(content = substring)
-                }
-
-                substring.isImage -> {
-                    val res = ImageRegex.image.find(substring)
-                    val link = res?.groups?.get("url")?.value.orEmpty()
-                    CustomMarkdownImage(
-                        url = link,
-                        autoLoadImages = autoLoadImages,
-                        onOpenImage = onOpenImage,
+    val components =
+        markdownComponents(
+            paragraph = { model ->
+                val substring =
+                    model.content.substring(
+                        startIndex = model.node.startOffset,
+                        endIndex = model.node.endOffset,
                     )
-                }
+                when {
+                    substring.containsSpoiler -> {
+                        CustomMarkdownSpoiler(content = substring)
+                    }
 
-                else -> {
-                    MarkdownParagraph(
-                        content = model.content,
-                        node = model.node,
-                    )
+                    substring.isImage -> {
+                        val res = ImageRegex.image.find(substring)
+                        val link = res?.groups?.get("url")?.value.orEmpty()
+                        CustomMarkdownImage(
+                            url = link,
+                            autoLoadImages = autoLoadImages,
+                            onOpenImage = onOpenImage,
+                        )
+                    }
+
+                    else -> {
+                        MarkdownParagraph(
+                            content = model.content,
+                            node = model.node,
+                        )
+                    }
                 }
-            }
-        },
-        image = { model ->
-            CustomMarkdownImage(
-                node = model.node,
-                content = content,
-                onOpenImage = onOpenImage,
-                autoLoadImages = autoLoadImages,
-            )
-        },
-    )
+            },
+            image = { model ->
+                CustomMarkdownImage(
+                    node = model.node,
+                    content = content,
+                    onOpenImage = onOpenImage,
+                    autoLoadImages = autoLoadImages,
+                )
+            },
+        )
 
     CompositionLocalProvider(
         LocalUriHandler provides customUriHandler,
-        LocalDensity provides Density(
-            density = LocalDensity.current.density,
-            fontScale = LocalDensity.current.fontScale * GLOBAL_SCALE_FACTOR,
-        ),
+        LocalDensity provides
+            Density(
+                density = LocalDensity.current.density,
+                fontScale = LocalDensity.current.fontScale * GLOBAL_SCALE_FACTOR,
+            ),
     ) {
         Markdown(
-            modifier = modifier
-                .heightIn(min = 0.dp, max = maxHeightDp)
-                .onClick(
-                    onClick = {
-                        if (!isOpeningUrl) {
-                            onClick?.invoke()
-                        }
-                    },
-                    onLongClick = {
-                        onLongClick?.invoke()
-                    },
-                    onDoubleClick = {
-                        onDoubleClick?.invoke()
-                    },
-                ),
+            modifier =
+                modifier
+                    .heightIn(min = 0.dp, max = maxHeightDp)
+                    .onClick(
+                        onClick = {
+                            if (!isOpeningUrl) {
+                                onClick?.invoke()
+                            }
+                        },
+                        onLongClick = {
+                            onLongClick?.invoke()
+                        },
+                        onDoubleClick = {
+                            onDoubleClick?.invoke()
+                        },
+                    ),
             content = content.sanitize(),
             colors = colors,
             typography = typography,

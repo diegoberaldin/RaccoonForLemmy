@@ -70,15 +70,16 @@ class BanUserScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<BanUserMviModel> {
-            parametersOf(
-                userId,
-                communityId,
-                newValue,
-                postId,
-                commentId,
-            )
-        }
+        val model =
+            getScreenModel<BanUserMviModel> {
+                parametersOf(
+                    userId,
+                    communityId,
+                    newValue,
+                    postId,
+                    commentId,
+                )
+            }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val genericError = LocalXmlStrings.current.messageGenericError
@@ -109,22 +110,24 @@ class BanUserScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.padding(start = Spacing.s).onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.padding(start = Spacing.s).onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
                         )
                     },
                     title = {
-                        val title = if (newValue) {
-                            LocalXmlStrings.current.modActionBan
-                        } else {
-                            LocalXmlStrings.current.modActionAllow
-                        }
+                        val title =
+                            if (newValue) {
+                                LocalXmlStrings.current.modActionBan
+                            } else {
+                                LocalXmlStrings.current.modActionAllow
+                            }
                         Text(
                             text = title,
                             color = MaterialTheme.colorScheme.onBackground,
@@ -140,10 +143,11 @@ class BanUserScreen(
                                     contentDescription = null,
                                 )
                             },
-                            onClick = rememberCallback(model) {
-                                focusManager.clearFocus()
-                                model.reduce(BanUserMviModel.Intent.Submit)
-                            },
+                            onClick =
+                                rememberCallback(model) {
+                                    focusManager.clearFocus()
+                                    model.reduce(BanUserMviModel.Intent.Submit)
+                                },
                         )
                     },
                 )
@@ -159,34 +163,38 @@ class BanUserScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .consumeWindowInsets(padding)
-                    .navigationBarsPadding()
-                    .imePadding(),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .consumeWindowInsets(padding)
+                        .navigationBarsPadding()
+                        .imePadding(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val focusRequester = remember { FocusRequester() }
                 TextField(
-                    modifier = Modifier
-                        .focusRequester(focusRequester)
-                        .heightIn(min = 300.dp, max = 500.dp)
-                        .fillMaxWidth(),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                    modifier =
+                        Modifier
+                            .focusRequester(focusRequester)
+                            .heightIn(min = 300.dp, max = 500.dp)
+                            .fillMaxWidth(),
+                    colors =
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     label = {
                         Text(text = LocalXmlStrings.current.banReasonPlaceholder)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.text,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        autoCorrect = true,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            autoCorrect = true,
+                        ),
                     onValueChange = { value ->
                         model.reduce(BanUserMviModel.Intent.SetText(value))
                     },
@@ -207,30 +215,34 @@ class BanUserScreen(
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.banItemPermanent,
                         value = uiState.permanent,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(BanUserMviModel.Intent.ChangePermanent(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(BanUserMviModel.Intent.ChangePermanent(value))
+                            },
                     )
 
                     if (!uiState.permanent) {
                         SettingsIntValueRow(
                             title = LocalXmlStrings.current.banItemDurationDays,
                             value = uiState.days,
-                            onIncrement = rememberCallback {
-                                model.reduce(BanUserMviModel.Intent.IncrementDays)
-                            },
-                            onDecrement = rememberCallback {
-                                model.reduce(BanUserMviModel.Intent.DecrementDays)
-                            },
+                            onIncrement =
+                                rememberCallback {
+                                    model.reduce(BanUserMviModel.Intent.IncrementDays)
+                                },
+                            onDecrement =
+                                rememberCallback {
+                                    model.reduce(BanUserMviModel.Intent.DecrementDays)
+                                },
                         )
                     }
 
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.banItemRemoveData,
                         value = uiState.removeData,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(BanUserMviModel.Intent.ChangeRemoveData(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(BanUserMviModel.Intent.ChangeRemoveData(value))
+                            },
                     )
                 }
 

@@ -55,26 +55,28 @@ internal fun AccountItem(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .onClick(
-                onClick = {
-                    onClick?.invoke()
-                },
-            ).padding(
-                horizontal = Spacing.m,
-                vertical = Spacing.s,
-            ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .onClick(
+                    onClick = {
+                        onClick?.invoke()
+                    },
+                ).padding(
+                    horizontal = Spacing.m,
+                    vertical = Spacing.s,
+                ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         val avatar = account.avatar.orEmpty()
         if (avatar.isNotEmpty()) {
             CustomImage(
-                modifier = Modifier
-                    .padding(Spacing.xxxs)
-                    .size(IconSize.l)
-                    .clip(RoundedCornerShape(IconSize.l / 2)),
+                modifier =
+                    Modifier
+                        .padding(Spacing.xxxs)
+                        .size(IconSize.l)
+                        .clip(RoundedCornerShape(IconSize.l / 2)),
                 url = avatar,
                 autoload = autoLoadImages,
                 quality = FilterQuality.Low,
@@ -84,11 +86,12 @@ internal fun AccountItem(
             Box(modifier = Modifier.size(IconSize.l))
         }
         Text(
-            text = buildString {
-                append(account.username)
-                append("@")
-                append(account.instance)
-            },
+            text =
+                buildString {
+                    append(account.username)
+                    append("@")
+                    append(account.instance)
+                },
             color = fullColor,
         )
 
@@ -104,16 +107,17 @@ internal fun AccountItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -124,10 +128,11 @@ internal fun AccountItem(
                     onDismiss = {
                         optionsMenuOpen = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

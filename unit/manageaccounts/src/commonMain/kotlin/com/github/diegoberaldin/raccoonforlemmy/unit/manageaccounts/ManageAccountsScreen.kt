@@ -58,14 +58,15 @@ class ManageAccountsScreen : Screen {
         }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -82,21 +83,24 @@ class ManageAccountsScreen : Screen {
                         onClick = {
                             model.reduce(ManageAccountsMviModel.Intent.SwitchAccount(idx))
                         },
-                        options = buildList {
-                            this += Option(
-                                OptionId.Delete,
-                                LocalXmlStrings.current.commentActionDelete,
-                            )
-                        },
-                        onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                            when (optionId) {
-                                OptionId.Delete -> {
-                                    indexToDelete = idx
-                                }
+                        options =
+                            buildList {
+                                this +=
+                                    Option(
+                                        OptionId.Delete,
+                                        LocalXmlStrings.current.commentActionDelete,
+                                    )
+                            },
+                        onOptionSelected =
+                            rememberCallbackArgs(model) { optionId ->
+                                when (optionId) {
+                                    OptionId.Delete -> {
+                                        indexToDelete = idx
+                                    }
 
-                                else -> Unit
-                            }
-                        },
+                                    else -> Unit
+                                }
+                            },
                     )
                 }
             }

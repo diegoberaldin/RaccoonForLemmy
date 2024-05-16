@@ -105,7 +105,6 @@ import kotlin.math.roundToInt
 class MultiCommunityScreen(
     private val communityId: Long,
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
@@ -159,11 +158,12 @@ class MultiCommunityScreen(
                     topInset = maxTopInset * (1 - it)
                 }.launchIn(scope)
                 TopAppBar(
-                    windowInsets = if (settings.edgeToEdge) {
-                        WindowInsets(0, topInset.roundToInt(), 0, 0)
-                    } else {
-                        TopAppBarDefaults.windowInsets
-                    },
+                    windowInsets =
+                        if (settings.edgeToEdge) {
+                            WindowInsets(0, topInset.roundToInt(), 0, 0)
+                        } else {
+                            TopAppBarDefaults.windowInsets
+                        },
                     title = {
                         Text(
                             text = uiState.community.name,
@@ -175,11 +175,12 @@ class MultiCommunityScreen(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -189,28 +190,31 @@ class MultiCommunityScreen(
                         val additionalLabel = sortType.getAdditionalLabel()
                         if (additionalLabel.isNotEmpty()) {
                             Text(
-                                text = buildString {
-                                    append("(")
-                                    append(additionalLabel)
-                                    append(")")
-                                },
+                                text =
+                                    buildString {
+                                        append("(")
+                                        append(additionalLabel)
+                                        append(")")
+                                    },
                             )
                             Spacer(modifier = Modifier.width(Spacing.xs))
                         }
                         if (sortType != null) {
                             Image(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onClick(
-                                        onClick = {
-                                            val sheet = SortBottomSheet(
-                                                values = uiState.availableSortTypes.map { it.toInt() },
-                                                expandTop = true,
-                                                screenKey = "multiCommunity",
-                                            )
-                                            navigationCoordinator.showBottomSheet(sheet)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.xs)
+                                        .onClick(
+                                            onClick = {
+                                                val sheet =
+                                                    SortBottomSheet(
+                                                        values = uiState.availableSortTypes.map { it.toInt() },
+                                                        expandTop = true,
+                                                        screenKey = "multiCommunity",
+                                                    )
+                                                navigationCoordinator.showBottomSheet(sheet)
+                                            },
+                                        ),
                                 imageVector = sortType.toIcon(),
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -222,66 +226,76 @@ class MultiCommunityScreen(
             floatingActionButton = {
                 AnimatedVisibility(
                     visible = isFabVisible,
-                    enter = slideInVertically(
-                        initialOffsetY = { it * 2 },
-                    ),
-                    exit = slideOutVertically(
-                        targetOffsetY = { it * 2 },
-                    ),
+                    enter =
+                        slideInVertically(
+                            initialOffsetY = { it * 2 },
+                        ),
+                    exit =
+                        slideOutVertically(
+                            targetOffsetY = { it * 2 },
+                        ),
                 ) {
                     FloatingActionButtonMenu(
-                        items = buildList {
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ExpandLess,
-                                text = LocalXmlStrings.current.actionBackToTop,
-                                onSelected = rememberCallback {
-                                    scope.launch {
-                                        runCatching {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
-                                        }
-                                    }
-                                },
-                            )
-                            this += FloatingActionButtonMenuItem(
-                                icon = Icons.Default.ClearAll,
-                                text = LocalXmlStrings.current.actionClearRead,
-                                onSelected = rememberCallback {
-                                    model.reduce(MultiCommunityMviModel.Intent.ClearRead)
-                                    scope.launch {
-                                        runCatching {
-                                            lazyListState.scrollToItem(0)
-                                            topAppBarState.heightOffset = 0f
-                                            topAppBarState.contentOffset = 0f
-                                        }
-                                    }
-                                },
-                            )
-                        },
+                        items =
+                            buildList {
+                                this +=
+                                    FloatingActionButtonMenuItem(
+                                        icon = Icons.Default.ExpandLess,
+                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        onSelected =
+                                            rememberCallback {
+                                                scope.launch {
+                                                    runCatching {
+                                                        lazyListState.scrollToItem(0)
+                                                        topAppBarState.heightOffset = 0f
+                                                        topAppBarState.contentOffset = 0f
+                                                    }
+                                                }
+                                            },
+                                    )
+                                this +=
+                                    FloatingActionButtonMenuItem(
+                                        icon = Icons.Default.ClearAll,
+                                        text = LocalXmlStrings.current.actionClearRead,
+                                        onSelected =
+                                            rememberCallback {
+                                                model.reduce(MultiCommunityMviModel.Intent.ClearRead)
+                                                scope.launch {
+                                                    runCatching {
+                                                        lazyListState.scrollToItem(0)
+                                                        topAppBarState.heightOffset = 0f
+                                                        topAppBarState.contentOffset = 0f
+                                                    }
+                                                }
+                                            },
+                                    )
+                            },
                     )
                 }
             },
         ) { padding ->
-            val pullRefreshState = rememberPullRefreshState(
-                refreshing = uiState.refreshing,
-                onRefresh = rememberCallback(model) {
-                    model.reduce(MultiCommunityMviModel.Intent.Refresh)
-                },
-            )
-            Box(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxWidth()
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
+            val pullRefreshState =
+                rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh =
+                        rememberCallback(model) {
+                            model.reduce(MultiCommunityMviModel.Intent.Refresh)
                         },
-                    )
-                    .nestedScroll(fabNestedScrollConnection)
-                    .pullRefresh(pullRefreshState),
+                )
+            Box(
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxWidth()
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        )
+                        .nestedScroll(fabNestedScrollConnection)
+                        .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -313,71 +327,79 @@ class MultiCommunityScreen(
                         fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                             mapNotNull {
                                 when (it) {
-                                    ActionOnSwipe.UpVote -> SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowCircleUp,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = upVoteColor ?: defaultUpvoteColor,
-                                        onTriggered = rememberCallback {
-                                            model.reduce(
-                                                MultiCommunityMviModel.Intent.UpVotePost(post.id),
-                                            )
-                                        },
-                                    )
+                                    ActionOnSwipe.UpVote ->
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleUp,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.UpVotePost(post.id),
+                                                    )
+                                                },
+                                        )
 
-                                    ActionOnSwipe.DownVote -> SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowCircleDown,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                        onTriggered = rememberCallback {
-                                            model.reduce(
-                                                MultiCommunityMviModel.Intent.DownVotePost(
-                                                    post.id,
-                                                ),
-                                            )
-                                        },
-                                    )
+                                    ActionOnSwipe.DownVote ->
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.DownVotePost(
+                                                            post.id,
+                                                        ),
+                                                    )
+                                                },
+                                        )
 
-                                    ActionOnSwipe.Reply -> SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Default.Reply,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = replyColor ?: defaultReplyColor,
-                                        onTriggered = rememberCallback {
-                                            detailOpener.openReply(originalPost = post)
-                                        },
-                                    )
+                                    ActionOnSwipe.Reply ->
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.AutoMirrored.Default.Reply,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = replyColor ?: defaultReplyColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    detailOpener.openReply(originalPost = post)
+                                                },
+                                        )
 
-                                    ActionOnSwipe.Save -> SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.Default.Bookmark,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = saveColor ?: defaultSaveColor,
-                                        onTriggered = rememberCallback {
-                                            model.reduce(
-                                                MultiCommunityMviModel.Intent.SavePost(
-                                                    id = post.id,
-                                                ),
-                                            )
-                                        },
-                                    )
+                                    ActionOnSwipe.Save ->
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.Bookmark,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
+                                            },
+                                            backgroundColor = saveColor ?: defaultSaveColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    model.reduce(
+                                                        MultiCommunityMviModel.Intent.SavePost(
+                                                            id = post.id,
+                                                        ),
+                                                    )
+                                                },
+                                        )
 
                                     else -> null
                                 }
@@ -386,19 +408,22 @@ class MultiCommunityScreen(
                         SwipeActionCard(
                             modifier = Modifier.fillMaxWidth(),
                             enabled = uiState.swipeActionsEnabled,
-                            onGestureBegin = rememberCallback(model) {
-                                model.reduce(MultiCommunityMviModel.Intent.HapticIndication)
-                            },
-                            swipeToStartActions = if (uiState.isLogged) {
-                                uiState.actionsOnSwipeToStartPosts.toSwipeActions()
-                            } else {
-                                emptyList()
-                            },
-                            swipeToEndActions = if (uiState.isLogged) {
-                                uiState.actionsOnSwipeToEndPosts.toSwipeActions()
-                            } else {
-                                emptyList()
-                            },
+                            onGestureBegin =
+                                rememberCallback(model) {
+                                    model.reduce(MultiCommunityMviModel.Intent.HapticIndication)
+                                },
+                            swipeToStartActions =
+                                if (uiState.isLogged) {
+                                    uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
+                                },
+                            swipeToEndActions =
+                                if (uiState.isLogged) {
+                                    uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                } else {
+                                    emptyList()
+                                },
                             content = {
                                 PostCard(
                                     post = post,
@@ -418,110 +443,128 @@ class MultiCommunityScreen(
                                         model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
                                         detailOpener.openPostDetail(post)
                                     },
-                                    onDoubleClick = if (uiState.swipeActionsEnabled) {
-                                        null
-                                    } else {
+                                    onDoubleClick =
+                                        if (uiState.swipeActionsEnabled) {
+                                            null
+                                        } else {
+                                            rememberCallback(model) {
+                                                model.reduce(
+                                                    MultiCommunityMviModel.Intent.UpVotePost(
+                                                        id = post.id,
+                                                        feedback = true,
+                                                    ),
+                                                )
+                                            }
+                                        },
+                                    onOpenCommunity =
+                                        rememberCallbackArgs { community, instance ->
+                                            detailOpener.openCommunityDetail(community, instance)
+                                        },
+                                    onOpenCreator =
+                                        rememberCallbackArgs { user, instance ->
+                                            detailOpener.openUserDetail(user, instance)
+                                        },
+                                    onOpenPost =
+                                        rememberCallbackArgs { post, instance ->
+                                            detailOpener.openPostDetail(
+                                                post = post,
+                                                otherInstance = instance,
+                                            )
+                                        },
+                                    onOpenWeb =
+                                        rememberCallbackArgs { url ->
+                                            navigationCoordinator.pushScreen(
+                                                WebViewScreen(url),
+                                            )
+                                        },
+                                    onUpVote =
                                         rememberCallback(model) {
                                             model.reduce(
                                                 MultiCommunityMviModel.Intent.UpVotePost(
                                                     id = post.id,
-                                                    feedback = true,
                                                 ),
                                             )
-                                        }
-                                    },
-                                    onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                        detailOpener.openCommunityDetail(community, instance)
-                                    },
-                                    onOpenCreator = rememberCallbackArgs { user, instance ->
-                                        detailOpener.openUserDetail(user, instance)
-                                    },
-                                    onOpenPost = rememberCallbackArgs { post, instance ->
-                                        detailOpener.openPostDetail(
-                                            post = post,
-                                            otherInstance = instance,
-                                        )
-                                    },
-                                    onOpenWeb = rememberCallbackArgs { url ->
-                                        navigationCoordinator.pushScreen(
-                                            WebViewScreen(url),
-                                        )
-                                    },
-                                    onUpVote = rememberCallback(model) {
-                                        model.reduce(
-                                            MultiCommunityMviModel.Intent.UpVotePost(
-                                                id = post.id,
-                                            ),
-                                        )
-                                    },
-                                    onDownVote = rememberCallback(model) {
-                                        model.reduce(
-                                            MultiCommunityMviModel.Intent.DownVotePost(
-                                                id = post.id,
-                                            ),
-                                        )
-                                    },
-                                    onSave = rememberCallback(model) {
-                                        model.reduce(
-                                            MultiCommunityMviModel.Intent.SavePost(
-                                                id = post.id,
-                                            ),
-                                        )
-                                    },
-                                    onReply = rememberCallback(model) {
-                                        model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
-                                        detailOpener.openPostDetail(post)
-                                    },
-                                    onOpenImage = rememberCallbackArgs { url ->
-                                        model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
-                                        navigationCoordinator.pushScreen(
-                                            ZoomableImageScreen(
-                                                url = url,
-                                                source = post.community?.readableHandle.orEmpty(),
-                                            ),
-                                        )
-                                    },
-                                    options = buildList {
-                                        this += Option(
-                                            OptionId.Share,
-                                            LocalXmlStrings.current.postActionShare,
-                                        )
-                                        this += Option(
-                                            OptionId.Copy,
-                                            LocalXmlStrings.current.actionCopyClipboard,
-                                        )
-                                        if (uiState.currentUserId != null) {
-                                            this += Option(
-                                                OptionId.Hide,
-                                                LocalXmlStrings.current.postActionHide,
+                                        },
+                                    onDownVote =
+                                        rememberCallback(model) {
+                                            model.reduce(
+                                                MultiCommunityMviModel.Intent.DownVotePost(
+                                                    id = post.id,
+                                                ),
                                             )
-                                            this += Option(
-                                                OptionId.Report,
-                                                LocalXmlStrings.current.postActionReport,
+                                        },
+                                    onSave =
+                                        rememberCallback(model) {
+                                            model.reduce(
+                                                MultiCommunityMviModel.Intent.SavePost(
+                                                    id = post.id,
+                                                ),
                                             )
-                                        }
-                                    },
+                                        },
+                                    onReply =
+                                        rememberCallback(model) {
+                                            model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)
+                                            detailOpener.openPostDetail(post)
+                                        },
+                                    onOpenImage =
+                                        rememberCallbackArgs { url ->
+                                            model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
+                                            navigationCoordinator.pushScreen(
+                                                ZoomableImageScreen(
+                                                    url = url,
+                                                    source = post.community?.readableHandle.orEmpty(),
+                                                ),
+                                            )
+                                        },
+                                    options =
+                                        buildList {
+                                            this +=
+                                                Option(
+                                                    OptionId.Share,
+                                                    LocalXmlStrings.current.postActionShare,
+                                                )
+                                            this +=
+                                                Option(
+                                                    OptionId.Copy,
+                                                    LocalXmlStrings.current.actionCopyClipboard,
+                                                )
+                                            if (uiState.currentUserId != null) {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Hide,
+                                                        LocalXmlStrings.current.postActionHide,
+                                                    )
+                                                this +=
+                                                    Option(
+                                                        OptionId.Report,
+                                                        LocalXmlStrings.current.postActionReport,
+                                                    )
+                                            }
+                                        },
                                     onOptionSelected = { optionId ->
                                         when (optionId) {
                                             OptionId.Report -> {
-                                                val screen = ModerateWithReasonScreen(
-                                                    actionId = ModerateWithReasonAction.ReportPost.toInt(),
-                                                    contentId = post.id,
-                                                )
+                                                val screen =
+                                                    ModerateWithReasonScreen(
+                                                        actionId = ModerateWithReasonAction.ReportPost.toInt(),
+                                                        contentId = post.id,
+                                                    )
                                                 navigationCoordinator.pushScreen(screen)
                                             }
 
-                                            OptionId.Hide -> model.reduce(
-                                                MultiCommunityMviModel.Intent.Hide(
-                                                    post.id,
-                                                ),
-                                            )
+                                            OptionId.Hide ->
+                                                model.reduce(
+                                                    MultiCommunityMviModel.Intent.Hide(
+                                                        post.id,
+                                                    ),
+                                                )
 
                                             OptionId.Share -> {
-                                                val urls = listOfNotNull(
-                                                    post.originalUrl,
-                                                    "https://${uiState.instance}/post/${post.id}",
-                                                ).distinct()
+                                                val urls =
+                                                    listOfNotNull(
+                                                        post.originalUrl,
+                                                        "https://${uiState.instance}/post/${post.id}",
+                                                    ).distinct()
                                                 if (urls.size == 1) {
                                                     model.reduce(
                                                         MultiCommunityMviModel.Intent.Share(
@@ -535,10 +578,11 @@ class MultiCommunityScreen(
                                             }
 
                                             OptionId.Copy -> {
-                                                val texts = listOfNotNull(
-                                                    post.title.takeIf { it.isNotBlank() },
-                                                    post.text.takeIf { it.isNotBlank() },
-                                                ).distinct()
+                                                val texts =
+                                                    listOfNotNull(
+                                                        post.title.takeIf { it.isNotBlank() },
+                                                        post.text.takeIf { it.isNotBlank() },
+                                                    ).distinct()
                                                 if (texts.size == 1) {
                                                     model.reduce(
                                                         MultiCommunityMviModel.Intent.Copy(texts.first()),
@@ -571,9 +615,10 @@ class MultiCommunityScreen(
                                     horizontalArrangement = Arrangement.Center,
                                 ) {
                                     Button(
-                                        onClick = rememberCallback(model) {
-                                            model.reduce(MultiCommunityMviModel.Intent.LoadNextPage)
-                                        },
+                                        onClick =
+                                            rememberCallback(model) {
+                                                model.reduce(MultiCommunityMviModel.Intent.LoadNextPage)
+                                            },
                                     ) {
                                         Text(
                                             text = LocalXmlStrings.current.postListLoadMorePosts,

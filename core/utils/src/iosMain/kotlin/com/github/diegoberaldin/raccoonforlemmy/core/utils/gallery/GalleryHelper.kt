@@ -27,25 +27,30 @@ import platform.posix.memcpy
 
 typealias ImageBytes = NSData
 
-fun ByteArray.toImageBytes(): ImageBytes = memScoped {
-    return NSData.create(
-        bytes = allocArrayOf(this@toImageBytes),
-        length = this@toImageBytes.size.toULong(),
-    )
-}
-
-fun ImageBytes.toByteArray(): ByteArray = ByteArray(this@toByteArray.length.toInt()).apply {
-    usePinned {
-        memcpy(it.addressOf(0), this@toByteArray.bytes, this@toByteArray.length)
+fun ByteArray.toImageBytes(): ImageBytes =
+    memScoped {
+        return NSData.create(
+            bytes = allocArrayOf(this@toImageBytes),
+            length = this@toImageBytes.size.toULong(),
+        )
     }
-}
+
+fun ImageBytes.toByteArray(): ByteArray =
+    ByteArray(this@toByteArray.length.toInt()).apply {
+        usePinned {
+            memcpy(it.addressOf(0), this@toByteArray.bytes, this@toByteArray.length)
+        }
+    }
 
 class DefaultGalleryHelper : GalleryHelper {
-
     override val supportsCustomPath: Boolean = false
 
     @OptIn(ExperimentalForeignApi::class)
-    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?): Any? {
+    override fun saveToGallery(
+        bytes: ByteArray,
+        name: String,
+        additionalPathSegment: String?,
+    ): Any? {
         val image = UIImage(bytes.toImageBytes())
         UIImageWriteToSavedPhotosAlbum(image, null, null, null)
         return null
@@ -54,24 +59,28 @@ class DefaultGalleryHelper : GalleryHelper {
     @Composable
     override fun getImageFromGallery(result: (ByteArray) -> Unit) {
         val uiViewController = LocalUIViewController.current
-        val pickerDelegate = remember {
-            object : NSObject(), PHPickerViewControllerDelegateProtocol {
-                override fun picker(picker: PHPickerViewController, didFinishPicking: List<*>) {
-                    picker.dismissViewControllerAnimated(flag = false, completion = {})
-                    val pickerResult = didFinishPicking.firstOrNull() as? PHPickerResult
-                    if (pickerResult?.itemProvider?.hasItemConformingToTypeIdentifier(UTTypeImage.identifier) == true) {
-                        pickerResult.itemProvider.loadDataRepresentationForTypeIdentifier(
-                            typeIdentifier = UTTypeImage.identifier,
-                        ) { data, _ ->
-                            val bytes = data?.toByteArray() ?: byteArrayOf()
-                            result(bytes)
+        val pickerDelegate =
+            remember {
+                object : NSObject(), PHPickerViewControllerDelegateProtocol {
+                    override fun picker(
+                        picker: PHPickerViewController,
+                        didFinishPicking: List<*>,
+                    ) {
+                        picker.dismissViewControllerAnimated(flag = false, completion = {})
+                        val pickerResult = didFinishPicking.firstOrNull() as? PHPickerResult
+                        if (pickerResult?.itemProvider?.hasItemConformingToTypeIdentifier(UTTypeImage.identifier) == true) {
+                            pickerResult.itemProvider.loadDataRepresentationForTypeIdentifier(
+                                typeIdentifier = UTTypeImage.identifier,
+                            ) { data, _ ->
+                                val bytes = data?.toByteArray() ?: byteArrayOf()
+                                result(bytes)
+                            }
+                        } else {
+                            result(byteArrayOf())
                         }
-                    } else {
-                        result(byteArrayOf())
                     }
                 }
             }
-        }
         SideEffect {
             val configuration = PHPickerConfiguration()
             val pickerController = PHPickerViewController(configuration)

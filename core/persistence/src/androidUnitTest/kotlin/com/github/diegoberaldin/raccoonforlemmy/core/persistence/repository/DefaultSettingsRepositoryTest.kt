@@ -24,204 +24,212 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 
 class DefaultSettingsRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
     private val query = mockk<Query<GetBy>>()
-    private val queries = mockk<SettingsQueries>(relaxUnitFun = true) {
-        every { getBy(any()) } returns query
-    }
-    private val provider = mockk<DatabaseProvider> {
-        every { getDatabase() } returns mockk<AppDatabase> {
-            every { settingsQueries } returns queries
+    private val queries =
+        mockk<SettingsQueries>(relaxUnitFun = true) {
+            every { getBy(any()) } returns query
         }
-    }
+    private val provider =
+        mockk<DatabaseProvider> {
+            every { getDatabase() } returns
+                mockk<AppDatabase> {
+                    every { settingsQueries } returns queries
+                }
+        }
     private val keyStore = mockk<TemporaryKeyStore>(relaxUnitFun = true)
 
-    private val sut = DefaultSettingsRepository(
-        provider = provider,
-        keyStore = keyStore,
-    )
+    private val sut =
+        DefaultSettingsRepository(
+            provider = provider,
+            keyStore = keyStore,
+        )
 
     @Test
-    fun givenAccount_whenGetSettings_thenResultIsAsExpected() = runTest {
-        every { query.executeAsOneOrNull() } returns createFake(id = 2)
+    fun givenAccount_whenGetSettings_thenResultIsAsExpected() =
+        runTest {
+            every { query.executeAsOneOrNull() } returns createFake(id = 2)
 
-        val res = sut.getSettings(1)
+            val res = sut.getSettings(1)
 
-        assertEquals(2, res.id)
+            assertEquals(2, res.id)
 
-        verify {
-            queries.getBy(account_id = 1)
+            verify {
+                queries.getBy(account_id = 1)
+            }
         }
-    }
 
     @Test
-    fun givenNoAccount_whenGetSettings_thenResultIsAsExpected() = runTest {
-        every { keyStore[any(), any<Long>()] } returns 0
-        every { keyStore[any(), any<Int>()] } returns 0
-        every { keyStore[any(), any<Float>()] } returns 1f
-        every { keyStore[any(), any<String>()] } returns ""
-        every { keyStore[any(), any<Boolean>()] } returns false
-        every { keyStore.containsKey(any()) } returns true
+    fun givenNoAccount_whenGetSettings_thenResultIsAsExpected() =
+        runTest {
+            every { keyStore[any(), any<Long>()] } returns 0
+            every { keyStore[any(), any<Int>()] } returns 0
+            every { keyStore[any(), any<Float>()] } returns 1f
+            every { keyStore[any(), any<String>()] } returns ""
+            every { keyStore[any(), any<Boolean>()] } returns false
+            every { keyStore.containsKey(any()) } returns true
 
-        val res = sut.getSettings(null)
+            val res = sut.getSettings(null)
 
-        assertNotNull(res)
+            assertNotNull(res)
 
-        verify {
-            queries wasNot Called
+            verify {
+                queries wasNot Called
+            }
         }
-    }
 
     @Test
-    fun whenChangeCurrentSettings_thenValueIsUpdated() = runTest {
-        val model = SettingsModel(defaultListingType = 1)
-        sut.changeCurrentSettings(model)
-        val value = sut.currentSettings.value
-        assertEquals(model, value)
-    }
-
-    @Test
-    fun whenCreateSettings_thenResultIsAsExpected() = runTest {
-        val model = SettingsModel()
-        sut.createSettings(model, 1)
-
-        verify {
-            queries.create(
-                theme = model.theme?.toLong(),
-                uiFontScale = model.uiFontScale.toDouble(),
-                uiFontFamily = model.uiFontFamily.toLong(),
-                titleFontScale = model.contentFontScale.title.toDouble(),
-                contentFontScale = model.contentFontScale.body.toDouble(),
-                commentFontScale = model.contentFontScale.comment.toDouble(),
-                ancillaryFontScale = model.contentFontScale.ancillary.toDouble(),
-                locale = model.locale,
-                defaultListingType = model.defaultListingType.toLong(),
-                defaultPostSortType = model.defaultPostSortType.toLong(),
-                defaultCommentSortType = model.defaultCommentSortType.toLong(),
-                defaultInboxType = model.defaultInboxType.toLong(),
-                includeNsfw = if (model.includeNsfw) 1 else 0,
-                blurNsfw = if (model.blurNsfw) 1 else 0,
-                navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
-                dynamicColors = if (model.dynamicColors) 1 else 0,
-                openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
-                enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
-                enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
-                customSeedColor = model.customSeedColor?.toLong(),
-                postLayout = model.postLayout.toLong(),
-                separateUpAndDownVotes = if (model.voteFormat == VoteFormat.Separated) 1 else 0,
-                autoLoadImages = if (model.autoLoadImages) 1 else 0,
-                autoExpandComments = if (model.autoExpandComments) 1 else 0,
-                fullHeightImages = if (model.fullHeightImages) 1 else 0,
-                upvoteColor = model.upVoteColor?.toLong(),
-                downvoteColor = model.downVoteColor?.toLong(),
-                hideNavigationBarWhileScrolling = if (model.hideNavigationBarWhileScrolling) 1 else 0,
-                zombieModeInterval = model.zombieModeInterval.toLong(DurationUnit.MILLISECONDS),
-                zombieModeScrollAmount = model.zombieModeScrollAmount.toDouble(),
-                markAsReadWhileScrolling = if (model.markAsReadWhileScrolling) 1 else 0,
-                commentBarTheme = model.commentBarTheme.toLong(),
-                replyColor = model.replyColor?.toLong(),
-                saveColor = model.saveColor?.toLong(),
-                searchPostTitleOnly = if (model.searchPostTitleOnly) 1 else 0,
-                contentFontFamily = model.contentFontFamily.toLong(),
-                edgeToEdge = if (model.edgeToEdge) 1 else 0,
-                postBodyMaxLines = model.postBodyMaxLines?.toLong(),
-                infiniteScrollEnabled = if (model.infiniteScrollEnabled) 1 else 0,
-                actionsOnSwipeToStartPosts = model.actionsOnSwipeToStartPosts.serialized(),
-                actionsOnSwipeToEndPosts = model.actionsOnSwipeToEndPosts.serialized(),
-                actionsOnSwipeToStartComments = model.actionsOnSwipeToStartComments.serialized(),
-                actionsOnSwipeToEndComments = model.actionsOnSwipeToEndComments.serialized(),
-                actionsOnSwipeToStartInbox = model.actionsOnSwipeToStartInbox.serialized(),
-                actionsOnSwipeToEndInbox = model.actionsOnSwipeToEndInbox.serialized(),
-                opaqueSystemBars = if (model.opaqueSystemBars) 1 else 0,
-                showScores = if (model.showScores) 1 else 0,
-                preferUserNicknames = if (model.preferUserNicknames) 1 else 0,
-                commentBarThickness = model.commentBarThickness.toLong(),
-                imageSourcePath = if (model.imageSourcePath) 1 else 0,
-                defaultExploreType = model.defaultExploreType.toLong(),
-                defaultLanguageId = model.defaultLanguageId,
-                inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
-                enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
-                fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
-                fullWidthImages = if (model.fullWidthImages) 1 else 0,
-                showUnreadComments = if (model.showUnreadComments) 1 else 0,
-                commentIndentAmount = model.commentIndentAmount.toLong(),
-                account_id = 1,
-            )
+    fun whenChangeCurrentSettings_thenValueIsUpdated() =
+        runTest {
+            val model = SettingsModel(defaultListingType = 1)
+            sut.changeCurrentSettings(model)
+            val value = sut.currentSettings.value
+            assertEquals(model, value)
         }
-    }
 
     @Test
-    fun whenUpdate_thenResultIsAsExpected() = runTest {
-        val model = SettingsModel(defaultListingType = 1)
-        sut.updateSettings(model, 1)
+    fun whenCreateSettings_thenResultIsAsExpected() =
+        runTest {
+            val model = SettingsModel()
+            sut.createSettings(model, 1)
 
-        verify {
-            queries.update(
-                theme = model.theme?.toLong(),
-                uiFontScale = model.uiFontScale.toDouble(),
-                uiFontFamily = model.uiFontFamily.toLong(),
-                titleFontScale = model.contentFontScale.title.toDouble(),
-                contentFontScale = model.contentFontScale.body.toDouble(),
-                commentFontScale = model.contentFontScale.comment.toDouble(),
-                ancillaryFontScale = model.contentFontScale.ancillary.toDouble(),
-                locale = model.locale,
-                defaultListingType = model.defaultListingType.toLong(),
-                defaultPostSortType = model.defaultPostSortType.toLong(),
-                defaultCommentSortType = model.defaultCommentSortType.toLong(),
-                defaultInboxType = model.defaultInboxType.toLong(),
-                includeNsfw = if (model.includeNsfw) 1 else 0,
-                blurNsfw = if (model.blurNsfw) 1 else 0,
-                navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
-                dynamicColors = if (model.dynamicColors) 1 else 0,
-                openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
-                enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
-                enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
-                customSeedColor = model.customSeedColor?.toLong(),
-                postLayout = model.postLayout.toLong(),
-                separateUpAndDownVotes = if (model.voteFormat == VoteFormat.Separated) 1 else 0,
-                autoLoadImages = if (model.autoLoadImages) 1 else 0,
-                autoExpandComments = if (model.autoExpandComments) 1 else 0,
-                fullHeightImages = if (model.fullHeightImages) 1 else 0,
-                upvoteColor = model.upVoteColor?.toLong(),
-                downvoteColor = model.downVoteColor?.toLong(),
-                hideNavigationBarWhileScrolling = if (model.hideNavigationBarWhileScrolling) 1 else 0,
-                zombieModeInterval = model.zombieModeInterval.toLong(DurationUnit.MILLISECONDS),
-                zombieModeScrollAmount = model.zombieModeScrollAmount.toDouble(),
-                markAsReadWhileScrolling = if (model.markAsReadWhileScrolling) 1 else 0,
-                commentBarTheme = model.commentBarTheme.toLong(),
-                replyColor = model.replyColor?.toLong(),
-                saveColor = model.saveColor?.toLong(),
-                searchPostTitleOnly = if (model.searchPostTitleOnly) 1 else 0,
-                contentFontFamily = model.contentFontFamily.toLong(),
-                edgeToEdge = if (model.edgeToEdge) 1 else 0,
-                postBodyMaxLines = model.postBodyMaxLines?.toLong(),
-                infiniteScrollEnabled = if (model.infiniteScrollEnabled) 1 else 0,
-                actionsOnSwipeToStartPosts = model.actionsOnSwipeToStartPosts.serialized(),
-                actionsOnSwipeToEndPosts = model.actionsOnSwipeToEndPosts.serialized(),
-                actionsOnSwipeToStartComments = model.actionsOnSwipeToStartComments.serialized(),
-                actionsOnSwipeToEndComments = model.actionsOnSwipeToEndComments.serialized(),
-                actionsOnSwipeToStartInbox = model.actionsOnSwipeToStartInbox.serialized(),
-                actionsOnSwipeToEndInbox = model.actionsOnSwipeToEndInbox.serialized(),
-                opaqueSystemBars = if (model.opaqueSystemBars) 1 else 0,
-                showScores = if (model.showScores) 1 else 0,
-                preferUserNicknames = if (model.preferUserNicknames) 1 else 0,
-                commentBarThickness = model.commentBarThickness.toLong(),
-                imageSourcePath = if (model.imageSourcePath) 1 else 0,
-                defaultExploreType = model.defaultExploreType.toLong(),
-                defaultLanguageId = model.defaultLanguageId,
-                inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
-                enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
-                fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
-                fullWidthImages = if (model.fullWidthImages) 1 else 0,
-                showUnreadComments = if (model.showUnreadComments) 1 else 0,
-                commentIndentAmount = model.commentIndentAmount.toLong(),
-                account_id = 1,
-            )
+            verify {
+                queries.create(
+                    theme = model.theme?.toLong(),
+                    uiFontScale = model.uiFontScale.toDouble(),
+                    uiFontFamily = model.uiFontFamily.toLong(),
+                    titleFontScale = model.contentFontScale.title.toDouble(),
+                    contentFontScale = model.contentFontScale.body.toDouble(),
+                    commentFontScale = model.contentFontScale.comment.toDouble(),
+                    ancillaryFontScale = model.contentFontScale.ancillary.toDouble(),
+                    locale = model.locale,
+                    defaultListingType = model.defaultListingType.toLong(),
+                    defaultPostSortType = model.defaultPostSortType.toLong(),
+                    defaultCommentSortType = model.defaultCommentSortType.toLong(),
+                    defaultInboxType = model.defaultInboxType.toLong(),
+                    includeNsfw = if (model.includeNsfw) 1 else 0,
+                    blurNsfw = if (model.blurNsfw) 1 else 0,
+                    navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
+                    dynamicColors = if (model.dynamicColors) 1 else 0,
+                    openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
+                    enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
+                    enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
+                    customSeedColor = model.customSeedColor?.toLong(),
+                    postLayout = model.postLayout.toLong(),
+                    separateUpAndDownVotes = if (model.voteFormat == VoteFormat.Separated) 1 else 0,
+                    autoLoadImages = if (model.autoLoadImages) 1 else 0,
+                    autoExpandComments = if (model.autoExpandComments) 1 else 0,
+                    fullHeightImages = if (model.fullHeightImages) 1 else 0,
+                    upvoteColor = model.upVoteColor?.toLong(),
+                    downvoteColor = model.downVoteColor?.toLong(),
+                    hideNavigationBarWhileScrolling = if (model.hideNavigationBarWhileScrolling) 1 else 0,
+                    zombieModeInterval = model.zombieModeInterval.toLong(DurationUnit.MILLISECONDS),
+                    zombieModeScrollAmount = model.zombieModeScrollAmount.toDouble(),
+                    markAsReadWhileScrolling = if (model.markAsReadWhileScrolling) 1 else 0,
+                    commentBarTheme = model.commentBarTheme.toLong(),
+                    replyColor = model.replyColor?.toLong(),
+                    saveColor = model.saveColor?.toLong(),
+                    searchPostTitleOnly = if (model.searchPostTitleOnly) 1 else 0,
+                    contentFontFamily = model.contentFontFamily.toLong(),
+                    edgeToEdge = if (model.edgeToEdge) 1 else 0,
+                    postBodyMaxLines = model.postBodyMaxLines?.toLong(),
+                    infiniteScrollEnabled = if (model.infiniteScrollEnabled) 1 else 0,
+                    actionsOnSwipeToStartPosts = model.actionsOnSwipeToStartPosts.serialized(),
+                    actionsOnSwipeToEndPosts = model.actionsOnSwipeToEndPosts.serialized(),
+                    actionsOnSwipeToStartComments = model.actionsOnSwipeToStartComments.serialized(),
+                    actionsOnSwipeToEndComments = model.actionsOnSwipeToEndComments.serialized(),
+                    actionsOnSwipeToStartInbox = model.actionsOnSwipeToStartInbox.serialized(),
+                    actionsOnSwipeToEndInbox = model.actionsOnSwipeToEndInbox.serialized(),
+                    opaqueSystemBars = if (model.opaqueSystemBars) 1 else 0,
+                    showScores = if (model.showScores) 1 else 0,
+                    preferUserNicknames = if (model.preferUserNicknames) 1 else 0,
+                    commentBarThickness = model.commentBarThickness.toLong(),
+                    imageSourcePath = if (model.imageSourcePath) 1 else 0,
+                    defaultExploreType = model.defaultExploreType.toLong(),
+                    defaultLanguageId = model.defaultLanguageId,
+                    inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
+                    enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
+                    fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
+                    fullWidthImages = if (model.fullWidthImages) 1 else 0,
+                    showUnreadComments = if (model.showUnreadComments) 1 else 0,
+                    commentIndentAmount = model.commentIndentAmount.toLong(),
+                    account_id = 1,
+                )
+            }
         }
-    }
+
+    @Test
+    fun whenUpdate_thenResultIsAsExpected() =
+        runTest {
+            val model = SettingsModel(defaultListingType = 1)
+            sut.updateSettings(model, 1)
+
+            verify {
+                queries.update(
+                    theme = model.theme?.toLong(),
+                    uiFontScale = model.uiFontScale.toDouble(),
+                    uiFontFamily = model.uiFontFamily.toLong(),
+                    titleFontScale = model.contentFontScale.title.toDouble(),
+                    contentFontScale = model.contentFontScale.body.toDouble(),
+                    commentFontScale = model.contentFontScale.comment.toDouble(),
+                    ancillaryFontScale = model.contentFontScale.ancillary.toDouble(),
+                    locale = model.locale,
+                    defaultListingType = model.defaultListingType.toLong(),
+                    defaultPostSortType = model.defaultPostSortType.toLong(),
+                    defaultCommentSortType = model.defaultCommentSortType.toLong(),
+                    defaultInboxType = model.defaultInboxType.toLong(),
+                    includeNsfw = if (model.includeNsfw) 1 else 0,
+                    blurNsfw = if (model.blurNsfw) 1 else 0,
+                    navigationTitlesVisible = if (model.navigationTitlesVisible) 1 else 0,
+                    dynamicColors = if (model.dynamicColors) 1 else 0,
+                    openUrlsInExternalBrowser = model.urlOpeningMode.toLong(),
+                    enableSwipeActions = if (model.enableSwipeActions) 1 else 0,
+                    enableDoubleTapAction = if (model.enableDoubleTapAction) 1 else 0,
+                    customSeedColor = model.customSeedColor?.toLong(),
+                    postLayout = model.postLayout.toLong(),
+                    separateUpAndDownVotes = if (model.voteFormat == VoteFormat.Separated) 1 else 0,
+                    autoLoadImages = if (model.autoLoadImages) 1 else 0,
+                    autoExpandComments = if (model.autoExpandComments) 1 else 0,
+                    fullHeightImages = if (model.fullHeightImages) 1 else 0,
+                    upvoteColor = model.upVoteColor?.toLong(),
+                    downvoteColor = model.downVoteColor?.toLong(),
+                    hideNavigationBarWhileScrolling = if (model.hideNavigationBarWhileScrolling) 1 else 0,
+                    zombieModeInterval = model.zombieModeInterval.toLong(DurationUnit.MILLISECONDS),
+                    zombieModeScrollAmount = model.zombieModeScrollAmount.toDouble(),
+                    markAsReadWhileScrolling = if (model.markAsReadWhileScrolling) 1 else 0,
+                    commentBarTheme = model.commentBarTheme.toLong(),
+                    replyColor = model.replyColor?.toLong(),
+                    saveColor = model.saveColor?.toLong(),
+                    searchPostTitleOnly = if (model.searchPostTitleOnly) 1 else 0,
+                    contentFontFamily = model.contentFontFamily.toLong(),
+                    edgeToEdge = if (model.edgeToEdge) 1 else 0,
+                    postBodyMaxLines = model.postBodyMaxLines?.toLong(),
+                    infiniteScrollEnabled = if (model.infiniteScrollEnabled) 1 else 0,
+                    actionsOnSwipeToStartPosts = model.actionsOnSwipeToStartPosts.serialized(),
+                    actionsOnSwipeToEndPosts = model.actionsOnSwipeToEndPosts.serialized(),
+                    actionsOnSwipeToStartComments = model.actionsOnSwipeToStartComments.serialized(),
+                    actionsOnSwipeToEndComments = model.actionsOnSwipeToEndComments.serialized(),
+                    actionsOnSwipeToStartInbox = model.actionsOnSwipeToStartInbox.serialized(),
+                    actionsOnSwipeToEndInbox = model.actionsOnSwipeToEndInbox.serialized(),
+                    opaqueSystemBars = if (model.opaqueSystemBars) 1 else 0,
+                    showScores = if (model.showScores) 1 else 0,
+                    preferUserNicknames = if (model.preferUserNicknames) 1 else 0,
+                    commentBarThickness = model.commentBarThickness.toLong(),
+                    imageSourcePath = if (model.imageSourcePath) 1 else 0,
+                    defaultExploreType = model.defaultExploreType.toLong(),
+                    defaultLanguageId = model.defaultLanguageId,
+                    inboxBackgroundCheckPeriod = model.inboxBackgroundCheckPeriod?.inWholeMilliseconds,
+                    enableButtonsToScrollBetweenComments = if (model.enableButtonsToScrollBetweenComments) 1 else 0,
+                    fadeReadPosts = if (model.fadeReadPosts) 1 else 0,
+                    fullWidthImages = if (model.fullWidthImages) 1 else 0,
+                    showUnreadComments = if (model.showUnreadComments) 1 else 0,
+                    commentIndentAmount = model.commentIndentAmount.toLong(),
+                    account_id = 1,
+                )
+            }
+        }
 
     private fun List<ActionOnSwipe>.serialized(): String = map { it.toInt() }.joinToString(",")
 

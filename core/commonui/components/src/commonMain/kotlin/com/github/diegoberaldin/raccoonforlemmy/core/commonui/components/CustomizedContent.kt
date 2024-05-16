@@ -18,18 +18,20 @@ fun CustomizedContent(
     val themeRepository = remember { getThemeRepository() }
     val fontScale by themeRepository.contentFontScale.collectAsState()
     val uiFontScale by themeRepository.uiFontScale.collectAsState()
-    val scaleFactor = when (contentClass) {
-        ContentFontClass.Title -> fontScale.title
-        ContentFontClass.Body -> fontScale.body
-        ContentFontClass.Comment -> fontScale.comment
-        ContentFontClass.AncillaryText -> fontScale.ancillary
-    } * uiFontScale
+    val scaleFactor =
+        when (contentClass) {
+            ContentFontClass.Title -> fontScale.title
+            ContentFontClass.Body -> fontScale.body
+            ContentFontClass.Comment -> fontScale.comment
+            ContentFontClass.AncillaryText -> fontScale.ancillary
+        } * uiFontScale
 
     CompositionLocalProvider(
-        LocalDensity provides Density(
-            density = LocalDensity.current.density,
-            fontScale = scaleFactor,
-        ),
+        LocalDensity provides
+            Density(
+                density = LocalDensity.current.density,
+                fontScale = scaleFactor,
+            ),
     ) {
         content()
     }

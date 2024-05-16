@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         var loadingFinished = false
         installSplashScreen().setKeepOnScreenCondition {
@@ -27,31 +26,33 @@ class MainActivity : ComponentActivity() {
 
         // manage exit confirmation
         val navigationCoordinator = getNavigationCoordinator()
-        val backPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // if in home, ask for confirmation
-                if (navigationCoordinator.currentSection.value == TabNavigationSection.Home) {
-                    // asks for confirmation
-                    if (!navigationCoordinator.exitMessageVisible.value) {
-                        navigationCoordinator.setExitMessageVisible(true)
+        val backPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // if in home, ask for confirmation
+                    if (navigationCoordinator.currentSection.value == TabNavigationSection.Home) {
+                        // asks for confirmation
+                        if (!navigationCoordinator.exitMessageVisible.value) {
+                            navigationCoordinator.setExitMessageVisible(true)
+                        }
+                        return
                     }
-                    return
-                }
 
-                // goes back to home
-                with(navigationCoordinator) {
-                    changeTab(HomeTab)
-                    setCurrentSection(TabNavigationSection.Home)
+                    // goes back to home
+                    with(navigationCoordinator) {
+                        changeTab(HomeTab)
+                        setCurrentSection(TabNavigationSection.Home)
+                    }
                 }
             }
-        }
         // when back is detected and the confirmation callback is not active, terminate the activity
-        val finishBackPressedCallback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                navigationCoordinator.setExitMessageVisible(false)
-                finish()
+        val finishBackPressedCallback =
+            object : OnBackPressedCallback(false) {
+                override fun handleOnBackPressed() {
+                    navigationCoordinator.setExitMessageVisible(false)
+                    finish()
+                }
             }
-        }
         navigationCoordinator.exitMessageVisible.onEach { exitMessageVisible ->
             backPressedCallback.isEnabled = !exitMessageVisible
             finishBackPressedCallback.isEnabled = exitMessageVisible
@@ -75,17 +76,20 @@ class MainActivity : ComponentActivity() {
         handleIntent(intent)
     }
 
-    private fun handleIntent(intent: Intent?) = intent?.apply {
-        when (action) {
-            Intent.ACTION_SEND -> intent.getStringExtra(Intent.EXTRA_TEXT)?.let { content ->
-                handleCreatePost(content)
-            }
+    private fun handleIntent(intent: Intent?) =
+        intent?.apply {
+            when (action) {
+                Intent.ACTION_SEND ->
+                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let { content ->
+                        handleCreatePost(content)
+                    }
 
-            else -> data.toString().takeUnless { it.isEmpty() }?.also { url ->
-                handleDeeplink(url)
+                else ->
+                    data.toString().takeUnless { it.isEmpty() }?.also { url ->
+                        handleDeeplink(url)
+                    }
             }
         }
-    }
 
     private fun handleDeeplink(url: String) {
         val navigationCoordinator = getNavigationCoordinator()
@@ -94,11 +98,12 @@ class MainActivity : ComponentActivity() {
 
     private fun handleCreatePost(content: String) {
         val looksLikeAnUrl = Patterns.WEB_URL.matcher(content).matches()
-        val event = if (looksLikeAnUrl) {
-            ComposeEvent.WithUrl(content)
-        } else {
-            ComposeEvent.WithText(content)
-        }
+        val event =
+            if (looksLikeAnUrl) {
+                ComposeEvent.WithUrl(content)
+            } else {
+                ComposeEvent.WithText(content)
+            }
         val navigationCoordinator = getNavigationCoordinator()
         navigationCoordinator.submitComposeEvent(event)
     }

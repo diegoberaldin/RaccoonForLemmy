@@ -12,13 +12,17 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionM
 interface InboxMentionsMviModel :
     MviModel<InboxMentionsMviModel.Intent, InboxMentionsMviModel.UiState, InboxMentionsMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
+
         data class MarkAsRead(val read: Boolean, val id: Long) : Intent
+
         data object HapticIndication : Intent
+
         data class UpVoteComment(val id: Long) : Intent
+
         data class DownVoteComment(val id: Long) : Intent
     }
 
@@ -41,6 +45,7 @@ interface InboxMentionsMviModel :
 
     sealed interface Effect {
         data class UpdateUnreadItems(val value: Int) : Effect
+
         data object BackToTop : Effect
     }
 }

@@ -13,7 +13,6 @@ import org.junit.runner.Description
 class DispatcherTestRule(
     private val dispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : TestWatcher() {
-
     override fun starting(description: Description) {
         Dispatchers.setMain(dispatcher)
     }

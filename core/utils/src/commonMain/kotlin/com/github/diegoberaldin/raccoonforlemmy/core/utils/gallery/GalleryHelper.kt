@@ -5,10 +5,13 @@ import androidx.compose.runtime.Stable
 
 @Stable
 interface GalleryHelper {
-
     val supportsCustomPath: Boolean
 
-    fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String? = null): Any?
+    fun saveToGallery(
+        bytes: ByteArray,
+        name: String,
+        additionalPathSegment: String? = null,
+    ): Any?
 
     @Composable
     fun getImageFromGallery(result: (ByteArray) -> Unit)

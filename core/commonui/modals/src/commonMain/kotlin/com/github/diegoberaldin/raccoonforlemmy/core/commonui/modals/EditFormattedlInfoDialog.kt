@@ -64,10 +64,11 @@ fun EditFormattedInfoDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .imePadding()
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(Spacing.s),
+            modifier =
+                Modifier
+                    .imePadding()
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
@@ -82,44 +83,50 @@ fun EditFormattedInfoDialog(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 SectionSelector(
-                    titles = listOf(
-                        LocalXmlStrings.current.createPostTabEditor,
-                        LocalXmlStrings.current.createPostTabPreview,
-                    ),
-                    currentSection = when (currentSection) {
-                        CreatePostSection.Preview -> 1
-                        else -> 0
-                    },
+                    titles =
+                        listOf(
+                            LocalXmlStrings.current.createPostTabEditor,
+                            LocalXmlStrings.current.createPostTabPreview,
+                        ),
+                    currentSection =
+                        when (currentSection) {
+                            CreatePostSection.Preview -> 1
+                            else -> 0
+                        },
                     onSectionSelected = {
-                        val section = when (it) {
-                            1 -> CreatePostSection.Preview
-                            else -> CreatePostSection.Edit
-                        }
+                        val section =
+                            when (it) {
+                                1 -> CreatePostSection.Preview
+                                else -> CreatePostSection.Edit
+                            }
                         currentSection = section
                     },
                 )
 
                 if (currentSection == CreatePostSection.Edit) {
                     TextFormattingBar(
-                        modifier = Modifier.padding(
-                            top = Spacing.s,
-                            start = Spacing.s,
-                            end = Spacing.s,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                top = Spacing.s,
+                                start = Spacing.s,
+                                end = Spacing.s,
+                            ),
                         textFieldValue = textFieldValue,
                         onTextFieldValueChanged = {
                             textFieldValue = it
                         },
                     )
                     TextField(
-                        modifier = Modifier
-                            .height(400.dp)
-                            .fillMaxWidth(),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                        ),
+                        modifier =
+                            Modifier
+                                .height(400.dp)
+                                .fillMaxWidth(),
+                        colors =
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                            ),
                         label = {
                             Text(
                                 text = title,
@@ -128,25 +135,28 @@ fun EditFormattedInfoDialog(
                         },
                         textStyle = typography.bodyMedium,
                         value = textFieldValue,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            autoCorrect = true,
-                            capitalization = KeyboardCapitalization.Sentences,
-                        ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                autoCorrect = true,
+                                capitalization = KeyboardCapitalization.Sentences,
+                            ),
                         onValueChange = { value ->
                             textFieldValue = value
                         },
                     )
                 } else {
                     Box(
-                        modifier = Modifier
-                            .height(400.dp)
-                            .fillMaxWidth(),
+                        modifier =
+                            Modifier
+                                .height(400.dp)
+                                .fillMaxWidth(),
                     ) {
                         PostCardBody(
-                            modifier = Modifier
-                                .padding(Spacing.s)
-                                .verticalScroll(rememberScrollState()),
+                            modifier =
+                                Modifier
+                                    .padding(Spacing.s)
+                                    .verticalScroll(rememberScrollState()),
                             text = textFieldValue.text,
                         )
                     }

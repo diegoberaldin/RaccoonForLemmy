@@ -16,9 +16,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 interface CreateCommentMviModel :
     MviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class ChangeSection(val value: CreatePostSection) : Intent
+
         data class ImageSelected(val value: ByteArray) : Intent {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -39,6 +39,7 @@ interface CreateCommentMviModel :
         data class ChangeTextValue(val value: TextFieldValue) : Intent
 
         data object Send : Intent
+
         data object SaveDraft : Intent
     }
 
@@ -65,7 +66,9 @@ interface CreateCommentMviModel :
 
     sealed interface Effect {
         data class Success(val new: Boolean) : Effect
+
         data class Failure(val message: String?) : Effect
+
         data object DraftSaved : Effect
     }
 }

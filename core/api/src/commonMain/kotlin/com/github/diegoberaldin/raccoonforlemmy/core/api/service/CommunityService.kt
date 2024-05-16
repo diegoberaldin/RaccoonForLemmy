@@ -26,7 +26,6 @@ import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
 
 interface CommunityService {
-
     @GET("community")
     suspend fun get(
         @Header("Authorization") authHeader: String? = null,

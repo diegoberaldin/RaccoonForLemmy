@@ -124,11 +124,12 @@ class LoginBottomSheet : Screen {
                     },
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -170,13 +171,14 @@ class LoginBottomSheet : Screen {
             },
             content = { padding ->
                 Column(
-                    modifier = Modifier
-                        .padding(padding)
-                        .consumeWindowInsets(padding)
-                        .navigationBarsPadding()
-                        .imePadding()
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .consumeWindowInsets(padding)
+                            .navigationBarsPadding()
+                            .imePadding()
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Spacer(modifier = Modifier.height(Spacing.m))
@@ -190,19 +192,22 @@ class LoginBottomSheet : Screen {
                         singleLine = true,
                         value = uiState.instanceName,
                         isError = uiState.instanceNameError != null,
-                        keyboardActions = KeyboardActions(
-                            onNext = {
-                                usernameFocusRequester.requestFocus()
+                        keyboardActions =
+                            KeyboardActions(
+                                onNext = {
+                                    usernameFocusRequester.requestFocus()
+                                },
+                            ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Email,
+                                autoCorrect = false,
+                                imeAction = ImeAction.Next,
+                            ),
+                        onValueChange =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(LoginMviModel.Intent.SetInstanceName(value))
                             },
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email,
-                            autoCorrect = false,
-                            imeAction = ImeAction.Next,
-                        ),
-                        onValueChange = rememberCallbackArgs(model) { value ->
-                            model.reduce(LoginMviModel.Intent.SetInstanceName(value))
-                        },
                         supportingText = {
                             val error = uiState.instanceNameError
                             if (error != null) {
@@ -215,13 +220,15 @@ class LoginBottomSheet : Screen {
                         trailingIcon = {
                             if (uiState.instanceName.isNotEmpty()) {
                                 Icon(
-                                    modifier = Modifier.onClick(
-                                        onClick = rememberCallback(model) {
-                                            model.reduce(
-                                                LoginMviModel.Intent.SetInstanceName(""),
-                                            )
-                                        },
-                                    ),
+                                    modifier =
+                                        Modifier.onClick(
+                                            onClick =
+                                                rememberCallback(model) {
+                                                    model.reduce(
+                                                        LoginMviModel.Intent.SetInstanceName(""),
+                                                    )
+                                                },
+                                        ),
                                     imageVector = Icons.Default.Clear,
                                     contentDescription = null,
                                 )
@@ -231,36 +238,41 @@ class LoginBottomSheet : Screen {
 
                     // user name
                     TextField(
-                        modifier = Modifier
-                            .autofill(
-                                autofillTypes = listOf(
-                                    AutofillType.Username,
-                                    AutofillType.EmailAddress,
-                                ),
-                                onFill = { value ->
-                                    model.reduce(LoginMviModel.Intent.SetUsername(value))
-                                },
-                            )
-                            .focusRequester(usernameFocusRequester),
+                        modifier =
+                            Modifier
+                                .autofill(
+                                    autofillTypes =
+                                        listOf(
+                                            AutofillType.Username,
+                                            AutofillType.EmailAddress,
+                                        ),
+                                    onFill = { value ->
+                                        model.reduce(LoginMviModel.Intent.SetUsername(value))
+                                    },
+                                )
+                                .focusRequester(usernameFocusRequester),
                         label = {
                             Text(text = LocalXmlStrings.current.loginFieldUserName)
                         },
                         singleLine = true,
                         value = uiState.username,
                         isError = uiState.usernameError != null,
-                        keyboardActions = KeyboardActions(
-                            onNext = {
-                                passwordFocusRequester.requestFocus()
+                        keyboardActions =
+                            KeyboardActions(
+                                onNext = {
+                                    passwordFocusRequester.requestFocus()
+                                },
+                            ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Email,
+                                autoCorrect = false,
+                                imeAction = ImeAction.Next,
+                            ),
+                        onValueChange =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(LoginMviModel.Intent.SetUsername(value))
                             },
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email,
-                            autoCorrect = false,
-                            imeAction = ImeAction.Next,
-                        ),
-                        onValueChange = rememberCallbackArgs(model) { value ->
-                            model.reduce(LoginMviModel.Intent.SetUsername(value))
-                        },
                         supportingText = {
                             val error = uiState.usernameError
                             if (error != null) {
@@ -277,50 +289,56 @@ class LoginBottomSheet : Screen {
                         mutableStateOf(PasswordVisualTransformation())
                     }
                     TextField(
-                        modifier = Modifier
-                            .autofill(
-                                autofillTypes = listOf(AutofillType.Password),
-                                onFill = { value ->
-                                    model.reduce(LoginMviModel.Intent.SetPassword(value))
-                                },
-                            )
-                            .focusRequester(passwordFocusRequester),
+                        modifier =
+                            Modifier
+                                .autofill(
+                                    autofillTypes = listOf(AutofillType.Password),
+                                    onFill = { value ->
+                                        model.reduce(LoginMviModel.Intent.SetPassword(value))
+                                    },
+                                )
+                                .focusRequester(passwordFocusRequester),
                         label = {
                             Text(text = LocalXmlStrings.current.loginFieldPassword)
                         },
                         singleLine = true,
                         value = uiState.password,
                         isError = uiState.passwordError != null,
-                        keyboardActions = KeyboardActions(
-                            onNext = {
-                                tokenFocusRequester.requestFocus()
+                        keyboardActions =
+                            KeyboardActions(
+                                onNext = {
+                                    tokenFocusRequester.requestFocus()
+                                },
+                            ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Next,
+                            ),
+                        onValueChange =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(LoginMviModel.Intent.SetPassword(value))
                             },
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Next,
-                        ),
-                        onValueChange = rememberCallbackArgs(model) { value ->
-                            model.reduce(LoginMviModel.Intent.SetPassword(value))
-                        },
                         visualTransformation = transformation,
                         trailingIcon = {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        transformation =
-                                            if (transformation == VisualTransformation.None) {
-                                                PasswordVisualTransformation()
-                                            } else {
-                                                VisualTransformation.None
-                                            }
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            transformation =
+                                                if (transformation == VisualTransformation.None) {
+                                                    PasswordVisualTransformation()
+                                                } else {
+                                                    VisualTransformation.None
+                                                }
+                                        },
+                                    ),
+                                imageVector =
+                                    if (transformation == VisualTransformation.None) {
+                                        Icons.Default.VisibilityOff
+                                    } else {
+                                        Icons.Default.Visibility
                                     },
-                                ),
-                                imageVector = if (transformation == VisualTransformation.None) {
-                                    Icons.Default.VisibilityOff
-                                } else {
-                                    Icons.Default.Visibility
-                                },
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onBackground),
                             )
@@ -353,13 +371,15 @@ class LoginBottomSheet : Screen {
                         },
                         singleLine = true,
                         value = uiState.totp2faToken,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Done,
-                        ),
-                        onValueChange = rememberCallbackArgs(model) { value ->
-                            model.reduce(LoginMviModel.Intent.SetTotp2faToken(value))
-                        },
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Password,
+                                imeAction = ImeAction.Done,
+                            ),
+                        onValueChange =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(LoginMviModel.Intent.SetTotp2faToken(value))
+                            },
                         visualTransformation = PasswordVisualTransformation(),
                     )
 
@@ -367,10 +387,11 @@ class LoginBottomSheet : Screen {
 
                     Button(
                         modifier = Modifier.padding(top = Spacing.l),
-                        onClick = rememberCallback(model) {
-                            focusManager.clearFocus()
-                            model.reduce(LoginMviModel.Intent.Confirm)
-                        },
+                        onClick =
+                            rememberCallback(model) {
+                                focusManager.clearFocus()
+                                model.reduce(LoginMviModel.Intent.Confirm)
+                            },
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.s),

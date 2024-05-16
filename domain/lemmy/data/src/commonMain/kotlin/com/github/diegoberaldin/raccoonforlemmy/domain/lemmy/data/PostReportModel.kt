@@ -18,6 +18,7 @@ data class PostReportModel(
 )
 
 val PostReportModel.imageUrl: String
-    get() = originalUrl?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {
-        thumbnailUrl
-    }.orEmpty()
+    get() =
+        originalUrl?.takeIf { it.looksLikeAnImage }?.takeIf { it.isNotEmpty() } ?: run {
+            thumbnailUrl
+        }.orEmpty()

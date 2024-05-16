@@ -33,21 +33,23 @@ class AppIconBottomSheet : Screen {
         val coreResources = remember { getCoreResources() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsAppIcon)
-            val values = listOf(
-                AppIconVariant.Default,
-                AppIconVariant.Alt1,
-            )
+            val values =
+                listOf(
+                    AppIconVariant.Default,
+                    AppIconVariant.Alt1,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -56,10 +58,11 @@ class AppIconBottomSheet : Screen {
                     SettingsRow(
                         modifier = Modifier.padding(vertical = Spacing.xxs),
                         title = value.toReadableName(),
-                        painter = when (value) {
-                            AppIconVariant.Alt1 -> coreResources.appIconAlt1
-                            else -> coreResources.appIconDefault
-                        },
+                        painter =
+                            when (value) {
+                                AppIconVariant.Alt1 -> coreResources.appIconAlt1
+                                else -> coreResources.appIconDefault
+                            },
                         onTap = {
                             navigationCoordinator.hideBottomSheet()
                             notificationCenter.send(

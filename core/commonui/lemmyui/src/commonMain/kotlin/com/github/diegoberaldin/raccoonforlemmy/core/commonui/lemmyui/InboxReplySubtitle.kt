@@ -104,24 +104,26 @@ fun InboxReplySubtitle(
             ) {
                 if (creatorName.isNotEmpty()) {
                     Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .onClick(
-                                onClick = {
-                                    if (creator != null) {
-                                        onOpenCreator?.invoke(creator)
-                                    }
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .onClick(
+                                    onClick = {
+                                        if (creator != null) {
+                                            onOpenCreator?.invoke(creator)
+                                        }
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         if (creatorAvatar.isNotEmpty() && autoLoadImages) {
                             CustomImage(
-                                modifier = Modifier
-                                    .padding(Spacing.xxxs)
-                                    .size(iconSize)
-                                    .clip(RoundedCornerShape(iconSize / 2)),
+                                modifier =
+                                    Modifier
+                                        .padding(Spacing.xxxs)
+                                        .size(iconSize)
+                                        .clip(RoundedCornerShape(iconSize / 2)),
                                 url = creatorAvatar,
                                 quality = FilterQuality.Low,
                                 contentScale = ContentScale.FillBounds,
@@ -141,25 +143,27 @@ fun InboxReplySubtitle(
                 }
                 if (communityName.isNotEmpty()) {
                     Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .onClick(
-                                onClick = {
-                                    if (community != null) {
-                                        onOpenCommunity?.invoke(community)
-                                    }
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .weight(1f)
+                                .onClick(
+                                    onClick = {
+                                        if (community != null) {
+                                            onOpenCommunity?.invoke(community)
+                                        }
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                     ) {
                         Spacer(modifier = Modifier.weight(1f))
                         if (communityIcon.isNotEmpty() && autoLoadImages) {
                             CustomImage(
-                                modifier = Modifier
-                                    .padding(Spacing.xxxs)
-                                    .size(iconSize)
-                                    .clip(RoundedCornerShape(iconSize / 2)),
+                                modifier =
+                                    Modifier
+                                        .padding(Spacing.xxxs)
+                                        .size(iconSize)
+                                        .clip(RoundedCornerShape(iconSize / 2)),
                                 url = communityIcon,
                                 quality = FilterQuality.Low,
                                 contentScale = ContentScale.FillBounds,
@@ -185,15 +189,16 @@ fun InboxReplySubtitle(
                     horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     Icon(
-                        modifier = buttonModifier.padding(
-                            top = 3.5.dp,
-                            bottom = 3.5.dp,
-                            end = 3.5.dp,
-                        ).onClick(
-                            onClick = {
-                                onReply?.invoke()
-                            },
-                        ),
+                        modifier =
+                            buttonModifier.padding(
+                                top = 3.5.dp,
+                                bottom = 3.5.dp,
+                                end = 3.5.dp,
+                            ).onClick(
+                                onClick = {
+                                    onReply?.invoke()
+                                },
+                            ),
                         imageVector = Icons.AutoMirrored.Default.Chat,
                         contentDescription = null,
                         tint = ancillaryColor,
@@ -216,16 +221,17 @@ fun InboxReplySubtitle(
                     }
                     if (options.isNotEmpty()) {
                         Icon(
-                            modifier = Modifier.size(IconSize.m)
-                                .padding(Spacing.xs)
-                                .onGloballyPositioned {
-                                    optionsOffset = it.positionInParent()
-                                }
-                                .onClick(
-                                    onClick = {
-                                        optionsExpanded = true
-                                    },
-                                ),
+                            modifier =
+                                Modifier.size(IconSize.m)
+                                    .padding(Spacing.xs)
+                                    .onGloballyPositioned {
+                                        optionsOffset = it.positionInParent()
+                                    }
+                                    .onClick(
+                                        onClick = {
+                                            optionsExpanded = true
+                                        },
+                                    ),
                             imageVector = Icons.Default.MoreHoriz,
                             contentDescription = null,
                             tint = ancillaryColor,
@@ -233,49 +239,54 @@ fun InboxReplySubtitle(
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     FeedbackButton(
-                        modifier = buttonModifier.padding(
-                            top = 2.5.dp,
-                            bottom = 2.5.dp,
-                            end = 2.5.dp,
-                        ),
+                        modifier =
+                            buttonModifier.padding(
+                                top = 2.5.dp,
+                                bottom = 2.5.dp,
+                                end = 2.5.dp,
+                            ),
                         imageVector = Icons.Default.ArrowCircleUp,
-                        tintColor = if (upVoted) {
-                            upVoteColor ?: defaultUpvoteColor
-                        } else {
-                            ancillaryColor
-                        },
+                        tintColor =
+                            if (upVoted) {
+                                upVoteColor ?: defaultUpvoteColor
+                            } else {
+                                ancillaryColor
+                            },
                         onClick = {
                             onUpVote?.invoke()
                         },
                     )
                     if (showScores) {
                         Text(
-                            text = formatToReadableValue(
-                                voteFormat = voteFormat,
-                                score = score,
-                                upVotes = upVotes,
-                                downVotes = downVotes,
-                                upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                                downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                                upVoted = upVoted,
-                                downVoted = downVoted,
-                            ),
+                            text =
+                                formatToReadableValue(
+                                    voteFormat = voteFormat,
+                                    score = score,
+                                    upVotes = upVotes,
+                                    downVotes = downVotes,
+                                    upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                                    downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                                    upVoted = upVoted,
+                                    downVoted = downVoted,
+                                ),
                             style = MaterialTheme.typography.labelMedium,
                             color = ancillaryColor,
                         )
                     }
                     FeedbackButton(
-                        modifier = buttonModifier.padding(
-                            top = 2.5.dp,
-                            bottom = 2.5.dp,
-                            start = 2.5.dp,
-                        ),
+                        modifier =
+                            buttonModifier.padding(
+                                top = 2.5.dp,
+                                bottom = 2.5.dp,
+                                start = 2.5.dp,
+                            ),
                         imageVector = Icons.Default.ArrowCircleDown,
-                        tintColor = if (downVoted) {
-                            downVoteColor ?: defaultDownVoteColor
-                        } else {
-                            ancillaryColor
-                        },
+                        tintColor =
+                            if (downVoted) {
+                                downVoteColor ?: defaultDownVoteColor
+                            } else {
+                                ancillaryColor
+                            },
                         onClick = {
                             onDownVote?.invoke()
                         },
@@ -286,10 +297,11 @@ fun InboxReplySubtitle(
                     onDismiss = {
                         optionsExpanded = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

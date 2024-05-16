@@ -11,7 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.main.SettingsScreen
 
 object SettingsTab : Tab {
-
     override val options: TabOptions
         @Composable get() {
             val icon = rememberVectorPainter(Icons.Default.Settings)

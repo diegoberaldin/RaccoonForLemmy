@@ -28,52 +28,55 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 class VoteFormatBottomSheet : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsVoteFormat)
-            val values = listOf(
-                VoteFormat.Aggregated,
-                VoteFormat.Separated,
-                VoteFormat.Percentage,
-                VoteFormat.Hidden,
-            )
+            val values =
+                listOf(
+                    VoteFormat.Aggregated,
+                    VoteFormat.Separated,
+                    VoteFormat.Percentage,
+                    VoteFormat.Hidden,
+                )
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeVoteFormat(value),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeVoteFormat(value),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

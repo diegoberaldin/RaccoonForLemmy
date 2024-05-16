@@ -2,12 +2,13 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 
-internal fun List<CommentModel>.populateLoadMoreComments() = mapIndexed { idx, comment ->
-    val hasMoreComments = (comment.comments ?: 0) > 0
-    val isNextCommentNotChild =
-        (idx < lastIndex && this[idx + 1].depth <= comment.depth) || idx == lastIndex
-    comment.copy(loadMoreButtonVisible = hasMoreComments && isNextCommentNotChild)
-}
+internal fun List<CommentModel>.populateLoadMoreComments() =
+    mapIndexed { idx, comment ->
+        val hasMoreComments = (comment.comments ?: 0) > 0
+        val isNextCommentNotChild =
+            (idx < lastIndex && this[idx + 1].depth <= comment.depth) || idx == lastIndex
+        comment.copy(loadMoreButtonVisible = hasMoreComments && isNextCommentNotChild)
+    }
 
 /*
  * CREDITS:
@@ -36,10 +37,11 @@ internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Long? = null): Lis
     }
 
     // joins the forest under a single root
-    val root = joinForestUnderSingleRoot(
-        ancestorId = ancestorId,
-        memo = memo,
-    )
+    val root =
+        joinForestUnderSingleRoot(
+            ancestorId = ancestorId,
+            memo = memo,
+        )
 
     // linearize the tree and convert to comment list
     return mutableListOf<CommentNode>().apply {
@@ -50,11 +52,12 @@ internal fun List<CommentModel>.sortToNestedOrder(ancestorId: Long? = null): Lis
     }.map { node ->
         when (node) {
             is CommentNode.Actual -> node.comment
-            is CommentNode.Placeholder -> CommentModel(
-                id = node.id,
-                text = "",
-                removed = true,
-            )
+            is CommentNode.Placeholder ->
+                CommentModel(
+                    id = node.id,
+                    text = "",
+                    removed = true,
+                )
         }
     }
 }
@@ -96,19 +99,21 @@ private fun connectNodesAndGeneratePlaceholders(
         // replaces the placeholder with an actual node
         val memoizedNode = memo[currentNode.id]
         if (memoizedNode is CommentNode.Placeholder) {
-            memo[currentNode.id] = currentNode.copy(
-                parent = memoizedNode.parent,
-                children = memoizedNode.children,
-            )
+            memo[currentNode.id] =
+                currentNode.copy(
+                    parent = memoizedNode.parent,
+                    children = memoizedNode.children,
+                )
         }
     }
 
     val splitPath = currentPath.split(".")
-    val parentId = if (splitPath.size > 1) {
-        splitPath[splitPath.size - 2].toLongOrNull()
-    } else {
-        null
-    }
+    val parentId =
+        if (splitPath.size > 1) {
+            splitPath[splitPath.size - 2].toLongOrNull()
+        } else {
+            null
+        }
 
     if (parentId != null && currentNode.id != rootCommentId) {
         val parent = memo[parentId]
@@ -119,9 +124,10 @@ private fun connectNodesAndGeneratePlaceholders(
         } else {
             // if the parent doesn't exist, adds a placeholder node
             val parentPath = currentPath.substringBeforeLast(".")
-            val placeholder = CommentNode.Placeholder(
-                missingComment = PlaceholderComment(id = parentId, path = parentPath),
-            )
+            val placeholder =
+                CommentNode.Placeholder(
+                    missingComment = PlaceholderComment(id = parentId, path = parentPath),
+                )
             placeholder.children += currentNode
             currentNode.parent = placeholder
             memo[parentId] = placeholder
@@ -142,18 +148,23 @@ private fun joinForestUnderSingleRoot(
     memo: Map<Long, CommentNode>,
 ): CommentNode {
     return CommentNode.Placeholder(
-        missingComment = PlaceholderComment(
-            id = 0,
-            path = "",
-        ),
+        missingComment =
+            PlaceholderComment(
+                id = 0,
+                path = "",
+            ),
     ).apply {
-        children += memo.values.filter { node ->
-            node.parent?.id == ancestorId
-        }
+        children +=
+            memo.values.filter { node ->
+                node.parent?.id == ancestorId
+            }
     }
 }
 
-private fun linearize(node: CommentNode, list: MutableList<CommentNode>) {
+private fun linearize(
+    node: CommentNode,
+    list: MutableList<CommentNode>,
+) {
     if (node.id != 0L) {
         list.add(node)
     }

@@ -10,7 +10,6 @@ import org.koin.java.KoinJavaComponent.inject
 class DefaultCustomTabsHelper(
     private val context: Context,
 ) : CustomTabsHelper {
-
     private val packageName: String?
         get() = CustomTabsClient.getPackageName(context, emptyList())
 

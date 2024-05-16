@@ -22,7 +22,6 @@ internal class CheckNotificationWorker(
     private val context: Context,
     parameters: WorkerParameters,
 ) : Worker(context, parameters) {
-
     private val inboxCoordinator by KoinJavaComponent.inject<InboxCoordinator>(InboxCoordinator::class.java)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -40,23 +39,25 @@ internal class CheckNotificationWorker(
 
     @SuppressLint("StringFormatInvalid")
     private fun sendNotification(count: Int) {
-        val intent = Intent(
-            context,
-            Class.forName("com.github.diegoberaldin.raccoonforlemmy.android.MainActivity"),
-        ).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
+        val intent =
+            Intent(
+                context,
+                Class.forName("com.github.diegoberaldin.raccoonforlemmy.android.MainActivity"),
+            ).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val title = context.getString(R.string.inbox_notification_title)
         val content = context.getString(R.string.inbox_notification_content, count)
-        val notification = Notification.Builder(context, NotificationConstants.CHANNEL_ID)
-            .setContentTitle(title)
-            .setContentText(content)
-            .setSmallIcon(resourcesR.drawable.ic_monochrome)
-            .setContentIntent(pendingIntent)
-            .setNumber(count)
-            .build()
+        val notification =
+            Notification.Builder(context, NotificationConstants.CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setSmallIcon(resourcesR.drawable.ic_monochrome)
+                .setContentIntent(pendingIntent)
+                .setNumber(count)
+                .build()
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = getNextNotificationId()

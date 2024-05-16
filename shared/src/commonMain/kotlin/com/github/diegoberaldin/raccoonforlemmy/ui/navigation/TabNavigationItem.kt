@@ -37,7 +37,10 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
+internal fun RowScope.TabNavigationItem(
+    tab: Tab,
+    withText: Boolean = true,
+) {
     val tabNavigator = LocalTabNavigator.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val unread by navigationCoordinator.inboxUnread.collectAsState()
@@ -46,13 +49,14 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
         modifier = Modifier.weight(1f).fillMaxHeight(),
         onClick = {
             tabNavigator.current = tab
-            val section = when (tab) {
-                ExploreTab -> TabNavigationSection.Explore
-                ProfileTab -> TabNavigationSection.Profile
-                InboxTab -> TabNavigationSection.Inbox
-                SettingsTab -> TabNavigationSection.Settings
-                else -> TabNavigationSection.Home
-            }
+            val section =
+                when (tab) {
+                    ExploreTab -> TabNavigationSection.Explore
+                    ProfileTab -> TabNavigationSection.Profile
+                    InboxTab -> TabNavigationSection.Inbox
+                    SettingsTab -> TabNavigationSection.Settings
+                    else -> TabNavigationSection.Home
+                }
             navigationCoordinator.setCurrentSection(section)
         },
         selected = tabNavigator.current == tab,
@@ -62,11 +66,12 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
-                val color = if (tabNavigator.current == tab) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.outline
-                }
+                val color =
+                    if (tabNavigator.current == tab) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.outline
+                    }
                 val content = @Composable {
                     Icon(
                         modifier = Modifier.size(IconSize.m),
@@ -83,11 +88,12 @@ internal fun RowScope.TabNavigationItem(tab: Tab, withText: Boolean = true) {
                                 modifier = Modifier.padding(top = Spacing.s),
                             ) {
                                 Text(
-                                    text = if (unread <= 99) {
-                                        unread.toString()
-                                    } else {
-                                        "99+"
-                                    },
+                                    text =
+                                        if (unread <= 99) {
+                                            unread.toString()
+                                        } else {
+                                            "99+"
+                                        },
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             }

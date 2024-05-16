@@ -6,21 +6,22 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.D
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.impl.DefaultDetailOpener
 import org.koin.dsl.module
 
-internal val internalSharedModule = module {
-    factory<MainScreenMviModel> {
-        MainViewModel(
-            inboxCoordinator = get(),
-            identityRepository = get(),
-            settingRepository = get(),
-            notificationChecker = get(),
-        )
+internal val internalSharedModule =
+    module {
+        factory<MainScreenMviModel> {
+            MainViewModel(
+                inboxCoordinator = get(),
+                identityRepository = get(),
+                settingRepository = get(),
+                notificationChecker = get(),
+            )
+        }
+        single<DetailOpener> {
+            DefaultDetailOpener(
+                navigationCoordinator = get(),
+                itemCache = get(),
+                identityRepository = get(),
+                communityRepository = get(),
+            )
+        }
     }
-    single<DetailOpener> {
-        DefaultDetailOpener(
-            navigationCoordinator = get(),
-            itemCache = get(),
-            identityRepository = get(),
-            communityRepository = get(),
-        )
-    }
-}

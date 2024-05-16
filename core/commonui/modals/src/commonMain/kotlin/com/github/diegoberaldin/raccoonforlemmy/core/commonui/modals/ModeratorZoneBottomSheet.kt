@@ -32,22 +32,24 @@ class ModeratorZoneBottomSheet : Screen {
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.moderatorZoneTitle)
-            val values = listOf(
-                ModeratorZoneAction.GlobalReports,
-                ModeratorZoneAction.GlobalModLog,
-                ModeratorZoneAction.ModeratedContents,
-            )
+            val values =
+                listOf(
+                    ModeratorZoneAction.GlobalReports,
+                    ModeratorZoneAction.GlobalModLog,
+                    ModeratorZoneAction.ModeratedContents,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),

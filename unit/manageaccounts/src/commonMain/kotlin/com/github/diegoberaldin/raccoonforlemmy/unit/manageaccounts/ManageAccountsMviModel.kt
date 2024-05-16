@@ -9,6 +9,7 @@ interface ManageAccountsMviModel :
     ScreenModel {
     sealed interface Intent {
         data class SwitchAccount(val index: Int) : Intent
+
         data class DeleteAccount(val index: Int) : Intent
     }
 

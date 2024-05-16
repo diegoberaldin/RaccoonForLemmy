@@ -22,58 +22,59 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ExportS
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.usecase.ImportSettingsUseCase
 import org.koin.dsl.module
 
-val corePersistenceModule = module {
-    includes(persistenceInnerModule)
-    single<DatabaseProvider> {
-        DefaultDatabaseProvider(
-            driverFactory = get(),
-        )
+val corePersistenceModule =
+    module {
+        includes(persistenceInnerModule)
+        single<DatabaseProvider> {
+            DefaultDatabaseProvider(
+                driverFactory = get(),
+            )
+        }
+        single<AccountRepository> {
+            DefaultAccountRepository(
+                provider = get(),
+            )
+        }
+        single<SettingsRepository> {
+            DefaultSettingsRepository(
+                provider = get(),
+                keyStore = get(),
+            )
+        }
+        single<MultiCommunityRepository> {
+            DefaultMultiCommunityRepository(
+                provider = get(),
+            )
+        }
+        single<FavoriteCommunityRepository> {
+            DefaultFavoriteCommunityRepository(
+                provider = get(),
+            )
+        }
+        single<InstanceSelectionRepository> {
+            DefaultInstanceSelectionRepository(
+                keyStore = get(),
+            )
+        }
+        single<DraftRepository> {
+            DefaultDraftRepository(
+                provider = get(),
+            )
+        }
+        single<CommunitySortRepository> {
+            DefaultCommunitySortRepository(
+                keyStore = get(),
+            )
+        }
+        single<ImportSettingsUseCase> {
+            DefaultImportSettingsUseCase(
+                settingsRepository = get(),
+                accountRepository = get(),
+            )
+        }
+        single<ExportSettingsUseCase> {
+            DefaultExportSettingsUseCase(
+                settingsRepository = get(),
+            )
+        }
     }
-    single<AccountRepository> {
-        DefaultAccountRepository(
-            provider = get(),
-        )
-    }
-    single<SettingsRepository> {
-        DefaultSettingsRepository(
-            provider = get(),
-            keyStore = get(),
-        )
-    }
-    single<MultiCommunityRepository> {
-        DefaultMultiCommunityRepository(
-            provider = get(),
-        )
-    }
-    single<FavoriteCommunityRepository> {
-        DefaultFavoriteCommunityRepository(
-            provider = get(),
-        )
-    }
-    single<InstanceSelectionRepository> {
-        DefaultInstanceSelectionRepository(
-            keyStore = get(),
-        )
-    }
-    single<DraftRepository> {
-        DefaultDraftRepository(
-            provider = get(),
-        )
-    }
-    single<CommunitySortRepository> {
-        DefaultCommunitySortRepository(
-            keyStore = get(),
-        )
-    }
-    single<ImportSettingsUseCase> {
-        DefaultImportSettingsUseCase(
-            settingsRepository = get(),
-            accountRepository = get(),
-        )
-    }
-    single<ExportSettingsUseCase> {
-        DefaultExportSettingsUseCase(
-            settingsRepository = get(),
-        )
-    }
-}

@@ -62,21 +62,22 @@ fun DraftCard(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .padding(vertical = Spacing.xs)
-            } else {
-                Modifier.background(MaterialTheme.colorScheme.background)
-            },
-        ).onClick(onClick = onOpen),
+        modifier =
+            modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .padding(vertical = Spacing.xs)
+                } else {
+                    Modifier.background(MaterialTheme.colorScheme.background)
+                },
+            ).onClick(onClick = onOpen),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -88,10 +89,11 @@ fun DraftCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                     ) {
-                        val imageVector = when (draft.type) {
-                            DraftType.Comment -> Icons.AutoMirrored.Default.Reply
-                            DraftType.Post -> Icons.AutoMirrored.Default.Article
-                        }
+                        val imageVector =
+                            when (draft.type) {
+                                DraftType.Comment -> Icons.AutoMirrored.Default.Reply
+                                DraftType.Post -> Icons.AutoMirrored.Default.Article
+                            }
                         Icon(
                             imageVector = imageVector,
                             contentDescription = null,
@@ -110,9 +112,10 @@ fun DraftCard(
             draft.title?.also { title ->
                 CustomizedContent(ContentFontClass.Title) {
                     PostCardTitle(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.xs,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.xs,
+                            ),
                         text = title,
                         onClick = onOpen,
                     )
@@ -121,9 +124,10 @@ fun DraftCard(
 
             CustomizedContent(ContentFontClass.Body) {
                 PostCardBody(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.xs,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            horizontal = Spacing.xs,
+                        ),
                     text = draft.body,
                     maxLines = 40,
                     onClick = onOpen,
@@ -174,17 +178,18 @@ private fun DraftFooter(
 
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .padding(top = Spacing.xxs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsExpanded = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .padding(top = Spacing.xxs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsExpanded = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -196,10 +201,11 @@ private fun DraftFooter(
             onDismiss = {
                 optionsExpanded = false
             },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
+            offset =
+                DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

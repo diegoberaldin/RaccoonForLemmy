@@ -44,7 +44,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class InboxMessagesScreen : Tab {
-
     override val options: TabOptions
         @Composable get() {
             return TabOptions(2u, "")
@@ -84,12 +83,14 @@ class InboxMessagesScreen : Tab {
             }.launchIn(this)
         }
 
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(InboxMessagesMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(InboxMessagesMviModel.Intent.Refresh)
+                    },
+            )
         Box(
             modifier = Modifier.pullRefresh(pullRefreshState),
         ) {
@@ -124,17 +125,19 @@ class InboxMessagesScreen : Tab {
                         autoLoadImages = uiState.autoLoadImages,
                         lastMessage = chat.content.orEmpty(),
                         lastMessageDate = chat.publishDate,
-                        onOpenUser = rememberCallbackArgs { user ->
-                            detailOpener.openUserDetail(user, "")
-                        },
-                        onOpen = rememberCallback {
-                            val userId = chat.otherUser(uiState.currentUserId)?.id
-                            if (userId != null) {
-                                navigationCoordinator.pushScreen(
-                                    InboxChatScreen(userId),
-                                )
-                            }
-                        },
+                        onOpenUser =
+                            rememberCallbackArgs { user ->
+                                detailOpener.openUserDetail(user, "")
+                            },
+                        onOpen =
+                            rememberCallback {
+                                val userId = chat.otherUser(uiState.currentUserId)?.id
+                                if (userId != null) {
+                                    navigationCoordinator.pushScreen(
+                                        InboxChatScreen(userId),
+                                    )
+                                }
+                            },
                     )
                 }
                 item {

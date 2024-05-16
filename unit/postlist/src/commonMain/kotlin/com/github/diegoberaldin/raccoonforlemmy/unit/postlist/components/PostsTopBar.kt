@@ -64,22 +64,24 @@ internal fun PostsTopBar(
     }.launchIn(scope)
 
     TopAppBar(
-        windowInsets = if (edgeToEdge) {
-            WindowInsets(0, topInset.roundToInt(), 0, 0)
-        } else {
-            TopAppBarDefaults.windowInsets
-        },
+        windowInsets =
+            if (edgeToEdge) {
+                WindowInsets(0, topInset.roundToInt(), 0, 0)
+            } else {
+                TopAppBarDefaults.windowInsets
+            },
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             when {
                 onHamburgerTapped != null -> {
                     Image(
-                        modifier = Modifier
-                            .onClick(
-                                onClick = {
-                                    onHamburgerTapped()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        onHamburgerTapped()
+                                    },
+                                ),
                         imageVector = Icons.Default.Menu,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -88,12 +90,13 @@ internal fun PostsTopBar(
 
                 listingType != null -> {
                     Image(
-                        modifier = Modifier
-                            .onClick(
-                                onClick = {
-                                    onSelectListingType?.invoke()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        onSelectListingType?.invoke()
+                                    },
+                                ),
                         imageVector = listingType.toIcon(),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -107,14 +110,15 @@ internal fun PostsTopBar(
         },
         title = {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.s)
-                    .onClick(
-                        onClick = {
-                            onSelectListingType?.invoke()
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s)
+                        .onClick(
+                            onClick = {
+                                onSelectListingType?.invoke()
+                            },
+                        ),
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -123,22 +127,24 @@ internal fun PostsTopBar(
                     color = MaterialTheme.colorScheme.onBackground,
                 )
                 Text(
-                    modifier = Modifier.fillMaxWidth().then(
-                        if (onSelectInstance != null) {
-                            Modifier.onClick(
-                                onClick = {
-                                    onSelectInstance.invoke()
-                                },
-                            )
-                        } else {
-                            Modifier
+                    modifier =
+                        Modifier.fillMaxWidth().then(
+                            if (onSelectInstance != null) {
+                                Modifier.onClick(
+                                    onClick = {
+                                        onSelectInstance.invoke()
+                                    },
+                                )
+                            } else {
+                                Modifier
+                            },
+                        ),
+                    text =
+                        buildString {
+                            append(LocalXmlStrings.current.homeInstanceVia)
+                            append(" ")
+                            append(currentInstance)
                         },
-                    ),
-                    text = buildString {
-                        append(LocalXmlStrings.current.homeInstanceVia)
-                        append(" ")
-                        append(currentInstance)
-                    },
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -148,23 +154,25 @@ internal fun PostsTopBar(
             val additionalLabel = sortType.getAdditionalLabel()
             if (additionalLabel.isNotEmpty()) {
                 Text(
-                    text = buildString {
-                        append("(")
-                        append(additionalLabel)
-                        append(")")
-                    },
+                    text =
+                        buildString {
+                            append("(")
+                            append(additionalLabel)
+                            append(")")
+                        },
                 )
                 Spacer(modifier = Modifier.width(Spacing.xs))
             }
             if (sortType != null) {
                 Image(
-                    modifier = Modifier
-                        .padding(horizontal = Spacing.xs)
-                        .onClick(
-                            onClick = {
-                                onSelectSortType?.invoke()
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = Spacing.xs)
+                            .onClick(
+                                onClick = {
+                                    onSelectSortType?.invoke()
+                                },
+                            ),
                     imageVector = sortType.toIcon(),
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

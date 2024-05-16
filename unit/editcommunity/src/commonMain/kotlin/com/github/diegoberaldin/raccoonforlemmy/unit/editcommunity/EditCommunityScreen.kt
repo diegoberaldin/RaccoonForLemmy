@@ -78,7 +78,6 @@ import org.koin.core.parameter.parametersOf
 class EditCommunityScreen(
     private val communityId: Long,
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -133,37 +132,40 @@ class EditCommunityScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .safeContentPadding()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .safeContentPadding()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = buildString {
-                                append(LocalXmlStrings.current.postActionEdit)
-                                append(" ")
-                                append(uiState.title)
-                            },
+                            text =
+                                buildString {
+                                    append(LocalXmlStrings.current.postActionEdit)
+                                    append(" ")
+                                    append(uiState.title)
+                                },
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier
-                                    .onClick(
-                                        onClick = {
-                                            if (uiState.hasUnsavedChanges) {
-                                                confirmBackWithUnsavedChangesDialog = true
-                                            } else {
-                                                navigationCoordinator.popScreen()
-                                            }
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .onClick(
+                                            onClick = {
+                                                if (uiState.hasUnsavedChanges) {
+                                                    confirmBackWithUnsavedChangesDialog = true
+                                                } else {
+                                                    navigationCoordinator.popScreen()
+                                                }
+                                            },
+                                        ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -175,18 +177,22 @@ class EditCommunityScreen(
                         val iconRotate by transition.animateFloat(
                             initialValue = 0f,
                             targetValue = 360f,
-                            animationSpec = InfiniteRepeatableSpec(
-                                animation = tween(1000),
-                            ),
+                            animationSpec =
+                                InfiniteRepeatableSpec(
+                                    animation = tween(1000),
+                                ),
                         )
                         Icon(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .then(
-                                    if (!uiState.loading) {
-                                        Modifier
-                                    } else Modifier.rotate(iconRotate),
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .then(
+                                        if (!uiState.loading) {
+                                            Modifier
+                                        } else {
+                                            Modifier.rotate(iconRotate)
+                                        },
+                                    ),
                             imageVector = Icons.Default.Sync,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -205,20 +211,22 @@ class EditCommunityScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(scrollState),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .verticalScroll(scrollState),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SettingsHeader(
@@ -230,13 +238,15 @@ class EditCommunityScreen(
                     val avatarSize = IconSize.xxl
                     SettingsImageInfo(
                         title = LocalXmlStrings.current.multiCommunityEditorIcon,
-                        imageModifier = Modifier
-                            .size(avatarSize)
-                            .clip(RoundedCornerShape(avatarSize / 2)),
+                        imageModifier =
+                            Modifier
+                                .size(avatarSize)
+                                .clip(RoundedCornerShape(avatarSize / 2)),
                         url = uiState.icon,
-                        onEdit = rememberCallback {
-                            openIconPicker = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openIconPicker = true
+                            },
                     )
 
                     // banner
@@ -245,9 +255,10 @@ class EditCommunityScreen(
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
                         contentScale = ContentScale.Crop,
                         url = uiState.banner,
-                        onEdit = rememberCallback {
-                            openBannerPicker = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openBannerPicker = true
+                            },
                     )
 
                     SettingsHeader(
@@ -260,17 +271,19 @@ class EditCommunityScreen(
                         title = LocalXmlStrings.current.settingsWebDisplayName,
                         value = uiState.title,
                         valueStyle = contentTypography.bodyMedium,
-                        onEdit = rememberCallback {
-                            openNameEditDialog = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openNameEditDialog = true
+                            },
                     )
                     // sidebar
                     SettingsFormattedInfo(
                         title = LocalXmlStrings.current.editCommunityItemSidebar,
                         value = uiState.description,
-                        onEdit = rememberCallback {
-                            openDescriptionEditDialog = true
-                        },
+                        onEdit =
+                            rememberCallback {
+                                openDescriptionEditDialog = true
+                            },
                     )
 
                     SettingsHeader(
@@ -281,16 +294,18 @@ class EditCommunityScreen(
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.createPostNsfw,
                         value = uiState.nsfw,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(EditCommunityMviModel.Intent.ChangeNsfw(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(EditCommunityMviModel.Intent.ChangeNsfw(value))
+                            },
                     )
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.editCommunityItemPostingRestrictedToMods,
                         value = uiState.postingRestrictedToMods,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(EditCommunityMviModel.Intent.ChangePostingRestrictedToMods(value))
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(EditCommunityMviModel.Intent.ChangePostingRestrictedToMods(value))
+                            },
                     )
                 }
 
@@ -314,12 +329,13 @@ class EditCommunityScreen(
             EditTextualInfoDialog(
                 title = LocalXmlStrings.current.settingsWebEmail,
                 value = uiState.title,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openNameEditDialog = false
-                    newValue?.also {
-                        model.reduce(EditCommunityMviModel.Intent.ChangeTitle(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openNameEditDialog = false
+                        newValue?.also {
+                            model.reduce(EditCommunityMviModel.Intent.ChangeTitle(it))
+                        }
+                    },
             )
         }
 
@@ -327,12 +343,13 @@ class EditCommunityScreen(
             EditFormattedInfoDialog(
                 title = LocalXmlStrings.current.settingsWebBio,
                 value = uiState.description,
-                onClose = rememberCallbackArgs(model) { newValue ->
-                    openDescriptionEditDialog = false
-                    newValue?.also {
-                        model.reduce(EditCommunityMviModel.Intent.ChangeDescription(it))
-                    }
-                },
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openDescriptionEditDialog = false
+                        newValue?.also {
+                            model.reduce(EditCommunityMviModel.Intent.ChangeDescription(it))
+                        }
+                    },
             )
         }
 

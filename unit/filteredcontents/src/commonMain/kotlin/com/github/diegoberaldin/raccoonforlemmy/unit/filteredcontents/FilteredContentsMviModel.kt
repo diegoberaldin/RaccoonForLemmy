@@ -10,24 +10,29 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 
 sealed interface FilteredContentsType {
     data object Votes : FilteredContentsType
+
     data object Moderated : FilteredContentsType
+
     data object Bookmarks : FilteredContentsType
 }
 
-fun FilteredContentsType.toInt(): Int = when (this) {
-    FilteredContentsType.Moderated -> 0
-    FilteredContentsType.Votes -> 1
-    FilteredContentsType.Bookmarks -> 2
-}
+fun FilteredContentsType.toInt(): Int =
+    when (this) {
+        FilteredContentsType.Moderated -> 0
+        FilteredContentsType.Votes -> 1
+        FilteredContentsType.Bookmarks -> 2
+    }
 
-fun Int.toFilteredContentsType(): FilteredContentsType = when (this) {
-    2 -> FilteredContentsType.Bookmarks
-    1 -> FilteredContentsType.Votes
-    else -> FilteredContentsType.Moderated
-}
+fun Int.toFilteredContentsType(): FilteredContentsType =
+    when (this) {
+        2 -> FilteredContentsType.Bookmarks
+        1 -> FilteredContentsType.Votes
+        else -> FilteredContentsType.Moderated
+    }
 
 sealed interface FilteredContentsSection {
     data object Posts : FilteredContentsSection
+
     data object Comments : FilteredContentsSection
 }
 
@@ -36,18 +41,31 @@ interface FilteredContentsMviModel :
     MviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect> {
     sealed interface Intent {
         data class ChangeSection(val value: FilteredContentsSection) : Intent
+
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
+
         data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class UpVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data class DownVoteComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data class SaveComment(val commentId: Long, val feedback: Boolean = false) : Intent
+
         data object HapticIndication : Intent
+
         data class ModFeaturePost(val id: Long) : Intent
+
         data class ModLockPost(val id: Long) : Intent
+
         data class ModDistinguishComment(val commentId: Long) : Intent
+
         data object WillOpenDetail : Intent
     }
 

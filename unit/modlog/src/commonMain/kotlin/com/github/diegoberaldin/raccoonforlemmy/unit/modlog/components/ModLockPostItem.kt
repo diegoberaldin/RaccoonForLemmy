@@ -33,17 +33,18 @@ internal fun ModLockPostItem(
         onOpenUser = onOpenUser,
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        append(item.post?.title.ellipsize())
-                    }
-                    append(" ")
-                    if (item.locked) {
-                        append(LocalXmlStrings.current.modlogItemPostLocked)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemPostUnlocked)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            append(item.post?.title.ellipsize())
+                        }
+                        append(" ")
+                        if (item.locked) {
+                            append(LocalXmlStrings.current.modlogItemPostLocked)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemPostUnlocked)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

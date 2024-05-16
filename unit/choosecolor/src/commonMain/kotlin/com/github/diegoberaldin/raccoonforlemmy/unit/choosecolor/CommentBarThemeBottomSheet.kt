@@ -30,28 +30,29 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 class CommentBarThemeBottomSheet : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val themeRepository = remember { getThemeRepository() }
         Column(
-            modifier = Modifier.padding(
-                top = Spacing.s,
-                start = Spacing.s,
-                end = Spacing.s,
-                bottom = Spacing.m,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.s,
+                    start = Spacing.s,
+                    end = Spacing.s,
+                    bottom = Spacing.m,
+                ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsCommentBarTheme)
-            val values: List<CommentBarTheme> = listOf(
-                CommentBarTheme.Blue,
-                CommentBarTheme.Green,
-                CommentBarTheme.Red,
-                CommentBarTheme.Rainbow,
-            )
+            val values: List<CommentBarTheme> =
+                listOf(
+                    CommentBarTheme.Blue,
+                    CommentBarTheme.Green,
+                    CommentBarTheme.Red,
+                    CommentBarTheme.Rainbow,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -59,22 +60,23 @@ class CommentBarThemeBottomSheet : Screen {
                 for (value in values) {
                     val text = value.toReadableName()
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeCommentBarTheme(
-                                            value,
-                                        ),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeCommentBarTheme(
+                                                value,
+                                            ),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

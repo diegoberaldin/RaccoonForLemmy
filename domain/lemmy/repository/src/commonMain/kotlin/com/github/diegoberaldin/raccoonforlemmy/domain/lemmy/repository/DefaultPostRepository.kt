@@ -21,7 +21,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
-import io.ktor.client.request.forms.*
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.Dispatchers

@@ -22,46 +22,48 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
-fun ModdedCommentPlaceholder(
-    postLayout: PostLayout,
-) {
+fun ModdedCommentPlaceholder(postLayout: PostLayout) {
     Column(
-        modifier = Modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                    )
-                    .padding(Spacing.s)
-            } else {
-                Modifier
-            },
-        ),
+        modifier =
+            Modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                        )
+                        .padding(Spacing.s)
+                } else {
+                    Modifier
+                },
+            ),
         verticalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         Box(
-            modifier = Modifier
-                .height(IconSize.l)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .height(IconSize.l)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(CornerSize.m))
+                    .shimmerEffect(),
         )
         Box(
-            modifier = Modifier
-                .padding(vertical = Spacing.xxxs)
-                .height(40.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .padding(vertical = Spacing.xxxs)
+                    .height(40.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(CornerSize.m))
+                    .shimmerEffect(),
         )
         Box(
-            modifier = Modifier
-                .height(IconSize.l)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(CornerSize.m))
-                .shimmerEffect(),
+            modifier =
+                Modifier
+                    .height(IconSize.l)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(CornerSize.m))
+                    .shimmerEffect(),
         )
     }
 }

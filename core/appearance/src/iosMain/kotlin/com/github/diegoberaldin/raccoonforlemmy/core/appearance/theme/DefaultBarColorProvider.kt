@@ -11,12 +11,16 @@ import platform.UIKit.setStatusBarStyle
 
 class DefaultBarColorProvider : BarColorProvider {
     @Composable
-    override fun setBarColorAccordingToTheme(theme: UiTheme, transparent: UiBarTheme) {
+    override fun setBarColorAccordingToTheme(
+        theme: UiTheme,
+        transparent: UiBarTheme,
+    ) {
         LaunchedEffect(theme) {
-            val style = when {
-                theme == UiTheme.Light -> UIStatusBarStyleLightContent
-                else -> UIStatusBarStyleDarkContent
-            }
+            val style =
+                when {
+                    theme == UiTheme.Light -> UIStatusBarStyleLightContent
+                    else -> UIStatusBarStyleDarkContent
+                }
             UIApplication.sharedApplication().setStatusBarStyle(style)
         }
     }

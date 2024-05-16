@@ -58,51 +58,54 @@ fun ZoomableImage(
     }
 
     BoxWithConstraints(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Black),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Color.Black),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedVisibility(visible = visible) {
             CustomImage(
-                modifier = Modifier
-                    .onClick(
-                        onDoubleClick = {
-                            if (scale > 1f) {
-                                scale = 1f
-                                offset = Offset.Zero
-                            } else {
-                                scale *= 2.5f
-                            }
-                        },
-                    )
-                    .pointerInput(Unit) {
-                        detectTransformGestures(
-                            onGesture = { _, pan, gestureZoom, _ ->
-                                val extraWidth = (scale - 1) * constraints.maxWidth
-                                val extraHeight = (scale - 1) * constraints.maxHeight
-                                val maxX = extraWidth / 2
-                                val maxY = extraHeight / 2
-
-                                scale = (scale * gestureZoom).coerceIn(1f, 16f)
-
-                                offset = if (scale > 1) {
-                                    Offset(
-                                        x = (offset.x + pan.x * scale).coerceIn(-maxX, maxX),
-                                        y = (offset.y + pan.y * scale).coerceIn(-maxY, maxY),
-                                    )
+                modifier =
+                    Modifier
+                        .onClick(
+                            onDoubleClick = {
+                                if (scale > 1f) {
+                                    scale = 1f
+                                    offset = Offset.Zero
                                 } else {
-                                    Offset.Zero
+                                    scale *= 2.5f
                                 }
                             },
                         )
-                    }
-                    .graphicsLayer(
-                        scaleX = scale,
-                        scaleY = scale,
-                        translationX = offset.x,
-                        translationY = offset.y,
-                    ),
+                        .pointerInput(Unit) {
+                            detectTransformGestures(
+                                onGesture = { _, pan, gestureZoom, _ ->
+                                    val extraWidth = (scale - 1) * constraints.maxWidth
+                                    val extraHeight = (scale - 1) * constraints.maxHeight
+                                    val maxX = extraWidth / 2
+                                    val maxY = extraHeight / 2
+
+                                    scale = (scale * gestureZoom).coerceIn(1f, 16f)
+
+                                    offset =
+                                        if (scale > 1) {
+                                            Offset(
+                                                x = (offset.x + pan.x * scale).coerceIn(-maxX, maxX),
+                                                y = (offset.y + pan.y * scale).coerceIn(-maxY, maxY),
+                                            )
+                                        } else {
+                                            Offset.Zero
+                                        }
+                                },
+                            )
+                        }
+                        .graphicsLayer(
+                            scaleX = scale,
+                            scaleY = scale,
+                            translationX = offset.x,
+                            translationY = offset.y,
+                        ),
                 url = url,
                 contentScale = contentScale,
                 quality = FilterQuality.High,
@@ -116,19 +119,21 @@ fun ZoomableImage(
                     )
                 },
                 onLoading = { progress ->
-                    val prog = if (progress != null) {
-                        progress
-                    } else {
-                        val transition = rememberInfiniteTransition()
-                        val res by transition.animateFloat(
-                            initialValue = 0f,
-                            targetValue = 1f,
-                            animationSpec = InfiniteRepeatableSpec(
-                                animation = tween(LOADING_ANIMATION_DURATION),
-                            ),
-                        )
-                        res
-                    }
+                    val prog =
+                        if (progress != null) {
+                            progress
+                        } else {
+                            val transition = rememberInfiniteTransition()
+                            val res by transition.animateFloat(
+                                initialValue = 0f,
+                                targetValue = 1f,
+                                animationSpec =
+                                    InfiniteRepeatableSpec(
+                                        animation = tween(LOADING_ANIMATION_DURATION),
+                                    ),
+                            )
+                            res
+                        }
                     CircularProgressIndicator(
                         progress = { prog },
                         color = MaterialTheme.colorScheme.primary,

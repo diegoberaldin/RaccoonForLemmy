@@ -24,58 +24,59 @@ import org.koin.dsl.module
 
 private const val CACHE_SIZE = 5
 
-val repositoryModule = module {
-    single<GetSortTypesUseCase> {
-        DefaultGetSortTypesUseCase(
-            siteRepository = get(),
-        )
+val repositoryModule =
+    module {
+        single<GetSortTypesUseCase> {
+            DefaultGetSortTypesUseCase(
+                siteRepository = get(),
+            )
+        }
+        single<PostRepository> {
+            DefaultPostRepository(
+                services = get(named("default")),
+                customServices = get(named("custom")),
+            )
+        }
+        single<CommunityRepository> {
+            DefaultCommunityRepository(
+                services = get(named("default")),
+                customServices = get(named("custom")),
+            )
+        }
+        single<UserRepository> {
+            DefaultUserRepository(
+                services = get(named("default")),
+                customServices = get(named("custom")),
+            )
+        }
+        single<SiteRepository> {
+            DefaultSiteRepository(
+                services = get(named("default")),
+                customServices = get(named("custom")),
+            )
+        }
+        single<CommentRepository> {
+            DefaultCommentRepository(
+                services = get(named("default")),
+                customServices = get(named("custom")),
+            )
+        }
+        single<PrivateMessageRepository> {
+            DefaultPrivateMessageRepository(
+                services = get(named("default")),
+            )
+        }
+        single<ModlogRepository> {
+            DefaultModlogRepository(
+                services = get(named("default")),
+            )
+        }
+        single<LemmyItemCache> {
+            DefaultLemmyItemCache(
+                postCache = LruCache.factory(CACHE_SIZE),
+                commentCache = LruCache.factory(CACHE_SIZE),
+                communityCache = LruCache.factory(CACHE_SIZE),
+                userCache = LruCache.factory(CACHE_SIZE),
+            )
+        }
     }
-    single<PostRepository> {
-        DefaultPostRepository(
-            services = get(named("default")),
-            customServices = get(named("custom")),
-        )
-    }
-    single<CommunityRepository> {
-        DefaultCommunityRepository(
-            services = get(named("default")),
-            customServices = get(named("custom")),
-        )
-    }
-    single<UserRepository> {
-        DefaultUserRepository(
-            services = get(named("default")),
-            customServices = get(named("custom")),
-        )
-    }
-    single<SiteRepository> {
-        DefaultSiteRepository(
-            services = get(named("default")),
-            customServices = get(named("custom")),
-        )
-    }
-    single<CommentRepository> {
-        DefaultCommentRepository(
-            services = get(named("default")),
-            customServices = get(named("custom")),
-        )
-    }
-    single<PrivateMessageRepository> {
-        DefaultPrivateMessageRepository(
-            services = get(named("default")),
-        )
-    }
-    single<ModlogRepository> {
-        DefaultModlogRepository(
-            services = get(named("default")),
-        )
-    }
-    single<LemmyItemCache> {
-        DefaultLemmyItemCache(
-            postCache = LruCache.factory(CACHE_SIZE),
-            commentCache = LruCache.factory(CACHE_SIZE),
-            communityCache = LruCache.factory(CACHE_SIZE),
-            userCache = LruCache.factory(CACHE_SIZE),
-        )
-    }
-}

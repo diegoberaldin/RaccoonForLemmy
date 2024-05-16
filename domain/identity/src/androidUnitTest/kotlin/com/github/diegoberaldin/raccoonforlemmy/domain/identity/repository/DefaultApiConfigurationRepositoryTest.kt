@@ -11,20 +11,22 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultApiConfigurationRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
-    private val serviceProvider = mockk<ServiceProvider>(relaxUnitFun = true) {
-        every { currentInstance } returns "lemmy.world"
-    }
-    private val keyStore = mockk<TemporaryKeyStore>(relaxUnitFun = true) {
-        every { get(any(), any<String>()) } returns ""
-    }
-    private val sut = DefaultApiConfigurationRepository(
-        serviceProvider = serviceProvider,
-        keyStore = keyStore,
-    )
+    private val serviceProvider =
+        mockk<ServiceProvider>(relaxUnitFun = true) {
+            every { currentInstance } returns "lemmy.world"
+        }
+    private val keyStore =
+        mockk<TemporaryKeyStore>(relaxUnitFun = true) {
+            every { get(any(), any<String>()) } returns ""
+        }
+    private val sut =
+        DefaultApiConfigurationRepository(
+            serviceProvider = serviceProvider,
+            keyStore = keyStore,
+        )
 
     @Test
     fun whenChangeInstance_thenValueIsUpdated() {

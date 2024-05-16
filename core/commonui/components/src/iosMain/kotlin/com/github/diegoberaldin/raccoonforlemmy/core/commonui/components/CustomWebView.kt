@@ -50,38 +50,41 @@ actual fun CustomWebView(
 
     UIKitView(
         factory = {
-            val config = WKWebViewConfiguration().apply {
-                allowsInlineMediaPlayback = true
-            }
+            val config =
+                WKWebViewConfiguration().apply {
+                    allowsInlineMediaPlayback = true
+                }
             WKWebView(
                 frame = CGRectZero.readValue(),
                 configuration = config,
             ).apply {
                 userInteractionEnabled = true
                 allowsBackForwardNavigationGestures = true
-                val navigationDelegate = object : NSObject(), WKNavigationDelegateProtocol {
-                    override fun webView(
-                        webView: WKWebView,
-                        didFinishNavigation: WKNavigation?,
-                    ) {
-                        navigator.canGoBack = webView.canGoBack
-                    }
-                }
-                this.navigationDelegate = navigationDelegate
-                this.scrollView.delegate = object : NSObject(), UIScrollViewDelegateProtocol {
-                    override fun scrollViewDidScroll(scrollView: UIScrollView) {
-                        scrollView.contentOffset.useContents {
-                            val offsetX = (lastOffsetX - x).toFloat() / density
-                            val offsetY = (lastOffsetY - y).toFloat() / density
-                            scrollConnection?.onPreScroll(
-                                available = Offset(offsetX, offsetY),
-                                source = NestedScrollSource.Drag,
-                            )
-                            lastOffsetX = x.toFloat()
-                            lastOffsetY = y.toFloat()
+                val navigationDelegate =
+                    object : NSObject(), WKNavigationDelegateProtocol {
+                        override fun webView(
+                            webView: WKWebView,
+                            didFinishNavigation: WKNavigation?,
+                        ) {
+                            navigator.canGoBack = webView.canGoBack
                         }
                     }
-                }
+                this.navigationDelegate = navigationDelegate
+                this.scrollView.delegate =
+                    object : NSObject(), UIScrollViewDelegateProtocol {
+                        override fun scrollViewDidScroll(scrollView: UIScrollView) {
+                            scrollView.contentOffset.useContents {
+                                val offsetX = (lastOffsetX - x).toFloat() / density
+                                val offsetY = (lastOffsetY - y).toFloat() / density
+                                scrollConnection?.onPreScroll(
+                                    available = Offset(offsetX, offsetY),
+                                    source = NestedScrollSource.Drag,
+                                )
+                                lastOffsetX = x.toFloat()
+                                lastOffsetY = y.toFloat()
+                            }
+                        }
+                    }
             }.also {
                 webView = it
             }

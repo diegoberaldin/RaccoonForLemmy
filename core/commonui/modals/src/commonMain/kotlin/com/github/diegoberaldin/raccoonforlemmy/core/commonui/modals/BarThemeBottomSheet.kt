@@ -27,46 +27,48 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 class BarThemeBottomSheet : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsBarTheme)
-            val values = listOf(
-                UiBarTheme.Transparent,
-                UiBarTheme.Opaque,
-            )
+            val values =
+                listOf(
+                    UiBarTheme.Transparent,
+                    UiBarTheme.Opaque,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeSystemBarTheme(value),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeSystemBarTheme(value),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                     ) {
                         Text(
                             text = value.toReadableName(),

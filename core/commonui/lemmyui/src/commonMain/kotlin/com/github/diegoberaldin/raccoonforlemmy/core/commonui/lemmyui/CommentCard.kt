@@ -77,35 +77,39 @@ fun CommentCard(
     val themeRepository = remember { getThemeRepository() }
     var commentHeight by remember { mutableStateOf(0f) }
     val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
-    val barColor = themeRepository.getCommentBarColor(
-        depth = comment.depth,
-        commentBarTheme = commentBarTheme,
-    )
+    val barColor =
+        themeRepository.getCommentBarColor(
+            depth = comment.depth,
+            commentBarTheme = commentBarTheme,
+        )
     val barWidth = BAR_BASE_WIDTH_UNIT * barThickness
 
     Column(
         modifier = modifier,
     ) {
         Box(
-            modifier = Modifier.onClick(
-                onClick = onClick ?: {},
-                onDoubleClick = onDoubleClick ?: {},
-            ).padding(
-                start = indentAmount.takeIf { it > 0 }?.let {
-                    (it * comment.depth).dp + Spacing.xxxs
-                } ?: 0.dp,
-            ),
+            modifier =
+                Modifier.onClick(
+                    onClick = onClick ?: {},
+                    onDoubleClick = onDoubleClick ?: {},
+                ).padding(
+                    start =
+                        indentAmount.takeIf { it > 0 }?.let {
+                            (it * comment.depth).dp + Spacing.xxxs
+                        } ?: 0.dp,
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .padding(start = barWidth + Spacing.xxs)
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = Spacing.xxs,
-                        horizontal = Spacing.s,
-                    ).onGloballyPositioned {
-                        commentHeight = it.size.toSize().height
-                    },
+                modifier =
+                    Modifier
+                        .padding(start = barWidth + Spacing.xxs)
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = Spacing.xxs,
+                            horizontal = Spacing.s,
+                        ).onGloballyPositioned {
+                            commentHeight = it.size.toSize().height
+                        },
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 CommunityAndCreatorInfo(
@@ -119,12 +123,14 @@ fun CommentCard(
                     distinguished = comment.distinguished,
                     isOp = isOp,
                     isBot = comment.creator?.bot.takeIf { showBot } ?: false,
-                    onOpenCreator = rememberCallbackArgs { user ->
-                        onOpenCreator?.invoke(user, "")
-                    },
-                    onOpenCommunity = rememberCallbackArgs { community ->
-                        onOpenCommunity?.invoke(community, "")
-                    },
+                    onOpenCreator =
+                        rememberCallbackArgs { user ->
+                            onOpenCreator?.invoke(user, "")
+                        },
+                    onOpenCommunity =
+                        rememberCallbackArgs { community ->
+                            onOpenCommunity?.invoke(community, "")
+                        },
                     onToggleExpanded = onToggleExpanded,
                 )
                 if (comment.removed) {
@@ -136,11 +142,12 @@ fun CommentCard(
                 } else {
                     CustomizedContent(ContentFontClass.Body) {
                         CompositionLocalProvider(
-                            LocalDensity provides Density(
-                                density = LocalDensity.current.density,
-                                // additional downscale for font in comments
-                                fontScale = LocalDensity.current.fontScale * COMMENT_TEXT_SCALE_FACTOR,
-                            ),
+                            LocalDensity provides
+                                Density(
+                                    density = LocalDensity.current.density,
+                                    // additional downscale for font in comments
+                                    fontScale = LocalDensity.current.fontScale * COMMENT_TEXT_SCALE_FACTOR,
+                                ),
                         ) {
                             PostCardBody(
                                 text = comment.text,
@@ -180,11 +187,12 @@ fun CommentCard(
             }
             if (indentAmount > 0 && comment.depth > 0) {
                 Box(
-                    modifier = Modifier
-                        .padding(top = Spacing.xxs)
-                        .width(barWidth)
-                        .height(commentHeight.toLocalDp())
-                        .background(color = barColor, shape = RoundedCornerShape(barWidth / 2)),
+                    modifier =
+                        Modifier
+                            .padding(top = Spacing.xxs)
+                            .width(barWidth)
+                            .height(commentHeight.toLocalDp())
+                            .background(color = barColor, shape = RoundedCornerShape(barWidth / 2)),
                 )
             }
         }

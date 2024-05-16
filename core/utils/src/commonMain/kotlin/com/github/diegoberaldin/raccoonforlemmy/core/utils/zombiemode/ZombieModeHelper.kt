@@ -5,7 +5,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 interface ZombieModeHelper {
-
     val index: Flow<Int>
 
     fun start(

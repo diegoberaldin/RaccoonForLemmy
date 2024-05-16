@@ -25,7 +25,6 @@ import de.jensklingenberg.ktorfit.http.PUT
 import de.jensklingenberg.ktorfit.http.Query
 
 interface UserService {
-
     @GET("user")
     suspend fun getDetails(
         @Header("Authorization") authHeader: String? = null,

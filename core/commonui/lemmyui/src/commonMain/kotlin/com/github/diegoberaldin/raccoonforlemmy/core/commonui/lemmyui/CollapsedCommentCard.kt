@@ -53,30 +53,34 @@ fun CollapsedCommentCard(
     val commentBarTheme by themeRepository.commentBarTheme.collectAsState()
     var commentHeight by remember { mutableStateOf(0f) }
     val barWidth = 2.dp
-    val barColor = themeRepository.getCommentBarColor(
-        depth = comment.depth,
-        commentBarTheme = commentBarTheme,
-    )
+    val barColor =
+        themeRepository.getCommentBarColor(
+            depth = comment.depth,
+            commentBarTheme = commentBarTheme,
+        )
     Column(
-        modifier = modifier.onClick(
-            onClick = onClick ?: {},
-        ),
+        modifier =
+            modifier.onClick(
+                onClick = onClick ?: {},
+            ),
     ) {
         Box(
-            modifier = Modifier.padding(
-                start = (INDENT_AMOUNT * comment.depth).dp,
-            ),
+            modifier =
+                Modifier.padding(
+                    start = (INDENT_AMOUNT * comment.depth).dp,
+                ),
         ) {
             Column(
-                modifier = Modifier
-                    .padding(start = barWidth)
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = Spacing.xxs,
-                        horizontal = Spacing.s,
-                    ).onGloballyPositioned {
-                        commentHeight = it.size.toSize().height
-                    },
+                modifier =
+                    Modifier
+                        .padding(start = barWidth)
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = Spacing.xxs,
+                            horizontal = Spacing.s,
+                        ).onGloballyPositioned {
+                            commentHeight = it.size.toSize().height
+                        },
             ) {
                 CommunityAndCreatorInfo(
                     iconSize = IconSize.s,
@@ -116,11 +120,12 @@ fun CollapsedCommentCard(
             }
             if (comment.depth > 0) {
                 Box(
-                    modifier = Modifier
-                        .padding(top = Spacing.xxs)
-                        .width(barWidth)
-                        .height(commentHeight.toLocalDp())
-                        .background(color = barColor),
+                    modifier =
+                        Modifier
+                            .padding(top = Spacing.xxs)
+                            .width(barWidth)
+                            .height(commentHeight.toLocalDp())
+                            .background(color = barColor),
                 )
             }
         }

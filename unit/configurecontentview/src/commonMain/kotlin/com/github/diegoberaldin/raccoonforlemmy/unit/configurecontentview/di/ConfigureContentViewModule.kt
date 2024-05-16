@@ -4,13 +4,14 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.Config
 import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.ConfigureContentViewViewModel
 import org.koin.dsl.module
 
-val configureContentViewModule = module {
-    factory<ConfigureContentViewMviModel> {
-        ConfigureContentViewViewModel(
-            themeRepository = get(),
-            settingsRepository = get(),
-            accountRepository = get(),
-            notificationCenter = get(),
-        )
+val configureContentViewModule =
+    module {
+        factory<ConfigureContentViewMviModel> {
+            ConfigureContentViewViewModel(
+                themeRepository = get(),
+                settingsRepository = get(),
+                accountRepository = get(),
+                notificationCenter = get(),
+            )
+        }
     }
-}

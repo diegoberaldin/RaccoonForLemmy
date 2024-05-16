@@ -10,18 +10,27 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 interface AccountSettingsMviModel :
     ScreenModel,
     MviModel<AccountSettingsMviModel.Intent, AccountSettingsMviModel.UiState, AccountSettingsMviModel.Effect> {
-
     sealed interface Intent {
         data class ChangeDisplayName(val value: String) : Intent
+
         data class ChangeEmail(val value: String) : Intent
+
         data class ChangeMatrixUserId(val value: String) : Intent
+
         data class ChangeBio(val value: String) : Intent
+
         data class ChangeBot(val value: Boolean) : Intent
+
         data class ChangeSendNotificationsToEmail(val value: Boolean) : Intent
+
         data class ChangeShowBotAccounts(val value: Boolean) : Intent
+
         data class ChangeShowReadPosts(val value: Boolean) : Intent
+
         data class ChangeShowNsfw(val value: Boolean) : Intent
+
         data class ChangeShowScores(val value: Boolean) : Intent
+
         data class AvatarSelected(val value: ByteArray) : Intent {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -77,6 +86,7 @@ interface AccountSettingsMviModel :
 
     sealed interface Effect {
         data object Success : Effect
+
         data object Failure : Effect
     }
 }

@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.update
 abstract class DefaultMviModel<Intent, State, Effect>(
     initialState: State,
 ) : MviModel<Intent, State, Effect> {
-
     override val uiState = MutableStateFlow(initialState)
     override val effects = MutableSharedFlow<Effect>()
 

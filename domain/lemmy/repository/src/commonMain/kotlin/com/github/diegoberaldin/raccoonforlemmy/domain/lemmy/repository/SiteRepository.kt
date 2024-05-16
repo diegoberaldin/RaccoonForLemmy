@@ -9,9 +9,16 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface SiteRepository {
     suspend fun getCurrentUser(auth: String): UserModel?
 
-    suspend fun getSiteVersion(auth: String? = null, otherInstance: String? = null): String?
+    suspend fun getSiteVersion(
+        auth: String? = null,
+        otherInstance: String? = null,
+    ): String?
 
-    suspend fun block(id: Long, blocked: Boolean, auth: String? = null): Result<Unit>
+    suspend fun block(
+        id: Long,
+        blocked: Boolean,
+        auth: String? = null,
+    ): Result<Unit>
 
     suspend fun getMetadata(url: String): MetadataModel?
 
@@ -24,7 +31,5 @@ interface SiteRepository {
         value: AccountSettingsModel,
     )
 
-    suspend fun getBans(
-        auth: String,
-    ): AccountBansModel?
+    suspend fun getBans(auth: String): AccountBansModel?
 }

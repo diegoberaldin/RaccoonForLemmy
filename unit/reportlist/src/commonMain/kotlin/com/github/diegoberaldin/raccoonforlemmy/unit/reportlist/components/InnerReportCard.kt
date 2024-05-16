@@ -74,24 +74,25 @@ internal fun InnerReportCard(
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .shadow(
-                        elevation = 5.dp,
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .padding(vertical = Spacing.xs)
-            } else {
-                Modifier.background(MaterialTheme.colorScheme.background)
-            },
-        ),
+        modifier =
+            modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .shadow(
+                            elevation = 5.dp,
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .padding(vertical = Spacing.xs)
+                } else {
+                    Modifier.background(MaterialTheme.colorScheme.background)
+                },
+            ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
@@ -110,24 +111,26 @@ internal fun InnerReportCard(
                 )
                 if (originalContent != null) {
                     Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(CornerSize.l),
-                            )
-                            .padding(all = Spacing.s),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .border(
+                                    width = 1.dp,
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    shape = RoundedCornerShape(CornerSize.l),
+                                )
+                                .padding(all = Spacing.s),
                     ) {
                         originalContent()
                     }
                 }
             }
             ReportFooter(
-                modifier = Modifier.padding(
-                    vertical = Spacing.xs,
-                    horizontal = Spacing.s,
-                ),
+                modifier =
+                    Modifier.padding(
+                        vertical = Spacing.xs,
+                        horizontal = Spacing.s,
+                    ),
                 date = date,
                 onOpenResolve = onOpen,
                 options = options,
@@ -150,23 +153,25 @@ private fun ReportHeader(
     val creatorAvatar = creator?.avatar.orEmpty()
     if (creatorName.isNotEmpty()) {
         Row(
-            modifier = modifier
-                .onClick(
-                    onClick = {
-                        if (creator != null) {
-                            onOpenCreator?.invoke(creator)
-                        }
-                    },
-                ),
+            modifier =
+                modifier
+                    .onClick(
+                        onClick = {
+                            if (creator != null) {
+                                onOpenCreator?.invoke(creator)
+                            }
+                        },
+                    ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             if (creatorAvatar.isNotEmpty() && autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier
-                        .padding(Spacing.xxxs)
-                        .size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
+                    modifier =
+                        Modifier
+                            .padding(Spacing.xxxs)
+                            .size(iconSize)
+                            .clip(RoundedCornerShape(iconSize / 2)),
                     url = creatorAvatar,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
@@ -222,17 +227,18 @@ private fun ReportFooter(
             }
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .padding(top = Spacing.xxs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsExpanded = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .padding(top = Spacing.xxs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsExpanded = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -241,12 +247,13 @@ private fun ReportFooter(
             Spacer(modifier = Modifier.weight(1f))
             if (onOpenResolve != null) {
                 Image(
-                    modifier = buttonModifier
-                        .onClick(
-                            onClick = {
-                                onOpenResolve.invoke()
-                            },
-                        ),
+                    modifier =
+                        buttonModifier
+                            .onClick(
+                                onClick = {
+                                    onOpenResolve.invoke()
+                                },
+                            ),
                     imageVector = Icons.AutoMirrored.Default.OpenInNew,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
@@ -258,10 +265,11 @@ private fun ReportFooter(
             onDismiss = {
                 optionsExpanded = false
             },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
+            offset =
+                DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

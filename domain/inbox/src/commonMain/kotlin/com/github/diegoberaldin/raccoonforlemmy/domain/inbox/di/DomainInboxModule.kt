@@ -6,19 +6,20 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.usecase.DefaultGetU
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.usecase.GetUnreadItemsUseCase
 import org.koin.dsl.module
 
-val domainInboxModule = module {
-    includes(inboxNativeModule)
-    single<InboxCoordinator> {
-        DefaultInboxCoordinator(
-            identityRepository = get(),
-            getUnreadItemsUseCase = get(),
-        )
+val domainInboxModule =
+    module {
+        includes(inboxNativeModule)
+        single<InboxCoordinator> {
+            DefaultInboxCoordinator(
+                identityRepository = get(),
+                getUnreadItemsUseCase = get(),
+            )
+        }
+        single<GetUnreadItemsUseCase> {
+            DefaultGetUnreadItemsUseCase(
+                identityRepository = get(),
+                userRepository = get(),
+                messageRepository = get(),
+            )
+        }
     }
-    single<GetUnreadItemsUseCase> {
-        DefaultGetUnreadItemsUseCase(
-            identityRepository = get(),
-            userRepository = get(),
-            messageRepository = get(),
-        )
-    }
-}

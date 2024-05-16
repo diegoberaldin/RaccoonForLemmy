@@ -10,6 +10,7 @@ interface ModlogMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
     }
 

@@ -30,15 +30,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 class PostBodyMaxLinesBottomSheet(
-    private val values: List<Int?> = listOf(
-        10,
-        30,
-        50,
-        -1, // custom number
-        null, // unlimited
-    ),
+    private val values: List<Int?> =
+        listOf(
+            10,
+            30,
+            50,
+            -1, // custom number
+            null, // unlimited
+        ),
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -47,14 +47,15 @@ class PostBodyMaxLinesBottomSheet(
         val settingsRepository = remember { getSettingsRepository() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsPostBodyMaxLines)
@@ -64,31 +65,33 @@ class PostBodyMaxLinesBottomSheet(
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    if (value != null && value < 0) {
-                                        customDialogOpened = true
-                                    } else {
-                                        notificationCenter.send(
-                                            NotificationCenterEvent.ChangePostBodyMaxLines(value),
-                                        )
-                                        navigationCoordinator.hideBottomSheet()
-                                    }
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        if (value != null && value < 0) {
+                                            customDialogOpened = true
+                                        } else {
+                                            notificationCenter.send(
+                                                NotificationCenterEvent.ChangePostBodyMaxLines(value),
+                                            )
+                                            navigationCoordinator.hideBottomSheet()
+                                        }
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        val text = when {
-                            value == null -> LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
-                            value < 0 -> LocalXmlStrings.current.settingsColorCustom
-                            else -> value.toString()
-                        }
+                        val text =
+                            when {
+                                value == null -> LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
+                                value < 0 -> LocalXmlStrings.current.settingsColorCustom
+                                else -> value.toString()
+                            }
                         Text(
                             text = text,
                             style = MaterialTheme.typography.bodyLarge,

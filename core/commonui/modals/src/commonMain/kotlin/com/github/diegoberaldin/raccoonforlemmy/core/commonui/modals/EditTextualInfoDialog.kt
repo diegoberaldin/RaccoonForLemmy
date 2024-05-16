@@ -52,10 +52,11 @@ fun EditTextualInfoDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .imePadding()
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(Spacing.s),
+            modifier =
+                Modifier
+                    .imePadding()
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
@@ -68,11 +69,12 @@ fun EditTextualInfoDialog(
 
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                    ),
                 label = {
                     Text(
                         text = title,
@@ -81,10 +83,11 @@ fun EditTextualInfoDialog(
                 },
                 textStyle = typography.bodyMedium,
                 value = textFieldValue,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    autoCorrect = true,
-                ),
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        autoCorrect = true,
+                    ),
                 onValueChange = { value ->
                     textFieldValue = value
                 },

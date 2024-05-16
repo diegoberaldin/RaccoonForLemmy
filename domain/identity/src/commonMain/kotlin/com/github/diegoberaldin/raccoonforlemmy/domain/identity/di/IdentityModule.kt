@@ -17,59 +17,60 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase.SwitchAc
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val coreIdentityModule = module {
-    single<ApiConfigurationRepository> {
-        DefaultApiConfigurationRepository(
-            serviceProvider = get(named("default")),
-            keyStore = get(),
-        )
+val coreIdentityModule =
+    module {
+        single<ApiConfigurationRepository> {
+            DefaultApiConfigurationRepository(
+                serviceProvider = get(named("default")),
+                keyStore = get(),
+            )
+        }
+        single<IdentityRepository> {
+            DefaultIdentityRepository(
+                accountRepository = get(),
+                siteRepository = get(),
+                userRepository = get(),
+                networkManager = get(),
+            )
+        }
+        single<AuthRepository> {
+            DefaultAuthRepository(
+                services = get(named("default")),
+            )
+        }
+        single<LoginUseCase> {
+            DefaultLoginUseCase(
+                apiConfigurationRepository = get(),
+                authRepository = get(),
+                identityRepository = get(),
+                accountRepository = get(),
+                settingsRepository = get(),
+                siteRepository = get(),
+                communitySortRepository = get(),
+            )
+        }
+        single<LogoutUseCase> {
+            DefaultLogoutUseCase(
+                identityRepository = get(),
+                accountRepository = get(),
+                notificationCenter = get(),
+                settingsRepository = get(),
+                communitySortRepository = get(),
+            )
+        }
+        single<SwitchAccountUseCase> {
+            DefaultSwitchAccountUseCase(
+                identityRepository = get(),
+                accountRepository = get(),
+                settingsRepository = get(),
+                serviceProvider = get(named("default")),
+                notificationCenter = get(),
+                communitySortRepository = get(),
+            )
+        }
+        single<DeleteAccountUseCase> {
+            DefaultDeleteAccountUseCase(
+                accountRepository = get(),
+            )
+        }
     }
-    single<IdentityRepository> {
-        DefaultIdentityRepository(
-            accountRepository = get(),
-            siteRepository = get(),
-            userRepository = get(),
-            networkManager = get(),
-        )
-    }
-    single<AuthRepository> {
-        DefaultAuthRepository(
-            services = get(named("default")),
-        )
-    }
-    single<LoginUseCase> {
-        DefaultLoginUseCase(
-            apiConfigurationRepository = get(),
-            authRepository = get(),
-            identityRepository = get(),
-            accountRepository = get(),
-            settingsRepository = get(),
-            siteRepository = get(),
-            communitySortRepository = get(),
-        )
-    }
-    single<LogoutUseCase> {
-        DefaultLogoutUseCase(
-            identityRepository = get(),
-            accountRepository = get(),
-            notificationCenter = get(),
-            settingsRepository = get(),
-            communitySortRepository = get(),
-        )
-    }
-    single<SwitchAccountUseCase> {
-        DefaultSwitchAccountUseCase(
-            identityRepository = get(),
-            accountRepository = get(),
-            settingsRepository = get(),
-            serviceProvider = get(named("default")),
-            notificationCenter = get(),
-            communitySortRepository = get(),
-        )
-    }
-    single<DeleteAccountUseCase> {
-        DefaultDeleteAccountUseCase(
-            accountRepository = get(),
-        )
-    }
-}

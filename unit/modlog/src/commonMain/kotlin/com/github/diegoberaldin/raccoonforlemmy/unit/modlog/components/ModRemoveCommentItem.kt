@@ -33,23 +33,24 @@ internal fun ModRemoveCommentItem(
         onOpenUser = onOpenUser,
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        append(item.comment?.text.ellipsize())
-                    }
-                    append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemCommentRemoved)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemCommentRestored)
-                    }
-                    if (item.post != null) {
-                        append(" ")
+                text =
+                    buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                            append(item.post?.title.ellipsize())
+                            append(item.comment?.text.ellipsize())
                         }
-                    }
-                },
+                        append(" ")
+                        if (item.removed) {
+                            append(LocalXmlStrings.current.modlogItemCommentRemoved)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemCommentRestored)
+                        }
+                        if (item.post != null) {
+                            append(" ")
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                                append(item.post?.title.ellipsize())
+                            }
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

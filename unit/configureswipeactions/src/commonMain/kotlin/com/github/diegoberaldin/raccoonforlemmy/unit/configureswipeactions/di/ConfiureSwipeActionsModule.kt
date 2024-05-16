@@ -4,12 +4,13 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.Confi
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsViewModel
 import org.koin.dsl.module
 
-val configureSwipeActionsModule = module {
-    factory<ConfigureSwipeActionsMviModel> {
-        ConfigureSwipeActionsViewModel(
-            settingsRepository = get(),
-            accountRepository = get(),
-            notificationCenter = get(),
-        )
+val configureSwipeActionsModule =
+    module {
+        factory<ConfigureSwipeActionsMviModel> {
+            ConfigureSwipeActionsViewModel(
+                settingsRepository = get(),
+                accountRepository = get(),
+                notificationCenter = get(),
+            )
+        }
     }
-}

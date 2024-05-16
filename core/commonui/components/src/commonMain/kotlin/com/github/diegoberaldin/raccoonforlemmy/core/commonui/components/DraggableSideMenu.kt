@@ -32,6 +32,7 @@ import kotlin.math.roundToInt
 
 private sealed interface SlideAnchorPosition {
     data object Opened : SlideAnchorPosition
+
     data object Closed : SlideAnchorPosition
 }
 
@@ -46,25 +47,28 @@ fun DraggableSideMenu(
 ) {
     val density = LocalDensity.current
     val maxWidth = if (availableWidth.isSpecified) availableWidth * 0.85f else 500.dp
-    val draggableState = remember(availableWidth) {
-        AnchoredDraggableState(
-            initialValue = SlideAnchorPosition.Closed,
-            anchors = DraggableAnchors<SlideAnchorPosition> {
-                SlideAnchorPosition.Closed at with(density) { availableWidth.toPx() }
-                SlideAnchorPosition.Opened at with(density) { (availableWidth - maxWidth).toPx() }
-            },
-            positionalThreshold = { distance: Float -> distance * 0.5f },
-            velocityThreshold = { with(density) { 100.dp.toPx() } },
-            animationSpec = tween(),
-        )
-    }
+    val draggableState =
+        remember(availableWidth) {
+            AnchoredDraggableState(
+                initialValue = SlideAnchorPosition.Closed,
+                anchors =
+                    DraggableAnchors<SlideAnchorPosition> {
+                        SlideAnchorPosition.Closed at with(density) { availableWidth.toPx() }
+                        SlideAnchorPosition.Opened at with(density) { (availableWidth - maxWidth).toPx() }
+                    },
+                positionalThreshold = { distance: Float -> distance * 0.5f },
+                velocityThreshold = { with(density) { 100.dp.toPx() } },
+                animationSpec = tween(),
+            )
+        }
 
     LaunchedEffect(opened) {
-        val target = if (opened) {
-            SlideAnchorPosition.Opened
-        } else {
-            SlideAnchorPosition.Closed
-        }
+        val target =
+            if (opened) {
+                SlideAnchorPosition.Opened
+            } else {
+                SlideAnchorPosition.Closed
+            }
         draggableState.animateTo(target)
     }
 
@@ -77,26 +81,27 @@ fun DraggableSideMenu(
     }
 
     Box(
-        modifier = modifier
-            .width(maxWidth)
-            .fillMaxHeight()
-            .offset {
-                IntOffset(
-                    x = draggableState.requireOffset().roundToInt(),
-                    y = 0,
+        modifier =
+            modifier
+                .width(maxWidth)
+                .fillMaxHeight()
+                .offset {
+                    IntOffset(
+                        x = draggableState.requireOffset().roundToInt(),
+                        y = 0,
+                    )
+                }
+                .anchoredDraggable(
+                    state = draggableState,
+                    orientation = Orientation.Horizontal,
                 )
-            }
-            .anchoredDraggable(
-                state = draggableState,
-                orientation = Orientation.Horizontal,
-            )
-            .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
-            .padding(
-                top = Spacing.xxl,
-                bottom = Spacing.m,
-                end = Spacing.s,
-                start = Spacing.s,
-            ),
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp))
+                .padding(
+                    top = Spacing.xxl,
+                    bottom = Spacing.m,
+                    end = Spacing.s,
+                    start = Spacing.s,
+                ),
     ) {
         content()
     }

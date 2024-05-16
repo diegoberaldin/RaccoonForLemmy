@@ -12,14 +12,15 @@ class DefaultHapticFeedback(
     @SuppressLint("MissingPermission")
     override fun vibrate() {
         val vibrator = context.getSystemService(Vibrator::class.java)
-        val effect = if (Build.VERSION.SDK_INT >= 29) {
-            VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
-        } else {
-            VibrationEffect.createOneShot(
-                1L,
-                VibrationEffect.DEFAULT_AMPLITUDE,
-            )
-        }
+        val effect =
+            if (Build.VERSION.SDK_INT >= 29) {
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK)
+            } else {
+                VibrationEffect.createOneShot(
+                    1L,
+                    VibrationEffect.DEFAULT_AMPLITUDE,
+                )
+            }
         vibrator.vibrate(effect)
     }
 }

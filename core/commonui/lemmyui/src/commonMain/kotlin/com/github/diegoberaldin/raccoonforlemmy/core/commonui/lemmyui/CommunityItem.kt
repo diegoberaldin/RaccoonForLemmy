@@ -69,22 +69,24 @@ fun CommunityItem(
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.then(
-            if (noPadding) {
-                Modifier
-            } else {
-                Modifier.padding(Spacing.s)
-            },
-        ),
+        modifier =
+            modifier.then(
+                if (noPadding) {
+                    Modifier
+                } else {
+                    Modifier.padding(Spacing.s)
+                },
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
         if (communityIcon.isNotEmpty() && autoLoadImages) {
             CustomImage(
-                modifier = Modifier
-                    .padding(Spacing.xxxs)
-                    .size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2)),
+                modifier =
+                    Modifier
+                        .padding(Spacing.xxxs)
+                        .size(iconSize)
+                        .clip(RoundedCornerShape(iconSize / 2)),
                 url = communityIcon,
                 contentScale = ContentScale.FillBounds,
             )
@@ -98,19 +100,21 @@ fun CommunityItem(
             modifier = Modifier.weight(1f).padding(start = Spacing.xs),
         ) {
             Text(
-                text = buildString {
-                    append(title)
-                },
+                text =
+                    buildString {
+                        append(title)
+                    },
                 style = MaterialTheme.typography.bodyLarge,
                 color = fullColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                text = buildString {
-                    append("!")
-                    append(communityHandle)
-                },
+                text =
+                    buildString {
+                        append("!")
+                        append(communityHandle)
+                    },
                 style = MaterialTheme.typography.bodySmall,
                 color = ancillaryColor,
             )
@@ -147,24 +151,26 @@ fun CommunityItem(
 
             showSubscribeButton -> {
                 Icon(
-                    modifier = Modifier
-                        .size(IconSize.m)
-                        .onClick(
-                            onClick = { onSubscribe?.invoke() },
-                        ),
-                    imageVector = when (community.subscribed) {
-                        true -> {
-                            Icons.Outlined.RemoveCircleOutline
-                        }
+                    modifier =
+                        Modifier
+                            .size(IconSize.m)
+                            .onClick(
+                                onClick = { onSubscribe?.invoke() },
+                            ),
+                    imageVector =
+                        when (community.subscribed) {
+                            true -> {
+                                Icons.Outlined.RemoveCircleOutline
+                            }
 
-                        false -> {
-                            Icons.Outlined.AddCircleOutline
-                        }
+                            false -> {
+                                Icons.Outlined.AddCircleOutline
+                            }
 
-                        else -> {
-                            Icons.Outlined.Pending
-                        }
-                    },
+                            else -> {
+                                Icons.Outlined.Pending
+                            }
+                        },
                     contentDescription = "",
                     tint = ancillaryColor,
                 )
@@ -174,16 +180,17 @@ fun CommunityItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -194,10 +201,11 @@ fun CommunityItem(
                     onDismiss = {
                         optionsMenuOpen = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

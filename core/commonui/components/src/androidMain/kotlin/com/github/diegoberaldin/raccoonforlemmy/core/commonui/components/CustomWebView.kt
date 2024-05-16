@@ -39,23 +39,30 @@ actual fun CustomWebView(
         modifier = modifier,
         factory = { context ->
             WebView(context).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                )
-                webViewClient = object : WebViewClient() {
-                    override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
-                        navigator.canGoBack = view.canGoBack()
+                layoutParams =
+                    ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                    )
+                webViewClient =
+                    object : WebViewClient() {
+                        override fun onPageStarted(
+                            view: WebView,
+                            url: String?,
+                            favicon: Bitmap?,
+                        ) {
+                            navigator.canGoBack = view.canGoBack()
+                        }
                     }
-                }
                 settings.javaScriptEnabled = true
 
                 setOnScrollChangeListener { _, scrollX, scrollY, oldScrollX, oldScrollY ->
                     scrollConnection?.onPreScroll(
-                        available = Offset(
-                            x = (oldScrollX - scrollX) / density,
-                            y = (oldScrollY - scrollY) / density,
-                        ),
+                        available =
+                            Offset(
+                                x = (oldScrollX - scrollX) / density,
+                                y = (oldScrollY - scrollY) / density,
+                            ),
                         source = NestedScrollSource.Drag,
                     )
                 }

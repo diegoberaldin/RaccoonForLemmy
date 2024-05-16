@@ -7,7 +7,6 @@ import java.security.SecureRandom
 class DefaultDatabaseKeyProvider(
     private val keyStore: TemporaryKeyStore,
 ) : DatabaseKeyProvider {
-
     companion object {
         private const val DATABASE_KEY = "database_key"
     }
@@ -47,8 +46,7 @@ class DefaultDatabaseKeyProvider(
         return key
     }
 
-    private fun encodeToString(key: ByteArray): String =
-        Base64.encodeToString(key, Base64.DEFAULT)
+    private fun encodeToString(key: ByteArray): String = Base64.encodeToString(key, Base64.DEFAULT)
 
     private fun decodeFromString(key: String): ByteArray {
         return Base64.decode(key, Base64.DEFAULT)

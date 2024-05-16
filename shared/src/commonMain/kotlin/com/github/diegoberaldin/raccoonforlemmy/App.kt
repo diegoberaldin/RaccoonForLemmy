@@ -78,11 +78,12 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     var hasBeenInitialized by remember { mutableStateOf(false) }
     val apiConfigurationRepository = remember { getApiConfigurationRepository() }
     val themeRepository = remember { getThemeRepository() }
-    val defaultTheme = if (isSystemInDarkTheme()) {
-        UiTheme.Dark
-    } else {
-        UiTheme.Light
-    }.toInt()
+    val defaultTheme =
+        if (isSystemInDarkTheme()) {
+            UiTheme.Dark
+        } else {
+            UiTheme.Light
+        }.toInt()
     val locale by derivedStateOf { settings.locale }
     val useDynamicColors by themeRepository.dynamicColors.collectAsState()
     val uiFontScale by themeRepository.uiFontScale.collectAsState()
@@ -93,11 +94,12 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     val detailOpener = remember { getDetailOpener() }
     val l10nManager = remember { getL10nManager() }
     val l10nState by l10nManager.lyricist.state.collectAsState()
-    val barTheme: UiBarTheme = when {
-        settings.edgeToEdge && settings.opaqueSystemBars -> UiBarTheme.Opaque
-        settings.edgeToEdge && !settings.opaqueSystemBars -> UiBarTheme.Transparent
-        else -> UiBarTheme.Solid
-    }
+    val barTheme: UiBarTheme =
+        when {
+            settings.edgeToEdge && settings.opaqueSystemBars -> UiBarTheme.Opaque
+            settings.edgeToEdge && !settings.opaqueSystemBars -> UiBarTheme.Transparent
+            else -> UiBarTheme.Solid
+        }
     var screenWidth by remember { mutableStateOf(0f) }
     var sideMenuContent by remember { mutableStateOf<@Composable (() -> Unit)?>(null) }
     val sideMenuOpened by navigationCoordinator.sideMenuOpened.collectAsState()
@@ -189,15 +191,17 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         }.launchIn(this)
         navigationCoordinator.composeEvents.debounce(750).onEach { event ->
             when (event) {
-                is ComposeEvent.WithText -> detailOpener.openCreatePost(
-                    initialText = event.text,
-                    forceCommunitySelection = true,
-                )
+                is ComposeEvent.WithText ->
+                    detailOpener.openCreatePost(
+                        initialText = event.text,
+                        forceCommunitySelection = true,
+                    )
 
-                is ComposeEvent.WithUrl -> detailOpener.openCreatePost(
-                    initialUrl = event.url,
-                    forceCommunitySelection = true,
-                )
+                is ComposeEvent.WithUrl ->
+                    detailOpener.openCreatePost(
+                        initialUrl = event.url,
+                        forceCommunitySelection = true,
+                    )
 
                 else -> Unit
             }
@@ -273,17 +277,19 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             lyricist = l10nManager.lyricist,
         ) {
             CompositionLocalProvider(
-                LocalDensity provides Density(
-                    density = LocalDensity.current.density,
-                    fontScale = uiFontScale,
-                ),
+                LocalDensity provides
+                    Density(
+                        density = LocalDensity.current.density,
+                        fontScale = uiFontScale,
+                    ),
                 LocalLayoutDirection provides l10nState.languageTag.toLanguageDirection(),
             ) {
                 BottomSheetNavigator(
-                    sheetShape = RoundedCornerShape(
-                        topStart = CornerSize.xl,
-                        topEnd = CornerSize.xl,
-                    ),
+                    sheetShape =
+                        RoundedCornerShape(
+                            topStart = CornerSize.xl,
+                            topEnd = CornerSize.xl,
+                        ),
                     sheetBackgroundColor = MaterialTheme.colorScheme.background,
                 ) { bottomNavigator ->
                     navigationCoordinator.setBottomNavigator(bottomNavigator)
@@ -314,11 +320,12 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                         }
 
                         ModalNavigationDrawer(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .onGloballyPositioned {
-                                    screenWidth = it.size.toSize().width
-                                },
+                            modifier =
+                                Modifier
+                                    .fillMaxSize()
+                                    .onGloballyPositioned {
+                                        screenWidth = it.size.toSize().width
+                                    },
                             drawerState = drawerState,
                             gesturesEnabled = drawerGesturesEnabled,
                             drawerContent = {
@@ -329,10 +336,11 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                         ) {
                             if (hasBeenInitialized) {
                                 SlideTransition(
-                                    animationSpec = tween(
-                                        durationMillis = 250,
-                                        easing = FastOutSlowInEasing,
-                                    ),
+                                    animationSpec =
+                                        tween(
+                                            durationMillis = 250,
+                                            easing = FastOutSlowInEasing,
+                                        ),
                                     navigator = navigator,
                                 )
                             }

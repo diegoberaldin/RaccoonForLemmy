@@ -21,25 +21,30 @@ private const val DEFAULT_BASE_PATH = "RaccoonForLemmy"
 class DefaultGalleryHelper(
     private val context: Context,
 ) : GalleryHelper {
-
     override val supportsCustomPath: Boolean = true
 
-    override fun saveToGallery(bytes: ByteArray, name: String, additionalPathSegment: String?): Any? {
-        val relativePath = buildString {
-            append(Environment.DIRECTORY_PICTURES)
-            append("/")
-            append(DEFAULT_BASE_PATH)
-            if (!additionalPathSegment.isNullOrEmpty()) {
+    override fun saveToGallery(
+        bytes: ByteArray,
+        name: String,
+        additionalPathSegment: String?,
+    ): Any? {
+        val relativePath =
+            buildString {
+                append(Environment.DIRECTORY_PICTURES)
                 append("/")
-                append(additionalPathSegment)
+                append(DEFAULT_BASE_PATH)
+                if (!additionalPathSegment.isNullOrEmpty()) {
+                    append("/")
+                    append(additionalPathSegment)
+                }
             }
-        }
         val resolver = context.applicationContext.contentResolver
-        val details = ContentValues().apply {
-            put(MediaStore.Images.Media.DISPLAY_NAME, name)
-            put(MediaStore.Images.Media.IS_PENDING, 1)
-            put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
-        }
+        val details =
+            ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, name)
+                put(MediaStore.Images.Media.IS_PENDING, 1)
+                put(MediaStore.Images.Media.RELATIVE_PATH, relativePath)
+            }
 
         val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, details)
         if (uri != null) {

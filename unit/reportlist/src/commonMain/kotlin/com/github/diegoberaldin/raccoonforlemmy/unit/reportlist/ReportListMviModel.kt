@@ -14,14 +14,19 @@ enum class ReportListSection {
 interface ReportListMviModel :
     MviModel<ReportListMviModel.Intent, ReportListMviModel.UiState, ReportListMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object HapticIndication : Intent
+
         data class ChangeSection(val value: ReportListSection) : Intent
+
         data class ChangeUnresolvedOnly(val value: Boolean) : Intent
+
         data object LoadNextPage : Intent
+
         data object Refresh : Intent
+
         data class ResolvePost(val id: Long) : Intent
+
         data class ResolveComment(val id: Long) : Intent
     }
 

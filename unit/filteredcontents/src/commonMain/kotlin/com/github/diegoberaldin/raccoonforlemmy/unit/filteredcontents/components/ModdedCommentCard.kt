@@ -65,21 +65,22 @@ fun ModdedCommentCard(
     onReply: (() -> Unit)? = null,
 ) {
     Box(
-        modifier = modifier.then(
-            if (postLayout == PostLayout.Card) {
-                Modifier
-                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
-                    .clip(RoundedCornerShape(CornerSize.l))
-                    .padding(horizontal = Spacing.xs)
-                    .background(
-                        color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        shape = RoundedCornerShape(CornerSize.l),
-                    )
-                    .padding(vertical = Spacing.xs)
-            } else {
-                Modifier.background(MaterialTheme.colorScheme.background)
-            },
-        ).clickable(onClick = { onOpen?.invoke() }),
+        modifier =
+            modifier.then(
+                if (postLayout == PostLayout.Card) {
+                    Modifier
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(CornerSize.l))
+                        .clip(RoundedCornerShape(CornerSize.l))
+                        .padding(horizontal = Spacing.xs)
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                            shape = RoundedCornerShape(CornerSize.l),
+                        )
+                        .padding(vertical = Spacing.xs)
+                } else {
+                    Modifier.background(MaterialTheme.colorScheme.background)
+                },
+            ).clickable(onClick = { onOpen?.invoke() }),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -130,11 +131,12 @@ private fun ModdedCommentFooter(
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Column(
-                modifier = Modifier.padding(
-                    start = Spacing.xs,
-                    end = Spacing.xs,
-                    bottom = Spacing.xs,
-                ),
+                modifier =
+                    Modifier.padding(
+                        start = Spacing.xs,
+                        end = Spacing.xs,
+                        bottom = Spacing.xs,
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 postTitle?.also { title ->
@@ -155,17 +157,18 @@ private fun ModdedCommentFooter(
             Spacer(modifier = Modifier.weight(1f))
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .padding(top = Spacing.xxs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsExpanded = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .padding(top = Spacing.xxs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsExpanded = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -177,10 +180,11 @@ private fun ModdedCommentFooter(
             onDismiss = {
                 optionsExpanded = false
             },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
+            offset =
+                DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

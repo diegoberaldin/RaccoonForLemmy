@@ -10,9 +10,13 @@ interface MultiCommunityEditorMviModel :
     ScreenModel {
     sealed interface Intent {
         data class SetName(val value: String) : Intent
+
         data class SetSearch(val value: String) : Intent
+
         data class SelectImage(val index: Int?) : Intent
+
         data class ToggleCommunity(val id: Long) : Intent
+
         data object Submit : Intent
     }
 

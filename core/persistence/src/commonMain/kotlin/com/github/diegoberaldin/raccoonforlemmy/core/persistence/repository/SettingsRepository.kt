@@ -6,14 +6,19 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Stable
 interface SettingsRepository {
-
     val currentSettings: StateFlow<SettingsModel>
 
-    suspend fun createSettings(settings: SettingsModel, accountId: Long)
+    suspend fun createSettings(
+        settings: SettingsModel,
+        accountId: Long,
+    )
 
     suspend fun getSettings(accountId: Long?): SettingsModel
 
-    suspend fun updateSettings(settings: SettingsModel, accountId: Long?)
+    suspend fun updateSettings(
+        settings: SettingsModel,
+        accountId: Long?,
+    )
 
     fun changeCurrentSettings(settings: SettingsModel)
 }

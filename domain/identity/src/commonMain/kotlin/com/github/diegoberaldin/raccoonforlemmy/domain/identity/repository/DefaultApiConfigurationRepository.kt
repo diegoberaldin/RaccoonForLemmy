@@ -17,26 +17,27 @@ internal class DefaultApiConfigurationRepository(
     private val serviceProvider: ServiceProvider,
     private val keyStore: TemporaryKeyStore,
 ) : ApiConfigurationRepository {
-
     private val scope = CoroutineScope(SupervisorJob())
 
     init {
-        val instance = keyStore[KEY_LAST_INSTANCE, ""]
-            .takeIf { it.isNotEmpty() } ?: serviceProvider.currentInstance
+        val instance =
+            keyStore[KEY_LAST_INSTANCE, ""]
+                .takeIf { it.isNotEmpty() } ?: serviceProvider.currentInstance
         changeInstance(instance)
     }
 
-    override val instance = channelFlow {
-        while (isActive) {
-            val value = serviceProvider.currentInstance
-            trySend(value)
-            delay(1_000)
-        }
-    }.distinctUntilChanged().stateIn(
-        scope = scope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = "",
-    )
+    override val instance =
+        channelFlow {
+            while (isActive) {
+                val value = serviceProvider.currentInstance
+                trySend(value)
+                delay(1_000)
+            }
+        }.distinctUntilChanged().stateIn(
+            scope = scope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = "",
+        )
 
     override fun changeInstance(value: String) {
         serviceProvider.changeInstance(value)

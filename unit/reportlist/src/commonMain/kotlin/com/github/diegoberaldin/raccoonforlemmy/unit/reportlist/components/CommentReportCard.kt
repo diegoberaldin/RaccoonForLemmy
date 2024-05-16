@@ -38,10 +38,11 @@ internal fun CommentReportCard(
             Column {
                 report.originalText?.also { text ->
                     PostCardBody(
-                        modifier = Modifier.padding(
-                            vertical = Spacing.xs,
-                            horizontal = Spacing.xs,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                vertical = Spacing.xs,
+                                horizontal = Spacing.xs,
+                            ),
                         text = text,
                         autoLoadImages = autoLoadImages,
                         onOpenImage = onOpenImage,

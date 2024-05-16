@@ -4,8 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DefaultFab
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.FabNestedScrollConnection
 import org.koin.dsl.module
 
-val lemmyUiModule = module {
-    factory<FabNestedScrollConnection> {
-        DefaultFabNestedScrollConnection()
+val lemmyUiModule =
+    module {
+        factory<FabNestedScrollConnection> {
+            DefaultFabNestedScrollConnection()
+        }
     }
-}

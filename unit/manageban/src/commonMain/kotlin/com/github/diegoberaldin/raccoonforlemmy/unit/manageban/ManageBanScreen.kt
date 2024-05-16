@@ -80,11 +80,12 @@ class ManageBanScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            navigationCoordinator.popScreen()
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -103,56 +104,63 @@ class ManageBanScreen : Screen {
                 }
             },
         ) { paddingValues ->
-            val pullRefreshState = rememberPullRefreshState(
-                refreshing = uiState.refreshing,
-                onRefresh = rememberCallback(model) {
-                    model.reduce(ManageBanMviModel.Intent.Refresh)
-                },
-            )
-            Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
+            val pullRefreshState =
+                rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh =
+                        rememberCallback(model) {
+                            model.reduce(ManageBanMviModel.Intent.Refresh)
                         },
-                    ),
-                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-            ) {
-                SectionSelector(
-                    modifier = Modifier.padding(vertical = Spacing.xs),
-                    titles = listOf(
-                        LocalXmlStrings.current.exploreResultTypeUsers,
-                        LocalXmlStrings.current.exploreResultTypeCommunities,
-                        LocalXmlStrings.current.settingsManageBanSectionInstances,
-                    ),
-                    currentSection = when (uiState.section) {
-                        ManageBanSection.Instances -> 2
-                        ManageBanSection.Communities -> 1
-                        else -> 0
-                    },
-                    onSectionSelected = {
-                        val section = when (it) {
-                            2 -> ManageBanSection.Instances
-                            1 -> ManageBanSection.Communities
-                            else -> ManageBanSection.Users
-                        }
-                        model.reduce(ManageBanMviModel.Intent.ChangeSection(section))
-                    },
                 )
-
-                Box(
-                    modifier = Modifier
+            Column(
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
                             },
-                        )
-                        .pullRefresh(pullRefreshState),
+                        ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
+            ) {
+                SectionSelector(
+                    modifier = Modifier.padding(vertical = Spacing.xs),
+                    titles =
+                        listOf(
+                            LocalXmlStrings.current.exploreResultTypeUsers,
+                            LocalXmlStrings.current.exploreResultTypeCommunities,
+                            LocalXmlStrings.current.settingsManageBanSectionInstances,
+                        ),
+                    currentSection =
+                        when (uiState.section) {
+                            ManageBanSection.Instances -> 2
+                            ManageBanSection.Communities -> 1
+                            else -> 0
+                        },
+                    onSectionSelected = {
+                        val section =
+                            when (it) {
+                                2 -> ManageBanSection.Instances
+                                1 -> ManageBanSection.Communities
+                                else -> ManageBanSection.Users
+                            }
+                        model.reduce(ManageBanMviModel.Intent.ChangeSection(section))
+                    },
+                )
+
+                Box(
+                    modifier =
+                        Modifier
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -183,25 +191,28 @@ class ManageBanScreen : Screen {
                                             user = user,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.Unban,
-                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
-                                                )
-                                            },
-                                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                                when (optionId) {
-                                                    OptionId.Unban -> {
-                                                        model.reduce(
-                                                            ManageBanMviModel.Intent.UnblockUser(
-                                                                user.id,
-                                                            ),
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.Unban,
+                                                            LocalXmlStrings.current.settingsManageBanActionUnban,
                                                         )
-                                                    }
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs(model) { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.Unban -> {
+                                                            model.reduce(
+                                                                ManageBanMviModel.Intent.UnblockUser(
+                                                                    user.id,
+                                                                ),
+                                                            )
+                                                        }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     }
                                 }
@@ -230,25 +241,28 @@ class ManageBanScreen : Screen {
                                             community = community,
                                             autoLoadImages = uiState.autoLoadImages,
                                             preferNicknames = uiState.preferNicknames,
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.Unban,
-                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
-                                                )
-                                            },
-                                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                                when (optionId) {
-                                                    OptionId.Unban -> {
-                                                        model.reduce(
-                                                            ManageBanMviModel.Intent.UnblockCommunity(
-                                                                community.id,
-                                                            ),
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.Unban,
+                                                            LocalXmlStrings.current.settingsManageBanActionUnban,
                                                         )
-                                                    }
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs(model) { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.Unban -> {
+                                                            model.reduce(
+                                                                ManageBanMviModel.Intent.UnblockCommunity(
+                                                                    community.id,
+                                                                ),
+                                                            )
+                                                        }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     }
                                 }
@@ -275,25 +289,28 @@ class ManageBanScreen : Screen {
                                     items(uiState.bannedInstances) { instance ->
                                         InstanceItem(
                                             instance = instance,
-                                            options = buildList {
-                                                this += Option(
-                                                    OptionId.Unban,
-                                                    LocalXmlStrings.current.settingsManageBanActionUnban,
-                                                )
-                                            },
-                                            onOptionSelected = rememberCallbackArgs(model) { optionId ->
-                                                when (optionId) {
-                                                    OptionId.Unban -> {
-                                                        model.reduce(
-                                                            ManageBanMviModel.Intent.UnblockInstance(
-                                                                instance.id,
-                                                            ),
+                                            options =
+                                                buildList {
+                                                    this +=
+                                                        Option(
+                                                            OptionId.Unban,
+                                                            LocalXmlStrings.current.settingsManageBanActionUnban,
                                                         )
-                                                    }
+                                                },
+                                            onOptionSelected =
+                                                rememberCallbackArgs(model) { optionId ->
+                                                    when (optionId) {
+                                                        OptionId.Unban -> {
+                                                            model.reduce(
+                                                                ManageBanMviModel.Intent.UnblockInstance(
+                                                                    instance.id,
+                                                                ),
+                                                            )
+                                                        }
 
-                                                    else -> Unit
-                                                }
-                                            },
+                                                        else -> Unit
+                                                    }
+                                                },
                                         )
                                     }
                                 }

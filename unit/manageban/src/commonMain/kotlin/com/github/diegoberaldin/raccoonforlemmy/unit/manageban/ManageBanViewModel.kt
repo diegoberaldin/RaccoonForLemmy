@@ -21,99 +21,99 @@ class ManageBanViewModel(
     DefaultMviModel<ManageBanMviModel.Intent, ManageBanMviModel.UiState, ManageBanMviModel.Effect>(
         initialState = ManageBanMviModel.UiState(),
     ) {
-        init {
-            screenModelScope.launch {
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState {
-                        it.copy(
-                            autoLoadImages = settings.autoLoadImages,
-                            preferNicknames = settings.preferUserNicknames,
-                        )
-                    }
-                }.launchIn(this)
+    init {
+        screenModelScope.launch {
+            settingsRepository.currentSettings.onEach { settings ->
+                updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
+            }.launchIn(this)
 
-                if (uiState.value.initial) {
+            if (uiState.value.initial) {
+                refresh()
+            }
+        }
+    }
+
+    override fun reduce(intent: ManageBanMviModel.Intent) {
+        when (intent) {
+            is ManageBanMviModel.Intent.ChangeSection -> {
+                updateState { it.copy(section = intent.section) }
+            }
+
+            ManageBanMviModel.Intent.Refresh -> {
+                screenModelScope.launch {
                     refresh()
                 }
             }
+
+            is ManageBanMviModel.Intent.UnblockCommunity -> unbanCommunity(intent.id)
+            is ManageBanMviModel.Intent.UnblockInstance -> unbanInstance(intent.id)
+            is ManageBanMviModel.Intent.UnblockUser -> unbanUser(intent.id)
         }
+    }
 
-        override fun reduce(intent: ManageBanMviModel.Intent) {
-            when (intent) {
-                is ManageBanMviModel.Intent.ChangeSection -> {
-                    updateState { it.copy(section = intent.section) }
-                }
-
-                ManageBanMviModel.Intent.Refresh -> {
-                    screenModelScope.launch {
-                        refresh()
-                    }
-                }
-
-                is ManageBanMviModel.Intent.UnblockCommunity -> unbanCommunity(intent.id)
-                is ManageBanMviModel.Intent.UnblockInstance -> unbanInstance(intent.id)
-                is ManageBanMviModel.Intent.UnblockUser -> unbanUser(intent.id)
-            }
+    private suspend fun refresh() {
+        val auth = identityRepository.authToken.value.orEmpty()
+        val bans = siteRepository.getBans(auth)
+        updateState {
+            it.copy(
+                bannedUsers = bans?.users.orEmpty(),
+                bannedCommunities = bans?.communities.orEmpty(),
+                bannedInstances = bans?.instances.orEmpty(),
+                initial = false,
+            )
         }
+    }
 
-        private suspend fun refresh() {
+    private fun unbanUser(id: Long) {
+        screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            val bans = siteRepository.getBans(auth)
-            updateState {
-                it.copy(
-                    bannedUsers = bans?.users.orEmpty(),
-                    bannedCommunities = bans?.communities.orEmpty(),
-                    bannedInstances = bans?.instances.orEmpty(),
-                    initial = false,
+            runCatching {
+                userRepository.block(
+                    id = id,
+                    blocked = false,
+                    auth = auth,
                 )
-            }
-        }
-
-        private fun unbanUser(id: Long) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                runCatching {
-                    userRepository.block(
-                        id = id,
-                        blocked = false,
-                        auth = auth,
-                    )
-                    updateState {
-                        it.copy(bannedUsers = it.bannedUsers.filter { e -> e.id != id })
-                    }
-                }
-            }
-        }
-
-        private fun unbanCommunity(id: Long) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                runCatching {
-                    communityRepository.block(
-                        id = id,
-                        blocked = false,
-                        auth = auth,
-                    )
-                    updateState {
-                        it.copy(bannedCommunities = it.bannedCommunities.filter { e -> e.id != id })
-                    }
-                }
-            }
-        }
-
-        private fun unbanInstance(id: Long) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                runCatching {
-                    siteRepository.block(
-                        id = id,
-                        blocked = false,
-                        auth = auth,
-                    )
-                    updateState {
-                        it.copy(bannedInstances = it.bannedInstances.filter { e -> e.id != id })
-                    }
+                updateState {
+                    it.copy(bannedUsers = it.bannedUsers.filter { e -> e.id != id })
                 }
             }
         }
     }
+
+    private fun unbanCommunity(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            runCatching {
+                communityRepository.block(
+                    id = id,
+                    blocked = false,
+                    auth = auth,
+                )
+                updateState {
+                    it.copy(bannedCommunities = it.bannedCommunities.filter { e -> e.id != id })
+                }
+            }
+        }
+    }
+
+    private fun unbanInstance(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            runCatching {
+                siteRepository.block(
+                    id = id,
+                    blocked = false,
+                    auth = auth,
+                )
+                updateState {
+                    it.copy(bannedInstances = it.bannedInstances.filter { e -> e.id != id })
+                }
+            }
+        }
+    }
+}

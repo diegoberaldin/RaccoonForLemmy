@@ -12,10 +12,15 @@ interface ManageSubscriptionsMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+
         data object HapticIndication : Intent
+
         data class Unsubscribe(val id: Long) : Intent
+
         data class DeleteMultiCommunity(val id: Long) : Intent
+
         data class ToggleFavorite(val id: Long) : Intent
+
         data class SetSearch(val value: String) : Intent
     }
 
@@ -31,6 +36,7 @@ interface ManageSubscriptionsMviModel :
 
     sealed interface Effect {
         data object BackToTop : Effect
+
         data object Success : Effect
     }
 }

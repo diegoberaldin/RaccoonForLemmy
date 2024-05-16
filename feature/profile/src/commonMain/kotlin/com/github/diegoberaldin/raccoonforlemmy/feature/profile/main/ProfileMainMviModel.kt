@@ -7,7 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface ProfileMainMviModel :
     MviModel<ProfileMainMviModel.Intent, ProfileMainMviModel.UiState, ProfileMainMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Logout : Intent
     }

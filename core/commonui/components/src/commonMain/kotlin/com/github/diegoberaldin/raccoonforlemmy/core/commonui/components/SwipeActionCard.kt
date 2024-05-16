@@ -52,42 +52,45 @@ fun SwipeActionCard(
         var secondNotified by remember { mutableStateOf(false) }
         val gestureBeginCallback by rememberUpdatedState(onGestureBegin)
         var lastProgress by remember { mutableStateOf(0.0f) }
-        val dismissState = rememberNoFlingSwipeToDismissBoxState(
-            confirmValueChange = rememberCallbackArgs { value ->
-                when (value) {
-                    SwipeToDismissBoxValue.StartToEnd -> {
-                        val enableSecondAction = swipeToEndActions.size > 1
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
-                            swipeToEndActions.getOrNull(1)?.onTriggered?.invoke()
-                        } else {
-                            swipeToEndActions.firstOrNull()?.onTriggered?.invoke()
-                        }
-                    }
+        val dismissState =
+            rememberNoFlingSwipeToDismissBoxState(
+                confirmValueChange =
+                    rememberCallbackArgs { value ->
+                        when (value) {
+                            SwipeToDismissBoxValue.StartToEnd -> {
+                                val enableSecondAction = swipeToEndActions.size > 1
+                                if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
+                                    swipeToEndActions.getOrNull(1)?.onTriggered?.invoke()
+                                } else {
+                                    swipeToEndActions.firstOrNull()?.onTriggered?.invoke()
+                                }
+                            }
 
-                    SwipeToDismissBoxValue.EndToStart -> {
-                        val enableSecondAction = swipeToStartActions.size > 1
-                        if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
-                            swipeToStartActions.getOrNull(1)?.onTriggered?.invoke()
-                        } else {
-                            swipeToStartActions.firstOrNull()?.onTriggered?.invoke()
-                        }
-                    }
+                            SwipeToDismissBoxValue.EndToStart -> {
+                                val enableSecondAction = swipeToStartActions.size > 1
+                                if (lastProgress >= SECOND_ACTION_THRESHOLD && enableSecondAction && secondNotified) {
+                                    swipeToStartActions.getOrNull(1)?.onTriggered?.invoke()
+                                } else {
+                                    swipeToStartActions.firstOrNull()?.onTriggered?.invoke()
+                                }
+                            }
 
-                    else -> Unit
-                }
-                notified = false
-                secondNotified = false
-                // return false to stay dismissed
-                false
-            },
-        )
+                            else -> Unit
+                        }
+                        notified = false
+                        secondNotified = false
+                        // return false to stay dismissed
+                        false
+                    },
+            )
         LaunchedEffect(dismissState, swipeToEndActions, swipeToEndActions) {
             snapshotFlow { dismissState.progress }.onEach { progress ->
-                val enableSecondAction = when (dismissState.targetValue) {
-                    SwipeToDismissBoxValue.Settled -> false
-                    SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions.size > 1
-                    SwipeToDismissBoxValue.EndToStart -> swipeToStartActions.size > 1
-                }
+                val enableSecondAction =
+                    when (dismissState.targetValue) {
+                        SwipeToDismissBoxValue.Settled -> false
+                        SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions.size > 1
+                        SwipeToDismissBoxValue.EndToStart -> swipeToStartActions.size > 1
+                    }
 
                 if (!enableSecondAction) {
                     when {
@@ -120,27 +123,30 @@ fun SwipeActionCard(
             enableDismissFromEndToStart = swipeToStartActions.isNotEmpty(),
             backgroundContent = {
                 val direction = dismissState.dismissDirection
-                val actions = when (dismissState.targetValue) {
-                    SwipeToDismissBoxValue.Settled -> listOf()
-                    SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions
-                    SwipeToDismissBoxValue.EndToStart -> swipeToStartActions
-                }
+                val actions =
+                    when (dismissState.targetValue) {
+                        SwipeToDismissBoxValue.Settled -> listOf()
+                        SwipeToDismissBoxValue.StartToEnd -> swipeToEndActions
+                        SwipeToDismissBoxValue.EndToStart -> swipeToStartActions
+                    }
                 val enableSecondAction = actions.size > 1
                 val bgColor by animateColorAsState(
-                    targetValue = if (
-                        dismissState.progress < SECOND_ACTION_THRESHOLD ||
-                        dismissState.targetValue == SwipeToDismissBoxValue.Settled ||
-                        !enableSecondAction
-                    ) {
-                        actions.firstOrNull()?.backgroundColor ?: Color.Transparent
-                    } else {
-                        actions.getOrNull(1)?.backgroundColor ?: Color.Transparent
-                    },
+                    targetValue =
+                        if (
+                            dismissState.progress < SECOND_ACTION_THRESHOLD ||
+                            dismissState.targetValue == SwipeToDismissBoxValue.Settled ||
+                            !enableSecondAction
+                        ) {
+                            actions.firstOrNull()?.backgroundColor ?: Color.Transparent
+                        } else {
+                            actions.getOrNull(1)?.backgroundColor ?: Color.Transparent
+                        },
                 )
-                val alignment = when (direction) {
-                    SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
-                    else -> Alignment.CenterEnd
-                }
+                val alignment =
+                    when (direction) {
+                        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+                        else -> Alignment.CenterEnd
+                    }
                 Box(
                     Modifier.fillMaxSize()
                         .background(bgColor)
@@ -180,11 +186,12 @@ private fun rememberNoFlingSwipeToDismissBoxState(
     // instead of LocalDensity.current we use a value that makes velocityThreshold to skyrocket
     val density = Density(Float.POSITIVE_INFINITY)
     return rememberSaveable(
-        saver = SwipeToDismissBoxState.Saver(
-            confirmValueChange = confirmValueChange,
-            density = density,
-            positionalThreshold = positionalThreshold,
-        ),
+        saver =
+            SwipeToDismissBoxState.Saver(
+                confirmValueChange = confirmValueChange,
+                density = density,
+                positionalThreshold = positionalThreshold,
+            ),
     ) {
         SwipeToDismissBoxState(
             initialValue = initialValue,

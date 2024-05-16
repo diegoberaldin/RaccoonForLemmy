@@ -27,71 +27,70 @@ class ManageAccountsViewModel(
     DefaultMviModel<ManageAccountsMviModel.Intent, ManageAccountsMviModel.UiState, ManageAccountsMviModel.Effect>(
         initialState = ManageAccountsMviModel.UiState(),
     ) {
-
-        init {
-            if (uiState.value.accounts.isEmpty()) {
-                screenModelScope.launch {
-                    settingsRepository.currentSettings.onEach { settings ->
-                        updateState {
-                            it.copy(
-                                autoLoadImages = settings.autoLoadImages,
-                                preferNicknames = settings.preferUserNicknames,
-                            )
-                        }
-                    }.launchIn(this)
-
-                    val accounts = accountRepository.getAll()
-                    updateState { it.copy(accounts = accounts) }
-                }
-            }
-        }
-
-        override fun reduce(intent: ManageAccountsMviModel.Intent) {
-            when (intent) {
-                is ManageAccountsMviModel.Intent.SwitchAccount -> {
-                    uiState.value.accounts.getOrNull(intent.index)?.also { account ->
-                        handleSwitchAccount(account)
-                    }
-                }
-
-                is ManageAccountsMviModel.Intent.DeleteAccount -> {
-                    uiState.value.accounts.getOrNull(intent.index)?.also { account ->
-                        if (account.active) {
-                            screenModelScope.launch {
-                                logout()
-                                deleteAccount(account)
-                                close()
-                            }
-                        } else {
-                            screenModelScope.launch {
-                                deleteAccount(account)
-                                updateState {
-                                    it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private fun handleSwitchAccount(account: AccountModel) {
-            if (account.active) {
-                return
-            }
+    init {
+        if (uiState.value.accounts.isEmpty()) {
             screenModelScope.launch {
-                switchAccount(account)
-                notificationCenter.send(NotificationCenterEvent.ResetHome)
-                notificationCenter.send(NotificationCenterEvent.ResetExplore)
-                notificationCenter.send(NotificationCenterEvent.ResetInbox)
+                settingsRepository.currentSettings.onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
 
-                close()
-            }
-        }
-
-        private suspend fun close() {
-            withContext(Dispatchers.Main) {
-                emitEffect(ManageAccountsMviModel.Effect.Close)
+                val accounts = accountRepository.getAll()
+                updateState { it.copy(accounts = accounts) }
             }
         }
     }
+
+    override fun reduce(intent: ManageAccountsMviModel.Intent) {
+        when (intent) {
+            is ManageAccountsMviModel.Intent.SwitchAccount -> {
+                uiState.value.accounts.getOrNull(intent.index)?.also { account ->
+                    handleSwitchAccount(account)
+                }
+            }
+
+            is ManageAccountsMviModel.Intent.DeleteAccount -> {
+                uiState.value.accounts.getOrNull(intent.index)?.also { account ->
+                    if (account.active) {
+                        screenModelScope.launch {
+                            logout()
+                            deleteAccount(account)
+                            close()
+                        }
+                    } else {
+                        screenModelScope.launch {
+                            deleteAccount(account)
+                            updateState {
+                                it.copy(accounts = it.accounts.filter { a -> a.id != account.id })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleSwitchAccount(account: AccountModel) {
+        if (account.active) {
+            return
+        }
+        screenModelScope.launch {
+            switchAccount(account)
+            notificationCenter.send(NotificationCenterEvent.ResetHome)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
+            notificationCenter.send(NotificationCenterEvent.ResetInbox)
+
+            close()
+        }
+    }
+
+    private suspend fun close() {
+        withContext(Dispatchers.Main) {
+            emitEffect(ManageAccountsMviModel.Effect.Close)
+        }
+    }
+}

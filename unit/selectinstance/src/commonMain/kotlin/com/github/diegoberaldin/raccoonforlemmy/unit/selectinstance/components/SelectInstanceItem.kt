@@ -49,16 +49,17 @@ internal fun SelectInstanceItem(
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .onClick(
-                onClick = {
-                    onClick?.invoke()
-                },
-            ).padding(
-                horizontal = Spacing.m,
-                vertical = Spacing.s,
-            ),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .onClick(
+                    onClick = {
+                        onClick?.invoke()
+                    },
+                ).padding(
+                    horizontal = Spacing.m,
+                    vertical = Spacing.s,
+                ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -79,17 +80,18 @@ internal fun SelectInstanceItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier
-                        .size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen = true
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -100,10 +102,11 @@ internal fun SelectInstanceItem(
                     onDismiss = {
                         optionsMenuOpen = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

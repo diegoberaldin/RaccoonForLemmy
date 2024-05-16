@@ -35,9 +35,10 @@ internal fun DrawerCommunityItem(
             val iconSize = IconSize.m
             if (!url.isNullOrEmpty() && autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier
-                        .size(iconSize)
-                        .clip(RoundedCornerShape(iconSize / 2)),
+                    modifier =
+                        Modifier
+                            .size(iconSize)
+                            .clip(RoundedCornerShape(iconSize / 2)),
                     url = url,
                     contentScale = ContentScale.FillBounds,
                 )
@@ -68,18 +69,19 @@ internal fun DrawerCommunityItem(
                 }
             }
         },
-        badge = if (favorite) {
-            @Composable {
-                Icon(
-                    modifier = Modifier.size(IconSize.s),
-                    imageVector = Icons.Default.Star,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onBackground,
-                )
-            }
-        } else {
-            null
-        },
+        badge =
+            if (favorite) {
+                @Composable {
+                    Icon(
+                        modifier = Modifier.size(IconSize.s),
+                        imageVector = Icons.Default.Star,
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
+            } else {
+                null
+            },
         onClick = {
             onSelected?.invoke()
         },

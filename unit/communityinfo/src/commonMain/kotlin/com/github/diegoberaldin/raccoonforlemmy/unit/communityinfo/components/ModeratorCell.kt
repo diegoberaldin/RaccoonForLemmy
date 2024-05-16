@@ -44,15 +44,16 @@ internal fun ModeratorCell(
     ) {
         if (creatorAvatar.isNotEmpty()) {
             CustomImage(
-                modifier = Modifier
-                    .padding(Spacing.xxxs)
-                    .size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2))
-                    .onClick(
-                        onClick = {
-                            onOpenUser?.invoke(user)
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(Spacing.xxxs)
+                        .size(iconSize)
+                        .clip(RoundedCornerShape(iconSize / 2))
+                        .onClick(
+                            onClick = {
+                                onOpenUser?.invoke(user)
+                            },
+                        ),
                 quality = FilterQuality.Low,
                 url = creatorAvatar,
                 autoload = autoLoadImages,
@@ -60,11 +61,12 @@ internal fun ModeratorCell(
             )
         } else {
             PlaceholderImage(
-                modifier = Modifier.onClick(
-                    onClick = {
-                        onOpenUser?.invoke(user)
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        onClick = {
+                            onOpenUser?.invoke(user)
+                        },
+                    ),
                 size = iconSize,
                 title = creatorName,
             )

@@ -11,6 +11,7 @@ interface InboxMessagesMviModel :
     ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
     }
 
@@ -28,6 +29,7 @@ interface InboxMessagesMviModel :
 
     sealed interface Effect {
         data class UpdateUnreadItems(val value: Int) : Effect
+
         data object BackToTop : Effect
     }
 }

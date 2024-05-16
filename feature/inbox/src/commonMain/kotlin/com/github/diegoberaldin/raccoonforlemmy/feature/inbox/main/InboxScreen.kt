@@ -65,21 +65,23 @@ object InboxScreen : Tab {
         val scope = rememberCoroutineScope()
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    scope.launch {
-                                        drawerCoordinator.toggleDrawer()
-                                    }
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        scope.launch {
+                                            drawerCoordinator.toggleDrawer()
+                                        }
+                                    },
+                                ),
                             imageVector = Icons.Default.Menu,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -87,24 +89,26 @@ object InboxScreen : Tab {
                     },
                     title = {
                         Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = Spacing.s)
-                                .onClick(
-                                    onClick = {
-                                        val sheet = InboxTypeSheet()
-                                        navigationCoordinator.showBottomSheet(sheet)
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = Spacing.s)
+                                    .onClick(
+                                        onClick = {
+                                            val sheet = InboxTypeSheet()
+                                            navigationCoordinator.showBottomSheet(sheet)
+                                        },
+                                    ),
                         ) {
                             Text(
                                 text = LocalXmlStrings.current.navigationInbox,
                                 style = MaterialTheme.typography.titleMedium,
                             )
-                            val text = when (uiState.unreadOnly) {
-                                true -> LocalXmlStrings.current.inboxListingTypeUnread
-                                else -> LocalXmlStrings.current.inboxListingTypeAll
-                            }
+                            val text =
+                                when (uiState.unreadOnly) {
+                                    true -> LocalXmlStrings.current.inboxListingTypeUnread
+                                    else -> LocalXmlStrings.current.inboxListingTypeAll
+                                }
                             Text(
                                 text = text,
                                 style = MaterialTheme.typography.titleSmall,
@@ -114,13 +118,14 @@ object InboxScreen : Tab {
                     actions = {
                         if (uiState.isLogged == true) {
                             Image(
-                                modifier = Modifier
-                                    .padding(horizontal = Spacing.xs)
-                                    .onClick(
-                                        onClick = {
-                                            model.reduce(InboxMviModel.Intent.ReadAll)
-                                        },
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .padding(horizontal = Spacing.xs)
+                                        .onClick(
+                                            onClick = {
+                                                model.reduce(InboxMviModel.Intent.ReadAll)
+                                            },
+                                        ),
                                 imageVector = Icons.Default.DoneAll,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -143,76 +148,82 @@ object InboxScreen : Tab {
 
                 true -> {
                     Column(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .then(
-                                if (settings.hideNavigationBarWhileScrolling) {
-                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                                } else {
-                                    Modifier
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(paddingValues)
+                                .then(
+                                    if (settings.hideNavigationBarWhileScrolling) {
+                                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                    } else {
+                                        Modifier
+                                    },
+                                ),
                         verticalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
                         SectionSelector(
                             modifier = Modifier.padding(vertical = Spacing.xs),
-                            titles = listOf(
-                                buildString {
-                                    append(LocalXmlStrings.current.inboxSectionReplies)
-                                    if (uiState.unreadReplies > 0) {
-                                        append(" (")
-                                        append(uiState.unreadReplies)
-                                        append(")")
-                                    }
+                            titles =
+                                listOf(
+                                    buildString {
+                                        append(LocalXmlStrings.current.inboxSectionReplies)
+                                        if (uiState.unreadReplies > 0) {
+                                            append(" (")
+                                            append(uiState.unreadReplies)
+                                            append(")")
+                                        }
+                                    },
+                                    buildString {
+                                        append(LocalXmlStrings.current.inboxSectionMentions)
+                                        if (uiState.unreadMentions > 0) {
+                                            append(" (")
+                                            append(uiState.unreadMentions)
+                                            append(")")
+                                        }
+                                    },
+                                    buildString {
+                                        append(LocalXmlStrings.current.inboxSectionMessages)
+                                        if (uiState.unreadMessages > 0) {
+                                            append(" (")
+                                            append(uiState.unreadMessages)
+                                            append(")")
+                                        }
+                                    },
+                                ),
+                            currentSection =
+                                when (uiState.section) {
+                                    InboxSection.Mentions -> 1
+                                    InboxSection.Messages -> 2
+                                    else -> 0
                                 },
-                                buildString {
-                                    append(LocalXmlStrings.current.inboxSectionMentions)
-                                    if (uiState.unreadMentions > 0) {
-                                        append(" (")
-                                        append(uiState.unreadMentions)
-                                        append(")")
-                                    }
-                                },
-                                buildString {
-                                    append(LocalXmlStrings.current.inboxSectionMessages)
-                                    if (uiState.unreadMessages > 0) {
-                                        append(" (")
-                                        append(uiState.unreadMessages)
-                                        append(")")
-                                    }
-                                },
-                            ),
-                            currentSection = when (uiState.section) {
-                                InboxSection.Mentions -> 1
-                                InboxSection.Messages -> 2
-                                else -> 0
-                            },
                             onSectionSelected = {
-                                val section = when (it) {
-                                    1 -> InboxSection.Mentions
-                                    2 -> InboxSection.Messages
-                                    else -> InboxSection.Replies
-                                }
+                                val section =
+                                    when (it) {
+                                        1 -> InboxSection.Mentions
+                                        2 -> InboxSection.Messages
+                                        else -> InboxSection.Replies
+                                    }
                                 model.reduce(InboxMviModel.Intent.ChangeSection(section))
                             },
                         )
-                        val screens = remember {
-                            listOf(
-                                InboxRepliesScreen(),
-                                InboxMentionsScreen(),
-                                InboxMessagesScreen(),
-                            )
-                        }
+                        val screens =
+                            remember {
+                                listOf(
+                                    InboxRepliesScreen(),
+                                    InboxMentionsScreen(),
+                                    InboxMessagesScreen(),
+                                )
+                            }
                         TabNavigator(screens.first()) {
                             CurrentScreen()
                             val navigator = LocalTabNavigator.current
                             LaunchedEffect(model) {
                                 model.uiState.map { it.section }.onEach { section ->
-                                    val index = when (section) {
-                                        InboxSection.Replies -> 0
-                                        InboxSection.Mentions -> 1
-                                        InboxSection.Messages -> 2
-                                    }
+                                    val index =
+                                        when (section) {
+                                            InboxSection.Replies -> 0
+                                            InboxSection.Mentions -> 1
+                                            InboxSection.Messages -> 2
+                                        }
                                     navigator.current = screens[index]
                                 }.launchIn(this)
                             }

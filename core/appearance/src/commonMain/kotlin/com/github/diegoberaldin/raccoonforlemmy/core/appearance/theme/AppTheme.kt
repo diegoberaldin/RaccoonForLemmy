@@ -18,24 +18,27 @@ fun AppTheme(
     barTheme: UiBarTheme = UiBarTheme.Solid,
     content: @Composable () -> Unit,
 ) {
-    val repository = remember {
-        getThemeRepository()
-    }
+    val repository =
+        remember {
+            getThemeRepository()
+        }
 
     val themeState by repository.uiTheme.collectAsState()
     val customSeedColor by repository.customSeedColor.collectAsState()
-    val defaultTheme = if (isSystemInDarkTheme()) {
-        UiTheme.Dark
-    } else {
-        UiTheme.Light
-    }
+    val defaultTheme =
+        if (isSystemInDarkTheme()) {
+            UiTheme.Dark
+        } else {
+            UiTheme.Light
+        }
 
     val colorSchemeProvider = remember { getColorSchemeProvider() }
-    val colorScheme = colorSchemeProvider.getColorScheme(
-        theme = themeState ?: defaultTheme,
-        dynamic = useDynamicColors,
-        customSeed = customSeedColor,
-    )
+    val colorScheme =
+        colorSchemeProvider.getColorScheme(
+            theme = themeState ?: defaultTheme,
+            dynamic = useDynamicColors,
+            customSeed = customSeedColor,
+        )
 
     val fontFamily by repository.uiFontFamily.collectAsState()
     val typography = fontFamily.toTypography()

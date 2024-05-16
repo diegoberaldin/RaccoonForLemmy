@@ -23,34 +23,36 @@ fun SectionSelector(
     onSectionSelected: (Int) -> Unit,
 ) {
     var isTowardsStart by remember { mutableStateOf(false) }
-    val draggableState = remember {
-        DraggableState { delta ->
-            isTowardsStart = delta > 0
+    val draggableState =
+        remember {
+            DraggableState { delta ->
+                isTowardsStart = delta > 0
+            }
         }
-    }
     TabRow(
         modifier = modifier,
         selectedTabIndex = currentSection,
         tabs = {
             titles.forEachIndexed { i, title ->
                 Tab(
-                    modifier = Modifier.then(
-                        if (draggable) {
-                            Modifier.draggable(
-                                state = draggableState,
-                                orientation = Orientation.Horizontal,
-                                onDragStopped = {
-                                    if (isTowardsStart) {
-                                        onSectionSelected((currentSection - 1).coerceAtLeast(0))
-                                    } else {
-                                        onSectionSelected((currentSection + 1).coerceAtMost(titles.lastIndex))
-                                    }
-                                },
-                            )
-                        } else {
-                            Modifier
-                        },
-                    ),
+                    modifier =
+                        Modifier.then(
+                            if (draggable) {
+                                Modifier.draggable(
+                                    state = draggableState,
+                                    orientation = Orientation.Horizontal,
+                                    onDragStopped = {
+                                        if (isTowardsStart) {
+                                            onSectionSelected((currentSection - 1).coerceAtLeast(0))
+                                        } else {
+                                            onSectionSelected((currentSection + 1).coerceAtMost(titles.lastIndex))
+                                        }
+                                    },
+                                )
+                            } else {
+                                Modifier
+                            },
+                        ),
                     selected = i == currentSection,
                     text = {
                         Text(

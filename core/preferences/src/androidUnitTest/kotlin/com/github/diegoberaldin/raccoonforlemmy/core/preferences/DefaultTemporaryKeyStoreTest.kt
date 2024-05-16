@@ -15,7 +15,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultTemporaryKeyStoreTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

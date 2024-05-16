@@ -62,14 +62,14 @@ class CommunityInfoScreen(
     private val communityName: String = "",
     private val otherInstance: String = "",
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<CommunityInfoMviModel>(
-            tag = communityId.toString(),
-            parameters = { parametersOf(communityId, communityName, otherInstance) },
-        )
+        val model =
+            getScreenModel<CommunityInfoMviModel>(
+                tag = communityId.toString(),
+                parameters = { parametersOf(communityId, communityName, otherInstance) },
+            )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
@@ -82,9 +82,10 @@ class CommunityInfoScreen(
                 val title = uiState.community.readableName(uiState.preferNicknames)
                 TopAppBar(
                     modifier = Modifier.padding(top = Spacing.s),
-                    colors = TopAppBarDefaults.topAppBarColors().copy(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    ),
+                    colors =
+                        TopAppBarDefaults.topAppBarColors().copy(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                        ),
                     title = {
                         Text(
                             text = title,
@@ -94,11 +95,12 @@ class CommunityInfoScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.padding(horizontal = Spacing.xs).onClick(
-                                onClick = {
-                                    navigationCoordinator.closeSideMenu()
-                                },
-                            ),
+                            modifier =
+                                Modifier.padding(horizontal = Spacing.xs).onClick(
+                                    onClick = {
+                                        navigationCoordinator.closeSideMenu()
+                                    },
+                                ),
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -108,14 +110,15 @@ class CommunityInfoScreen(
             },
         ) { paddingValues ->
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(
-                        top = Spacing.s,
-                        start = Spacing.m,
-                        end = Spacing.m,
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(
+                            top = Spacing.s,
+                            start = Spacing.m,
+                            end = Spacing.m,
+                        ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -139,67 +142,74 @@ class CommunityInfoScreen(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.AutoMirrored.Default.Article,
                             title = LocalXmlStrings.current.communityInfoPosts,
-                            value = uiState.community.posts.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.posts.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.AutoMirrored.Default.Reply,
                             title = LocalXmlStrings.current.communityInfoComments,
-                            value = uiState.community.comments.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.comments.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.Group,
                             title = LocalXmlStrings.current.communityInfoSubscribers,
-                            value = uiState.community.subscribers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.subscribers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.CalendarViewMonth,
                             title = LocalXmlStrings.current.communityInfoMonthlyActiveUsers,
-                            value = uiState.community.monthlyActiveUsers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.monthlyActiveUsers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.CalendarViewWeek,
                             title = LocalXmlStrings.current.communityInfoWeeklyActiveUsers,
-                            value = uiState.community.weeklyActiveUsers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.weeklyActiveUsers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                         DetailInfoItem(
                             modifier = Modifier.fillMaxWidth(),
                             icon = Icons.Default.CalendarViewDay,
                             title = LocalXmlStrings.current.communityInfoDailyActiveUsers,
-                            value = uiState.community.dailyActiveUsers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            value =
+                                uiState.community.dailyActiveUsers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                         )
                     }
                 }
                 if (uiState.moderators.isNotEmpty()) {
                     item {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    top = Spacing.s,
-                                    bottom = Spacing.xs,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        top = Spacing.s,
+                                        bottom = Spacing.xs,
+                                    ),
                             text = LocalXmlStrings.current.communityInfoModerators,
                         )
                         LazyRow(
@@ -212,13 +222,14 @@ class CommunityInfoScreen(
                                 ModeratorCell(
                                     autoLoadImages = uiState.autoLoadImages,
                                     user = user,
-                                    onOpenUser = rememberCallbackArgs { _ ->
-                                        navigationCoordinator.closeSideMenu()
-                                        scope.launch {
-                                            delay(100)
-                                            detailOpener.openUserDetail(user, "")
-                                        }
-                                    },
+                                    onOpenUser =
+                                        rememberCallbackArgs { _ ->
+                                            navigationCoordinator.closeSideMenu()
+                                            scope.launch {
+                                                delay(100)
+                                                detailOpener.openUserDetail(user, "")
+                                            }
+                                        },
                                 )
                             }
                         }

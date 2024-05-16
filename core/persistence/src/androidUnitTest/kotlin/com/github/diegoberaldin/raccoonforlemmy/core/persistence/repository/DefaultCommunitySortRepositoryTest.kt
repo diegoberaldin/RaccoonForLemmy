@@ -11,7 +11,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultCommunitySortRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

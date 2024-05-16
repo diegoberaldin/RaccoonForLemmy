@@ -30,9 +30,10 @@ fun UserModel.readableName(preferNickname: Boolean): String {
 }
 
 val UserModel.readableHandle: String
-    get() = buildString {
-        append(name)
-        if (host.isNotEmpty()) {
-            append("@$host")
+    get() =
+        buildString {
+            append(name)
+            if (host.isNotEmpty()) {
+                append("@$host")
+            }
         }
-    }

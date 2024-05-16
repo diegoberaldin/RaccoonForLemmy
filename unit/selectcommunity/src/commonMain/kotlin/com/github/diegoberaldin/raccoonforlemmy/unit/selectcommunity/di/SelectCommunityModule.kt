@@ -4,12 +4,13 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.SelectCommu
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectcommunity.SelectCommunityViewModel
 import org.koin.dsl.module
 
-val selectCommunityModule = module {
-    factory<SelectCommunityMviModel> {
-        SelectCommunityViewModel(
-            identityRepository = get(),
-            communityRepository = get(),
-            settingsRepository = get(),
-        )
+val selectCommunityModule =
+    module {
+        factory<SelectCommunityMviModel> {
+            SelectCommunityViewModel(
+                identityRepository = get(),
+                communityRepository = get(),
+                settingsRepository = get(),
+            )
+        }
     }
-}

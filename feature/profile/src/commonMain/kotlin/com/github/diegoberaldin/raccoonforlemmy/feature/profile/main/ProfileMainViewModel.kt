@@ -15,30 +15,29 @@ class ProfileMainViewModel(
     DefaultMviModel<ProfileMainMviModel.Intent, ProfileMainMviModel.UiState, ProfileMainMviModel.Effect>(
         initialState = ProfileMainMviModel.UiState(),
     ) {
-
-        init {
-            screenModelScope.launch {
-                identityRepository.isLogged.onEach { logged ->
-                    updateState { it.copy(logged = logged) }
-                    if (logged == true) {
-                        val userFromCache = identityRepository.cachedUser
-                        updateState {
-                            it.copy(user = userFromCache)
-                        }
+    init {
+        screenModelScope.launch {
+            identityRepository.isLogged.onEach { logged ->
+                updateState { it.copy(logged = logged) }
+                if (logged == true) {
+                    val userFromCache = identityRepository.cachedUser
+                    updateState {
+                        it.copy(user = userFromCache)
                     }
-                }.launchIn(this)
-            }
-        }
-
-        override fun reduce(intent: ProfileMainMviModel.Intent) {
-            when (intent) {
-                ProfileMainMviModel.Intent.Logout -> handleLogout()
-            }
-        }
-
-        private fun handleLogout() {
-            screenModelScope.launch {
-                logout()
-            }
+                }
+            }.launchIn(this)
         }
     }
+
+    override fun reduce(intent: ProfileMainMviModel.Intent) {
+        when (intent) {
+            ProfileMainMviModel.Intent.Logout -> handleLogout()
+        }
+    }
+
+    private fun handleLogout() {
+        screenModelScope.launch {
+            logout()
+        }
+    }
+}

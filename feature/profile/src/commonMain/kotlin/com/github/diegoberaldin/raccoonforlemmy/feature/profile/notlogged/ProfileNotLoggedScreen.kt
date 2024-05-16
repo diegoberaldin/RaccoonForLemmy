@@ -23,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.LoginBottomSheet
 
 internal object ProfileNotLoggedScreen : Tab {
-
     override val options: TabOptions
         @Composable get() {
             return TabOptions(1u, "")
@@ -39,11 +38,12 @@ internal object ProfileNotLoggedScreen : Tab {
             modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.m),
             verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
-            val message = if (uiState.authError) {
-                LocalXmlStrings.current.messageAuthIssue
-            } else {
-                LocalXmlStrings.current.profileNotLoggedMessage
-            }
+            val message =
+                if (uiState.authError) {
+                    LocalXmlStrings.current.messageAuthIssue
+                } else {
+                    LocalXmlStrings.current.profileNotLoggedMessage
+                }
             Text(text = message)
 
             Spacer(modifier = Modifier.height(Spacing.l))

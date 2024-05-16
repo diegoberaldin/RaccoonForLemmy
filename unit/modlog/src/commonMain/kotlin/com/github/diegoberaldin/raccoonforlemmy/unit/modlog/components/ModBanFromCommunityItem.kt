@@ -31,25 +31,27 @@ internal fun ModBanFromCommunityItem(
         postLayout = postLayout,
         moderator = item.moderator,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.user?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
+        onOpen =
+            rememberCallback {
+                item.user?.also {
+                    onOpenUser?.invoke(it)
+                }
+            },
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                    append(" ")
-                    if (item.banned) {
-                        append(LocalXmlStrings.current.modlogItemUserBanned)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemUserUnbanned)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            val name = item.user?.readableName(preferNicknames).orEmpty()
+                            append(name)
+                        }
+                        append(" ")
+                        if (item.banned) {
+                            append(LocalXmlStrings.current.modlogItemUserBanned)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemUserUnbanned)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

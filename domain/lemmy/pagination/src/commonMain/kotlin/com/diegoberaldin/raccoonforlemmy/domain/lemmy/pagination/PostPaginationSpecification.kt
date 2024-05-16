@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 
 sealed interface PostPaginationSpecification {
-
     data class Listing(
         val listingType: ListingType = ListingType.All,
         val sortType: SortType = SortType.Active,

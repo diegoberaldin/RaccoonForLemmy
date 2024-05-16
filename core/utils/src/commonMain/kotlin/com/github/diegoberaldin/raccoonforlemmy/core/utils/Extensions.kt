@@ -13,101 +13,106 @@ import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
 @Composable
-fun String.toLanguageName() = when (this) {
-    Locales.Ar -> "العربية"
-    Locales.Bg -> "български"
-    Locales.Cs -> "Čeština"
-    Locales.Da -> "Dansk"
-    Locales.De -> "Deutsch"
-    Locales.Ga -> "Gaeilge"
-    Locales.El -> "Ελληνικά"
-    Locales.Eo -> "Esperanto"
-    Locales.Es -> "Español"
-    Locales.Et -> "Eesti"
-    Locales.Fi -> "Suomi"
-    Locales.Fr -> "Français"
-    Locales.Hr -> "Hrvatski"
-    Locales.Hu -> "Magyar"
-    Locales.It -> "Italiano"
-    Locales.Lt -> "Lietuvių"
-    Locales.Lv -> "Latviešu"
-    Locales.Mt -> "Malti"
-    Locales.No -> "Norsk"
-    Locales.Nl -> "Nederlands"
-    Locales.Pl -> "Polski"
-    Locales.Pt -> "Português"
-    Locales.PtBr -> "Português (Brazil)"
-    Locales.Ro -> "Română"
-    Locales.Ru -> "Русский"
-    Locales.Se -> "Svenska"
-    Locales.Sk -> "Slovenčina"
-    Locales.Sl -> "Slovenščina"
-    Locales.Sq -> "Shqip"
-    Locales.Sr -> "Српски"
-    Locales.Tok -> "toki pona"
-    Locales.Tr -> "Türkçe"
-    Locales.Uk -> "Українська"
-    else -> "English"
-}
+fun String.toLanguageName() =
+    when (this) {
+        Locales.Ar -> "العربية"
+        Locales.Bg -> "български"
+        Locales.Cs -> "Čeština"
+        Locales.Da -> "Dansk"
+        Locales.De -> "Deutsch"
+        Locales.Ga -> "Gaeilge"
+        Locales.El -> "Ελληνικά"
+        Locales.Eo -> "Esperanto"
+        Locales.Es -> "Español"
+        Locales.Et -> "Eesti"
+        Locales.Fi -> "Suomi"
+        Locales.Fr -> "Français"
+        Locales.Hr -> "Hrvatski"
+        Locales.Hu -> "Magyar"
+        Locales.It -> "Italiano"
+        Locales.Lt -> "Lietuvių"
+        Locales.Lv -> "Latviešu"
+        Locales.Mt -> "Malti"
+        Locales.No -> "Norsk"
+        Locales.Nl -> "Nederlands"
+        Locales.Pl -> "Polski"
+        Locales.Pt -> "Português"
+        Locales.PtBr -> "Português (Brazil)"
+        Locales.Ro -> "Română"
+        Locales.Ru -> "Русский"
+        Locales.Se -> "Svenska"
+        Locales.Sk -> "Slovenčina"
+        Locales.Sl -> "Slovenščina"
+        Locales.Sq -> "Shqip"
+        Locales.Sr -> "Српски"
+        Locales.Tok -> "toki pona"
+        Locales.Tr -> "Türkçe"
+        Locales.Uk -> "Українська"
+        else -> "English"
+    }
 
 @Composable
-fun String.toLanguageFlag(): AnnotatedString = when (this) {
-    Locales.Ar -> "🇸🇦"
-    Locales.Bg -> "🇧🇬"
-    Locales.Cs -> "🇨🇿"
-    Locales.Da -> "🇩🇰"
-    Locales.De -> "🇩🇪"
-    Locales.El -> "🇬🇷"
-    Locales.En -> "🇬🇧"
-    Locales.Eo -> "🍀"
-    Locales.Es -> "🇪🇸"
-    Locales.Et -> "🇪🇪"
-    Locales.Ga -> "🇮🇪"
-    Locales.Fi -> "🇫🇮"
-    Locales.Fr -> "🇫🇷"
-    Locales.Hu -> "🇭🇺"
-    Locales.Hr -> "🇭🇷"
-    Locales.It -> "🇮🇹"
-    Locales.Lt -> "🇱🇹"
-    Locales.Lv -> "🇱🇻"
-    Locales.Mt -> "🇲🇹"
-    Locales.No -> "🇳🇴"
-    Locales.Nl -> "🇳🇱"
-    Locales.Pl -> "🇵🇱"
-    Locales.Pt -> "🇵🇹"
-    Locales.PtBr -> "🇧🇷️"
-    Locales.Ro -> "🇷🇴"
-    Locales.Ru -> "🇷🇺"
-    Locales.Se -> "🇸🇪"
-    Locales.Sk -> "🇸🇰"
-    Locales.Sl -> "🇸🇮"
-    Locales.Sq -> "🇦🇱"
-    Locales.Sr -> "🇷🇸️"
-    Locales.Tok -> "🦝️"
-    Locales.Tr -> "🇹🇷"
-    Locales.Uk -> "🇺🇦"
-    else -> ""
-}.let {
-    AnnotatedString(
-        text = it,
-        spanStyle = SpanStyle(fontFamily = FontFamily.Default),
-    )
-}
+fun String.toLanguageFlag(): AnnotatedString =
+    when (this) {
+        Locales.Ar -> "🇸🇦"
+        Locales.Bg -> "🇧🇬"
+        Locales.Cs -> "🇨🇿"
+        Locales.Da -> "🇩🇰"
+        Locales.De -> "🇩🇪"
+        Locales.El -> "🇬🇷"
+        Locales.En -> "🇬🇧"
+        Locales.Eo -> "🍀"
+        Locales.Es -> "🇪🇸"
+        Locales.Et -> "🇪🇪"
+        Locales.Ga -> "🇮🇪"
+        Locales.Fi -> "🇫🇮"
+        Locales.Fr -> "🇫🇷"
+        Locales.Hu -> "🇭🇺"
+        Locales.Hr -> "🇭🇷"
+        Locales.It -> "🇮🇹"
+        Locales.Lt -> "🇱🇹"
+        Locales.Lv -> "🇱🇻"
+        Locales.Mt -> "🇲🇹"
+        Locales.No -> "🇳🇴"
+        Locales.Nl -> "🇳🇱"
+        Locales.Pl -> "🇵🇱"
+        Locales.Pt -> "🇵🇹"
+        Locales.PtBr -> "🇧🇷️"
+        Locales.Ro -> "🇷🇴"
+        Locales.Ru -> "🇷🇺"
+        Locales.Se -> "🇸🇪"
+        Locales.Sk -> "🇸🇰"
+        Locales.Sl -> "🇸🇮"
+        Locales.Sq -> "🇦🇱"
+        Locales.Sr -> "🇷🇸️"
+        Locales.Tok -> "🦝️"
+        Locales.Tr -> "🇹🇷"
+        Locales.Uk -> "🇺🇦"
+        else -> ""
+    }.let {
+        AnnotatedString(
+            text = it,
+            spanStyle = SpanStyle(fontFamily = FontFamily.Default),
+        )
+    }
 
-fun String.toLanguageDirection(): LayoutDirection = when (this) {
-    "ar" -> LayoutDirection.Rtl
-    else -> LayoutDirection.Ltr
-}
-
-@Composable
-fun Dp.toLocalPixel(): Float = with(LocalDensity.current) {
-    value * density
-}
+fun String.toLanguageDirection(): LayoutDirection =
+    when (this) {
+        "ar" -> LayoutDirection.Rtl
+        else -> LayoutDirection.Ltr
+    }
 
 @Composable
-fun Float.toLocalDp(): Dp = with(LocalDensity.current) {
-    this@toLocalDp.toDp()
-}
+fun Dp.toLocalPixel(): Float =
+    with(LocalDensity.current) {
+        value * density
+    }
+
+@Composable
+fun Float.toLocalDp(): Dp =
+    with(LocalDensity.current) {
+        this@toLocalDp.toDp()
+    }
 
 fun Int.getPrettyNumber(
     millionLabel: String,
@@ -115,29 +120,32 @@ fun Int.getPrettyNumber(
 ): String {
     val value = this
     return when {
-        value > 1_000_000 -> buildString {
-            val rounded = round((value / 1_000_000.0) * 10) / 10
-            if (rounded % 1 <= 0) {
-                append(rounded.toInt())
-            } else {
-                append(rounded)
+        value > 1_000_000 ->
+            buildString {
+                val rounded = round((value / 1_000_000.0) * 10) / 10
+                if (rounded % 1 <= 0) {
+                    append(rounded.toInt())
+                } else {
+                    append(rounded)
+                }
+                append(millionLabel)
             }
-            append(millionLabel)
-        }
 
-        value > 1_000 -> buildString {
-            val rounded = round((value / 1_000.0) * 10) / 10
-            if (rounded % 1 <= 0) {
-                append(rounded.toInt())
-            } else {
-                append(rounded)
+        value > 1_000 ->
+            buildString {
+                val rounded = round((value / 1_000.0) * 10) / 10
+                if (rounded % 1 <= 0) {
+                    append(rounded.toInt())
+                } else {
+                    append(rounded)
+                }
+                append(thousandLabel)
             }
-            append(thousandLabel)
-        }
 
-        else -> buildString {
-            append(value)
-        }
+        else ->
+            buildString {
+                append(value)
+            }
     }
 }
 
@@ -168,13 +176,17 @@ val String.looksLikeAVideo: Boolean
 
 val String.showInEmbeddedWebView: Boolean
     get() {
-        val patterns = listOf(
-            ".redgifs.com/",
-        )
+        val patterns =
+            listOf(
+                ".redgifs.com/",
+            )
         return patterns.any { this.contains(it) }
     }
 
-fun String?.ellipsize(length: Int = 100, ellipsis: String = "…"): String {
+fun String?.ellipsize(
+    length: Int = 100,
+    ellipsis: String = "…",
+): String {
     if (isNullOrEmpty() || length == 0) {
         return ""
     }

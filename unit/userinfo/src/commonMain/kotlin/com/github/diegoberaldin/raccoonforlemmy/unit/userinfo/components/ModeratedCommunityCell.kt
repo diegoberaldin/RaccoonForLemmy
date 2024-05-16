@@ -44,15 +44,16 @@ internal fun ModeratedCommunityCell(
     ) {
         if (icon.isNotEmpty()) {
             CustomImage(
-                modifier = Modifier
-                    .padding(Spacing.xxxs)
-                    .size(iconSize)
-                    .clip(RoundedCornerShape(iconSize / 2))
-                    .onClick(
-                        onClick = {
-                            onOpenCommunity?.invoke(community)
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(Spacing.xxxs)
+                        .size(iconSize)
+                        .clip(RoundedCornerShape(iconSize / 2))
+                        .onClick(
+                            onClick = {
+                                onOpenCommunity?.invoke(community)
+                            },
+                        ),
                 quality = FilterQuality.Low,
                 url = icon,
                 autoload = autoLoadImages,
@@ -60,11 +61,12 @@ internal fun ModeratedCommunityCell(
             )
         } else {
             PlaceholderImage(
-                modifier = Modifier.onClick(
-                    onClick = {
-                        onOpenCommunity?.invoke(community)
-                    },
-                ),
+                modifier =
+                    Modifier.onClick(
+                        onClick = {
+                            onOpenCommunity?.invoke(community)
+                        },
+                    ),
                 size = iconSize,
                 title = name,
             )

@@ -24,13 +24,14 @@ internal fun SettingsMultiColorRow(
     onTap: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier
-            .padding(vertical = Spacing.s, horizontal = Spacing.m)
-            .onClick(
-                onClick = {
-                    onTap?.invoke()
-                },
-            ),
+        modifier =
+            modifier
+                .padding(vertical = Spacing.s, horizontal = Spacing.m)
+                .onClick(
+                    onClick = {
+                        onTap?.invoke()
+                    },
+                ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
@@ -50,9 +51,10 @@ internal fun SettingsMultiColorRow(
             }
         }
         MultiColorPreview(
-            modifier = Modifier
-                .padding(start = Spacing.xs)
-                .size(36.dp),
+            modifier =
+                Modifier
+                    .padding(start = Spacing.xs)
+                    .size(36.dp),
             colors = values,
         )
     }

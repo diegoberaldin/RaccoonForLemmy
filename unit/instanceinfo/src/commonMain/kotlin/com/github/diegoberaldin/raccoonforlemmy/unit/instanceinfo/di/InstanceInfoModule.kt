@@ -4,15 +4,16 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoMv
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoViewModel
 import org.koin.dsl.module
 
-val instanceInfoModule = module {
-    factory<InstanceInfoMviModel> {
-        InstanceInfoViewModel(
-            url = it[0],
-            siteRepository = get(),
-            communityRepository = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
-            getSortTypesUseCase = get(),
-        )
+val instanceInfoModule =
+    module {
+        factory<InstanceInfoMviModel> {
+            InstanceInfoViewModel(
+                url = it[0],
+                siteRepository = get(),
+                communityRepository = get(),
+                settingsRepository = get(),
+                notificationCenter = get(),
+                getSortTypesUseCase = get(),
+            )
+        }
     }
-}

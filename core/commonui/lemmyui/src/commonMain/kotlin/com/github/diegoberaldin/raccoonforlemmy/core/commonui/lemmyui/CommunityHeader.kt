@@ -67,17 +67,20 @@ fun CommunityHeader(
                     contentDescription = null,
                 )
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
-                                    Color.Transparent,
-                                    MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
-                                ),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(
+                                brush =
+                                    Brush.horizontalGradient(
+                                        colors =
+                                            listOf(
+                                                MaterialTheme.colorScheme.background.copy(alpha = 0.95f),
+                                                Color.Transparent,
+                                                MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
+                                            ),
+                                    ),
                             ),
-                        ),
                 )
             }
         }
@@ -92,15 +95,16 @@ fun CommunityHeader(
             // avatar
             if (communityIcon.isNotEmpty() && autoLoadImages) {
                 CustomImage(
-                    modifier = Modifier
-                        .padding(Spacing.xxxs)
-                        .size(IconSize.xxl)
-                        .clip(RoundedCornerShape(IconSize.xxl / 2))
-                        .onClick(
-                            onClick = {
-                                onOpenImage?.invoke(communityIcon)
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .padding(Spacing.xxxs)
+                            .size(IconSize.xxl)
+                            .clip(RoundedCornerShape(IconSize.xxl / 2))
+                            .onClick(
+                                onClick = {
+                                    onOpenImage?.invoke(communityIcon)
+                                },
+                            ),
                     url = communityIcon,
                     quality = FilterQuality.Low,
                     contentScale = ContentScale.FillBounds,
@@ -144,10 +148,11 @@ fun CommunityHeader(
                             contentDescription = null,
                         )
                         Text(
-                            text = community.subscribers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            text =
+                                community.subscribers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -159,10 +164,11 @@ fun CommunityHeader(
                             contentDescription = null,
                         )
                         Text(
-                            text = community.monthlyActiveUsers.getPrettyNumber(
-                                thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                millionLabel = LocalXmlStrings.current.profileMillionShort,
-                            ),
+                            text =
+                                community.monthlyActiveUsers.getPrettyNumber(
+                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -172,10 +178,11 @@ fun CommunityHeader(
 
                     if (onInfo != null) {
                         Icon(
-                            modifier = Modifier
-                                .padding(end = Spacing.s)
-                                .size(iconSize)
-                                .onClick(onClick = onInfo),
+                            modifier =
+                                Modifier
+                                    .padding(end = Spacing.s)
+                                    .size(iconSize)
+                                    .onClick(onClick = onInfo),
                             imageVector = Icons.Default.Info,
                             contentDescription = null,
                         )

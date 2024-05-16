@@ -69,7 +69,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 object ModalDrawerContent : Tab {
-
     override val options: TabOptions
         @Composable get() {
             return TabOptions(0u, "")
@@ -86,14 +85,18 @@ object ModalDrawerContent : Tab {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val focusManager = LocalFocusManager.current
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
+        val keyboardScrollConnection =
+            remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(
+                        available: Offset,
+                        source: NestedScrollSource,
+                    ): Offset {
+                        focusManager.clearFocus()
+                        return Offset.Zero
+                    }
                 }
             }
-        }
 
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         LaunchedEffect(themeRepository) {
@@ -118,34 +121,39 @@ object ModalDrawerContent : Tab {
                 user = uiState.user,
                 instance = uiState.instance,
                 autoLoadImages = uiState.autoLoadImages,
-                onOpenChangeInstance = rememberCallback(model) {
-                    navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
-                },
+                onOpenChangeInstance =
+                    rememberCallback(model) {
+                        navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
+                    },
                 onOpenSwitchAccount = {
                     navigationCoordinator.showBottomSheet(ManageAccountsScreen())
                 },
             )
 
             HorizontalDivider(
-                modifier = Modifier
-                    .padding(
-                        top = Spacing.s,
-                        bottom = Spacing.s,
-                    ),
+                modifier =
+                    Modifier
+                        .padding(
+                            top = Spacing.s,
+                            bottom = Spacing.s,
+                        ),
             )
 
             if (uiState.user != null) {
-                val pullRefreshState = rememberPullRefreshState(
-                    refreshing = uiState.refreshing,
-                    onRefresh = rememberCallback(model) {
-                        model.reduce(ModalDrawerMviModel.Intent.Refresh)
-                    },
-                )
+                val pullRefreshState =
+                    rememberPullRefreshState(
+                        refreshing = uiState.refreshing,
+                        onRefresh =
+                            rememberCallback(model) {
+                                model.reduce(ModalDrawerMviModel.Intent.Refresh)
+                            },
+                    )
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .nestedScroll(keyboardScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .nestedScroll(keyboardScrollConnection)
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
@@ -153,42 +161,46 @@ object ModalDrawerContent : Tab {
                     ) {
                         item {
                             TextField(
-                                modifier = Modifier
-                                    .scale(0.95f)
-                                    .padding(
-                                        horizontal = Spacing.xxs,
-                                        vertical = Spacing.xxs,
-                                    ).fillMaxWidth(),
+                                modifier =
+                                    Modifier
+                                        .scale(0.95f)
+                                        .padding(
+                                            horizontal = Spacing.xxs,
+                                            vertical = Spacing.xxs,
+                                        ).fillMaxWidth(),
                                 label = {
                                     Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                                 },
                                 singleLine = true,
                                 value = uiState.searchText,
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Search,
-                                ),
+                                keyboardOptions =
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Search,
+                                    ),
                                 onValueChange = { value ->
                                     model.reduce(ModalDrawerMviModel.Intent.SetSearch(value))
                                 },
                                 trailingIcon = {
                                     Icon(
-                                        modifier = Modifier.onClick(
-                                            onClick = {
-                                                if (uiState.searchText.isNotEmpty()) {
-                                                    model.reduce(
-                                                        ModalDrawerMviModel.Intent.SetSearch(
-                                                            "",
-                                                        ),
-                                                    )
-                                                }
+                                        modifier =
+                                            Modifier.onClick(
+                                                onClick = {
+                                                    if (uiState.searchText.isNotEmpty()) {
+                                                        model.reduce(
+                                                            ModalDrawerMviModel.Intent.SetSearch(
+                                                                "",
+                                                            ),
+                                                        )
+                                                    }
+                                                },
+                                            ),
+                                        imageVector =
+                                            if (uiState.searchText.isEmpty()) {
+                                                Icons.Default.Search
+                                            } else {
+                                                Icons.Default.Clear
                                             },
-                                        ),
-                                        imageVector = if (uiState.searchText.isEmpty()) {
-                                            Icons.Default.Search
-                                        } else {
-                                            Icons.Default.Clear
-                                        },
                                         contentDescription = null,
                                     )
                                 },
@@ -196,25 +208,27 @@ object ModalDrawerContent : Tab {
                         }
 
                         if (!uiState.isFiltering) {
-                            val listingTypes = listOf(
-                                ListingType.Subscribed,
-                                ListingType.All,
-                                ListingType.Local,
-                            )
+                            val listingTypes =
+                                listOf(
+                                    ListingType.Subscribed,
+                                    ListingType.All,
+                                    ListingType.Local,
+                                )
                             for (listingType in listingTypes) {
                                 item {
                                     DrawerShortcut(
                                         title = listingType.toReadableName(),
                                         icon = listingType.toIcon(),
-                                        onSelected = rememberCallback(coordinator) {
-                                            scope.launch {
-                                                focusManager.clearFocus()
-                                                coordinator.toggleDrawer()
-                                                coordinator.sendEvent(
-                                                    DrawerEvent.ChangeListingType(listingType),
-                                                )
-                                            }
-                                        },
+                                        onSelected =
+                                            rememberCallback(coordinator) {
+                                                scope.launch {
+                                                    focusManager.clearFocus()
+                                                    coordinator.toggleDrawer()
+                                                    coordinator.sendEvent(
+                                                        DrawerEvent.ChangeListingType(listingType),
+                                                    )
+                                                }
+                                            },
                                     )
                                 }
                             }

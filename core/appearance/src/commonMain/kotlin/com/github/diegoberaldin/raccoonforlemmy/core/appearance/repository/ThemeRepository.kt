@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Stable
 interface ThemeRepository {
-
     val uiTheme: StateFlow<UiTheme?>
     val uiFontFamily: StateFlow<UiFontFamily>
     val uiFontScale: StateFlow<Float>
@@ -40,7 +39,10 @@ interface ThemeRepository {
 
     fun changeDynamicColors(value: Boolean)
 
-    fun getCommentBarColor(depth: Int, commentBarTheme: CommentBarTheme): Color
+    fun getCommentBarColor(
+        depth: Int,
+        commentBarTheme: CommentBarTheme,
+    ): Color
 
     fun changeCustomSeedColor(color: Color?)
 
@@ -49,6 +51,7 @@ interface ThemeRepository {
     fun changeDownVoteColor(color: Color?)
 
     fun changeReplyColor(color: Color?)
+
     fun changeSaveColor(color: Color?)
 
     fun changePostLayout(value: PostLayout)

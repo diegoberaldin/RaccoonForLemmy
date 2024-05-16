@@ -36,21 +36,21 @@ class SelectActionOnSwipeBottomSheet(
     private val direction: ActionOnSwipeDirection,
     private val target: ActionOnSwipeTarget,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.selectActionTitle)
@@ -60,24 +60,25 @@ class SelectActionOnSwipeBottomSheet(
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ActionsOnSwipeSelected(
-                                            value = value,
-                                            direction = direction,
-                                            target = target,
-                                        ),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ActionsOnSwipeSelected(
+                                                value = value,
+                                                direction = direction,
+                                                target = target,
+                                            ),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                     ) {
                         Text(
                             text = value.toReadableName(),

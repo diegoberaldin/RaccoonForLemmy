@@ -10,7 +10,6 @@ import kotlinx.coroutines.withContext
 internal class DefaultMultiCommunityRepository(
     provider: DatabaseProvider,
 ) : MultiCommunityRepository {
-
     private val db = provider.getDatabase()
 
     override suspend fun getAll(accountId: Long): List<MultiCommunityModel> =
@@ -24,7 +23,10 @@ internal class DefaultMultiCommunityRepository(
             db.multicommunitiesQueries.getById(id).executeAsOneOrNull()?.toModel()
         }
 
-    override suspend fun create(model: MultiCommunityModel, accountId: Long): Long =
+    override suspend fun create(
+        model: MultiCommunityModel,
+        accountId: Long,
+    ): Long =
         withContext(Dispatchers.IO) {
             db.multicommunitiesQueries.create(
                 name = model.name,
@@ -32,8 +34,9 @@ internal class DefaultMultiCommunityRepository(
                 communityIds = model.communityIds.joinToString(","),
                 account_id = accountId,
             )
-            val id = db.multicommunitiesQueries.getBy(name = model.name, account_id = accountId)
-                .executeAsOneOrNull()?.id
+            val id =
+                db.multicommunitiesQueries.getBy(name = model.name, account_id = accountId)
+                    .executeAsOneOrNull()?.id
             id ?: 0L
         }
 
@@ -53,13 +56,15 @@ internal class DefaultMultiCommunityRepository(
         }
 }
 
-private fun MultiCommunityEntity.toModel() = MultiCommunityModel(
-    id = id,
-    name = name,
-    icon = icon,
-    communityIds = communityIds
-        .split(",")
-        .map { it.trim() }
-        .filter { it.isNotEmpty() }
-        .map { it.toLong() },
-)
+private fun MultiCommunityEntity.toModel() =
+    MultiCommunityModel(
+        id = id,
+        name = name,
+        icon = icon,
+        communityIds =
+            communityIds
+                .split(",")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .map { it.toLong() },
+    )

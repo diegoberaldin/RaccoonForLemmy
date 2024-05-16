@@ -4,12 +4,13 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstan
 import com.github.diegoberaldin.raccoonforlemmy.unit.selectinstance.SelectInstanceViewModel
 import org.koin.dsl.module
 
-val selectInstanceModule = module {
-    factory<SelectInstanceMviModel> {
-        SelectInstanceViewModel(
-            instanceRepository = get(),
-            communityRepository = get(),
-            apiConfigurationRepository = get(),
-        )
+val selectInstanceModule =
+    module {
+        factory<SelectInstanceMviModel> {
+            SelectInstanceViewModel(
+                instanceRepository = get(),
+                communityRepository = get(),
+                apiConfigurationRepository = get(),
+            )
+        }
     }
-}

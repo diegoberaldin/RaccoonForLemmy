@@ -4,8 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.DefaultZom
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.ZombieModeHelper
 import org.koin.dsl.module
 
-val utilsModule = module {
-    factory<ZombieModeHelper> {
-        DefaultZombieModeHelper()
+val utilsModule =
+    module {
+        factory<ZombieModeHelper> {
+            DefaultZombieModeHelper()
+        }
     }
-}

@@ -7,19 +7,20 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.messages.di.inboxMessagesMo
 import com.github.diegoberaldin.raccoonforlemmy.unit.replies.di.inboxRepliesModule
 import org.koin.dsl.module
 
-val inboxTabModule = module {
-    includes(
-        inboxRepliesModule,
-        inboxMessagesModule,
-        inboxMentionsModule,
-    )
-    factory<InboxMviModel> {
-        InboxViewModel(
-            identityRepository = get(),
-            userRepository = get(),
-            coordinator = get(),
-            settingsRepository = get(),
-            notificationCenter = get(),
+val inboxTabModule =
+    module {
+        includes(
+            inboxRepliesModule,
+            inboxMessagesModule,
+            inboxMentionsModule,
         )
+        factory<InboxMviModel> {
+            InboxViewModel(
+                identityRepository = get(),
+                userRepository = get(),
+                coordinator = get(),
+                settingsRepository = get(),
+                notificationCenter = get(),
+            )
+        }
     }
-}

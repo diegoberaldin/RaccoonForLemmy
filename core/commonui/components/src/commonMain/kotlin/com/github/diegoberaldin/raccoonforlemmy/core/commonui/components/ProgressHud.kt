@@ -16,9 +16,10 @@ fun ProgressHud(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(overlayColor),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(overlayColor),
         contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(

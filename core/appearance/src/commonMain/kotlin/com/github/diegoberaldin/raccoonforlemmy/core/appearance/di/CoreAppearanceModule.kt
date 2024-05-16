@@ -5,8 +5,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.Theme
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val coreAppearanceModule = module {
-    includes(nativeAppearanceModule)
+val coreAppearanceModule =
+    module {
+        includes(nativeAppearanceModule)
 
-    singleOf<ThemeRepository>(::DefaultThemeRepository)
-}
+        singleOf<ThemeRepository>(::DefaultThemeRepository)
+    }

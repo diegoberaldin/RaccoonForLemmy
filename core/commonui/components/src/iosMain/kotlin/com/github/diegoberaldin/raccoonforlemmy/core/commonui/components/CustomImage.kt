@@ -42,10 +42,11 @@ actual fun CustomImage(
         contentAlignment = Alignment.Center,
     ) {
         if (shouldBeRendered) {
-            val painterResource = asyncPainterResource(
-                data = url,
-                filterQuality = quality,
-            )
+            val painterResource =
+                asyncPainterResource(
+                    data = url,
+                    filterQuality = quality,
+                )
             KamelImage(
                 modifier = Modifier.fillMaxSize(),
                 resource = painterResource,

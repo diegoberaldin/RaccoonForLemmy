@@ -43,10 +43,11 @@ fun NumberPickerDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .imePadding()
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(Spacing.s),
+            modifier =
+                Modifier
+                    .imePadding()
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
@@ -58,17 +59,19 @@ fun NumberPickerDialog(
             Spacer(modifier = Modifier.height(Spacing.s))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                    ),
                 textStyle = MaterialTheme.typography.bodyMedium,
                 value = currentValue,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.NumberPassword,
-                    autoCorrect = true,
-                ),
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = KeyboardType.NumberPassword,
+                        autoCorrect = true,
+                    ),
                 onValueChange = { value ->
                     currentValue = value
                 },

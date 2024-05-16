@@ -46,7 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 class VoteThemeBottomSheet(
     val actionType: Int,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -58,77 +57,83 @@ class VoteThemeBottomSheet(
         val defaultDownvoteColor = MaterialTheme.colorScheme.tertiary
 
         Column(
-            modifier = Modifier.padding(
-                top = Spacing.s,
-                start = Spacing.s,
-                end = Spacing.s,
-                bottom = Spacing.m,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.s,
+                    start = Spacing.s,
+                    end = Spacing.s,
+                    bottom = Spacing.m,
+                ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            val title = when (actionType) {
-                3 -> LocalXmlStrings.current.settingsSaveColor
-                2 -> LocalXmlStrings.current.settingsReplyColor
-                1 -> LocalXmlStrings.current.settingsDownvoteColor
-                else -> LocalXmlStrings.current.settingsUpvoteColor
-            }
+            val title =
+                when (actionType) {
+                    3 -> LocalXmlStrings.current.settingsSaveColor
+                    2 -> LocalXmlStrings.current.settingsReplyColor
+                    1 -> LocalXmlStrings.current.settingsDownvoteColor
+                    else -> LocalXmlStrings.current.settingsUpvoteColor
+                }
             BottomSheetHeader(title)
 
             val customText = LocalXmlStrings.current.settingsColorCustom
-            val values: List<CommentBarTheme?> = listOf(
-                CommentBarTheme.Blue,
-                CommentBarTheme.Green,
-                CommentBarTheme.Red,
-                CommentBarTheme.Rainbow,
-                null,
-                null,
-            )
+            val values: List<CommentBarTheme?> =
+                listOf(
+                    CommentBarTheme.Blue,
+                    CommentBarTheme.Green,
+                    CommentBarTheme.Red,
+                    CommentBarTheme.Rainbow,
+                    null,
+                    null,
+                )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 values.forEachIndexed { idx, value ->
-                    val text = if (idx == values.lastIndex) {
-                        LocalXmlStrings.current.buttonReset
-                    } else {
-                        value.toReadableName()
-                    }
+                    val text =
+                        if (idx == values.lastIndex) {
+                            LocalXmlStrings.current.buttonReset
+                        } else {
+                            value.toReadableName()
+                        }
                     val isChooseCustom = text == customText
                     Row(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        ).fillMaxWidth().onClick(
-                            onClick = {
-                                if (!isChooseCustom) {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeActionColor(
-                                            color = when (actionType) {
-                                                3 -> {
-                                                    value?.toSaveColor() ?: defaultReplyColor
-                                                }
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            ).fillMaxWidth().onClick(
+                                onClick = {
+                                    if (!isChooseCustom) {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeActionColor(
+                                                color =
+                                                    when (actionType) {
+                                                        3 -> {
+                                                            value?.toSaveColor() ?: defaultReplyColor
+                                                        }
 
-                                                2 -> {
-                                                    value?.toReplyColor() ?: defaultReplyColor
-                                                }
+                                                        2 -> {
+                                                            value?.toReplyColor() ?: defaultReplyColor
+                                                        }
 
-                                                1 -> {
-                                                    value?.toDownVoteColor() ?: defaultDownvoteColor
-                                                }
+                                                        1 -> {
+                                                            value?.toDownVoteColor() ?: defaultDownvoteColor
+                                                        }
 
-                                                else -> {
-                                                    value?.toUpVoteColor() ?: defaultUpvoteColor
-                                                }
-                                            },
-                                            actionType = actionType,
-                                        ),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                } else {
-                                    customPickerDialogOpened = true
-                                }
-                            },
-                        ),
+                                                        else -> {
+                                                            value?.toUpVoteColor() ?: defaultUpvoteColor
+                                                        }
+                                                    },
+                                                actionType = actionType,
+                                            ),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    } else {
+                                        customPickerDialogOpened = true
+                                    }
+                                },
+                            ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -140,17 +145,19 @@ class VoteThemeBottomSheet(
 
                         if (!isChooseCustom) {
                             Box(
-                                modifier = Modifier
-                                    .size(36.dp)
-                                    .background(
-                                        color = when (actionType) {
-                                            3 -> value.toSaveColor()
-                                            2 -> value.toReplyColor()
-                                            1 -> value.toDownVoteColor()
-                                            else -> value.toUpVoteColor()
-                                        },
-                                        shape = CircleShape,
-                                    ),
+                                modifier =
+                                    Modifier
+                                        .size(36.dp)
+                                        .background(
+                                            color =
+                                                when (actionType) {
+                                                    3 -> value.toSaveColor()
+                                                    2 -> value.toReplyColor()
+                                                    1 -> value.toDownVoteColor()
+                                                    else -> value.toUpVoteColor()
+                                                },
+                                            shape = CircleShape,
+                                        ),
                             )
                         } else {
                             Image(
@@ -165,23 +172,24 @@ class VoteThemeBottomSheet(
         }
 
         if (customPickerDialogOpened) {
-            val current = when (actionType) {
-                3 -> {
-                    settingsRepository.currentSettings.value.saveColor?.let { Color(it) }
-                }
+            val current =
+                when (actionType) {
+                    3 -> {
+                        settingsRepository.currentSettings.value.saveColor?.let { Color(it) }
+                    }
 
-                2 -> {
-                    settingsRepository.currentSettings.value.replyColor?.let { Color(it) }
-                }
+                    2 -> {
+                        settingsRepository.currentSettings.value.replyColor?.let { Color(it) }
+                    }
 
-                1 -> {
-                    settingsRepository.currentSettings.value.downVoteColor?.let { Color(it) }
-                }
+                    1 -> {
+                        settingsRepository.currentSettings.value.downVoteColor?.let { Color(it) }
+                    }
 
-                else -> {
-                    settingsRepository.currentSettings.value.upVoteColor?.let { Color(it) }
+                    else -> {
+                        settingsRepository.currentSettings.value.upVoteColor?.let { Color(it) }
+                    }
                 }
-            }
             ColorPickerDialog(
                 initialValue = current ?: MaterialTheme.colorScheme.primary,
                 onClose = {

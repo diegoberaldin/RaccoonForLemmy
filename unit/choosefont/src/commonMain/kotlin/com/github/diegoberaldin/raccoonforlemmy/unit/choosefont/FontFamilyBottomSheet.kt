@@ -27,18 +27,18 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotific
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.getCoreResources
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
-private val defaultChoices: List<Int> = listOf(
-    UiFontFamily.Poppins,
-    UiFontFamily.NotoSans,
-    UiFontFamily.CharisSIL,
-    UiFontFamily.Default,
-).map { it.toInt() }
+private val defaultChoices: List<Int> =
+    listOf(
+        UiFontFamily.Poppins,
+        UiFontFamily.NotoSans,
+        UiFontFamily.CharisSIL,
+        UiFontFamily.Default,
+    ).map { it.toInt() }
 
 class FontFamilyBottomSheet(
     private val values: List<Int> = defaultChoices,
     private val content: Boolean = false,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -46,13 +46,14 @@ class FontFamilyBottomSheet(
         val coreResources = remember { getCoreResources() }
 
         Column(
-            modifier = Modifier
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.settingsUiFontFamily)
@@ -63,35 +64,39 @@ class FontFamilyBottomSheet(
                 for (value in values) {
                     val family = value.toUiFontFamily()
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event = if (content) {
-                                        NotificationCenterEvent.ChangeContentFontFamily(family)
-                                    } else {
-                                        NotificationCenterEvent.ChangeFontFamily(family)
-                                    }
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event =
+                                            if (content) {
+                                                NotificationCenterEvent.ChangeContentFontFamily(family)
+                                            } else {
+                                                NotificationCenterEvent.ChangeFontFamily(family)
+                                            }
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                     ) {
-                        val fontFamily = when (family) {
-                            UiFontFamily.NotoSans -> coreResources.notoSans
-                            UiFontFamily.CharisSIL -> coreResources.charisSil
-                            UiFontFamily.Poppins -> coreResources.poppins
-                            else -> FontFamily.Default
-                        }
+                        val fontFamily =
+                            when (family) {
+                                UiFontFamily.NotoSans -> coreResources.notoSans
+                                UiFontFamily.CharisSIL -> coreResources.charisSil
+                                UiFontFamily.Poppins -> coreResources.poppins
+                                else -> FontFamily.Default
+                            }
                         Text(
                             text = family.toReadableName(),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                fontFamily = fontFamily,
-                            ),
+                            style =
+                                MaterialTheme.typography.bodyLarge.copy(
+                                    fontFamily = fontFamily,
+                                ),
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     }

@@ -22,16 +22,17 @@ fun IndicatorChip(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .border(
-                color = MaterialTheme.colorScheme.onBackground,
-                width = Dp.Hairline,
-                shape = RoundedCornerShape(CornerSize.m),
-            )
-            .padding(
-                vertical = Spacing.xxxs,
-                horizontal = Spacing.xs,
-            ),
+        modifier =
+            modifier
+                .border(
+                    color = MaterialTheme.colorScheme.onBackground,
+                    width = Dp.Hairline,
+                    shape = RoundedCornerShape(CornerSize.m),
+                )
+                .padding(
+                    vertical = Spacing.xxxs,
+                    horizontal = Spacing.xs,
+                ),
         contentAlignment = Alignment.Center,
     ) {
         Text(

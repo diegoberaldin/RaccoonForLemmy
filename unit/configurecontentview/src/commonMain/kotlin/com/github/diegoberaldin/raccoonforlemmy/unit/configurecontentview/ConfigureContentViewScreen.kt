@@ -65,9 +65,10 @@ class ConfigureContentViewScreen : Screen {
         val scrollState = rememberScrollState()
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -81,11 +82,12 @@ class ConfigureContentViewScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            navigationCoordinator.popScreen()
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -96,9 +98,10 @@ class ConfigureContentViewScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .nestedScroll(scrollBehavior.nestedScrollConnection),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
@@ -113,46 +116,51 @@ class ConfigureContentViewScreen : Screen {
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsContentFontFamily,
                         value = uiState.contentFontFamily.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontFamilyBottomSheet(content = true)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = FontFamilyBottomSheet(content = true)
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // content font scale
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsTitleFontScale,
                         value = uiState.contentFontScale.title.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Title)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Title)
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsContentFontScale,
                         value = uiState.contentFontScale.body.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Body)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Body)
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsCommentFontScale,
                         value = uiState.contentFontScale.comment.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet =
-                                FontScaleBottomSheet(contentClass = ContentFontClass.Comment)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    FontScaleBottomSheet(contentClass = ContentFontClass.Comment)
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsAncillaryFontScale,
                         value = uiState.contentFontScale.ancillary.toFontScale().toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet =
-                                FontScaleBottomSheet(contentClass = ContentFontClass.AncillaryText)
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    FontScaleBottomSheet(contentClass = ContentFontClass.AncillaryText)
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     SettingsHeader(
@@ -164,25 +172,28 @@ class ConfigureContentViewScreen : Screen {
                     SettingsRow(
                         title = LocalXmlStrings.current.settingsPostLayout,
                         value = uiState.postLayout.toReadableName(),
-                        onTap = rememberCallback {
-                            val sheet = PostLayoutBottomSheet()
-                            navigationCoordinator.showBottomSheet(sheet)
-                        },
+                        onTap =
+                            rememberCallback {
+                                val sheet = PostLayoutBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
                     )
 
                     // body max lines in full layout
                     if (uiState.postLayout == PostLayout.Full) {
                         SettingsRow(
                             title = LocalXmlStrings.current.settingsPostBodyMaxLines,
-                            value = if (uiState.postBodyMaxLines == null) {
-                                LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
-                            } else {
-                                uiState.postBodyMaxLines.toString()
-                            },
-                            onTap = rememberCallback {
-                                val screen = PostBodyMaxLinesBottomSheet()
-                                navigationCoordinator.showBottomSheet(screen)
-                            },
+                            value =
+                                if (uiState.postBodyMaxLines == null) {
+                                    LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
+                                } else {
+                                    uiState.postBodyMaxLines.toString()
+                                },
+                            onTap =
+                                rememberCallback {
+                                    val screen = PostBodyMaxLinesBottomSheet()
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
                         )
                     }
 
@@ -190,33 +201,36 @@ class ConfigureContentViewScreen : Screen {
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsPreferUserNicknames,
                         value = uiState.preferUserNicknames,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames(value),
-                            )
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    ConfigureContentViewMviModel.Intent.ChangePreferUserNicknames(value),
+                                )
+                            },
                     )
 
                     // full height images
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsFullHeightImages,
                         value = uiState.fullHeightImages,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value),
-                            )
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    ConfigureContentViewMviModel.Intent.ChangeFullHeightImages(value),
+                                )
+                            },
                     )
 
                     // full width images
                     SettingsSwitchRow(
                         title = LocalXmlStrings.current.settingsFullWidthImages,
                         value = uiState.fullWidthImages,
-                        onValueChanged = rememberCallbackArgs(model) { value ->
-                            model.reduce(
-                                ConfigureContentViewMviModel.Intent.ChangeFullWidthImages(value),
-                            )
-                        },
+                        onValueChanged =
+                            rememberCallbackArgs(model) { value ->
+                                model.reduce(
+                                    ConfigureContentViewMviModel.Intent.ChangeFullWidthImages(value),
+                                )
+                            },
                     )
 
                     // vote format
@@ -233,24 +247,28 @@ class ConfigureContentViewScreen : Screen {
                     SettingsIntValueRow(
                         title = LocalXmlStrings.current.settingsCommentBarThickness,
                         value = uiState.commentBarThickness,
-                        onIncrement = rememberCallback(model) {
-                            model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentBarThickness)
-                        },
-                        onDecrement = rememberCallback(model) {
-                            model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentBarThickness)
-                        },
+                        onIncrement =
+                            rememberCallback(model) {
+                                model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentBarThickness)
+                            },
+                        onDecrement =
+                            rememberCallback(model) {
+                                model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentBarThickness)
+                            },
                     )
 
                     // comment indent amount
                     SettingsIntValueRow(
                         title = LocalXmlStrings.current.settingsCommentIndentAmount,
                         value = uiState.commentIndentAmount,
-                        onIncrement = rememberCallback(model) {
-                            model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentIndentAmount)
-                        },
-                        onDecrement = rememberCallback(model) {
-                            model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentIndentAmount)
-                        },
+                        onIncrement =
+                            rememberCallback(model) {
+                                model.reduce(ConfigureContentViewMviModel.Intent.IncrementCommentIndentAmount)
+                            },
+                        onDecrement =
+                            rememberCallback(model) {
+                                model.reduce(ConfigureContentViewMviModel.Intent.DecrementCommentIndentAmount)
+                            },
                     )
 
                     SettingsHeader(
@@ -268,7 +286,6 @@ class ConfigureContentViewScreen : Screen {
                         fullWidthImage = uiState.fullWidthImages,
                         commentBarThickness = uiState.commentBarThickness,
                         commentIndentAmount = uiState.commentIndentAmount,
-
                     )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))

@@ -4,8 +4,9 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialogMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialogViewModel
 import org.koin.dsl.module
 
-val aboutModule = module {
-    factory<AboutDialogMviModel> {
-        AboutDialogViewModel()
+val aboutModule =
+    module {
+        factory<AboutDialogMviModel> {
+            AboutDialogViewModel()
+        }
     }
-}

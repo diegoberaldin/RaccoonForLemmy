@@ -32,14 +32,15 @@ class InboxTypeSheet : Screen {
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.inboxListingTypeTitle)
@@ -48,20 +49,21 @@ class InboxTypeSheet : Screen {
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
             ) {
                 Row(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                        .fillMaxWidth()
-                        .onClick(
-                            onClick = {
-                                notificationCenter.send(
-                                    NotificationCenterEvent.ChangeInboxType(true),
-                                )
-                                navigationCoordinator.hideBottomSheet()
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                            .fillMaxWidth()
+                            .onClick(
+                                onClick = {
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeInboxType(true),
+                                    )
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
@@ -71,19 +73,20 @@ class InboxTypeSheet : Screen {
                     )
                 }
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        ).onClick(
-                            onClick = {
-                                notificationCenter.send(
-                                    NotificationCenterEvent.ChangeInboxType(false),
-                                )
-                                navigationCoordinator.hideBottomSheet()
-                            },
-                        ),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            ).onClick(
+                                onClick = {
+                                    notificationCenter.send(
+                                        NotificationCenterEvent.ChangeInboxType(false),
+                                    )
+                                    navigationCoordinator.hideBottomSheet()
+                                },
+                            ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(

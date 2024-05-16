@@ -3,7 +3,6 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 sealed class ModlogItem(
     val type: ModlogItemType,
 ) {
-
     abstract val id: Long
     abstract val date: String?
 

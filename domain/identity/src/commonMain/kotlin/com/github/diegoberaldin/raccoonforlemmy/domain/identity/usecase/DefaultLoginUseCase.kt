@@ -19,7 +19,6 @@ internal class DefaultLoginUseCase(
     private val siteRepository: SiteRepository,
     private val communitySortRepository: CommunitySortRepository,
 ) : LoginUseCase {
-
     override suspend operator fun invoke(
         instance: String,
         username: String,
@@ -29,11 +28,12 @@ internal class DefaultLoginUseCase(
         val oldInstance = apiConfigurationRepository.instance.value
         apiConfigurationRepository.changeInstance(instance)
 
-        val response = authRepository.login(
-            username = username,
-            password = password,
-            totp2faToken = totp2faToken,
-        )
+        val response =
+            authRepository.login(
+                username = username,
+                password = password,
+                totp2faToken = totp2faToken,
+            )
         return response.onFailure {
             logDebug("Login failure: ${it.message}")
         }.mapCatching {
@@ -47,27 +47,30 @@ internal class DefaultLoginUseCase(
             identityRepository.storeToken(auth)
             identityRepository.refreshLoggedState()
 
-            val account = AccountModel(
-                username = username,
-                instance = instance,
-                jwt = auth,
-            )
-            val existingId = accountRepository.getBy(username, instance)?.id
-            val id = existingId ?: run {
-                // new account with a copy of the anonymous settings
-                // (except a couple of fields from the Lemmy accounts)
-                val res = accountRepository.createAccount(account)
-                val anonymousSettings = settingsRepository.getSettings(null)
-                    .copy(
-                        showScores = accountSettings?.showScores ?: true,
-                        includeNsfw = accountSettings?.showNsfw ?: false,
-                    )
-                settingsRepository.createSettings(
-                    settings = anonymousSettings,
-                    accountId = res,
+            val account =
+                AccountModel(
+                    username = username,
+                    instance = instance,
+                    jwt = auth,
                 )
-                res
-            }
+            val existingId = accountRepository.getBy(username, instance)?.id
+            val id =
+                existingId ?: run {
+                    // new account with a copy of the anonymous settings
+                    // (except a couple of fields from the Lemmy accounts)
+                    val res = accountRepository.createAccount(account)
+                    val anonymousSettings =
+                        settingsRepository.getSettings(null)
+                            .copy(
+                                showScores = accountSettings?.showScores ?: true,
+                                includeNsfw = accountSettings?.showNsfw ?: false,
+                            )
+                    settingsRepository.createSettings(
+                        settings = anonymousSettings,
+                        accountId = res,
+                    )
+                    res
+                }
             val oldActiveAccountId = accountRepository.getActive()?.id
             if (oldActiveAccountId != null) {
                 accountRepository.setActive(oldActiveAccountId, false)

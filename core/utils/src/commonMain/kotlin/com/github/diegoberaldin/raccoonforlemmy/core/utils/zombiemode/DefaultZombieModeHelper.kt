@@ -17,15 +17,19 @@ internal class DefaultZombieModeHelper : ZombieModeHelper {
     private var delayInterval: Duration = 2.5.seconds
     private var job: Job? = null
 
-    override fun start(initialValue: Int, interval: Duration) {
+    override fun start(
+        initialValue: Int,
+        interval: Duration,
+    ) {
         index.value = initialValue
         delayInterval = interval
-        job = scope.launch {
-            while (isActive) {
-                delay(delayInterval)
-                index.update { (it + 1).coerceAtLeast(0) }
+        job =
+            scope.launch {
+                while (isActive) {
+                    delay(delayInterval)
+                    index.update { (it + 1).coerceAtLeast(0) }
+                }
             }
-        }
     }
 
     override fun pause() {

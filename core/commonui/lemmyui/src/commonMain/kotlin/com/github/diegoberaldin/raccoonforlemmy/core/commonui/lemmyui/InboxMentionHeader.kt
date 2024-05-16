@@ -29,52 +29,55 @@ fun InboxCardHeader(
 ) {
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
-    val header = buildAnnotatedString {
-        withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
-            append(mention.creator.name)
-        }
-        append(" ")
-        withStyle(SpanStyle(color = ancillaryColor)) {
-            when (type) {
-                InboxCardType.Mention -> {
-                    append(LocalXmlStrings.current.inboxItemMention)
-                }
+    val header =
+        buildAnnotatedString {
+            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
+                append(mention.creator.name)
+            }
+            append(" ")
+            withStyle(SpanStyle(color = ancillaryColor)) {
+                when (type) {
+                    InboxCardType.Mention -> {
+                        append(LocalXmlStrings.current.inboxItemMention)
+                    }
 
-                InboxCardType.Reply -> {
-                    if (mention.isCommentReply) {
-                        append(LocalXmlStrings.current.inboxItemReplyComment)
-                    } else {
-                        append(LocalXmlStrings.current.inboxItemReplyPost)
+                    InboxCardType.Reply -> {
+                        if (mention.isCommentReply) {
+                            append(LocalXmlStrings.current.inboxItemReplyComment)
+                        } else {
+                            append(LocalXmlStrings.current.inboxItemReplyPost)
+                        }
                     }
                 }
-            }
 
-            append(" ")
-            withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
-                append(mention.post.title)
+                append(" ")
+                withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = fullColor)) {
+                    append(mention.post.title)
+                }
             }
         }
-    }
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            modifier = Modifier
-                .weight(1f)
-                .padding(
-                    vertical = Spacing.xs,
-                    horizontal = Spacing.xs,
-                ),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .padding(
+                        vertical = Spacing.xs,
+                        horizontal = Spacing.xs,
+                    ),
             text = header,
             style = MaterialTheme.typography.bodySmall,
             color = fullColor,
         )
         if (!mention.read) {
             Icon(
-                modifier = Modifier
-                    .padding(end = Spacing.s)
-                    .size(IconSize.xs),
+                modifier =
+                    Modifier
+                        .padding(end = Spacing.s)
+                        .size(IconSize.xs),
                 imageVector = Icons.Filled.FiberManualRecord,
                 contentDescription = null,
                 tint = ancillaryColor,

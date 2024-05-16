@@ -4,15 +4,16 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.messages.InboxMessagesMviMo
 import com.github.diegoberaldin.raccoonforlemmy.unit.messages.InboxMessagesViewModel
 import org.koin.dsl.module
 
-val inboxMessagesModule = module {
-    factory<InboxMessagesMviModel> {
-        InboxMessagesViewModel(
-            identityRepository = get(),
-            siteRepository = get(),
-            messageRepository = get(),
-            coordinator = get(),
-            notificationCenter = get(),
-            settingsRepository = get(),
-        )
+val inboxMessagesModule =
+    module {
+        factory<InboxMessagesMviModel> {
+            InboxMessagesViewModel(
+                identityRepository = get(),
+                siteRepository = get(),
+                messageRepository = get(),
+                coordinator = get(),
+                notificationCenter = get(),
+                settingsRepository = get(),
+            )
+        }
     }
-}

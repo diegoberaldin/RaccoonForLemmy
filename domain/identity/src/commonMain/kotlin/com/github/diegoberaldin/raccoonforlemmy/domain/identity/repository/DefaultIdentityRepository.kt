@@ -16,21 +16,21 @@ internal class DefaultIdentityRepository(
     private val networkManager: NetworkManager,
     private val userRepository: UserRepository,
 ) : IdentityRepository {
-
     override val authToken = MutableStateFlow<String?>(null)
     override val isLogged = MutableStateFlow<Boolean?>(null)
     override var cachedUser: UserModel? = null
         private set
 
-    override suspend fun startup() = withContext(Dispatchers.IO) {
-        val account = accountRepository.getActive()
-        if (account != null) {
-            authToken.value = account.jwt
-        } else {
-            authToken.value = ""
+    override suspend fun startup() =
+        withContext(Dispatchers.IO) {
+            val account = accountRepository.getActive()
+            if (account != null) {
+                authToken.value = account.jwt
+            } else {
+                authToken.value = ""
+            }
+            refreshLoggedState()
         }
-        refreshLoggedState()
-    }
 
     override fun storeToken(jwt: String) {
         authToken.value = jwt
@@ -42,29 +42,32 @@ internal class DefaultIdentityRepository(
         isLogged.value = false
     }
 
-    override suspend fun refreshLoggedState() = withContext(Dispatchers.IO) {
-        val auth = authToken.value.orEmpty()
-        isLogged.value = null
-        if (auth.isNotEmpty()) {
-            val newIsLogged = if (networkManager.isNetworkAvailable()) {
-                refreshCachedUser(auth)
-                cachedUser != null
+    override suspend fun refreshLoggedState() =
+        withContext(Dispatchers.IO) {
+            val auth = authToken.value.orEmpty()
+            isLogged.value = null
+            if (auth.isNotEmpty()) {
+                val newIsLogged =
+                    if (networkManager.isNetworkAvailable()) {
+                        refreshCachedUser(auth)
+                        cachedUser != null
+                    } else {
+                        null
+                    }
+                isLogged.value = newIsLogged
             } else {
-                null
+                isLogged.value = false
             }
-            isLogged.value = newIsLogged
-        } else {
-            isLogged.value = false
         }
-    }
 
     private suspend fun refreshCachedUser(auth: String) {
-        val remoteUser = siteRepository.getCurrentUser(auth)?.let { user ->
-            val communities = userRepository.getModeratedCommunities(auth, id = user.id)
-            user.copy(
-                moderator = communities.isNotEmpty(),
-            )
-        }
+        val remoteUser =
+            siteRepository.getCurrentUser(auth)?.let { user ->
+                val communities = userRepository.getModeratedCommunities(auth, id = user.id)
+                user.copy(
+                    moderator = communities.isNotEmpty(),
+                )
+            }
         cachedUser = remoteUser
     }
 }

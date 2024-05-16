@@ -47,9 +47,10 @@ internal fun ChangeInstanceDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(Spacing.s),
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
@@ -59,22 +60,24 @@ internal fun ChangeInstanceDialog(
                 color = MaterialTheme.colorScheme.onBackground,
             )
             TextField(
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                ),
+                colors =
+                    TextFieldDefaults.colors(
+                        focusedContainerColor = Color.Transparent,
+                        unfocusedContainerColor = Color.Transparent,
+                        disabledContainerColor = Color.Transparent,
+                    ),
                 label = {
                     Text(text = LocalXmlStrings.current.loginFieldInstanceName)
                 },
                 singleLine = true,
                 value = instanceName,
                 isError = instanceNameError != null,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
-                    autoCorrect = false,
-                    imeAction = ImeAction.Next,
-                ),
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        autoCorrect = false,
+                        imeAction = ImeAction.Next,
+                    ),
                 onValueChange = { value ->
                     onChangeInstanceName?.invoke(value)
                 },
@@ -89,11 +92,12 @@ internal fun ChangeInstanceDialog(
                 trailingIcon = {
                     if (instanceName.isNotEmpty()) {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    onChangeInstanceName?.invoke("")
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        onChangeInstanceName?.invoke("")
+                                    },
+                                ),
                             imageVector = Icons.Default.Clear,
                             contentDescription = null,
                         )

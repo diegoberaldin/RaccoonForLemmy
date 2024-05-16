@@ -6,6 +6,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ColorSchem
 import org.koin.core.module.Module
 
 expect val nativeAppearanceModule: Module
+
 expect fun getThemeRepository(): ThemeRepository
+
 expect fun getColorSchemeProvider(): ColorSchemeProvider
+
 expect fun getBarColorProvider(): BarColorProvider

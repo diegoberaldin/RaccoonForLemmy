@@ -31,21 +31,23 @@ internal fun ModTransferCommunityItem(
         postLayout = postLayout,
         moderator = item.moderator,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.user?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
+        onOpen =
+            rememberCallback {
+                item.user?.also {
+                    onOpenUser?.invoke(it)
+                }
+            },
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    append(LocalXmlStrings.current.modlogItemCommunityTransfer)
-                    append(" ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        append(LocalXmlStrings.current.modlogItemCommunityTransfer)
+                        append(" ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            val name = item.user?.readableName(preferNicknames).orEmpty()
+                            append(name)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

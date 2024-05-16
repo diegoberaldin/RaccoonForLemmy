@@ -86,9 +86,11 @@ internal fun ContentPreview(
 }
 
 private object ContentPreviewData {
-    val post = PostModel(
-        title = "Post title",
-        text = """
+    val post =
+        PostModel(
+            title = "Post title",
+            text =
+                """
 Lorem ipsum **dolor** sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 Ut enim ad minim veniam, quis *nostrud* exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat:
@@ -96,67 +98,75 @@ Ut enim ad minim veniam, quis *nostrud* exercitation ullamco laboris nisi ut ali
 - in reprehenderit in voluptate
 
 velit esse cillum dolore eu fugiat nulla pariatur.
-        """.trimIndent(),
-        thumbnailUrl = "https://feddit.it/pictrs/image/4c6be082-0bf1-4095-b1cd-5fba8b602832.webp?format=webp&thumbnail=256",
-        url = "https://github.com/diegoberaldin/RaccoonForLemmy",
-        publishDate = "2024-01-01T12:00:00Z",
-        upvotes = 2,
-        downvotes = 1,
-        score = 1,
-        comments = 1,
-        community = CommunityModel(
-            name = "somecommunity",
-            title = "Some Community",
-            host = "example.com",
-        ),
-        creator = UserModel(
-            name = "johndoe",
-            host = "example.com",
-            displayName = "John Doe",
-        ),
-    )
+                """.trimIndent(),
+            thumbnailUrl = "https://feddit.it/pictrs/image/4c6be082-0bf1-4095-b1cd-5fba8b602832.webp?format=webp&thumbnail=256",
+            url = "https://github.com/diegoberaldin/RaccoonForLemmy",
+            publishDate = "2024-01-01T12:00:00Z",
+            upvotes = 2,
+            downvotes = 1,
+            score = 1,
+            comments = 1,
+            community =
+                CommunityModel(
+                    name = "somecommunity",
+                    title = "Some Community",
+                    host = "example.com",
+                ),
+            creator =
+                UserModel(
+                    name = "johndoe",
+                    host = "example.com",
+                    displayName = "John Doe",
+                ),
+        )
 
-    val comment1 = CommentModel(
-        text = "Excepteur sint occaecat cupidatat non proident.",
-        publishDate = "2024-01-02T12:00:00Z",
-        path = "0.1",
-        creator = UserModel(
-            name = "marysmith",
-            host = "example.com",
-            displayName = "Mary Smith",
-        ),
-        upvotes = 2,
-        downvotes = 1,
-        score = 1,
-        comments = 2,
-    )
+    val comment1 =
+        CommentModel(
+            text = "Excepteur sint occaecat cupidatat non proident.",
+            publishDate = "2024-01-02T12:00:00Z",
+            path = "0.1",
+            creator =
+                UserModel(
+                    name = "marysmith",
+                    host = "example.com",
+                    displayName = "Mary Smith",
+                ),
+            upvotes = 2,
+            downvotes = 1,
+            score = 1,
+            comments = 2,
+        )
 
-    val comment2 = CommentModel(
-        text = "Sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        publishDate = "2024-01-03T12:00:00Z",
-        path = "0.1.2",
-        creator = UserModel(
-            name = "johndoe",
-            host = "example.com",
-            displayName = "John Doe",
-        ),
-        upvotes = 2,
-        downvotes = 1,
-        score = 1,
-        comments = 1,
-    )
-    val comment3 = CommentModel(
-        text = "Praesent sed congue leo, at hendrerit lorem.",
-        publishDate = "2024-01-03T12:00:00Z",
-        path = "0.1.2.3",
-        creator = UserModel(
-            name = "marysmith",
-            host = "example.com",
-            displayName = "Mary Smith",
-        ),
-        upvotes = 1,
-        downvotes = -2,
-        score = -1,
-        comments = 0,
-    )
+    val comment2 =
+        CommentModel(
+            text = "Sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            publishDate = "2024-01-03T12:00:00Z",
+            path = "0.1.2",
+            creator =
+                UserModel(
+                    name = "johndoe",
+                    host = "example.com",
+                    displayName = "John Doe",
+                ),
+            upvotes = 2,
+            downvotes = 1,
+            score = 1,
+            comments = 1,
+        )
+    val comment3 =
+        CommentModel(
+            text = "Praesent sed congue leo, at hendrerit lorem.",
+            publishDate = "2024-01-03T12:00:00Z",
+            path = "0.1.2.3",
+            creator =
+                UserModel(
+                    name = "marysmith",
+                    host = "example.com",
+                    displayName = "Mary Smith",
+                ),
+            upvotes = 1,
+            downvotes = -2,
+            score = -1,
+            comments = 0,
+        )
 }

@@ -29,37 +29,40 @@ actual fun VideoPlayer(
     onPlaybackStarted: (() -> Unit)?,
 ) {
     val context = LocalContext.current
-    val exoPlayer = remember {
-        ExoPlayer.Builder(context)
-            .build()
-            .apply {
-                val defaultDataSourceFactory = DefaultDataSource.Factory(context)
-                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
-                    context,
-                    defaultDataSourceFactory,
-                )
-                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(url))
-                setMediaSource(source)
+    val exoPlayer =
+        remember {
+            ExoPlayer.Builder(context)
+                .build()
+                .apply {
+                    val defaultDataSourceFactory = DefaultDataSource.Factory(context)
+                    val dataSourceFactory: DataSource.Factory =
+                        DefaultDataSource.Factory(
+                            context,
+                            defaultDataSourceFactory,
+                        )
+                    val source =
+                        ProgressiveMediaSource.Factory(dataSourceFactory)
+                            .createMediaSource(MediaItem.fromUri(url))
+                    setMediaSource(source)
 
-                addListener(
-                    object : Player.Listener {
-                        override fun onPlaybackStateChanged(playbackState: Int) {
-                            super.onPlaybackStateChanged(playbackState)
-                            if (playbackState == PlaybackState.STATE_PLAYING) {
-                                onPlaybackStarted?.invoke()
+                    addListener(
+                        object : Player.Listener {
+                            override fun onPlaybackStateChanged(playbackState: Int) {
+                                super.onPlaybackStateChanged(playbackState)
+                                if (playbackState == PlaybackState.STATE_PLAYING) {
+                                    onPlaybackStarted?.invoke()
+                                }
                             }
-                        }
-                    },
-                )
-                prepare()
-            }.apply {
-                playWhenReady = true
-                videoScalingMode = C.VIDEO_SCALING_MODE_DEFAULT
-                repeatMode = Player.REPEAT_MODE_ONE
-                volume = 0f
-            }
-    }
+                        },
+                    )
+                    prepare()
+                }.apply {
+                    playWhenReady = true
+                    videoScalingMode = C.VIDEO_SCALING_MODE_DEFAULT
+                    repeatMode = Player.REPEAT_MODE_ONE
+                    volume = 0f
+                }
+        }
 
     AndroidView(
         modifier = modifier,

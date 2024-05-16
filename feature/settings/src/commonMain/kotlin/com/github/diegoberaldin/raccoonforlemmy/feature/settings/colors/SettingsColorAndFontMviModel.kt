@@ -10,7 +10,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 interface SettingsColorAndFontMviModel :
     MviModel<SettingsColorAndFontMviModel.Intent, SettingsColorAndFontMviModel.UiState, SettingsColorAndFontMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class ChangeDynamicColors(val value: Boolean) : Intent
     }

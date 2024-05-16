@@ -17,35 +17,38 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class DefaultAuthRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 
     private val authService = mockk<AuthService>()
-    private val serviceProvider = mockk<ServiceProvider>(relaxUnitFun = true) {
-        every { auth } returns authService
-    }
+    private val serviceProvider =
+        mockk<ServiceProvider>(relaxUnitFun = true) {
+            every { auth } returns authService
+        }
 
-    private val sut = DefaultAuthRepository(
-        services = serviceProvider,
-    )
+    private val sut =
+        DefaultAuthRepository(
+            services = serviceProvider,
+        )
 
     @Test
-    fun whenLogin_thenResultIsAsExpected() = runTest {
-        val loginData = LoginResponse(token = "", registrationCreated = false, verifyEmailSent = true)
-        val fakeResponse = mockk<Response<LoginResponse>> {
-            every { isSuccessful } returns true
-            every { body() } returns loginData
-        }
-        coEvery { authService.login(any()) } returns fakeResponse
-        val res = sut.login("username", "password")
+    fun whenLogin_thenResultIsAsExpected() =
+        runTest {
+            val loginData = LoginResponse(token = "", registrationCreated = false, verifyEmailSent = true)
+            val fakeResponse =
+                mockk<Response<LoginResponse>> {
+                    every { isSuccessful } returns true
+                    every { body() } returns loginData
+                }
+            coEvery { authService.login(any()) } returns fakeResponse
+            val res = sut.login("username", "password")
 
-        assertTrue(res.isSuccess)
+            assertTrue(res.isSuccess)
 
-        val resultData = res.getOrThrow()
-        assertEquals(loginData, resultData)
-        coVerify {
-            authService.login(LoginForm("username", "password"))
+            val resultData = res.getOrThrow()
+            assertEquals(loginData, resultData)
+            coVerify {
+                authService.login(LoginForm("username", "password"))
+            }
         }
-    }
 }

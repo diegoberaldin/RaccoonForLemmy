@@ -33,17 +33,18 @@ internal fun ModRemovePostItem(
         onOpenUser = onOpenUser,
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        append(item.post?.title.ellipsize())
-                    }
-                    append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemPostRemoved)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemPostRestored)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            append(item.post?.title.ellipsize())
+                        }
+                        append(" ")
+                        if (item.removed) {
+                            append(LocalXmlStrings.current.modlogItemPostRemoved)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemPostRestored)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

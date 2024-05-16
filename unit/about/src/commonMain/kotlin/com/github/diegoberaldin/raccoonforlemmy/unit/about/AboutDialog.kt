@@ -46,7 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.licences.LicencesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
 class AboutDialog : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -67,9 +66,10 @@ class AboutDialog : Screen {
             },
         ) {
             Column(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colorScheme.surface)
-                    .padding(vertical = Spacing.s),
+                modifier =
+                    Modifier
+                        .background(color = MaterialTheme.colorScheme.surface)
+                        .padding(vertical = Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
@@ -79,9 +79,10 @@ class AboutDialog : Screen {
                 )
                 Spacer(modifier = Modifier.height(Spacing.s))
                 LazyColumn(
-                    modifier = Modifier
-                        .padding(vertical = Spacing.s, horizontal = Spacing.m)
-                        .heightIn(max = 400.dp),
+                    modifier =
+                        Modifier
+                            .padding(vertical = Spacing.s, horizontal = Spacing.m)
+                            .heightIn(max = 400.dp),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     item {

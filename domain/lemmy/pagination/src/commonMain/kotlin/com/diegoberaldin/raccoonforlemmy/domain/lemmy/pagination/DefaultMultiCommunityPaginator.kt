@@ -14,12 +14,13 @@ internal class DefaultMultiCommunityPaginator(
         get() = paginators.any { it.canFetchMore }
 
     override fun setCommunities(ids: List<Long>) {
-        paginators = ids.map {
-            Paginator(
-                communityId = it,
-                postRepository = postRepository,
-            )
-        }
+        paginators =
+            ids.map {
+                Paginator(
+                    communityId = it,
+                    postRepository = postRepository,
+                )
+            }
     }
 
     override fun reset() {
@@ -29,17 +30,19 @@ internal class DefaultMultiCommunityPaginator(
     override suspend fun loadNextPage(
         auth: String?,
         sort: SortType,
-    ): List<PostModel> = buildList {
-        for (paginator in paginators) {
-            if (paginator.canFetchMore) {
-                val elements = paginator.loadNextPage(
-                    auth = auth,
-                    sort = sort,
-                )
-                addAll(elements)
+    ): List<PostModel> =
+        buildList {
+            for (paginator in paginators) {
+                if (paginator.canFetchMore) {
+                    val elements =
+                        paginator.loadNextPage(
+                            auth = auth,
+                            sort = sort,
+                        )
+                    addAll(elements)
+                }
             }
-        }
-    }.sortedByDescending { it.publishDate }
+        }.sortedByDescending { it.publishDate }
 }
 
 private class Paginator(
@@ -61,15 +64,16 @@ private class Paginator(
         auth: String?,
         sort: SortType,
     ): List<PostModel> {
-        val (result, nextPage) = postRepository.getAll(
-            auth = auth,
-            page = currentPage,
-            pageCursor = pageCursor,
-            limit = PostRepository.DEFAULT_PAGE_SIZE,
-            type = ListingType.All,
-            sort = sort,
-            communityId = communityId,
-        ) ?: (null to null)
+        val (result, nextPage) =
+            postRepository.getAll(
+                auth = auth,
+                page = currentPage,
+                pageCursor = pageCursor,
+                limit = PostRepository.DEFAULT_PAGE_SIZE,
+                type = ListingType.All,
+                sort = sort,
+                communityId = communityId,
+            ) ?: (null to null)
         if (!result.isNullOrEmpty()) {
             currentPage++
         }

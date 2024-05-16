@@ -9,27 +9,27 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class DefaultNotificationCenterTest {
-
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
     private val sut = DefaultNotificationCenter
 
     @Test
-    fun givenSubscription_whenSendEvent_thenEventIsReceivedJustOnce() = runTest {
-        launch {
-            sut.send(NotificationCenterEvent.Logout)
-        }
+    fun givenSubscription_whenSendEvent_thenEventIsReceivedJustOnce() =
+        runTest {
+            launch {
+                sut.send(NotificationCenterEvent.Logout)
+            }
 
-        sut.subscribe(NotificationCenterEvent.Logout::class).test {
-            val evt = awaitItem()
-            assertEquals(NotificationCenterEvent.Logout, evt)
-        }
+            sut.subscribe(NotificationCenterEvent.Logout::class).test {
+                val evt = awaitItem()
+                assertEquals(NotificationCenterEvent.Logout, evt)
+            }
 
-        sut.subscribe(NotificationCenterEvent.Logout::class).test {
-            expectNoEvents()
+            sut.subscribe(NotificationCenterEvent.Logout::class).test {
+                expectNoEvents()
+            }
         }
-    }
 
     @Test
     fun givenMultipleSubscriptions_whenSendReplayableEvent_thenEventIsReceivedAndReplayed() =

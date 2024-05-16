@@ -24,15 +24,16 @@ class MainApplication : Application(), ImageLoaderFactory {
                 sharedHelperModule,
             )
 
-            AppInfo.versionCode = buildString {
-                append(BuildConfig.VERSION_NAME)
-                append(" (")
-                append(BuildConfig.VERSION_CODE)
-                append(")")
-                if (BuildConfig.DEBUG) {
-                    append(" - dev")
+            AppInfo.versionCode =
+                buildString {
+                    append(BuildConfig.VERSION_NAME)
+                    append(" (")
+                    append(BuildConfig.VERSION_CODE)
+                    append(")")
+                    if (BuildConfig.DEBUG) {
+                        append(" - dev")
+                    }
                 }
-            }
         }.apply {
             val crashReportWriter: CrashReportWriter by inject()
             val crashReportConfig: CrashReportConfiguration by inject()

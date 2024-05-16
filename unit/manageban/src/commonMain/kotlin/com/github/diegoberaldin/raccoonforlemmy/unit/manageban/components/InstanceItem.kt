@@ -49,10 +49,11 @@ fun InstanceItem(
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
     Row(
-        modifier = modifier.padding(
-            vertical = Spacing.xs,
-            horizontal = Spacing.s,
-        ),
+        modifier =
+            modifier.padding(
+                vertical = Spacing.xs,
+                horizontal = Spacing.s,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
     ) {
@@ -70,16 +71,17 @@ fun InstanceItem(
         if (options.isNotEmpty()) {
             Box {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -90,10 +92,11 @@ fun InstanceItem(
                     onDismiss = {
                         optionsMenuOpen = false
                     },
-                    offset = DpOffset(
-                        x = optionsOffset.x.toLocalDp(),
-                        y = optionsOffset.y.toLocalDp(),
-                    ),
+                    offset =
+                        DpOffset(
+                            x = optionsOffset.x.toLocalDp(),
+                            y = optionsOffset.y.toLocalDp(),
+                        ),
                 ) {
                     options.forEach { option ->
                         DropdownMenuItem(

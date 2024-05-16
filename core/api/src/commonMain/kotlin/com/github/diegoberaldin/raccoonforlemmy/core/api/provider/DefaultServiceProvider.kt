@@ -21,7 +21,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 internal class DefaultServiceProvider : ServiceProvider {
-
     companion object {
         private const val DEFAULT_INSTANCE = "lemmy.world"
         private const val VERSION = "v3"
@@ -74,36 +73,38 @@ internal class DefaultServiceProvider : ServiceProvider {
     }
 
     private fun reinitialize() {
-        val client = HttpClient(factory) {
-            defaultRequest {
-                url {
-                    host = currentInstance
+        val client =
+            HttpClient(factory) {
+                defaultRequest {
+                    url {
+                        host = currentInstance
+                    }
+                }
+                install(HttpTimeout) {
+                    requestTimeoutMillis = 600_000
+                    connectTimeoutMillis = 30_000
+                    socketTimeoutMillis = 30_000
+                }
+                if (ENABLE_LOGGING) {
+                    install(Logging) {
+                        logger = defaultLogger
+                        level = LogLevel.ALL
+                    }
+                }
+                install(ContentNegotiation) {
+                    json(
+                        Json {
+                            isLenient = true
+                            ignoreUnknownKeys = true
+                        },
+                    )
                 }
             }
-            install(HttpTimeout) {
-                requestTimeoutMillis = 600_000
-                connectTimeoutMillis = 30_000
-                socketTimeoutMillis = 30_000
-            }
-            if (ENABLE_LOGGING) {
-                install(Logging) {
-                    logger = defaultLogger
-                    level = LogLevel.ALL
-                }
-            }
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        isLenient = true
-                        ignoreUnknownKeys = true
-                    },
-                )
-            }
-        }
-        val ktorfit = Ktorfit.Builder()
-            .baseUrl(baseUrl)
-            .httpClient(client)
-            .build()
+        val ktorfit =
+            Ktorfit.Builder()
+                .baseUrl(baseUrl)
+                .httpClient(client)
+                .build()
         auth = ktorfit.create()
         post = ktorfit.create()
         community = ktorfit.create()

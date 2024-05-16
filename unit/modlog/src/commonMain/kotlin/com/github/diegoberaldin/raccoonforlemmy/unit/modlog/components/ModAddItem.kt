@@ -32,25 +32,27 @@ internal fun ModAddItem(
         postLayout = postLayout,
         moderator = item.moderator,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.user?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
+        onOpen =
+            rememberCallback {
+                item.user?.also {
+                    onOpenUser?.invoke(it)
+                }
+            },
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.user?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                    append(" ")
-                    if (item.removed) {
-                        append(LocalXmlStrings.current.modlogItemModRemoved)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemModAdded)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            val name = item.user?.readableName(preferNicknames).orEmpty()
+                            append(name)
+                        }
+                        append(" ")
+                        if (item.removed) {
+                            append(LocalXmlStrings.current.modlogItemModRemoved)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemModAdded)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

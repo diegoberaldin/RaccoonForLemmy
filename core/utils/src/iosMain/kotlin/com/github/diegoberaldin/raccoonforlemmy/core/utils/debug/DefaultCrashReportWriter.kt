@@ -11,7 +11,6 @@ import platform.Foundation.dataUsingEncoding
 import platform.Foundation.stringByAppendingPathComponent
 
 class DefaultCrashReportWriter : CrashReportWriter {
-
     companion object {
         const val FILE_NAME = "crash_report.txt"
     }

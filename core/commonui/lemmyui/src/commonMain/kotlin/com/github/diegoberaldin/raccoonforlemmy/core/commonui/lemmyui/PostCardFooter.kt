@@ -97,16 +97,17 @@ fun PostCardFooter(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
-                        modifier = buttonModifier.padding(
-                            top = 3.5.dp,
-                            end = 3.5.dp,
-                            bottom = 3.5.dp,
-                        )
-                            .onClick(
-                                onClick = {
-                                    onReply?.invoke()
-                                },
-                            ),
+                        modifier =
+                            buttonModifier.padding(
+                                top = 3.5.dp,
+                                end = 3.5.dp,
+                                bottom = 3.5.dp,
+                            )
+                                .onClick(
+                                    onClick = {
+                                        onReply?.invoke()
+                                    },
+                                ),
                         imageVector = Icons.AutoMirrored.Default.Chat,
                         contentDescription = null,
                         tint = ancillaryColor,
@@ -120,13 +121,14 @@ fun PostCardFooter(
             }
             if (unreadComments != null) {
                 Text(
-                    modifier = Modifier
-                        .padding(start = Spacing.xxs)
-                        .background(
-                            color = MaterialTheme.colorScheme.secondary,
-                            shape = RoundedCornerShape(CornerSize.s),
-                        )
-                        .padding(horizontal = Spacing.xxs),
+                    modifier =
+                        Modifier
+                            .padding(start = Spacing.xxs)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = RoundedCornerShape(CornerSize.s),
+                            )
+                            .padding(horizontal = Spacing.xxs),
                     text = "+$unreadComments",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSecondary,
@@ -144,18 +146,20 @@ fun PostCardFooter(
                 ) {
                     val isShowingUpdateDate = !updateDate.isNullOrBlank()
                     Icon(
-                        modifier = Modifier.size(IconSize.s).then(
-                            if (!isShowingUpdateDate) {
-                                Modifier.padding(0.5.dp)
+                        modifier =
+                            Modifier.size(IconSize.s).then(
+                                if (!isShowingUpdateDate) {
+                                    Modifier.padding(0.5.dp)
+                                } else {
+                                    Modifier
+                                },
+                            ),
+                        imageVector =
+                            if (isShowingUpdateDate) {
+                                Icons.Default.Update
                             } else {
-                                Modifier
+                                Icons.Default.Schedule
                             },
-                        ),
-                        imageVector = if (isShowingUpdateDate) {
-                            Icons.Default.Update
-                        } else {
-                            Icons.Default.Schedule
-                        },
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
@@ -169,16 +173,17 @@ fun PostCardFooter(
             }
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsMenuOpen.value = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsMenuOpen.value = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreHoriz,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -187,21 +192,24 @@ fun PostCardFooter(
             Spacer(modifier = Modifier.weight(1f))
             if (actionButtonsActive) {
                 FeedbackButton(
-                    modifier = buttonModifier.padding(
-                        top = 2.5.dp,
-                        bottom = 2.5.dp,
-                        end = 2.5.dp,
-                    ),
-                    imageVector = if (!saved) {
-                        Icons.Default.BookmarkBorder
-                    } else {
-                        Icons.Default.Bookmark
-                    },
-                    tintColor = if (saved) {
-                        MaterialTheme.colorScheme.secondary
-                    } else {
-                        ancillaryColor
-                    },
+                    modifier =
+                        buttonModifier.padding(
+                            top = 2.5.dp,
+                            bottom = 2.5.dp,
+                            end = 2.5.dp,
+                        ),
+                    imageVector =
+                        if (!saved) {
+                            Icons.Default.BookmarkBorder
+                        } else {
+                            Icons.Default.Bookmark
+                        },
+                    tintColor =
+                        if (saved) {
+                            MaterialTheme.colorScheme.secondary
+                        } else {
+                            ancillaryColor
+                        },
                     onClick = {
                         onSave?.invoke()
                     },
@@ -209,52 +217,58 @@ fun PostCardFooter(
             }
             FeedbackButton(
                 modifier = buttonModifier.padding(all = 2.5.dp),
-                imageVector = if (actionButtonsActive) {
-                    Icons.Default.ArrowCircleUp
-                } else {
-                    Icons.Default.ArrowUpward
-                },
-                tintColor = if (upVoted) {
-                    upVoteColor ?: defaultUpvoteColor
-                } else {
-                    ancillaryColor
-                },
+                imageVector =
+                    if (actionButtonsActive) {
+                        Icons.Default.ArrowCircleUp
+                    } else {
+                        Icons.Default.ArrowUpward
+                    },
+                tintColor =
+                    if (upVoted) {
+                        upVoteColor ?: defaultUpvoteColor
+                    } else {
+                        ancillaryColor
+                    },
                 onClick = {
                     onUpVote?.invoke()
                 },
             )
             if (showScores) {
                 Text(
-                    text = formatToReadableValue(
-                        voteFormat = voteFormat,
-                        score = score,
-                        upVotes = upVotes,
-                        downVotes = downVotes,
-                        upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                        downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                        upVoted = upVoted,
-                        downVoted = downVoted,
-                    ),
+                    text =
+                        formatToReadableValue(
+                            voteFormat = voteFormat,
+                            score = score,
+                            upVotes = upVotes,
+                            downVotes = downVotes,
+                            upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                            downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                            upVoted = upVoted,
+                            downVoted = downVoted,
+                        ),
                     style = MaterialTheme.typography.labelMedium,
                     color = ancillaryColor,
                 )
             }
             FeedbackButton(
-                modifier = buttonModifier.padding(
-                    top = 2.5.dp,
-                    bottom = 2.5.dp,
-                    end = 2.5.dp,
-                ),
-                imageVector = if (actionButtonsActive) {
-                    Icons.Default.ArrowCircleDown
-                } else {
-                    Icons.Default.ArrowDownward
-                },
-                tintColor = if (downVoted) {
-                    downVoteColor ?: defaultDownVoteColor
-                } else {
-                    ancillaryColor
-                },
+                modifier =
+                    buttonModifier.padding(
+                        top = 2.5.dp,
+                        bottom = 2.5.dp,
+                        end = 2.5.dp,
+                    ),
+                imageVector =
+                    if (actionButtonsActive) {
+                        Icons.Default.ArrowCircleDown
+                    } else {
+                        Icons.Default.ArrowDownward
+                    },
+                tintColor =
+                    if (downVoted) {
+                        downVoteColor ?: defaultDownVoteColor
+                    } else {
+                        ancillaryColor
+                    },
                 onClick = {
                     onDownVote?.invoke()
                 },
@@ -266,10 +280,11 @@ fun PostCardFooter(
             onDismiss = {
                 optionsMenuOpen.value = false
             },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
+            offset =
+                DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

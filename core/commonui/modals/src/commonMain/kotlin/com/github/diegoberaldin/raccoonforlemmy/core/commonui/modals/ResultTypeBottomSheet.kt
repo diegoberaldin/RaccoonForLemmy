@@ -32,13 +32,14 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 
 class ResultTypeBottomSheet(
-    val values: List<SearchResultType> = listOf(
-        SearchResultType.Posts,
-        SearchResultType.Communities,
-        SearchResultType.Comments,
-        SearchResultType.Users,
-        SearchResultType.Urls,
-    ),
+    val values: List<SearchResultType> =
+        listOf(
+            SearchResultType.Posts,
+            SearchResultType.Communities,
+            SearchResultType.Comments,
+            SearchResultType.Users,
+            SearchResultType.Urls,
+        ),
     val screenKey: String,
 ) : Screen {
     @Composable
@@ -47,14 +48,15 @@ class ResultTypeBottomSheet(
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.exploreResultTypeTitle)
@@ -64,22 +66,23 @@ class ResultTypeBottomSheet(
             ) {
                 for (value in values) {
                     Row(
-                        modifier = Modifier.padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    notificationCenter.send(
-                                        NotificationCenterEvent.ChangeSearchResultType(
-                                            value = value,
-                                            screenKey = screenKey,
-                                        ),
-                                    )
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeSearchResultType(
+                                                value = value,
+                                                screenKey = screenKey,
+                                            ),
+                                        )
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(

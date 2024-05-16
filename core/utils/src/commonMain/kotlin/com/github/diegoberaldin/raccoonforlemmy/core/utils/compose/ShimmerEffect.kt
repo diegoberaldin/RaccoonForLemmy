@@ -19,9 +19,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
 @Composable
-fun Modifier.shimmerEffect(
-    duration: Int = 1000,
-): Modifier {
+fun Modifier.shimmerEffect(duration: Int = 1000): Modifier {
     val c1 = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
     val c2 = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f)
     val colors = listOf(c1, c2, c1)
@@ -32,18 +30,21 @@ fun Modifier.shimmerEffect(
     val startOffsetX by transition.animateFloat(
         initialValue = -2 * size.width.toFloat(),
         targetValue = 2 * size.width.toFloat(),
-        animationSpec = infiniteRepeatable(
-            animation = tween(duration),
-        ),
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(duration),
+            ),
     )
 
-    return this then background(
-        brush = Brush.linearGradient(
-            colors = colors,
-            start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
-        ),
-    ).alpha(0.5f).onGloballyPositioned {
-        size = it.size
-    }
+    return this then
+        background(
+            brush =
+                Brush.linearGradient(
+                    colors = colors,
+                    start = Offset(startOffsetX, 0f),
+                    end = Offset(startOffsetX + size.width.toFloat(), size.height.toFloat()),
+                ),
+        ).alpha(0.5f).onGloballyPositioned {
+            size = it.size
+        }
 }

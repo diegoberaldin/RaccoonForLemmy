@@ -6,5 +6,6 @@ interface CommentPaginationManager {
     val canFetchMore: Boolean
 
     fun reset(specification: CommentPaginationSpecification)
+
     suspend fun loadNextPage(): List<CommentModel>
 }

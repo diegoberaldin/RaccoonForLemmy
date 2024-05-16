@@ -73,29 +73,33 @@ class DraftsScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(DraftsMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(DraftsMviModel.Intent.Refresh)
+                    },
+            )
         val detailOpener = remember { getDetailOpener() }
         var itemToDelete by remember { mutableStateOf<DraftModel?>(null) }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -111,49 +115,55 @@ class DraftsScreen : Screen {
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier.padding(paddingValues).then(
-                    if (settings.hideNavigationBarWhileScrolling) {
-                        Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                    } else {
-                        Modifier
-                    },
-                ),
+                modifier =
+                    Modifier.padding(paddingValues).then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        },
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
                     modifier = Modifier.padding(vertical = Spacing.xs),
-                    titles = listOf(
-                        LocalXmlStrings.current.profileSectionPosts,
-                        LocalXmlStrings.current.profileSectionComments,
-                    ),
-                    currentSection = when (uiState.section) {
-                        DraftsSection.Comments -> 1
-                        else -> 0
-                    },
+                    titles =
+                        listOf(
+                            LocalXmlStrings.current.profileSectionPosts,
+                            LocalXmlStrings.current.profileSectionComments,
+                        ),
+                    currentSection =
+                        when (uiState.section) {
+                            DraftsSection.Comments -> 1
+                            else -> 0
+                        },
                     onSectionSelected = {
-                        val section = when (it) {
-                            1 -> DraftsSection.Comments
-                            else -> DraftsSection.Posts
-                        }
+                        val section =
+                            when (it) {
+                                1 -> DraftsSection.Comments
+                                else -> DraftsSection.Posts
+                            }
                         model.reduce(DraftsMviModel.Intent.ChangeSection(section))
                     },
                 )
 
                 Box(
-                    modifier = Modifier
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            },
-                        )
-                        .pullRefresh(pullRefreshState),
+                    modifier =
+                        Modifier
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = Spacing.xs),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = Spacing.xs),
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.interItem),
                     ) {
@@ -186,34 +196,38 @@ class DraftsScreen : Screen {
                                 DraftCard(
                                     draft = draft,
                                     postLayout = uiState.postLayout,
-                                    onOpen = rememberCallback {
-                                        detailOpener.openCreatePost(
-                                            draftId = draft.id,
-                                            communityId = draft.communityId,
-                                            initialText = draft.body,
-                                            initialTitle = draft.title,
-                                            initialUrl = draft.url,
-                                            initialNsfw = draft.nsfw,
-                                            forceCommunitySelection = true,
-                                        )
-                                    },
-                                    options = buildList {
-                                        this += Option(
-                                            OptionId.Delete,
-                                            LocalXmlStrings.current.commentActionDelete,
-                                        )
-                                    },
-                                    onOptionSelected = rememberCallbackArgs { optionId ->
-                                        when (optionId) {
-                                            OptionId.Delete -> {
-                                                draft.id?.also {
-                                                    itemToDelete = draft
+                                    onOpen =
+                                        rememberCallback {
+                                            detailOpener.openCreatePost(
+                                                draftId = draft.id,
+                                                communityId = draft.communityId,
+                                                initialText = draft.body,
+                                                initialTitle = draft.title,
+                                                initialUrl = draft.url,
+                                                initialNsfw = draft.nsfw,
+                                                forceCommunitySelection = true,
+                                            )
+                                        },
+                                    options =
+                                        buildList {
+                                            this +=
+                                                Option(
+                                                    OptionId.Delete,
+                                                    LocalXmlStrings.current.commentActionDelete,
+                                                )
+                                        },
+                                    onOptionSelected =
+                                        rememberCallbackArgs { optionId ->
+                                            when (optionId) {
+                                                OptionId.Delete -> {
+                                                    draft.id?.also {
+                                                        itemToDelete = draft
+                                                    }
                                                 }
-                                            }
 
-                                            else -> Unit
-                                        }
-                                    },
+                                                else -> Unit
+                                            }
+                                        },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
                                     HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
@@ -250,35 +264,41 @@ class DraftsScreen : Screen {
                                 DraftCard(
                                     draft = draft,
                                     postLayout = uiState.postLayout,
-                                    onOpen = rememberCallback {
-                                        detailOpener.openReply(
-                                            draftId = draft.id,
-                                            originalPost = draft.postId?.let {
-                                                PostModel(id = it)
-                                            },
-                                            originalComment = draft.parentId?.let {
-                                                CommentModel(id = it, text = "")
-                                            },
-                                            initialText = draft.body,
-                                        )
-                                    },
-                                    options = buildList {
-                                        this += Option(
-                                            OptionId.Delete,
-                                            LocalXmlStrings.current.commentActionDelete,
-                                        )
-                                    },
-                                    onOptionSelected = rememberCallbackArgs { optionId ->
-                                        when (optionId) {
-                                            OptionId.Delete -> {
-                                                draft.id?.also {
-                                                    itemToDelete = draft
+                                    onOpen =
+                                        rememberCallback {
+                                            detailOpener.openReply(
+                                                draftId = draft.id,
+                                                originalPost =
+                                                    draft.postId?.let {
+                                                        PostModel(id = it)
+                                                    },
+                                                originalComment =
+                                                    draft.parentId?.let {
+                                                        CommentModel(id = it, text = "")
+                                                    },
+                                                initialText = draft.body,
+                                            )
+                                        },
+                                    options =
+                                        buildList {
+                                            this +=
+                                                Option(
+                                                    OptionId.Delete,
+                                                    LocalXmlStrings.current.commentActionDelete,
+                                                )
+                                        },
+                                    onOptionSelected =
+                                        rememberCallbackArgs { optionId ->
+                                            when (optionId) {
+                                                OptionId.Delete -> {
+                                                    draft.id?.also {
+                                                        itemToDelete = draft
+                                                    }
                                                 }
-                                            }
 
-                                            else -> Unit
-                                        }
-                                    },
+                                                else -> Unit
+                                            }
+                                        },
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
                                     HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
@@ -348,24 +368,25 @@ class DraftsScreen : Screen {
     }
 }
 
-private fun DraftModel.toKey(): String = buildString {
-    append(date)
-    if (communityId != null) {
-        append("&community=")
-        append(communityId)
-    } else {
-        if (postId != null) {
-            append("&post=")
-            append(postId)
-        } else if (parentId != null) {
-            append("&comment=")
-            append(parentId)
+private fun DraftModel.toKey(): String =
+    buildString {
+        append(date)
+        if (communityId != null) {
+            append("&community=")
+            append(communityId)
+        } else {
+            if (postId != null) {
+                append("&post=")
+                append(postId)
+            } else if (parentId != null) {
+                append("&comment=")
+                append(parentId)
+            }
         }
+        if (!title.isNullOrEmpty()) {
+            append("&title=")
+            append(title)
+        }
+        append("&body=")
+        append(body)
     }
-    if (!title.isNullOrEmpty()) {
-        append("&title=")
-        append(title)
-    }
-    append("&body=")
-    append(body)
-}

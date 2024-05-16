@@ -32,25 +32,27 @@ internal fun HideCommunityItem(
         postLayout = postLayout,
         moderator = item.admin,
         onOpenUser = onOpenUser,
-        onOpen = rememberCallback {
-            item.admin?.also {
-                onOpenUser?.invoke(it)
-            }
-        },
+        onOpen =
+            rememberCallback {
+                item.admin?.also {
+                    onOpenUser?.invoke(it)
+                }
+            },
         innerContent = {
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        val name = item.community?.readableName(preferNicknames).orEmpty()
-                        append(name)
-                    }
-                    append(" ")
-                    if (item.hidden) {
-                        append(LocalXmlStrings.current.modlogItemHidden)
-                    } else {
-                        append(LocalXmlStrings.current.modlogItemUnhidden)
-                    }
-                },
+                text =
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                            val name = item.community?.readableName(preferNicknames).orEmpty()
+                            append(name)
+                        }
+                        append(" ")
+                        if (item.hidden) {
+                            append(LocalXmlStrings.current.modlogItemHidden)
+                        } else {
+                            append(LocalXmlStrings.current.modlogItemUnhidden)
+                        }
+                    },
                 style = MaterialTheme.typography.bodySmall,
             )
         },

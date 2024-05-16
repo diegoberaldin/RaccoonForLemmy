@@ -64,69 +64,79 @@ internal fun PostReportCard(
             ) {
                 report.originalTitle?.also { title ->
                     PostCardTitle(
-                        modifier = Modifier.padding(
-                            vertical = Spacing.xs,
-                            horizontal = Spacing.xs,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                vertical = Spacing.xs,
+                                horizontal = Spacing.xs,
+                            ),
                         text = title,
                         autoLoadImages = autoLoadImages,
-                        onOpenUser = rememberCallbackArgs { user, instance ->
-                            detailOpener.openUserDetail(user, instance)
-                        },
-                        onOpenPost = rememberCallbackArgs { post, instance ->
-                            detailOpener.openPostDetail(post, instance)
-                        },
-                        onOpenWeb = rememberCallbackArgs { url ->
-                            navigationCoordinator.pushScreen(
-                                WebViewScreen(url),
-                            )
-                        },
+                        onOpenUser =
+                            rememberCallbackArgs { user, instance ->
+                                detailOpener.openUserDetail(user, instance)
+                            },
+                        onOpenPost =
+                            rememberCallbackArgs { post, instance ->
+                                detailOpener.openPostDetail(post, instance)
+                            },
+                        onOpenWeb =
+                            rememberCallbackArgs { url ->
+                                navigationCoordinator.pushScreen(
+                                    WebViewScreen(url),
+                                )
+                            },
                     )
                 }
                 report.imageUrl.takeIf { it.isNotEmpty() }?.also { imageUrl ->
                     PostCardImage(
-                        modifier = Modifier
-                            .padding(vertical = Spacing.xs)
-                            .clip(RoundedCornerShape(CornerSize.xl)),
+                        modifier =
+                            Modifier
+                                .padding(vertical = Spacing.xs)
+                                .clip(RoundedCornerShape(CornerSize.xl)),
                         imageUrl = imageUrl,
                         autoLoadImages = autoLoadImages,
                     )
                 }
                 report.originalText?.also { text ->
                     PostCardBody(
-                        modifier = Modifier.padding(
-                            vertical = Spacing.xs,
-                            horizontal = Spacing.xs,
-                        ),
+                        modifier =
+                            Modifier.padding(
+                                vertical = Spacing.xs,
+                                horizontal = Spacing.xs,
+                            ),
                         text = text,
                         autoLoadImages = autoLoadImages,
-                        onOpenUser = rememberCallbackArgs { user, instance ->
-                            detailOpener.openUserDetail(user, instance)
-                        },
-                        onOpenPost = rememberCallbackArgs { post, instance ->
-                            detailOpener.openPostDetail(post, instance)
-                        },
-                        onOpenWeb = rememberCallbackArgs { url ->
-                            navigationCoordinator.pushScreen(
-                                WebViewScreen(url),
-                            )
-                        },
+                        onOpenUser =
+                            rememberCallbackArgs { user, instance ->
+                                detailOpener.openUserDetail(user, instance)
+                            },
+                        onOpenPost =
+                            rememberCallbackArgs { post, instance ->
+                                detailOpener.openPostDetail(post, instance)
+                            },
+                        onOpenWeb =
+                            rememberCallbackArgs { url ->
+                                navigationCoordinator.pushScreen(
+                                    WebViewScreen(url),
+                                )
+                            },
                     )
                 }
                 report.originalUrl?.also { url ->
                     PostLinkBanner(
-                        modifier = Modifier
-                            .padding(top = Spacing.s, bottom = Spacing.xxs)
-                            .onClick(
-                                onClick = {
-                                    navigationCoordinator.handleUrl(
-                                        url = url,
-                                        openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
-                                        uriHandler = uriHandler,
-                                        customTabsHelper = customTabsHelper,
-                                    )
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(top = Spacing.s, bottom = Spacing.xxs)
+                                .onClick(
+                                    onClick = {
+                                        navigationCoordinator.handleUrl(
+                                            url = url,
+                                            openingMode = settingsRepository.currentSettings.value.urlOpeningMode.toUrlOpeningMode(),
+                                            uriHandler = uriHandler,
+                                            customTabsHelper = customTabsHelper,
+                                        )
+                                    },
+                                ),
                         url = url,
                     )
                 }

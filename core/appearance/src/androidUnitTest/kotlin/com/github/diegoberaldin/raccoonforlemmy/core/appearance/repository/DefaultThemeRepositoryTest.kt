@@ -13,7 +13,6 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertNull
 
 class DefaultThemeRepositoryTest {
-
     @get:Rule
     val dispatcherTestRule = DispatcherTestRule()
 

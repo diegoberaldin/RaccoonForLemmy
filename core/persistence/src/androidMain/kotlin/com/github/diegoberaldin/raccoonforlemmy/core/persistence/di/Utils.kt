@@ -9,19 +9,20 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import org.koin.dsl.module
 import org.koin.java.KoinJavaComponent
 
-actual val persistenceInnerModule = module {
-    single<DriverFactory> {
-        DefaultDriverFactory(
-            context = get(),
-            keyProvider = get(),
-        )
+actual val persistenceInnerModule =
+    module {
+        single<DriverFactory> {
+            DefaultDriverFactory(
+                context = get(),
+                keyProvider = get(),
+            )
+        }
+        single<DatabaseKeyProvider> {
+            DefaultDatabaseKeyProvider(
+                keyStore = get(),
+            )
+        }
     }
-    single<DatabaseKeyProvider> {
-        DefaultDatabaseKeyProvider(
-            keyStore = get(),
-        )
-    }
-}
 
 actual fun getAccountRepository(): AccountRepository {
     val res: AccountRepository by KoinJavaComponent.inject(AccountRepository::class.java)

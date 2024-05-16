@@ -28,39 +28,44 @@ internal fun ProfileActionMenu(
         SettingsRow(
             title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
             icon = Icons.Default.Book,
-            onTap = rememberCallback {
-                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageSubscriptions)
-            },
+            onTap =
+                rememberCallback {
+                    notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ManageSubscriptions)
+                },
         )
         SettingsRow(
             title = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
             icon = Icons.Default.Bookmark,
-            onTap = rememberCallback {
-                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Bookmarks)
-            },
+            onTap =
+                rememberCallback {
+                    notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Bookmarks)
+                },
         )
         SettingsRow(
             title = LocalXmlStrings.current.navigationDrawerTitleDrafts,
             icon = Icons.Default.Drafts,
-            onTap = rememberCallback {
-                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Drafts)
-            },
+            onTap =
+                rememberCallback {
+                    notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Drafts)
+                },
         )
         SettingsRow(
             title = LocalXmlStrings.current.profileUpvotesDownvotes,
             icon = Icons.Default.ThumbsUpDown,
-            onTap = rememberCallback {
-                notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Votes)
-            },
+            onTap =
+                rememberCallback {
+                    notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.Votes)
+                },
         )
 
         if (isModerator) {
             SettingsRow(
                 title = LocalXmlStrings.current.moderatorZoneTitle,
                 icon = Icons.Default.Shield,
-                onTap = rememberCallback {
-                    notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ModeratorZone)
-                },
+                onTap =
+                    rememberCallback {
+                        notificationCenter.send(NotificationCenterEvent.ProfileSideMenuAction.ModeratorZone)
+                    },
             )
         }
     }

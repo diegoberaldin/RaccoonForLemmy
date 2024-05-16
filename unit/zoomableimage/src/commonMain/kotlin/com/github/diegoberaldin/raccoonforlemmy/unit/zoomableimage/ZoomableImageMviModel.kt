@@ -25,6 +25,7 @@ interface ZoomableImageMviModel :
 
     sealed interface Effect {
         data object ShareSuccess : Effect
+
         data object ShareFailure : Effect
     }
 }

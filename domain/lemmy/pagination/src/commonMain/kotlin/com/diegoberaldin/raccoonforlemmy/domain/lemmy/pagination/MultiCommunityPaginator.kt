@@ -7,6 +7,7 @@ interface MultiCommunityPaginator {
     val canFetchMore: Boolean
 
     fun setCommunities(ids: List<Long>)
+
     fun reset()
 
     suspend fun loadNextPage(

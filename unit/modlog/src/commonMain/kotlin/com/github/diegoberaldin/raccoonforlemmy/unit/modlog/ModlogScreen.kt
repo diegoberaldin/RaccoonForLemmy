@@ -70,7 +70,6 @@ import org.koin.core.parameter.parametersOf
 class ModlogScreen(
     private val communityId: Long? = null,
 ) : Screen {
-
     @OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -82,12 +81,14 @@ class ModlogScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
-        val pullRefreshState = rememberPullRefreshState(
-            refreshing = uiState.refreshing,
-            onRefresh = rememberCallback(model) {
-                model.reduce(ModlogMviModel.Intent.Refresh)
-            },
-        )
+        val pullRefreshState =
+            rememberPullRefreshState(
+                refreshing = uiState.refreshing,
+                onRefresh =
+                    rememberCallback(model) {
+                        model.reduce(ModlogMviModel.Intent.Refresh)
+                    },
+            )
         val detailOpener = remember { getDetailOpener() }
 
         LaunchedEffect(model) {
@@ -105,19 +106,21 @@ class ModlogScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xxs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xxs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -134,27 +137,29 @@ class ModlogScreen(
             },
         ) { paddingValues ->
             Column(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
-                verticalArrangement = Arrangement.spacedBy(Spacing.s),
-            ) {
-                Box(
-                    modifier = Modifier
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
                             },
-                        )
-                        .pullRefresh(pullRefreshState),
+                        ),
+                verticalArrangement = Arrangement.spacedBy(Spacing.s),
+            ) {
+                Box(
+                    modifier =
+                        Modifier
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -186,32 +191,37 @@ class ModlogScreen(
                             key = { "${it.type}${it.id}" },
                         ) { item ->
                             when (item) {
-                                is ModlogItem.ModAdd -> ModAddItem(
-                                    item = item,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                    postLayout = uiState.postLayout,
-                                    onOpenUser = rememberCallbackArgs { user ->
-                                        detailOpener.openUserDetail(user)
-                                    },
-                                )
+                                is ModlogItem.ModAdd ->
+                                    ModAddItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
+                                    )
 
-                                is ModlogItem.ModBan -> ModBanItem(
-                                    item = item,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                    postLayout = uiState.postLayout,
-                                    onOpenUser = rememberCallbackArgs { user ->
-                                        detailOpener.openUserDetail(user)
-                                    },
-                                )
+                                is ModlogItem.ModBan ->
+                                    ModBanItem(
+                                        item = item,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        postLayout = uiState.postLayout,
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
+                                    )
 
                                 is ModlogItem.ModAddCommunity -> {
                                     ModAddCommunityItem(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -220,9 +230,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -231,9 +242,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -242,9 +254,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -253,9 +266,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -264,9 +278,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -275,9 +290,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -286,9 +302,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -297,9 +314,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -308,9 +326,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -319,9 +338,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -330,9 +350,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
 
@@ -341,9 +362,10 @@ class ModlogScreen(
                                         item = item,
                                         autoLoadImages = uiState.autoLoadImages,
                                         postLayout = uiState.postLayout,
-                                        onOpenUser = rememberCallbackArgs { user ->
-                                            detailOpener.openUserDetail(user)
-                                        },
+                                        onOpenUser =
+                                            rememberCallbackArgs { user ->
+                                                detailOpener.openUserDetail(user)
+                                            },
                                     )
                                 }
                             }

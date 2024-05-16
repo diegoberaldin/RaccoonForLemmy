@@ -63,14 +63,14 @@ class UserInfoScreen(
     private val username: String,
     private val otherInstance: String,
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<UserInfoMviModel>(
-            tag = userId.toString(),
-            parameters = { parametersOf(userId, username, otherInstance) },
-        )
+        val model =
+            getScreenModel<UserInfoMviModel>(
+                tag = userId.toString(),
+                parameters = { parametersOf(userId, username, otherInstance) },
+            )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scope = rememberCoroutineScope()
@@ -86,9 +86,10 @@ class UserInfoScreen(
                 val title = uiState.user.readableName(uiState.preferNicknames)
                 TopAppBar(
                     modifier = Modifier.padding(top = Spacing.s),
-                    colors = TopAppBarDefaults.topAppBarColors().copy(
-                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
-                    ),
+                    colors =
+                        TopAppBarDefaults.topAppBarColors().copy(
+                            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(1.dp),
+                        ),
                     title = {
                         Text(
                             text = title,
@@ -98,11 +99,12 @@ class UserInfoScreen(
                     },
                     actions = {
                         Icon(
-                            modifier = Modifier.padding(end = Spacing.s).onClick(
-                                onClick = {
-                                    navigationCoordinator.closeSideMenu()
-                                },
-                            ),
+                            modifier =
+                                Modifier.padding(end = Spacing.s).onClick(
+                                    onClick = {
+                                        navigationCoordinator.closeSideMenu()
+                                    },
+                                ),
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -112,14 +114,15 @@ class UserInfoScreen(
             },
         ) { paddingValues ->
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(
-                        top = Spacing.s,
-                        start = Spacing.m,
-                        end = Spacing.m,
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(
+                            top = Spacing.s,
+                            start = Spacing.m,
+                            end = Spacing.m,
+                        ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 item {
@@ -143,19 +146,21 @@ class UserInfoScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.AutoMirrored.Default.Article,
                                 title = LocalXmlStrings.current.communityInfoPosts,
-                                value = score.postScore.getPrettyNumber(
-                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
-                                ),
+                                value =
+                                    score.postScore.getPrettyNumber(
+                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                    ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.AutoMirrored.Default.Reply,
                                 title = LocalXmlStrings.current.communityInfoComments,
-                                value = score.commentScore.getPrettyNumber(
-                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
-                                ),
+                                value =
+                                    score.commentScore.getPrettyNumber(
+                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
+                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                    ),
                             )
                         }
                         if (uiState.user.admin) {
@@ -254,9 +259,10 @@ class UserInfoScreen(
                                 SelectionContainer {
                                     Text(
                                         text = matrixUserId,
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            fontFamily = FontFamily.Monospace,
-                                        ),
+                                        style =
+                                            MaterialTheme.typography.bodyMedium.copy(
+                                                fontFamily = FontFamily.Monospace,
+                                            ),
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
                                 }
@@ -268,12 +274,13 @@ class UserInfoScreen(
                 if (uiState.moderatedCommunities.isNotEmpty()) {
                     item {
                         Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    top = Spacing.s,
-                                    bottom = Spacing.xs,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        top = Spacing.s,
+                                        bottom = Spacing.xs,
+                                    ),
                             text = LocalXmlStrings.current.userInfoModerates,
                         )
                         LazyRow(
@@ -287,13 +294,14 @@ class UserInfoScreen(
                                 ModeratedCommunityCell(
                                     autoLoadImages = uiState.autoLoadImages,
                                     community = community,
-                                    onOpenCommunity = rememberCallbackArgs { _ ->
-                                        navigationCoordinator.closeSideMenu()
-                                        scope.launch {
-                                            delay(100)
-                                            detailOpener.openCommunityDetail(community)
-                                        }
-                                    },
+                                    onOpenCommunity =
+                                        rememberCallbackArgs { _ ->
+                                            navigationCoordinator.closeSideMenu()
+                                            scope.launch {
+                                                delay(100)
+                                                detailOpener.openCommunityDetail(community)
+                                            }
+                                        },
                                 )
                             }
                         }

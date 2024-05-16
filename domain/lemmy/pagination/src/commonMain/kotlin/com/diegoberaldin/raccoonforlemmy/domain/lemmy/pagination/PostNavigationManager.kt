@@ -4,7 +4,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import kotlinx.coroutines.flow.StateFlow
 
 interface PostNavigationManager {
-
     val canNavigate: StateFlow<Boolean>
 
     fun push(state: PostPaginationManagerState)

@@ -31,10 +31,11 @@ fun BottomSheetHeader(
             modifier = Modifier.padding(bottom = Spacing.xs),
         )
         Text(
-            modifier = Modifier.padding(
-                top = Spacing.xs,
-                bottom = Spacing.xs,
-            ),
+            modifier =
+                Modifier.padding(
+                    top = Spacing.xs,
+                    bottom = Spacing.xs,
+                ),
             text = title,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onBackground,
@@ -44,19 +45,18 @@ fun BottomSheetHeader(
 }
 
 @Composable
-private fun BottomSheetHandle(
-    modifier: Modifier = Modifier,
-) {
+private fun BottomSheetHandle(modifier: Modifier = Modifier) {
     Box(
-        modifier = modifier.width(60.dp)
-            .padding(
-                top = Spacing.s,
-                bottom = Spacing.xxxs,
-            )
-            .height(3.dp)
-            .background(
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
-                shape = RoundedCornerShape(1.5.dp),
-            ),
+        modifier =
+            modifier.width(60.dp)
+                .padding(
+                    top = Spacing.s,
+                    bottom = Spacing.xxxs,
+                )
+                .height(3.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
+                    shape = RoundedCornerShape(1.5.dp),
+                ),
     )
 }

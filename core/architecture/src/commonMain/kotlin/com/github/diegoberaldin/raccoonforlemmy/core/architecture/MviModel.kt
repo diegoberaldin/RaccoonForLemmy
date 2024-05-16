@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
  * Model contract for Model-View-Intent architecture.
  */
 interface MviModel<Intent, State, Effect> {
-
     /**
      * Representation of the state holder's state for the view to consume.
      */

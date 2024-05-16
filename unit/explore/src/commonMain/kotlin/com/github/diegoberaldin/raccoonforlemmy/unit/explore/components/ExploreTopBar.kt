@@ -65,21 +65,23 @@ internal fun ExploreTopBar(
     }.launchIn(scope)
 
     TopAppBar(
-        windowInsets = if (edgeToEdge) {
-            WindowInsets(0, topInset.roundToInt(), 0, 0)
-        } else {
-            TopAppBarDefaults.windowInsets
-        },
+        windowInsets =
+            if (edgeToEdge) {
+                WindowInsets(0, topInset.roundToInt(), 0, 0)
+            } else {
+                TopAppBarDefaults.windowInsets
+            },
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             when {
                 otherInstance.isNotEmpty() -> {
                     Image(
-                        modifier = Modifier.onClick(
-                            onClick = {
-                                onBack?.invoke()
-                            },
-                        ),
+                        modifier =
+                            Modifier.onClick(
+                                onClick = {
+                                    onBack?.invoke()
+                                },
+                            ),
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -88,11 +90,12 @@ internal fun ExploreTopBar(
 
                 onHamburgerTapped != null -> {
                     Image(
-                        modifier = Modifier.onClick(
-                            onClick = {
-                                onHamburgerTapped()
-                            },
-                        ),
+                        modifier =
+                            Modifier.onClick(
+                                onClick = {
+                                    onHamburgerTapped()
+                                },
+                            ),
                         imageVector = Icons.Default.Menu,
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -101,11 +104,12 @@ internal fun ExploreTopBar(
 
                 else -> {
                     Image(
-                        modifier = Modifier.onClick(
-                            onClick = {
-                                onSelectListingType?.invoke()
-                            },
-                        ),
+                        modifier =
+                            Modifier.onClick(
+                                onClick = {
+                                    onSelectListingType?.invoke()
+                                },
+                            ),
                         imageVector = listingType.toIcon(),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -115,26 +119,28 @@ internal fun ExploreTopBar(
         },
         title = {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.s)
-                    .onClick(
-                        onClick = {
-                            if (otherInstance.isEmpty()) {
-                                onSelectListingType?.invoke()
-                            }
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Spacing.s)
+                        .onClick(
+                            onClick = {
+                                if (otherInstance.isEmpty()) {
+                                    onSelectListingType?.invoke()
+                                }
+                            },
+                        ),
             ) {
                 Text(
-                    text = buildString {
-                        append(LocalXmlStrings.current.navigationSearch)
-                        if (otherInstance.isNotEmpty()) {
-                            append(" (")
-                            append(otherInstance)
-                            append(")")
-                        }
-                    },
+                    text =
+                        buildString {
+                            append(LocalXmlStrings.current.navigationSearch)
+                            if (otherInstance.isNotEmpty()) {
+                                append(" (")
+                                append(otherInstance)
+                                append(")")
+                            }
+                        },
                     style = MaterialTheme.typography.titleMedium,
                 )
                 if (otherInstance.isEmpty()) {
@@ -147,13 +153,14 @@ internal fun ExploreTopBar(
         },
         actions = {
             Image(
-                modifier = Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .onClick(
-                        onClick = {
-                            onSelectResultTypeType?.invoke()
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .onClick(
+                            onClick = {
+                                onSelectResultTypeType?.invoke()
+                            },
+                        ),
                 imageVector = resultType.toIcon(),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -162,23 +169,25 @@ internal fun ExploreTopBar(
             val additionalLabel = sortType.getAdditionalLabel()
             if (additionalLabel.isNotEmpty()) {
                 Text(
-                    text = buildString {
-                        append("(")
-                        append(additionalLabel)
-                        append(")")
-                    },
+                    text =
+                        buildString {
+                            append("(")
+                            append(additionalLabel)
+                            append(")")
+                        },
                 )
                 Spacer(modifier = Modifier.width(Spacing.xs))
             }
 
             Image(
-                modifier = Modifier
-                    .padding(horizontal = Spacing.xs)
-                    .onClick(
-                        onClick = {
-                            onSelectSortType?.invoke()
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(horizontal = Spacing.xs)
+                        .onClick(
+                            onClick = {
+                                onSelectSortType?.invoke()
+                            },
+                        ),
                 imageVector = sortType.toIcon(),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),

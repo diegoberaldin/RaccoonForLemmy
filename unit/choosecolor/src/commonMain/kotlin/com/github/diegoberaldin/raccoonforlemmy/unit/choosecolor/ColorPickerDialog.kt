@@ -45,9 +45,10 @@ fun ColorPickerDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(Spacing.s),
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
@@ -58,13 +59,14 @@ fun ColorPickerDialog(
             )
             Spacer(modifier = Modifier.height(Spacing.xs))
             Box(
-                modifier = Modifier
-                    .background(
-                        color = currentColor,
-                        shape = RoundedCornerShape(CornerSize.m),
-                    )
-                    .fillMaxWidth()
-                    .height(100.dp),
+                modifier =
+                    Modifier
+                        .background(
+                            color = currentColor,
+                            shape = RoundedCornerShape(CornerSize.m),
+                        )
+                        .fillMaxWidth()
+                        .height(100.dp),
             )
             val alpha = (currentColor.alpha * 255).toInt().toHexDigit()
             val red = (currentColor.red * 255).toInt().toHexDigit()

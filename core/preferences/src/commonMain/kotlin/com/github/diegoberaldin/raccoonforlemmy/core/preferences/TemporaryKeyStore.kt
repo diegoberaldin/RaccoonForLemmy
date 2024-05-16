@@ -18,7 +18,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: Boolean)
+    fun save(
+        key: String,
+        value: Boolean,
+    )
 
     /**
      * Retrieve a boolean value from the key store given its key.
@@ -27,7 +30,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: Boolean): Boolean
+    operator fun get(
+        key: String,
+        default: Boolean,
+    ): Boolean
 
     /**
      * Save a string value in the keystore under a given key.
@@ -35,7 +41,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: String)
+    fun save(
+        key: String,
+        value: String,
+    )
 
     /**
      * Retrieve a string value from the key store given its key.
@@ -44,7 +53,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: String): String
+    operator fun get(
+        key: String,
+        default: String,
+    ): String
 
     /**
      * Save an integer value in the keystore under a given key.
@@ -52,7 +64,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: Int)
+    fun save(
+        key: String,
+        value: Int,
+    )
 
     /**
      * Retrieve an integer value from the key store given its key.
@@ -61,7 +76,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: Int): Int
+    operator fun get(
+        key: String,
+        default: Int,
+    ): Int
 
     /**
      * Save a floating point value in the keystore under a given key.
@@ -69,7 +87,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: Float)
+    fun save(
+        key: String,
+        value: Float,
+    )
 
     /**
      * Retrieve a floating point value from the key store given its key.
@@ -78,7 +99,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: Float): Float
+    operator fun get(
+        key: String,
+        default: Float,
+    ): Float
 
     /**
      * Save a floating point (double precision) value in the keystore under a given key.
@@ -86,7 +110,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: Double)
+    fun save(
+        key: String,
+        value: Double,
+    )
 
     /**
      * Save a long integer value in the keystore under a given key.
@@ -94,7 +121,10 @@ interface TemporaryKeyStore {
      * @param key Key
      * @param value Value
      */
-    fun save(key: String, value: Long)
+    fun save(
+        key: String,
+        value: Long,
+    )
 
     /**
      * Retrieve a floating point (double precision) value from the key store given its key.
@@ -103,7 +133,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: Double): Double
+    operator fun get(
+        key: String,
+        default: Double,
+    ): Double
 
     /**
      * Retrieve a long integer value from the key store given its key.
@@ -112,7 +145,10 @@ interface TemporaryKeyStore {
      * @param default Default value
      * @return value saved in the keystore or the default one
      */
-    operator fun get(key: String, default: Long): Long
+    operator fun get(
+        key: String,
+        default: Long,
+    ): Long
 
     /**
      * Remove the given key from the repository.
@@ -136,5 +172,9 @@ interface TemporaryKeyStore {
     /**
      * Save a string list under a given key.
      */
-    fun save(key: String, value: List<String>, delimiter: String = ", ")
+    fun save(
+        key: String,
+        value: List<String>,
+        delimiter: String = ", ",
+    )
 }

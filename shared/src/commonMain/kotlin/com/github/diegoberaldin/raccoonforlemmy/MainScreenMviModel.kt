@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 interface MainScreenMviModel :
     MviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data class SetBottomBarOffsetHeightPx(val value: Float) : Intent
     }

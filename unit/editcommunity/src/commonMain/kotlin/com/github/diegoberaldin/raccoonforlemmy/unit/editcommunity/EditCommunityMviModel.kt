@@ -6,10 +6,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 interface EditCommunityMviModel :
     ScreenModel,
     MviModel<EditCommunityMviModel.Intent, EditCommunityMviModel.UiState, EditCommunityMviModel.Effect> {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data class ChangeTitle(val value: String) : Intent
+
         data class ChangeDescription(val value: String) : Intent
 
         data class IconSelected(val value: ByteArray) : Intent {
@@ -43,7 +44,9 @@ interface EditCommunityMviModel :
         }
 
         data class ChangeNsfw(val value: Boolean) : Intent
+
         data class ChangePostingRestrictedToMods(val value: Boolean) : Intent
+
         data object Submit : Intent
     }
 
@@ -60,6 +63,7 @@ interface EditCommunityMviModel :
 
     sealed interface Effect {
         data object Success : Effect
+
         data object Failure : Effect
     }
 }

@@ -29,21 +29,21 @@ class CopyPostBottomSheet(
     private val title: String? = null,
     private val text: String? = null,
 ) : Screen {
-
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
 
         Column(
-            modifier = Modifier
-                .windowInsetsPadding(WindowInsets.navigationBars)
-                .padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ),
+            modifier =
+                Modifier
+                    .windowInsetsPadding(WindowInsets.navigationBars)
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             BottomSheetHeader(LocalXmlStrings.current.actionCopyClipboard)
@@ -55,19 +55,20 @@ class CopyPostBottomSheet(
                 val textCanBeCopied = !text.isNullOrBlank()
                 if (titleCanBeCopied) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event = NotificationCenterEvent.CopyText(title.orEmpty())
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event = NotificationCenterEvent.CopyText(title.orEmpty())
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -79,19 +80,20 @@ class CopyPostBottomSheet(
                 }
                 if (textCanBeCopied) {
                     Row(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                            .fillMaxWidth()
-                            .onClick(
-                                onClick = {
-                                    val event = NotificationCenterEvent.CopyText(text.orEmpty())
-                                    notificationCenter.send(event)
-                                    navigationCoordinator.hideBottomSheet()
-                                },
-                            ),
+                        modifier =
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                )
+                                .fillMaxWidth()
+                                .onClick(
+                                    onClick = {
+                                        val event = NotificationCenterEvent.CopyText(text.orEmpty())
+                                        notificationCenter.send(event)
+                                        navigationCoordinator.hideBottomSheet()
+                                    },
+                                ),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
@@ -101,25 +103,27 @@ class CopyPostBottomSheet(
                         )
                     }
                     if (titleCanBeCopied) {
-                        val textToCopy = buildString {
-                            append(title)
-                            append("\n")
-                            append(text)
-                        }
+                        val textToCopy =
+                            buildString {
+                                append(title)
+                                append("\n")
+                                append(text)
+                            }
                         Row(
-                            modifier = Modifier
-                                .padding(
-                                    horizontal = Spacing.s,
-                                    vertical = Spacing.s,
-                                )
-                                .fillMaxWidth()
-                                .onClick(
-                                    onClick = {
-                                        val event = NotificationCenterEvent.CopyText(textToCopy)
-                                        notificationCenter.send(event)
-                                        navigationCoordinator.hideBottomSheet()
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(
+                                        horizontal = Spacing.s,
+                                        vertical = Spacing.s,
+                                    )
+                                    .fillMaxWidth()
+                                    .onClick(
+                                        onClick = {
+                                            val event = NotificationCenterEvent.CopyText(textToCopy)
+                                            notificationCenter.send(event)
+                                            navigationCoordinator.hideBottomSheet()
+                                        },
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(

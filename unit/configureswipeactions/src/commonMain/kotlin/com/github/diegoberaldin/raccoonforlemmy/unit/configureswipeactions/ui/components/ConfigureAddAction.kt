@@ -21,16 +21,15 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 @Composable
-internal fun ConfigureAddAction(
-    onAdd: () -> Unit,
-) {
+internal fun ConfigureAddAction(onAdd: () -> Unit) {
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
     Row(
-        modifier = Modifier
-            .padding(
-                horizontal = Spacing.s,
-                vertical = Spacing.xs,
-            ).onClick(onClick = onAdd),
+        modifier =
+            Modifier
+                .padding(
+                    horizontal = Spacing.s,
+                    vertical = Spacing.xs,
+                ).onClick(onClick = onAdd),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
     ) {

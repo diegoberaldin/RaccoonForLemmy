@@ -68,16 +68,17 @@ internal fun ConfigureActionItem(
             Spacer(modifier = Modifier.weight(1f))
             if (options.isNotEmpty()) {
                 Icon(
-                    modifier = Modifier.size(IconSize.m)
-                        .padding(Spacing.xs)
-                        .onGloballyPositioned {
-                            optionsOffset = it.positionInParent()
-                        }
-                        .onClick(
-                            onClick = {
-                                optionsExpanded = true
-                            },
-                        ),
+                    modifier =
+                        Modifier.size(IconSize.m)
+                            .padding(Spacing.xs)
+                            .onGloballyPositioned {
+                                optionsOffset = it.positionInParent()
+                            }
+                            .onClick(
+                                onClick = {
+                                    optionsExpanded = true
+                                },
+                            ),
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = null,
                     tint = ancillaryColor,
@@ -90,10 +91,11 @@ internal fun ConfigureActionItem(
             onDismiss = {
                 optionsExpanded = false
             },
-            offset = DpOffset(
-                x = optionsOffset.x.toLocalDp(),
-                y = optionsOffset.y.toLocalDp(),
-            ),
+            offset =
+                DpOffset(
+                    x = optionsOffset.x.toLocalDp(),
+                    y = optionsOffset.y.toLocalDp(),
+                ),
         ) {
             options.forEach { option ->
                 DropdownMenuItem(

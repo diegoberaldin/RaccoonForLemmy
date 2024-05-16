@@ -112,9 +112,10 @@ class InboxChatScreen(
             model.effects.onEach { effect ->
                 when (effect) {
                     is InboxChatMviModel.Effect.AddImageToText -> {
-                        textFieldValue = textFieldValue.let {
-                            it.copy(text = it.text + "\n![](${effect.url})")
-                        }
+                        textFieldValue =
+                            textFieldValue.let {
+                                it.copy(text = it.text + "\n![](${effect.url})")
+                            }
                     }
 
                     InboxChatMviModel.Effect.ScrollToBottom -> {
@@ -127,9 +128,10 @@ class InboxChatScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .imePadding()
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .imePadding()
+                    .background(MaterialTheme.colorScheme.background),
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
             topBar = {
                 TopAppBar(
@@ -141,8 +143,9 @@ class InboxChatScreen(
                             val avatar = uiState.otherUserAvatar.orEmpty()
                             if (avatar.isNotEmpty()) {
                                 CustomImage(
-                                    modifier = Modifier.padding(Spacing.xxxs).size(IconSize.s)
-                                        .clip(RoundedCornerShape(IconSize.s / 2)),
+                                    modifier =
+                                        Modifier.padding(Spacing.xxxs).size(IconSize.s)
+                                            .clip(RoundedCornerShape(IconSize.s / 2)),
                                     url = avatar,
                                     autoload = uiState.autoLoadImages,
                                     quality = FilterQuality.Low,
@@ -160,11 +163,12 @@ class InboxChatScreen(
                     },
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -174,10 +178,11 @@ class InboxChatScreen(
             },
             bottomBar = {
                 Column(
-                    modifier = Modifier.padding(
-                        top = Spacing.xs,
-                        bottom = Spacing.l,
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            top = Spacing.xs,
+                            bottom = Spacing.l,
+                        ),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     TextFormattingBar(
@@ -190,50 +195,55 @@ class InboxChatScreen(
                             openImagePicker = true
                         },
                         lastActionIcon = Icons.AutoMirrored.Default.Send,
-                        onLastAction = rememberCallback {
-                            model.reduce(
-                                InboxChatMviModel.Intent.SubmitNewMessage(
-                                    textFieldValue.text,
-                                ),
-                            )
-                            textFieldValue = TextFieldValue(text = "")
-                        },
+                        onLastAction =
+                            rememberCallback {
+                                model.reduce(
+                                    InboxChatMviModel.Intent.SubmitNewMessage(
+                                        textFieldValue.text,
+                                    ),
+                                )
+                                textFieldValue = TextFieldValue(text = "")
+                            },
                     )
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .focusRequester(focusRequester)
-                            .heightIn(
-                                min = 80.dp,
-                                max = 360.dp,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .focusRequester(focusRequester)
+                                .heightIn(
+                                    min = 80.dp,
+                                    max = 360.dp,
+                                ),
+                        colors =
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
                             ),
-                        colors = TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                        ),
                         label = {
                             Text(
-                                text = buildString {
-                                    if (uiState.editedMessageId != null) {
-                                        append(LocalXmlStrings.current.inboxChatMessage)
-                                        append(" (")
-                                        append(LocalXmlStrings.current.postActionEdit)
-                                        append(")")
-                                    } else {
-                                        append(LocalXmlStrings.current.actionChat)
-                                    }
-                                },
+                                text =
+                                    buildString {
+                                        if (uiState.editedMessageId != null) {
+                                            append(LocalXmlStrings.current.inboxChatMessage)
+                                            append(" (")
+                                            append(LocalXmlStrings.current.postActionEdit)
+                                            append(")")
+                                        } else {
+                                            append(LocalXmlStrings.current.actionChat)
+                                        }
+                                    },
                                 style = typography.bodyMedium,
                             )
                         },
                         textStyle = typography.bodyMedium,
                         value = textFieldValue,
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Ascii,
-                            autoCorrect = true,
-                            capitalization = KeyboardCapitalization.Sentences,
-                        ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Ascii,
+                                autoCorrect = true,
+                                capitalization = KeyboardCapitalization.Sentences,
+                            ),
                         onValueChange = { value ->
                             textFieldValue = value
                         },
@@ -243,9 +253,10 @@ class InboxChatScreen(
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Box(
-                    modifier = Modifier
-                        .padding(padding)
-                        .consumeWindowInsets(padding),
+                    modifier =
+                        Modifier
+                            .padding(padding)
+                            .consumeWindowInsets(padding),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -271,72 +282,82 @@ class InboxChatScreen(
                                 isMyMessage = isMyMessage,
                                 content = content,
                                 date = date,
-                                onOpenImage = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        ZoomableImageScreen(
-                                            url = url,
-                                            source = message.creator?.readableHandle.orEmpty(),
-                                        ),
-                                    )
-                                },
-                                onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                    detailOpener.openCommunityDetail(
-                                        community,
-                                        instance,
-                                    )
-                                },
-                                onOpenUser = rememberCallbackArgs { user, instance ->
-                                    detailOpener.openUserDetail(user, instance)
-                                },
-                                onOpenPost = rememberCallbackArgs { post, instance ->
-                                    detailOpener.openPostDetail(
-                                        post = post,
-                                        otherInstance = instance,
-                                    )
-                                },
-                                onOpenWeb = rememberCallbackArgs { url ->
-                                    navigationCoordinator.pushScreen(
-                                        WebViewScreen(url),
-                                    )
-                                },
-                                options = buildList {
-                                    this += Option(
-                                        OptionId.SeeRaw,
-                                        LocalXmlStrings.current.postActionSeeRaw,
-                                    )
-                                    if (isMyMessage) {
-                                        this += Option(
-                                            OptionId.Edit,
-                                            LocalXmlStrings.current.postActionEdit,
+                                onOpenImage =
+                                    rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            ZoomableImageScreen(
+                                                url = url,
+                                                source = message.creator?.readableHandle.orEmpty(),
+                                            ),
                                         )
-                                        this += Option(
-                                            OptionId.Delete,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                    },
+                                onOpenCommunity =
+                                    rememberCallbackArgs { community, instance ->
+                                        detailOpener.openCommunityDetail(
+                                            community,
+                                            instance,
                                         )
-                                    }
-                                },
-                                onOptionSelected = rememberCallbackArgs { optionId ->
-                                    when (optionId) {
-                                        OptionId.Edit -> {
-                                            model.reduce(
-                                                InboxChatMviModel.Intent.EditMessage(message.id),
+                                    },
+                                onOpenUser =
+                                    rememberCallbackArgs { user, instance ->
+                                        detailOpener.openUserDetail(user, instance)
+                                    },
+                                onOpenPost =
+                                    rememberCallbackArgs { post, instance ->
+                                        detailOpener.openPostDetail(
+                                            post = post,
+                                            otherInstance = instance,
+                                        )
+                                    },
+                                onOpenWeb =
+                                    rememberCallbackArgs { url ->
+                                        navigationCoordinator.pushScreen(
+                                            WebViewScreen(url),
+                                        )
+                                    },
+                                options =
+                                    buildList {
+                                        this +=
+                                            Option(
+                                                OptionId.SeeRaw,
+                                                LocalXmlStrings.current.postActionSeeRaw,
                                             )
-                                            message.content?.also {
-                                                textFieldValue = TextFieldValue(text = it)
+                                        if (isMyMessage) {
+                                            this +=
+                                                Option(
+                                                    OptionId.Edit,
+                                                    LocalXmlStrings.current.postActionEdit,
+                                                )
+                                            this +=
+                                                Option(
+                                                    OptionId.Delete,
+                                                    LocalXmlStrings.current.commentActionDelete,
+                                                )
+                                        }
+                                    },
+                                onOptionSelected =
+                                    rememberCallbackArgs { optionId ->
+                                        when (optionId) {
+                                            OptionId.Edit -> {
+                                                model.reduce(
+                                                    InboxChatMviModel.Intent.EditMessage(message.id),
+                                                )
+                                                message.content?.also {
+                                                    textFieldValue = TextFieldValue(text = it)
+                                                }
                                             }
-                                        }
 
-                                        OptionId.SeeRaw -> {
-                                            rawContent = message
-                                        }
+                                            OptionId.SeeRaw -> {
+                                                rawContent = message
+                                            }
 
-                                        OptionId.Delete -> {
-                                            itemIdToDelete = message.id
-                                        }
+                                            OptionId.Delete -> {
+                                                itemIdToDelete = message.id
+                                            }
 
-                                        else -> Unit
-                                    }
-                                },
+                                            else -> Unit
+                                        }
+                                    },
                             )
                             Spacer(modifier = Modifier.height(Spacing.s))
                         }

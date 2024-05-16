@@ -21,23 +21,25 @@ fun Modifier.autofill(
 ): Modifier {
     val autofill = LocalAutofill.current
     val tree = LocalAutofillTree.current
-    val autofillNode = remember {
-        AutofillNode(onFill = onFill, autofillTypes = autofillTypes)
-    }
+    val autofillNode =
+        remember {
+            AutofillNode(onFill = onFill, autofillTypes = autofillTypes)
+        }
 
     LaunchedEffect(autofillNode) {
         tree += autofillNode
     }
 
-    return this then onGloballyPositioned {
-        autofillNode.boundingBox = it.boundsInWindow()
-    }.onFocusChanged { focusState ->
-        autofill?.run {
-            if (focusState.isFocused) {
-                requestAutofillForNode(autofillNode)
-            } else {
-                cancelAutofillForNode(autofillNode)
+    return this then
+        onGloballyPositioned {
+            autofillNode.boundingBox = it.boundsInWindow()
+        }.onFocusChanged { focusState ->
+            autofill?.run {
+                if (focusState.isFocused) {
+                    requestAutofillForNode(autofillNode)
+                } else {
+                    cancelAutofillForNode(autofillNode)
+                }
             }
         }
-    }
 }

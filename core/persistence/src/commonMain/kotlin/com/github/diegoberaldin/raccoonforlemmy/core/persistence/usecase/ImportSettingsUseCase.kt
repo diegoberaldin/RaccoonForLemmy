@@ -7,7 +7,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 interface ImportSettingsUseCase {
-
     suspend operator fun invoke(content: String)
 }
 
@@ -15,12 +14,12 @@ internal class DefaultImportSettingsUseCase(
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
 ) : ImportSettingsUseCase {
-
-    override suspend fun invoke(content: String) = withContext(Dispatchers.IO) {
-        val data: SerializableSettings = jsonSerializationStrategy.decodeFromString(content)
-        val settings = data.toModel()
-        val accountId = accountRepository.getActive()?.id
-        settingsRepository.updateSettings(settings, accountId)
-        settingsRepository.changeCurrentSettings(settings)
-    }
+    override suspend fun invoke(content: String) =
+        withContext(Dispatchers.IO) {
+            val data: SerializableSettings = jsonSerializationStrategy.decodeFromString(content)
+            val settings = data.toModel()
+            val accountId = accountRepository.getActive()?.id
+            settingsRepository.updateSettings(settings, accountId)
+            settingsRepository.changeCurrentSettings(settings)
+        }
 }

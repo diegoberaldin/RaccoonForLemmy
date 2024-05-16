@@ -67,9 +67,10 @@ class ConfigureSwipeActionsScreen : Screen {
         val settings by settingsRepository.currentSettings.collectAsState()
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -83,11 +84,12 @@ class ConfigureSwipeActionsScreen : Screen {
                     navigationIcon = {
                         if (navigationCoordinator.canPop.value) {
                             Image(
-                                modifier = Modifier.onClick(
-                                    onClick = {
-                                        navigationCoordinator.popScreen()
-                                    },
-                                ),
+                                modifier =
+                                    Modifier.onClick(
+                                        onClick = {
+                                            navigationCoordinator.popScreen()
+                                        },
+                                    ),
                                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -98,15 +100,16 @@ class ConfigureSwipeActionsScreen : Screen {
             },
         ) { paddingValues ->
             Box(
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                modifier =
+                    Modifier
+                        .padding(paddingValues)
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -119,10 +122,11 @@ class ConfigureSwipeActionsScreen : Screen {
                             icon = Icons.AutoMirrored.Default.Article,
                             rightButton = @Composable {
                                 TextButton(
-                                    contentPadding = PaddingValues(
-                                        horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs,
-                                    ),
+                                    contentPadding =
+                                        PaddingValues(
+                                            horizontal = Spacing.xs,
+                                            vertical = Spacing.xxs,
+                                        ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsPosts)
                                     },
@@ -137,12 +141,13 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -152,17 +157,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToStartPosts) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowLeft
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -182,25 +190,28 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsPosts.isNotEmpty() && uiState.actionsOnSwipeToStartPosts.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsPosts.filterNot { a ->
-                                        uiState.actionsOnSwipeToStartPosts.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToStart,
-                                    target = ActionOnSwipeTarget.Posts,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsPosts.filterNot { a ->
+                                                uiState.actionsOnSwipeToStartPosts.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToStart,
+                                        target = ActionOnSwipeTarget.Posts,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -210,17 +221,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToEndPosts) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowRight
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowRight
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowRight
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -240,13 +254,15 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsPosts.isNotEmpty() && uiState.actionsOnSwipeToEndPosts.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsPosts.filterNot { a ->
-                                        uiState.actionsOnSwipeToEndPosts.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToEnd,
-                                    target = ActionOnSwipeTarget.Posts,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsPosts.filterNot { a ->
+                                                uiState.actionsOnSwipeToEndPosts.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToEnd,
+                                        target = ActionOnSwipeTarget.Posts,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
@@ -262,10 +278,11 @@ class ConfigureSwipeActionsScreen : Screen {
                             icon = Icons.AutoMirrored.Default.Message,
                             rightButton = @Composable {
                                 TextButton(
-                                    contentPadding = PaddingValues(
-                                        horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs,
-                                    ),
+                                    contentPadding =
+                                        PaddingValues(
+                                            horizontal = Spacing.xs,
+                                            vertical = Spacing.xxs,
+                                        ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsComments)
                                     },
@@ -280,12 +297,13 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -295,17 +313,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToStartComments) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowLeft
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -325,25 +346,28 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsComments.isNotEmpty() && uiState.actionsOnSwipeToStartComments.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsComments.filterNot { a ->
-                                        uiState.actionsOnSwipeToStartComments.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToStart,
-                                    target = ActionOnSwipeTarget.Comments,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsComments.filterNot { a ->
+                                                uiState.actionsOnSwipeToStartComments.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToStart,
+                                        target = ActionOnSwipeTarget.Comments,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -353,17 +377,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToEndComments) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowRight
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowRight
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowRight
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -383,13 +410,15 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsComments.isNotEmpty() && uiState.actionsOnSwipeToEndComments.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsComments.filterNot { a ->
-                                        uiState.actionsOnSwipeToEndComments.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToEnd,
-                                    target = ActionOnSwipeTarget.Comments,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsComments.filterNot { a ->
+                                                uiState.actionsOnSwipeToEndComments.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToEnd,
+                                        target = ActionOnSwipeTarget.Comments,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
@@ -405,10 +434,11 @@ class ConfigureSwipeActionsScreen : Screen {
                             icon = Icons.Default.Mail,
                             rightButton = @Composable {
                                 TextButton(
-                                    contentPadding = PaddingValues(
-                                        horizontal = Spacing.xs,
-                                        vertical = Spacing.xxs,
-                                    ),
+                                    contentPadding =
+                                        PaddingValues(
+                                            horizontal = Spacing.xs,
+                                            vertical = Spacing.xxs,
+                                        ),
                                     onClick = {
                                         model.reduce(ConfigureSwipeActionsMviModel.Intent.ResetActionsInbox)
                                     },
@@ -423,12 +453,13 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -438,17 +469,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToStartInbox) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowLeft
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowLeft
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowLeft
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -468,25 +502,28 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsInbox.isNotEmpty() && uiState.actionsOnSwipeToStartInbox.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsInbox.filterNot { a ->
-                                        uiState.actionsOnSwipeToStartInbox.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToStart,
-                                    target = ActionOnSwipeTarget.Inbox,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsInbox.filterNot { a ->
+                                                uiState.actionsOnSwipeToStartInbox.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToStart,
+                                        target = ActionOnSwipeTarget.Inbox,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
                     }
                     item {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(
-                                    vertical = Spacing.xxs,
-                                    horizontal = Spacing.s,
-                                ),
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(
+                                        vertical = Spacing.xxs,
+                                        horizontal = Spacing.s,
+                                    ),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -496,17 +533,20 @@ class ConfigureSwipeActionsScreen : Screen {
                     }
                     itemsIndexed(uiState.actionsOnSwipeToEndInbox) { idx, action ->
                         ConfigureActionItem(
-                            icon = when (idx) {
-                                1 -> Icons.Default.KeyboardDoubleArrowRight
-                                else -> Icons.AutoMirrored.Default.KeyboardArrowRight
-                            },
+                            icon =
+                                when (idx) {
+                                    1 -> Icons.Default.KeyboardDoubleArrowRight
+                                    else -> Icons.AutoMirrored.Default.KeyboardArrowRight
+                                },
                             action = action,
-                            options = buildList {
-                                this += Option(
-                                    OptionId.Remove,
-                                    LocalXmlStrings.current.commentActionDelete,
-                                )
-                            },
+                            options =
+                                buildList {
+                                    this +=
+                                        Option(
+                                            OptionId.Remove,
+                                            LocalXmlStrings.current.commentActionDelete,
+                                        )
+                                },
                             onOptionSelected = { optionId ->
                                 when (optionId) {
                                     OptionId.Remove -> {
@@ -526,13 +566,15 @@ class ConfigureSwipeActionsScreen : Screen {
                     if (uiState.availableOptionsInbox.isNotEmpty() && uiState.actionsOnSwipeToEndInbox.size < 2) {
                         item {
                             ConfigureAddAction {
-                                val sheet = SelectActionOnSwipeBottomSheet(
-                                    values = uiState.availableOptionsInbox.filterNot { a ->
-                                        uiState.actionsOnSwipeToEndInbox.contains(a)
-                                    },
-                                    direction = ActionOnSwipeDirection.ToEnd,
-                                    target = ActionOnSwipeTarget.Inbox,
-                                )
+                                val sheet =
+                                    SelectActionOnSwipeBottomSheet(
+                                        values =
+                                            uiState.availableOptionsInbox.filterNot { a ->
+                                                uiState.actionsOnSwipeToEndInbox.contains(a)
+                                            },
+                                        direction = ActionOnSwipeDirection.ToEnd,
+                                        target = ActionOnSwipeTarget.Inbox,
+                                    )
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }

@@ -29,39 +29,77 @@ class ZoomableImageViewModel(
     DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>(
         initialState = ZoomableImageMviModel.UiState(),
     ) {
+    init {
+        screenModelScope.launch {
+            settingsRepository.currentSettings.onEach { settings ->
+                updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+            }.launchIn(this)
 
-        init {
-            screenModelScope.launch {
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
-                }.launchIn(this)
-
-                notificationCenter.subscribe(NotificationCenterEvent.ShareImageModeSelected::class).onEach { event ->
-                    when (event) {
-                        is NotificationCenterEvent.ShareImageModeSelected.ModeFile -> shareFile(event.url, event.source)
-                        is NotificationCenterEvent.ShareImageModeSelected.ModeUrl -> shareUrl(event.url)
-                    }
-                }.launchIn(this)
-            }
+            notificationCenter.subscribe(NotificationCenterEvent.ShareImageModeSelected::class).onEach { event ->
+                when (event) {
+                    is NotificationCenterEvent.ShareImageModeSelected.ModeFile -> shareFile(event.url, event.source)
+                    is NotificationCenterEvent.ShareImageModeSelected.ModeUrl -> shareUrl(event.url)
+                }
+            }.launchIn(this)
         }
+    }
 
-        override fun reduce(intent: ZoomableImageMviModel.Intent) {
-            when (intent) {
-                is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(intent.source)
-                is ZoomableImageMviModel.Intent.ChangeContentScale -> changeContentScale(intent.contentScale)
-            }
+    override fun reduce(intent: ZoomableImageMviModel.Intent) {
+        when (intent) {
+            is ZoomableImageMviModel.Intent.SaveToGallery -> downloadAndSave(intent.source)
+            is ZoomableImageMviModel.Intent.ChangeContentScale -> changeContentScale(intent.contentScale)
         }
+    }
 
-        private fun downloadAndSave(folder: String) {
-            val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
-            screenModelScope.launch {
-                updateState { it.copy(loading = true) }
-                try {
-                    val bytes = galleryHelper.download(url)
-                    val extension = url.let { s ->
+    private fun downloadAndSave(folder: String) {
+        val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            try {
+                val bytes = galleryHelper.download(url)
+                val extension =
+                    url.let { s ->
                         val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
                         s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
                     }
+                withContext(Dispatchers.IO) {
+                    galleryHelper.saveToGallery(
+                        bytes = bytes,
+                        name = "${epochMillis()}$extension",
+                        additionalPathSegment = folder.takeIf { imageSourcePath },
+                    )
+                }
+                updateState { it.copy(loading = false) }
+                emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                updateState { it.copy(loading = false) }
+                emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
+            }
+        }
+    }
+
+    private fun shareUrl(url: String) {
+        runCatching {
+            shareHelper.share(url)
+        }
+    }
+
+    private fun shareFile(
+        url: String,
+        folder: String,
+    ) {
+        val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            try {
+                val bytes = galleryHelper.download(url)
+                val extension =
+                    url.let { s ->
+                        val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
+                        s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
+                    }
+                val path =
                     withContext(Dispatchers.IO) {
                         galleryHelper.saveToGallery(
                             bytes = bytes,
@@ -69,59 +107,26 @@ class ZoomableImageViewModel(
                             additionalPathSegment = folder.takeIf { imageSourcePath },
                         )
                     }
-                    updateState { it.copy(loading = false) }
-                    emitEffect(ZoomableImageMviModel.Effect.ShareSuccess)
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    updateState { it.copy(loading = false) }
+
+                updateState { it.copy(loading = false) }
+
+                if (path != null) {
+                    shareHelper.shareImage(path)
+                } else {
                     emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
                 }
-            }
-        }
-
-        private fun shareUrl(url: String) {
-            runCatching {
-                shareHelper.share(url)
-            }
-        }
-
-        private fun shareFile(url: String, folder: String) {
-            val imageSourcePath = settingsRepository.currentSettings.value.imageSourcePath
-            screenModelScope.launch {
-                updateState { it.copy(loading = true) }
-                try {
-                    val bytes = galleryHelper.download(url)
-                    val extension = url.let { s ->
-                        val idx = s.lastIndexOf(".").takeIf { it >= 0 } ?: s.length
-                        s.substring(idx).takeIf { it.isNotEmpty() } ?: ".jpeg"
-                    }
-                    val path = withContext(Dispatchers.IO) {
-                        galleryHelper.saveToGallery(
-                            bytes = bytes,
-                            name = "${epochMillis()}$extension",
-                            additionalPathSegment = folder.takeIf { imageSourcePath },
-                        )
-                    }
-
-                    updateState { it.copy(loading = false) }
-
-                    if (path != null) {
-                        shareHelper.shareImage(path)
-                    } else {
-                        emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
-                    }
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    updateState { it.copy(loading = false) }
-                    emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
-                }
-            }
-        }
-
-        private fun changeContentScale(contentScale: ContentScale) {
-            imagePreloadManager.remove(url)
-            updateState {
-                it.copy(contentScale = contentScale)
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                updateState { it.copy(loading = false) }
+                emitEffect(ZoomableImageMviModel.Effect.ShareFailure)
             }
         }
     }
+
+    private fun changeContentScale(contentScale: ContentScale) {
+        imagePreloadManager.remove(url)
+        updateState {
+            it.copy(contentScale = contentScale)
+        }
+    }
+}
