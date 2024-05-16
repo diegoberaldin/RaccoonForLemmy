@@ -45,13 +45,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallb
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.showInEmbeddedWebView
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.embeddedUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.videoUrl
 
@@ -439,8 +437,7 @@ private fun ExtendedPost(
             it != post.imageUrl &&
                 it != post.videoUrl &&
                 !it.looksLikeAnImage &&
-                !it.looksLikeAVideo &&
-                !it.showInEmbeddedWebView
+                !it.looksLikeAVideo
         }.orEmpty()
 
     Column(
@@ -509,35 +506,7 @@ private fun ExtendedPost(
             )
         }
 
-        if (post.embeddedUrl.isNotEmpty()) {
-            PostCardEmbeddedWebView(
-                modifier =
-                    Modifier
-                        .padding(
-                            vertical = Spacing.xxs,
-                            horizontal = if (fullWidthImage) 0.dp else Spacing.s,
-                        ),
-                blurred = blurNsfw && post.nsfw,
-                autoLoadImages = autoLoadImages,
-                url = post.embeddedUrl,
-                onOpen = {
-                    if (postLinkUrl.isNotEmpty()) {
-                        navigationCoordinator.handleUrl(
-                            url = postLinkUrl,
-                            openingMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                            uriHandler = uriHandler,
-                            customTabsHelper = customTabsHelper,
-                            onOpenWeb = onOpenWeb,
-                            onOpenCommunity = onOpenCommunity,
-                            onOpenPost = onOpenPost,
-                            onOpenUser = onOpenCreator,
-                        )
-                    } else {
-                        onClick?.invoke()
-                    }
-                },
-            )
-        } else if (post.videoUrl.isNotEmpty()) {
+        if (post.videoUrl.isNotEmpty()) {
             PostCardVideo(
                 modifier =
                     Modifier

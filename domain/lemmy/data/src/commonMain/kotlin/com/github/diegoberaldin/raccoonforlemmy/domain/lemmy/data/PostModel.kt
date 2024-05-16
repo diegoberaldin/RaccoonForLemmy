@@ -2,7 +2,6 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data
 
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAVideo
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.looksLikeAnImage
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.showInEmbeddedWebView
 
 data class PostModel(
     val id: Long = 0,
@@ -42,6 +41,3 @@ val PostModel.imageUrl: String
 
 val PostModel.videoUrl: String
     get() = url?.takeIf { it.looksLikeAVideo }?.takeIf { it.isNotEmpty() }.orEmpty()
-
-val PostModel.embeddedUrl: String
-    get() = url?.takeIf { it.showInEmbeddedWebView }?.takeIf { it.isNotEmpty() }.orEmpty()
