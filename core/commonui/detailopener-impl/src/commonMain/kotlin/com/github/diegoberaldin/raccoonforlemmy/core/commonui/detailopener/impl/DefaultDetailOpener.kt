@@ -39,7 +39,7 @@ class DefaultDetailOpener(
     ) {
         scope.launch {
             val (actualCommunity, actualInstance) =
-                withContext(Dispatchers.IO) {
+                run {
                     val defaultResult = community to otherInstance
                     if (otherInstance.isNotEmpty()) {
                         val found = searchCommunity(name = community.name, host = otherInstance)
@@ -52,9 +52,7 @@ class DefaultDetailOpener(
                         defaultResult
                     }
                 }
-            withContext(Dispatchers.IO) {
-                itemCache.putCommunity(actualCommunity)
-            }
+            itemCache.putCommunity(actualCommunity)
             navigationCoordinator.pushScreen(
                 CommunityDetailScreen(
                     communityId = actualCommunity.id,
