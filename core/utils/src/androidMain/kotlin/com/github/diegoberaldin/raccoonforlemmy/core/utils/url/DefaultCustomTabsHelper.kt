@@ -17,7 +17,10 @@ class DefaultCustomTabsHelper(
         !packageName.isNullOrEmpty()
     }
 
-    override fun handle(url: String) {
+    override fun handle(
+        url: String,
+        noHistory: Boolean,
+    ) {
         val uri = Uri.parse(url)
         CustomTabsIntent.Builder()
             .apply {
@@ -28,10 +31,18 @@ class DefaultCustomTabsHelper(
             .run {
                 intent.apply {
                     `package` = packageName
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    if (noHistory) {
+                        flags = flags or Intent.FLAG_ACTIVITY_NO_HISTORY
+                        putExtra(EXTRA_CHROME_INCOGNITO, true)
+                    }
                 }
                 launchUrl(context, uri)
             }
+    }
+
+    companion object {
+        private const val EXTRA_CHROME_INCOGNITO = "com.google.android.apps.chrome.EXTRA_OPEN_NEW_INCOGNITO_TAB"
     }
 }
 

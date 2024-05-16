@@ -6,7 +6,10 @@ import org.koin.core.component.inject
 class DefaultCustomTabsHelper : CustomTabsHelper {
     override val isSupported = false
 
-    override fun handle(url: String) {
+    override fun handle(
+        url: String,
+        noHistory: Boolean,
+    ) {
         // no-op
     }
 }

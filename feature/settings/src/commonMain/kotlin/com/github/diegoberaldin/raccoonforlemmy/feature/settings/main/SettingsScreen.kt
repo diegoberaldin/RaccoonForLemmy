@@ -294,6 +294,7 @@ class SettingsScreen : Screen {
                                                 this += UrlOpeningMode.Internal
                                                 if (uiState.customTabsEnabled) {
                                                     this += UrlOpeningMode.CustomTabs
+                                                    this += UrlOpeningMode.CustomTabsNoHistory
                                                 }
                                                 this += UrlOpeningMode.External
                                             },
