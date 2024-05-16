@@ -15,33 +15,57 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 interface CommunityDetailMviModel :
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
+
         data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data object HapticIndication : Intent
+
         data object Subscribe : Intent
+
         data object Unsubscribe : Intent
+
         data class DeletePost(val id: Long) : Intent
+
         data class MarkAsRead(val id: Long) : Intent
+
         data class Hide(val id: Long) : Intent
+
         data object Block : Intent
+
         data object BlockInstance : Intent
+
         data object ClearRead : Intent
+
         data class StartZombieMode(val index: Int) : Intent
+
         data object PauseZombieMode : Intent
+
         data class ModFeaturePost(val id: Long) : Intent
+
         data class ModLockPost(val id: Long) : Intent
+
         data class ModToggleModUser(val id: Long) : Intent
+
         data object ToggleFavorite : Intent
+
         data class Share(val url: String) : Intent
+
         data class SetSearch(val value: String) : Intent
+
         data class ChangeSearching(val value: Boolean) : Intent
+
         data class Copy(val value: String) : Intent
+
         data object WillOpenDetail : Intent
+
         data object UnhideCommunity : Intent
     }
 
@@ -50,6 +74,7 @@ interface CommunityDetailMviModel :
         val instance: String = "",
         val isLogged: Boolean = false,
         val refreshing: Boolean = false,
+        val initial: Boolean = true,
         val asyncInProgress: Boolean = false,
         val loading: Boolean = false,
         val canFetchMore: Boolean = true,
@@ -80,10 +105,15 @@ interface CommunityDetailMviModel :
 
     sealed interface Effect {
         data object Success : Effect
+
         data class Failure(val message: String?) : Effect
+
         data class Error(val message: String?) : Effect
+
         data object BackToTop : Effect
+
         data class ZombieModeTick(val index: Int) : Effect
+
         data class TriggerCopy(val text: String) : Effect
     }
 }

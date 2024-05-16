@@ -25,148 +25,148 @@ class InboxMessagesViewModel(
     DefaultMviModel<InboxMessagesMviModel.Intent, InboxMessagesMviModel.UiState, InboxMessagesMviModel.Effect>(
         initialState = InboxMessagesMviModel.UiState(),
     ) {
-        private var currentPage: Int = 1
+    private var currentPage: Int = 1
 
-        init {
-            screenModelScope.launch {
-                coordinator.events.onEach {
-                    when (it) {
-                        InboxCoordinator.Event.Refresh -> {
-                            refresh()
-                            emitEffect(InboxMessagesMviModel.Effect.BackToTop)
-                        }
-                    }
-                }.launchIn(this)
-                coordinator.unreadOnly.onEach {
-                    if (it != uiState.value.unreadOnly) {
-                        changeUnreadOnly(it)
-                    }
-                }.launchIn(this)
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState {
-                        it.copy(
-                            autoLoadImages = settings.autoLoadImages,
-                            preferNicknames = settings.preferUserNicknames,
-                        )
-                    }
-                }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                    handleLogout()
-                }.launchIn(this)
-
-                val auth = identityRepository.authToken.value.orEmpty()
-                val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
-                updateState { it.copy(currentUserId = currentUserId) }
-
-                if (uiState.value.initial) {
-                    val value = coordinator.unreadOnly.value
-                    changeUnreadOnly(value)
-                    refresh(initial = true)
-                }
-                updateUnreadItems()
-            }
-        }
-
-        override fun reduce(intent: InboxMessagesMviModel.Intent) {
-            when (intent) {
-                InboxMessagesMviModel.Intent.LoadNextPage ->
-                    screenModelScope.launch {
-                        loadNextPage()
-                    }
-
-                InboxMessagesMviModel.Intent.Refresh ->
-                    screenModelScope.launch {
+    init {
+        screenModelScope.launch {
+            coordinator.events.onEach {
+                when (it) {
+                    InboxCoordinator.Event.Refresh -> {
                         refresh()
                         emitEffect(InboxMessagesMviModel.Effect.BackToTop)
                     }
-            }
-        }
+                }
+            }.launchIn(this)
+            coordinator.unreadOnly.onEach {
+                if (it != uiState.value.unreadOnly) {
+                    changeUnreadOnly(it)
+                }
+            }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
+                updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
+                handleLogout()
+            }.launchIn(this)
 
-        private suspend fun refresh(initial: Boolean = false) {
-            currentPage = 1
-            updateState {
-                it.copy(
-                    initial = initial,
-                    canFetchMore = true,
-                    refreshing = true,
-                    loading = false,
-                )
+            val auth = identityRepository.authToken.value.orEmpty()
+            val currentUserId = siteRepository.getCurrentUser(auth)?.id ?: 0
+            updateState { it.copy(currentUserId = currentUserId) }
+
+            if (uiState.value.initial) {
+                val value = coordinator.unreadOnly.value
+                changeUnreadOnly(value)
+                refresh(initial = true)
             }
-            loadNextPage()
             updateUnreadItems()
         }
+    }
 
-        private fun changeUnreadOnly(value: Boolean) {
-            if (uiState.value.currentUserId == 0L) {
-                return
-            }
-            updateState { it.copy(unreadOnly = value) }
-            screenModelScope.launch {
-                refresh(initial = true)
-                emitEffect(InboxMessagesMviModel.Effect.BackToTop)
-            }
-        }
-
-        private suspend fun loadNextPage() {
-            val currentState = uiState.value
-            if (!currentState.canFetchMore || currentState.loading) {
-                updateState { it.copy(refreshing = false) }
-                return
-            }
-
-            updateState { it.copy(loading = true) }
-            val auth = identityRepository.authToken.value
-            val refreshing = currentState.refreshing
-            val unreadOnly = currentState.unreadOnly
-            val itemList =
-                messageRepository.getAll(
-                    auth = auth,
-                    page = currentPage,
-                    unreadOnly = unreadOnly,
-                )?.groupBy {
-                    it.otherUser(currentState.currentUserId)?.id ?: 0
-                }?.mapNotNull { entry ->
-                    val messages = entry.value.sortedBy { m -> m.publishDate }
-                    messages.lastOrNull()
+    override fun reduce(intent: InboxMessagesMviModel.Intent) {
+        when (intent) {
+            InboxMessagesMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
                 }
-            if (!itemList.isNullOrEmpty()) {
-                currentPage++
-            }
-            updateState {
-                val newItems =
-                    if (refreshing) {
-                        itemList.orEmpty()
-                    } else {
-                        it.chats +
-                            itemList.orEmpty().filter { outerChat ->
-                                val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
-                                currentState.chats.none { chat ->
-                                    val otherUser = chat.otherUser(currentState.currentUserId)
-                                    outerOtherUser == otherUser
-                                }
-                            }
-                    }
-                it.copy(
-                    chats = newItems,
-                    loading = false,
-                    canFetchMore = itemList?.isEmpty() != true,
-                    refreshing = false,
-                    initial = false,
-                )
-            }
-        }
 
-        private fun updateUnreadItems() {
-            screenModelScope.launch {
-                val unreadCount = coordinator.updateUnreadCount()
-                emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
-            }
-        }
-
-        private fun handleLogout() {
-            updateState { it.copy(chats = emptyList()) }
-            screenModelScope.launch {
-                refresh(initial = true)
-            }
+            InboxMessagesMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                    emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+                }
         }
     }
+
+    private suspend fun refresh(initial: Boolean = false) {
+        currentPage = 1
+        updateState {
+            it.copy(
+                initial = initial,
+                canFetchMore = true,
+                refreshing = !initial,
+                loading = false,
+            )
+        }
+        loadNextPage()
+        updateUnreadItems()
+    }
+
+    private fun changeUnreadOnly(value: Boolean) {
+        if (uiState.value.currentUserId == 0L) {
+            return
+        }
+        updateState { it.copy(unreadOnly = value) }
+        screenModelScope.launch {
+            refresh(initial = true)
+            emitEffect(InboxMessagesMviModel.Effect.BackToTop)
+        }
+    }
+
+    private suspend fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
+        }
+
+        updateState { it.copy(loading = true) }
+        val auth = identityRepository.authToken.value
+        val refreshing = currentState.refreshing
+        val unreadOnly = currentState.unreadOnly
+        val itemList =
+            messageRepository.getAll(
+                auth = auth,
+                page = currentPage,
+                unreadOnly = unreadOnly,
+            )?.groupBy {
+                it.otherUser(currentState.currentUserId)?.id ?: 0
+            }?.mapNotNull { entry ->
+                val messages = entry.value.sortedBy { m -> m.publishDate }
+                messages.lastOrNull()
+            }
+        if (!itemList.isNullOrEmpty()) {
+            currentPage++
+        }
+        updateState {
+            val newItems =
+                if (refreshing) {
+                    itemList.orEmpty()
+                } else {
+                    it.chats +
+                        itemList.orEmpty().filter { outerChat ->
+                            val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
+                            currentState.chats.none { chat ->
+                                val otherUser = chat.otherUser(currentState.currentUserId)
+                                outerOtherUser == otherUser
+                            }
+                        }
+                }
+            it.copy(
+                chats = newItems,
+                loading = false,
+                canFetchMore = itemList?.isEmpty() != true,
+                refreshing = false,
+                initial = false,
+            )
+        }
+    }
+
+    private fun updateUnreadItems() {
+        screenModelScope.launch {
+            val unreadCount = coordinator.updateUnreadCount()
+            emitEffect(InboxMessagesMviModel.Effect.UpdateUnreadItems(unreadCount))
+        }
+    }
+
+    private fun handleLogout() {
+        updateState { it.copy(chats = emptyList()) }
+        screenModelScope.launch {
+            refresh(initial = true)
+        }
+    }
+}

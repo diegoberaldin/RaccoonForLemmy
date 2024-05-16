@@ -16,21 +16,32 @@ interface ExploreMviModel :
     MviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>, ScreenModel {
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
+
         data class SetSearch(val value: String) : Intent
+
         data object HapticIndication : Intent
+
         data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+
         data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
+
         data class ToggleSubscription(val communityId: Long) : Intent
     }
 
     data class UiState(
         val refreshing: Boolean = false,
         val loading: Boolean = false,
+        val initial: Boolean = true,
         val canFetchMore: Boolean = true,
         val isLogged: Boolean = false,
         val swipeActionsEnabled: Boolean = false,
@@ -58,6 +69,7 @@ interface ExploreMviModel :
 
     sealed interface Effect {
         data object BackToTop : Effect
+
         data object OperationFailure : Effect
     }
 }

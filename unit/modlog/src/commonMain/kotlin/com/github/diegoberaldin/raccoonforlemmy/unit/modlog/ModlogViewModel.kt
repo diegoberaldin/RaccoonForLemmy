@@ -20,87 +20,89 @@ class ModlogViewModel(
     DefaultMviModel<ModlogMviModel.Intent, ModlogMviModel.UiState, ModlogMviModel.Effect>(
         initialState = ModlogMviModel.UiState(),
     ) {
+    private var currentPage: Int = 1
 
-        private var currentPage: Int = 1
-
-        init {
-            screenModelScope.launch {
-                themeRepository.postLayout.onEach { layout ->
-                    updateState { it.copy(postLayout = layout) }
-                }.launchIn(this)
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState {
-                        it.copy(
-                            autoLoadImages = settings.autoLoadImages,
-                            preferNicknames = settings.preferUserNicknames,
-                        )
-                    }
-                }
-
-                if (uiState.value.items.isEmpty()) {
-                    refresh(initial = true)
+    init {
+        screenModelScope.launch {
+            themeRepository.postLayout.onEach { layout ->
+                updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
+                updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
                 }
             }
-        }
 
-        override fun reduce(intent: ModlogMviModel.Intent) {
-            when (intent) {
-                ModlogMviModel.Intent.Refresh -> refresh()
-                ModlogMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+            if (uiState.value.initial) {
+                refresh(initial = true)
+            }
+        }
+    }
+
+    override fun reduce(intent: ModlogMviModel.Intent) {
+        when (intent) {
+            ModlogMviModel.Intent.Refresh -> refresh()
+            ModlogMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
                     loadNextPage()
                 }
-            }
+        }
+    }
+
+    private fun refresh(initial: Boolean = false) {
+        currentPage = 1
+        updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = !initial,
+                initial = initial,
+                loading = false,
+            )
+        }
+        screenModelScope.launch {
+            loadNextPage()
+        }
+    }
+
+    private fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
         }
 
-        private fun refresh(initial: Boolean = false) {
-            currentPage = 1
-            updateState {
-                it.copy(
-                    canFetchMore = true,
-                    refreshing = true,
-                    initial = initial,
-                    loading = false,
-                )
-            }
-            screenModelScope.launch {
-                loadNextPage()
-            }
-        }
-
-        private fun loadNextPage() {
-            val currentState = uiState.value
-            if (!currentState.canFetchMore || currentState.loading) {
-                updateState { it.copy(refreshing = false) }
-                return
-            }
-
-            screenModelScope.launch {
-                updateState { it.copy(loading = true) }
-                val auth = identityRepository.authToken.value.orEmpty()
-                val refreshing = currentState.refreshing
-                val itemList = modlogRepository.getItems(
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            val auth = identityRepository.authToken.value.orEmpty()
+            val refreshing = currentState.refreshing
+            val itemList =
+                modlogRepository.getItems(
                     auth = auth,
                     communityId = communityId,
                     page = currentPage,
                 )
-                val itemsToAdd = itemList.orEmpty()
-                updateState {
-                    val modlogItems = if (refreshing) {
+            val itemsToAdd = itemList.orEmpty()
+            updateState {
+                val modlogItems =
+                    if (refreshing) {
                         itemsToAdd
                     } else {
                         it.items + itemsToAdd
                     }
-                    it.copy(
-                        items = modlogItems,
-                        loading = false,
-                        canFetchMore = itemList?.isEmpty() != true,
-                        refreshing = false,
-                        initial = false,
-                    )
-                }
-                if (!itemList.isNullOrEmpty()) {
-                    currentPage++
-                }
+                it.copy(
+                    items = modlogItems,
+                    loading = false,
+                    canFetchMore = itemList?.isEmpty() != true,
+                    refreshing = false,
+                    initial = false,
+                )
+            }
+            if (!itemList.isNullOrEmpty()) {
+                currentPage++
             }
         }
     }
+}

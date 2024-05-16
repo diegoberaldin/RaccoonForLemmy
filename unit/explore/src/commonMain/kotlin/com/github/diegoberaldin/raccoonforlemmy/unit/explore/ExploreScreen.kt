@@ -96,28 +96,32 @@ import org.koin.core.parameter.parametersOf
 class ExploreScreen(
     private val otherInstance: String = "",
 ) : Screen {
-
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<ExploreMviModel>(
-            tag = otherInstance,
-            parameters = { parametersOf(otherInstance) },
-        )
+        val model =
+            getScreenModel<ExploreMviModel>(
+                tag = otherInstance,
+                parameters = { parametersOf(otherInstance) },
+            )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val focusManager = LocalFocusManager.current
-        val keyboardScrollConnection = remember {
-            object : NestedScrollConnection {
-                override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                    focusManager.clearFocus()
-                    return Offset.Zero
+        val keyboardScrollConnection =
+            remember {
+                object : NestedScrollConnection {
+                    override fun onPreScroll(
+                        available: Offset,
+                        source: NestedScrollSource,
+                    ): Offset {
+                        focusManager.clearFocus()
+                        return Offset.Zero
+                    }
                 }
             }
-        }
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val themeRepository = remember { getThemeRepository() }
@@ -137,13 +141,14 @@ class ExploreScreen(
         val otherInstanceName = remember { otherInstance }
         val snackbarHostState = remember { SnackbarHostState() }
         val errorMessage = LocalXmlStrings.current.messageGenericError
-        val notificationEventKey = buildString {
-            append("explore")
-            if (isOnOtherInstance) {
-                append("-")
-                append(otherInstanceName)
+        val notificationEventKey =
+            buildString {
+                append("explore")
+                if (isOnOtherInstance) {
+                    append("-")
+                    append(otherInstanceName)
+                }
             }
-        }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection.onEach { section ->
@@ -184,35 +189,42 @@ class ExploreScreen(
                     resultType = uiState.resultType,
                     otherInstance = otherInstanceName,
                     edgeToEdge = settings.edgeToEdge,
-                    onSelectListingType = rememberCallback {
-                        focusManager.clearFocus()
-                        val sheet = ListingTypeBottomSheet(
-                            isLogged = uiState.isLogged,
-                            screenKey = notificationEventKey,
-                        )
-                        navigationCoordinator.showBottomSheet(sheet)
-                    },
-                    onSelectSortType = rememberCallback {
-                        focusManager.clearFocus()
-                        val sheet = SortBottomSheet(
-                            values = uiState.availableSortTypes.map { it.toInt() },
-                            expandTop = true,
-                            screenKey = notificationEventKey,
-                        )
-                        navigationCoordinator.showBottomSheet(sheet)
-                    },
-                    onSelectResultTypeType = rememberCallback {
-                        val sheet = ResultTypeBottomSheet(screenKey = notificationEventKey)
-                        navigationCoordinator.showBottomSheet(sheet)
-                    },
-                    onHamburgerTapped = rememberCallback {
-                        scope.launch {
-                            drawerCoordinator.toggleDrawer()
-                        }
-                    },
-                    onBack = rememberCallback {
-                        navigationCoordinator.popScreen()
-                    },
+                    onSelectListingType =
+                        rememberCallback {
+                            focusManager.clearFocus()
+                            val sheet =
+                                ListingTypeBottomSheet(
+                                    isLogged = uiState.isLogged,
+                                    screenKey = notificationEventKey,
+                                )
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    onSelectSortType =
+                        rememberCallback {
+                            focusManager.clearFocus()
+                            val sheet =
+                                SortBottomSheet(
+                                    values = uiState.availableSortTypes.map { it.toInt() },
+                                    expandTop = true,
+                                    screenKey = notificationEventKey,
+                                )
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    onSelectResultTypeType =
+                        rememberCallback {
+                            val sheet = ResultTypeBottomSheet(screenKey = notificationEventKey)
+                            navigationCoordinator.showBottomSheet(sheet)
+                        },
+                    onHamburgerTapped =
+                        rememberCallback {
+                            scope.launch {
+                                drawerCoordinator.toggleDrawer()
+                            }
+                        },
+                    onBack =
+                        rememberCallback {
+                            navigationCoordinator.popScreen()
+                        },
                 )
             },
             snackbarHost = {
@@ -230,64 +242,69 @@ class ExploreScreen(
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 TextField(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.s,
-                        vertical = Spacing.s,
-                    ).fillMaxWidth(),
+                    modifier =
+                        Modifier.padding(
+                            horizontal = Spacing.s,
+                            vertical = Spacing.s,
+                        ).fillMaxWidth(),
                     label = {
                         Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search,
-                    ),
+                    keyboardOptions =
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Search,
+                        ),
                     onValueChange = { value ->
                         model.reduce(ExploreMviModel.Intent.SetSearch(value))
                     },
                     trailingIcon = {
                         Icon(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    if (uiState.searchText.isNotEmpty()) {
-                                        model.reduce(ExploreMviModel.Intent.SetSearch(""))
-                                    }
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        if (uiState.searchText.isNotEmpty()) {
+                                            model.reduce(ExploreMviModel.Intent.SetSearch(""))
+                                        }
+                                    },
+                                ),
                             imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
                             contentDescription = null,
                         )
                     },
                 )
 
-                val pullRefreshState = rememberPullRefreshState(
-                    uiState.refreshing,
-                    { model.reduce(ExploreMviModel.Intent.Refresh) },
-                )
+                val pullRefreshState =
+                    rememberPullRefreshState(
+                        uiState.refreshing,
+                        { model.reduce(ExploreMviModel.Intent.Refresh) },
+                    )
                 Box(
-                    modifier = Modifier
-                        .padding(top = Spacing.xs)
-                        .then(
-                            if (connection != null && settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(connection)
-                            } else {
-                                Modifier
-                            },
-                        )
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            },
-                        ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
+                    modifier =
+                        Modifier
+                            .padding(top = Spacing.xs)
+                            .then(
+                                if (connection != null && settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(connection)
+                                } else {
+                                    Modifier
+                                },
+                            )
+                            .then(
+                                if (settings.hideNavigationBarWhileScrolling) {
+                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                                } else {
+                                    Modifier
+                                },
+                            ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
                     ) {
-                        if (uiState.results.isEmpty() && uiState.loading) {
+                        if (uiState.results.isEmpty() && uiState.initial) {
                             items(5) {
                                 PostCardPlaceholder(
                                     postLayout = uiState.postLayout,
@@ -303,25 +320,27 @@ class ExploreScreen(
                             when (result) {
                                 is SearchResult.Community -> {
                                     CommunityItem(
-                                        modifier = Modifier.fillMaxWidth().onClick(
-                                            onClick = {
-                                                detailOpener.openCommunityDetail(
-                                                    community = result.model,
-                                                    otherInstance = otherInstanceName,
-                                                )
-                                            },
-                                        ),
+                                        modifier =
+                                            Modifier.fillMaxWidth().onClick(
+                                                onClick = {
+                                                    detailOpener.openCommunityDetail(
+                                                        community = result.model,
+                                                        otherInstance = otherInstanceName,
+                                                    )
+                                                },
+                                            ),
                                         community = result.model,
                                         autoLoadImages = uiState.autoLoadImages,
                                         preferNicknames = uiState.preferNicknames,
                                         showSubscribeButton = !isOnOtherInstance,
-                                        onSubscribe = rememberCallback(model) {
-                                            model.reduce(
-                                                ExploreMviModel.Intent.ToggleSubscription(
-                                                    result.model.id,
-                                                ),
-                                            )
-                                        },
+                                        onSubscribe =
+                                            rememberCallback(model) {
+                                                model.reduce(
+                                                    ExploreMviModel.Intent.ToggleSubscription(
+                                                        result.model.id,
+                                                    ),
+                                                )
+                                            },
                                     )
                                 }
 
@@ -330,77 +349,89 @@ class ExploreScreen(
                                     fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                         mapNotNull {
                                             when (it) {
-                                                ActionOnSwipe.UpVote -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.ArrowCircleUp,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = upVoteColor
-                                                        ?: defaultUpvoteColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVotePost(
-                                                                result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.UpVote ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.ArrowCircleUp,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            upVoteColor
+                                                                ?: defaultUpvoteColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.UpVotePost(
+                                                                        result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.DownVote -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.ArrowCircleDown,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = downVoteColor
-                                                        ?: defaultDownVoteColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.DownVotePost(
-                                                                result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.DownVote ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.ArrowCircleDown,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            downVoteColor
+                                                                ?: defaultDownVoteColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.DownVotePost(
+                                                                        result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.Reply -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.AutoMirrored.Default.Reply,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = replyColor
-                                                        ?: defaultReplyColor,
-                                                    onTriggered = rememberCallback {
-                                                        detailOpener.openReply(originalPost = result.model)
-                                                    },
-                                                )
+                                                ActionOnSwipe.Reply ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.AutoMirrored.Default.Reply,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            replyColor
+                                                                ?: defaultReplyColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                detailOpener.openReply(originalPost = result.model)
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.Save -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.Bookmark,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = saveColor
-                                                        ?: defaultSaveColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.SavePost(
-                                                                id = result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.Save ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.Bookmark,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            saveColor
+                                                                ?: defaultSaveColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.SavePost(
+                                                                        id = result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
                                                 else -> null
                                             }
@@ -409,19 +440,22 @@ class ExploreScreen(
                                     SwipeActionCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled && !isOnOtherInstance,
-                                        onGestureBegin = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
-                                        },
-                                        swipeToStartActions = if (uiState.isLogged) {
-                                            uiState.actionsOnSwipeToStartPosts.toSwipeActions()
-                                        } else {
-                                            emptyList()
-                                        },
-                                        swipeToEndActions = if (uiState.isLogged) {
-                                            uiState.actionsOnSwipeToEndPosts.toSwipeActions()
-                                        } else {
-                                            emptyList()
-                                        },
+                                        onGestureBegin =
+                                            rememberCallback(model) {
+                                                model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                            },
+                                        swipeToStartActions =
+                                            if (uiState.isLogged) {
+                                                uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                            } else {
+                                                emptyList()
+                                            },
+                                        swipeToEndActions =
+                                            if (uiState.isLogged) {
+                                                uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                            } else {
+                                                emptyList()
+                                            },
                                         content = {
                                             PostCard(
                                                 post = result.model,
@@ -441,80 +475,92 @@ class ExploreScreen(
                                                         otherInstance = otherInstanceName,
                                                     )
                                                 },
-                                                onDoubleClick = if (!uiState.doubleTapActionEnabled || isOnOtherInstance) {
-                                                    null
-                                                } else {
+                                                onDoubleClick =
+                                                    if (!uiState.doubleTapActionEnabled || isOnOtherInstance) {
+                                                        null
+                                                    } else {
+                                                        rememberCallback(model) {
+                                                            if (uiState.isLogged) {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.UpVotePost(
+                                                                        id = result.model.id,
+                                                                        feedback = true,
+                                                                    ),
+                                                                )
+                                                            }
+                                                        }
+                                                    },
+                                                onOpenCommunity =
+                                                    rememberCallbackArgs { community, instance ->
+                                                        detailOpener.openCommunityDetail(
+                                                            community = community,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
+                                                        )
+                                                    },
+                                                onOpenCreator =
+                                                    rememberCallbackArgs { user, instance ->
+                                                        detailOpener.openUserDetail(
+                                                            user = user,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
+                                                        )
+                                                    },
+                                                onUpVote =
                                                     rememberCallback(model) {
                                                         if (uiState.isLogged) {
                                                             model.reduce(
-                                                                ExploreMviModel.Intent.UpVotePost(
-                                                                    id = result.model.id,
-                                                                    feedback = true,
+                                                                ExploreMviModel.Intent.UpVotePost(result.model.id),
+                                                            )
+                                                        }
+                                                    },
+                                                onDownVote =
+                                                    rememberCallback(model) {
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.DownVotePost(
+                                                                    result.model.id,
                                                                 ),
                                                             )
                                                         }
-                                                    }
-                                                },
-                                                onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                                    detailOpener.openCommunityDetail(
-                                                        community = community,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                    detailOpener.openUserDetail(
-                                                        user = user,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onUpVote = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVotePost(result.model.id),
-                                                        )
-                                                    }
-                                                },
-                                                onDownVote = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.DownVotePost(
-                                                                result.model.id,
+                                                    },
+                                                onSave =
+                                                    rememberCallback(model) {
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.SavePost(result.model.id),
+                                                            )
+                                                        }
+                                                    },
+                                                onOpenImage =
+                                                    rememberCallbackArgs { url ->
+                                                        navigationCoordinator.pushScreen(
+                                                            ZoomableImageScreen(
+                                                                url = url,
+                                                                source = result.model.community?.readableHandle.orEmpty(),
                                                             ),
                                                         )
-                                                    }
-                                                },
-                                                onSave = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.SavePost(result.model.id),
+                                                    },
+                                                onOpenPost =
+                                                    rememberCallbackArgs { post, instance ->
+                                                        detailOpener.openPostDetail(
+                                                            post = post,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
                                                         )
-                                                    }
-                                                },
-                                                onOpenImage = rememberCallbackArgs { url ->
-                                                    navigationCoordinator.pushScreen(
-                                                        ZoomableImageScreen(
-                                                            url = url,
-                                                            source = result.model.community?.readableHandle.orEmpty(),
-                                                        ),
-                                                    )
-                                                },
-                                                onOpenPost = rememberCallbackArgs { post, instance ->
-                                                    detailOpener.openPostDetail(
-                                                        post = post,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onOpenWeb = rememberCallbackArgs { url ->
-                                                    navigationCoordinator.pushScreen(
-                                                        WebViewScreen(url),
-                                                    )
-                                                },
+                                                    },
+                                                onOpenWeb =
+                                                    rememberCallbackArgs { url ->
+                                                        navigationCoordinator.pushScreen(
+                                                            WebViewScreen(url),
+                                                        )
+                                                    },
                                             )
                                         },
                                     )
@@ -530,81 +576,93 @@ class ExploreScreen(
                                     fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
                                         mapNotNull {
                                             when (it) {
-                                                ActionOnSwipe.UpVote -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.ArrowCircleUp,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = upVoteColor
-                                                        ?: defaultUpvoteColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVoteComment(
-                                                                result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.UpVote ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.ArrowCircleUp,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            upVoteColor
+                                                                ?: defaultUpvoteColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.UpVoteComment(
+                                                                        result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.DownVote -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.ArrowCircleDown,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = downVoteColor
-                                                        ?: defaultDownVoteColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.DownVoteComment(
-                                                                result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.DownVote ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.ArrowCircleDown,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            downVoteColor
+                                                                ?: defaultDownVoteColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.DownVoteComment(
+                                                                        result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.Reply -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.AutoMirrored.Default.Reply,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = replyColor
-                                                        ?: defaultReplyColor,
-                                                    onTriggered = rememberCallback {
-                                                        detailOpener.openPostDetail(
-                                                            post = PostModel(id = result.model.postId),
-                                                            highlightCommentId = result.model.id,
-                                                            otherInstance = otherInstanceName,
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.Reply ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.AutoMirrored.Default.Reply,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            replyColor
+                                                                ?: defaultReplyColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                detailOpener.openPostDetail(
+                                                                    post = PostModel(id = result.model.postId),
+                                                                    highlightCommentId = result.model.id,
+                                                                    otherInstance = otherInstanceName,
+                                                                )
+                                                            },
+                                                    )
 
-                                                ActionOnSwipe.Save -> SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.Bookmark,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor = saveColor
-                                                        ?: defaultSaveColor,
-                                                    onTriggered = rememberCallback {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.SaveComment(
-                                                                result.model.id,
-                                                            ),
-                                                        )
-                                                    },
-                                                )
+                                                ActionOnSwipe.Save ->
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.Bookmark,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor =
+                                                            saveColor
+                                                                ?: defaultSaveColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.SaveComment(
+                                                                        result.model.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
 
                                                 else -> null
                                             }
@@ -613,19 +671,22 @@ class ExploreScreen(
                                     SwipeActionCard(
                                         modifier = Modifier.fillMaxWidth(),
                                         enabled = uiState.swipeActionsEnabled,
-                                        onGestureBegin = rememberCallback(model) {
-                                            model.reduce(ExploreMviModel.Intent.HapticIndication)
-                                        },
-                                        swipeToStartActions = if (uiState.isLogged) {
-                                            uiState.actionsOnSwipeToStartComments.toSwipeActions()
-                                        } else {
-                                            emptyList()
-                                        },
-                                        swipeToEndActions = if (uiState.isLogged) {
-                                            uiState.actionsOnSwipeToEndComments.toSwipeActions()
-                                        } else {
-                                            emptyList()
-                                        },
+                                        onGestureBegin =
+                                            rememberCallback(model) {
+                                                model.reduce(ExploreMviModel.Intent.HapticIndication)
+                                            },
+                                        swipeToStartActions =
+                                            if (uiState.isLogged) {
+                                                uiState.actionsOnSwipeToStartComments.toSwipeActions()
+                                            } else {
+                                                emptyList()
+                                            },
+                                        swipeToEndActions =
+                                            if (uiState.isLogged) {
+                                                uiState.actionsOnSwipeToEndComments.toSwipeActions()
+                                            } else {
+                                                emptyList()
+                                            },
                                         content = {
                                             CommentCard(
                                                 modifier = Modifier.background(MaterialTheme.colorScheme.background),
@@ -645,78 +706,89 @@ class ExploreScreen(
                                                         otherInstance = otherInstanceName,
                                                     )
                                                 },
-                                                onDoubleClick = if (!uiState.doubleTapActionEnabled) {
-                                                    null
-                                                } else {
+                                                onDoubleClick =
+                                                    if (!uiState.doubleTapActionEnabled) {
+                                                        null
+                                                    } else {
+                                                        rememberCallback(model) {
+                                                            if (uiState.isLogged) {
+                                                                model.reduce(
+                                                                    ExploreMviModel.Intent.UpVoteComment(
+                                                                        id = result.model.id,
+                                                                        feedback = true,
+                                                                    ),
+                                                                )
+                                                            }
+                                                        }
+                                                    },
+                                                onUpVote =
                                                     rememberCallback(model) {
                                                         if (uiState.isLogged) {
                                                             model.reduce(
                                                                 ExploreMviModel.Intent.UpVoteComment(
                                                                     id = result.model.id,
-                                                                    feedback = true,
                                                                 ),
                                                             )
                                                         }
-                                                    }
-                                                },
-                                                onUpVote = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.UpVoteComment(
-                                                                id = result.model.id,
+                                                    },
+                                                onDownVote =
+                                                    rememberCallback(model) {
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.DownVoteComment(
+                                                                    id = result.model.id,
+                                                                ),
+                                                            )
+                                                        }
+                                                    },
+                                                onSave =
+                                                    rememberCallback(model) {
+                                                        if (uiState.isLogged) {
+                                                            model.reduce(
+                                                                ExploreMviModel.Intent.SaveComment(
+                                                                    id = result.model.id,
+                                                                ),
+                                                            )
+                                                        }
+                                                    },
+                                                onOpenCommunity =
+                                                    rememberCallbackArgs { community, instance ->
+                                                        detailOpener.openCommunityDetail(
+                                                            community = community,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
+                                                        )
+                                                    },
+                                                onOpenCreator =
+                                                    rememberCallbackArgs { user, instance ->
+                                                        detailOpener.openUserDetail(
+                                                            user = user,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
+                                                        )
+                                                    },
+                                                onOpenPost =
+                                                    rememberCallbackArgs { post, instance ->
+                                                        detailOpener.openPostDetail(
+                                                            post = post,
+                                                            otherInstance =
+                                                                instance.takeIf {
+                                                                    it.isNotEmpty()
+                                                                } ?: otherInstanceName,
+                                                        )
+                                                    },
+                                                onOpenWeb =
+                                                    rememberCallbackArgs { url ->
+                                                        navigationCoordinator.pushScreen(
+                                                            WebViewScreen(
+                                                                url,
                                                             ),
                                                         )
-                                                    }
-                                                },
-                                                onDownVote = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.DownVoteComment(
-                                                                id = result.model.id,
-                                                            ),
-                                                        )
-                                                    }
-                                                },
-                                                onSave = rememberCallback(model) {
-                                                    if (uiState.isLogged) {
-                                                        model.reduce(
-                                                            ExploreMviModel.Intent.SaveComment(
-                                                                id = result.model.id,
-                                                            ),
-                                                        )
-                                                    }
-                                                },
-                                                onOpenCommunity = rememberCallbackArgs { community, instance ->
-                                                    detailOpener.openCommunityDetail(
-                                                        community = community,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onOpenCreator = rememberCallbackArgs { user, instance ->
-                                                    detailOpener.openUserDetail(
-                                                        user = user,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onOpenPost = rememberCallbackArgs { post, instance ->
-                                                    detailOpener.openPostDetail(
-                                                        post = post,
-                                                        otherInstance = instance.takeIf {
-                                                            it.isNotEmpty()
-                                                        } ?: otherInstanceName,
-                                                    )
-                                                },
-                                                onOpenWeb = rememberCallbackArgs { url ->
-                                                    navigationCoordinator.pushScreen(
-                                                        WebViewScreen(
-                                                            url,
-                                                        ),
-                                                    )
-                                                },
+                                                    },
                                             )
                                         },
                                     )
@@ -728,14 +800,15 @@ class ExploreScreen(
 
                                 is SearchResult.User -> {
                                     UserItem(
-                                        modifier = Modifier.fillMaxWidth().onClick(
-                                            onClick = {
-                                                detailOpener.openUserDetail(
-                                                    user = result.model,
-                                                    otherInstance = otherInstanceName,
-                                                )
-                                            },
-                                        ),
+                                        modifier =
+                                            Modifier.fillMaxWidth().onClick(
+                                                onClick = {
+                                                    detailOpener.openUserDetail(
+                                                        user = result.model,
+                                                        otherInstance = otherInstanceName,
+                                                    )
+                                                },
+                                            ),
                                         user = result.model,
                                         preferNicknames = uiState.preferNicknames,
                                     )

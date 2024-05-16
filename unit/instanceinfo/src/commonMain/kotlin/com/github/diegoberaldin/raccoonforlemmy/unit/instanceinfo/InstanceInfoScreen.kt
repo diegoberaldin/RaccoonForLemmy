@@ -57,7 +57,6 @@ import org.koin.core.parameter.parametersOf
 class InstanceInfoScreen(
     private val url: String,
 ) : Screen {
-
     @OptIn(
         ExperimentalMaterial3Api::class,
         ExperimentalMaterialApi::class,
@@ -65,10 +64,11 @@ class InstanceInfoScreen(
     @Composable
     override fun Content() {
         val instanceName = url.replace("https://", "")
-        val model = getScreenModel<InstanceInfoMviModel>(
-            tag = instanceName,
-            parameters = { parametersOf(url) },
-        )
+        val model =
+            getScreenModel<InstanceInfoMviModel>(
+                tag = instanceName,
+                parameters = { parametersOf(url) },
+            )
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -90,19 +90,21 @@ class InstanceInfoScreen(
         }
 
         Scaffold(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(Spacing.xs),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(Spacing.xs),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         Image(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -110,11 +112,12 @@ class InstanceInfoScreen(
                     },
                     title = {
                         Text(
-                            text = buildString {
-                                append(LocalXmlStrings.current.instanceDetailTitle)
-                                append(" ")
-                                append(instanceName)
-                            },
+                            text =
+                                buildString {
+                                    append(LocalXmlStrings.current.instanceDetailTitle)
+                                    append(" ")
+                                    append(instanceName)
+                                },
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -123,27 +126,30 @@ class InstanceInfoScreen(
                         val additionalLabel = uiState.sortType.getAdditionalLabel()
                         if (additionalLabel.isNotEmpty()) {
                             Text(
-                                text = buildString {
-                                    append("(")
-                                    append(additionalLabel)
-                                    append(")")
-                                },
+                                text =
+                                    buildString {
+                                        append("(")
+                                        append(additionalLabel)
+                                        append(")")
+                                    },
                             )
                             Spacer(modifier = Modifier.width(Spacing.xs))
                         }
                         Image(
-                            modifier = Modifier
-                                .padding(horizontal = Spacing.xs)
-                                .onClick(
-                                    onClick = {
-                                        val sheet = SortBottomSheet(
-                                            values = uiState.availableSortTypes.map { it.toInt() },
-                                            expandTop = true,
-                                            screenKey = "instanceInfo",
-                                        )
-                                        navigationCoordinator.showBottomSheet(sheet)
-                                    },
-                                ),
+                            modifier =
+                                Modifier
+                                    .padding(horizontal = Spacing.xs)
+                                    .onClick(
+                                        onClick = {
+                                            val sheet =
+                                                SortBottomSheet(
+                                                    values = uiState.availableSortTypes.map { it.toInt() },
+                                                    expandTop = true,
+                                                    screenKey = "instanceInfo",
+                                                )
+                                            navigationCoordinator.showBottomSheet(sheet)
+                                        },
+                                    ),
                             imageVector = uiState.sortType.toIcon(),
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -152,23 +158,26 @@ class InstanceInfoScreen(
                 )
             },
         ) { paddingValues ->
-            val pullRefreshState = rememberPullRefreshState(
-                refreshing = uiState.refreshing,
-                onRefresh = rememberCallback(model) {
-                    model.reduce(InstanceInfoMviModel.Intent.Refresh)
-                },
-            )
-            Box(
-                modifier = Modifier
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
+            val pullRefreshState =
+                rememberPullRefreshState(
+                    refreshing = uiState.refreshing,
+                    onRefresh =
+                        rememberCallback(model) {
+                            model.reduce(InstanceInfoMviModel.Intent.Refresh)
                         },
-                    )
-                    .padding(paddingValues)
-                    .pullRefresh(pullRefreshState),
+                )
+            Box(
+                modifier =
+                    Modifier
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        )
+                        .padding(paddingValues)
+                        .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(top = Spacing.xs, start = Spacing.s, end = Spacing.s),
@@ -208,7 +217,7 @@ class InstanceInfoScreen(
                         )
                     }
 
-                    if (uiState.communities.isEmpty()) {
+                    if (uiState.communities.isEmpty() && uiState.initial) {
                         items(5) {
                             CommunityItemPlaceholder()
                         }
@@ -216,11 +225,12 @@ class InstanceInfoScreen(
 
                     items(uiState.communities) { community ->
                         CommunityItem(
-                            modifier = Modifier.onClick(
-                                onClick = {
-                                    detailOpener.openCommunityDetail(community, instanceName)
-                                },
-                            ),
+                            modifier =
+                                Modifier.onClick(
+                                    onClick = {
+                                        detailOpener.openCommunityDetail(community, instanceName)
+                                    },
+                                ),
                             community = community,
                             autoLoadImages = uiState.autoLoadImages,
                             preferNicknames = uiState.preferNicknames,

@@ -24,76 +24,77 @@ class InstanceInfoViewModel(
     DefaultMviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>(
         initialState = InstanceInfoMviModel.UiState(),
     ) {
+    private var currentPage = 1
 
-        private var currentPage = 1
-
-        init {
-            screenModelScope.launch {
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState {
-                        it.copy(
-                            autoLoadImages = settings.autoLoadImages,
-                            preferNicknames = settings.preferUserNicknames,
-                        )
+    init {
+        screenModelScope.launch {
+            settingsRepository.currentSettings.onEach { settings ->
+                updateState {
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                    )
+                }
+            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "instanceInfo") {
+                        changeSortType(evt.value)
                     }
                 }.launchIn(this)
-                notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
-                    .onEach { evt ->
-                        if (evt.screenKey == "instanceInfo") {
-                            changeSortType(evt.value)
-                        }
-                    }.launchIn(this)
 
-                val metadata = siteRepository.getMetadata(url)
-                val sortTypes = getSortTypesUseCase.getTypesForCommunities()
-                if (metadata != null) {
-                    metadata.title
-                    updateState {
-                        it.copy(
-                            title = metadata.title,
-                            description = metadata.description,
-                            availableSortTypes = sortTypes,
-                        )
-                    }
+            val metadata = siteRepository.getMetadata(url)
+            val sortTypes = getSortTypesUseCase.getTypesForCommunities()
+            if (metadata != null) {
+                metadata.title
+                updateState {
+                    it.copy(
+                        title = metadata.title,
+                        description = metadata.description,
+                        availableSortTypes = sortTypes,
+                    )
                 }
             }
-
-            if (uiState.value.communities.isEmpty()) {
-                refresh()
-            }
         }
 
-        override fun reduce(intent: InstanceInfoMviModel.Intent) {
-            when (intent) {
-                InstanceInfoMviModel.Intent.LoadNextPage -> loadNextPage()
-                InstanceInfoMviModel.Intent.Refresh -> refresh()
-            }
+        if (uiState.value.initial) {
+            refresh(initial = true)
+        }
+    }
+
+    override fun reduce(intent: InstanceInfoMviModel.Intent) {
+        when (intent) {
+            InstanceInfoMviModel.Intent.LoadNextPage -> loadNextPage()
+            InstanceInfoMviModel.Intent.Refresh -> refresh()
+        }
+    }
+
+    private fun refresh(initial: Boolean = false) {
+        currentPage = 1
+        updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = !initial,
+                loading = false,
+                initial = initial,
+            )
+        }
+        loadNextPage()
+    }
+
+    private fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
         }
 
-        private fun refresh() {
-            currentPage = 1
-            updateState {
-                it.copy(
-                    canFetchMore = true,
-                    refreshing = true,
-                    loading = false,
-                )
-            }
-            loadNextPage()
-        }
-
-        private fun loadNextPage() {
-            val currentState = uiState.value
-            if (!currentState.canFetchMore || currentState.loading) {
-                updateState { it.copy(refreshing = false) }
-                return
-            }
-
-            screenModelScope.launch {
-                updateState { it.copy(loading = true) }
-                val refreshing = currentState.refreshing
-                val instance = url.replace("https://", "")
-                val itemList = communityRepository.getList(
+        screenModelScope.launch {
+            updateState { it.copy(loading = true) }
+            val refreshing = currentState.refreshing
+            val instance = url.replace("https://", "")
+            val itemList =
+                communityRepository.getList(
                     instance = instance,
                     page = currentPage,
                     sortType = currentState.sortType,
@@ -108,32 +109,34 @@ class InstanceInfoViewModel(
                         }
                     }
                 }
-                if (itemList.isNotEmpty()) {
-                    currentPage++
-                }
-                val itemsToAdd = itemList.filter { e ->
+            if (itemList.isNotEmpty()) {
+                currentPage++
+            }
+            val itemsToAdd =
+                itemList.filter { e ->
                     e.instanceUrl == url
                 }
-                updateState {
-                    it.copy(
-                        communities = if (refreshing) {
+            updateState {
+                it.copy(
+                    communities =
+                        if (refreshing) {
                             itemsToAdd
                         } else {
                             it.communities + itemsToAdd
                         },
-                        loading = false,
-                        canFetchMore = itemList.isNotEmpty(),
-                        refreshing = false,
-                    )
-                }
-            }
-        }
-
-        private fun changeSortType(value: SortType) {
-            updateState { it.copy(sortType = value) }
-            screenModelScope.launch {
-                emitEffect(InstanceInfoMviModel.Effect.BackToTop)
-                refresh()
+                    loading = false,
+                    canFetchMore = itemList.isNotEmpty(),
+                    refreshing = false,
+                )
             }
         }
     }
+
+    private fun changeSortType(value: SortType) {
+        updateState { it.copy(sortType = value) }
+        screenModelScope.launch {
+            emitEffect(InstanceInfoMviModel.Effect.BackToTop)
+            refresh()
+        }
+    }
+}

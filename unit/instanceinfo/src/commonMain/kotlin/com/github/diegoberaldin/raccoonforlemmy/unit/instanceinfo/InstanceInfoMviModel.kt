@@ -10,9 +10,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 interface InstanceInfoMviModel :
     MviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>,
     ScreenModel {
-
     sealed interface Intent {
         data object Refresh : Intent
+
         data object LoadNextPage : Intent
     }
 
@@ -21,6 +21,7 @@ interface InstanceInfoMviModel :
         val description: String = "",
         val canFetchMore: Boolean = true,
         val refreshing: Boolean = false,
+        val initial: Boolean = true,
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
         val loading: Boolean = false,

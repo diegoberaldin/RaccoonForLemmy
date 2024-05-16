@@ -44,206 +44,220 @@ class FilteredContentsViewModel(
     DefaultMviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect>(
         initialState = FilteredContentsMviModel.State(),
     ) {
-
-        init {
+    init {
+        updateState {
+            it.copy(contentsType = contentsType.toFilteredContentsType())
+        }
+        screenModelScope.launch {
             updateState {
-                it.copy(contentsType = contentsType.toFilteredContentsType())
+                it.copy(isAdmin = identityRepository.cachedUser?.admin == true)
             }
-            screenModelScope.launch {
+            themeRepository.postLayout.onEach { layout ->
+                updateState { it.copy(postLayout = layout) }
+            }.launchIn(this)
+            settingsRepository.currentSettings.onEach { settings ->
                 updateState {
-                    it.copy(isAdmin = identityRepository.cachedUser?.admin == true)
+                    it.copy(
+                        autoLoadImages = settings.autoLoadImages,
+                        preferNicknames = settings.preferUserNicknames,
+                        swipeActionsEnabled = settings.enableSwipeActions,
+                        voteFormat = settings.voteFormat,
+                        fullHeightImages = settings.fullHeightImages,
+                        fullWidthImages = settings.fullWidthImages,
+                        fadeReadPosts = settings.fadeReadPosts,
+                        showUnreadComments = settings.showUnreadComments,
+                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                    )
                 }
-                themeRepository.postLayout.onEach { layout ->
-                    updateState { it.copy(postLayout = layout) }
-                }.launchIn(this)
-                settingsRepository.currentSettings.onEach { settings ->
-                    updateState {
-                        it.copy(
-                            autoLoadImages = settings.autoLoadImages,
-                            preferNicknames = settings.preferUserNicknames,
-                            swipeActionsEnabled = settings.enableSwipeActions,
-                            voteFormat = settings.voteFormat,
-                            fullHeightImages = settings.fullHeightImages,
-                            fullWidthImages = settings.fullWidthImages,
-                            fadeReadPosts = settings.fadeReadPosts,
-                            showUnreadComments = settings.showUnreadComments,
-                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                            actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
-                            actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
-                        )
-                    }
-                }.launchIn(this)
+            }.launchIn(this)
 
-                notificationCenter.subscribe(NotificationCenterEvent.ChangedLikedType::class).onEach { evt ->
-                    changeLiked(evt.value)
-                }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangedLikedType::class).onEach { evt ->
+                changeLiked(evt.value)
+            }.launchIn(this)
 
-                if (uiState.value.posts.isEmpty()) {
-                    refresh(initial = true)
-                }
+            if (uiState.value.initial) {
+                refresh(initial = true)
             }
         }
+    }
 
-        override fun reduce(intent: FilteredContentsMviModel.Intent) {
-            when (intent) {
-                is FilteredContentsMviModel.Intent.ChangeSection -> changeSection(intent.value)
-                FilteredContentsMviModel.Intent.Refresh -> screenModelScope.launch {
+    override fun reduce(intent: FilteredContentsMviModel.Intent) {
+        when (intent) {
+            is FilteredContentsMviModel.Intent.ChangeSection -> changeSection(intent.value)
+            FilteredContentsMviModel.Intent.Refresh ->
+                screenModelScope.launch {
                     refresh()
                 }
 
-                FilteredContentsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-                FilteredContentsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+            FilteredContentsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
+            FilteredContentsMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
                     loadNextPage()
                 }
 
-                is FilteredContentsMviModel.Intent.UpVotePost -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                        toggleUpVote(post = post)
-                    }
+            is FilteredContentsMviModel.Intent.UpVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
                 }
-
-                is FilteredContentsMviModel.Intent.DownVotePost -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                        toggleDownVote(post = post)
-                    }
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleUpVote(post = post)
                 }
+            }
 
-                is FilteredContentsMviModel.Intent.SavePost -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
-                        toggleSave(post = post)
-                    }
+            is FilteredContentsMviModel.Intent.DownVotePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
                 }
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleDownVote(post = post)
+                }
+            }
 
-                is FilteredContentsMviModel.Intent.ModFeaturePost -> uiState.value.posts.firstOrNull { it.id == intent.id }
+            is FilteredContentsMviModel.Intent.SavePost -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
+                uiState.value.posts.firstOrNull { it.id == intent.id }?.also { post ->
+                    toggleSave(post = post)
+                }
+            }
+
+            is FilteredContentsMviModel.Intent.ModFeaturePost ->
+                uiState.value.posts.firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         feature(post = post)
                     }
 
-                is FilteredContentsMviModel.Intent.ModLockPost -> uiState.value.posts.firstOrNull { it.id == intent.id }
+            is FilteredContentsMviModel.Intent.ModLockPost ->
+                uiState.value.posts.firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         lock(post = post)
                     }
 
-                is FilteredContentsMviModel.Intent.UpVoteComment -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
-                        toggleUpVoteComment(comment = comment)
-                    }
+            is FilteredContentsMviModel.Intent.UpVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
                 }
-
-                is FilteredContentsMviModel.Intent.DownVoteComment -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
-                        toggleDownVoteComment(comment = comment)
-                    }
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
+                    toggleUpVoteComment(comment = comment)
                 }
+            }
 
-                is FilteredContentsMviModel.Intent.SaveComment -> {
-                    if (intent.feedback) {
-                        hapticFeedback.vibrate()
-                    }
-                    uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
-                        toggleSaveComment(comment = comment)
-                    }
+            is FilteredContentsMviModel.Intent.DownVoteComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
                 }
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
+                    toggleDownVoteComment(comment = comment)
+                }
+            }
 
-                is FilteredContentsMviModel.Intent.ModDistinguishComment -> uiState.value.comments.firstOrNull {
+            is FilteredContentsMviModel.Intent.SaveComment -> {
+                if (intent.feedback) {
+                    hapticFeedback.vibrate()
+                }
+                uiState.value.comments.firstOrNull { it.id == intent.commentId }?.also { comment ->
+                    toggleSaveComment(comment = comment)
+                }
+            }
+
+            is FilteredContentsMviModel.Intent.ModDistinguishComment ->
+                uiState.value.comments.firstOrNull {
                     it.id == intent.commentId
                 }?.also { comment ->
                     distinguish(comment)
                 }
 
-                FilteredContentsMviModel.Intent.WillOpenDetail -> {
-                    val state = postPaginationManager.extractState()
-                    postNavigationManager.push(state)
-                }
+            FilteredContentsMviModel.Intent.WillOpenDetail -> {
+                val state = postPaginationManager.extractState()
+                postNavigationManager.push(state)
             }
         }
+    }
 
-        private suspend fun refresh(initial: Boolean = false) {
-            val currentState = uiState.value
-            val postSpecification = when (currentState.contentsType) {
-                FilteredContentsType.Moderated -> PostPaginationSpecification.Listing(
-                    listingType = ListingType.ModeratorView,
-                    sortType = SortType.New,
-                )
+    private suspend fun refresh(initial: Boolean = false) {
+        val currentState = uiState.value
+        val postSpecification =
+            when (currentState.contentsType) {
+                FilteredContentsType.Moderated ->
+                    PostPaginationSpecification.Listing(
+                        listingType = ListingType.ModeratorView,
+                        sortType = SortType.New,
+                    )
 
-                FilteredContentsType.Votes -> PostPaginationSpecification.Votes(
-                    liked = currentState.liked,
-                    sortType = SortType.New,
-                )
+                FilteredContentsType.Votes ->
+                    PostPaginationSpecification.Votes(
+                        liked = currentState.liked,
+                        sortType = SortType.New,
+                    )
 
-                FilteredContentsType.Bookmarks -> PostPaginationSpecification.Saved(
-                    sortType = SortType.New,
-                )
+                FilteredContentsType.Bookmarks ->
+                    PostPaginationSpecification.Saved(
+                        sortType = SortType.New,
+                    )
             }
-            postPaginationManager.reset(postSpecification)
-            val commentSpecification = when (currentState.contentsType) {
-                FilteredContentsType.Moderated -> CommentPaginationSpecification.Replies(
-                    listingType = ListingType.ModeratorView,
-                    sortType = SortType.New,
-                )
+        postPaginationManager.reset(postSpecification)
+        val commentSpecification =
+            when (currentState.contentsType) {
+                FilteredContentsType.Moderated ->
+                    CommentPaginationSpecification.Replies(
+                        listingType = ListingType.ModeratorView,
+                        sortType = SortType.New,
+                    )
 
-                FilteredContentsType.Votes -> CommentPaginationSpecification.Votes(
-                    liked = currentState.liked,
-                    sortType = SortType.New,
-                )
+                FilteredContentsType.Votes ->
+                    CommentPaginationSpecification.Votes(
+                        liked = currentState.liked,
+                        sortType = SortType.New,
+                    )
 
-                FilteredContentsType.Bookmarks -> CommentPaginationSpecification.Saved(
-                    sortType = SortType.New,
-                )
+                FilteredContentsType.Bookmarks ->
+                    CommentPaginationSpecification.Saved(
+                        sortType = SortType.New,
+                    )
             }
-            commentPaginationManager.reset(commentSpecification)
-            updateState {
-                it.copy(
-                    canFetchMore = true,
-                    refreshing = true,
-                    initial = initial,
-                    loading = false,
-                )
-            }
-            screenModelScope.launch {
-                loadNextPage()
-            }
+        commentPaginationManager.reset(commentSpecification)
+        updateState {
+            it.copy(
+                canFetchMore = true,
+                refreshing = !initial,
+                initial = initial,
+                loading = false,
+            )
         }
-
-        private fun changeSection(section: FilteredContentsSection) {
-            updateState {
-                it.copy(
-                    section = section,
-                )
-            }
+        screenModelScope.launch {
+            loadNextPage()
         }
+    }
 
-        private suspend fun loadNextPage() {
-            val currentState = uiState.value
-            if (!currentState.canFetchMore || currentState.loading) {
-                updateState { it.copy(refreshing = false) }
-                return
-            }
-            updateState { it.copy(loading = true) }
-            val refreshing = currentState.refreshing
+    private fun changeSection(section: FilteredContentsSection) {
+        updateState {
+            it.copy(
+                section = section,
+            )
+        }
+    }
 
-            if (currentState.section == FilteredContentsSection.Posts) {
-                coroutineScope {
-                    val posts = async {
+    private suspend fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
+        }
+        updateState { it.copy(loading = true) }
+        val refreshing = currentState.refreshing
+
+        if (currentState.section == FilteredContentsSection.Posts) {
+            coroutineScope {
+                val posts =
+                    async {
                         postPaginationManager.loadNextPage()
                     }.await()
-                    val comments = async {
+                val comments =
+                    async {
                         if (currentState.comments.isEmpty() || refreshing) {
                             // this is needed because otherwise on first selector change
                             // the lazy column scrolls back to top (it must have an empty data set)
@@ -252,248 +266,258 @@ class FilteredContentsViewModel(
                             currentState.comments
                         }
                     }.await()
-                    if (uiState.value.autoLoadImages) {
-                        posts.forEach { post ->
-                            post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
-                                imagePreloadManager.preload(url)
-                            }
+                if (uiState.value.autoLoadImages) {
+                    posts.forEach { post ->
+                        post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
+                            imagePreloadManager.preload(url)
                         }
                     }
-                    updateState {
-                        it.copy(
-                            posts = posts,
-                            comments = comments,
-                            loading = if (it.initial) posts.isEmpty() else false,
-                            canFetchMore = postPaginationManager.canFetchMore,
-                            refreshing = false,
-                            initial = if (it.initial) posts.isEmpty() else false,
-                        )
-                    }
                 }
-            } else {
-                val comments = commentPaginationManager.loadNextPage()
                 updateState {
                     it.copy(
+                        posts = posts,
                         comments = comments,
-                        loading = if (it.initial) comments.isEmpty() else false,
-                        canFetchMore = commentPaginationManager.canFetchMore,
+                        loading = if (it.initial) posts.isEmpty() else false,
+                        canFetchMore = postPaginationManager.canFetchMore,
                         refreshing = false,
-                        initial = if (it.initial) comments.isEmpty() else false,
+                        initial = if (it.initial) posts.isEmpty() else false,
                     )
                 }
             }
+        } else {
+            val comments = commentPaginationManager.loadNextPage()
+            updateState {
+                it.copy(
+                    comments = comments,
+                    loading = if (it.initial) comments.isEmpty() else false,
+                    canFetchMore = commentPaginationManager.canFetchMore,
+                    refreshing = false,
+                    initial = if (it.initial) comments.isEmpty() else false,
+                )
+            }
         }
+    }
 
-        private fun toggleUpVote(post: PostModel) {
-            val newValue = post.myVote <= 0
-            val newPost = postRepository.asUpVoted(
+    private fun toggleUpVote(post: PostModel) {
+        val newValue = post.myVote <= 0
+        val newPost =
+            postRepository.asUpVoted(
                 post = post,
                 voted = newValue,
             )
-            handlePostUpdate(newPost)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    postRepository.upVote(
-                        auth = auth,
-                        post = post,
-                        voted = newValue,
-                    )
-                    notificationCenter.send(
-                        event = NotificationCenterEvent.PostUpdated(newPost),
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handlePostUpdate(post)
-                }
+        handlePostUpdate(newPost)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postRepository.upVote(
+                    auth = auth,
+                    post = post,
+                    voted = newValue,
+                )
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handlePostUpdate(post)
             }
         }
+    }
 
-        private fun toggleDownVote(post: PostModel) {
-            val newValue = post.myVote >= 0
-            val newPost = postRepository.asDownVoted(
+    private fun toggleDownVote(post: PostModel) {
+        val newValue = post.myVote >= 0
+        val newPost =
+            postRepository.asDownVoted(
                 post = post,
                 downVoted = newValue,
             )
-            handlePostUpdate(newPost)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    postRepository.downVote(
-                        post = post,
-                        auth = auth,
-                        downVoted = newValue,
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handlePostUpdate(post)
-                }
+        handlePostUpdate(newPost)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postRepository.downVote(
+                    post = post,
+                    auth = auth,
+                    downVoted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handlePostUpdate(post)
             }
         }
+    }
 
-        private fun toggleSave(post: PostModel) {
-            val newValue = !post.saved
-            val newPost = postRepository.asSaved(
+    private fun toggleSave(post: PostModel) {
+        val newValue = !post.saved
+        val newPost =
+            postRepository.asSaved(
                 post = post,
                 saved = newValue,
             )
-            handlePostUpdate(newPost)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    postRepository.save(
-                        auth = auth,
-                        post = post,
-                        saved = newValue,
-                    )
-                    notificationCenter.send(
-                        event = NotificationCenterEvent.PostUpdated(newPost),
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handlePostUpdate(post)
-                }
+        handlePostUpdate(newPost)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postRepository.save(
+                    auth = auth,
+                    post = post,
+                    saved = newValue,
+                )
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handlePostUpdate(post)
             }
         }
+    }
 
-        private fun feature(post: PostModel) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val newPost = postRepository.featureInCommunity(
+    private fun feature(post: PostModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.featureInCommunity(
                     postId = post.id,
                     auth = auth,
                     featured = !post.featuredCommunity,
                 )
-                if (newPost != null) {
-                    handlePostUpdate(newPost)
-                }
+            if (newPost != null) {
+                handlePostUpdate(newPost)
             }
         }
+    }
 
-        private fun lock(post: PostModel) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val newPost = postRepository.lock(
+    private fun lock(post: PostModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.lock(
                     postId = post.id,
                     auth = auth,
                     locked = !post.locked,
                 )
-                if (newPost != null) {
-                    handlePostUpdate(newPost)
-                }
+            if (newPost != null) {
+                handlePostUpdate(newPost)
             }
         }
+    }
 
-        private fun handlePostUpdate(post: PostModel) {
-            updateState {
-                it.copy(
-                    posts = it.posts.map { p ->
+    private fun handlePostUpdate(post: PostModel) {
+        updateState {
+            it.copy(
+                posts =
+                    it.posts.map { p ->
                         if (p.id == post.id) {
                             post
                         } else {
                             p
                         }
                     },
-                )
-            }
+            )
         }
+    }
 
-        private fun toggleUpVoteComment(comment: CommentModel) {
-            val newValue = comment.myVote <= 0
-            val newComment = commentRepository.asUpVoted(
+    private fun toggleUpVoteComment(comment: CommentModel) {
+        val newValue = comment.myVote <= 0
+        val newComment =
+            commentRepository.asUpVoted(
                 comment = comment,
                 voted = newValue,
             )
-            handleCommentUpdate(newComment)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    commentRepository.upVote(
-                        auth = auth,
-                        comment = comment,
-                        voted = newValue,
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handleCommentUpdate(comment)
-                }
+        handleCommentUpdate(newComment)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.upVote(
+                    auth = auth,
+                    comment = comment,
+                    voted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handleCommentUpdate(comment)
             }
         }
+    }
 
-        private fun toggleDownVoteComment(comment: CommentModel) {
-            val newValue = comment.myVote >= 0
-            val newComment = commentRepository.asDownVoted(comment, newValue)
-            handleCommentUpdate(newComment)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    commentRepository.downVote(
-                        auth = auth,
-                        comment = comment,
-                        downVoted = newValue,
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handleCommentUpdate(comment)
-                }
+    private fun toggleDownVoteComment(comment: CommentModel) {
+        val newValue = comment.myVote >= 0
+        val newComment = commentRepository.asDownVoted(comment, newValue)
+        handleCommentUpdate(newComment)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.downVote(
+                    auth = auth,
+                    comment = comment,
+                    downVoted = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handleCommentUpdate(comment)
             }
         }
+    }
 
-        private fun toggleSaveComment(comment: CommentModel) {
-            val newValue = !comment.saved
-            val newComment = commentRepository.asSaved(
+    private fun toggleSaveComment(comment: CommentModel) {
+        val newValue = !comment.saved
+        val newComment =
+            commentRepository.asSaved(
                 comment = comment,
                 saved = newValue,
             )
-            handleCommentUpdate(newComment)
-            screenModelScope.launch {
-                try {
-                    val auth = identityRepository.authToken.value.orEmpty()
-                    commentRepository.save(
-                        auth = auth,
-                        comment = comment,
-                        saved = newValue,
-                    )
-                } catch (e: Throwable) {
-                    e.printStackTrace()
-                    handleCommentUpdate(comment)
-                }
+        handleCommentUpdate(newComment)
+        screenModelScope.launch {
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                commentRepository.save(
+                    auth = auth,
+                    comment = comment,
+                    saved = newValue,
+                )
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                handleCommentUpdate(comment)
             }
         }
+    }
 
-        private fun distinguish(comment: CommentModel) {
-            screenModelScope.launch {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val newComment = commentRepository.distinguish(
+    private fun distinguish(comment: CommentModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newComment =
+                commentRepository.distinguish(
                     commentId = comment.id,
                     auth = auth,
                     distinguished = !comment.distinguished,
                 )
-                if (newComment != null) {
-                    handleCommentUpdate(newComment)
-                }
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
             }
         }
+    }
 
-        private fun handleCommentUpdate(comment: CommentModel) {
-            updateState {
-                it.copy(
-                    comments = it.comments.map { c ->
+    private fun handleCommentUpdate(comment: CommentModel) {
+        updateState {
+            it.copy(
+                comments =
+                    it.comments.map { c ->
                         if (c.id == comment.id) {
                             comment
                         } else {
                             c
                         }
                     },
-                )
-            }
-        }
-
-        private fun changeLiked(value: Boolean) {
-            updateState { it.copy(liked = value) }
-            screenModelScope.launch {
-                refresh(initial = true)
-                emitEffect(FilteredContentsMviModel.Effect.BackToTop)
-            }
+            )
         }
     }
+
+    private fun changeLiked(value: Boolean) {
+        updateState { it.copy(liked = value) }
+        screenModelScope.launch {
+            refresh(initial = true)
+            emitEffect(FilteredContentsMviModel.Effect.BackToTop)
+        }
+    }
+}

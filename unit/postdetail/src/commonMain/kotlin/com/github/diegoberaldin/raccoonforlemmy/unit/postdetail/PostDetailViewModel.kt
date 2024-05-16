@@ -23,7 +23,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
@@ -44,7 +43,6 @@ class PostDetailViewModel(
     private val isModerator: Boolean,
     private val identityRepository: IdentityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
-    private val siteRepository: SiteRepository,
     private val postRepository: PostRepository,
     private val commentPaginationManager: CommentPaginationManager,
     private val commentRepository: CommentRepository,
@@ -221,7 +219,7 @@ class PostDetailViewModel(
             if (uiState.value.post.text.isEmpty() && uiState.value.post.title.isEmpty()) {
                 refreshPost()
             }
-            if (uiState.value.comments.isEmpty()) {
+            if (uiState.value.initial) {
                 val sortTypes =
                     getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
                 val defaultCommentSortType =
@@ -232,7 +230,7 @@ class PostDetailViewModel(
                         availableSortTypes = sortTypes,
                     )
                 }
-                refresh()
+                refresh(initial = true)
             }
         }
     }
@@ -402,7 +400,7 @@ class PostDetailViewModel(
         }
     }
 
-    private suspend fun refresh() {
+    private suspend fun refresh(initial: Boolean = false) {
         commentPaginationManager.reset(
             CommentPaginationSpecification.Replies(
                 postId = uiState.value.post.id,
@@ -412,8 +410,9 @@ class PostDetailViewModel(
         )
         updateState {
             it.copy(
+                initial = initial,
                 canFetchMore = true,
-                refreshing = true,
+                refreshing = !initial,
                 loading = false,
             )
         }
