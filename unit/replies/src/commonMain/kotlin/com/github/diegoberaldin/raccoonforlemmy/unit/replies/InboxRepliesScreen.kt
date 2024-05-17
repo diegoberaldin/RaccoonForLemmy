@@ -47,8 +47,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardType
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -182,11 +180,7 @@ class InboxRepliesScreen : Tab {
                                         backgroundColor = downVoteColor ?: defaultDownVoteColor,
                                         onTriggered =
                                             rememberCallback {
-                                                model.reduce(
-                                                    InboxRepliesMviModel.Intent.DownVoteComment(
-                                                        reply.id,
-                                                    ),
-                                                )
+                                                model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
                                             },
                                     )
 
@@ -240,6 +234,14 @@ class InboxRepliesScreen : Tab {
                                 voteFormat = uiState.voteFormat,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
+                                        if (!reply.read) {
+                                            model.reduce(
+                                                InboxRepliesMviModel.Intent.MarkAsRead(
+                                                    read = true,
+                                                    id = reply.id,
+                                                ),
+                                            )
+                                        }
                                         detailOpener.openPostDetail(
                                             post = post,
                                             highlightCommentId = reply.comment.id,
@@ -276,33 +278,6 @@ class InboxRepliesScreen : Tab {
                                             originalPost = reply.post,
                                             originalComment = reply.comment,
                                         )
-                                    },
-                                options =
-                                    buildList {
-                                        add(
-                                            Option(
-                                                OptionId.ToggleRead,
-                                                if (reply.read) {
-                                                    LocalXmlStrings.current.inboxActionMarkUnread
-                                                } else {
-                                                    LocalXmlStrings.current.inboxActionMarkRead
-                                                },
-                                            ),
-                                        )
-                                    },
-                                onOptionSelected =
-                                    rememberCallbackArgs(model) { optionId ->
-                                        when (optionId) {
-                                            OptionId.ToggleRead ->
-                                                model.reduce(
-                                                    InboxRepliesMviModel.Intent.MarkAsRead(
-                                                        read = !reply.read,
-                                                        id = reply.id,
-                                                    ),
-                                                )
-
-                                            else -> Unit
-                                        }
                                     },
                             )
                         },

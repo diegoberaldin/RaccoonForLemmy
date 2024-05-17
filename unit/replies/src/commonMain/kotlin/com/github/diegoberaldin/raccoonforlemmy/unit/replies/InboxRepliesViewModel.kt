@@ -90,23 +90,19 @@ class InboxRepliesViewModel(
                 }
 
             is InboxRepliesMviModel.Intent.MarkAsRead -> {
-                markAsRead(
-                    read = intent.read,
-                    reply = uiState.value.replies.first { it.id == intent.id },
-                )
+                val reply = uiState.value.replies.first { it.id == intent.id }
+                markAsRead(read = intent.read, reply = reply)
             }
 
             InboxRepliesMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxRepliesMviModel.Intent.DownVoteComment -> {
-                toggleDownVoteComment(
-                    mention = uiState.value.replies.first { it.id == intent.id },
-                )
+                val reply = uiState.value.replies.first { it.id == intent.id }
+                toggleDownVoteComment(reply)
             }
 
             is InboxRepliesMviModel.Intent.UpVoteComment -> {
-                toggleUpVoteComment(
-                    mention = uiState.value.replies.first { it.id == intent.id },
-                )
+                val reply = uiState.value.replies.first { it.id == intent.id }
+                toggleUpVoteComment(reply)
             }
         }
     }
@@ -237,6 +233,15 @@ class InboxRepliesViewModel(
                     comment = mention.comment,
                     voted = newValue,
                 )
+                if (!mention.read) {
+                    userRepository.setReplyRead(
+                        read = true,
+                        replyId = mention.id,
+                        auth = auth,
+                    )
+                    handleItemUpdate(newMention.copy(read = true))
+                    updateUnreadItems()
+                }
             } catch (e: Throwable) {
                 handleItemUpdate(mention)
             }
@@ -259,6 +264,15 @@ class InboxRepliesViewModel(
                     comment = mention.comment,
                     downVoted = newValue,
                 )
+                if (!mention.read) {
+                    userRepository.setReplyRead(
+                        read = true,
+                        replyId = mention.id,
+                        auth = auth,
+                    )
+                    handleItemUpdate(newMention.copy(read = true))
+                    updateUnreadItems()
+                }
             } catch (e: Throwable) {
                 handleItemUpdate(mention)
             }
