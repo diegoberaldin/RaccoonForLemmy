@@ -2,18 +2,17 @@ import UIKit
 import SwiftUI
 import shared
 
-struct ComposeView(): UIViewControllerRepresentable {
-
+struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        Main_iosKt.MainViewController()
+        MainViewControllerKt.MainViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
-struct ContentView(): View {
+struct ContentView: View {
     var body: some View {
         ComposeView()
-            .ignoresSafeArea(.all, edges: .bottom) // Compose has own keyboard handler
+                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
     }
 }
