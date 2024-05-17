@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Lățimea indentării comentariilor</string>
     <string name="post_action_unhide">Revino ascunderea</string>
     <string name="admin_action_purge">Epurează</string>
-    <string name="settings_url_opening_mode_no_history">fără istorie</string>
 </resources>

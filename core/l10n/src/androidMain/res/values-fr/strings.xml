@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Largeur d\'indentation des commentaires</string>
     <string name="post_action_unhide">Rétablir le masquage</string>
     <string name="admin_action_purge">Purger</string>
-    <string name="settings_url_opening_mode_no_history">pas d\'histoire</string>
 </resources>

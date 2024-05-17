@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Šírka odsadenia komentárov</string>
     <string name="post_action_unhide">Vrátiť skryť</string>
     <string name="admin_action_purge">Vyčistiť</string>
-    <string name="settings_url_opening_mode_no_history">žiadna história</string>
 </resources>

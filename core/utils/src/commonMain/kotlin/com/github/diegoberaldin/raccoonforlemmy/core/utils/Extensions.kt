@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package com.github.diegoberaldin.raccoonforlemmy.core.utils
 
 import androidx.compose.runtime.Composable
@@ -10,7 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.Locales
-import io.ktor.utils.io.core.toByteArray
+import io.ktor.utils.io.core.*
 import org.kotlincrypto.hash.md.MD5
 import kotlin.math.round
 
@@ -176,8 +174,14 @@ val String.looksLikeAVideo: Boolean
         return extensions.any { this.endsWith(it) }
     }
 
-val String.isRedGifs: Boolean
-    get() = this.contains("redgifs.com")
+val String.showInEmbeddedWebView: Boolean
+    get() {
+        val patterns =
+            listOf(
+                ".redgifs.com/",
+            )
+        return patterns.any { this.contains(it) }
+    }
 
 fun String?.ellipsize(
     length: Int = 100,

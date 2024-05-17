@@ -395,5 +395,4 @@
     <string name="settings_comment_indent_amount">Ширина відступу коментарів</string>
     <string name="post_action_unhide">Повернути приховування</string>
     <string name="admin_action_purge">Чистка</string>
-    <string name="settings_url_opening_mode_no_history">немає історії</string>
 </resources>

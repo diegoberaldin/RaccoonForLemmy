@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Širina zamika komentarjev</string>
     <string name="post_action_unhide">Povrni skrivanje</string>
     <string name="admin_action_purge">Čiščenje</string>
-    <string name="settings_url_opening_mode_no_history">brez zgodovine</string>
 </resources>

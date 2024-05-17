@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Komentarų įtraukos plotis</string>
     <string name="post_action_unhide">Grąžinti slėpimą</string>
     <string name="admin_action_purge">Valymas</string>
-    <string name="settings_url_opening_mode_no_history">jokios istorijos</string>
 </resources>

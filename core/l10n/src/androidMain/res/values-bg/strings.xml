@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Ширина на отстъпа на коментарите</string>
     <string name="post_action_unhide">Връщане на скриването</string>
     <string name="admin_action_purge">Прочистване</string>
-    <string name="settings_url_opening_mode_no_history">няма история</string>
 </resources>

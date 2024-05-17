@@ -395,5 +395,4 @@
     <string name="settings_comment_indent_amount">Ширина отступа комментариев</string>
     <string name="post_action_unhide">Вернуть скрытие</string>
     <string name="admin_action_purge">Удалять</string>
-    <string name="settings_url_opening_mode_no_history">нет истории</string>
 </resources>

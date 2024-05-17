@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Breedte van de inspringing van opmerkingen</string>
     <string name="post_action_unhide">Verberg terug</string>
     <string name="admin_action_purge">Zuiveren</string>
-    <string name="settings_url_opening_mode_no_history">geen geschiedenis</string>
 </resources>

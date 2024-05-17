@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Bredde på innrykk av kommentarer</string>
     <string name="post_action_unhide">Tilbakestill skjul</string>
     <string name="admin_action_purge">Rensing</string>
-    <string name="settings_url_opening_mode_no_history">ingen historie</string>
 </resources>

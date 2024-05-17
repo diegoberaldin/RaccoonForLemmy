@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Larghezza rientro dei commenti</string>
     <string name="post_action_unhide">Annulla nascondi</string>
     <string name="admin_action_purge">Epura</string>
-    <string name="settings_url_opening_mode_no_history">no cronologia</string>
 </resources>

@@ -396,5 +396,4 @@
     <string name="settings_comment_indent_amount">Bredde på indrykning af kommentarer</string>
     <string name="post_action_unhide">Vend skjul tilbage</string>
     <string name="admin_action_purge">Udrensning</string>
-    <string name="settings_url_opening_mode_no_history">ingen historie</string>
 </resources>
