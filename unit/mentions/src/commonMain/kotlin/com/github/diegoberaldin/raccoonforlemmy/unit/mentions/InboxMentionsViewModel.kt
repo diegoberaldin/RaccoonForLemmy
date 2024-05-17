@@ -87,23 +87,22 @@ class InboxMentionsViewModel(
                 }
 
             is InboxMentionsMviModel.Intent.MarkAsRead -> {
+                val mention = uiState.value.mentions.first { it.id == intent.id }
                 markAsRead(
                     read = intent.read,
-                    mention = uiState.value.mentions.first { it.id == intent.id },
+                    mention = mention,
                 )
             }
 
             InboxMentionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
             is InboxMentionsMviModel.Intent.DownVoteComment -> {
-                toggleDownVoteComment(
-                    mention = uiState.value.mentions.first { it.id == intent.id },
-                )
+                val mention = uiState.value.mentions.first { it.id == intent.id }
+                toggleDownVoteComment(mention)
             }
 
             is InboxMentionsMviModel.Intent.UpVoteComment -> {
-                toggleUpVoteComment(
-                    mention = uiState.value.mentions.first { it.id == intent.id },
-                )
+                val mention = uiState.value.mentions.first { it.id == intent.id }
+                toggleUpVoteComment(mention)
             }
         }
     }
@@ -216,15 +215,10 @@ class InboxMentionsViewModel(
 
     private fun toggleUpVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote <= 0
-        val newComment =
-            commentRepository.asUpVoted(
-                comment = mention.comment,
-                voted = newValue,
-            )
         val newMention =
-            mention.copy(
-                myVote = newComment.myVote,
-                score = newComment.score,
+            commentRepository.asUpVoted(
+                mention = mention,
+                voted = newValue,
             )
         handleItemUpdate(newMention)
         screenModelScope.launch {
@@ -235,6 +229,15 @@ class InboxMentionsViewModel(
                     comment = mention.comment,
                     voted = newValue,
                 )
+                if (!mention.read) {
+                    userRepository.setMentionRead(
+                        read = true,
+                        mentionId = mention.id,
+                        auth = auth,
+                    )
+                    handleItemUpdate(newMention.copy(read = true))
+                    updateUnreadItems()
+                }
             } catch (e: Throwable) {
                 handleItemUpdate(mention)
             }
@@ -243,11 +246,10 @@ class InboxMentionsViewModel(
 
     private fun toggleDownVoteComment(mention: PersonMentionModel) {
         val newValue = mention.myVote >= 0
-        val newComment = commentRepository.asDownVoted(mention.comment, newValue)
         val newMention =
-            mention.copy(
-                myVote = newComment.myVote,
-                score = newComment.score,
+            commentRepository.asDownVoted(
+                mention = mention,
+                downVoted = newValue,
             )
         handleItemUpdate(newMention)
         screenModelScope.launch {
@@ -258,6 +260,15 @@ class InboxMentionsViewModel(
                     comment = mention.comment,
                     downVoted = newValue,
                 )
+                if (!mention.read) {
+                    userRepository.setMentionRead(
+                        read = true,
+                        mentionId = mention.id,
+                        auth = auth,
+                    )
+                    handleItemUpdate(newMention.copy(read = true))
+                    updateUnreadItems()
+                }
             } catch (e: Throwable) {
                 handleItemUpdate(mention)
             }

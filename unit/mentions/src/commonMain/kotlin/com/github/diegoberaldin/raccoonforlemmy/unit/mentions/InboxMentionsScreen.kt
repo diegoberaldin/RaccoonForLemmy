@@ -46,8 +46,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.InboxCardType
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -185,9 +183,7 @@ class InboxMentionsScreen : Tab {
                                         onTriggered =
                                             rememberCallback {
                                                 model.reduce(
-                                                    InboxMentionsMviModel.Intent.DownVoteComment(
-                                                        mention.id,
-                                                    ),
+                                                    InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
                                                 )
                                             },
                                     )
@@ -242,6 +238,14 @@ class InboxMentionsScreen : Tab {
                                 voteFormat = uiState.voteFormat,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
+                                        if (!mention.read) {
+                                            model.reduce(
+                                                InboxMentionsMviModel.Intent.MarkAsRead(
+                                                    read = true,
+                                                    id = mention.id,
+                                                ),
+                                            )
+                                        }
                                         detailOpener.openPostDetail(
                                             post = post,
                                             highlightCommentId = mention.comment.id,
@@ -281,33 +285,6 @@ class InboxMentionsScreen : Tab {
                                             originalPost = mention.post,
                                             originalComment = mention.comment,
                                         )
-                                    },
-                                options =
-                                    buildList {
-                                        add(
-                                            Option(
-                                                OptionId.ToggleRead,
-                                                if (mention.read) {
-                                                    LocalXmlStrings.current.inboxActionMarkUnread
-                                                } else {
-                                                    LocalXmlStrings.current.inboxActionMarkRead
-                                                },
-                                            ),
-                                        )
-                                    },
-                                onOptionSelected =
-                                    rememberCallbackArgs(model) { optionId ->
-                                        when (optionId) {
-                                            OptionId.ToggleRead ->
-                                                model.reduce(
-                                                    InboxMentionsMviModel.Intent.MarkAsRead(
-                                                        read = !mention.read,
-                                                        id = mention.id,
-                                                    ),
-                                                )
-
-                                            else -> Unit
-                                        }
                                     },
                             )
                         },
