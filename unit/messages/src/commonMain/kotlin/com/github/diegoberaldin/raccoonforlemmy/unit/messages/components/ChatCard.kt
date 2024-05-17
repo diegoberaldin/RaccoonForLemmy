@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +28,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -71,7 +69,7 @@ internal fun ChatCard(
     Row(
         modifier =
             modifier
-                .padding(horizontal = Spacing.xs, vertical = Spacing.s)
+                .padding(horizontal = Spacing.xs)
                 .onClick(
                     onClick = {
                         onOpen?.invoke()
@@ -116,7 +114,7 @@ internal fun ChatCard(
 
         Column(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+            verticalArrangement = Arrangement.spacedBy(Spacing.xs),
         ) {
             Row(
                 modifier = Modifier.padding(end = Spacing.m),
@@ -129,6 +127,15 @@ internal fun ChatCard(
                     style = MaterialTheme.typography.bodySmall,
                     color = ancillaryColor,
                 )
+                // last message date
+                if (lastMessageDate != null) {
+                    Text(
+                        modifier = Modifier.padding(start = Spacing.xxs),
+                        text = lastMessageDate.prettifyDate(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = ancillaryColor,
+                    )
+                }
             }
             CustomizedContent(ContentFontClass.Body) {
                 // last message text
@@ -140,30 +147,15 @@ internal fun ChatCard(
                     },
                 )
             }
-
-            // last message date
-            if (lastMessageDate != null) {
-                Box {
+            Box {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(IconSize.s).padding(0.5.dp),
-                                imageVector = Icons.Default.Schedule,
-                                contentDescription = null,
-                                tint = ancillaryColor,
-                            )
-                            Text(
-                                modifier = Modifier.padding(start = Spacing.xxs),
-                                text = lastMessageDate.prettifyDate(),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = ancillaryColor,
-                            )
-                        }
+                        Spacer(modifier = Modifier.size(IconSize.m))
                         Spacer(modifier = Modifier.weight(1f))
                         if (options.isNotEmpty()) {
                             Icon(

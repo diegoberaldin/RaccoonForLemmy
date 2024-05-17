@@ -16,14 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.shimmerEffect
 
 @Composable
-internal fun ChatCardPlaceholder() {
+internal fun ChatCardPlaceholder(modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier.padding(horizontal = Spacing.xs, vertical = Spacing.s),
+        modifier = modifier.padding(horizontal = Spacing.xs),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
     ) {
@@ -41,14 +40,6 @@ internal fun ChatCardPlaceholder() {
                 modifier =
                     Modifier
                         .height(50.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(CornerSize.s))
-                        .shimmerEffect(),
-            )
-            Box(
-                modifier =
-                    Modifier
-                        .height(IconSize.m)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(CornerSize.s))
                         .shimmerEffect(),

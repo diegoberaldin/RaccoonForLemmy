@@ -100,7 +100,7 @@ class InboxMessagesScreen : Tab {
             ) {
                 if (uiState.chats.isEmpty() && uiState.initial) {
                     items(3) {
-                        ChatCardPlaceholder()
+                        ChatCardPlaceholder(modifier = Modifier.padding(top = Spacing.interItem))
                     }
                 }
                 if (uiState.chats.isEmpty() && !uiState.initial) {
