@@ -26,7 +26,7 @@ actual fun Long.toIso8601Timestamp(): String? {
     dateFormatter.locale = NSLocale.autoupdatingCurrentLocale
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
     dateFormatter.calendar = NSCalendar(calendarIdentifier = NSCalendarIdentifierGregorian)
-    val date = NSDate(timeIntervalSince1970: this)
+    val date = NSDate(timeIntervalSinceReferenceDate = (this.toDouble() / 1000))
     return dateFormatter.stringFromDate(date)
 }
 

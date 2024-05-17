@@ -7,13 +7,13 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.resource
+import org.jetbrains.compose.resources.InternalResourceApi
+import org.jetbrains.compose.resources.readResourceBytes
 import androidx.compose.ui.text.platform.Font as PlatformFont
 
 private val cache: MutableMap<String, Font> = mutableMapOf()
 
-@OptIn(ExperimentalResourceApi::class)
+@OptIn(InternalResourceApi::class)
 @Composable
 actual fun font(
     name: String,
@@ -24,7 +24,7 @@ actual fun font(
     return cache.getOrPut(res) {
         val byteArray =
             runBlocking {
-                resource("font/$res.ttf").readBytes()
+                readResourceBytes("font/$res.ttf")
             }
         PlatformFont(res, byteArray, weight, style)
     }
@@ -33,5 +33,5 @@ actual fun font(
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun drawable(res: String): Painter {
-    return painterResource("drawable/$res")
+    return drawable("drawable/$res")
 }

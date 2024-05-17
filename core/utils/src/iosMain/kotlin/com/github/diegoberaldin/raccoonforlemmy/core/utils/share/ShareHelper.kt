@@ -22,7 +22,10 @@ class DefaultShareHelper : ShareHelper {
         path: Any?,
         mimeType: String,
     ) {
-        val shareActivity = UIActivityViewController(listOf(UIImage(contentsOfFile = path?.toString())), null)
+        val shareActivity = UIActivityViewController(
+            listOf(UIImage(contentsOfFile = path?.toString().orEmpty())),
+            null,
+        )
         val rvc = UIApplication.sharedApplication().keyWindow?.rootViewController
         rvc?.presentViewController(shareActivity, true, null)
     }
