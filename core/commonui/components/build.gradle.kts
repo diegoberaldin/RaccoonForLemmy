@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "components"
+            baseName = "core.commonui.components"
+            isStatic = true
         }
     }
 

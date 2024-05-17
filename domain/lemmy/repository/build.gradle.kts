@@ -21,7 +21,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "repository"
+            baseName = "domain.lemmy.repository"
+            isStatic = true
         }
     }
 

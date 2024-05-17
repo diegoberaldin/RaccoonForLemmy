@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "pagination"
+            baseName = "domain.lemmy.pagination"
+            isStatic = true
         }
     }
 

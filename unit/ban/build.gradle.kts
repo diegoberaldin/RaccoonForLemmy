@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "ban"
+            baseName = "unit.ban"
+            isStatic = true
         }
     }
 

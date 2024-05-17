@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "rawcontent"
+            baseName = "unit.rawcontent"
+            isStatic = true
         }
     }
 

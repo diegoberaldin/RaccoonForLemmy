@@ -27,7 +27,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "persistence"
+            baseName = "core.persistence"
+            isStatic = true
         }
     }
 

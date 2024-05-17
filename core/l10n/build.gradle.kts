@@ -26,7 +26,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "l10n"
+            baseName = "core.l10n"
+            isStatic = true
         }
     }
 

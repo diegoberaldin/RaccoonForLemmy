@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "modals"
+            baseName = "core.commonui.modals"
+            isStatic = true
         }
     }
 

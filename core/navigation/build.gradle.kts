@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "navigation"
+            baseName = "core.navigation"
             isStatic = true
         }
     }
@@ -34,7 +34,7 @@ kotlin {
             implementation(compose.material3)
 
             implementation(libs.koin.core)
-
+            implementation(libs.stately.common)
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.tab)
             implementation(libs.voyager.bottomsheet)

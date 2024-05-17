@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "createpost"
+            baseName = "unit.createpost"
+            isStatic = true
         }
     }
 

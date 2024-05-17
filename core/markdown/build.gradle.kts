@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "markdown"
+            baseName = "core.markdown"
+            isStatic = true
         }
     }
 

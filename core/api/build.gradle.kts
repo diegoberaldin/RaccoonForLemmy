@@ -24,7 +24,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "api"
+            baseName = "core.api"
+            isStatic = true
         }
     }
 

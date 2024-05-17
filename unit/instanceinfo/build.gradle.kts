@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "instanceinfo"
+            baseName = "unit.instanceinfo"
+            isStatic = true
         }
     }
 

@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "detailopener-impl"
+            baseName = "core.commonui.detailopener-impl"
+            isStatic = true
         }
     }
 

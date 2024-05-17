@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "manageaccounts"
+            baseName = "unit.manageaccounts"
+            isStatic = true
         }
     }
 

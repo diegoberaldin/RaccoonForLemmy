@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileCommon
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -22,7 +26,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "inbox"
+            baseName = "domain.inbox"
+            isStatic = true
         }
     }
 
@@ -64,5 +69,19 @@ android {
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+}
+
+// both :feature:inbox and :domain:inbox are called "inbox" so this causes a name clash
+kotlin {
+    metadata {
+        compilations.configureEach {
+            if (name == KotlinSourceSet.COMMON_MAIN_SOURCE_SET_NAME) {
+                compileTaskProvider {
+                    this as KotlinCompileCommon
+                    moduleName.set("${project.group}:${moduleName.get()}")
+                }
+            }
+        }
     }
 }

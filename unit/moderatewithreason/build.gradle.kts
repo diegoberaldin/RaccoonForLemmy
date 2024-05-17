@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "moderatewithreason"
+            baseName = "unit.moderatewithreason"
+            isStatic = true
         }
     }
 

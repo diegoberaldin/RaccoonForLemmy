@@ -28,6 +28,7 @@ mockk = "1.13.10"
 multiplatform_markdown_renderer = "0.14.0"
 multiplatform_settings = "1.1.1"
 reorderable = "2.1.1"
+stately = "2.0.6"
 sqlcipher = "4.5.7"
 sqldelight = "2.0.2"
 turbine = "1.1.0"
@@ -84,6 +85,8 @@ voyager_bottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navig
 voyager_tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
 voyager_transition = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager_koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+
+stately_common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 sqlcipher = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
 sqldelight_android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }

@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "zoomableimage"
+            baseName = "unit.zoomableimage"
+            isStatic = true
         }
     }
 

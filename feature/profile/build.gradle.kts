@@ -22,7 +22,8 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "profile"
+            baseName = "feature.profile"
+            isStatic = true
         }
     }
 
