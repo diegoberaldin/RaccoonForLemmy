@@ -174,14 +174,8 @@ val String.looksLikeAVideo: Boolean
         return extensions.any { this.endsWith(it) }
     }
 
-val String.showInEmbeddedWebView: Boolean
-    get() {
-        val patterns =
-            listOf(
-                ".redgifs.com/",
-            )
-        return patterns.any { this.contains(it) }
-    }
+val String.isRedGifs: Boolean
+    get() = contains("redgifs.com")
 
 fun String?.ellipsize(
     length: Int = 100,
