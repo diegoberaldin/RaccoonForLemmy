@@ -346,24 +346,28 @@ class MultiCommunityScreen(
                                         )
 
                                     ActionOnSwipe.DownVote ->
-                                        SwipeAction(
-                                            swipeContent = {
-                                                Icon(
-                                                    imageVector = Icons.Default.ArrowCircleDown,
-                                                    contentDescription = null,
-                                                    tint = Color.White,
-                                                )
-                                            },
-                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                            onTriggered =
-                                                rememberCallback {
-                                                    model.reduce(
-                                                        MultiCommunityMviModel.Intent.DownVotePost(
-                                                            post.id,
-                                                        ),
+                                        if (!uiState.downVoteEnabled) {
+                                            null
+                                        } else {
+                                            SwipeAction(
+                                                swipeContent = {
+                                                    Icon(
+                                                        imageVector = Icons.Default.ArrowCircleDown,
+                                                        contentDescription = null,
+                                                        tint = Color.White,
                                                     )
                                                 },
-                                        )
+                                                backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                                onTriggered =
+                                                    rememberCallback {
+                                                        model.reduce(
+                                                            MultiCommunityMviModel.Intent.DownVotePost(
+                                                                post.id,
+                                                            ),
+                                                        )
+                                                    },
+                                            )
+                                        }
 
                                     ActionOnSwipe.Reply ->
                                         SwipeAction(
@@ -438,6 +442,7 @@ class MultiCommunityScreen(
                                     blurNsfw = uiState.blurNsfw,
                                     fadeRead = uiState.fadeReadPosts,
                                     showUnreadComments = uiState.showUnreadComments,
+                                    downVoteEnabled = uiState.downVoteEnabled,
                                     onClick = {
                                         model.reduce(MultiCommunityMviModel.Intent.MarkAsRead(post.id))
                                         model.reduce(MultiCommunityMviModel.Intent.WillOpenDetail)

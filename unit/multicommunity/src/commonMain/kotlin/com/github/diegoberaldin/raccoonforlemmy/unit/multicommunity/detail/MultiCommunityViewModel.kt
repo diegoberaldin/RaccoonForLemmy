@@ -99,7 +99,13 @@ class MultiCommunityViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                updateState { it.copy(currentUserId = user?.id ?: 0) }
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
+                updateState {
+                    it.copy(
+                        currentUserId = user?.id ?: 0,
+                        downVoteEnabled = downVoteEnabled,
+                    )
+                }
             }
             if (uiState.value.initial) {
                 val settings = settingsRepository.currentSettings.value
