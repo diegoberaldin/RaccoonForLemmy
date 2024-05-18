@@ -173,7 +173,13 @@ class PostListViewModel(
     private suspend fun refreshUser() {
         val auth = identityRepository.authToken.value.orEmpty()
         val user = siteRepository.getCurrentUser(auth)
-        updateState { it.copy(currentUserId = user?.id ?: 0) }
+        val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
+        updateState {
+            it.copy(
+                currentUserId = user?.id ?: 0,
+                downVoteEnabled = downVoteEnabled,
+            )
+        }
     }
 
     private suspend fun updateAvailableSortTypes() {
