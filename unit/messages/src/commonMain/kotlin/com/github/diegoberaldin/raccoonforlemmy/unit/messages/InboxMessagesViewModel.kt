@@ -128,6 +128,9 @@ class InboxMessagesViewModel(
             }?.mapNotNull { entry ->
                 val messages = entry.value.sortedBy { m -> m.publishDate }
                 messages.lastOrNull()
+            }?.filter { msg1 ->
+                // deduplication if not refreshing
+                currentState.refreshing || currentState.chats.none { msg2 -> msg2.id == msg1.id }
             }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
