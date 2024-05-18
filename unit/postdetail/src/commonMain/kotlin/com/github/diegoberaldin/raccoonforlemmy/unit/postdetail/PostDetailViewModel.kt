@@ -873,7 +873,7 @@ class PostDetailViewModel(
     }
 
     private fun navigateToPreviousComment(index: Int) {
-        val comments = uiState.value.comments
+        val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
         val (start, end) = 0 to index.coerceAtMost(comments.lastIndex)
         val newIndex =
             comments.subList(
@@ -890,7 +890,7 @@ class PostDetailViewModel(
     }
 
     private fun navigateToNextComment(index: Int) {
-        val comments = uiState.value.comments
+        val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
         val (start, end) = (index + 1).coerceAtMost(comments.lastIndex) to comments.lastIndex
         val newIndex =
             comments.subList(
