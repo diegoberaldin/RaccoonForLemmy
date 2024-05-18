@@ -20,6 +20,7 @@ val exploreModule =
                 notificationCenter = get(),
                 hapticFeedback = get(),
                 getSortTypesUseCase = get(),
+                siteRepository = get(),
             )
         }
     }

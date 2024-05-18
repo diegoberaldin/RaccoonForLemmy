@@ -372,26 +372,30 @@ class ExploreScreen(
                                                     )
 
                                                 ActionOnSwipe.DownVote ->
-                                                    SwipeAction(
-                                                        swipeContent = {
-                                                            Icon(
-                                                                imageVector = Icons.Default.ArrowCircleDown,
-                                                                contentDescription = null,
-                                                                tint = Color.White,
-                                                            )
-                                                        },
-                                                        backgroundColor =
-                                                            downVoteColor
-                                                                ?: defaultDownVoteColor,
-                                                        onTriggered =
-                                                            rememberCallback {
-                                                                model.reduce(
-                                                                    ExploreMviModel.Intent.DownVotePost(
-                                                                        result.model.id,
-                                                                    ),
+                                                    if (!uiState.downVoteEnabled) {
+                                                        null
+                                                    } else {
+                                                        SwipeAction(
+                                                            swipeContent = {
+                                                                Icon(
+                                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                                    contentDescription = null,
+                                                                    tint = Color.White,
                                                                 )
                                                             },
-                                                    )
+                                                            backgroundColor =
+                                                                downVoteColor
+                                                                    ?: defaultDownVoteColor,
+                                                            onTriggered =
+                                                                rememberCallback {
+                                                                    model.reduce(
+                                                                        ExploreMviModel.Intent.DownVotePost(
+                                                                            result.model.id,
+                                                                        ),
+                                                                    )
+                                                                },
+                                                        )
+                                                    }
 
                                                 ActionOnSwipe.Reply ->
                                                     SwipeAction(
@@ -469,6 +473,7 @@ class ExploreScreen(
                                                 showScores = uiState.showScores,
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
+                                                downVoteEnabled = uiState.downVoteEnabled,
                                                 onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = result.model,
@@ -599,26 +604,30 @@ class ExploreScreen(
                                                     )
 
                                                 ActionOnSwipe.DownVote ->
-                                                    SwipeAction(
-                                                        swipeContent = {
-                                                            Icon(
-                                                                imageVector = Icons.Default.ArrowCircleDown,
-                                                                contentDescription = null,
-                                                                tint = Color.White,
-                                                            )
-                                                        },
-                                                        backgroundColor =
-                                                            downVoteColor
-                                                                ?: defaultDownVoteColor,
-                                                        onTriggered =
-                                                            rememberCallback {
-                                                                model.reduce(
-                                                                    ExploreMviModel.Intent.DownVoteComment(
-                                                                        result.model.id,
-                                                                    ),
+                                                    if (!uiState.downVoteEnabled) {
+                                                        null
+                                                    } else {
+                                                        SwipeAction(
+                                                            swipeContent = {
+                                                                Icon(
+                                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                                    contentDescription = null,
+                                                                    tint = Color.White,
                                                                 )
                                                             },
-                                                    )
+                                                            backgroundColor =
+                                                                downVoteColor
+                                                                    ?: defaultDownVoteColor,
+                                                            onTriggered =
+                                                                rememberCallback {
+                                                                    model.reduce(
+                                                                        ExploreMviModel.Intent.DownVoteComment(
+                                                                            result.model.id,
+                                                                        ),
+                                                                    )
+                                                                },
+                                                        )
+                                                    }
 
                                                 ActionOnSwipe.Reply ->
                                                     SwipeAction(
@@ -699,6 +708,7 @@ class ExploreScreen(
                                                 showExpandedIndicator = false,
                                                 indentAmount = 0,
                                                 actionButtonsActive = uiState.isLogged,
+                                                downVoteEnabled = uiState.downVoteEnabled,
                                                 onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = PostModel(id = result.model.postId),

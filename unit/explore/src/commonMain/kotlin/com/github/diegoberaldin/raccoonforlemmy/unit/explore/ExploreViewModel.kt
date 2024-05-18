@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -40,6 +41,7 @@ class ExploreViewModel(
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
@@ -151,6 +153,9 @@ class ExploreViewModel(
             )
         }
         screenModelScope.launch {
+            val auth = identityRepository.authToken.value
+            val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
+            updateState { it.copy(downVoteEnabled = downVoteEnabled) }
             refresh(initial = true)
             emitEffect(ExploreMviModel.Effect.BackToTop)
         }
