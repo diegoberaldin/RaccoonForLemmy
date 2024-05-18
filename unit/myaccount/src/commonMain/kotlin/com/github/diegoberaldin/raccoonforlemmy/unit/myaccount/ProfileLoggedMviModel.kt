@@ -58,6 +58,7 @@ interface ProfileLoggedMviModel :
         val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
         val showUnreadComments: Boolean = false,
+        val downVoteEnabled: Boolean = true,
     )
 
     sealed interface Effect

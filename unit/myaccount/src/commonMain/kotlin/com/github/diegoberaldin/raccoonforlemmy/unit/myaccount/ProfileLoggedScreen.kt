@@ -232,6 +232,7 @@ object ProfileLoggedScreen : Tab {
                                     showUnreadComments = uiState.showUnreadComments,
                                     hideAuthor = true,
                                     blurNsfw = false,
+                                    downVoteEnabled = uiState.downVoteEnabled,
                                     onClick =
                                         rememberCallback(model) {
                                             model.reduce(ProfileLoggedMviModel.Intent.WillOpenDetail)
@@ -419,6 +420,7 @@ object ProfileLoggedScreen : Tab {
                                     hideCommunity = false,
                                     hideAuthor = true,
                                     indentAmount = 0,
+                                    downVoteEnabled = uiState.downVoteEnabled,
                                     onImageClick =
                                         rememberCallbackArgs { url ->
                                             navigationCoordinator.pushScreen(

@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -40,6 +41,7 @@ class ProfileLoggedViewModel(
     private val commentPaginationManager: CommentPaginationManager,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
@@ -201,6 +203,7 @@ class ProfileLoggedViewModel(
             updateState { it.copy(user = null) }
         } else {
             var user = identityRepository.cachedUser
+            val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
             runCatching {
                 withTimeout(2000) {
                     while (user == null) {
@@ -210,7 +213,12 @@ class ProfileLoggedViewModel(
                         user = identityRepository.cachedUser
                         yield()
                     }
-                    updateState { it.copy(user = user) }
+                    updateState {
+                        it.copy(
+                            user = user,
+                            downVoteEnabled = downVoteEnabled,
+                        )
+                    }
                 }
             }
         }

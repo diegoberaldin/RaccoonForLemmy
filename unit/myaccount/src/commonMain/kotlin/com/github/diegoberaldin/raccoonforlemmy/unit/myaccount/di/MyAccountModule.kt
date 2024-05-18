@@ -20,6 +20,7 @@ val myAccountModule =
                 postPaginationManager = get(),
                 commentPaginationManager = get(),
                 postNavigationManager = get(),
+                siteRepository = get(),
             )
         }
     }
