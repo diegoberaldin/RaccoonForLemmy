@@ -42,6 +42,7 @@ fun InboxCard(
     autoLoadImages: Boolean = true,
     preferNicknames: Boolean = true,
     showScores: Boolean = true,
+    downVoteEnabled: Boolean = true,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
@@ -129,6 +130,7 @@ fun InboxCard(
                 voteFormat = voteFormat,
                 upVoted = mention.myVote > 0,
                 downVoted = mention.myVote < 0,
+                downVoteEnabled = downVoteEnabled,
                 options = options,
                 onOpenCommunity = onOpenCommunity,
                 onOpenCreator =

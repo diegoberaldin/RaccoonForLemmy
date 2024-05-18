@@ -67,6 +67,7 @@ fun InboxReplySubtitle(
     showScores: Boolean = true,
     upVotes: Int = 0,
     downVotes: Int = 0,
+    downVoteEnabled: Boolean = true,
     options: List<Option> = emptyList(),
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     upVoted: Boolean = false,
@@ -273,24 +274,26 @@ fun InboxReplySubtitle(
                             color = ancillaryColor,
                         )
                     }
-                    FeedbackButton(
-                        modifier =
-                            buttonModifier.padding(
-                                top = 2.5.dp,
-                                bottom = 2.5.dp,
-                                start = 2.5.dp,
-                            ),
-                        imageVector = Icons.Default.ArrowCircleDown,
-                        tintColor =
-                            if (downVoted) {
-                                downVoteColor ?: defaultDownVoteColor
-                            } else {
-                                ancillaryColor
+                    if (downVoteEnabled) {
+                        FeedbackButton(
+                            modifier =
+                                buttonModifier.padding(
+                                    top = 2.5.dp,
+                                    bottom = 2.5.dp,
+                                    start = 2.5.dp,
+                                ),
+                            imageVector = Icons.Default.ArrowCircleDown,
+                            tintColor =
+                                if (downVoted) {
+                                    downVoteColor ?: defaultDownVoteColor
+                                } else {
+                                    ancillaryColor
+                                },
+                            onClick = {
+                                onDownVote?.invoke()
                             },
-                        onClick = {
-                            onDownVote?.invoke()
-                        },
-                    )
+                        )
+                    }
                 }
                 CustomDropDown(
                     expanded = optionsExpanded,
