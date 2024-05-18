@@ -94,6 +94,7 @@ interface CreatePostMviModel :
         val currentUser: String = "",
         val currentLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
+        val downVoteEnabled: Boolean = true,
     )
 
     sealed interface Effect {

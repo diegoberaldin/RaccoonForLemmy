@@ -613,6 +613,7 @@ class CreatePostScreen(
                             autoLoadImages = uiState.autoLoadImages,
                             preferNicknames = uiState.preferNicknames,
                             showScores = uiState.showScores,
+                            downVoteEnabled = uiState.downVoteEnabled,
                         )
                     }
 

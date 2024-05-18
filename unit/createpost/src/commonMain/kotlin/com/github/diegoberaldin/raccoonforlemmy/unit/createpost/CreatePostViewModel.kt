@@ -75,12 +75,14 @@ class CreatePostViewModel(
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
                 if (currentUser != null) {
                     updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
                             availableLanguages = languages,
+                            downVoteEnabled = downVoteEnabled,
                         )
                     }
                 }
