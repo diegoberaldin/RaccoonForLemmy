@@ -26,6 +26,7 @@ val postDetailModule =
                 itemCache = get(),
                 commentPaginationManager = get(),
                 postNavigationManager = get(),
+                siteRepository = get(),
             )
         }
     }

@@ -101,6 +101,7 @@ interface PostDetailMviModel :
         val searchText: String = "",
         val enableButtonsToScrollBetweenComments: Boolean = false,
         val isNavigationSupported: Boolean = false,
+        val downVoteEnabled: Boolean = true,
     )
 
     sealed interface Effect {

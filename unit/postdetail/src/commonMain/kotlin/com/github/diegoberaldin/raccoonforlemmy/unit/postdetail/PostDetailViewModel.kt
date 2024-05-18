@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.Communit
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +48,7 @@ class PostDetailViewModel(
     private val commentPaginationManager: CommentPaginationManager,
     private val commentRepository: CommentRepository,
     private val communityRepository: CommunityRepository,
+    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
@@ -82,12 +84,14 @@ class PostDetailViewModel(
         screenModelScope.launch {
             if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
                 updateState {
                     it.copy(
                         post = post,
                         isModerator = isModerator,
                         currentUserId = identityRepository.cachedUser?.id,
                         isAdmin = identityRepository.cachedUser?.admin == true,
+                        downVoteEnabled = downVoteEnabled,
                     )
                 }
             }
