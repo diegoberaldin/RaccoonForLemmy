@@ -16,6 +16,7 @@ val inboxMentionsModule =
                 hapticFeedback = get(),
                 coordinator = get(),
                 notificationCenter = get(),
+                siteRepository = get(),
             )
         }
     }

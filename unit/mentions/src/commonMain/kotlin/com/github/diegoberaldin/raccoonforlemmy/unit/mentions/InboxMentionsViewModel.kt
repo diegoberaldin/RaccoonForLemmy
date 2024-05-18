@@ -12,6 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +24,7 @@ class InboxMentionsViewModel(
     private val commentRepository: CommentRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
+    private val siteRepository: SiteRepository,
     private val hapticFeedback: HapticFeedback,
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
@@ -68,6 +70,8 @@ class InboxMentionsViewModel(
             }.launchIn(this)
 
             if (uiState.value.initial) {
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+                updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
         }
@@ -158,7 +162,7 @@ class InboxMentionsViewModel(
                     itemList.orEmpty()
                 } else {
                     it.mentions + itemList.orEmpty()
-                }
+                }.distinctBy { mention -> mention.id }
             it.copy(
                 mentions = newItems,
                 loading = false,

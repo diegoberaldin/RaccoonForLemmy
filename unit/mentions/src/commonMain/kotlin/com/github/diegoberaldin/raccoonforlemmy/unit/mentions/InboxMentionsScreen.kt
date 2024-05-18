@@ -171,22 +171,26 @@ class InboxMentionsScreen : Tab {
                                     )
 
                                 ActionOnSwipe.DownVote ->
-                                    SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowCircleDown,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                        onTriggered =
-                                            rememberCallback {
-                                                model.reduce(
-                                                    InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
+                                    if (!uiState.downVoteEnabled) {
+                                        null
+                                    } else {
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
                                                 )
                                             },
-                                    )
+                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    model.reduce(
+                                                        InboxMentionsMviModel.Intent.DownVoteComment(mention.id),
+                                                    )
+                                                },
+                                        )
+                                    }
 
                                 ActionOnSwipe.ToggleRead ->
                                     SwipeAction(
@@ -236,6 +240,7 @@ class InboxMentionsScreen : Tab {
                                 preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
+                                downVoteEnabled = uiState.downVoteEnabled,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
                                         if (!mention.read) {
