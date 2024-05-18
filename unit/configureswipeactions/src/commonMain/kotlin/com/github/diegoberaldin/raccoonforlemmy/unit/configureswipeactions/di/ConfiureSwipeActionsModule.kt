@@ -11,6 +11,8 @@ val configureSwipeActionsModule =
                 settingsRepository = get(),
                 accountRepository = get(),
                 notificationCenter = get(),
+                identityRepository = get(),
+                siteRepository = get(),
             )
         }
     }

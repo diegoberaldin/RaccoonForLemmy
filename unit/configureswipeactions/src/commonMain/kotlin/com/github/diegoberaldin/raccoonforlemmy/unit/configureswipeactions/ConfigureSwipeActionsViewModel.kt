@@ -9,6 +9,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -16,6 +18,8 @@ import kotlinx.coroutines.launch
 class ConfigureSwipeActionsViewModel(
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
+    private val identityRepository: IdentityRepository,
+    private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
 ) : ConfigureSwipeActionsMviModel,
     DefaultMviModel<ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect>(
@@ -23,6 +27,8 @@ class ConfigureSwipeActionsViewModel(
     ) {
     init {
         screenModelScope.launch {
+            val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+            updateState { it.copy(downVoteEnabled = downVoteEnabled) }
             notificationCenter.subscribe(NotificationCenterEvent.ActionsOnSwipeSelected::class)
                 .onEach { evt ->
                     when (evt.target) {
@@ -394,8 +400,22 @@ class ConfigureSwipeActionsViewModel(
         val settings = settingsRepository.currentSettings.value
         val newSettings =
             settings.copy(
-                actionsOnSwipeToStartPosts = ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
-                actionsOnSwipeToEndPosts = ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
+                actionsOnSwipeToStartPosts =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
+                actionsOnSwipeToEndPosts =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
             )
         screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: return@launch
@@ -410,8 +430,22 @@ class ConfigureSwipeActionsViewModel(
         val settings = settingsRepository.currentSettings.value
         val newSettings =
             settings.copy(
-                actionsOnSwipeToStartComments = ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS,
-                actionsOnSwipeToEndComments = ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS,
+                actionsOnSwipeToStartComments =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
+                actionsOnSwipeToEndComments =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
             )
         screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: return@launch
@@ -426,8 +460,22 @@ class ConfigureSwipeActionsViewModel(
         val settings = settingsRepository.currentSettings.value
         val newSettings =
             settings.copy(
-                actionsOnSwipeToStartInbox = ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
-                actionsOnSwipeToEndInbox = ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
+                actionsOnSwipeToStartInbox =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
+                actionsOnSwipeToEndInbox =
+                    ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX.filter {
+                        if (uiState.value.downVoteEnabled) {
+                            true
+                        } else {
+                            it != ActionOnSwipe.DownVote
+                        }
+                    },
             )
         screenModelScope.launch {
             val accountId = accountRepository.getActive()?.id ?: return@launch

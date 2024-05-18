@@ -46,6 +46,7 @@ interface ConfigureSwipeActionsMviModel :
         val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = emptyList(),
         val availableOptionsInbox: List<ActionOnSwipe> = emptyList(),
+        val downVoteEnabled: Boolean = true,
     )
 
     sealed interface Effect

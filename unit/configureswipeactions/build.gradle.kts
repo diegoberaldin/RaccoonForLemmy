@@ -50,6 +50,9 @@ kotlin {
                 implementation(projects.core.notifications)
                 implementation(projects.core.persistence)
                 implementation(projects.core.utils)
+
+                implementation(projects.domain.identity)
+                implementation(projects.domain.lemmy.repository)
             }
         }
         val commonTest by getting {
