@@ -68,6 +68,7 @@ fun PostCardFooter(
     downVoted: Boolean = false,
     actionButtonsActive: Boolean = true,
     markRead: Boolean = false,
+    downVoteEnabled: Boolean = true,
     optionsMenuOpen: MutableState<Boolean> = remember { mutableStateOf(false) },
     options: List<Option> = emptyList(),
     onUpVote: (() -> Unit)? = null,
@@ -250,29 +251,31 @@ fun PostCardFooter(
                     color = ancillaryColor,
                 )
             }
-            FeedbackButton(
-                modifier =
-                    buttonModifier.padding(
-                        top = 2.5.dp,
-                        bottom = 2.5.dp,
-                        end = 2.5.dp,
-                    ),
-                imageVector =
-                    if (actionButtonsActive) {
-                        Icons.Default.ArrowCircleDown
-                    } else {
-                        Icons.Default.ArrowDownward
+            if (downVoteEnabled) {
+                FeedbackButton(
+                    modifier =
+                        buttonModifier.padding(
+                            top = 2.5.dp,
+                            bottom = 2.5.dp,
+                            end = 2.5.dp,
+                        ),
+                    imageVector =
+                        if (actionButtonsActive) {
+                            Icons.Default.ArrowCircleDown
+                        } else {
+                            Icons.Default.ArrowDownward
+                        },
+                    tintColor =
+                        if (downVoted) {
+                            downVoteColor ?: defaultDownVoteColor
+                        } else {
+                            ancillaryColor
+                        },
+                    onClick = {
+                        onDownVote?.invoke()
                     },
-                tintColor =
-                    if (downVoted) {
-                        downVoteColor ?: defaultDownVoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                onClick = {
-                    onDownVote?.invoke()
-                },
-            )
+                )
+            }
         }
 
         CustomDropDown(
