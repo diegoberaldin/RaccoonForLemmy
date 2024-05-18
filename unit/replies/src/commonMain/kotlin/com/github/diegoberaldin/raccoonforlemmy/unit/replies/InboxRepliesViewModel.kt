@@ -33,7 +33,6 @@ class InboxRepliesViewModel(
         initialState = InboxRepliesMviModel.UiState(),
     ) {
     private var currentPage: Int = 1
-    private var currentUserId: Long? = null
 
     init {
         screenModelScope.launch {
@@ -71,6 +70,8 @@ class InboxRepliesViewModel(
             }.launchIn(this)
 
             if (uiState.value.initial) {
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+                updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
         }
@@ -117,9 +118,6 @@ class InboxRepliesViewModel(
                 loading = false,
             )
         }
-        val auth = identityRepository.authToken.value
-        val currentUser = siteRepository.getCurrentUser(auth.orEmpty())
-        currentUserId = currentUser?.id
         loadNextPage()
         updateUnreadItems()
     }
@@ -152,7 +150,6 @@ class InboxRepliesViewModel(
             )?.map {
                 it.copy(isCommentReply = it.comment.depth > 0)
             }
-
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
@@ -162,7 +159,7 @@ class InboxRepliesViewModel(
                     itemList.orEmpty()
                 } else {
                     it.replies + itemList.orEmpty()
-                }
+                }.distinctBy { reply -> reply.id }
             it.copy(
                 replies = newItems,
                 loading = false,

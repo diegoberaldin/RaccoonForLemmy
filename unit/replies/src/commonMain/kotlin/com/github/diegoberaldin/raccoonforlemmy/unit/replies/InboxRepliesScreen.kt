@@ -169,20 +169,24 @@ class InboxRepliesScreen : Tab {
                                     )
 
                                 ActionOnSwipe.DownVote ->
-                                    SwipeAction(
-                                        swipeContent = {
-                                            Icon(
-                                                imageVector = Icons.Default.ArrowCircleDown,
-                                                contentDescription = null,
-                                                tint = Color.White,
-                                            )
-                                        },
-                                        backgroundColor = downVoteColor ?: defaultDownVoteColor,
-                                        onTriggered =
-                                            rememberCallback {
-                                                model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
+                                    if (!uiState.downVoteEnabled) {
+                                        null
+                                    } else {
+                                        SwipeAction(
+                                            swipeContent = {
+                                                Icon(
+                                                    imageVector = Icons.Default.ArrowCircleDown,
+                                                    contentDescription = null,
+                                                    tint = Color.White,
+                                                )
                                             },
-                                    )
+                                            backgroundColor = downVoteColor ?: defaultDownVoteColor,
+                                            onTriggered =
+                                                rememberCallback {
+                                                    model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
+                                                },
+                                        )
+                                    }
 
                                 ActionOnSwipe.ToggleRead ->
                                     SwipeAction(
@@ -232,6 +236,7 @@ class InboxRepliesScreen : Tab {
                                 preferNicknames = uiState.preferNicknames,
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
+                                downVoteEnabled = uiState.downVoteEnabled,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
                                         if (!reply.read) {

@@ -38,6 +38,7 @@ interface InboxRepliesMviModel :
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
+        val downVoteEnabled: Boolean = true,
         val voteFormat: VoteFormat = VoteFormat.Aggregated,
         val actionsOnSwipeToStartInbox: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndInbox: List<ActionOnSwipe> = emptyList(),
