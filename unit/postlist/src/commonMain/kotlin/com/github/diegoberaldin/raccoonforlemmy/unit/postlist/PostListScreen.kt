@@ -422,9 +422,7 @@ class PostListScreen : Screen {
                                                 onTriggered =
                                                     rememberCallback {
                                                         model.reduce(
-                                                            PostListMviModel.Intent.DownVotePost(
-                                                                post.id,
-                                                            ),
+                                                            PostListMviModel.Intent.DownVotePost(post.id),
                                                         )
                                                     },
                                             )
@@ -511,53 +509,47 @@ class PostListScreen : Screen {
                                             } else {
                                                 rememberCallback(model) {
                                                     model.reduce(
-                                                        PostListMviModel.Intent.UpVotePost(
-                                                            id = post.id,
-                                                        ),
+                                                        PostListMviModel.Intent.UpVotePost(post.id),
                                                     )
                                                 }
                                             },
                                         onOpenCommunity =
                                             rememberCallbackArgs { community, instance ->
                                                 detailOpener.openCommunityDetail(
-                                                    community,
-                                                    instance,
+                                                    community = community,
+                                                    otherInstance = instance,
                                                 )
                                             },
                                         onOpenCreator =
                                             rememberCallbackArgs { user, instance ->
-                                                detailOpener.openUserDetail(user, instance)
+                                                detailOpener.openUserDetail(user = user, otherInstance = instance)
                                             },
                                         onOpenPost =
                                             rememberCallbackArgs { p, instance ->
-                                                detailOpener.openPostDetail(p, instance)
+                                                detailOpener.openPostDetail(post = p, otherInstance = instance)
                                             },
                                         onOpenWeb =
                                             rememberCallbackArgs { url ->
-                                                navigationCoordinator.pushScreen(
-                                                    WebViewScreen(url),
-                                                )
+                                                navigationCoordinator.pushScreen(WebViewScreen(url))
                                             },
                                         onUpVote =
                                             rememberCallback(model) {
                                                 if (uiState.isLogged) {
                                                     model.reduce(
-                                                        PostListMviModel.Intent.UpVotePost(
-                                                            id = post.id,
-                                                        ),
+                                                        PostListMviModel.Intent.UpVotePost(post.id),
                                                     )
                                                 }
                                             },
                                         onDownVote =
                                             rememberCallback(model) {
                                                 if (uiState.isLogged) {
-                                                    model.reduce(PostListMviModel.Intent.DownVotePost(id = post.id))
+                                                    model.reduce(PostListMviModel.Intent.DownVotePost(post.id))
                                                 }
                                             },
                                         onSave =
                                             rememberCallback(model) {
                                                 if (uiState.isLogged) {
-                                                    model.reduce(PostListMviModel.Intent.SavePost(id = post.id))
+                                                    model.reduce(PostListMviModel.Intent.SavePost(post.id))
                                                 }
                                             },
                                         onReply =
@@ -665,9 +657,7 @@ class PostListScreen : Screen {
 
                                                     OptionId.Hide ->
                                                         model.reduce(
-                                                            PostListMviModel.Intent.Hide(
-                                                                post.id,
-                                                            ),
+                                                            PostListMviModel.Intent.Hide(post.id),
                                                         )
 
                                                     OptionId.Share -> {
@@ -678,9 +668,7 @@ class PostListScreen : Screen {
                                                             ).distinct()
                                                         if (urls.size == 1) {
                                                             model.reduce(
-                                                                PostListMviModel.Intent.Share(
-                                                                    urls.first(),
-                                                                ),
+                                                                PostListMviModel.Intent.Share(urls.first()),
                                                             )
                                                         } else {
                                                             val screen = ShareBottomSheet(urls = urls)
@@ -722,8 +710,8 @@ class PostListScreen : Screen {
                                                         } else {
                                                             val screen =
                                                                 CopyPostBottomSheet(
-                                                                    post.title,
-                                                                    post.text,
+                                                                    title = post.title,
+                                                                    text = post.text,
                                                                 )
                                                             navigationCoordinator.showBottomSheet(screen)
                                                         }
@@ -747,9 +735,7 @@ class PostListScreen : Screen {
                                     model.reduce(PostListMviModel.Intent.LoadNextPage)
                                 } else {
                                     Row(
-                                        modifier =
-                                            Modifier.fillMaxWidth()
-                                                .padding(top = Spacing.s),
+                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
                                         horizontalArrangement = Arrangement.Center,
                                         verticalAlignment = Alignment.CenterVertically,
                                     ) {
