@@ -27,6 +27,7 @@ internal fun ContentPreview(
     voteFormat: VoteFormat,
     fullHeightImage: Boolean,
     fullWidthImage: Boolean,
+    downVoteEnabled: Boolean,
     commentBarThickness: Int,
     commentIndentAmount: Int,
 ) {
@@ -42,6 +43,7 @@ internal fun ContentPreview(
             fullWidthImage = fullWidthImage,
             includeFullBody = true,
             limitBodyHeight = true,
+            downVoteEnabled = downVoteEnabled,
         )
 
         if (postLayout != PostLayout.Card) {
@@ -56,6 +58,7 @@ internal fun ContentPreview(
             preferNicknames = preferNicknames,
             showScores = showScores,
             indentAmount = commentIndentAmount,
+            downVoteEnabled = downVoteEnabled,
         )
         HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
@@ -69,6 +72,7 @@ internal fun ContentPreview(
             showScores = showScores,
             barThickness = commentBarThickness,
             indentAmount = commentIndentAmount,
+            downVoteEnabled = downVoteEnabled,
         )
         HorizontalDivider(
             modifier = Modifier.padding(vertical = Spacing.xxxs),
@@ -81,6 +85,7 @@ internal fun ContentPreview(
             showScores = showScores,
             barThickness = commentBarThickness,
             indentAmount = commentIndentAmount,
+            downVoteEnabled = downVoteEnabled,
         )
     }
 }

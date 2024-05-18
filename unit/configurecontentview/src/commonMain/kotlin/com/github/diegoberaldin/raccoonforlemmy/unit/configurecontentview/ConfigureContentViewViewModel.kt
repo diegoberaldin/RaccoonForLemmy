@@ -13,6 +13,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,6 +26,8 @@ class ConfigureContentViewViewModel(
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val accountRepository: AccountRepository,
+    private val identityRepository: IdentityRepository,
+    private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
 ) : ConfigureContentViewMviModel,
     DefaultMviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>(
@@ -63,6 +67,7 @@ class ConfigureContentViewViewModel(
                 }.launchIn(this)
 
             val settings = settingsRepository.currentSettings.value
+            val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
             updateState {
                 it.copy(
                     voteFormat = if (!settings.showScores) VoteFormat.Hidden else settings.voteFormat,
@@ -72,6 +77,7 @@ class ConfigureContentViewViewModel(
                     preferUserNicknames = settings.preferUserNicknames,
                     commentBarThickness = settings.commentBarThickness,
                     commentIndentAmount = settings.commentIndentAmount,
+                    downVoteEnabled = downVoteEnabled,
                 )
             }
         }

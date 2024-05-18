@@ -39,6 +39,7 @@ interface ConfigureContentViewMviModel :
         val fullHeightImages: Boolean = false,
         val fullWidthImages: Boolean = false,
         val preferUserNicknames: Boolean = true,
+        val downVoteEnabled: Boolean = true,
     )
 
     sealed interface Effect

@@ -286,6 +286,7 @@ class ConfigureContentViewScreen : Screen {
                         fullWidthImage = uiState.fullWidthImages,
                         commentBarThickness = uiState.commentBarThickness,
                         commentIndentAmount = uiState.commentIndentAmount,
+                        downVoteEnabled = uiState.downVoteEnabled,
                     )
 
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
