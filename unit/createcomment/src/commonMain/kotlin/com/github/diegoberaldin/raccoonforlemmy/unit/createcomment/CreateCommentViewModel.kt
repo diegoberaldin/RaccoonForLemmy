@@ -76,12 +76,14 @@ class CreateCommentViewModel(
             if (uiState.value.currentUser.isEmpty()) {
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
+                val downvotEnabled = siteRepository.isDownVoteEnabled(auth)
                 if (currentUser != null) {
                     updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
                             availableLanguages = languages,
+                            downVoteEnabled = downvotEnabled,
                         )
                     }
                 }

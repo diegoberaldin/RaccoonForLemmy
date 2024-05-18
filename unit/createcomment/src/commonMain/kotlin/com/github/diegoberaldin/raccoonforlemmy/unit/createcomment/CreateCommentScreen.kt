@@ -265,6 +265,7 @@ class CreateCommentScreen(
                                 voteFormat = uiState.voteFormat,
                                 autoLoadImages = uiState.autoLoadImages,
                                 showScores = uiState.showScores,
+                                downVoteEnabled = uiState.downVoteEnabled,
                                 options =
                                     buildList {
                                         add(
@@ -298,6 +299,7 @@ class CreateCommentScreen(
                             autoLoadImages = uiState.autoLoadImages,
                             preferNicknames = uiState.preferNicknames,
                             showScores = uiState.showScores,
+                            downVoteEnabled = uiState.downVoteEnabled,
                             options =
                                 buildList {
                                     add(
