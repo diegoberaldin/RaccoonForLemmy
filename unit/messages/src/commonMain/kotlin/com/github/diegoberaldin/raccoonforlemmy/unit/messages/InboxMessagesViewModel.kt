@@ -128,9 +128,6 @@ class InboxMessagesViewModel(
             }?.mapNotNull { entry ->
                 val messages = entry.value.sortedBy { m -> m.publishDate }
                 messages.lastOrNull()
-            }?.filter { msg1 ->
-                // deduplication if not refreshing
-                currentState.refreshing || currentState.chats.none { msg2 -> msg2.id == msg1.id }
             }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
@@ -140,14 +137,18 @@ class InboxMessagesViewModel(
                 if (refreshing) {
                     itemList.orEmpty()
                 } else {
-                    it.chats +
-                        itemList.orEmpty().filter { outerChat ->
-                            val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
-                            currentState.chats.none { chat ->
-                                val otherUser = chat.otherUser(currentState.currentUserId)
-                                outerOtherUser == otherUser
-                            }
-                        }
+                    buildList {
+                        addAll(it.chats)
+                        addAll(
+                            itemList.orEmpty().filter { outerChat ->
+                                val outerOtherUser = outerChat.otherUser(currentState.currentUserId)
+                                currentState.chats.none { chat ->
+                                    val otherUser = chat.otherUser(currentState.currentUserId)
+                                    outerOtherUser == otherUser
+                                }
+                            },
+                        )
+                    }.distinctBy { msg -> msg.id }
                 }
             it.copy(
                 chats = newItems,
