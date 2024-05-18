@@ -876,26 +876,30 @@ class CommunityDetailScreen(
                                                 )
 
                                             ActionOnSwipe.DownVote ->
-                                                SwipeAction(
-                                                    swipeContent = {
-                                                        Icon(
-                                                            imageVector = Icons.Default.ArrowCircleDown,
-                                                            contentDescription = null,
-                                                            tint = Color.White,
-                                                        )
-                                                    },
-                                                    backgroundColor =
-                                                        downVoteColor
-                                                            ?: defaultDownVoteColor,
-                                                    onTriggered =
-                                                        rememberCallback {
-                                                            model.reduce(
-                                                                CommunityDetailMviModel.Intent.DownVotePost(
-                                                                    post.id,
-                                                                ),
+                                                if (!uiState.downVoteEnabled) {
+                                                    null
+                                                } else {
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.ArrowCircleDown,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
                                                             )
                                                         },
-                                                )
+                                                        backgroundColor =
+                                                            downVoteColor
+                                                                ?: defaultDownVoteColor,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                model.reduce(
+                                                                    CommunityDetailMviModel.Intent.DownVotePost(
+                                                                        post.id,
+                                                                    ),
+                                                                )
+                                                            },
+                                                    )
+                                                }
 
                                             ActionOnSwipe.Reply ->
                                                 SwipeAction(
@@ -970,6 +974,7 @@ class CommunityDetailScreen(
                                             preferNicknames = uiState.preferNicknames,
                                             showScores = uiState.showScores,
                                             actionButtonsActive = uiState.isLogged,
+                                            downVoteEnabled = uiState.downVoteEnabled,
                                             blurNsfw =
                                                 when {
                                                     uiState.community.nsfw -> false
