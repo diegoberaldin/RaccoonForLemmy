@@ -20,6 +20,7 @@ val filteredContentsModule =
                 postPaginationManager = get(),
                 commentPaginationManager = get(),
                 postNavigationManager = get(),
+                siteRepository = get(),
             )
         }
     }

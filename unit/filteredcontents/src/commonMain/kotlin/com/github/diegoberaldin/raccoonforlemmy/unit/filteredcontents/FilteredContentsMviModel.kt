@@ -89,6 +89,7 @@ interface FilteredContentsMviModel :
         val comments: List<CommentModel> = emptyList(),
         val fadeReadPosts: Boolean = false,
         val showUnreadComments: Boolean = false,
+        val downVoteEnabled: Boolean = true,
         val actionsOnSwipeToStartPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndPosts: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToStartComments: List<ActionOnSwipe> = emptyList(),

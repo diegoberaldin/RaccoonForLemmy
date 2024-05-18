@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
@@ -36,6 +37,7 @@ class FilteredContentsViewModel(
     private val identityRepository: IdentityRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
+    private val siteRepository: SiteRepository,
     private val imagePreloadManager: ImagePreloadManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
@@ -79,6 +81,8 @@ class FilteredContentsViewModel(
             }.launchIn(this)
 
             if (uiState.value.initial) {
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+                updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
         }
