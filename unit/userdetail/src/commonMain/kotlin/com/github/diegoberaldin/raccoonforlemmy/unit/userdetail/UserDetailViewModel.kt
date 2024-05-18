@@ -126,10 +126,12 @@ class UserDetailViewModel(
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
+                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
                 updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
                         isAdmin = user?.admin == true,
+                        downVoteEnabled = downVoteEnabled,
                     )
                 }
             }

@@ -578,24 +578,28 @@ class UserDetailScreen(
                                             )
 
                                         ActionOnSwipe.DownVote ->
-                                            SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleDown,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor =
-                                                    downVoteColor
-                                                        ?: defaultDownVoteColor,
-                                                onTriggered =
-                                                    rememberCallback {
-                                                        model.reduce(
-                                                            UserDetailMviModel.Intent.DownVotePost(post.id),
+                                            if (!uiState.downVoteEnabled) {
+                                                null
+                                            } else {
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
                                                         )
                                                     },
-                                            )
+                                                    backgroundColor =
+                                                        downVoteColor
+                                                            ?: defaultDownVoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.DownVotePost(post.id),
+                                                            )
+                                                        },
+                                                )
+                                            }
 
                                         ActionOnSwipe.Reply ->
                                             SwipeAction(
@@ -673,6 +677,7 @@ class UserDetailScreen(
                                         preferNicknames = uiState.preferNicknames,
                                         showScores = uiState.showScores,
                                         actionButtonsActive = uiState.isLogged,
+                                        downVoteEnabled = uiState.downVoteEnabled,
                                         onClick = {
                                             model.reduce(UserDetailMviModel.Intent.WillOpenDetail)
                                             detailOpener.openPostDetail(post)
@@ -914,26 +919,30 @@ class UserDetailScreen(
                                             )
 
                                         ActionOnSwipe.DownVote ->
-                                            SwipeAction(
-                                                swipeContent = {
-                                                    Icon(
-                                                        imageVector = Icons.Default.ArrowCircleDown,
-                                                        contentDescription = null,
-                                                        tint = Color.White,
-                                                    )
-                                                },
-                                                backgroundColor =
-                                                    downVoteColor
-                                                        ?: defaultDownVoteColor,
-                                                onTriggered =
-                                                    rememberCallback {
-                                                        model.reduce(
-                                                            UserDetailMviModel.Intent.DownVoteComment(
-                                                                comment.id,
-                                                            ),
+                                            if (!uiState.downVoteEnabled) {
+                                                null
+                                            } else {
+                                                SwipeAction(
+                                                    swipeContent = {
+                                                        Icon(
+                                                            imageVector = Icons.Default.ArrowCircleDown,
+                                                            contentDescription = null,
+                                                            tint = Color.White,
                                                         )
                                                     },
-                                            )
+                                                    backgroundColor =
+                                                        downVoteColor
+                                                            ?: defaultDownVoteColor,
+                                                    onTriggered =
+                                                        rememberCallback {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.DownVoteComment(
+                                                                    comment.id,
+                                                                ),
+                                                            )
+                                                        },
+                                                )
+                                            }
 
                                         ActionOnSwipe.Reply ->
                                             SwipeAction(
@@ -1013,6 +1022,7 @@ class UserDetailScreen(
                                         hideCommunity = false,
                                         hideAuthor = true,
                                         indentAmount = 0,
+                                        downVoteEnabled = uiState.downVoteEnabled,
                                         actionButtonsActive = uiState.isLogged,
                                         onClick = {
                                             detailOpener.openPostDetail(
