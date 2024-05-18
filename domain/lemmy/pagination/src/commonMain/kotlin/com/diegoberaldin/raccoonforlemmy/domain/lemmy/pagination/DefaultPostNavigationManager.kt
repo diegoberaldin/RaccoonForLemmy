@@ -21,8 +21,9 @@ internal class DefaultPostNavigationManager(
         val canStillNavigate = states.isNotEmpty()
         canNavigate.value = canStillNavigate
         if (canStillNavigate) {
-            val lastState = states.last()
-            postPaginationManager.restoreState(lastState)
+            states.lastOrNull()?.also { lastState ->
+                postPaginationManager.restoreState(lastState)
+            }
         } else {
             postPaginationManager.reset()
         }
