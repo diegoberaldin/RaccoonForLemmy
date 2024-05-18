@@ -80,10 +80,7 @@ internal class DefaultSiteRepository(
     override suspend fun getMetadata(url: String): MetadataModel? =
         withContext(Dispatchers.IO) {
             runCatching {
-                val response =
-                    services.post.getSiteMetadata(
-                        url = url,
-                    )
+                val response = services.post.getSiteMetadata(url = url)
                 response.body()?.metadata?.toModel()
             }.getOrNull()
         }
@@ -95,6 +92,18 @@ internal class DefaultSiteRepository(
                 val dto = response.body()
                 dto?.allLanguages?.map { it.toModel() }.orEmpty()
             }.getOrElse { emptyList() }
+        }
+
+    override suspend fun isDownVoteEnabled(auth: String?): Boolean =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                if (auth.isNullOrEmpty()) {
+                    return@runCatching true
+                }
+                val response = services.site.get(auth = auth)
+                val dto = response.body()
+                dto?.siteView?.localSite?.enableDownvotes == true
+            }.getOrElse { true }
         }
 
     override suspend fun getAccountSettings(auth: String): AccountSettingsModel? =
