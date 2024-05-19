@@ -83,7 +83,12 @@ fun CommentCard(
             depth = comment.depth,
             commentBarTheme = commentBarTheme,
         )
-    val barWidth = BAR_BASE_WIDTH_UNIT * barThickness
+    val barWidth =
+        if (comment.depth > 0) {
+            BAR_BASE_WIDTH_UNIT * barThickness
+        } else {
+            0.dp
+        }
 
     Column(
         modifier = modifier,
@@ -95,7 +100,9 @@ fun CommentCard(
                     onDoubleClick = onDoubleClick ?: {},
                 ).padding(
                     start =
-                        indentAmount.takeIf { it > 0 }?.let {
+                        indentAmount.takeIf {
+                            it > 0 && comment.depth > 0
+                        }?.let {
                             (it * comment.depth).dp + Spacing.xxxs
                         } ?: 0.dp,
                 ),
@@ -103,7 +110,7 @@ fun CommentCard(
             Column(
                 modifier =
                     Modifier
-                        .padding(start = barWidth + Spacing.xxs)
+                        .padding(start = barWidth)
                         .fillMaxWidth()
                         .padding(
                             vertical = Spacing.xxs,
