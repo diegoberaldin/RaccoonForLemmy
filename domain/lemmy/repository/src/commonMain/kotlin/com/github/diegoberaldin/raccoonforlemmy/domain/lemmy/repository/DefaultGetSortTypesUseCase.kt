@@ -6,12 +6,16 @@ internal class DefaultGetSortTypesUseCase(
     private val siteRepository: SiteRepository,
 ) : GetSortTypesUseCase {
     companion object {
-        private const val LEMMY_VERSION_CONTROVERSIAL = "0.19"
-        private const val LEMMY_VERSION_SCALED = "0.19"
+        private const val THRESHOLD_MAJOR = 0
+        private const val THRESHOLD_MINOR = 19
+        private val LEMMY_VERSION_REGEX = Regex("(?<major>\\d+).(?<minor>\\d+)(.(?<patch>\\d+))?")
     }
 
     override suspend fun getTypesForPosts(otherInstance: String?): List<SortType> {
         val version = siteRepository.getSiteVersion(otherInstance = otherInstance).orEmpty()
+        val matchResult = LEMMY_VERSION_REGEX.find(version)
+        val major = matchResult?.groups?.get("major")?.value?.toIntOrNull() ?: 0
+        val minor = matchResult?.groups?.get("minor")?.value?.toIntOrNull() ?: 0
         return buildList {
             this += SortType.Active
             this += SortType.Hot
@@ -19,10 +23,8 @@ internal class DefaultGetSortTypesUseCase(
             this += SortType.NewComments
             this += SortType.MostComments
             this += SortType.Old
-            if (version.startsWith(LEMMY_VERSION_CONTROVERSIAL)) {
+            if (major >= THRESHOLD_MAJOR && minor >= THRESHOLD_MINOR) {
                 this += SortType.Controversial
-            }
-            if (version.startsWith(LEMMY_VERSION_SCALED)) {
                 this += SortType.Scaled
             }
             this += SortType.Top.Generic
@@ -31,11 +33,14 @@ internal class DefaultGetSortTypesUseCase(
 
     override suspend fun getTypesForComments(otherInstance: String?): List<SortType> {
         val version = siteRepository.getSiteVersion(otherInstance = otherInstance).orEmpty()
+        val matchResult = LEMMY_VERSION_REGEX.find(version)
+        val major = matchResult?.groups?.get("major")?.value?.toIntOrNull() ?: 0
+        val minor = matchResult?.groups?.get("minor")?.value?.toIntOrNull() ?: 0
         return buildList {
             this += SortType.Hot
             this += SortType.New
             this += SortType.Old
-            if (version.startsWith(LEMMY_VERSION_CONTROVERSIAL)) {
+            if (major >= THRESHOLD_MAJOR && minor >= THRESHOLD_MINOR) {
                 this += SortType.Controversial
             }
             this += SortType.Top.Generic
