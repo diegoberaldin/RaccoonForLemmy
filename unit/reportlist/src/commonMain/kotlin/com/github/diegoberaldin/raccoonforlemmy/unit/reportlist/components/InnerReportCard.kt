@@ -197,7 +197,7 @@ private fun ReportFooter(
     onOpenResolve: (() -> Unit)? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
-    val buttonModifier = Modifier.size(IconSize.m).padding(3.dp)
+    val buttonModifier = Modifier.size(IconSize.l).padding(3.dp)
     var optionsExpanded by remember { mutableStateOf(false) }
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
@@ -213,7 +213,7 @@ private fun ReportFooter(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    modifier = Modifier.size(IconSize.s).padding(0.5.dp),
+                    modifier = Modifier.size(IconSize.m).padding(1.5.dp),
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
                     tint = ancillaryColor,

@@ -73,87 +73,87 @@ fun CommunityAndCreatorInfo(
     val fullColor = MaterialTheme.colorScheme.onBackground.copy(alpha = additionalAlphaFactor)
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha * additionalAlphaFactor)
 
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.s),
-    ) {
-        if (communityIcon.isNotEmpty()) {
-            if (autoLoadImages) {
-                CustomImage(
-                    modifier =
-                        Modifier
-                            .onClick(
+    CustomizedContent(ContentFontClass.AncillaryText) {
+        Row(
+            modifier = modifier,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(Spacing.s),
+        ) {
+            if (communityIcon.isNotEmpty()) {
+                if (autoLoadImages) {
+                    CustomImage(
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        if (community != null) {
+                                            onOpenCommunity?.invoke(community)
+                                        }
+                                    },
+                                    onDoubleClick = onDoubleClick ?: {},
+                                )
+                                .padding(Spacing.xxxs)
+                                .size(iconSize)
+                                .clip(RoundedCornerShape(iconSize / 2)),
+                        url = communityIcon,
+                        quality = FilterQuality.Low,
+                        contentScale = ContentScale.FillBounds,
+                    )
+                } else {
+                    PlaceholderImage(
+                        modifier =
+                            Modifier.onClick(
                                 onClick = {
                                     if (community != null) {
                                         onOpenCommunity?.invoke(community)
                                     }
                                 },
                                 onDoubleClick = onDoubleClick ?: {},
-                            )
-                            .padding(Spacing.xxxs)
-                            .size(iconSize)
-                            .clip(RoundedCornerShape(iconSize / 2)),
-                    url = communityIcon,
-                    quality = FilterQuality.Low,
-                    contentScale = ContentScale.FillBounds,
-                )
-            } else {
-                PlaceholderImage(
-                    modifier =
-                        Modifier.onClick(
-                            onClick = {
-                                if (community != null) {
-                                    onOpenCommunity?.invoke(community)
-                                }
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                        ),
-                    size = IconSize.l,
-                    title = communityName,
-                )
-            }
-        } else if (creatorAvatar.isNotEmpty()) {
-            if (autoLoadImages) {
-                CustomImage(
-                    modifier =
-                        Modifier
-                            .onClick(
+                            ),
+                        size = IconSize.l,
+                        title = communityName,
+                    )
+                }
+            } else if (creatorAvatar.isNotEmpty()) {
+                if (autoLoadImages) {
+                    CustomImage(
+                        modifier =
+                            Modifier
+                                .onClick(
+                                    onClick = {
+                                        if (creator != null) {
+                                            onOpenCreator?.invoke(creator)
+                                        }
+                                    },
+                                    onDoubleClick = onDoubleClick ?: {},
+                                )
+                                .padding(Spacing.xxxs)
+                                .size(iconSize)
+                                .clip(RoundedCornerShape(iconSize / 2)),
+                        url = creatorAvatar,
+                        quality = FilterQuality.Low,
+                        contentScale = ContentScale.FillBounds,
+                    )
+                } else {
+                    PlaceholderImage(
+                        modifier =
+                            Modifier.onClick(
                                 onClick = {
                                     if (creator != null) {
                                         onOpenCreator?.invoke(creator)
                                     }
                                 },
                                 onDoubleClick = onDoubleClick ?: {},
-                            )
-                            .padding(Spacing.xxxs)
-                            .size(iconSize)
-                            .clip(RoundedCornerShape(iconSize / 2)),
-                    url = creatorAvatar,
-                    quality = FilterQuality.Low,
-                    contentScale = ContentScale.FillBounds,
-                )
-            } else {
-                PlaceholderImage(
-                    modifier =
-                        Modifier.onClick(
-                            onClick = {
-                                if (creator != null) {
-                                    onOpenCreator?.invoke(creator)
-                                }
-                            },
-                            onDoubleClick = onDoubleClick ?: {},
-                        ),
-                    size = iconSize,
-                    title = creatorName,
-                )
+                            ),
+                        size = iconSize,
+                        title = creatorName,
+                    )
+                }
             }
-        }
-        Column(
-            modifier = Modifier.padding(vertical = Spacing.xxxs),
-        ) {
-            if (community != null) {
-                CustomizedContent(ContentFontClass.AncillaryText) {
+            Column(
+                modifier = Modifier.padding(vertical = Spacing.xxxs),
+            ) {
+                if (community != null) {
                     Text(
                         modifier =
                             Modifier
@@ -169,9 +169,7 @@ fun CommunityAndCreatorInfo(
                         color = if (creator == null) ancillaryColor else fullColor,
                     )
                 }
-            }
-            if (creator != null) {
-                CustomizedContent(ContentFontClass.AncillaryText) {
+                if (creator != null) {
                     Text(
                         modifier =
                             Modifier
@@ -188,78 +186,78 @@ fun CommunityAndCreatorInfo(
                     )
                 }
             }
-        }
-        if (isOp) {
-            IndicatorChip(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                text = OP_LABEL,
-            )
-        }
-        if (isBot) {
-            IndicatorChip(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                text = BOT_LABEL,
-            )
-        }
+            if (isOp) {
+                IndicatorChip(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    text = OP_LABEL,
+                )
+            }
+            if (isBot) {
+                IndicatorChip(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    text = BOT_LABEL,
+                )
+            }
 
-        Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(1f))
 
-        val buttonModifier = Modifier.size(IconSize.m).padding(3.5.dp)
-        if (isFromModerator) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.LocalPolice,
-                contentDescription = null,
-            )
-        }
-        if (distinguished) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.WorkspacePremium,
-                contentDescription = null,
-            )
-        } else if (featuredLocal) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.Verified,
-                contentDescription = null,
-            )
-        } else if (featuredCommunity) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.Stars,
-                contentDescription = null,
-            )
-        }
+            val buttonModifier = Modifier.size(IconSize.l).padding(3.5.dp)
+            if (isFromModerator) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.LocalPolice,
+                    contentDescription = null,
+                )
+            }
+            if (distinguished) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.WorkspacePremium,
+                    contentDescription = null,
+                )
+            } else if (featuredLocal) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.Verified,
+                    contentDescription = null,
+                )
+            } else if (featuredCommunity) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.Stars,
+                    contentDescription = null,
+                )
+            }
 
-        if (locked) {
-            Icon(
-                modifier = buttonModifier,
-                imageVector = Icons.Default.Lock,
-                contentDescription = null,
-            )
-        }
-        if (indicatorExpanded != null) {
-            val expandedModifier =
-                Modifier
-                    .padding(end = Spacing.xs)
-                    .onClick(
-                        onClick = {
-                            onToggleExpanded?.invoke()
-                        },
+            if (locked) {
+                Icon(
+                    modifier = buttonModifier,
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = null,
+                )
+            }
+            if (indicatorExpanded != null) {
+                val expandedModifier =
+                    Modifier
+                        .padding(end = Spacing.xs)
+                        .onClick(
+                            onClick = {
+                                onToggleExpanded?.invoke()
+                            },
+                        )
+                if (indicatorExpanded) {
+                    Icon(
+                        modifier = expandedModifier,
+                        imageVector = Icons.Default.ExpandLess,
+                        contentDescription = null,
                     )
-            if (indicatorExpanded) {
-                Icon(
-                    modifier = expandedModifier,
-                    imageVector = Icons.Default.ExpandLess,
-                    contentDescription = null,
-                )
-            } else {
-                Icon(
-                    modifier = expandedModifier,
-                    imageVector = Icons.Default.ExpandMore,
-                    contentDescription = null,
-                )
+                } else {
+                    Icon(
+                        modifier = expandedModifier,
+                        imageVector = Icons.Default.ExpandMore,
+                        contentDescription = null,
+                    )
+                }
             }
         }
     }

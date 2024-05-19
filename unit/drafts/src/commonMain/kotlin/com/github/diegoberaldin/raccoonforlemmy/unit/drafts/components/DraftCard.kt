@@ -161,7 +161,7 @@ private fun DraftFooter(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
-                    modifier = Modifier.size(IconSize.s).padding(0.5.dp),
+                    modifier = Modifier.size(IconSize.m).padding(1.5.dp),
                     imageVector = Icons.Default.Schedule,
                     contentDescription = null,
                     tint = ancillaryColor,

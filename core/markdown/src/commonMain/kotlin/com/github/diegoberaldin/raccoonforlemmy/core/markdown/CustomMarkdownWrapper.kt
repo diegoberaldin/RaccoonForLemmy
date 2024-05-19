@@ -60,8 +60,7 @@ fun CustomMarkdownWrapper(
             if (maxLines == null) {
                 Dp.Unspecified
             } else {
-                val lineHeight =
-                    typography.paragraph.lineHeight
+                val lineHeight = typography.paragraph.lineHeight
                 val base =
                     if (lineHeight.isUnspecified) {
                         floor(typography.paragraph.fontSize.toPx() * MAX_LINES_SCALE_FACTOR)

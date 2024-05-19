@@ -40,12 +40,14 @@ import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.formatToReadableValue
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.readContentAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomizedContent
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FeedbackButton
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
@@ -87,218 +89,220 @@ fun PostCardFooter(
     val ancillaryColor =
         MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha * additionalAlphaFactor)
 
-    Box(modifier = modifier) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
-        ) {
-            val buttonModifier = Modifier.size(IconSize.m)
-            if (comments != null) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
+    CustomizedContent(ContentFontClass.AncillaryText) {
+        Box(modifier = modifier) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
+            ) {
+                val buttonModifier = Modifier.size(IconSize.l)
+                if (comments != null) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            modifier =
+                                buttonModifier.padding(
+                                    top = 3.5.dp,
+                                    end = 3.5.dp,
+                                    bottom = 3.5.dp,
+                                )
+                                    .onClick(
+                                        onClick = {
+                                            onReply?.invoke()
+                                        },
+                                    ),
+                            imageVector = Icons.AutoMirrored.Default.Chat,
+                            contentDescription = null,
+                            tint = ancillaryColor,
+                        )
+                        Text(
+                            text = "$comments",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = ancillaryColor,
+                        )
+                    }
+                }
+                if (unreadComments != null) {
+                    Text(
                         modifier =
-                            buttonModifier.padding(
-                                top = 3.5.dp,
-                                end = 3.5.dp,
-                                bottom = 3.5.dp,
-                            )
-                                .onClick(
-                                    onClick = {
-                                        onReply?.invoke()
+                            Modifier
+                                .padding(start = Spacing.xxs)
+                                .background(
+                                    color = MaterialTheme.colorScheme.secondary,
+                                    shape = RoundedCornerShape(CornerSize.s),
+                                )
+                                .padding(horizontal = Spacing.xxs),
+                        text = "+$unreadComments",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondary,
+                    )
+                }
+                listOf(
+                    updateDate.orEmpty(),
+                    publishDate.orEmpty(),
+                ).firstOrNull {
+                    it.isNotBlank()
+                }?.also { publishDate ->
+                    Row(
+                        modifier = Modifier.padding(start = Spacing.xs),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val isShowingUpdateDate = !updateDate.isNullOrBlank()
+                        Icon(
+                            modifier =
+                                Modifier.size(IconSize.m).then(
+                                    if (!isShowingUpdateDate) {
+                                        Modifier.padding(1.5.dp)
+                                    } else {
+                                        Modifier.padding(0.25.dp)
                                     },
                                 ),
-                        imageVector = Icons.AutoMirrored.Default.Chat,
-                        contentDescription = null,
-                        tint = ancillaryColor,
-                    )
-                    Text(
-                        text = "$comments",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = ancillaryColor,
-                    )
+                            imageVector =
+                                if (isShowingUpdateDate) {
+                                    Icons.Default.Update
+                                } else {
+                                    Icons.Default.Schedule
+                                },
+                            contentDescription = null,
+                            tint = ancillaryColor,
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = Spacing.xxs),
+                            text = publishDate.prettifyDate(),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = ancillaryColor,
+                        )
+                    }
                 }
-            }
-            if (unreadComments != null) {
-                Text(
-                    modifier =
-                        Modifier
-                            .padding(start = Spacing.xxs)
-                            .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(CornerSize.s),
-                            )
-                            .padding(horizontal = Spacing.xxs),
-                    text = "+$unreadComments",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondary,
-                )
-            }
-            listOf(
-                updateDate.orEmpty(),
-                publishDate.orEmpty(),
-            ).firstOrNull {
-                it.isNotBlank()
-            }?.also { publishDate ->
-                Row(
-                    modifier = Modifier.padding(start = Spacing.xs),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    val isShowingUpdateDate = !updateDate.isNullOrBlank()
+                if (options.isNotEmpty()) {
                     Icon(
                         modifier =
-                            Modifier.size(IconSize.s).then(
-                                if (!isShowingUpdateDate) {
-                                    Modifier.padding(0.5.dp)
-                                } else {
-                                    Modifier
-                                },
-                            ),
-                        imageVector =
-                            if (isShowingUpdateDate) {
-                                Icons.Default.Update
-                            } else {
-                                Icons.Default.Schedule
-                            },
+                            Modifier.size(IconSize.m)
+                                .padding(Spacing.xs)
+                                .onGloballyPositioned {
+                                    optionsOffset = it.positionInParent()
+                                }
+                                .onClick(
+                                    onClick = {
+                                        optionsMenuOpen.value = true
+                                    },
+                                ),
+                        imageVector = Icons.Default.MoreHoriz,
                         contentDescription = null,
                         tint = ancillaryColor,
                     )
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                if (actionButtonsActive) {
+                    FeedbackButton(
+                        modifier =
+                            buttonModifier.padding(
+                                top = 2.5.dp,
+                                bottom = 2.5.dp,
+                                end = 2.5.dp,
+                            ),
+                        imageVector =
+                            if (!saved) {
+                                Icons.Default.BookmarkBorder
+                            } else {
+                                Icons.Default.Bookmark
+                            },
+                        tintColor =
+                            if (saved) {
+                                MaterialTheme.colorScheme.secondary
+                            } else {
+                                ancillaryColor
+                            },
+                        onClick = {
+                            onSave?.invoke()
+                        },
+                    )
+                }
+                FeedbackButton(
+                    modifier = buttonModifier.padding(all = 2.5.dp),
+                    imageVector =
+                        if (actionButtonsActive) {
+                            Icons.Default.ArrowCircleUp
+                        } else {
+                            Icons.Default.ArrowUpward
+                        },
+                    tintColor =
+                        if (upVoted) {
+                            upVoteColor ?: defaultUpvoteColor
+                        } else {
+                            ancillaryColor
+                        },
+                    onClick = {
+                        onUpVote?.invoke()
+                    },
+                )
+                if (showScores) {
                     Text(
-                        modifier = Modifier.padding(start = Spacing.xxs),
-                        text = publishDate.prettifyDate(),
+                        text =
+                            formatToReadableValue(
+                                voteFormat = voteFormat,
+                                score = score,
+                                upVotes = upVotes,
+                                downVotes = downVotes,
+                                upVoteColor = upVoteColor ?: defaultUpvoteColor,
+                                downVoteColor = downVoteColor ?: defaultDownVoteColor,
+                                upVoted = upVoted,
+                                downVoted = downVoted,
+                            ),
                         style = MaterialTheme.typography.labelMedium,
                         color = ancillaryColor,
                     )
                 }
-            }
-            if (options.isNotEmpty()) {
-                Icon(
-                    modifier =
-                        Modifier.size(IconSize.m)
-                            .padding(Spacing.xs)
-                            .onGloballyPositioned {
-                                optionsOffset = it.positionInParent()
-                            }
-                            .onClick(
-                                onClick = {
-                                    optionsMenuOpen.value = true
-                                },
+                if (downVoteEnabled) {
+                    FeedbackButton(
+                        modifier =
+                            buttonModifier.padding(
+                                top = 2.5.dp,
+                                bottom = 2.5.dp,
+                                end = 2.5.dp,
                             ),
-                    imageVector = Icons.Default.MoreHoriz,
-                    contentDescription = null,
-                    tint = ancillaryColor,
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            if (actionButtonsActive) {
-                FeedbackButton(
-                    modifier =
-                        buttonModifier.padding(
-                            top = 2.5.dp,
-                            bottom = 2.5.dp,
-                            end = 2.5.dp,
-                        ),
-                    imageVector =
-                        if (!saved) {
-                            Icons.Default.BookmarkBorder
-                        } else {
-                            Icons.Default.Bookmark
+                        imageVector =
+                            if (actionButtonsActive) {
+                                Icons.Default.ArrowCircleDown
+                            } else {
+                                Icons.Default.ArrowDownward
+                            },
+                        tintColor =
+                            if (downVoted) {
+                                downVoteColor ?: defaultDownVoteColor
+                            } else {
+                                ancillaryColor
+                            },
+                        onClick = {
+                            onDownVote?.invoke()
                         },
-                    tintColor =
-                        if (saved) {
-                            MaterialTheme.colorScheme.secondary
-                        } else {
-                            ancillaryColor
-                        },
-                    onClick = {
-                        onSave?.invoke()
-                    },
-                )
+                    )
+                }
             }
-            FeedbackButton(
-                modifier = buttonModifier.padding(all = 2.5.dp),
-                imageVector =
-                    if (actionButtonsActive) {
-                        Icons.Default.ArrowCircleUp
-                    } else {
-                        Icons.Default.ArrowUpward
-                    },
-                tintColor =
-                    if (upVoted) {
-                        upVoteColor ?: defaultUpvoteColor
-                    } else {
-                        ancillaryColor
-                    },
-                onClick = {
-                    onUpVote?.invoke()
-                },
-            )
-            if (showScores) {
-                Text(
-                    text =
-                        formatToReadableValue(
-                            voteFormat = voteFormat,
-                            score = score,
-                            upVotes = upVotes,
-                            downVotes = downVotes,
-                            upVoteColor = upVoteColor ?: defaultUpvoteColor,
-                            downVoteColor = downVoteColor ?: defaultDownVoteColor,
-                            upVoted = upVoted,
-                            downVoted = downVoted,
-                        ),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = ancillaryColor,
-                )
-            }
-            if (downVoteEnabled) {
-                FeedbackButton(
-                    modifier =
-                        buttonModifier.padding(
-                            top = 2.5.dp,
-                            bottom = 2.5.dp,
-                            end = 2.5.dp,
-                        ),
-                    imageVector =
-                        if (actionButtonsActive) {
-                            Icons.Default.ArrowCircleDown
-                        } else {
-                            Icons.Default.ArrowDownward
-                        },
-                    tintColor =
-                        if (downVoted) {
-                            downVoteColor ?: defaultDownVoteColor
-                        } else {
-                            ancillaryColor
-                        },
-                    onClick = {
-                        onDownVote?.invoke()
-                    },
-                )
-            }
-        }
 
-        CustomDropDown(
-            expanded = optionsMenuOpen.value,
-            onDismiss = {
-                optionsMenuOpen.value = false
-            },
-            offset =
-                DpOffset(
-                    x = optionsOffset.x.toLocalDp(),
-                    y = optionsOffset.y.toLocalDp(),
-                ),
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = {
-                        Text(option.text)
-                    },
-                    onClick = {
-                        optionsMenuOpen.value = false
-                        onOptionSelected?.invoke(option.id)
-                    },
-                )
+            CustomDropDown(
+                expanded = optionsMenuOpen.value,
+                onDismiss = {
+                    optionsMenuOpen.value = false
+                },
+                offset =
+                    DpOffset(
+                        x = optionsOffset.x.toLocalDp(),
+                        y = optionsOffset.y.toLocalDp(),
+                    ),
+            ) {
+                options.forEach { option ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(option.text)
+                        },
+                        onClick = {
+                            optionsMenuOpen.value = false
+                            onOptionSelected?.invoke(option.id)
+                        },
+                    )
+                }
             }
         }
     }

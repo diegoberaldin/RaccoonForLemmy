@@ -139,7 +139,7 @@ fun FloatingActionButtonMenu(
                         Icon(
                             modifier =
                                 Modifier
-                                    .size(IconSize.m)
+                                    .size(IconSize.l)
                                     .background(
                                         color = MaterialTheme.colorScheme.primaryContainer,
                                         shape = CircleShape,

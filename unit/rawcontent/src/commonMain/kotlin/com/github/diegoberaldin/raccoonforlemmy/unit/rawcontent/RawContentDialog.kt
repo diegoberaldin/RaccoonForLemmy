@@ -206,7 +206,7 @@ fun RawContentDialog(
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Icon(
-                                    modifier = Modifier.size(IconSize.s).padding(0.5.dp),
+                                    modifier = Modifier.size(IconSize.m).padding(1.5.dp),
                                     imageVector = Icons.Default.Schedule,
                                     contentDescription = null,
                                     tint = fullColor,
@@ -231,7 +231,7 @@ fun RawContentDialog(
                             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         ) {
                             Icon(
-                                modifier = Modifier.size(IconSize.s),
+                                modifier = Modifier.size(IconSize.m).padding(0.25.dp),
                                 imageVector = Icons.Default.Update,
                                 contentDescription = null,
                                 tint = fullColor,
