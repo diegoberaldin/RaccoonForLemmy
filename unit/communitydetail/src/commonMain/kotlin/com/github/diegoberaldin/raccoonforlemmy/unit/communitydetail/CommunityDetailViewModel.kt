@@ -265,16 +265,20 @@ class CommunityDetailViewModel(
             }
 
             CommunityDetailMviModel.Intent.PauseZombieMode -> {
-                updateState { it.copy(zombieModeActive = false) }
-                zombieModeHelper.pause()
+                screenModelScope.launch {
+                    updateState { it.copy(zombieModeActive = false) }
+                    zombieModeHelper.pause()
+                }
             }
 
             is CommunityDetailMviModel.Intent.StartZombieMode -> {
-                updateState { it.copy(zombieModeActive = true) }
-                zombieModeHelper.start(
-                    initialValue = intent.index,
-                    interval = settingsRepository.currentSettings.value.zombieModeInterval,
-                )
+                screenModelScope.launch {
+                    updateState { it.copy(zombieModeActive = true) }
+                    zombieModeHelper.start(
+                        initialValue = intent.index,
+                        interval = settingsRepository.currentSettings.value.zombieModeInterval,
+                    )
+                }
             }
 
             is CommunityDetailMviModel.Intent.ModFeaturePost ->
@@ -298,9 +302,11 @@ class CommunityDetailViewModel(
             }
 
             is CommunityDetailMviModel.Intent.ChangeSearching -> {
-                updateState { it.copy(searching = intent.value) }
-                if (!intent.value) {
-                    updateSearchText("")
+                screenModelScope.launch {
+                    updateState { it.copy(searching = intent.value) }
+                    if (!intent.value) {
+                        updateSearchText("")
+                    }
                 }
             }
 
@@ -375,8 +381,8 @@ class CommunityDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(sortType = value) }
             emitEffect(CommunityDetailMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -562,27 +568,31 @@ class CommunityDetailViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handlePostDelete(id: Long) {
-        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        screenModelScope.launch {
+            updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        }
     }
 
     private fun blockCommunity() {
-        updateState { it.copy(asyncInProgress = true) }
         screenModelScope.launch {
+            updateState { it.copy(asyncInProgress = true) }
             try {
                 val auth = identityRepository.authToken.value
                 communityRepository.block(communityId, true, auth).getOrThrow()
@@ -596,8 +606,8 @@ class CommunityDetailViewModel(
     }
 
     private fun blockInstance() {
-        updateState { it.copy(asyncInProgress = true) }
         screenModelScope.launch {
+            updateState { it.copy(asyncInProgress = true) }
             try {
                 val community = uiState.value.community
                 val instanceId = community.instanceId
@@ -613,23 +623,27 @@ class CommunityDetailViewModel(
     }
 
     private fun clearRead() {
-        hideReadPosts = true
-        updateState {
-            val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(
-                posts = newPosts,
-            )
+        screenModelScope.launch {
+            hideReadPosts = true
+            updateState {
+                val newPosts = it.posts.filter { e -> !e.read }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
         }
     }
 
     private fun hide(post: PostModel) {
-        updateState {
-            val newPosts = it.posts.filter { e -> e.id != post.id }
-            it.copy(
-                posts = newPosts,
-            )
+        screenModelScope.launch {
+            updateState {
+                val newPosts = it.posts.filter { e -> e.id != post.id }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
+            markAsRead(post)
         }
-        markAsRead(post)
     }
 
     private fun feature(post: PostModel) {
@@ -698,8 +712,8 @@ class CommunityDetailViewModel(
     }
 
     private fun updateSearchText(value: String) {
-        updateState { it.copy(searchText = value) }
         screenModelScope.launch {
+            updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
         }
     }

@@ -22,8 +22,10 @@ class BanUserViewModel(
         initialState = BanUserMviModel.UiState(),
     ) {
     init {
-        updateState {
-            it.copy(targetBanValue = newValue)
+        screenModelScope.launch {
+            updateState {
+                it.copy(targetBanValue = newValue)
+            }
         }
     }
 
@@ -31,21 +33,36 @@ class BanUserViewModel(
         when (intent) {
             BanUserMviModel.Intent.IncrementDays -> incrementDays()
             BanUserMviModel.Intent.DecrementDays -> decrementDays()
-            is BanUserMviModel.Intent.ChangePermanent -> updateState { it.copy(permanent = intent.value) }
-            is BanUserMviModel.Intent.ChangeRemoveData -> updateState { it.copy(removeData = intent.value) }
-            is BanUserMviModel.Intent.SetText -> updateState { it.copy(text = intent.value) }
+            is BanUserMviModel.Intent.ChangePermanent ->
+                screenModelScope.launch {
+                    updateState { it.copy(permanent = intent.value) }
+                }
+
+            is BanUserMviModel.Intent.ChangeRemoveData ->
+                screenModelScope.launch {
+                    updateState { it.copy(removeData = intent.value) }
+                }
+
+            is BanUserMviModel.Intent.SetText ->
+                screenModelScope.launch {
+                    updateState { it.copy(text = intent.value) }
+                }
             BanUserMviModel.Intent.Submit -> submit()
         }
     }
 
     private fun incrementDays() {
-        val newValue = uiState.value.days + 1
-        updateState { it.copy(days = newValue) }
+        screenModelScope.launch {
+            val newValue = uiState.value.days + 1
+            updateState { it.copy(days = newValue) }
+        }
     }
 
     private fun decrementDays() {
-        val newValue = (uiState.value.days - 1).coerceAtLeast(1)
-        updateState { it.copy(days = newValue) }
+        screenModelScope.launch {
+            val newValue = (uiState.value.days - 1).coerceAtLeast(1)
+            updateState { it.copy(days = newValue) }
+        }
     }
 
     private fun submit() {
@@ -57,8 +74,8 @@ class BanUserViewModel(
         val removeData = currentState.removeData.takeIf { newValue } ?: false
         val days = currentState.days.toLong().takeIf { newValue }
 
-        updateState { it.copy(loading = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val newUser =

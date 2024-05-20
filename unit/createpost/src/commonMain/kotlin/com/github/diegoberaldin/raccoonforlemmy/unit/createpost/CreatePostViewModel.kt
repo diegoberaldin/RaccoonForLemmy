@@ -97,20 +97,26 @@ class CreatePostViewModel(
             }
 
             is CreatePostMviModel.Intent.SetTitle -> {
-                updateState {
-                    it.copy(title = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(title = intent.value)
+                    }
                 }
             }
 
             is CreatePostMviModel.Intent.ChangeNsfw -> {
-                updateState {
-                    it.copy(nsfw = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(nsfw = intent.value)
+                    }
                 }
             }
 
             is CreatePostMviModel.Intent.SetUrl -> {
-                updateState {
-                    it.copy(url = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(url = intent.value)
+                    }
                 }
             }
 
@@ -123,18 +129,23 @@ class CreatePostViewModel(
             }
 
             is CreatePostMviModel.Intent.ChangeSection ->
-                updateState {
-                    it.copy(section = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(section = intent.value)
+                    }
                 }
 
             is CreatePostMviModel.Intent.ChangeLanguage ->
-                updateState {
-                    it.copy(currentLanguageId = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(currentLanguageId = intent.value)
+                    }
                 }
-
             is CreatePostMviModel.Intent.ChangeBodyValue ->
-                updateState {
-                    it.copy(bodyValue = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(bodyValue = intent.value)
+                    }
                 }
 
             CreatePostMviModel.Intent.Send -> submit()
@@ -214,12 +225,14 @@ class CreatePostViewModel(
             return
         }
 
-        updateState {
-            it.copy(
-                titleError = null,
-                urlError = null,
-                bodyError = null,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    titleError = null,
+                    urlError = null,
+                    bodyError = null,
+                )
+            }
         }
 
         val communityId = currentState.communityId
@@ -230,20 +243,26 @@ class CreatePostViewModel(
         val languageId = currentState.currentLanguageId
         var valid = true
         if (title.isEmpty()) {
-            updateState {
-                it.copy(titleError = ValidationError.MissingField)
+            screenModelScope.launch {
+                updateState {
+                    it.copy(titleError = ValidationError.MissingField)
+                }
             }
             valid = false
         }
         if (!url.isNullOrEmpty() && !url.isValidUrl()) {
-            updateState {
-                it.copy(urlError = ValidationError.InvalidField)
+            screenModelScope.launch {
+                updateState {
+                    it.copy(urlError = ValidationError.InvalidField)
+                }
             }
             valid = false
         }
         if (communityId == null) {
-            updateState {
-                it.copy(communityError = ValidationError.MissingField)
+            screenModelScope.launch {
+                updateState {
+                    it.copy(communityError = ValidationError.MissingField)
+                }
             }
             valid = false
         }
@@ -252,8 +271,8 @@ class CreatePostViewModel(
             return
         }
 
-        updateState { it.copy(loading = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 when {

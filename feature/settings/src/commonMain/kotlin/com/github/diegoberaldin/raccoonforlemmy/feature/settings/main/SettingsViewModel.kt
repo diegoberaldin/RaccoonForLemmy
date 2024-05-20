@@ -96,21 +96,21 @@ class SettingsViewModel(
                     availableSortTypesForComments = availableSortTypesForComments,
                 )
             }
-        }
 
-        val settings = settingsRepository.currentSettings.value
-        updateState {
-            it.copy(
-                defaultListingType = settings.defaultListingType.toListingType(),
-                defaultPostSortType = settings.defaultPostSortType.toSortType(),
-                defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
-                includeNsfw = settings.includeNsfw,
-                blurNsfw = settings.blurNsfw,
-                urlOpeningMode = settings.urlOpeningMode.toUrlOpeningMode(),
-                enableSwipeActions = settings.enableSwipeActions,
-                crashReportEnabled = crashReportConfiguration.isEnabled(),
-                customTabsEnabled = customTabsHelper.isSupported,
-            )
+            val settings = settingsRepository.currentSettings.value
+            updateState {
+                it.copy(
+                    defaultListingType = settings.defaultListingType.toListingType(),
+                    defaultPostSortType = settings.defaultPostSortType.toSortType(),
+                    defaultCommentSortType = settings.defaultCommentSortType.toSortType(),
+                    includeNsfw = settings.includeNsfw,
+                    blurNsfw = settings.blurNsfw,
+                    urlOpeningMode = settings.urlOpeningMode.toUrlOpeningMode(),
+                    enableSwipeActions = settings.enableSwipeActions,
+                    crashReportEnabled = crashReportConfiguration.isEnabled(),
+                    customTabsEnabled = customTabsHelper.isSupported,
+                )
+            }
         }
     }
 
@@ -148,8 +148,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultListingType(value: ListingType) {
-        updateState { it.copy(defaultListingType = value) }
         screenModelScope.launch {
+            updateState { it.copy(defaultListingType = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     defaultListingType = value.toInt(),
@@ -160,8 +160,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultPostSortType(value: SortType) {
-        updateState { it.copy(defaultPostSortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(defaultPostSortType = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     defaultPostSortType = value.toInt(),
@@ -172,8 +172,8 @@ class SettingsViewModel(
     }
 
     private fun changeDefaultCommentSortType(value: SortType) {
-        updateState { it.copy(defaultCommentSortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(defaultCommentSortType = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     defaultCommentSortType = value.toInt(),
@@ -183,8 +183,8 @@ class SettingsViewModel(
     }
 
     private fun changeIncludeNsfw(value: Boolean) {
-        updateState { it.copy(includeNsfw = value) }
         screenModelScope.launch {
+            updateState { it.copy(includeNsfw = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     includeNsfw = value,
@@ -196,8 +196,8 @@ class SettingsViewModel(
     }
 
     private fun changeBlurNsfw(value: Boolean) {
-        updateState { it.copy(blurNsfw = value) }
         screenModelScope.launch {
+            updateState { it.copy(blurNsfw = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     blurNsfw = value,
@@ -207,8 +207,8 @@ class SettingsViewModel(
     }
 
     private fun changeUrlOpeningMode(value: UrlOpeningMode) {
-        updateState { it.copy(urlOpeningMode = value) }
         screenModelScope.launch {
+            updateState { it.copy(urlOpeningMode = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     urlOpeningMode = value.toInt(),
@@ -218,8 +218,8 @@ class SettingsViewModel(
     }
 
     private fun changeEnableSwipeActions(value: Boolean) {
-        updateState { it.copy(enableSwipeActions = value) }
         screenModelScope.launch {
+            updateState { it.copy(enableSwipeActions = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     enableSwipeActions = value,
@@ -229,8 +229,10 @@ class SettingsViewModel(
     }
 
     private fun changeCrashReportEnabled(value: Boolean) {
-        crashReportConfiguration.setEnabled(value)
-        updateState { it.copy(crashReportEnabled = value) }
+        screenModelScope.launch {
+            crashReportConfiguration.setEnabled(value)
+            updateState { it.copy(crashReportEnabled = value) }
+        }
     }
 
     private suspend fun saveSettings(settings: SettingsModel) {

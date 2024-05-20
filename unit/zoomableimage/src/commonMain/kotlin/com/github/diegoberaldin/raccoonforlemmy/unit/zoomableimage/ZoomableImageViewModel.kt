@@ -125,8 +125,10 @@ class ZoomableImageViewModel(
 
     private fun changeContentScale(contentScale: ContentScale) {
         imagePreloadManager.remove(url)
-        updateState {
-            it.copy(contentScale = contentScale)
+        screenModelScope.launch {
+            updateState {
+                it.copy(contentScale = contentScale)
+            }
         }
     }
 }

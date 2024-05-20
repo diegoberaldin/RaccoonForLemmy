@@ -181,17 +181,19 @@ class InboxChatViewModel(
     }
 
     private fun handleMessageUpdate(newMessage: PrivateMessageModel) {
-        updateState {
-            it.copy(
-                messages =
-                    it.messages.map { msg ->
-                        if (msg.id == newMessage.id) {
-                            newMessage
-                        } else {
-                            msg
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    messages =
+                        it.messages.map { msg ->
+                            if (msg.id == newMessage.id) {
+                                newMessage
+                            } else {
+                                msg
+                            }
+                        },
+                )
+            }
         }
     }
 
@@ -215,10 +217,12 @@ class InboxChatViewModel(
     }
 
     private fun startEditingMessage(message: PrivateMessageModel) {
-        updateState {
-            it.copy(
-                editedMessageId = message.id,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    editedMessageId = message.id,
+                )
+            }
         }
     }
 
@@ -268,7 +272,9 @@ class InboxChatViewModel(
     }
 
     private fun handleLogout() {
-        updateState { it.copy(messages = emptyList()) }
+        screenModelScope.launch {
+            updateState { it.copy(messages = emptyList()) }
+        }
     }
 
     private fun deleteMessage(message: PrivateMessageModel) {

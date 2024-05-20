@@ -90,18 +90,20 @@ class ReportListViewModel(
     }
 
     private fun changeSection(section: ReportListSection) {
-        updateState {
-            it.copy(
-                section = section,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    section = section,
+                )
+            }
         }
     }
 
     private fun changeUnresolvedOnly(value: Boolean) {
-        updateState {
-            it.copy(unresolvedOnly = value)
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(unresolvedOnly = value)
+            }
             emitEffect(ReportListMviModel.Effect.BackToTop)
             delay(50)
             refresh(initial = true)
@@ -255,48 +257,56 @@ class ReportListViewModel(
     }
 
     private fun handleReportUpdate(report: PostReportModel) {
-        updateState {
-            it.copy(
-                postReports =
-                    it.postReports.map { r ->
-                        if (r.id == report.id) {
-                            report
-                        } else {
-                            r
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    postReports =
+                        it.postReports.map { r ->
+                            if (r.id == report.id) {
+                                report
+                            } else {
+                                r
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handleReportUpdate(report: CommentReportModel) {
-        updateState {
-            it.copy(
-                commentReports =
-                    it.commentReports.map { r ->
-                        if (r.id == report.id) {
-                            report
-                        } else {
-                            r
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    commentReports =
+                        it.commentReports.map { r ->
+                            if (r.id == report.id) {
+                                report
+                            } else {
+                                r
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handleReporDelete(report: PostReportModel) {
-        updateState {
-            it.copy(
-                postReports = it.postReports.filter { r -> r.id != report.id },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    postReports = it.postReports.filter { r -> r.id != report.id },
+                )
+            }
         }
     }
 
     private fun handleReporDelete(report: CommentReportModel) {
-        updateState {
-            it.copy(
-                commentReports = it.commentReports.filter { r -> r.id != report.id },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    commentReports = it.commentReports.filter { r -> r.id != report.id },
+                )
+            }
         }
     }
 }

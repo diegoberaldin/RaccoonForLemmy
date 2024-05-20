@@ -123,8 +123,8 @@ class InboxRepliesViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        updateState { it.copy(unreadOnly = value) }
         screenModelScope.launch {
+            updateState { it.copy(unreadOnly = value) }
             refresh(initial = true)
             emitEffect(InboxRepliesMviModel.Effect.BackToTop)
         }
@@ -171,17 +171,19 @@ class InboxRepliesViewModel(
     }
 
     private fun handleItemUpdate(item: PersonMentionModel) {
-        updateState {
-            it.copy(
-                replies =
-                    it.replies.map { i ->
-                        if (i.id == item.id) {
-                            item
-                        } else {
-                            i
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    replies =
+                        it.replies.map { i ->
+                            if (i.id == item.id) {
+                                item
+                            } else {
+                                i
+                            }
+                        },
+                )
+            }
         }
     }
 
@@ -282,8 +284,8 @@ class InboxRepliesViewModel(
     }
 
     private fun handleLogout() {
-        updateState { it.copy(replies = emptyList()) }
         screenModelScope.launch {
+            updateState { it.copy(replies = emptyList()) }
             refresh(initial = true)
         }
     }

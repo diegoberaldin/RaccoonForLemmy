@@ -247,8 +247,8 @@ class MultiCommunityViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(sortType = value) }
             emitEffect(MultiCommunityMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -349,35 +349,41 @@ class MultiCommunityViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun clearRead() {
-        hideReadPosts = true
-        updateState {
-            val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(posts = newPosts)
+        screenModelScope.launch {
+            hideReadPosts = true
+            updateState {
+                val newPosts = it.posts.filter { e -> !e.read }
+                it.copy(posts = newPosts)
+            }
         }
     }
 
     private fun hide(post: PostModel) {
-        updateState {
-            val newPosts = it.posts.filter { e -> e.id != post.id }
-            it.copy(
-                posts = newPosts,
-            )
+        screenModelScope.launch {
+            updateState {
+                val newPosts = it.posts.filter { e -> e.id != post.id }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
+            markAsRead(post)
         }
-        markAsRead(post)
     }
 }

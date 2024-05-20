@@ -53,16 +53,16 @@ class ModlogViewModel(
     }
 
     private fun refresh(initial: Boolean = false) {
-        currentPage = 1
-        updateState {
-            it.copy(
-                canFetchMore = true,
-                refreshing = !initial,
-                initial = initial,
-                loading = false,
-            )
-        }
         screenModelScope.launch {
+            currentPage = 1
+            updateState {
+                it.copy(
+                    canFetchMore = true,
+                    refreshing = !initial,
+                    initial = initial,
+                    loading = false,
+                )
+            }
             loadNextPage()
         }
     }
@@ -70,7 +70,9 @@ class ModlogViewModel(
     private fun loadNextPage() {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            updateState { it.copy(refreshing = false) }
+            screenModelScope.launch {
+                updateState { it.copy(refreshing = false) }
+            }
             return
         }
 

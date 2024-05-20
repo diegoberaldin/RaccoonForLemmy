@@ -44,8 +44,10 @@ class DraftsViewModel(
     override fun reduce(intent: DraftsMviModel.Intent) {
         when (intent) {
             is DraftsMviModel.Intent.ChangeSection ->
-                updateState {
-                    it.copy(section = intent.section)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(section = intent.section)
+                    }
                 }
 
             is DraftsMviModel.Intent.Delete -> deleteDraft(intent.model)
@@ -54,14 +56,14 @@ class DraftsViewModel(
     }
 
     private fun refresh(initial: Boolean = false) {
-        updateState {
-            it.copy(
-                refreshing = !initial,
-                initial = initial,
-                loading = false,
-            )
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(
+                    refreshing = !initial,
+                    initial = initial,
+                    loading = false,
+                )
+            }
             val currentState = uiState.value
             updateState { it.copy(loading = true) }
             val refreshing = currentState.refreshing

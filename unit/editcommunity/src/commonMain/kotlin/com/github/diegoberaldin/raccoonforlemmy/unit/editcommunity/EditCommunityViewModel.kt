@@ -32,38 +32,46 @@ class EditCommunityViewModel(
             is EditCommunityMviModel.Intent.BannerSelected -> loadImageBanner(intent.value)
 
             is EditCommunityMviModel.Intent.ChangeDescription -> {
-                updateState {
-                    it.copy(
-                        description = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            description = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is EditCommunityMviModel.Intent.ChangeTitle -> {
-                updateState {
-                    it.copy(
-                        title = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            title = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is EditCommunityMviModel.Intent.ChangeNsfw -> {
-                updateState {
-                    it.copy(
-                        nsfw = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            nsfw = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is EditCommunityMviModel.Intent.ChangePostingRestrictedToMods -> {
-                updateState {
-                    it.copy(
-                        postingRestrictedToMods = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            postingRestrictedToMods = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
@@ -138,8 +146,8 @@ class EditCommunityViewModel(
     private fun submit() {
         val community = originalCommunity?.copy() ?: return
         val currentState = uiState.value
-        updateState { it.copy(loading = true) }
         screenModelScope.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val newValue =

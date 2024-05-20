@@ -55,21 +55,23 @@ class InstanceInfoViewModel(
                     )
                 }
             }
-        }
-
-        if (uiState.value.initial) {
-            refresh(initial = true)
+            if (uiState.value.initial) {
+                refresh(initial = true)
+            }
         }
     }
 
     override fun reduce(intent: InstanceInfoMviModel.Intent) {
         when (intent) {
             InstanceInfoMviModel.Intent.LoadNextPage -> loadNextPage()
-            InstanceInfoMviModel.Intent.Refresh -> refresh()
+            InstanceInfoMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
         }
     }
 
-    private fun refresh(initial: Boolean = false) {
+    private suspend fun refresh(initial: Boolean = false) {
         currentPage = 1
         updateState {
             it.copy(
@@ -85,7 +87,9 @@ class InstanceInfoViewModel(
     private fun loadNextPage() {
         val currentState = uiState.value
         if (!currentState.canFetchMore || currentState.loading) {
-            updateState { it.copy(refreshing = false) }
+            screenModelScope.launch {
+                updateState { it.copy(refreshing = false) }
+            }
             return
         }
 
@@ -133,8 +137,8 @@ class InstanceInfoViewModel(
     }
 
     private fun changeSortType(value: SortType) {
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(sortType = value) }
             emitEffect(InstanceInfoMviModel.Effect.BackToTop)
             refresh()
         }

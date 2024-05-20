@@ -100,8 +100,8 @@ class InboxMessagesViewModel(
         if (uiState.value.currentUserId == 0L) {
             return
         }
-        updateState { it.copy(unreadOnly = value) }
         screenModelScope.launch {
+            updateState { it.copy(unreadOnly = value) }
             refresh(initial = true)
             emitEffect(InboxMessagesMviModel.Effect.BackToTop)
         }
@@ -168,8 +168,8 @@ class InboxMessagesViewModel(
     }
 
     private fun handleLogout() {
-        updateState { it.copy(chats = emptyList()) }
         screenModelScope.launch {
+            updateState { it.copy(chats = emptyList()) }
             refresh(initial = true)
         }
     }

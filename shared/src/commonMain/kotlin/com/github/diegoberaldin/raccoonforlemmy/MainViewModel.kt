@@ -46,7 +46,9 @@ class MainViewModel(
     override fun reduce(intent: MainScreenMviModel.Intent) {
         when (intent) {
             is MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx -> {
-                updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
+                screenModelScope.launch {
+                    updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
+                }
             }
         }
     }

@@ -55,92 +55,112 @@ class AccountSettingsViewModel(
     override fun reduce(intent: AccountSettingsMviModel.Intent) {
         when (intent) {
             is AccountSettingsMviModel.Intent.ChangeDisplayName -> {
-                updateState {
-                    it.copy(
-                        displayName = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            displayName = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeEmail -> {
-                updateState {
-                    it.copy(
-                        email = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            email = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeMatrixUserId -> {
-                updateState {
-                    it.copy(
-                        matrixUserId = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            matrixUserId = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeBio -> {
-                updateState {
-                    it.copy(
-                        bio = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            bio = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeBot -> {
-                updateState {
-                    it.copy(
-                        bot = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            bot = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeSendNotificationsToEmail -> {
-                updateState {
-                    it.copy(
-                        sendNotificationsToEmail = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            sendNotificationsToEmail = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowBotAccounts -> {
-                updateState {
-                    it.copy(
-                        showBotAccounts = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showBotAccounts = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowNsfw -> {
-                updateState {
-                    it.copy(
-                        showNsfw = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showNsfw = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowScores -> {
-                updateState {
-                    it.copy(
-                        showScores = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showScores = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
             is AccountSettingsMviModel.Intent.ChangeShowReadPosts -> {
-                updateState {
-                    it.copy(
-                        showReadPosts = intent.value,
-                        hasUnsavedChanges = true,
-                    )
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showReadPosts = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
                 }
             }
 
@@ -240,8 +260,8 @@ class AccountSettingsViewModel(
                 showScores = currentState.showScores,
                 showReadPosts = currentState.showReadPosts,
             ) ?: return
-        updateState { it.copy(loading = true) }
         screenModelScope.launch(Dispatchers.IO) {
+            updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 siteRepository.updateAccountSettings(

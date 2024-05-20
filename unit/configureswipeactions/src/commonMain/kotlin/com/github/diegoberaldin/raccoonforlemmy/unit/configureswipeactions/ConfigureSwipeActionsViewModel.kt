@@ -51,8 +51,9 @@ class ConfigureSwipeActionsViewModel(
                             )
                     }
                 }.launchIn(this)
+
+            refresh()
         }
-        refresh()
     }
 
     override fun reduce(intent: ConfigureSwipeActionsMviModel.Intent) {
@@ -81,7 +82,7 @@ class ConfigureSwipeActionsViewModel(
         }
     }
 
-    private fun refresh() {
+    private suspend fun refresh() {
         val settings = settingsRepository.currentSettings.value
         updateState {
             it.copy(
@@ -515,12 +516,14 @@ class ConfigureSwipeActionsViewModel(
                     this -= currentState.actionsOnSwipeToEndInbox.toSet()
                 }
             }
-        updateState {
-            it.copy(
-                availableOptionsPosts = actionsPosts.toList(),
-                availableOptionsComments = actionsComments.toList(),
-                availableOptionsInbox = actionsInbox.toList(),
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    availableOptionsPosts = actionsPosts.toList(),
+                    availableOptionsComments = actionsComments.toList(),
+                    availableOptionsInbox = actionsInbox.toList(),
+                )
+            }
         }
     }
 }

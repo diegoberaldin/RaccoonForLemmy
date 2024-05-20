@@ -47,10 +47,10 @@ class FilteredContentsViewModel(
         initialState = FilteredContentsMviModel.State(),
     ) {
     init {
-        updateState {
-            it.copy(contentsType = contentsType.toFilteredContentsType())
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(contentsType = contentsType.toFilteredContentsType())
+            }
             updateState {
                 it.copy(isAdmin = identityRepository.cachedUser?.admin == true)
             }
@@ -238,10 +238,10 @@ class FilteredContentsViewModel(
     }
 
     private fun changeSection(section: FilteredContentsSection) {
-        updateState {
-            it.copy(
-                section = section,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(section = section)
+            }
         }
     }
 
@@ -408,17 +408,19 @@ class FilteredContentsViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
@@ -503,23 +505,25 @@ class FilteredContentsViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        updateState {
-            it.copy(
-                comments =
-                    it.comments.map { c ->
-                        if (c.id == comment.id) {
-                            comment
-                        } else {
-                            c
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    comments =
+                        it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun changeLiked(value: Boolean) {
-        updateState { it.copy(liked = value) }
         screenModelScope.launch {
+            updateState { it.copy(liked = value) }
             refresh(initial = true)
             emitEffect(FilteredContentsMviModel.Effect.BackToTop)
         }

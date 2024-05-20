@@ -60,8 +60,10 @@ class InboxViewModel(
     override fun reduce(intent: InboxMviModel.Intent) {
         when (intent) {
             is InboxMviModel.Intent.ChangeSection ->
-                updateState {
-                    it.copy(section = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(section = intent.value)
+                    }
                 }
 
             InboxMviModel.Intent.ReadAll -> markAllRead()
@@ -69,10 +71,12 @@ class InboxViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        updateState {
-            it.copy(unreadOnly = value)
+        screenModelScope.launch {
+            updateState {
+                it.copy(unreadOnly = value)
+            }
+            coordinator.setUnreadOnly(value)
         }
-        coordinator.setUnreadOnly(value)
     }
 
     private fun markAllRead() {

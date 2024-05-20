@@ -156,14 +156,14 @@ class PostListViewModel(
     }
 
     private fun onFirstLoad() {
-        val settings = settingsRepository.currentSettings.value
-        updateState {
-            it.copy(
-                listingType = settings.defaultListingType.toListingType(),
-                sortType = settings.defaultPostSortType.toSortType(),
-            )
-        }
         screenModelScope.launch {
+            val settings = settingsRepository.currentSettings.value
+            updateState {
+                it.copy(
+                    listingType = settings.defaultListingType.toListingType(),
+                    sortType = settings.defaultPostSortType.toSortType(),
+                )
+            }
             refreshUser()
             refresh(initial = true)
             emitEffect(PostListMviModel.Effect.BackToTop)
@@ -251,16 +251,20 @@ class PostListViewModel(
             }
 
             PostListMviModel.Intent.PauseZombieMode -> {
-                updateState { it.copy(zombieModeActive = false) }
-                zombieModeHelper.pause()
+                screenModelScope.launch {
+                    updateState { it.copy(zombieModeActive = false) }
+                    zombieModeHelper.pause()
+                }
             }
 
             is PostListMviModel.Intent.StartZombieMode -> {
-                updateState { it.copy(zombieModeActive = true) }
-                zombieModeHelper.start(
-                    initialValue = intent.index,
-                    interval = settingsRepository.currentSettings.value.zombieModeInterval,
-                )
+                screenModelScope.launch {
+                    updateState { it.copy(zombieModeActive = true) }
+                    zombieModeHelper.start(
+                        initialValue = intent.index,
+                        interval = settingsRepository.currentSettings.value.zombieModeInterval,
+                    )
+                }
             }
 
             is PostListMviModel.Intent.Copy ->
@@ -339,8 +343,8 @@ class PostListViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(sortType = value) }
             emitEffect(PostListMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -351,8 +355,8 @@ class PostListViewModel(
         if (uiState.value.listingType == value) {
             return
         }
-        updateState { it.copy(listingType = value) }
         screenModelScope.launch {
+            updateState { it.copy(listingType = value) }
             emitEffect(PostListMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -453,28 +457,32 @@ class PostListViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handleLogout() {
-        updateState {
-            it.copy(
-                posts = emptyList(),
-                isLogged = false,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts = emptyList(),
+                    isLogged = false,
+                )
+            }
+            onFirstLoad()
         }
-        onFirstLoad()
     }
 
     private fun handlePostDelete(id: Long) {
@@ -486,21 +494,25 @@ class PostListViewModel(
     }
 
     private fun clearRead() {
-        hideReadPosts = true
-        updateState {
-            val newPosts = it.posts.filter { e -> !e.read }
-            it.copy(posts = newPosts)
+        screenModelScope.launch {
+            hideReadPosts = true
+            updateState {
+                val newPosts = it.posts.filter { e -> !e.read }
+                it.copy(posts = newPosts)
+            }
         }
     }
 
     private fun hide(post: PostModel) {
-        updateState {
-            val newPosts = it.posts.filter { e -> e.id != post.id }
-            it.copy(
-                posts = newPosts,
-            )
+        screenModelScope.launch {
+            updateState {
+                val newPosts = it.posts.filter { e -> e.id != post.id }
+                it.copy(
+                    posts = newPosts,
+                )
+            }
+            markAsRead(post)
         }
-        markAsRead(post)
     }
 
     private fun blockUser(userId: Long) {

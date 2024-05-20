@@ -137,8 +137,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeVoteFormat(value: VoteFormat) {
-        updateState { it.copy(voteFormat = value) }
         screenModelScope.launch {
+            updateState { it.copy(voteFormat = value) }
             val settings =
                 settingsRepository.currentSettings.value.let {
                     if (value == VoteFormat.Hidden) {
@@ -155,8 +155,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeFullHeightImages(value: Boolean) {
-        updateState { it.copy(fullHeightImages = value) }
         screenModelScope.launch {
+            updateState { it.copy(fullHeightImages = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     fullHeightImages = value,
@@ -166,8 +166,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeFullWidthImages(value: Boolean) {
-        updateState { it.copy(fullWidthImages = value) }
         screenModelScope.launch {
+            updateState { it.copy(fullWidthImages = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     fullWidthImages = value,
@@ -177,8 +177,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changePreferUserNicknames(value: Boolean) {
-        updateState { it.copy(preferUserNicknames = value) }
         screenModelScope.launch {
+            updateState { it.copy(preferUserNicknames = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     preferUserNicknames = value,
@@ -188,8 +188,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changePostBodyMaxLines(value: Int?) {
-        updateState { it.copy(postBodyMaxLines = value) }
         screenModelScope.launch {
+            updateState { it.copy(postBodyMaxLines = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     postBodyMaxLines = value,
@@ -232,8 +232,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeCommentBarThickness(value: Int) {
-        updateState { it.copy(commentBarThickness = value) }
         screenModelScope.launch {
+            updateState { it.copy(commentBarThickness = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     commentBarThickness = value,
@@ -243,8 +243,8 @@ class ConfigureContentViewViewModel(
     }
 
     private fun changeCommentIndentAmount(value: Int) {
-        updateState { it.copy(commentIndentAmount = value) }
         screenModelScope.launch {
+            updateState { it.copy(commentIndentAmount = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(
                     commentIndentAmount = value,

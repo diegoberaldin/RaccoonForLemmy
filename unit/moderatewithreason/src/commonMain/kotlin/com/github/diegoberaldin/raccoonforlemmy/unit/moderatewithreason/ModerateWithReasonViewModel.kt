@@ -22,14 +22,18 @@ class ModerateWithReasonViewModel(
         initialState = ModerateWithReasonMviModel.UiState(),
     ) {
     init {
-        updateState { it.copy(action = actionId.toModerateWithReasonAction()) }
+        screenModelScope.launch {
+            updateState { it.copy(action = actionId.toModerateWithReasonAction()) }
+        }
     }
 
     override fun reduce(intent: ModerateWithReasonMviModel.Intent) {
         when (intent) {
             is ModerateWithReasonMviModel.Intent.SetText -> {
-                updateState {
-                    it.copy(text = intent.value)
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(text = intent.value)
+                    }
                 }
             }
 
@@ -43,8 +47,8 @@ class ModerateWithReasonViewModel(
         }
         val text = uiState.value.text
 
-        updateState { it.copy(loading = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true) }
             val auth = identityRepository.authToken.value.orEmpty()
             try {
                 when (uiState.value.action) {

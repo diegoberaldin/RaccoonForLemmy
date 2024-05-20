@@ -41,7 +41,9 @@ class ManageBanViewModel(
     override fun reduce(intent: ManageBanMviModel.Intent) {
         when (intent) {
             is ManageBanMviModel.Intent.ChangeSection -> {
-                updateState { it.copy(section = intent.section) }
+                screenModelScope.launch {
+                    updateState { it.copy(section = intent.section) }
+                }
             }
 
             ManageBanMviModel.Intent.Refresh -> {

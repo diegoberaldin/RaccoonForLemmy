@@ -107,7 +107,9 @@ class CreateCommentViewModel(
     override fun reduce(intent: CreateCommentMviModel.Intent) {
         when (intent) {
             is CreateCommentMviModel.Intent.ChangeSection -> {
-                updateState { it.copy(section = intent.value) }
+                screenModelScope.launch {
+                    updateState { it.copy(section = intent.value) }
+                }
             }
 
             is CreateCommentMviModel.Intent.ImageSelected -> {
@@ -115,11 +117,15 @@ class CreateCommentViewModel(
             }
 
             is CreateCommentMviModel.Intent.ChangeLanguage -> {
-                updateState { it.copy(currentLanguageId = intent.value) }
+                screenModelScope.launch {
+                    updateState { it.copy(currentLanguageId = intent.value) }
+                }
             }
 
             is CreateCommentMviModel.Intent.ChangeTextValue -> {
-                updateState { it.copy(textValue = intent.value) }
+                screenModelScope.launch {
+                    updateState { it.copy(textValue = intent.value) }
+                }
             }
 
             is CreateCommentMviModel.Intent.Send -> submit()
@@ -133,20 +139,24 @@ class CreateCommentViewModel(
             return
         }
 
-        updateState {
-            it.copy(
-                textError = null,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    textError = null,
+                )
+            }
         }
         val text = currentState.textValue.text.trim()
         val languageId = currentState.currentLanguageId
 
         var valid = true
         if (text.isEmpty()) {
-            updateState {
-                it.copy(
-                    textError = ValidationError.MissingField,
-                )
+            screenModelScope.launch {
+                updateState {
+                    it.copy(
+                        textError = ValidationError.MissingField,
+                    )
+                }
             }
             valid = false
         }
@@ -154,8 +164,8 @@ class CreateCommentViewModel(
             return
         }
 
-        updateState { it.copy(loading = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 if (postId != null) {

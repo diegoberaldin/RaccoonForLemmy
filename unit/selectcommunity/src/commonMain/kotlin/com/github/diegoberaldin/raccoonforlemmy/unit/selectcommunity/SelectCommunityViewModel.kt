@@ -58,8 +58,8 @@ class SelectCommunityViewModel(
     }
 
     private fun setSearch(value: String) {
-        updateState { it.copy(searchText = value) }
         screenModelScope.launch {
+            updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
         }
     }

@@ -63,14 +63,15 @@ class UserDetailViewModel(
         initialState = UserDetailMviModel.UiState(),
     ) {
     init {
-        updateState {
-            it.copy(
-                instance =
-                    otherInstance.takeIf { n -> n.isNotEmpty() }
-                        ?: apiConfigurationRepository.instance.value,
-            )
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(
+                    instance =
+                        otherInstance.takeIf { n -> n.isNotEmpty() }
+                            ?: apiConfigurationRepository.instance.value,
+                )
+            }
+
             if (uiState.value.user.id == 0L) {
                 val user = itemCache.getUser(userId) ?: UserModel()
                 updateState {
@@ -238,8 +239,8 @@ class UserDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch(Dispatchers.Main) {
+            updateState { it.copy(sortType = value) }
             emitEffect(UserDetailMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -247,8 +248,10 @@ class UserDetailViewModel(
     }
 
     private fun changeSection(section: UserDetailSection) {
-        updateState {
-            it.copy(section = section)
+        screenModelScope.launch {
+            updateState {
+                it.copy(section = section)
+            }
         }
     }
 
@@ -495,38 +498,42 @@ class UserDetailViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        updateState {
-            it.copy(
-                comments =
-                    it.comments.map { c ->
-                        if (c.id == comment.id) {
-                            comment
-                        } else {
-                            c
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    comments =
+                        it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun blockUser() {
-        updateState { it.copy(asyncInProgress = true) }
         screenModelScope.launch {
+            updateState { it.copy(asyncInProgress = true) }
             try {
                 val auth = identityRepository.authToken.value
                 userRepository.block(userId, true, auth).getOrThrow()
@@ -540,8 +547,8 @@ class UserDetailViewModel(
     }
 
     private fun blockInstance() {
-        updateState { it.copy(asyncInProgress = true) }
         screenModelScope.launch {
+            updateState { it.copy(asyncInProgress = true) }
             try {
                 val user = uiState.value.user
                 val instanceId = user.instanceId

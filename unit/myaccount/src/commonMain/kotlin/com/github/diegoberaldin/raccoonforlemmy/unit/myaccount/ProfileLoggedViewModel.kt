@@ -53,8 +53,9 @@ class ProfileLoggedViewModel(
         initialState = ProfileLoggedMviModel.UiState(),
     ) {
     init {
-        updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
         screenModelScope.launch {
+            updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
+
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
             }.launchIn(this)
@@ -253,8 +254,10 @@ class ProfileLoggedViewModel(
     }
 
     private fun changeSection(section: ProfileLoggedSection) {
-        updateState {
-            it.copy(section = section)
+        screenModelScope.launch {
+            updateState {
+                it.copy(section = section)
+            }
         }
     }
 
@@ -444,37 +447,47 @@ class ProfileLoggedViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(
-                posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts =
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        updateState {
-            it.copy(
-                comments =
-                    it.comments.map { c ->
-                        if (c.id == comment.id) {
-                            comment
-                        } else {
-                            c
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    comments =
+                        it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun handlePostDelete(id: Long) {
-        updateState { it.copy(posts = it.posts.filter { post -> post.id != id }) }
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    posts = it.posts.filter { post -> post.id != id },
+                )
+            }
+        }
     }
 
     private fun deletePost(id: Long) {

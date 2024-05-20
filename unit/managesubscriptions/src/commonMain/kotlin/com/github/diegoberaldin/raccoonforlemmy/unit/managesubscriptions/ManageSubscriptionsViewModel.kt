@@ -99,8 +99,8 @@ class ManageSubscriptionsViewModel(
         if (uiState.value.refreshing) {
             return
         }
-        updateState { it.copy(refreshing = true) }
         screenModelScope.launch {
+            updateState { it.copy(refreshing = true) }
             val auth = identityRepository.authToken.value
             val accountId = accountRepository.getActive()?.id ?: 0L
             val favoriteCommunityIds =
@@ -169,20 +169,22 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleMultiCommunityCreated(community: MultiCommunityModel) {
-        val oldCommunities = uiState.value.multiCommunities
-        val newCommunities =
-            if (oldCommunities.any { it.id == community.id }) {
-                oldCommunities.map {
-                    if (it.id == community.id) {
-                        community
-                    } else {
-                        it
+        screenModelScope.launch {
+            val oldCommunities = uiState.value.multiCommunities
+            val newCommunities =
+                if (oldCommunities.any { it.id == community.id }) {
+                    oldCommunities.map {
+                        if (it.id == community.id) {
+                            community
+                        } else {
+                            it
+                        }
                     }
-                }
-            } else {
-                oldCommunities + community
-            }.sortedBy { it.name }
-        updateState { it.copy(multiCommunities = newCommunities) }
+                } else {
+                    oldCommunities + community
+                }.sortedBy { it.name }
+            updateState { it.copy(multiCommunities = newCommunities) }
+        }
     }
 
     private fun toggleFavorite(community: CommunityModel) {
@@ -205,23 +207,25 @@ class ManageSubscriptionsViewModel(
     }
 
     private fun handleCommunityUpdate(community: CommunityModel) {
-        updateState {
-            it.copy(
-                communities =
-                    it.communities.map { c ->
-                        if (c.id == community.id) {
-                            community
-                        } else {
-                            c
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    communities =
+                        it.communities.map { c ->
+                            if (c.id == community.id) {
+                                community
+                            } else {
+                                c
+                            }
+                        },
+                )
+            }
         }
     }
 
     private fun updateSearchText(value: String) {
-        updateState { it.copy(searchText = value) }
         screenModelScope.launch {
+            updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
         }
     }

@@ -51,7 +51,9 @@ class SelectInstanceViewModel(
             }
 
             is SelectInstanceMviModel.Intent.ChangeInstanceName -> {
-                updateState { it.copy(changeInstanceName = intent.value) }
+                screenModelScope.launch {
+                    updateState { it.copy(changeInstanceName = intent.value) }
+                }
             }
 
             is SelectInstanceMviModel.Intent.SubmitChangeInstanceDialog -> submitChangeInstance()
@@ -69,11 +71,15 @@ class SelectInstanceViewModel(
     }
 
     private fun submitChangeInstance() {
-        updateState { it.copy(changeInstanceNameError = null) }
+        screenModelScope.launch {
+            updateState { it.copy(changeInstanceNameError = null) }
+        }
         var valid = true
         val instanceName = uiState.value.changeInstanceName
         if (instanceName.isEmpty()) {
-            updateState { it.copy(changeInstanceNameError = ValidationError.MissingField) }
+            screenModelScope.launch {
+                updateState { it.copy(changeInstanceNameError = ValidationError.MissingField) }
+            }
             valid = false
         }
         if (!valid) {

@@ -29,8 +29,10 @@ class LoginViewModel(
     ) {
     init {
         val instance = apiConfigurationRepository.instance.value
-        updateState {
-            it.copy(instanceName = instance)
+        screenModelScope.launch {
+            updateState {
+                it.copy(instanceName = instance)
+            }
         }
     }
 
@@ -45,19 +47,27 @@ class LoginViewModel(
     }
 
     private fun setInstanceName(value: String) {
-        updateState { it.copy(instanceName = value) }
+        screenModelScope.launch {
+            updateState { it.copy(instanceName = value) }
+        }
     }
 
     private fun setUsername(value: String) {
-        updateState { it.copy(username = value.trim()) }
+        screenModelScope.launch {
+            updateState { it.copy(username = value.trim()) }
+        }
     }
 
     private fun setPassword(value: String) {
-        updateState { it.copy(password = value) }
+        screenModelScope.launch {
+            updateState { it.copy(password = value) }
+        }
     }
 
     private fun setTotp2faToken(value: String) {
-        updateState { it.copy(totp2faToken = value) }
+        screenModelScope.launch {
+            updateState { it.copy(totp2faToken = value) }
+        }
     }
 
     private fun submit() {
@@ -70,33 +80,41 @@ class LoginViewModel(
         val username = currentState.username
         val password = currentState.password
         val totp2faToken = currentState.totp2faToken
-        updateState {
-            it.copy(
-                instanceNameError = null,
-                usernameError = null,
-                passwordError = null,
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    instanceNameError = null,
+                    usernameError = null,
+                    passwordError = null,
+                )
+            }
         }
 
         val valid =
             when {
                 instance.isEmpty() -> {
-                    updateState {
-                        it.copy(instanceNameError = ValidationError.MissingField)
+                    screenModelScope.launch {
+                        updateState {
+                            it.copy(instanceNameError = ValidationError.MissingField)
+                        }
                     }
                     false
                 }
 
                 username.isEmpty() -> {
-                    updateState {
-                        it.copy(usernameError = ValidationError.MissingField)
+                    screenModelScope.launch {
+                        updateState {
+                            it.copy(usernameError = ValidationError.MissingField)
+                        }
                     }
                     false
                 }
 
                 password.isEmpty() -> {
-                    updateState {
-                        it.copy(passwordError = ValidationError.MissingField)
+                    screenModelScope.launch {
+                        updateState {
+                            it.copy(passwordError = ValidationError.MissingField)
+                        }
                     }
                     false
                 }

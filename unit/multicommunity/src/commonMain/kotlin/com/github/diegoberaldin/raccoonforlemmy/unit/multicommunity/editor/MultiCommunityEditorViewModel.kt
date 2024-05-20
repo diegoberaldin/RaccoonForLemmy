@@ -62,7 +62,10 @@ class MultiCommunityEditorViewModel(
     override fun reduce(intent: MultiCommunityEditorMviModel.Intent) {
         when (intent) {
             is MultiCommunityEditorMviModel.Intent.SelectImage -> selectImage(intent.index)
-            is MultiCommunityEditorMviModel.Intent.SetName -> updateState { it.copy(name = intent.value) }
+            is MultiCommunityEditorMviModel.Intent.SetName ->
+                screenModelScope.launch {
+                    updateState { it.copy(name = intent.value) }
+                }
             is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
             is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
             MultiCommunityEditorMviModel.Intent.Submit -> submit()
@@ -94,8 +97,8 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun setSearch(value: String) {
-        updateState { it.copy(searchText = value) }
         screenModelScope.launch {
+            updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
         }
     }
@@ -112,13 +115,15 @@ class MultiCommunityEditorViewModel(
     }
 
     private fun selectImage(index: Int?) {
-        val image =
-            if (index == null) {
-                null
-            } else {
-                uiState.value.availableIcons[index]
-            }
-        updateState { it.copy(icon = image) }
+        screenModelScope.launch {
+            val image =
+                if (index == null) {
+                    null
+                } else {
+                    uiState.value.availableIcons[index]
+                }
+            updateState { it.copy(icon = image) }
+        }
     }
 
     private fun toggleCommunity(communityId: Long) {
@@ -138,21 +143,27 @@ class MultiCommunityEditorViewModel(
             }
         communities = newCommunities
         val filtered = filterCommunities()
-        updateState { state ->
-            state.copy(
-                communities = filtered,
-                availableIcons = availableIcons,
-            )
+        screenModelScope.launch {
+            updateState { state ->
+                state.copy(
+                    communities = filtered,
+                    availableIcons = availableIcons,
+                )
+            }
         }
     }
 
     private fun submit() {
-        updateState { it.copy(nameError = null) }
+        screenModelScope.launch {
+            updateState { it.copy(nameError = null) }
+        }
         val currentState = uiState.value
         var valid = true
         val name = currentState.name
         if (name.isEmpty()) {
-            updateState { it.copy(nameError = ValidationError.MissingField) }
+            screenModelScope.launch {
+                updateState { it.copy(nameError = ValidationError.MissingField) }
+            }
             valid = false
         }
         if (!valid) {

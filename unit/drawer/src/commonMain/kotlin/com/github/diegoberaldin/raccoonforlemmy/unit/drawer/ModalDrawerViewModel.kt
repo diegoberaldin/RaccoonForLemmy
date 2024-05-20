@@ -123,8 +123,8 @@ class ModalDrawerViewModel(
                 }
 
             is ModalDrawerMviModel.Intent.SetSearch -> {
-                updateState { it.copy(searchText = intent.value) }
                 screenModelScope.launch {
+                    updateState { it.copy(searchText = intent.value) }
                     searchEventChannel.send(Unit)
                 }
             }

@@ -1,18 +1,22 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.licences
 
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.models.LicenceItem
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.models.LicenceItemType
+import kotlinx.coroutines.launch
 
 class LicencesViewModel : LicencesMviModel,
     DefaultMviModel<LicencesMviModel.Intent, LicencesMviModel.State, LicencesMviModel.Effect>(
         initialState = LicencesMviModel.State(),
     ) {
     init {
-        populate()
+        screenModelScope.launch {
+            populate()
+        }
     }
 
-    private fun populate() {
+    private suspend fun populate() {
         updateState {
             it.copy(
                 items =

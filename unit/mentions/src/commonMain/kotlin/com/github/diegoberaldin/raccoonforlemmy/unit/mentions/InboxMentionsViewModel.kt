@@ -126,8 +126,8 @@ class InboxMentionsViewModel(
     }
 
     private fun changeUnreadOnly(value: Boolean) {
-        updateState { it.copy(unreadOnly = value) }
         screenModelScope.launch {
+            updateState { it.copy(unreadOnly = value) }
             refresh(initial = true)
             emitEffect(InboxMentionsMviModel.Effect.BackToTop)
         }
@@ -174,17 +174,19 @@ class InboxMentionsViewModel(
     }
 
     private fun handleItemUpdate(item: PersonMentionModel) {
-        updateState {
-            it.copy(
-                mentions =
-                    it.mentions.map { i ->
-                        if (i.id == item.id) {
-                            item
-                        } else {
-                            i
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    mentions =
+                        it.mentions.map { i ->
+                            if (i.id == item.id) {
+                                item
+                            } else {
+                                i
+                            }
+                        },
+                )
+            }
         }
     }
 
@@ -287,8 +289,8 @@ class InboxMentionsViewModel(
     }
 
     private fun handleLogout() {
-        updateState { it.copy(mentions = emptyList()) }
         screenModelScope.launch {
+            updateState { it.copy(mentions = emptyList()) }
             refresh(initial = true)
         }
     }

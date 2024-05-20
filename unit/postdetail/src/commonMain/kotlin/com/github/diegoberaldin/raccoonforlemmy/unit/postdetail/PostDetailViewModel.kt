@@ -74,14 +74,14 @@ class PostDetailViewModel(
     }
 
     init {
-        updateState {
-            it.copy(
-                instance =
-                    otherInstance.takeIf { n -> n.isNotEmpty() }
-                        ?: apiConfigurationRepository.instance.value,
-            )
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(
+                    instance =
+                        otherInstance.takeIf { n -> n.isNotEmpty() }
+                            ?: apiConfigurationRepository.instance.value,
+                )
+            }
             if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
                 val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
@@ -371,9 +371,11 @@ class PostDetailViewModel(
                 }
 
             is PostDetailMviModel.Intent.ChangeSearching -> {
-                updateState { it.copy(searching = intent.value) }
-                if (!intent.value) {
-                    updateSearchText("")
+                screenModelScope.launch {
+                    updateState { it.copy(searching = intent.value) }
+                    if (!intent.value) {
+                        updateSearchText("")
+                    }
                 }
             }
 
@@ -472,8 +474,8 @@ class PostDetailViewModel(
         if (uiState.value.sortType == value) {
             return
         }
-        updateState { it.copy(sortType = value) }
         screenModelScope.launch {
+            updateState { it.copy(sortType = value) }
             emitEffect(PostDetailMviModel.Effect.BackToTop)
             delay(50)
             refresh()
@@ -481,8 +483,10 @@ class PostDetailViewModel(
     }
 
     private fun handlePostUpdate(post: PostModel) {
-        updateState {
-            it.copy(post = post)
+        screenModelScope.launch {
+            updateState {
+                it.copy(post = post)
+            }
         }
     }
 
@@ -546,8 +550,8 @@ class PostDetailViewModel(
                 post = post,
                 voted = newValue,
             )
-        updateState { it.copy(post = newPost) }
         screenModelScope.launch {
+            updateState { it.copy(post = newPost) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.upVote(
@@ -572,10 +576,10 @@ class PostDetailViewModel(
                 post = post,
                 downVoted = newValue,
             )
-        updateState {
-            it.copy(post = newPost)
-        }
         screenModelScope.launch {
+            updateState {
+                it.copy(post = newPost)
+            }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.downVote(
@@ -600,8 +604,8 @@ class PostDetailViewModel(
                 post = post,
                 saved = newValue,
             )
-        updateState { it.copy(post = newPost) }
         screenModelScope.launch {
+            updateState { it.copy(post = newPost) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
                 postRepository.save(
@@ -620,17 +624,19 @@ class PostDetailViewModel(
     }
 
     private fun handleCommentUpdate(comment: CommentModel) {
-        updateState {
-            it.copy(
-                comments =
-                    it.comments.map { c ->
-                        if (c.id == comment.id) {
-                            comment
-                        } else {
-                            c
-                        }
-                    },
-            )
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    comments =
+                        it.comments.map { c ->
+                            if (c.id == comment.id) {
+                                comment
+                            } else {
+                                c
+                            }
+                        },
+                )
+            }
         }
     }
 
@@ -718,7 +724,9 @@ class PostDetailViewModel(
     }
 
     private fun handleCommentDelete(id: Long) {
-        updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
+        screenModelScope.launch {
+            updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
+        }
     }
 
     private fun deletePost() {
@@ -833,16 +841,16 @@ class PostDetailViewModel(
     }
 
     private fun updateSearchText(value: String) {
-        updateState { it.copy(searchText = value) }
         screenModelScope.launch {
+            updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
         }
     }
 
     private fun navigateToPreviousPost() {
         val currentId = uiState.value.post.id
-        updateState { it.copy(loading = true, initial = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true, initial = true) }
             postNavigationManager.getPrevious(currentId)?.also { newPost ->
                 loadNewPost(newPost)
             }
@@ -851,8 +859,8 @@ class PostDetailViewModel(
 
     private fun navigateToNextPost() {
         val currentId = uiState.value.post.id
-        updateState { it.copy(loading = true, initial = true) }
         screenModelScope.launch {
+            updateState { it.copy(loading = true, initial = true) }
             postNavigationManager.getNext(currentId)?.also { newPost ->
                 loadNewPost(newPost)
             }
