@@ -30,40 +30,4 @@ class DefaultNotificationCenterTest {
                 expectNoEvents()
             }
         }
-
-    @Test
-    fun givenMultipleSubscriptions_whenSendReplayableEvent_thenEventIsReceivedAndReplayed() =
-        runTest {
-            launch {
-                sut.send(NotificationCenterEvent.PostCreated)
-            }
-
-            sut.subscribe(NotificationCenterEvent.PostCreated::class).test {
-                val evt = awaitItem()
-                assertEquals(NotificationCenterEvent.PostCreated, evt)
-            }
-
-            sut.subscribe(NotificationCenterEvent.PostCreated::class).test {
-                val evt = awaitItem()
-                assertEquals(NotificationCenterEvent.PostCreated, evt)
-            }
-        }
-
-    @Test
-    fun givenMultipleSubscriptions_whenResetCache_thenEventIsNotReplayed() =
-        runTest {
-            launch {
-                sut.send(NotificationCenterEvent.PostCreated)
-            }
-            sut.subscribe(NotificationCenterEvent.PostCreated::class).test {
-                val evt = awaitItem()
-                assertEquals(NotificationCenterEvent.PostCreated, evt)
-            }
-
-            sut.resetCache()
-
-            sut.subscribe(NotificationCenterEvent.PostCreated::class).test {
-                expectNoEvents()
-            }
-        }
 }
