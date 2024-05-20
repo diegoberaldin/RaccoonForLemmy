@@ -38,6 +38,7 @@ kotlin {
 
                 implementation(libs.koin.core)
 
+                implementation(projects.core.notifications)
                 implementation(projects.core.utils)
 
                 implementation(projects.domain.identity)
