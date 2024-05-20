@@ -1,5 +1,7 @@
 package com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination
 
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -15,11 +17,13 @@ import io.mockk.coVerifySequence
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
+import kotlin.reflect.KClass
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
@@ -35,6 +39,10 @@ class DefaultPostPaginationManagerTest {
     private val communityRepository: CommunityRepository = mockk(relaxUnitFun = true)
     private val userRepository: UserRepository = mockk(relaxUnitFun = true)
     private val multiCommunityPaginator: MultiCommunityPaginator = mockk(relaxUnitFun = true)
+    private val notificationCenter: NotificationCenter = mockk(relaxUnitFun = true) {
+        val slot = slot<KClass<NotificationCenterEvent>>()
+        every { subscribe(capture(slot)) } answers { MutableSharedFlow() }
+    }
 
     private val sut =
         DefaultPostPaginationManager(
@@ -43,6 +51,7 @@ class DefaultPostPaginationManagerTest {
             communityRepository = communityRepository,
             userRepository = userRepository,
             multiCommunityPaginator = multiCommunityPaginator,
+            notificationCenter = notificationCenter,
         )
 
     @Test

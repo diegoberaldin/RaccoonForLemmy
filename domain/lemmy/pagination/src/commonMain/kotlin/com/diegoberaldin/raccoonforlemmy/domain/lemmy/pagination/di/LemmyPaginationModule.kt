@@ -24,6 +24,7 @@ val paginationModule =
                 communityRepository = get(),
                 userRepository = get(),
                 multiCommunityPaginator = get(),
+                notificationCenter = get(),
             )
         }
         factory<CommentPaginationManager> {
