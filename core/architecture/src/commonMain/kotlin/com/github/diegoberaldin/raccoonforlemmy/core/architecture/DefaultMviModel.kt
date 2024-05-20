@@ -3,6 +3,8 @@ package com.github.diegoberaldin.raccoonforlemmy.core.architecture
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * Basic implementation of the MVI model.
@@ -20,13 +22,14 @@ abstract class DefaultMviModel<Intent, State, Effect>(
 ) : MviModel<Intent, State, Effect> {
     override val uiState = MutableStateFlow(initialState)
     override val effects = MutableSharedFlow<Effect>()
+    private val mutex = Mutex()
 
     /**
      * Emit an effect (event).
      *
      * @param value Value
      */
-    suspend fun emitEffect(value: Effect) {
+    protected suspend fun emitEffect(value: Effect) {
         effects.emit(value)
     }
 
@@ -35,8 +38,10 @@ abstract class DefaultMviModel<Intent, State, Effect>(
      *
      * @param block Block
      */
-    inline fun updateState(block: (State) -> State) {
-        uiState.update { block(uiState.value) }
+    protected suspend fun updateState(block: (State) -> State) {
+        mutex.withLock {
+            uiState.update { block(uiState.value) }
+        }
     }
 
     override fun reduce(intent: Intent) {
