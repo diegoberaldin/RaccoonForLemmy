@@ -176,7 +176,6 @@ class CommunityDetailScreen(
         val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(topAppBarState)
         val fabNestedScrollConnection = remember { getFabNestedScrollConnection() }
         val isFabVisible by fabNestedScrollConnection.isFabVisible.collectAsState()
-        val notificationCenter = remember { getNotificationCenter() }
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val themeRepository = remember { getThemeRepository() }
         val upVoteColor by themeRepository.upVoteColor.collectAsState()
@@ -212,9 +211,6 @@ class CommunityDetailScreen(
                 WindowInsets.statusBars.getTop(this)
             }
 
-        LaunchedEffect(notificationCenter) {
-            notificationCenter.resetCache()
-        }
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
                 when (effect) {
