@@ -53,7 +53,7 @@ class DefaultNavigationCoordinatorTest {
         runTest {
             sut.setCurrentSection(TabNavigationSection.Profile)
             launch {
-                delay(250)
+                delay(DELAY)
                 sut.setCurrentSection(TabNavigationSection.Profile)
             }
             sut.onDoubleTabSelection.test {
@@ -163,8 +163,10 @@ class DefaultNavigationCoordinatorTest {
                 }
             sut.setRootNavigator(navigator)
 
-            sut.pushScreen(screen)
-            advanceTimeBy(500)
+            launch {
+                sut.pushScreen(screen)
+            }
+            delay(DELAY)
 
             val canPop = sut.canPop.value
             assertTrue(canPop)
@@ -192,7 +194,10 @@ class DefaultNavigationCoordinatorTest {
                 }
             sut.setRootNavigator(navigator)
 
-            sut.pushScreen(screen)
+            launch {
+                sut.pushScreen(screen)
+            }
+            advanceTimeBy(DELAY)
 
             val canPop = sut.canPop.value
             assertTrue(canPop)
@@ -211,7 +216,10 @@ class DefaultNavigationCoordinatorTest {
                 }
             sut.setRootNavigator(navigator)
 
-            sut.popScreen()
+            launch {
+                sut.popScreen()
+            }
+            advanceTimeBy(DELAY)
 
             val canPop = sut.canPop.value
             assertFalse(canPop)
@@ -233,8 +241,10 @@ class DefaultNavigationCoordinatorTest {
             val navigator = mockk<BottomSheetNavigator>(relaxUnitFun = true)
             sut.setBottomNavigator(navigator)
 
-            sut.showBottomSheet(screen)
-            advanceTimeBy(500)
+            launch {
+                sut.showBottomSheet(screen)
+            }
+            advanceTimeBy(DELAY)
 
             verify {
                 navigator.show(screen)
@@ -250,8 +260,10 @@ class DefaultNavigationCoordinatorTest {
                 }
             sut.setBottomNavigator(navigator)
 
-            sut.hideBottomSheet()
-            advanceTimeBy(500)
+            launch {
+                sut.hideBottomSheet()
+            }
+            advanceTimeBy(DELAY)
 
             verify {
                 navigator.hide()
@@ -269,6 +281,7 @@ class DefaultNavigationCoordinatorTest {
                     }
                 }
             launch {
+                delay(DELAY)
                 sut.openSideMenu(screen)
             }
 
@@ -282,6 +295,7 @@ class DefaultNavigationCoordinatorTest {
     fun whenCloseSideMenu_thenInteractionsAreAsExpected() =
         runTest {
             launch {
+                delay(DELAY)
                 sut.closeSideMenu()
             }
 
@@ -292,10 +306,11 @@ class DefaultNavigationCoordinatorTest {
         }
 
     @Test
-    fun whenShowGlobalMEssagethenInteractionsAreAsExpected() =
+    fun whenShowGlobalMessage_thenInteractionsAreAsExpected() =
         runTest {
             val message = "test message"
             launch {
+                delay(DELAY)
                 sut.showGlobalMessage(message)
             }
 
@@ -304,4 +319,8 @@ class DefaultNavigationCoordinatorTest {
                 assertEquals(message, item)
             }
         }
+
+    companion object {
+        private const val DELAY = 250L
+    }
 }

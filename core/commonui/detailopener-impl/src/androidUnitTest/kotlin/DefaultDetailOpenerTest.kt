@@ -24,6 +24,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -57,7 +58,9 @@ class DefaultDetailOpenerTest {
         runTest {
             val community = CommunityModel(name = "test", id = 1)
 
-            sut.openCommunityDetail(community)
+            launch {
+                sut.openCommunityDetail(community)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -92,7 +95,9 @@ class DefaultDetailOpenerTest {
                 )
             } returns listOf(SearchResult.Community(community))
 
-            sut.openCommunityDetail(community, otherInstance)
+            launch {
+                sut.openCommunityDetail(community, otherInstance)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -119,7 +124,9 @@ class DefaultDetailOpenerTest {
         runTest {
             val user = UserModel(name = "test", id = 1)
 
-            sut.openUserDetail(user)
+            launch {
+                sut.openUserDetail(user)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -137,7 +144,9 @@ class DefaultDetailOpenerTest {
         runTest {
             val post = PostModel(title = "test", id = 1)
 
-            sut.openPostDetail(post)
+            launch {
+                sut.openPostDetail(post)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -155,7 +164,9 @@ class DefaultDetailOpenerTest {
         runTest {
             val post = PostModel(title = "test", id = 1)
 
-            sut.openReply(originalPost = post)
+            launch {
+                sut.openReply(originalPost = post)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -173,7 +184,9 @@ class DefaultDetailOpenerTest {
         runTest {
             val comment = CommentModel(text = "test", id = 1)
 
-            sut.openReply(originalComment = comment)
+            launch {
+                sut.openReply(originalComment = comment)
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
@@ -189,7 +202,9 @@ class DefaultDetailOpenerTest {
     @Test
     fun whenOpenCreatePost_thenNavigatesAccordingly() =
         runTest {
-            sut.openCreatePost()
+            launch {
+                sut.openCreatePost()
+            }
             advanceTimeBy(OPEN_DELAY)
 
             coVerify {
