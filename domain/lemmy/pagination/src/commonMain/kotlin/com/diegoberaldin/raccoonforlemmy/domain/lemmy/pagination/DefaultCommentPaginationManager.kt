@@ -1,18 +1,25 @@
 package com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination
 
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 internal class DefaultCommentPaginationManager(
     private val identityRepository: IdentityRepository,
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
+    notificationCenter: NotificationCenter,
 ) : CommentPaginationManager {
     override var canFetchMore: Boolean = true
         private set
@@ -20,6 +27,13 @@ internal class DefaultCommentPaginationManager(
     private var specification: CommentPaginationSpecification? = null
     private var currentPage: Int = 1
     private val history: MutableList<CommentModel> = mutableListOf()
+    private val scope = CoroutineScope(SupervisorJob())
+
+    init {
+        notificationCenter.subscribe(NotificationCenterEvent.CommentUpdated::class).onEach { evt ->
+            handleCommentUpdate(evt.model)
+        }.launchIn(scope)
+    }
 
     override fun reset(specification: CommentPaginationSpecification) {
         this.specification = specification
@@ -140,4 +154,10 @@ internal class DefaultCommentPaginationManager(
         filterNot { comment ->
             comment.deleted
         }
+
+    private fun handleCommentUpdate(comment: CommentModel) {
+        val index = history.indexOfFirst { it.id == comment.id }.takeIf { it >= 0 } ?: return
+        history.removeAt(index)
+        history.add(index, comment)
+    }
 }

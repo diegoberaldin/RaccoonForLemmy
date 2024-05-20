@@ -32,6 +32,7 @@ val paginationModule =
                 identityRepository = get(),
                 userRepository = get(),
                 commentRepository = get(),
+                notificationCenter = get(),
             )
         }
         single<PostNavigationManager> {
