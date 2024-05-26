@@ -285,21 +285,19 @@ internal class DefaultUserRepository(
         id: Long,
         blocked: Boolean,
         auth: String?,
-    ): Result<Unit> =
+    ): Unit =
         withContext(Dispatchers.IO) {
-            runCatching {
-                val data =
-                    BlockPersonForm(
-                        personId = id,
-                        block = blocked,
-                        auth = auth.orEmpty(),
-                    )
-                services.user.block(
-                    authHeader = auth.toAuthHeader(),
-                    form = data,
+            val data =
+                BlockPersonForm(
+                    personId = id,
+                    block = blocked,
+                    auth = auth.orEmpty(),
                 )
-                Unit
-            }
+            services.user.block(
+                authHeader = auth.toAuthHeader(),
+                form = data,
+            )
+            Unit
         }
 
     override suspend fun getModeratedCommunities(

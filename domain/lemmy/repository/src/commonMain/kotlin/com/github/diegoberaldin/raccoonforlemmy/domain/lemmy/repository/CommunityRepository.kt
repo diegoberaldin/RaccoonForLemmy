@@ -64,7 +64,7 @@ interface CommunityRepository {
         id: Long,
         blocked: Boolean,
         auth: String?,
-    ): Result<Unit>
+    )
 
     suspend fun banUser(
         auth: String?,

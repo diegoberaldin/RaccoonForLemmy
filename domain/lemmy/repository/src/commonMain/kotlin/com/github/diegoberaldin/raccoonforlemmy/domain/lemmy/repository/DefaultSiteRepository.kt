@@ -61,20 +61,18 @@ internal class DefaultSiteRepository(
         id: Long,
         blocked: Boolean,
         auth: String?,
-    ): Result<Unit> =
+    ): Unit =
         withContext(Dispatchers.IO) {
-            runCatching {
-                val data =
-                    BlockSiteForm(
-                        instanceId = id,
-                        block = blocked,
-                    )
-                services.site.block(
-                    authHeader = auth.toAuthHeader(),
-                    form = data,
+            val data =
+                BlockSiteForm(
+                    instanceId = id,
+                    block = blocked,
                 )
-                Unit
-            }
+            services.site.block(
+                authHeader = auth.toAuthHeader(),
+                form = data,
+            )
+            Unit
         }
 
     override suspend fun getMetadata(url: String): MetadataModel? =

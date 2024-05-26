@@ -90,7 +90,7 @@ interface UserRepository {
         id: Long,
         blocked: Boolean,
         auth: String? = null,
-    ): Result<Unit>
+    )
 
     suspend fun getModeratedCommunities(
         auth: String? = null,

@@ -18,7 +18,7 @@ interface SiteRepository {
         id: Long,
         blocked: Boolean,
         auth: String? = null,
-    ): Result<Unit>
+    )
 
     suspend fun getMetadata(url: String): MetadataModel?
 

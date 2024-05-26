@@ -217,21 +217,18 @@ internal class DefaultCommunityRepository(
         id: Long,
         blocked: Boolean,
         auth: String?,
-    ): Result<Unit> =
+    ): Unit =
         withContext(Dispatchers.IO) {
-            runCatching {
-                val data =
-                    BlockCommunityForm(
-                        communityId = id,
-                        block = blocked,
-                        auth = auth.orEmpty(),
-                    )
-                services.community.block(
-                    authHeader = auth.toAuthHeader(),
-                    form = data,
+            val data =
+                BlockCommunityForm(
+                    communityId = id,
+                    block = blocked,
+                    auth = auth.orEmpty(),
                 )
-                Unit
-            }
+            services.community.block(
+                authHeader = auth.toAuthHeader(),
+                form = data,
+            )
         }
 
     override suspend fun banUser(
