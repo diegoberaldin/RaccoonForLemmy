@@ -9,19 +9,17 @@ androidx_splashscreen = "1.0.1"
 androidx_work = "2.9.0"
 android_gradle = "8.2.2"
 coil = "2.6.0"
-compose = "1.6.2"
-compose_compiler = "1.5.11"
+compose = "1.6.10"
 detekt = "1.23.6"
 kamel = "0.9.4"
 koin = "3.5.6"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 kotlincrypto = "0.5.1"
 kotlinx_coroutines = "1.8.0"
 kotlinx_serialization_json = "1.6.3"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.21"
 ktor = "2.3.11"
-ktorfit_gradle = "1.12.0"
-ktorfit_lib = "1.12.0"
+ktorfit = "2.0.0-beta1"
 lyricist = "1.7.0"
 materialKolor = "1.5.1"
 mockk = "1.13.11"
@@ -71,8 +69,8 @@ ktor_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor_contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor_logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor_json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktorfit_ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit.gradle" }
-ktorfit_lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit.lib" }
+ktorfit_ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
+ktorfit_lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
 
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
@@ -109,11 +107,12 @@ core = { group = "androidx.core", name = "core", version.ref = "androidx.core" }
 
 android_application = { id = "com.android.application", version.ref = "android.gradle" }
 android_library = { id = "com.android.library", version.ref = "android.gradle" }
-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+jetbrains_compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose_compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin_multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinx_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit.gradle" }
+ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
