@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BlockSiteForm(
-    @SerialName("instance_id") val instanceId: InstanceId,
-    @SerialName("block") val block: Boolean,
+data class BlockInstanceResponse(
+    @SerialName("blocked") val blocked: Boolean,
 )

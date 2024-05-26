@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.api.service
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockInstanceForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockInstanceResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetSiteResponse
 import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
@@ -21,6 +22,6 @@ interface SiteService {
     @Headers("Content-Type: application/json")
     suspend fun block(
         @Header("Authorization") authHeader: String? = null,
-        @Body form: BlockSiteForm,
-    ): Response<GetSiteResponse>
+        @Body form: BlockInstanceForm,
+    ): Response<BlockInstanceResponse>
 }

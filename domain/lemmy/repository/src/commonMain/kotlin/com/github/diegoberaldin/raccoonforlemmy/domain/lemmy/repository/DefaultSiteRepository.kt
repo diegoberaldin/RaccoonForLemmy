@@ -1,6 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 
-import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockSiteForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockInstanceForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountBansModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSettingsModel
@@ -64,7 +64,7 @@ internal class DefaultSiteRepository(
     ): Unit =
         withContext(Dispatchers.IO) {
             val data =
-                BlockSiteForm(
+                BlockInstanceForm(
                     instanceId = id,
                     block = blocked,
                 )
