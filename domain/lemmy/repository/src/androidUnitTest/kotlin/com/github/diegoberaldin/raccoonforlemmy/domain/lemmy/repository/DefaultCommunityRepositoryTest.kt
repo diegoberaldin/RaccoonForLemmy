@@ -423,24 +423,24 @@ class DefaultCommunityRepositoryTest {
                 mockk {
                     every { isSuccessful } returns true
                     every { body() } returns mockk()
-
-                    val token = "fake-token"
-                    sut.block(
-                        auth = token,
-                        id = communityId,
-                        blocked = true,
-                    )
-
-                    coVerify {
-                        communityService.block(
-                            authHeader = token.toAuthHeader(),
-                            withArg { data ->
-                                assertEquals(communityId, data.communityId)
-                                assertTrue(data.block)
-                            },
-                        )
-                    }
                 }
+            val token = "fake-token"
+
+            sut.block(
+                auth = token,
+                id = communityId,
+                blocked = true,
+            )
+
+            coVerify {
+                communityService.block(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(communityId, data.communityId)
+                        assertTrue(data.block)
+                    },
+                )
+            }
         }
 
     @Test
