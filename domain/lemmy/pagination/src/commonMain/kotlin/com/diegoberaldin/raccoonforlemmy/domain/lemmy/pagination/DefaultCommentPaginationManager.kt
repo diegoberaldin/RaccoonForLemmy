@@ -140,8 +140,8 @@ internal class DefaultCommentPaginationManager(
                 }
 
             history.addAll(result)
-            // returns whole history
-            history
+            // returns a copy of the whole history
+            history.map { it }
         }
 
     private fun List<CommentModel>.deduplicate(): List<CommentModel> =

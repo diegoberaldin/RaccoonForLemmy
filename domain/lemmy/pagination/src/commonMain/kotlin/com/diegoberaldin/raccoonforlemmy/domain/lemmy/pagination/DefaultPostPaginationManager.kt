@@ -197,8 +197,8 @@ internal class DefaultPostPaginationManager(
                 }
 
             history.addAll(result)
-            // returns whole history
-            history
+            // returns a copy of the whole history
+            history.map { it }
         }
 
     override fun extractState(): PostPaginationManagerState =
