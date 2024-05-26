@@ -519,7 +519,11 @@ class PostListViewModel(
         screenModelScope.launch {
             runCatching {
                 val auth = identityRepository.authToken.value
-                userRepository.block(userId, true, auth)
+                userRepository.block(
+                    id = userId,
+                    blocked = true,
+                    auth = auth,
+                )
             }
         }
     }
@@ -528,7 +532,11 @@ class PostListViewModel(
         screenModelScope.launch {
             runCatching {
                 val auth = identityRepository.authToken.value
-                communityRepository.block(communityId, true, auth)
+                communityRepository.block(
+                    id = communityId,
+                    blocked = true,
+                    auth = auth,
+                )
             }
         }
     }
@@ -537,7 +545,11 @@ class PostListViewModel(
         screenModelScope.launch {
             runCatching {
                 val auth = identityRepository.authToken.value
-                siteRepository.block(instanceId, true, auth)
+                siteRepository.block(
+                    id = instanceId,
+                    blocked = true,
+                    auth = auth,
+                )
             }
         }
     }

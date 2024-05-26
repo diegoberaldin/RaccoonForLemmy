@@ -595,7 +595,11 @@ class CommunityDetailViewModel(
             updateState { it.copy(asyncInProgress = true) }
             try {
                 val auth = identityRepository.authToken.value
-                communityRepository.block(communityId, true, auth)
+                communityRepository.block(
+                    id = communityId,
+                    blocked = true,
+                    auth = auth,
+                )
                 emitEffect(CommunityDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
                 emitEffect(CommunityDetailMviModel.Effect.Error(e.message))
