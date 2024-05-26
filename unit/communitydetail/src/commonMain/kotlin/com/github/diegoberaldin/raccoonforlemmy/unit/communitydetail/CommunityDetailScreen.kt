@@ -394,7 +394,7 @@ class CommunityDetailScreen(
                                         this +=
                                             Option(
                                                 OptionId.Block,
-                                                LocalXmlStrings.current.communityDetailBlock,
+                                                LocalXmlStrings.current.blockActionCommunity,
                                             )
                                         this +=
                                             Option(

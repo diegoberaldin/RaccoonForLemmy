@@ -278,7 +278,7 @@ class UserDetailScreen(
                                         this +=
                                             Option(
                                                 OptionId.Block,
-                                                LocalXmlStrings.current.communityDetailBlock,
+                                                LocalXmlStrings.current.blockActionUser,
                                             )
                                         this +=
                                             Option(
