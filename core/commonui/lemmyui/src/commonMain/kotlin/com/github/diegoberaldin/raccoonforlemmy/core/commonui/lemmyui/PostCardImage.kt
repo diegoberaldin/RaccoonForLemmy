@@ -12,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
@@ -40,7 +39,6 @@ fun PostCardImage(
             modifier =
                 modifier.fillMaxWidth()
                     .heightIn(min = minHeight, max = maxHeight)
-                    .blur(radius = if (blurred) 60.dp else 0.dp)
                     .onClick(
                         onClick = { onImageClick?.invoke(imageUrl) },
                         onDoubleClick = onDoubleClick ?: {},
@@ -49,6 +47,7 @@ fun PostCardImage(
             url = imageUrl,
             quality = FilterQuality.Low,
             autoload = autoLoadImages,
+            blurred = blurred,
             loadButtonContent = loadButtonContent,
             contentScale = ContentScale.FillWidth,
             onFailure = {
