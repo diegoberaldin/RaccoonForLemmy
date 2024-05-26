@@ -615,15 +615,6 @@ class PostDetailScreen(
                                                     )
                                                 }
 
-                                                OptionId.Report -> {
-                                                    val screen =
-                                                        ModerateWithReasonScreen(
-                                                            actionId = ModerateWithReasonAction.ReportPost.toInt(),
-                                                            contentId = uiState.post.id,
-                                                        )
-                                                    navigationCoordinator.pushScreen(screen)
-                                                }
-
                                                 OptionId.Purge -> {
                                                     val screen =
                                                         ModerateWithReasonScreen(
