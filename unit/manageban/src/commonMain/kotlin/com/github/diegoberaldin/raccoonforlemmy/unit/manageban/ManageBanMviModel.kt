@@ -40,5 +40,9 @@ interface ManageBanMviModel :
         val bannedInstances: List<InstanceModel> = emptyList(),
     )
 
-    sealed interface Effect
+    sealed interface Effect {
+        data object Success : Effect
+
+        data class Failure(val message: String?) : Effect
+    }
 }

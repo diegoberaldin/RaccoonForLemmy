@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -50,6 +51,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.components.InstanceItem
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class ManageBanScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -64,6 +67,22 @@ class ManageBanScreen : Screen {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val lazyListState = rememberLazyListState()
+        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val errorMessage = LocalXmlStrings.current.messageGenericError
+
+        LaunchedEffect(model) {
+            model.effects.onEach { evt ->
+                when (evt) {
+                    is ManageBanMviModel.Effect.Failure -> {
+                        snackbarHostState.showSnackbar(evt.message ?: errorMessage)
+                    }
+
+                    ManageBanMviModel.Effect.Success -> {
+                        snackbarHostState.showSnackbar(successMessage)
+                    }
+                }
+            }.launchIn(this)
+        }
 
         Scaffold(
             modifier = Modifier.background(MaterialTheme.colorScheme.background),

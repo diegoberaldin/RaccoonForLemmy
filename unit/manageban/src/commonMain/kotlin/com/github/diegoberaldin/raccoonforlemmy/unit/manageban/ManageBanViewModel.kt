@@ -74,7 +74,7 @@ class ManageBanViewModel(
     private fun unbanUser(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            runCatching {
+            try {
                 userRepository.block(
                     id = id,
                     blocked = false,
@@ -83,6 +83,9 @@ class ManageBanViewModel(
                 updateState {
                     it.copy(bannedUsers = it.bannedUsers.filter { e -> e.id != id })
                 }
+                emitEffect(ManageBanMviModel.Effect.Success)
+            } catch (e: Throwable) {
+                emitEffect(ManageBanMviModel.Effect.Failure(e.message))
             }
         }
     }
@@ -90,7 +93,7 @@ class ManageBanViewModel(
     private fun unbanCommunity(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            runCatching {
+            try {
                 communityRepository.block(
                     id = id,
                     blocked = false,
@@ -99,6 +102,9 @@ class ManageBanViewModel(
                 updateState {
                     it.copy(bannedCommunities = it.bannedCommunities.filter { e -> e.id != id })
                 }
+                emitEffect(ManageBanMviModel.Effect.Success)
+            } catch (e: Throwable) {
+                emitEffect(ManageBanMviModel.Effect.Failure(e.message))
             }
         }
     }
@@ -106,7 +112,7 @@ class ManageBanViewModel(
     private fun unbanInstance(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            runCatching {
+            try {
                 siteRepository.block(
                     id = id,
                     blocked = false,
@@ -115,6 +121,9 @@ class ManageBanViewModel(
                 updateState {
                     it.copy(bannedInstances = it.bannedInstances.filter { e -> e.id != id })
                 }
+                emitEffect(ManageBanMviModel.Effect.Success)
+            } catch (e: Throwable) {
+                emitEffect(ManageBanMviModel.Effect.Failure(e.message))
             }
         }
     }
