@@ -536,7 +536,7 @@ class UserDetailViewModel(
             updateState { it.copy(asyncInProgress = true) }
             try {
                 val auth = identityRepository.authToken.value
-                userRepository.block(userId, true, auth).getOrThrow()
+                userRepository.block(userId, true, auth)
                 emitEffect(UserDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
                 emitEffect(UserDetailMviModel.Effect.Error(e.message))
@@ -553,7 +553,7 @@ class UserDetailViewModel(
                 val user = uiState.value.user
                 val instanceId = user.instanceId
                 val auth = identityRepository.authToken.value
-                siteRepository.block(instanceId, true, auth).getOrThrow()
+                siteRepository.block(instanceId, true, auth)
                 emitEffect(UserDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
                 emitEffect(UserDetailMviModel.Effect.Error(e.message))

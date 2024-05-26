@@ -517,25 +517,27 @@ class PostListViewModel(
 
     private fun blockUser(userId: Long) {
         screenModelScope.launch {
-            val auth = identityRepository.authToken.value
-            userRepository.block(userId, true, auth)
+            runCatching {
+                val auth = identityRepository.authToken.value
+                userRepository.block(userId, true, auth)
+            }
         }
     }
 
     private fun blockCommunity(communityId: Long) {
         screenModelScope.launch {
-            val auth = identityRepository.authToken.value
-            communityRepository.block(communityId, true, auth)
+            runCatching {
+                val auth = identityRepository.authToken.value
+                communityRepository.block(communityId, true, auth)
+            }
         }
     }
 
     private fun blockInstance(instanceId: Long) {
         screenModelScope.launch {
-            try {
+            runCatching {
                 val auth = identityRepository.authToken.value
                 siteRepository.block(instanceId, true, auth)
-            } catch (e: Throwable) {
-                e.printStackTrace()
             }
         }
     }
