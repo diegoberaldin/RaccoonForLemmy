@@ -10,6 +10,7 @@ local.properties
 xcuserdata
 Pods/
 release/
+.kotlin/
 
 androidApp/google-services.json
 iosApp/GoogleService-Info.plist
