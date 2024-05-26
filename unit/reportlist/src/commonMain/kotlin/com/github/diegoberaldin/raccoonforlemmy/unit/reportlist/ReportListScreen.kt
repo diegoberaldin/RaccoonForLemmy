@@ -209,7 +209,6 @@ class ReportListScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem),
                     ) {
                         if (uiState.section == ReportListSection.Posts) {
                             if (uiState.postReports.isEmpty() && uiState.loading && uiState.initial) {

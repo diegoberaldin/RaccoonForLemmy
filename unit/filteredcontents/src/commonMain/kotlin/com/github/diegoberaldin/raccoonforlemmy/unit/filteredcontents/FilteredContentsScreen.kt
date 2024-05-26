@@ -302,7 +302,6 @@ class FilteredContentsScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         state = lazyListState,
-                        verticalArrangement = Arrangement.spacedBy(Spacing.interItem),
                     ) {
                         if (uiState.section == FilteredContentsSection.Posts) {
                             if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
@@ -633,6 +632,12 @@ class FilteredContentsScreen(
                                         )
                                     },
                                 )
+
+                                if (uiState.postLayout != PostLayout.Card) {
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                                } else {
+                                    Spacer(modifier = Modifier.height(Spacing.interItem))
+                                }
                             }
                         } else {
                             if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
@@ -920,6 +925,12 @@ class FilteredContentsScreen(
                                         )
                                     },
                                 )
+
+                                if (uiState.postLayout != PostLayout.Card) {
+                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                                } else {
+                                    Spacer(modifier = Modifier.height(Spacing.interItem))
+                                }
                             }
                         }
 
