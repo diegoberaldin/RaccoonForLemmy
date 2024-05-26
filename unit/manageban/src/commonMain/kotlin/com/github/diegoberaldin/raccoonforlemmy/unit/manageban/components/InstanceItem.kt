@@ -63,8 +63,9 @@ fun InstanceItem(
         )
 
         Text(
+            modifier = Modifier.weight(1f),
             text = name,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyLarge,
             color = fullColor,
         )
 
