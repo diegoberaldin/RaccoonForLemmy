@@ -1,9 +1,8 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
 }
 
@@ -16,14 +15,11 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 101
         versionName = "1.11.0-20240520-pre"
-        archivesName.set("RaccoonForLemmy")
     }
+    base.archivesName = "RaccoonForLemmy"
     buildFeatures {
         compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources {
