@@ -53,8 +53,7 @@ class ModalDrawerViewModel(
                 }
             }.launchIn(this)
 
-            @OptIn(FlowPreview::class)
-            identityRepository.isLogged.debounce(250).onEach { _ ->
+            identityRepository.isLogged.onEach { _ ->
                 refreshUser()
                 refresh()
             }.launchIn(this)

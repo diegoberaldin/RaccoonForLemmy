@@ -61,7 +61,7 @@ class ProfileLoggedViewModel(
             }.launchIn(this)
 
             @OptIn(FlowPreview::class)
-            identityRepository.isLogged.drop(1).debounce(250).onEach { logged ->
+            identityRepository.isLogged.drop(1).debounce(500).onEach { logged ->
                 if (logged == true) {
                     updateState {
                         it.copy(
