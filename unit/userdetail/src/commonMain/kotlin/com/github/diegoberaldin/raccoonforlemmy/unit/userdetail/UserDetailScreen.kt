@@ -862,7 +862,7 @@ class UserDetailScreen(
                             }
                         }
 
-                        if (uiState.posts.isEmpty() && !uiState.loading) {
+                        if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
                             item {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
@@ -1153,7 +1153,7 @@ class UserDetailScreen(
                             )
                         }
 
-                        if (uiState.comments.isEmpty() && !uiState.loading) {
+                        if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
                             item {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),

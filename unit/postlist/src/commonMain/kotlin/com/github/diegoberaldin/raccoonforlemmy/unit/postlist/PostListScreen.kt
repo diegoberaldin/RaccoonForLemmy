@@ -377,10 +377,7 @@ class PostListScreen : Screen {
                             items = uiState.posts,
                             // isLogged is added to the key to force swipe action refresh
                             key = {
-                                it.id.toString() + (
-                                    it.updateDate
-                                        ?: it.publishDate
-                                ) + uiState.isLogged
+                                it.id.toString() + (it.updateDate ?: it.publishDate) + uiState.isLogged
                             },
                         ) { post ->
                             LaunchedEffect(post.id) {
