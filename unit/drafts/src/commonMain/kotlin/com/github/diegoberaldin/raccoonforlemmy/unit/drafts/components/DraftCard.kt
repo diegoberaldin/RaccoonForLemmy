@@ -73,7 +73,7 @@ fun DraftCard(
                             color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
                             shape = RoundedCornerShape(CornerSize.l),
                         )
-                        .padding(vertical = Spacing.xs)
+                        .padding(vertical = Spacing.s)
                 } else {
                     Modifier.background(MaterialTheme.colorScheme.background)
                 },
@@ -85,7 +85,7 @@ fun DraftCard(
             draft.reference?.also { reference ->
                 CustomizedContent(ContentFontClass.AncillaryText) {
                     Row(
-                        modifier = Modifier.padding(horizontal = Spacing.xs),
+                        modifier = Modifier.padding(horizontal = Spacing.s),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
                     ) {
@@ -113,9 +113,7 @@ fun DraftCard(
                 CustomizedContent(ContentFontClass.Title) {
                     PostCardTitle(
                         modifier =
-                            Modifier.padding(
-                                horizontal = Spacing.xs,
-                            ),
+                            Modifier.padding(horizontal = Spacing.s),
                         text = title,
                         onClick = onOpen,
                     )
@@ -124,16 +122,14 @@ fun DraftCard(
 
             CustomizedContent(ContentFontClass.Body) {
                 PostCardBody(
-                    modifier =
-                        Modifier.padding(
-                            horizontal = Spacing.xs,
-                        ),
+                    modifier = Modifier.padding(horizontal = Spacing.s),
                     text = draft.body,
                     maxLines = 40,
                     onClick = onOpen,
                 )
             }
             DraftFooter(
+                modifier = Modifier.padding(horizontal = Spacing.s),
                 date = draft.date?.toIso8601Timestamp(),
                 options = options,
                 onOptionSelected = onOptionSelected,
@@ -144,6 +140,7 @@ fun DraftCard(
 
 @Composable
 private fun DraftFooter(
+    modifier: Modifier = Modifier,
     date: String? = null,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
@@ -152,7 +149,7 @@ private fun DraftFooter(
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
 
-    Box {
+    Box(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),

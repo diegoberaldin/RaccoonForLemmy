@@ -161,9 +161,7 @@ class DraftsScreen : Screen {
                 ) {
                     LazyColumn(
                         modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = Spacing.xs),
+                            Modifier.fillMaxSize(),
                         state = lazyListState,
                     ) {
                         if (uiState.section == DraftsSection.Posts) {
