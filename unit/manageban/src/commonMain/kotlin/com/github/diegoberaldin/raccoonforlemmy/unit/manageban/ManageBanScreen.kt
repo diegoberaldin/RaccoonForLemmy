@@ -221,13 +221,11 @@ class ManageBanScreen : Screen {
                                                         )
                                                 },
                                             onOptionSelected =
-                                                rememberCallbackArgs(model) { optionId ->
+                                                rememberCallbackArgs(user) { optionId ->
                                                     when (optionId) {
                                                         OptionId.Unban -> {
                                                             model.reduce(
-                                                                ManageBanMviModel.Intent.UnblockUser(
-                                                                    user.id,
-                                                                ),
+                                                                ManageBanMviModel.Intent.UnblockUser(user.id),
                                                             )
                                                         }
 
@@ -271,13 +269,11 @@ class ManageBanScreen : Screen {
                                                         )
                                                 },
                                             onOptionSelected =
-                                                rememberCallbackArgs(model) { optionId ->
+                                                rememberCallbackArgs(community) { optionId ->
                                                     when (optionId) {
                                                         OptionId.Unban -> {
                                                             model.reduce(
-                                                                ManageBanMviModel.Intent.UnblockCommunity(
-                                                                    community.id,
-                                                                ),
+                                                                ManageBanMviModel.Intent.UnblockCommunity(community.id),
                                                             )
                                                         }
 
@@ -319,13 +315,11 @@ class ManageBanScreen : Screen {
                                                         )
                                                 },
                                             onOptionSelected =
-                                                rememberCallbackArgs(model) { optionId ->
+                                                rememberCallbackArgs(instance) { optionId ->
                                                     when (optionId) {
                                                         OptionId.Unban -> {
                                                             model.reduce(
-                                                                ManageBanMviModel.Intent.UnblockInstance(
-                                                                    instance.id,
-                                                                ),
+                                                                ManageBanMviModel.Intent.UnblockInstance(instance.id),
                                                             )
                                                         }
 
