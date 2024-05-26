@@ -71,20 +71,16 @@ class DefaultCommunityRepositoryTest {
                     limit = any(),
                 )
             } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        SearchResponse(
-                            type = SearchType.Communities,
-                            comments = emptyList(),
-                            posts = emptyList(),
-                            communities =
-                                listOf(
-                                    mockk(relaxed = true),
-                                ),
-                            users = emptyList(),
-                        )
-                }
+                SearchResponse(
+                    type = SearchType.Communities,
+                    comments = emptyList(),
+                    posts = emptyList(),
+                    communities =
+                        listOf(
+                            mockk(relaxed = true),
+                        ),
+                    users = emptyList(),
+                )
 
             val token = "fake-token"
             val query = "q"
@@ -132,14 +128,10 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { communities } returns
-                                listOf(
-                                    mockk(relaxed = true),
-                                )
-                        }
+                    every { communities } returns
+                        listOf(
+                            mockk(relaxed = true),
+                        )
                 }
 
             val otherInstance = "other-instance"
@@ -177,11 +169,7 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { community } returns mockk(relaxed = true)
-                        }
+                    every { community } returns mockk(relaxed = true)
                 }
 
             val token = "fake-token"
@@ -211,18 +199,14 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
+                    every { myUser } returns
                         mockk {
-                            every { myUser } returns
-                                mockk {
-                                    every { follows } returns
-                                        listOf(
-                                            mockk {
-                                                every { community } returns mockk(relaxed = true)
-                                            },
-                                        )
-                                }
+                            every { follows } returns
+                                listOf(
+                                    mockk {
+                                        every { community } returns mockk(relaxed = true)
+                                    },
+                                )
                         }
                 }
 
@@ -254,15 +238,11 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { communityView } returns
+                    every { communityView } returns
+                        mockk(relaxed = true) {
+                            every { community } returns
                                 mockk(relaxed = true) {
-                                    every { community } returns
-                                        mockk(relaxed = true) {
-                                            every { id } returns communityId
-                                        }
+                                    every { id } returns communityId
                                 }
                         }
                 }
@@ -299,16 +279,12 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { communityView } returns
+                    every { communityView } returns
+                        mockk(relaxed = true) {
+                            every { community } returns
                                 mockk(relaxed = true) {
-                                    every { community } returns
-                                        mockk(relaxed = true) {
-                                            every { id } returns communityId
-                                            every { moderators } returns listOf(mockk(relaxed = true))
-                                        }
+                                    every { id } returns communityId
+                                    every { moderators } returns listOf(mockk(relaxed = true))
                                 }
                         }
                 }
@@ -339,15 +315,11 @@ class DefaultCommunityRepositoryTest {
                 communityService.follow(any(), any())
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { communityView } returns
+                    every { communityView } returns
+                        mockk(relaxed = true) {
+                            every { community } returns
                                 mockk(relaxed = true) {
-                                    every { community } returns
-                                        mockk(relaxed = true) {
-                                            every { id } returns communityId
-                                        }
+                                    every { id } returns communityId
                                 }
                         }
                 }
@@ -380,15 +352,11 @@ class DefaultCommunityRepositoryTest {
                 communityService.follow(any(), any())
             } returns
                 mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        mockk {
-                            every { communityView } returns
+                    every { communityView } returns
+                        mockk(relaxed = true) {
+                            every { community } returns
                                 mockk(relaxed = true) {
-                                    every { community } returns
-                                        mockk(relaxed = true) {
-                                            every { id } returns communityId
-                                        }
+                                    every { id } returns communityId
                                 }
                         }
                 }
@@ -419,11 +387,7 @@ class DefaultCommunityRepositoryTest {
             val communityId = 1L
             coEvery {
                 communityService.block(any(), any())
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns mockk()
-                }
+            } returns mockk()
             val token = "fake-token"
 
             sut.block(
@@ -450,11 +414,7 @@ class DefaultCommunityRepositoryTest {
             val userId = 2L
             coEvery {
                 communityService.ban(any(), any())
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns mockk()
-                }
+            } returns mockk()
 
             val token = "fake-token"
             sut.banUser(
@@ -483,11 +443,7 @@ class DefaultCommunityRepositoryTest {
             val userId = 2L
             coEvery {
                 communityService.addMod(any(), any())
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns mockk()
-                }
+            } returns mockk()
 
             val token = "fake-token"
             sut.addModerator(
@@ -515,11 +471,7 @@ class DefaultCommunityRepositoryTest {
             val communityId = 1L
             coEvery {
                 communityService.edit(any(), any())
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns mockk()
-                }
+            } returns mockk()
 
             val token = "fake-token"
             val newName = "fake-community-name"

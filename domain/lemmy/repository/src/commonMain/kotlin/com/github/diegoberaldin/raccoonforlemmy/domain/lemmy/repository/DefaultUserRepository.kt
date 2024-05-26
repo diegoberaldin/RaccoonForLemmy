@@ -35,8 +35,8 @@ internal class DefaultUserRepository(
                     services.search.resolveObject(
                         authHeader = auth,
                         q = query,
-                    ).body()
-                response?.user?.toModel()
+                    )
+                response.user?.toModel()
             }.getOrNull()
         }
 
@@ -61,8 +61,7 @@ internal class DefaultUserRepository(
                             username = "$username@$otherInstance",
                         )
                     }
-                val dto = response.body() ?: return@runCatching null
-                dto.personView.toModel()
+                response.personView.toModel()
             }.getOrNull()
         }
 
@@ -96,8 +95,7 @@ internal class DefaultUserRepository(
                             sort = sort.toCommentDto(),
                         )
                     }
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.posts.map { it.toModel() }
+                response.posts.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -120,8 +118,7 @@ internal class DefaultUserRepository(
                         sort = sort.toCommentDto(),
                         savedOnly = true,
                     )
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.posts.map { it.toModel() }
+                response.posts.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -155,8 +152,7 @@ internal class DefaultUserRepository(
                             sort = sort.toCommentDto(),
                         )
                     }
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.comments.map { it.toModel() }
+                response.comments.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -179,8 +175,7 @@ internal class DefaultUserRepository(
                         sort = sort.toCommentDto(),
                         savedOnly = true,
                     )
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.comments.map { it.toModel() }
+                response.comments.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -202,8 +197,7 @@ internal class DefaultUserRepository(
                         page = page,
                         unreadOnly = unreadOnly,
                     )
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.mentions.map { it.toModel() }
+                response.mentions.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -225,8 +219,7 @@ internal class DefaultUserRepository(
                         page = page,
                         unreadOnly = unreadOnly,
                     )
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.replies.map { it.toModel() }
+                response.replies.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -311,10 +304,10 @@ internal class DefaultUserRepository(
                         authHeader = auth.toAuthHeader(),
                         auth = auth,
                         personId = id,
-                    ).body()
-                response?.moderates?.map {
+                    )
+                response.moderates.map {
                     it.community.toModel()
-                }.orEmpty()
+                }
             }.getOrElse { emptyList() }
         }
 
@@ -340,9 +333,8 @@ internal class DefaultUserRepository(
                         likedOnly = if (liked) true else null,
                         dislikedOnly = if (!liked) true else null,
                     )
-                val body = response.body()
-                val posts = body?.posts?.map { it.toModel() } ?: emptyList()
-                posts to body?.nextPage
+                val posts = response.posts.map { it.toModel() }
+                posts to response.nextPage
             }.getOrNull()
         }
 
@@ -365,8 +357,8 @@ internal class DefaultUserRepository(
                         type = ListingType.All,
                         likedOnly = if (liked) true else null,
                         dislikedOnly = if (!liked) true else null,
-                    ).body()
-                response?.comments?.map { it.toModel() }
+                    )
+                response.comments.map { it.toModel() }
             }.getOrElse { emptyList() }
         }
 
@@ -385,6 +377,6 @@ internal class DefaultUserRepository(
                 form = data,
                 authHeader = auth.toAuthHeader(),
             )
-        require(response.body()?.success == true)
+        require(response.success)
     }
 }

@@ -30,24 +30,23 @@ internal class DefaultModlogRepository(
                         page = page,
                         type = type.toDto(),
                     )
-                val dto = response.body() ?: return@runCatching null
                 val result =
                     buildList<ModlogItem> {
-                        this += dto.added?.map { it.toDto() }.orEmpty()
-                        this += dto.addedToCommunity?.map { it.toDto() }.orEmpty()
-                        this += dto.adminPurgedComments?.map { it.toDto() }.orEmpty()
-                        this += dto.adminPurgedCommunities?.map { it.toDto() }.orEmpty()
-                        this += dto.adminPurgedPersons?.map { it.toDto() }.orEmpty()
-                        this += dto.adminPurgedPosts?.map { it.toDto() }.orEmpty()
-                        this += dto.banned?.map { it.toDto() }.orEmpty()
-                        this += dto.bannedFromCommunity?.map { it.toDto() }.orEmpty()
-                        this += dto.featuredPosts?.map { it.toDto() }.orEmpty()
-                        this += dto.hiddenCommunities?.map { it.toDto() }.orEmpty()
-                        this += dto.lockedPosts?.map { it.toDto() }.orEmpty()
-                        this += dto.removedComments?.map { it.toDto() }.orEmpty()
-                        this += dto.removedCommunities?.map { it.toDto() }.orEmpty()
-                        this += dto.removedPosts?.map { it.toDto() }.orEmpty()
-                        this += dto.transferredToCommunity?.map { it.toDto() }.orEmpty()
+                        this += response.added?.map { it.toDto() }.orEmpty()
+                        this += response.addedToCommunity?.map { it.toDto() }.orEmpty()
+                        this += response.adminPurgedComments?.map { it.toDto() }.orEmpty()
+                        this += response.adminPurgedCommunities?.map { it.toDto() }.orEmpty()
+                        this += response.adminPurgedPersons?.map { it.toDto() }.orEmpty()
+                        this += response.adminPurgedPosts?.map { it.toDto() }.orEmpty()
+                        this += response.banned?.map { it.toDto() }.orEmpty()
+                        this += response.bannedFromCommunity?.map { it.toDto() }.orEmpty()
+                        this += response.featuredPosts?.map { it.toDto() }.orEmpty()
+                        this += response.hiddenCommunities?.map { it.toDto() }.orEmpty()
+                        this += response.lockedPosts?.map { it.toDto() }.orEmpty()
+                        this += response.removedComments?.map { it.toDto() }.orEmpty()
+                        this += response.removedCommunities?.map { it.toDto() }.orEmpty()
+                        this += response.removedPosts?.map { it.toDto() }.orEmpty()
+                        this += response.transferredToCommunity?.map { it.toDto() }.orEmpty()
                     }
                 result.sortedByDescending { it.date }
             }.getOrNull()

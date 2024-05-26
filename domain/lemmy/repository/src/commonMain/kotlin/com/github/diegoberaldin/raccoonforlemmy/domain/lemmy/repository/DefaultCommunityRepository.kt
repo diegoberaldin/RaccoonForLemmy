@@ -50,7 +50,7 @@ internal class DefaultCommunityRepository(
                             type = resultType.toDto(),
                             listingType = listingType.toDto(),
                             sort = sortType.toDto(),
-                        ).body()
+                        )
                     } else {
                         customServices.changeInstance(instance)
                         customServices.search.search(
@@ -63,19 +63,19 @@ internal class DefaultCommunityRepository(
                             type = resultType.toDto(),
                             listingType = listingType.toDto(),
                             sort = sortType.toDto(),
-                        ).body()
+                        )
                     }
                 buildList<SearchResult> {
-                    val posts = searchResponse?.posts?.map { it.toModel() }.orEmpty()
+                    val posts = searchResponse.posts.map { it.toModel() }
                     this += posts.map { SearchResult.Post(it) }
 
-                    val comments = searchResponse?.comments?.map { it.toModel() }.orEmpty()
+                    val comments = searchResponse.comments.map { it.toModel() }
                     this += comments.map { SearchResult.Comment(it) }
 
-                    val communities = searchResponse?.communities?.map { it.toModel() }.orEmpty()
+                    val communities = searchResponse.communities.map { it.toModel() }
                     this += communities.map { SearchResult.Community(it) }
 
-                    val users = searchResponse?.users?.map { it.toModel() }.orEmpty()
+                    val users = searchResponse.users.map { it.toModel() }
                     this += users.map { SearchResult.User(it) }
                 }
             }.getOrElse { emptyList() }
@@ -95,10 +95,10 @@ internal class DefaultCommunityRepository(
                         page = page,
                         limit = limit,
                         sort = sortType.toDto(),
-                    ).body()
-                response?.communities?.map {
+                    )
+                response.communities.map {
                     it.toModel()
-                }.orEmpty()
+                }
             }.getOrElse { emptyList() }
         }
 
@@ -112,8 +112,8 @@ internal class DefaultCommunityRepository(
                     services.search.resolveObject(
                         authHeader = auth.toAuthHeader(),
                         q = query,
-                    ).body()
-                resolveResponse?.community?.toModel()
+                    )
+                resolveResponse.community?.toModel()
             }.getOrNull()
         }
 
@@ -124,8 +124,8 @@ internal class DefaultCommunityRepository(
                     services.site.get(
                         authHeader = auth.toAuthHeader(),
                         auth = auth,
-                    ).body()
-                response?.myUser?.follows?.map { it.community.toModel() }.orEmpty()
+                    )
+                response.myUser?.follows?.map { it.community.toModel() }.orEmpty()
             }.getOrElse { emptyList() }
         }
 
@@ -144,12 +144,12 @@ internal class DefaultCommunityRepository(
                             auth = auth,
                             id = id,
                             name = name,
-                        ).body()
+                        )
                     } else {
                         customServices.changeInstance(instance)
-                        customServices.community.get(name = name).body()
+                        customServices.community.get(name = name)
                     }
-                response?.communityView?.toModel()
+                response.communityView.toModel()
             }.getOrNull()
         }
 
@@ -164,10 +164,10 @@ internal class DefaultCommunityRepository(
                         authHeader = auth.toAuthHeader(),
                         auth = auth,
                         id = id,
-                    ).body()
-                response?.moderators?.map {
+                    )
+                response.moderators.map {
                     it.moderator.toModel()
-                }.orEmpty()
+                }
             }.getOrElse { emptyList() }
         }
 
@@ -188,7 +188,7 @@ internal class DefaultCommunityRepository(
                         authHeader = auth.toAuthHeader(),
                         form = data,
                     )
-                response.body()?.communityView?.toModel()
+                response.communityView.toModel()
             }.getOrNull()
         }
 
@@ -209,7 +209,7 @@ internal class DefaultCommunityRepository(
                         authHeader = auth.toAuthHeader(),
                         form = data,
                     )
-                response.body()?.communityView?.toModel()
+                response.communityView.toModel()
             }.getOrNull()
         }
 
@@ -257,7 +257,7 @@ internal class DefaultCommunityRepository(
                         authHeader = auth.toAuthHeader(),
                         form = data,
                     )
-                response.body()?.personView?.toModel()?.copy(banned = ban)
+                response.personView.toModel().copy(banned = ban)
             }.getOrNull()
         }
 
@@ -280,8 +280,8 @@ internal class DefaultCommunityRepository(
                     services.community.addMod(
                         authHeader = auth.toAuthHeader(),
                         form = data,
-                    ).body()
-                response?.moderators?.map {
+                    )
+                response.moderators?.map {
                     it.moderator.toModel()
                 }.orEmpty()
             }.getOrElse { emptyList() }
@@ -302,15 +302,10 @@ internal class DefaultCommunityRepository(
                     nsfw = community.nsfw,
                     postingRestrictedToMods = community.postingRestrictedToMods,
                 )
-            val response =
-                services.community.edit(
-                    authHeader = auth.toAuthHeader(),
-                    form = data,
-                )
-            if (!response.isSuccessful) {
-                val error = response.errorBody().toString()
-                throw Exception(error)
-            }
+            services.community.edit(
+                authHeader = auth.toAuthHeader(),
+                form = data,
+            )
         }
 
     override suspend fun hide(
@@ -330,7 +325,7 @@ internal class DefaultCommunityRepository(
                 form = data,
                 authHeader = auth.toAuthHeader(),
             )
-        require(response.body()?.success == true)
+        require(response.success)
     }
 
     override suspend fun purge(
@@ -348,6 +343,6 @@ internal class DefaultCommunityRepository(
                 form = data,
                 authHeader = auth.toAuthHeader(),
             )
-        require(response.body()?.success == true)
+        require(response.success)
     }
 }

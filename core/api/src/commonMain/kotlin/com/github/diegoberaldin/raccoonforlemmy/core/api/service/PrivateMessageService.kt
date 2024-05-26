@@ -7,7 +7,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPrivateMessageA
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PersonId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessageResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PrivateMessagesResponse
-import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -25,33 +24,33 @@ interface PrivateMessageService {
         @Query("creator_id") creatorId: PersonId? = null,
         @Query("limit") limit: Int? = null,
         @Query("unread_only") unreadOnly: Boolean? = null,
-    ): Response<PrivateMessagesResponse>
+    ): PrivateMessagesResponse
 
     @POST("private_message")
     @Headers("Content-Type: application/json")
     suspend fun create(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePrivateMessageForm,
-    ): Response<PrivateMessageResponse>
+    ): PrivateMessageResponse
 
     @PUT("private_message")
     @Headers("Content-Type: application/json")
     suspend fun edit(
         @Header("Authorization") authHeader: String? = null,
         @Body form: EditPrivateMessageForm,
-    ): Response<PrivateMessageResponse>
+    ): PrivateMessageResponse
 
     @POST("private_message/mark_as_read")
     @Headers("Content-Type: application/json")
     suspend fun markAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPrivateMessageAsReadForm,
-    ): Response<PrivateMessageResponse>
+    ): PrivateMessageResponse
 
     @POST("private_message/delete")
     @Headers("Content-Type: application/json")
     suspend fun delete(
         @Header("Authorization") authHeader: String? = null,
         @Body form: DeletePrivateMessageForm,
-    ): Response<PrivateMessageResponse>
+    ): PrivateMessageResponse
 }

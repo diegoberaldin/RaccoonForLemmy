@@ -66,11 +66,7 @@ class DefaultCommentRepositoryTest {
                     likedOnly = any(),
                     dislikedOnly = any(),
                 )
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns GetCommentsResponse(comments = listOf(mockk(relaxed = true)))
-                }
+            } returns GetCommentsResponse(comments = listOf(mockk(relaxed = true)))
             val token = "fake-token"
             val res =
                 sut.getAll(
@@ -107,16 +103,12 @@ class DefaultCommentRepositoryTest {
             val token = "fake-token"
             val commentId = 1L
             coEvery { commentService.getBy(any(), any(), any()) } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        GetCommentResponse(
-                            commentView =
-                                mockk(relaxed = true) {
-                                    every { comment } returns mockk(relaxed = true) { every { id } returns commentId }
-                                },
-                        )
-                }
+                GetCommentResponse(
+                    commentView =
+                        mockk(relaxed = true) {
+                            every { comment } returns mockk(relaxed = true) { every { id } returns commentId }
+                        },
+                )
 
             val res = sut.getBy(id = commentId, auth = token)
 
@@ -152,11 +144,7 @@ class DefaultCommentRepositoryTest {
                     likedOnly = any(),
                     dislikedOnly = any(),
                 )
-            } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns GetCommentsResponse(comments = listOf(mockk(relaxed = true)))
-                }
+            } returns GetCommentsResponse(comments = listOf(mockk(relaxed = true)))
             val token = "fake-token"
             val res =
                 sut.getChildren(
@@ -237,14 +225,10 @@ class DefaultCommentRepositoryTest {
                     any(),
                 )
             } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        CommentResponse(
-                            commentView = mockk(relaxed = true),
-                            recipientIds = listOf(),
-                        )
-                }
+                CommentResponse(
+                    commentView = mockk(relaxed = true),
+                    recipientIds = listOf(),
+                )
 
             val res = sut.upVote(comment, token, true)
 
@@ -314,14 +298,10 @@ class DefaultCommentRepositoryTest {
                     any(),
                 )
             } returns
-                mockk {
-                    every { isSuccessful } returns true
-                    every { body() } returns
-                        CommentResponse(
-                            commentView = mockk(relaxed = true),
-                            recipientIds = listOf(),
-                        )
-                }
+                CommentResponse(
+                    commentView = mockk(relaxed = true),
+                    recipientIds = listOf(),
+                )
 
             val res = sut.downVote(comment, token, true)
 

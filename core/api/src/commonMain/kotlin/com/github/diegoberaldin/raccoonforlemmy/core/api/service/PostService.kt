@@ -25,7 +25,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ResolvePostReportFo
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SavePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
-import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -51,7 +50,7 @@ interface PostService {
         @Query("saved_only") savedOnly: Boolean? = null,
         @Query("liked_only") likedOnly: Boolean? = null,
         @Query("disliked_only") dislikedOnly: Boolean? = null,
-    ): Response<GetPostsResponse>
+    ): GetPostsResponse
 
     @GET("post")
     suspend fun get(
@@ -59,56 +58,56 @@ interface PostService {
         @Query("auth") auth: String? = null,
         @Query("id") id: PostId? = null,
         @Query("comment_id") commentId: CommentId? = null,
-    ): Response<GetPostResponse>
+    ): GetPostResponse
 
     @GET("post/site_metadata")
     suspend fun getSiteMetadata(
         @Header("Authorization") authHeader: String? = null,
         @Query("url")
         url: String,
-    ): Response<GetSiteMetadataResponse>
+    ): GetSiteMetadataResponse
 
     @PUT("post/save")
     @Headers("Content-Type: application/json")
     suspend fun save(
         @Header("Authorization") authHeader: String? = null,
         @Body form: SavePostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post/like")
     @Headers("Content-Type: application/json")
     suspend fun like(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePostLikeForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post")
     @Headers("Content-Type: application/json")
     suspend fun create(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @PUT("post")
     @Headers("Content-Type: application/json")
     suspend fun edit(
         @Header("Authorization") authHeader: String? = null,
         @Body form: EditPostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post/mark_as_read")
     @Headers("Content-Type: application/json")
     suspend fun markAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPostAsReadForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post/delete")
     @Headers("Content-Type: application/json")
     suspend fun delete(
         @Header("Authorization") authHeader: String? = null,
         @Body form: DeletePostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST
     suspend fun uploadImage(
@@ -116,35 +115,35 @@ interface PostService {
         @Header("Cookie") token: String,
         @Header("Authorization") authHeader: String? = null,
         @Body content: MultiPartFormDataContent,
-    ): Response<PictrsImages>
+    ): PictrsImages
 
     @POST("post/report")
     @Headers("Content-Type: application/json")
     suspend fun createReport(
         @Header("Authorization") authHeader: String? = null,
         @Body form: CreatePostReportForm,
-    ): Response<PostReportResponse>
+    ): PostReportResponse
 
     @POST("post/feature")
     @Headers("Content-Type: application/json")
     suspend fun feature(
         @Header("Authorization") authHeader: String? = null,
         @Body form: FeaturePostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post/remove")
     @Headers("Content-Type: application/json")
     suspend fun remove(
         @Header("Authorization") authHeader: String? = null,
         @Body form: RemovePostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @POST("post/lock")
     @Headers("Content-Type: application/json")
     suspend fun lock(
         @Header("Authorization") authHeader: String? = null,
         @Body form: LockPostForm,
-    ): Response<PostResponse>
+    ): PostResponse
 
     @GET("post/report/list")
     @Headers("Content-Type: application/json")
@@ -155,19 +154,19 @@ interface PostService {
         @Query("page") page: Int? = null,
         @Query("unresolved_only") unresolvedOnly: Boolean? = null,
         @Query("community_id") communityId: CommunityId? = null,
-    ): Response<ListPostReportsResponse>
+    ): ListPostReportsResponse
 
     @PUT("post/report/resolve")
     @Headers("Content-Type: application/json")
     suspend fun resolveReport(
         @Header("Authorization") authHeader: String? = null,
         @Body form: ResolvePostReportForm,
-    ): Response<PostReportResponse>
+    ): PostReportResponse
 
     @POST("admin/purge/post")
     @Headers("Content-Type: application/json")
     suspend fun purge(
         @Header("Authorization") authHeader: String? = null,
         @Body form: PurgePostForm,
-    ): Response<SuccessResponse>
+    ): SuccessResponse
 }

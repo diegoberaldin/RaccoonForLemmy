@@ -21,8 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
-import io.ktor.client.request.forms.MultiPartFormDataContent
-import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.*
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.Dispatchers
@@ -69,9 +68,8 @@ internal class DefaultPostRepository(
                             sort = sort.toDto(),
                         )
                     }
-                val body = response.body()
-                val posts = body?.posts?.map { it.toModel() } ?: emptyList()
-                posts to body?.nextPage
+                val posts = response.posts.map { it.toModel() }
+                posts to response.nextPage
             }.getOrNull()
         }
 
@@ -88,13 +86,12 @@ internal class DefaultPostRepository(
                             authHeader = auth.toAuthHeader(),
                             auth = auth,
                             id = id,
-                        ).body()
+                        )
                     } else {
                         customServices.changeInstance(instance)
-                        customServices.post.get(id = id).body()
+                        customServices.post.get(id = id)
                     }
-                val dto = response?.postView
-                dto?.toModel()?.copy(
+                response.postView.toModel().copy(
                     crossPosts = response.crossPosts.map { it.toModel() },
                 )
             }.getOrNull()
@@ -330,8 +327,8 @@ internal class DefaultPostRepository(
                         token = "jwt=$auth",
                         authHeader = auth.toAuthHeader(),
                         content = multipart,
-                    ).body()
-                "$url/${images?.files?.firstOrNull()?.file}"
+                    )
+                "$url/${images.files?.firstOrNull()?.file}"
             }.apply {
                 exceptionOrNull()?.also {
                     it.printStackTrace()
@@ -378,7 +375,7 @@ internal class DefaultPostRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.postView?.toModel()
+                response.postView.toModel()
             }.getOrNull()
         }
 
@@ -400,7 +397,7 @@ internal class DefaultPostRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.postView?.toModel()
+                response.postView.toModel()
             }.getOrNull()
         }
 
@@ -423,7 +420,7 @@ internal class DefaultPostRepository(
                     form = data,
                     authHeader = auth.toAuthHeader(),
                 )
-            response.body()?.postView?.toModel()
+            response.postView.toModel()
         }.getOrNull()
 
     override suspend fun getReports(
@@ -444,7 +441,7 @@ internal class DefaultPostRepository(
                         limit = limit,
                         unresolvedOnly = unresolvedOnly,
                     )
-                response.body()?.postReports?.map {
+                response.postReports.map {
                     it.toModel()
                 }
             }.getOrNull()
@@ -468,7 +465,7 @@ internal class DefaultPostRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.postReportView?.toModel()
+                response.postReportView.toModel()
             }.getOrNull()
         }
 
@@ -487,6 +484,6 @@ internal class DefaultPostRepository(
                 form = data,
                 authHeader = auth.toAuthHeader(),
             )
-        require(response.body()?.success == true)
+        require(response.success)
     }
 }

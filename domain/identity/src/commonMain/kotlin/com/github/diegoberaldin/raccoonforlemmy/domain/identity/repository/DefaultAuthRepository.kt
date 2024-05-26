@@ -23,12 +23,7 @@ internal class DefaultAuthRepository(
                         password = password,
                         totp2faToken = totp2faToken,
                     )
-                val response = services.auth.login(data)
-                if (!response.isSuccessful) {
-                    val error = response.errorBody().toString()
-                    throw Exception(error)
-                }
-                response.body() ?: throw Exception("No response from login endpoint")
+                services.auth.login(data)
             }
         }
 }

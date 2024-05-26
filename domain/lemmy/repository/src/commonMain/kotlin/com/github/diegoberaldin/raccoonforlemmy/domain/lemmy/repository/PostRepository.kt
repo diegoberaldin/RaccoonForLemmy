@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
-import de.jensklingenberg.ktorfit.Response
 
 interface PostRepository {
     companion object {
@@ -39,7 +38,7 @@ interface PostRepository {
         post: PostModel,
         auth: String,
         voted: Boolean,
-    ): Result<Response<PostResponse>>
+    ): Result<PostResponse>
 
     fun asDownVoted(
         post: PostModel,
@@ -50,7 +49,7 @@ interface PostRepository {
         post: PostModel,
         auth: String,
         downVoted: Boolean,
-    ): Result<Response<PostResponse>>
+    ): Result<PostResponse>
 
     fun asSaved(
         post: PostModel,
@@ -61,7 +60,7 @@ interface PostRepository {
         post: PostModel,
         auth: String,
         saved: Boolean,
-    ): Result<Response<PostResponse>>
+    ): Result<PostResponse>
 
     suspend fun create(
         communityId: Long,
@@ -87,7 +86,7 @@ interface PostRepository {
         read: Boolean,
         postId: Long,
         auth: String? = null,
-    ): Result<Response<PostResponse>>
+    ): Result<PostResponse>
 
     suspend fun delete(
         id: Long,

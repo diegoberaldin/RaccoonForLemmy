@@ -21,12 +21,12 @@ internal class DefaultSiteRepository(
     override suspend fun getCurrentUser(auth: String): UserModel? =
         withContext(Dispatchers.IO) {
             runCatching {
-                val dto =
+                val response =
                     services.site.get(
                         auth = auth,
                         authHeader = auth.toAuthHeader(),
-                    ).body()
-                dto?.myUser?.let {
+                    )
+                response.myUser?.let {
                     val user = it.localUserView?.person
                     val counts = it.localUserView?.counts
                     user?.toModel()?.copy(score = counts?.toModel())
@@ -41,18 +41,18 @@ internal class DefaultSiteRepository(
         withContext(Dispatchers.IO) {
             runCatching {
                 if (otherInstance.isNullOrEmpty()) {
-                    val dto =
+                    val response =
                         services.site.get(
                             authHeader = auth.toAuthHeader(),
-                        ).body()
-                    dto?.version.takeIf { !it.isNullOrEmpty() }
+                        )
+                    response.version.takeIf { !it.isNullOrEmpty() }
                 } else {
                     customServices.changeInstance(otherInstance)
-                    val dto =
+                    val response =
                         customServices.site.get(
                             authHeader = "",
-                        ).body()
-                    dto?.version.takeIf { !it.isNullOrEmpty() }
+                        )
+                    response.version.takeIf { !it.isNullOrEmpty() }
                 }
             }.getOrNull()
         }
@@ -79,7 +79,7 @@ internal class DefaultSiteRepository(
         withContext(Dispatchers.IO) {
             runCatching {
                 val response = services.post.getSiteMetadata(url = url)
-                response.body()?.metadata?.toModel()
+                response.metadata.toModel()
             }.getOrNull()
         }
 
@@ -87,8 +87,7 @@ internal class DefaultSiteRepository(
         withContext(Dispatchers.IO) {
             runCatching {
                 val response = services.site.get(auth = auth)
-                val dto = response.body()
-                dto?.allLanguages?.map { it.toModel() }.orEmpty()
+                response.allLanguages.map { it.toModel() }
             }.getOrElse { emptyList() }
         }
 
@@ -99,20 +98,19 @@ internal class DefaultSiteRepository(
                     return@runCatching true
                 }
                 val response = services.site.get(auth = auth)
-                val dto = response.body()
-                dto?.siteView?.localSite?.enableDownvotes == true
+                response.siteView?.localSite?.enableDownvotes == true
             }.getOrElse { true }
         }
 
     override suspend fun getAccountSettings(auth: String): AccountSettingsModel? =
         withContext(Dispatchers.IO) {
             runCatching {
-                val dto =
+                val response =
                     services.site.get(
                         auth = auth,
                         authHeader = auth.toAuthHeader(),
-                    ).body()
-                dto?.myUser?.localUserView?.run {
+                    )
+                response.myUser?.localUserView?.run {
                     localUser?.toModel()?.copy(
                         avatar = person.avatar,
                         banner = person.banner,
@@ -131,26 +129,21 @@ internal class DefaultSiteRepository(
     ): Unit =
         withContext(Dispatchers.IO) {
             val formData = value.toDto().copy(auth = auth)
-            val response =
-                services.user.saveUserSettings(
-                    authHeader = auth.toAuthHeader(),
-                    form = formData,
-                )
-            if (!response.isSuccessful) {
-                val error = response.errorBody().toString()
-                throw Exception(error)
-            }
+            services.user.saveUserSettings(
+                authHeader = auth.toAuthHeader(),
+                form = formData,
+            )
         }
 
     override suspend fun getBans(auth: String): AccountBansModel? =
         withContext(Dispatchers.IO) {
             runCatching {
-                val dto =
+                val response =
                     services.site.get(
                         auth = auth,
                         authHeader = auth.toAuthHeader(),
-                    ).body()
-                dto?.myUser?.run {
+                    )
+                response.myUser?.run {
                     AccountBansModel(
                         users = personBlocks.map { it.target.toModel() },
                         communities = communityBlocks.map { it.community.toModel() },

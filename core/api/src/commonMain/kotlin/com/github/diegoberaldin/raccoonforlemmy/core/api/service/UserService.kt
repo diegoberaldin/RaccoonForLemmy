@@ -15,7 +15,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PurgePersonForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SaveUserSettingsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.SuccessResponse
-import de.jensklingenberg.ktorfit.Response
 import de.jensklingenberg.ktorfit.http.Body
 import de.jensklingenberg.ktorfit.http.GET
 import de.jensklingenberg.ktorfit.http.Header
@@ -36,7 +35,7 @@ interface UserService {
         @Query("sort") sort: CommentSortType = CommentSortType.New,
         @Query("username") username: String? = null,
         @Query("saved_only") savedOnly: Boolean? = null,
-    ): Response<GetPersonDetailsResponse>
+    ): GetPersonDetailsResponse
 
     @GET("user/mention")
     suspend fun getMentions(
@@ -46,7 +45,7 @@ interface UserService {
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: CommentSortType = CommentSortType.New,
         @Query("unread_only") unreadOnly: Boolean? = null,
-    ): Response<GetPersonMentionsResponse>
+    ): GetPersonMentionsResponse
 
     @GET("user/replies")
     suspend fun getReplies(
@@ -56,40 +55,40 @@ interface UserService {
         @Query("limit") limit: Int? = null,
         @Query("sort") sort: CommentSortType = CommentSortType.New,
         @Query("unread_only") unreadOnly: Boolean? = null,
-    ): Response<GetRepliesResponse>
+    ): GetRepliesResponse
 
     @POST("user/mark_all_as_read")
     @Headers("Content-Type: application/json")
     suspend fun markAllAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkAllAsReadForm,
-    ): Response<GetRepliesResponse>
+    ): GetRepliesResponse
 
     @POST("user/mention/mark_as_read")
     @Headers("Content-Type: application/json")
     suspend fun markPersonMentionAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPersonMentionAsReadForm,
-    ): Response<PersonMentionResponse>
+    ): PersonMentionResponse
 
     @POST("user/block")
     @Headers("Content-Type: application/json")
     suspend fun block(
         @Header("Authorization") authHeader: String? = null,
         @Body form: BlockPersonForm,
-    ): Response<BlockPersonResponse>
+    ): BlockPersonResponse
 
     @PUT("user/save_user_settings")
     @Headers("Content-Type: application/json")
     suspend fun saveUserSettings(
         @Header("Authorization") authHeader: String? = null,
         @Body form: SaveUserSettingsForm,
-    ): Response<SaveUserSettingsResponse>
+    ): SaveUserSettingsResponse
 
     @POST("admin/purge/person")
     @Headers("Content-Type: application/json")
     suspend fun purge(
         @Header("Authorization") authHeader: String? = null,
         @Body form: PurgePersonForm,
-    ): Response<SuccessResponse>
+    ): SuccessResponse
 }

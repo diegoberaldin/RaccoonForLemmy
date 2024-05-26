@@ -33,8 +33,7 @@ internal class DefaultPrivateMessageRepository(
                         page = page,
                         unreadOnly = unreadOnly,
                     )
-                val dto = response.body() ?: return@runCatching emptyList()
-                dto.privateMessages.map { it.toModel() }
+                response.privateMessages.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -51,12 +50,12 @@ internal class DefaultPrivateMessageRepository(
                         auth = auth.orEmpty(),
                         recipientId = recipientId,
                     )
-                val dto =
+                val response =
                     services.privateMessages.create(
                         authHeader = auth.toAuthHeader(),
                         form = data,
-                    ).body()
-                dto?.privateMessageView?.toModel()
+                    )
+                response.privateMessageView.toModel()
             }.getOrNull()
         }
 
@@ -72,12 +71,12 @@ internal class DefaultPrivateMessageRepository(
                     auth = auth.orEmpty(),
                     privateMessageId = messageId,
                 )
-            val dto =
+            val response =
                 services.privateMessages.edit(
                     authHeader = auth.toAuthHeader(),
                     form = data,
-                ).body()
-            dto?.privateMessageView?.toModel()
+                )
+            response.privateMessageView.toModel()
         }.getOrNull()
 
     override suspend fun markAsRead(
@@ -93,12 +92,12 @@ internal class DefaultPrivateMessageRepository(
                         auth = auth.orEmpty(),
                         read = read,
                     )
-                val dto =
+                val response =
                     services.privateMessages.markAsRead(
                         authHeader = auth.toAuthHeader(),
                         form = data,
                     )
-                dto.body()?.privateMessageView?.toModel()
+                response.privateMessageView.toModel()
             }.getOrNull()
         }
 

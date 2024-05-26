@@ -5,7 +5,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LoginResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.provider.ServiceProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.api.service.AuthService
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
-import de.jensklingenberg.ktorfit.Response
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -35,12 +34,7 @@ class DefaultAuthRepositoryTest {
     fun whenLogin_thenResultIsAsExpected() =
         runTest {
             val loginData = LoginResponse(token = "", registrationCreated = false, verifyEmailSent = true)
-            val fakeResponse =
-                mockk<Response<LoginResponse>> {
-                    every { isSuccessful } returns true
-                    every { body() } returns loginData
-                }
-            coEvery { authService.login(any()) } returns fakeResponse
+            coEvery { authService.login(any()) } returns loginData
             val res = sut.login("username", "password")
 
             assertTrue(res.isSuccess)

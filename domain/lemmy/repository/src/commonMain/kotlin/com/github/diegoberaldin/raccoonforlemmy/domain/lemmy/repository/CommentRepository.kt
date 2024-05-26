@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportM
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
-import de.jensklingenberg.ktorfit.Response
 
 interface CommentRepository {
     companion object {
@@ -55,7 +54,7 @@ interface CommentRepository {
         comment: CommentModel,
         auth: String,
         voted: Boolean,
-    ): Result<Response<CommentResponse>>
+    ): Result<CommentResponse>
 
     fun asDownVoted(
         comment: CommentModel,
@@ -71,7 +70,7 @@ interface CommentRepository {
         comment: CommentModel,
         auth: String,
         downVoted: Boolean,
-    ): Result<Response<CommentResponse>>
+    ): Result<CommentResponse>
 
     fun asSaved(
         comment: CommentModel,
@@ -82,7 +81,7 @@ interface CommentRepository {
         comment: CommentModel,
         auth: String,
         saved: Boolean,
-    ): Result<Response<CommentResponse>>
+    ): Result<CommentResponse>
 
     suspend fun create(
         postId: Long,

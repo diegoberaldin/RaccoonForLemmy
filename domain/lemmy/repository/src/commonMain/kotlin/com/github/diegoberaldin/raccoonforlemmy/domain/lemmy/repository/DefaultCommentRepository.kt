@@ -63,8 +63,7 @@ internal class DefaultCommentRepository(
                             maxDepth = maxDepth,
                         )
                     }
-                val dto = response.body()?.comments ?: emptyList()
-                dto.map { it.toModel() }
+                response.comments.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -80,11 +79,11 @@ internal class DefaultCommentRepository(
                         authHeader = auth.toAuthHeader(),
                         id = id,
                         auth = auth,
-                    ).body()
+                    )
                 } else {
                     customServices.changeInstance(instance)
-                    customServices.comment.getBy(id = id).body()
-                }?.commentView?.toModel()
+                    customServices.comment.getBy(id = id)
+                }.commentView.toModel()
             }.getOrNull()
         }
 
@@ -120,8 +119,7 @@ internal class DefaultCommentRepository(
                             maxDepth = maxDepth,
                         )
                     }
-                val dto = response.body()?.comments ?: emptyList()
-                dto.map { it.toModel() }
+                response.comments.map { it.toModel() }
             }.getOrNull()
         }
 
@@ -367,7 +365,7 @@ internal class DefaultCommentRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.commentView?.toModel()
+                response.commentView.toModel()
             }.getOrNull()
         }
 
@@ -389,7 +387,7 @@ internal class DefaultCommentRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.commentView?.toModel()
+                response.commentView.toModel()
             }.getOrNull()
         }
 
@@ -411,7 +409,7 @@ internal class DefaultCommentRepository(
                         limit = limit,
                         unresolvedOnly = unresolvedOnly,
                     )
-                response.body()?.commentReports?.map {
+                response.commentReports.map {
                     it.toModel()
                 }
             }.getOrNull()
@@ -435,7 +433,7 @@ internal class DefaultCommentRepository(
                         form = data,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.body()?.commentReportView?.toModel()
+                response.commentReportView.toModel()
             }.getOrNull()
         }
 
@@ -449,11 +447,11 @@ internal class DefaultCommentRepository(
                 commentId = commentId,
                 reason = reason,
             )
-        val response =
+        val res =
             services.comment.purge(
                 form = data,
                 authHeader = auth.toAuthHeader(),
             )
-        require(response.body()?.success == true)
+        require(res.success)
     }
 }
