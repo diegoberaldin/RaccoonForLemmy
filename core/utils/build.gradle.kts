@@ -52,6 +52,11 @@ kotlin {
                 implementation(libs.coil.gif)
             }
         }
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.ktor.darwin)
+            }
+        }
         val androidUnitTest by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines.test)

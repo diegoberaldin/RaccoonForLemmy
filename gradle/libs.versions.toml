@@ -66,6 +66,7 @@ koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 ktor_serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor_cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor_darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor_contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor_logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor_json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
