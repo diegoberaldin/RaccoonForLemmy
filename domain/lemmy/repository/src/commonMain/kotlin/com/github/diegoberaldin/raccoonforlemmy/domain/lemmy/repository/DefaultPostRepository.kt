@@ -21,7 +21,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toAuthHeader
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toDto
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.utils.toModel
-import io.ktor.client.request.forms.*
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.Dispatchers
@@ -293,10 +294,6 @@ internal class DefaultPostRepository(
                     authHeader = auth.toAuthHeader(),
                     form = data,
                 )
-            }.apply {
-                exceptionOrNull()?.also {
-                    it.printStackTrace()
-                }
             }.getOrDefault(Unit)
         }
 
@@ -369,6 +366,29 @@ internal class DefaultPostRepository(
                         auth = auth,
                         featured = featured,
                         featureType = PostFeatureType.Community,
+                    )
+                val response =
+                    services.post.feature(
+                        form = data,
+                        authHeader = auth.toAuthHeader(),
+                    )
+                response.postView.toModel()
+            }.getOrNull()
+        }
+
+    override suspend fun featureInInstance(
+        postId: Long,
+        auth: String,
+        featured: Boolean,
+    ): PostModel? =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val data =
+                    FeaturePostForm(
+                        postId = postId,
+                        auth = auth,
+                        featured = featured,
+                        featureType = PostFeatureType.Local,
                     )
                 val response =
                     services.post.feature(

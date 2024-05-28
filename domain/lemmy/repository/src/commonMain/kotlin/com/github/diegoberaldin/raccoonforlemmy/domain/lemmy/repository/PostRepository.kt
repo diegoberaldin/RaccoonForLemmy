@@ -110,6 +110,12 @@ interface PostRepository {
         featured: Boolean,
     ): PostModel?
 
+    suspend fun featureInInstance(
+        postId: Long,
+        auth: String,
+        featured: Boolean,
+    ): PostModel?
+
     suspend fun lock(
         postId: Long,
         auth: String,
