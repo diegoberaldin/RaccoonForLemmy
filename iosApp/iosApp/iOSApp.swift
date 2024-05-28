@@ -3,17 +3,19 @@ import shared
 
 @main
 struct iOSApp: App {
-
+    
     init() {
         DiHelperKt.doInitKoin()
     }
-
-	var body: some Scene {
-		WindowGroup {
-			ZStack {
-                Color.white.ignoresSafeArea(.all) // status bar color
+    
+    var body: some Scene {
+        WindowGroup {
+            ZStack {
+                // status bar color
+                Color.black.ignoresSafeArea(.all)
                 ContentView()
-            }.preferredColorScheme(.light)
-		}
-	}
+            }
+            .preferredColorScheme(.dark)
+        }
+    }
 }
