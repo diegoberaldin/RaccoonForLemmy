@@ -85,6 +85,7 @@ sqldelight {
             srcDirs.setFrom("src/commonMain/sqldelight")
         }
     }
+    linkSqlite = true
 }
 
 allprojects {
