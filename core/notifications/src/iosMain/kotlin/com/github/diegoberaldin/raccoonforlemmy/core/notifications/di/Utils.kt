@@ -6,6 +6,6 @@ import org.koin.core.component.inject
 
 actual fun getNotificationCenter(): NotificationCenter = NotificationDiHelper.notificationCenter
 
-internal object NotificationDiHelper : KoinComponent {
+object NotificationDiHelper : KoinComponent {
     val notificationCenter: NotificationCenter by inject()
 }

@@ -9,7 +9,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.navigationMod
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.coreNotificationModule
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.corePersistenceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.di.corePreferencesModule
-import com.github.diegoberaldin.raccoonforlemmy.core.resources.di.coreResourceModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.appIconModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.crashReportModule
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.di.customTabsModule

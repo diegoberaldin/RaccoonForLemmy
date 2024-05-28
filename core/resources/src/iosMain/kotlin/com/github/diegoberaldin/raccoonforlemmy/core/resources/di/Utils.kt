@@ -8,6 +8,6 @@ actual fun getCoreResources(): CoreResources {
     return CoreResourcesDiHelper.coreResources
 }
 
-internal object CoreResourcesDiHelper : KoinComponent {
+object CoreResourcesDiHelper : KoinComponent {
     val coreResources: CoreResources by inject()
 }
