@@ -33,6 +33,6 @@ class DefaultShareHelper : ShareHelper {
 
 actual fun getShareHelper(): ShareHelper = ShareHelperInjectHelper.shareHelper
 
-private object ShareHelperInjectHelper : KoinComponent {
+object ShareHelperInjectHelper : KoinComponent {
     val shareHelper: ShareHelper by inject()
 }
