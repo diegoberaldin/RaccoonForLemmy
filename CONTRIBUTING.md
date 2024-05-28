@@ -36,7 +36,7 @@ will be added and new answers will be provided as long as questions are submitte
 
 ### 1.1 Purpose
 
-Raccoon was designed with three goals in mind: on the one side experiment and put to some stress 
+Raccoon was designed with three goals in mind: on the one side experiment and put to some stress
 test with a real world project Kotlin Multiplatform (KMP) and Compose multiplatform, in order
 to explore what could be achieved with multiplatform libraries and share as much code as possible
 in the `commonMain` source directory. The Android ecosystem of Lemmy apps has many cross-platform
@@ -218,8 +218,8 @@ This project uses the Gradle build tool. The recommended development environment
 with the Kotlin Multiplatform Mobile plugin installed, which will automatically detect the build
 tool and download a Gradle distribution for you.
 
-Since the project is using Gradle 8.5 with the Android Gradle Plugin (AGP) version 8.2.2, please
-make sure that you are using Android Studio Hedgehog or later -- have a
+Since the project is using Gradle 8.7 with the Android Gradle Plugin (AGP) version 8.4.0, please
+make sure that you are using Android Studio Jellyfish or later -- have a
 look [here](https://developer.android.com/build/releases/gradle-plugin?hl=en#android_gradle_plugin_and_android_studio_compatibility)
 for a compatibility matrix between versions of Gradle, AGP and Android Studio.
 
@@ -227,9 +227,9 @@ In order for Gradle to build, you will need a JDK installed on your local develo
 you are using stock Android Studio it ships with the JetBrains runtime. If you want to use your
 custom JDK (e.g. under Linux you want to try OpenJDK instead), please make sure that it has a
 suitable version, according
-to [this page](https://docs.gradle.org/8.2/userguide/compatibility.html).
+to [this page](https://docs.gradle.org/current/userguide/compatibility.html).
 
-Finally, since building this project requires a lot of RAM, please make sure that
+Finally, since building this project requires quite a lot of RAM, please make sure that
 the `gradle.properties` file in the root folder contains proper memory settings for the JVM and the
 Kotlin compile daemon:
 
@@ -336,8 +336,10 @@ As far as Compose code is concerned, we take Google’s indications as a baselin
 
 ### 6.2.3 Linter
 
-The recommended lint to use is [Ktlint](https://pinterest.github.io/ktlint/latest/) with the `ktlint_official` code
-style. There is a plugin for IntelliJ/Android Studio that allows to have distraction-free formatting upon saving, to
+The recommended lint to use is [Ktlint](https://pinterest.github.io/ktlint/latest/) with
+the `ktlint_official` code
+style. There is a plugin for IntelliJ/Android Studio that allows to have distraction-free formatting
+upon saving, to
 make sure any new code is compliant with the rules.
 
 ### 6.3 Test structure

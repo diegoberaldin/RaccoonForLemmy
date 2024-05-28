@@ -2,8 +2,8 @@
 
 This is a Kotlin Multiplatform (KMP) project that uses the Gradle build tool. The recommended
 development environment is Android Studio with the Kotlin Multiplatform Mobile plugin installed.
-Since the project is using Gradle 8.5 with the Android Gradle Plugin (AGP) version 8.2.2 you
-should use Android Studio Hedgehog or later (have a
+Since the project is using Gradle 8.7 with the Android Gradle Plugin (AGP) version 8.4.0 you
+should use Android Studio Jellyfish or later (have a
 look [here](https://developer.android.com/build/releases/gradle-plugin?hl=en#android_gradle_plugin_and_android_studio_compatibility)
 for a compatibility matrix between versions of Gradle, AGP and Android Studio).
 Alternatively, you can try and use IntelliJ IDEA or Fleet but some extra steps may be needed to
@@ -14,11 +14,11 @@ machine, if you are using stock Android Studio it ships with the JetBrains runti
 look in the Settings dialog under the section "Build, Execution, Deployment > Build Tools > Gradle"
 in the "Gradle JDK" location drop-down menu. If you want to use your custom JDK (e.g. under Linux
 you want to try OpenJDK instead), please make sure that it has a suitable version, according
-to [this page](https://docs.gradle.org/8.2/userguide/compatibility.html), so between 8 and 21.
+to [this page](https://docs.gradle.org/current/userguide/compatibility.html), so between 8 and 21.
 
-Finally, since building this project requires a lot of RAM due to its multi-module structure and to
-the fact that it is quite a complex project, please make sure that the `gradle.properties` file in
-the root folder contains proper memory settings for the JVM and the Kotlin compile daemon:
+Finally, since building this project requires a quite lot of RAM due to its multi-module structure
+and to the fact that it is quite a complex project, please make sure that the `gradle.properties`
+file in the root folder contains proper memory settings for the JVM and the Kotlin compile daemon:
 
 ```properties
 org.gradle.jvmargs=-Xmx4096M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx4096M"
