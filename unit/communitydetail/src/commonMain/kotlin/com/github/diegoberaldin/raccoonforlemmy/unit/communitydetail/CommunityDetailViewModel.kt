@@ -287,6 +287,12 @@ class CommunityDetailViewModel(
                         feature(post = post)
                     }
 
+            is CommunityDetailMviModel.Intent.AdminFeaturePost ->
+                uiState.value.posts.firstOrNull { it.id == intent.id }
+                    ?.also { post ->
+                        featureLocal(post = post)
+                    }
+
             is CommunityDetailMviModel.Intent.ModLockPost ->
                 uiState.value.posts.firstOrNull { it.id == intent.id }
                     ?.also { post ->
@@ -658,6 +664,21 @@ class CommunityDetailViewModel(
                     postId = post.id,
                     auth = auth,
                     featured = !post.featuredCommunity,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun featureLocal(post: PostModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.featureInInstance(
+                    postId = post.id,
+                    auth = auth,
+                    featured = !post.featuredLocal,
                 )
             if (newPost != null) {
                 handlePostUpdate(newPost)

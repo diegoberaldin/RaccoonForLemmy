@@ -1189,6 +1189,15 @@ class CommunityDetailScreen(
                                                                     },
                                                                 )
                                                         }
+                                                        this +=
+                                                            Option(
+                                                                OptionId.AdminFeaturePost,
+                                                                if (post.featuredLocal) {
+                                                                    LocalXmlStrings.current.adminActionUnmarkAsFeatured
+                                                                } else {
+                                                                    LocalXmlStrings.current.adminActionMarkAsFeatured
+                                                                },
+                                                            )
                                                     }
                                                 },
                                             onOptionSelected =
@@ -1251,6 +1260,13 @@ class CommunityDetailScreen(
                                                         OptionId.FeaturePost ->
                                                             model.reduce(
                                                                 CommunityDetailMviModel.Intent.ModFeaturePost(
+                                                                    post.id,
+                                                                ),
+                                                            )
+
+                                                        OptionId.AdminFeaturePost ->
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.AdminFeaturePost(
                                                                     post.id,
                                                                 ),
                                                             )
