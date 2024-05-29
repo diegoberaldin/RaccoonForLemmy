@@ -28,7 +28,7 @@ sealed class OptionId(val value: Int) {
 
     data object BlockInstance : OptionId(10)
 
-    data object ToggleRead : OptionId(11)
+    data object AdminFeaturePost : OptionId(11)
 
     data object FeaturePost : OptionId(13)
 
