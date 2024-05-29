@@ -356,6 +356,7 @@ class PostDetailViewModel(
             }
 
             PostDetailMviModel.Intent.ModFeaturePost -> feature(uiState.value.post)
+            PostDetailMviModel.Intent.AdminFeaturePost -> featureLocal(uiState.value.post)
             PostDetailMviModel.Intent.ModLockPost -> lock(uiState.value.post)
             is PostDetailMviModel.Intent.ModDistinguishComment ->
                 uiState.value.comments.firstOrNull {
@@ -782,6 +783,21 @@ class PostDetailViewModel(
                     postId = post.id,
                     auth = auth,
                     featured = !post.featuredCommunity,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun featureLocal(post: PostModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.featureInInstance(
+                    postId = post.id,
+                    auth = auth,
+                    featured = !post.featuredLocal,
                 )
             if (newPost != null) {
                 handlePostUpdate(newPost)

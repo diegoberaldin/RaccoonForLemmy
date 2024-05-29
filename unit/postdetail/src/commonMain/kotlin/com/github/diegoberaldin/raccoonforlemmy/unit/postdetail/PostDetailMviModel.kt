@@ -46,6 +46,8 @@ interface PostDetailMviModel :
 
         data object ModFeaturePost : Intent
 
+        data object AdminFeaturePost : Intent
+
         data object ModLockPost : Intent
 
         data class ModDistinguishComment(val commentId: Long) : Intent
