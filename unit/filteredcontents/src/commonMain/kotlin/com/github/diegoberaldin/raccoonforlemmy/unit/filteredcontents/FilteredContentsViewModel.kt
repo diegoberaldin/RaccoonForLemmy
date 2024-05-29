@@ -135,6 +135,12 @@ class FilteredContentsViewModel(
                         feature(post = post)
                     }
 
+            is FilteredContentsMviModel.Intent.AdminFeaturePost ->
+                uiState.value.posts.firstOrNull { it.id == intent.id }
+                    ?.also { post ->
+                        featureLocal(post = post)
+                    }
+
             is FilteredContentsMviModel.Intent.ModLockPost ->
                 uiState.value.posts.firstOrNull { it.id == intent.id }
                     ?.also { post ->
@@ -385,6 +391,21 @@ class FilteredContentsViewModel(
                     postId = post.id,
                     auth = auth,
                     featured = !post.featuredCommunity,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun featureLocal(post: PostModel) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.featureInInstance(
+                    postId = post.id,
+                    auth = auth,
+                    featured = !post.featuredLocal,
                 )
             if (newPost != null) {
                 handlePostUpdate(newPost)

@@ -62,6 +62,8 @@ interface FilteredContentsMviModel :
 
         data class ModFeaturePost(val id: Long) : Intent
 
+        data class AdminFeaturePost(val id: Long) : Intent
+
         data class ModLockPost(val id: Long) : Intent
 
         data class ModDistinguishComment(val commentId: Long) : Intent

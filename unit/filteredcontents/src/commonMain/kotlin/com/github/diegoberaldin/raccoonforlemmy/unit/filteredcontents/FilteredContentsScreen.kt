@@ -563,6 +563,15 @@ class FilteredContentsScreen(
                                                                     },
                                                                 )
                                                         }
+                                                        this +=
+                                                            Option(
+                                                                OptionId.AdminFeaturePost,
+                                                                if (post.featuredLocal) {
+                                                                    LocalXmlStrings.current.adminActionUnmarkAsFeatured
+                                                                } else {
+                                                                    LocalXmlStrings.current.adminActionMarkAsFeatured
+                                                                },
+                                                            )
                                                     }
                                                 },
                                             onOptionSelected =
@@ -575,6 +584,11 @@ class FilteredContentsScreen(
                                                         OptionId.FeaturePost ->
                                                             model.reduce(
                                                                 FilteredContentsMviModel.Intent.ModFeaturePost(post.id),
+                                                            )
+
+                                                        OptionId.AdminFeaturePost ->
+                                                            model.reduce(
+                                                                FilteredContentsMviModel.Intent.AdminFeaturePost(post.id),
                                                             )
 
                                                         OptionId.LockPost ->
