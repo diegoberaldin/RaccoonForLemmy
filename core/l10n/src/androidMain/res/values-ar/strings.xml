@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">عرض المسافة البادئة للتعليقات</string>
     <string name="post_action_unhide">إرجاع الإخفاء</string>
     <string name="admin_action_purge">تطهير</string>
+    <string name="admin_action_mark_as_featured">وضع علامة مميزة (مثال)</string>
+    <string name="admin_action_unmark_as_featured">إلغاء تحديد علامة مميزة (مثال)</string>
 </resources>

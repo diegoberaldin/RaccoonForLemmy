@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Ширина увлачења коментара</string>
     <string name="post_action_unhide">Врати сакрити</string>
     <string name="admin_action_purge">Чистка</string>
+    <string name="admin_action_mark_as_featured">Означи као истакнуто (инстанца)</string>
+    <string name="admin_action_unmark_as_featured">Уклони ознаку као истакнуто (инстанца)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Πλάτος εσοχής σχολίων</string>
     <string name="post_action_unhide">Επαναφορά απόκρυψης</string>
     <string name="admin_action_purge">Καθάρισε</string>
+    <string name="admin_action_mark_as_featured">Επισήμανση ως χαρακτηρισμένου (παράδειγμα)</string>
+    <string name="admin_action_unmark_as_featured">Κατάργηση επισήμανσης ως επιλεγμένου (παράδειγμα)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Szerokość wcięcia komentarzy</string>
     <string name="post_action_unhide">Przywróć ukrycie</string>
     <string name="admin_action_purge">Oczyszczać</string>
+    <string name="admin_action_mark_as_featured">Oznacz jako polecane (instancja)</string>
+    <string name="admin_action_unmark_as_featured">Usuń oznaczenie jako polecane (instancja)</string>
 </resources>

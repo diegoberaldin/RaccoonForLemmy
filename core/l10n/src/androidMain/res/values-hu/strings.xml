@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">A megjegyzések behúzásának szélessége</string>
     <string name="post_action_unhide">Elrejtés visszaállítása</string>
     <string name="admin_action_purge">Tisztítás</string>
+    <string name="admin_action_mark_as_featured">Megjelölés kiemeltként (példány)</string>
+    <string name="admin_action_unmark_as_featured">Kiemeltként való megjelölés visszavonása (példány)</string>
 </resources>

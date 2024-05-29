@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Wisa\' ta\' indentazzjoni tal-kummenti</string>
     <string name="post_action_unhide">Aqleb ħabi</string>
     <string name="admin_action_purge">Tnaddaf</string>
+    <string name="admin_action_mark_as_featured">Immarka bħala dehru (istanza)</string>
+    <string name="admin_action_unmark_as_featured">Neħħi l-immarka bħala dehru (istanza)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Širina uvlačenja komentara</string>
     <string name="post_action_unhide">Vrati skrivanje</string>
     <string name="admin_action_purge">Čišćenje</string>
+    <string name="admin_action_mark_as_featured">Označi kao istaknuto (instanca)</string>
+    <string name="admin_action_unmark_as_featured">Ukloni oznaku kao istaknuto (instanca)</string>
 </resources>

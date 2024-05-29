@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Bredde på innrykk av kommentarer</string>
     <string name="post_action_unhide">Tilbakestill skjul</string>
     <string name="admin_action_purge">Rensing</string>
+    <string name="admin_action_mark_as_featured">Merk som fremhevet (forekomst)</string>
+    <string name="admin_action_unmark_as_featured">Fjern merking som fremhevet (forekomst)</string>
 </resources>

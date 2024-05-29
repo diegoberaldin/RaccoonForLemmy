@@ -404,4 +404,6 @@
     <string name="settings_comment_indent_amount">Comment indentation amount</string>
     <string name="post_action_unhide">Revert hide</string>
     <string name="admin_action_purge">Purge</string>
+    <string name="admin_action_mark_as_featured">Mark as featured (instance)</string>
+    <string name="admin_action_unmark_as_featured">Unmark as featured (instance)</string>
 </resources>

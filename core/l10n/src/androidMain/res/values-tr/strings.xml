@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Yorum girintisinin genişliği</string>
     <string name="post_action_unhide">Gizlemeyi geri al</string>
     <string name="admin_action_purge">Tasfiye</string>
+    <string name="admin_action_mark_as_featured">Öne çıkan olarak işaretle (örnek)</string>
+    <string name="admin_action_unmark_as_featured">Öne çıkan işaretini kaldır (örnek)</string>
 </resources>

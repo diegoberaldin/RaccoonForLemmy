@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Largura de recuo dos comentários</string>
     <string name="post_action_unhide">Reverter ocultar</string>
     <string name="admin_action_purge">Purgar</string>
+    <string name="admin_action_mark_as_featured">Marcar como destaque (instância)</string>
+    <string name="admin_action_unmark_as_featured">Desmarcar como destaque (instância)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Breedte van de inspringing van opmerkingen</string>
     <string name="post_action_unhide">Verberg terug</string>
     <string name="admin_action_purge">Zuiveren</string>
+    <string name="admin_action_mark_as_featured">Markeren als aanbevolen (instantie)</string>
+    <string name="admin_action_unmark_as_featured">Markering als aanbevolen opheffen (instantie)</string>
 </resources>

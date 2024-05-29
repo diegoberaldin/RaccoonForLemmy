@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Lățimea indentării comentariilor</string>
     <string name="post_action_unhide">Revino ascunderea</string>
     <string name="admin_action_purge">Epurează</string>
+    <string name="admin_action_mark_as_featured">Marchează ca recomandat (instanță)</string>
+    <string name="admin_action_unmark_as_featured">Anulează marcare ca recomandat (instanță)</string>
 </resources>

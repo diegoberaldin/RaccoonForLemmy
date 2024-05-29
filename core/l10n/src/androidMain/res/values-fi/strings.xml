@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Kommenttien sisennyksen leveys</string>
     <string name="post_action_unhide">Palauta piilotus</string>
     <string name="admin_action_purge">Puhdistaa</string>
+    <string name="admin_action_mark_as_featured">Merkitse esittelyyn (esim.)</string>
+    <string name="admin_action_unmark_as_featured">Poista suositellun merkintä (esim.)</string>
 </resources>

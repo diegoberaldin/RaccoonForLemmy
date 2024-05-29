@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Larĝeco de indentaĵo de komentoj</string>
     <string name="post_action_unhide">Reverti kaŝon</string>
     <string name="admin_action_purge">Elpurigi</string>
+    <string name="admin_action_mark_as_featured">Marki kiel elstara (nodo)</string>
+    <string name="admin_action_unmark_as_featured">Malmarki kiel elstara (nodo)</string>
 </resources>

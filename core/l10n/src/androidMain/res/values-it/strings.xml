@@ -218,8 +218,8 @@
     <string name="mod_action_allow">Riammetti utente</string>
     <string name="mod_action_ban">Banna utente</string>
     <string name="mod_action_open_reports">Apri segnalazioni</string>
-    <string name="mod_action_mark_as_featured">Segna come fissato</string>
-    <string name="mod_action_unmark_as_featured">Segna come non fissato</string>
+    <string name="mod_action_mark_as_featured">Contrassegna come fissato</string>
+    <string name="mod_action_unmark_as_featured">Contrassegna come non fissato</string>
     <string name="mod_action_lock">Blocca</string>
     <string name="mod_action_unlock">Sblocca</string>
     <string name="mod_action_remove">Rimuovi</string>
@@ -259,8 +259,8 @@
     <string name="modlog_item_mod_removed">è stato destituito come moderatore</string>
     <string name="modlog_item_user_banned">è stato bannato</string>
     <string name="modlog_item_user_unbanned">è stato riammesso</string>
-    <string name="modlog_item_post_featured">è stato marcato come fissato</string>
-    <string name="modlog_item_post_unfeatured">è stato marcato come non fissato</string>
+    <string name="modlog_item_post_featured">è stato contrassegnato come fissato</string>
+    <string name="modlog_item_post_unfeatured">è stato contrassegnato come non fissato</string>
     <string name="modlog_item_post_locked">è stato bloccato</string>
     <string name="modlog_item_post_unlocked">è stato sbloccato</string>
     <string name="modlog_item_post_removed">è stato rimosso</string>
@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Larghezza rientro dei commenti</string>
     <string name="post_action_unhide">Annulla nascondi</string>
     <string name="admin_action_purge">Epura</string>
+    <string name="admin_action_mark_as_featured">Contrassegna come fissato (istanza)</string>
+    <string name="admin_action_unmark_as_featured">Contrassegna come non fisasto (istanza)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Bredde på indrykning af kommentarer</string>
     <string name="post_action_unhide">Vend skjul tilbage</string>
     <string name="admin_action_purge">Udrensning</string>
+    <string name="admin_action_mark_as_featured">Markér som fremhævet (forekomst)</string>
+    <string name="admin_action_unmark_as_featured">Fjern markering som fremhævet (forekomst)</string>
 </resources>

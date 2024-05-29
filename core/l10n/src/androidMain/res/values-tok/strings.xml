@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">suli poka pi toki lili</string>
     <string name="post_action_unhide">o lukin</string>
     <string name="admin_action_purge">o weka kin</string>
+    <string name="admin_action_mark_as_featured">o sitelen sama sewi (ilo nanpa)</string>
+    <string name="admin_action_unmark_as_featured">o sitelen ala sama sewi (ilo nanpa)</string>
 </resources>

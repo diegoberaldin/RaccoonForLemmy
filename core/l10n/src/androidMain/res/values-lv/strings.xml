@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Komentāru atkāpes platums</string>
     <string name="post_action_unhide">Atgriezt slēpšanu</string>
     <string name="admin_action_purge">Iztīrīšana</string>
+    <string name="admin_action_mark_as_featured">Atzīmēt kā piedāvātu (piemērs)</string>
+    <string name="admin_action_unmark_as_featured">Noņemt atzīmēto kā piedāvāto (piemērs)</string>
 </resources>

@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Leithead eangú na dtuairimí</string>
     <string name="post_action_unhide">Cuir ceilt ar ais</string>
     <string name="admin_action_purge">Glanadh</string>
+    <string name="admin_action_mark_as_featured">Marcáil mar atá léirithe (cás)</string>
+    <string name="admin_action_unmark_as_featured">Dímharcáil mar atá i gceist (cás)</string>
 </resources>

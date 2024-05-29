@@ -395,4 +395,6 @@
     <string name="settings_comment_indent_amount">Ширина відступу коментарів</string>
     <string name="post_action_unhide">Повернути приховування</string>
     <string name="admin_action_purge">Чистка</string>
+    <string name="admin_action_mark_as_featured">Позначити як рекомендоване (екземпляр)</string>
+    <string name="admin_action_unmark_as_featured">Скасувати позначення як рекомендованого (екземпляр)</string>
 </resources>

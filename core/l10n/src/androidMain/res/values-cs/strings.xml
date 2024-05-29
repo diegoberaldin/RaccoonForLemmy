@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Šířka odsazení komentářů</string>
     <string name="post_action_unhide">Vrátit skrýt</string>
     <string name="admin_action_purge">Očistit</string>
+    <string name="admin_action_mark_as_featured">Označit jako doporučené (instance)</string>
+    <string name="admin_action_unmark_as_featured">Zrušit označení jako doporučené (instance)</string>
 </resources>

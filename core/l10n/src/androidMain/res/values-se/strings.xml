@@ -396,4 +396,6 @@
     <string name="settings_comment_indent_amount">Bredd på indrag av kommentarer</string>
     <string name="post_action_unhide">Återställ göm</string>
     <string name="admin_action_purge">Rena</string>
+    <string name="admin_action_mark_as_featured">Markera som utvald (instans)</string>
+    <string name="admin_action_unmark_as_featured">Avmarkera som utvald (instans)</string>
 </resources>
