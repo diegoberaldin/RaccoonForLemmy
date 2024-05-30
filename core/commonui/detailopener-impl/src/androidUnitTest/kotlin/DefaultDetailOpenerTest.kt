@@ -185,7 +185,7 @@ class DefaultDetailOpenerTest {
             val comment = CommentModel(text = "test", id = 1)
 
             launch {
-                sut.openReply(originalComment = comment)
+                sut.openReply(originalComment = comment, originalPost = PostModel(id = 0))
             }
             advanceTimeBy(OPEN_DELAY)
 

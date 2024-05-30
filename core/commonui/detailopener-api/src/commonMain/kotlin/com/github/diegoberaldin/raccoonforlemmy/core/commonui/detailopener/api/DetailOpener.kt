@@ -27,7 +27,7 @@ interface DetailOpener {
 
     fun openReply(
         draftId: Long? = null,
-        originalPost: PostModel? = null,
+        originalPost: PostModel,
         originalComment: CommentModel? = null,
         editedComment: CommentModel? = null,
         initialText: String? = null,

@@ -102,16 +102,14 @@ class DefaultDetailOpener(
 
     override fun openReply(
         draftId: Long?,
-        originalPost: PostModel?,
+        originalPost: PostModel,
         originalComment: CommentModel?,
         editedComment: CommentModel?,
         initialText: String?,
     ) {
         scope.launch {
             withContext(Dispatchers.IO) {
-                if (originalPost != null) {
-                    itemCache.putPost(originalPost)
-                }
+                itemCache.putPost(originalPost)
                 if (originalComment != null) {
                     itemCache.putComment(originalComment)
                 }
@@ -122,7 +120,7 @@ class DefaultDetailOpener(
             val screen =
                 CreateCommentScreen(
                     draftId = draftId,
-                    originalPostId = originalPost?.id,
+                    originalPostId = originalPost.id,
                     originalCommentId = originalComment?.id,
                     editedCommentId = editedComment?.id,
                     initialText = initialText,
