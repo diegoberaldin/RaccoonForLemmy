@@ -81,6 +81,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.safeImePadding
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -232,6 +233,7 @@ class CreatePostScreen(
         }
 
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -307,15 +309,15 @@ class CreatePostScreen(
                         .padding(
                             top = padding.calculateTopPadding(),
                         )
-                        .navigationBarsPadding()
-                        .imePadding()
+                        .safeImePadding()
                         .verticalScroll(rememberScrollState()),
             ) {
                 // community
                 if (forceCommunitySelection) {
                     TextField(
                         modifier =
-                            Modifier.fillMaxWidth().onFocusChanged(
+                        Modifier
+                            .fillMaxWidth().onFocusChanged(
                                 rememberCallbackArgs { state ->
                                     if (state.hasFocus) {
                                         openSelectCommunity = true

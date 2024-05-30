@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle

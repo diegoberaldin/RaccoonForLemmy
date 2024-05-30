@@ -51,6 +51,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigation
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.safeImePadding
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -93,6 +94,7 @@ class ModerateWithReasonScreen(
         }
 
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -163,8 +165,7 @@ class ModerateWithReasonScreen(
                             top = padding.calculateTopPadding(),
                         )
                         .consumeWindowInsets(padding)
-                        .navigationBarsPadding()
-                        .imePadding(),
+                        .safeImePadding(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {

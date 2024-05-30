@@ -67,6 +67,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.autofill
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.safeImePadding
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelper
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
@@ -113,6 +114,7 @@ class LoginBottomSheet : Screen {
         }
 
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             topBar = {
                 TopAppBar(
                     title = {
@@ -177,8 +179,7 @@ class LoginBottomSheet : Screen {
                                 top = padding.calculateTopPadding(),
                             )
                             .consumeWindowInsets(padding)
-                            .navigationBarsPadding()
-                            .imePadding()
+                            .safeImePadding()
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,

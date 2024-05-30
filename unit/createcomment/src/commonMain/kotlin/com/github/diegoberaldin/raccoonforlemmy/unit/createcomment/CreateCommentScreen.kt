@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.safeImePadding
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
@@ -164,6 +165,7 @@ class CreateCommentScreen(
         }
 
         Scaffold(
+            modifier = Modifier.navigationBarsPadding(),
             topBar = {
                 TopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -236,8 +238,7 @@ class CreateCommentScreen(
                             top = padding.calculateTopPadding(),
                         )
                         .consumeWindowInsets(padding)
-                        .navigationBarsPadding()
-                        .imePadding()
+                        .safeImePadding()
                         .fillMaxSize(),
             ) {
                 // reference post or comment
