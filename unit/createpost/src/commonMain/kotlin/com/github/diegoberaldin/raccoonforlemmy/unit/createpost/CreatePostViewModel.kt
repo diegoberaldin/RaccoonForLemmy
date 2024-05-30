@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftType
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DraftRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
@@ -15,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.isValidUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
@@ -38,6 +40,7 @@ class CreatePostViewModel(
     private val accountRepository: AccountRepository,
     private val draftRepository: DraftRepository,
     private val notificationCenter: NotificationCenter,
+    private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
 ) : CreatePostMviModel,
     DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>(
         initialState = CreatePostMviModel.UiState(),
@@ -66,7 +69,6 @@ class CreatePostViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         fullWidthImages = settings.fullWidthImages,
                         showScores = settings.showScores,
-                        currentLanguageId = settings.defaultLanguageId,
                     )
                 }
             }.launchIn(this)
@@ -141,6 +143,7 @@ class CreatePostViewModel(
                         it.copy(currentLanguageId = intent.value)
                     }
                 }
+
             is CreatePostMviModel.Intent.ChangeBodyValue ->
                 screenModelScope.launch {
                     updateState {
@@ -159,17 +162,25 @@ class CreatePostViewModel(
         val preferNicknames = uiState.value.preferNicknames
         val communityId = community.id
         val name = community.readableName(preferNicknames)
-        val auth = identityRepository.authToken.value.orEmpty()
+
         screenModelScope.launch {
-            val communityInfo =
-                name.ifEmpty {
-                    val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
-                    remoteCommunity?.name.orEmpty()
-                }
+            val (actualName, actualHandle) = if (name.isEmpty()) {
+                val auth = identityRepository.authToken.value.orEmpty()
+                val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
+                remoteCommunity?.name.orEmpty() to remoteCommunity?.readableHandle.orEmpty()
+            } else {
+                name to community.readableHandle
+            }
+
+            val preferredLanguageId =
+                communityPreferredLanguageRepository.get(actualHandle)
+            val defaultLanguageId = settingsRepository.currentSettings.value.defaultLanguageId
+
             updateState {
                 it.copy(
                     communityId = communityId,
-                    communityInfo = communityInfo,
+                    communityInfo = actualName,
+                    currentLanguageId = preferredLanguageId ?: defaultLanguageId,
                 )
             }
         }

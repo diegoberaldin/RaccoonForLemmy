@@ -21,6 +21,7 @@ val createPostModule =
                 accountRepository = get(),
                 draftRepository = get(),
                 notificationCenter = get(),
+                communityPreferredLanguageRepository = get(),
             )
         }
     }
