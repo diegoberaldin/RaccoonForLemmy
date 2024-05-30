@@ -1,21 +1,24 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
 import com.github.diegoberaldin.raccoonforlemmy.core.preferences.TemporaryKeyStore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 
 private const val SETTINGS_KEY = "communitySort"
 
 internal class DefaultCommunitySortRepository(
     private val keyStore: TemporaryKeyStore,
 ) : CommunitySortRepository {
-    override fun getSort(handle: String): Int? {
+    override suspend fun get(handle: String): Int? = withContext(Dispatchers.IO) {
         val map = deserializeMap()
-        return map[handle]
+        map[handle]
     }
 
-    override fun saveSort(
+    override suspend fun save(
         handle: String,
         value: Int,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         val map = deserializeMap()
         map[handle] = value
         val newValue = serializeMap(map)
@@ -38,7 +41,7 @@ internal class DefaultCommunitySortRepository(
             e.key + ":" + e.value
         }
 
-    override fun clear() {
+    override suspend fun clear() = withContext(Dispatchers.IO) {
         keyStore.remove(SETTINGS_KEY)
     }
 }

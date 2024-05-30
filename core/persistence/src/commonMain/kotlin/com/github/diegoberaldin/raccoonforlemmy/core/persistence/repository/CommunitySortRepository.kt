@@ -1,12 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository
 
 interface CommunitySortRepository {
-    fun getSort(handle: String): Int?
+    suspend fun get(handle: String): Int?
 
-    fun saveSort(
+    suspend fun save(
         handle: String,
         value: Int,
     )
 
-    fun clear()
+    suspend fun clear()
 }
