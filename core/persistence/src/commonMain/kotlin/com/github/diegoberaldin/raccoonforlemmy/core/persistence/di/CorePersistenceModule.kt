@@ -3,8 +3,10 @@ package com.github.diegoberaldin.raccoonforlemmy.core.persistence.di
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.DefaultDatabaseProvider
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultAccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultCommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultCommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultDraftRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DefaultFavoriteCommunityRepository
@@ -63,6 +65,11 @@ val corePersistenceModule =
         }
         single<CommunitySortRepository> {
             DefaultCommunitySortRepository(
+                keyStore = get(),
+            )
+        }
+        single<CommunityPreferredLanguageRepository> {
+            DefaultCommunityPreferredLanguageRepository(
                 keyStore = get(),
             )
         }
