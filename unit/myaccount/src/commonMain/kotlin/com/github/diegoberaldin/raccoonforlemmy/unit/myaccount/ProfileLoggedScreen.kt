@@ -501,6 +501,7 @@ object ProfileLoggedScreen : Tab {
 
                                                 OptionId.Edit -> {
                                                     detailOpener.openReply(
+                                                        originalPost = PostModel(id = comment.postId),
                                                         editedComment = comment,
                                                     )
                                                 }
@@ -635,6 +636,7 @@ object ProfileLoggedScreen : Tab {
                                 rawContent = null
                                 if (quotation != null) {
                                     detailOpener.openReply(
+                                        originalPost = PostModel(id = content.postId),
                                         originalComment = content,
                                         initialText =
                                             buildString {

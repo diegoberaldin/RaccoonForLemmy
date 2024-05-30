@@ -269,10 +269,9 @@ class DraftsScreen : Screen {
                                         rememberCallback {
                                             detailOpener.openReply(
                                                 draftId = draft.id,
-                                                originalPost =
-                                                    draft.postId?.let {
-                                                        PostModel(id = it)
-                                                    },
+                                                originalPost = PostModel(
+                                                    id = draft.postId ?: 0
+                                                ),
                                                 originalComment =
                                                     draft.parentId?.let {
                                                         CommentModel(id = it, text = "")

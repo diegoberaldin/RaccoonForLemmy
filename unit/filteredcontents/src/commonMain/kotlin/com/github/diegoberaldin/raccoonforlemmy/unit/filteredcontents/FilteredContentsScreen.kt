@@ -744,7 +744,10 @@ class FilteredContentsScreen(
                                                     backgroundColor = replyColor ?: defaultReplyColor,
                                                     onTriggered =
                                                         rememberCallback {
-                                                            detailOpener.openReply(originalComment = comment)
+                                                            detailOpener.openReply(
+                                                                originalPost = PostModel(comment.postId),
+                                                                originalComment = comment,
+                                                            )
                                                         },
                                                 )
 
@@ -822,7 +825,10 @@ class FilteredContentsScreen(
                                                 },
                                             onReply =
                                                 rememberCallback {
-                                                    detailOpener.openReply(originalComment = comment)
+                                                    detailOpener.openReply(
+                                                        originalPost = PostModel(id = comment.postId),
+                                                        originalComment = comment,
+                                                    )
                                                 },
                                             options =
                                                 buildList {
@@ -1028,6 +1034,7 @@ class FilteredContentsScreen(
                                     rawContent = null
                                     if (quotation != null) {
                                         detailOpener.openReply(
+                                            originalPost = PostModel(id = content.postId),
                                             originalComment = content,
                                             initialText =
                                                 buildString {

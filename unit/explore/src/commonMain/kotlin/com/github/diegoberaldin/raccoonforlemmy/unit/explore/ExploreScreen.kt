@@ -413,7 +413,9 @@ class ExploreScreen(
                                                                 ?: defaultReplyColor,
                                                         onTriggered =
                                                             rememberCallback {
-                                                                detailOpener.openReply(originalPost = result.model)
+                                                                detailOpener.openReply(
+                                                                    originalPost = result.model,
+                                                                )
                                                             },
                                                     )
 

@@ -132,7 +132,6 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
-import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
@@ -1490,6 +1489,7 @@ class CommunityDetailScreen(
                                 if (quotation != null) {
                                     detailOpener.openReply(
                                         originalComment = content,
+                                        originalPost = PostModel(id = content.postId),
                                         initialText =
                                             buildString {
                                                 append("> ")

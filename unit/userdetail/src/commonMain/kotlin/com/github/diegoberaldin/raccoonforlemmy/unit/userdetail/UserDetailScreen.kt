@@ -1277,6 +1277,7 @@ class UserDetailScreen(
                                 rawContent = null
                                 if (quotation != null) {
                                     detailOpener.openReply(
+                                        originalPost = PostModel(id = content.id),
                                         originalComment = content,
                                         initialText =
                                             buildString {

@@ -1343,6 +1343,7 @@ class PostDetailScreen(
 
                                                                 OptionId.Edit -> {
                                                                     detailOpener.openReply(
+                                                                        originalPost = PostModel(id = comment.postId),
                                                                         editedComment = comment,
                                                                     )
                                                                 }
@@ -1583,6 +1584,7 @@ class PostDetailScreen(
 
                                                         OptionId.Edit -> {
                                                             detailOpener.openReply(
+                                                                originalPost = PostModel(id = comment.postId),
                                                                 editedComment = comment,
                                                             )
                                                         }
