@@ -8,11 +8,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftType
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.DraftRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.epochMillis
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
@@ -36,6 +38,7 @@ class CreateCommentViewModel(
     private val itemCache: LemmyItemCache,
     private val accountRepository: AccountRepository,
     private val draftRepository: DraftRepository,
+    private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
 ) : CreateCommentMviModel,
     DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>(
         initialState = CreateCommentMviModel.UiState(),
@@ -61,6 +64,8 @@ class CreateCommentViewModel(
                 } else {
                     originalCommentFromCache
                 }
+            val communityHandle = originalPost?.community?.readableHandle.orEmpty()
+            val preferredLanguageId = communityPreferredLanguageRepository.get(communityHandle)
             updateState {
                 it.copy(
                     originalPost = originalPost,
@@ -97,7 +102,7 @@ class CreateCommentViewModel(
                         fullHeightImages = settings.fullHeightImages,
                         fullWidthImages = settings.fullWidthImages,
                         showScores = settings.showScores,
-                        currentLanguageId = settings.defaultLanguageId,
+                        currentLanguageId = preferredLanguageId ?: settings.defaultLanguageId,
                     )
                 }
             }.launchIn(this)

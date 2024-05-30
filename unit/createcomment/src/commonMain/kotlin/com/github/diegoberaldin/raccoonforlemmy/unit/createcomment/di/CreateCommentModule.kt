@@ -22,6 +22,7 @@ val createCommentModule =
                 itemCache = get(),
                 accountRepository = get(),
                 draftRepository = get(),
+                communityPreferredLanguageRepository = get(),
             )
         }
     }
