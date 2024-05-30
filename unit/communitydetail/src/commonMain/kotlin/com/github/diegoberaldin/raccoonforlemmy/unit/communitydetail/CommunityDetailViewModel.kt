@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
@@ -64,6 +65,7 @@ class CommunityDetailViewModel(
     private val itemCache: LemmyItemCache,
     private val communitySortRepository: CommunitySortRepository,
     private val postNavigationManager: PostNavigationManager,
+    private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
 ) : CommunityDetailMviModel,
     DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
@@ -79,8 +81,8 @@ class CommunityDetailViewModel(
                     it.copy(
                         community = community,
                         instance =
-                            otherInstance.takeIf { n -> n.isNotEmpty() }
-                                ?: apiConfigurationRepository.instance.value,
+                        otherInstance.takeIf { n -> n.isNotEmpty() }
+                            ?: apiConfigurationRepository.instance.value,
                     )
                 }
             }
@@ -132,16 +134,16 @@ class CommunityDetailViewModel(
                     updateState {
                         it.copy(
                             posts =
-                                it.posts.map { p ->
-                                    if (p.id == postId) {
-                                        p.copy(
-                                            creator = newUser,
-                                            updateDate = newUser.updateDate,
-                                        )
-                                    } else {
-                                        p
-                                    }
-                                },
+                            it.posts.map { p ->
+                                if (p.id == postId) {
+                                    p.copy(
+                                        creator = newUser,
+                                        updateDate = newUser.updateDate,
+                                    )
+                                } else {
+                                    p
+                                }
+                            },
                         )
                     }
                 }.launchIn(this)
@@ -153,12 +155,12 @@ class CommunityDetailViewModel(
                         handlePostUpdate(newPost)
                     }
                 }.launchIn(this)
+            val communityHandle = uiState.value.community.readableHandle
             notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
-                    if (evt.screenKey == uiState.value.community.readableHandle) {
+                    if (evt.screenKey == communityHandle) {
                         if (evt.defaultForCommunity) {
-                            val handle = uiState.value.community.readableHandle
-                            communitySortRepository.save(handle, evt.value.toInt())
+                            communitySortRepository.save(communityHandle, evt.value.toInt())
                         }
                         applySortType(evt.value)
                     }
@@ -189,10 +191,20 @@ class CommunityDetailViewModel(
                 }
             }
             if (uiState.value.initial) {
-                val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
+                val defaultPostSortType =
+                    settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
                 val customPostSortType =
-                    communitySortRepository.get(uiState.value.community.readableHandle)?.toSortType()
-                updateState { it.copy(sortType = customPostSortType ?: defaultPostSortType) }
+                    communitySortRepository.get(communityHandle)?.toSortType()
+                val preferredLanguageId = communityPreferredLanguageRepository.get(communityHandle)
+                val auth = identityRepository.authToken.value.orEmpty()
+                val languages = siteRepository.getLanguages(auth)
+                updateState {
+                    it.copy(
+                        sortType = customPostSortType ?: defaultPostSortType,
+                        currentPreferredLanguageId = preferredLanguageId,
+                        availableLanguages = languages,
+                    )
+                }
                 refresh(initial = true)
             }
         }
@@ -330,6 +342,10 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.UnhideCommunity -> {
                 unhideCommunity()
             }
+
+            is CommunityDetailMviModel.Intent.SelectPreferredLanguage -> {
+                updatePreferredLanguage(intent.languageId)
+            }
         }
     }
 
@@ -356,7 +372,8 @@ class CommunityDetailViewModel(
         }
         val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
-        val isFavorite = favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
+        val isFavorite =
+            favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
         val refreshedCommunity =
             communityRepository.get(
                 auth = auth,
@@ -553,7 +570,11 @@ class CommunityDetailViewModel(
                 )
             if (community != null) {
                 updateState { it.copy(community = community) }
-                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
+                notificationCenter.send(
+                    NotificationCenterEvent.CommunitySubscriptionChanged(
+                        community
+                    )
+                )
             }
         }
     }
@@ -568,7 +589,11 @@ class CommunityDetailViewModel(
                 )
             if (community != null) {
                 updateState { it.copy(community = community) }
-                notificationCenter.send(NotificationCenterEvent.CommunitySubscriptionChanged(community))
+                notificationCenter.send(
+                    NotificationCenterEvent.CommunitySubscriptionChanged(
+                        community
+                    )
+                )
             }
         }
     }
@@ -578,13 +603,13 @@ class CommunityDetailViewModel(
             updateState {
                 it.copy(
                     posts =
-                        it.posts.map { p ->
-                            if (p.id == post.id) {
-                                post
-                            } else {
-                                p
-                            }
-                        },
+                    it.posts.map { p ->
+                        if (p.id == post.id) {
+                            post
+                        } else {
+                            p
+                        }
+                    },
                 )
             }
         }
@@ -756,6 +781,16 @@ class CommunityDetailViewModel(
             } catch (e: Throwable) {
                 val message = e.message
                 emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+            }
+        }
+    }
+
+    private fun updatePreferredLanguage(languageId: Long?) {
+        screenModelScope.launch {
+            val communityHandle = uiState.value.community.readableHandle
+            communityPreferredLanguageRepository.save(handle = communityHandle, value = languageId)
+            updateState {
+                it.copy(currentPreferredLanguageId = languageId)
             }
         }
     }

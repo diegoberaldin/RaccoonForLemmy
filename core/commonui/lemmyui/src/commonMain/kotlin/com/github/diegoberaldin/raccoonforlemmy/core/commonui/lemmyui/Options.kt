@@ -30,6 +30,8 @@ sealed class OptionId(val value: Int) {
 
     data object AdminFeaturePost : OptionId(11)
 
+    data object SetPreferredLanguage : OptionId(12)
+
     data object FeaturePost : OptionId(13)
 
     data object LockPost : OptionId(14)

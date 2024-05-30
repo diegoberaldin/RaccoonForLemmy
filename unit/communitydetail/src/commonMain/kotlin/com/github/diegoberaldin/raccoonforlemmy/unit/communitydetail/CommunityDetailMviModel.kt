@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -69,6 +70,8 @@ interface CommunityDetailMviModel :
         data object WillOpenDetail : Intent
 
         data object UnhideCommunity : Intent
+
+        data class SelectPreferredLanguage(val languageId: Long?) : Intent
     }
 
     data class UiState(
@@ -104,6 +107,8 @@ interface CommunityDetailMviModel :
         val fadeReadPosts: Boolean = false,
         val showUnreadComments: Boolean = false,
         val downVoteEnabled: Boolean = true,
+        val currentPreferredLanguageId: Long? = null,
+        val availableLanguages: List<LanguageModel> = emptyList(),
     )
 
     sealed interface Effect {

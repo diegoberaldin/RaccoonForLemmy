@@ -29,6 +29,7 @@ val communityDetailModule =
                 communitySortRepository = get(),
                 postPaginationManager = get(),
                 postNavigationManager = get(),
+                communityPreferredLanguageRepository = get(),
             )
         }
     }

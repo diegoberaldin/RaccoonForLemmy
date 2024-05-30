@@ -109,6 +109,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
@@ -131,6 +132,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toIcon
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.BanUserScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.communityinfo.CommunityInfoScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateCommentMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.explore.ExploreScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.InstanceInfoScreen
@@ -209,6 +211,7 @@ class CommunityDetailScreen(
             with(LocalDensity.current) {
                 WindowInsets.statusBars.getTop(this)
             }
+        var selectLanguageDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -368,6 +371,12 @@ class CommunityDetailScreen(
                                             OptionId.SetCustomSort,
                                             LocalXmlStrings.current.communitySetCustomSort,
                                         )
+                                    if (uiState.isLogged) {
+                                        this += Option(
+                                            OptionId.SetPreferredLanguage,
+                                            LocalXmlStrings.current.communitySetPreferredLanguage,
+                                        )
+                                    }
                                     this +=
                                         Option(
                                             OptionId.InfoInstance,
@@ -598,6 +607,10 @@ class CommunityDetailScreen(
                                                             contentId = uiState.community.id,
                                                         )
                                                     navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.SetPreferredLanguage -> {
+                                                    selectLanguageDialogOpen = true
                                                 }
 
                                                 else -> Unit
@@ -1517,6 +1530,22 @@ class CommunityDetailScreen(
                 },
                 text = {
                     Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+            )
+        }
+
+        if (selectLanguageDialogOpen) {
+            SelectLanguageDialog(
+                languages = uiState.availableLanguages,
+                currentLanguageId = uiState.currentPreferredLanguageId,
+                onSelect =
+                rememberCallbackArgs { langId ->
+                    model.reduce(CommunityDetailMviModel.Intent.SelectPreferredLanguage(langId))
+                    selectLanguageDialogOpen = false
+                },
+                onDismiss =
+                rememberCallback {
+                    selectLanguageDialogOpen = false
                 },
             )
         }
