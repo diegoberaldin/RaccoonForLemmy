@@ -98,11 +98,13 @@ class ConfigureSwipeActionsScreen : Screen {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Box(
                 modifier =
                     Modifier
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)

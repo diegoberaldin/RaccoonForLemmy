@@ -209,18 +209,20 @@ class EditCommunityScreen(
                     )
                 }
             },
-        ) { paddingValues ->
+        ) { padding ->
             Column(
                 modifier =
-                    Modifier
-                        .padding(paddingValues)
-                        .then(
-                            if (settings.hideNavigationBarWhileScrolling) {
-                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                            } else {
-                                Modifier
-                            },
-                        ),
+                Modifier
+                    .padding(
+                        top = padding.calculateTopPadding(),
+                    )
+                    .then(
+                        if (settings.hideNavigationBarWhileScrolling) {
+                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                        } else {
+                            Modifier
+                        },
+                    ),
             ) {
                 Column(
                     modifier =

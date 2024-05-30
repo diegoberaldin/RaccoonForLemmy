@@ -173,7 +173,9 @@ class LoginBottomSheet : Screen {
                 Column(
                     modifier =
                         Modifier
-                            .padding(padding)
+                            .padding(
+                                top = padding.calculateTopPadding(),
+                            )
                             .consumeWindowInsets(padding)
                             .navigationBarsPadding()
                             .imePadding()

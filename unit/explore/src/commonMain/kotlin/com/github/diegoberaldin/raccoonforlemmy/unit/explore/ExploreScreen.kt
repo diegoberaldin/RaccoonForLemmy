@@ -238,7 +238,9 @@ class ExploreScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.padding(
+                    top = padding.calculateTopPadding(),
+                ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 TextField(

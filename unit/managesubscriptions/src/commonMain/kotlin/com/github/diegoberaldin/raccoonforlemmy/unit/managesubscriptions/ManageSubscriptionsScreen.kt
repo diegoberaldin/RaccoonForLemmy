@@ -206,7 +206,9 @@ class ManageSubscriptionsScreen : Screen {
             },
         ) { padding ->
             Column(
-                modifier = Modifier.padding(padding),
+                modifier = Modifier.padding(
+                    top = padding.calculateTopPadding(),
+                ),
             ) {
                 TextField(
                     modifier =

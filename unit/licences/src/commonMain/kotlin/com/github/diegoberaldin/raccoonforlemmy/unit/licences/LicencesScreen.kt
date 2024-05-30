@@ -87,9 +87,13 @@ class LicencesScreen : Screen {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(paddingValues),
+                modifier = Modifier
+                    .padding(
+                        top = padding.calculateTopPadding(),
+                    )
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 items(uiState.items) { item ->

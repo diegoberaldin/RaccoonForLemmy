@@ -285,7 +285,9 @@ class MultiCommunityScreen(
             Box(
                 modifier =
                     Modifier
-                        .padding(padding)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .fillMaxWidth()
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {

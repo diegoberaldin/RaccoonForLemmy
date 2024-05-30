@@ -157,7 +157,7 @@ class InstanceInfoScreen(
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             val pullRefreshState =
                 rememberPullRefreshState(
                     refreshing = uiState.refreshing,
@@ -176,7 +176,9 @@ class InstanceInfoScreen(
                                 Modifier
                             },
                         )
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(

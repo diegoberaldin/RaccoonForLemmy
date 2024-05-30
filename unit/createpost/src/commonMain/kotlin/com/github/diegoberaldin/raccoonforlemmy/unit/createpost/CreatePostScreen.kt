@@ -304,7 +304,9 @@ class CreatePostScreen(
             Column(
                 modifier =
                     Modifier
-                        .padding(padding)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .navigationBarsPadding()
                         .imePadding()
                         .verticalScroll(rememberScrollState()),

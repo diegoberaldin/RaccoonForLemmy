@@ -460,7 +460,9 @@ class UserDetailScreen(
             Box(
                 modifier =
                     Modifier
-                        .padding(padding)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)

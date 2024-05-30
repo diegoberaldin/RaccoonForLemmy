@@ -212,11 +212,13 @@ class ZoomableImageScreen(
                 }
             },
             content =
-                { paddingValues ->
+            { padding ->
                     Box(
                         modifier =
                             Modifier
-                                .padding(paddingValues)
+                                .padding(
+                                    top = padding.calculateTopPadding(),
+                                )
                                 .fillMaxWidth()
                                 .background(Color.Black),
                         contentAlignment = Alignment.Center,

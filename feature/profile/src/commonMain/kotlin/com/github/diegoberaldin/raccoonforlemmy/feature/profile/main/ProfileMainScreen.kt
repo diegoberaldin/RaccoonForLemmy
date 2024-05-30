@@ -218,11 +218,13 @@ internal object ProfileMainScreen : Tab {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Box(
                 modifier =
                     Modifier
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .nestedScroll(fabNestedScrollConnection)
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {

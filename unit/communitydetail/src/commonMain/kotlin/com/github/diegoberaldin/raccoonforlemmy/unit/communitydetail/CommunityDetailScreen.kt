@@ -723,7 +723,9 @@ class CommunityDetailScreen(
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Column(
-                    modifier = Modifier.padding(padding),
+                    modifier = Modifier.padding(
+                        top = padding.calculateTopPadding(),
+                    ),
                 ) {
                     if (uiState.searching) {
                         TextField(

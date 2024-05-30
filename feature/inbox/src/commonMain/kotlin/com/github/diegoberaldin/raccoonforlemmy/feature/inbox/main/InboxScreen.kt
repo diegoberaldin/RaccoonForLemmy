@@ -134,11 +134,16 @@ object InboxScreen : Tab {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             when (uiState.isLogged) {
                 false -> {
                     Column(
-                        modifier = Modifier.padding(paddingValues).padding(horizontal = Spacing.m),
+                        modifier =
+                        Modifier
+                            .padding(
+                                top = padding.calculateTopPadding(),
+                            )
+                            .padding(horizontal = Spacing.m),
                     ) {
                         Text(
                             text = LocalXmlStrings.current.inboxNotLoggedMessage,
@@ -150,7 +155,9 @@ object InboxScreen : Tab {
                     Column(
                         modifier =
                             Modifier
-                                .padding(paddingValues)
+                                .padding(
+                                    top = padding.calculateTopPadding(),
+                                )
                                 .then(
                                     if (settings.hideNavigationBarWhileScrolling) {
                                         Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)

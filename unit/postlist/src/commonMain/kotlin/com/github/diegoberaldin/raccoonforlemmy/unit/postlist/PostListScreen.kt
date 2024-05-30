@@ -338,7 +338,9 @@ class PostListScreen : Screen {
                 Box(
                     modifier =
                         Modifier
-                            .padding(padding)
+                            .padding(
+                                top = padding.calculateTopPadding(),
+                            )
                             .fillMaxWidth()
                             .then(
                                 if (connection != null && settings.hideNavigationBarWhileScrolling) {

@@ -108,12 +108,14 @@ class CommunityInfoScreen(
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             LazyColumn(
                 modifier =
                     Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .fillMaxSize()
-                        .padding(paddingValues)
                         .padding(
                             top = Spacing.s,
                             start = Spacing.m,

@@ -135,11 +135,13 @@ class ModlogScreen(
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Column(
                 modifier =
                     Modifier
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)

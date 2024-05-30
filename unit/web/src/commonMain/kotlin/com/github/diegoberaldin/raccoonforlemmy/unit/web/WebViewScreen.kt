@@ -88,9 +88,11 @@ class WebViewScreen(
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Box(
-                modifier = Modifier.padding(paddingValues),
+                modifier = Modifier.padding(
+                    top = padding.calculateTopPadding(),
+                ),
             ) {
                 val webNavigator = rememberWebViewNavigator()
 

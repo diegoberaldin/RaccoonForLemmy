@@ -117,11 +117,13 @@ class SettingsColorAndFontScreen : Screen {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Box(
                 modifier =
                     Modifier
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(

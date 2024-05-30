@@ -112,12 +112,14 @@ class UserInfoScreen(
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             LazyColumn(
                 modifier =
                     Modifier
                         .fillMaxSize()
-                        .padding(paddingValues)
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
                         .padding(
                             top = Spacing.s,
                             start = Spacing.m,

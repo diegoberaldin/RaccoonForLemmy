@@ -113,10 +113,14 @@ class DraftsScreen : Screen {
                     },
                 )
             },
-        ) { paddingValues ->
+        ) { padding ->
             Column(
                 modifier =
-                    Modifier.padding(paddingValues).then(
+                Modifier
+                    .padding(
+                        top = padding.calculateTopPadding(),
+                    )
+                    .then(
                         if (settings.hideNavigationBarWhileScrolling) {
                             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                         } else {

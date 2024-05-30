@@ -745,12 +745,15 @@ class PostDetailScreen(
                 return@Scaffold
             }
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier =
+                Modifier
+                    .padding(
+                        top = padding.calculateTopPadding(),
+                    )
+                    .fillMaxSize(),
             ) {
                 Column(
-                    modifier =
-                    Modifier
-                        .padding(padding)
+                    modifier = Modifier
                         .then(
                             if (uiState.enableButtonsToScrollBetweenComments) {
                                 Modifier.nestedScroll(buttonBarScrollConnection)
