@@ -158,7 +158,7 @@ class CommunityDetailViewModel(
                     if (evt.screenKey == uiState.value.community.readableHandle) {
                         if (evt.defaultForCommunity) {
                             val handle = uiState.value.community.readableHandle
-                            communitySortRepository.saveSort(handle, evt.value.toInt())
+                            communitySortRepository.save(handle, evt.value.toInt())
                         }
                         applySortType(evt.value)
                     }
@@ -191,7 +191,7 @@ class CommunityDetailViewModel(
             if (uiState.value.initial) {
                 val defaultPostSortType = settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
                 val customPostSortType =
-                    communitySortRepository.getSort(uiState.value.community.readableHandle)?.toSortType()
+                    communitySortRepository.get(uiState.value.community.readableHandle)?.toSortType()
                 updateState { it.copy(sortType = customPostSortType ?: defaultPostSortType) }
                 refresh(initial = true)
             }
