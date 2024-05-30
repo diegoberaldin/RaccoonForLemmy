@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Puhastamine</string>
     <string name="admin_action_mark_as_featured">Märgi esiletõstetuks (näide)</string>
     <string name="admin_action_unmark_as_featured">Tühista esiletõstetud märgistus (näide)</string>
+    <string name="community_set_preferred_language">Eelistatud keele määramine</string>
 </resources>

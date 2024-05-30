@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Čiščenje</string>
     <string name="admin_action_mark_as_featured">Označi kot predstavljeno (primer)</string>
     <string name="admin_action_unmark_as_featured">Odznači kot predstavljeno (primer)</string>
+    <string name="community_set_preferred_language">Nastavitev prednostnega jezika</string>
 </resources>

@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Прочистване</string>
     <string name="admin_action_mark_as_featured">Маркиране като представено (екземпляр)</string>
     <string name="admin_action_unmark_as_featured">Демаркиране като представено (екземпляр)</string>
+    <string name="community_set_preferred_language">Задаване на предпочитанияезик</string>
 </resources>

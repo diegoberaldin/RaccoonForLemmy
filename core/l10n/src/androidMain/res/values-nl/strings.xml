@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Zuiveren</string>
     <string name="admin_action_mark_as_featured">Markeren als aanbevolen (instantie)</string>
     <string name="admin_action_unmark_as_featured">Markering als aanbevolen opheffen (instantie)</string>
+    <string name="community_set_preferred_language">Voorkeurstaal instellen</string>
 </resources>

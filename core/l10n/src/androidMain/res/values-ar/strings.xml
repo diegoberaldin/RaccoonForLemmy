@@ -398,4 +398,5 @@
     <string name="admin_action_purge">تطهير</string>
     <string name="admin_action_mark_as_featured">وضع علامة مميزة (مثال)</string>
     <string name="admin_action_unmark_as_featured">إلغاء تحديد علامة مميزة (مثال)</string>
+    <string name="community_set_preferred_language">تعيين اللغة المفضلة</string>
 </resources>

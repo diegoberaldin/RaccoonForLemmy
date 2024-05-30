@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Epura</string>
     <string name="admin_action_mark_as_featured">Contrassegna come fissato (istanza)</string>
     <string name="admin_action_unmark_as_featured">Contrassegna come non fisasto (istanza)</string>
+    <string name="community_set_preferred_language">Imposta lingua preferita</string>
 </resources>

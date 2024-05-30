@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Tisztítás</string>
     <string name="admin_action_mark_as_featured">Megjelölés kiemeltként (példány)</string>
     <string name="admin_action_unmark_as_featured">Kiemeltként való megjelölés visszavonása (példány)</string>
+    <string name="community_set_preferred_language">Előnyben részesítettnyelv beállítása</string>
 </resources>

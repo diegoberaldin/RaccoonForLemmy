@@ -406,4 +406,5 @@
     <string name="admin_action_purge">Purge</string>
     <string name="admin_action_mark_as_featured">Mark as featured (instance)</string>
     <string name="admin_action_unmark_as_featured">Unmark as featured (instance)</string>
+    <string name="community_set_preferred_language">Set preferred language</string>
 </resources>

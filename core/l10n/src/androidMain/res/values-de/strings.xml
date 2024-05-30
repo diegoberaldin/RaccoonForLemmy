@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Säubern</string>
     <string name="admin_action_mark_as_featured">Als vorgestellt markieren (Instanz)</string>
     <string name="admin_action_unmark_as_featured">Markierung als vorgestellt aufheben (Instanz)</string>
+    <string name="community_set_preferred_language">Bevorzugte Sprache festlegen</string>
 </resources>

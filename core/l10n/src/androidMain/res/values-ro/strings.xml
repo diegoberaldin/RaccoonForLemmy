@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Epurează</string>
     <string name="admin_action_mark_as_featured">Marchează ca recomandat (instanță)</string>
     <string name="admin_action_unmark_as_featured">Anulează marcare ca recomandat (instanță)</string>
+    <string name="community_set_preferred_language">Setează limba preferată</string>
 </resources>

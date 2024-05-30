@@ -398,4 +398,5 @@
     <string name="admin_action_purge">Iztīrīšana</string>
     <string name="admin_action_mark_as_featured">Atzīmēt kā piedāvātu (piemērs)</string>
     <string name="admin_action_unmark_as_featured">Noņemt atzīmēto kā piedāvāto (piemērs)</string>
+    <string name="community_set_preferred_language">Iestatīt vēlamo valodu</string>
 </resources>

@@ -398,4 +398,5 @@
     <string name="admin_action_purge">o weka kin</string>
     <string name="admin_action_mark_as_featured">o sitelen sama sewi (ilo nanpa)</string>
     <string name="admin_action_unmark_as_featured">o sitelen ala sama sewi (ilo nanpa)</string>
+    <string name="community_set_preferred_language">o anu e toki pi wile sina</string>
 </resources>

@@ -397,4 +397,5 @@
     <string name="admin_action_purge">Удалять</string>
     <string name="admin_action_mark_as_featured">Отметить как избранное (экземпляр)</string>
     <string name="admin_action_unmark_as_featured">Снять пометку как избранное (экземпляр)</string>
+    <string name="community_set_preferred_language">Установить предпочитаемый язык</string>
 </resources>
