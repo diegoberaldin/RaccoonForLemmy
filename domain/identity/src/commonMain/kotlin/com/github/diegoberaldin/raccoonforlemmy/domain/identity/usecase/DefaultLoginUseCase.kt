@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.logDebug
@@ -18,6 +19,7 @@ internal class DefaultLoginUseCase(
     private val settingsRepository: SettingsRepository,
     private val siteRepository: SiteRepository,
     private val communitySortRepository: CommunitySortRepository,
+    private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
 ) : LoginUseCase {
     override suspend operator fun invoke(
         instance: String,
@@ -78,6 +80,7 @@ internal class DefaultLoginUseCase(
             accountRepository.setActive(id, true)
 
             communitySortRepository.clear()
+            communityPreferredLanguageRepository.clear()
 
             val newSettings = settingsRepository.getSettings(id)
             settingsRepository.changeCurrentSettings(newSettings)

@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationC
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
@@ -27,6 +28,8 @@ class DefaultSwitchAccountUseCaseTest {
     private val serviceProvider = mockk<ServiceProvider>(relaxUnitFun = true)
     private val notificationCenter = mockk<NotificationCenter>(relaxUnitFun = true)
     private val communitySortRepository = mockk<CommunitySortRepository>(relaxUnitFun = true)
+    private val communityPreferredLanguageRepository =
+        mockk<CommunityPreferredLanguageRepository>(relaxUnitFun = true)
     private val sut =
         DefaultSwitchAccountUseCase(
             identityRepository = identityRepository,
@@ -35,6 +38,7 @@ class DefaultSwitchAccountUseCaseTest {
             serviceProvider = serviceProvider,
             notificationCenter = notificationCenter,
             communitySortRepository = communitySortRepository,
+            communityPreferredLanguageRepository = communityPreferredLanguageRepository,
         )
 
     @Test
@@ -79,6 +83,7 @@ class DefaultSwitchAccountUseCaseTest {
                 settingsRepository.getSettings(accountId)
                 settingsRepository.changeCurrentSettings(newSettings)
                 communitySortRepository.clear()
+                communityPreferredLanguageRepository.clear()
                 notificationCenter.send(ofType(NotificationCenterEvent.Logout::class))
                 identityRepository.storeToken("new-token")
                 identityRepository.refreshLoggedState()

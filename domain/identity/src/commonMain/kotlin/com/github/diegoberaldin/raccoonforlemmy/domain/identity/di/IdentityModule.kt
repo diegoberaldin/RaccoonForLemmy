@@ -47,6 +47,7 @@ val coreIdentityModule =
                 settingsRepository = get(),
                 siteRepository = get(),
                 communitySortRepository = get(),
+                communityPreferredLanguageRepository = get(),
             )
         }
         single<LogoutUseCase> {
@@ -66,6 +67,7 @@ val coreIdentityModule =
                 serviceProvider = get(named("default")),
                 notificationCenter = get(),
                 communitySortRepository = get(),
+                communityPreferredLanguageRepository = get(),
             )
         }
         single<DeleteAccountUseCase> {

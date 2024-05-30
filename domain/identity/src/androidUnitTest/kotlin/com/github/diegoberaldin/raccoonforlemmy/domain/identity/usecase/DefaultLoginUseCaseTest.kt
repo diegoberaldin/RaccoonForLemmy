@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LoginResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
@@ -36,6 +37,8 @@ class DefaultLoginUseCaseTest {
     private val settingsRepository = mockk<SettingsRepository>(relaxUnitFun = true)
     private val siteRepository = mockk<SiteRepository>(relaxUnitFun = true)
     private val communitySortRepository = mockk<CommunitySortRepository>(relaxUnitFun = true)
+    private val communityPreferredLanguageRepository =
+        mockk<CommunityPreferredLanguageRepository>(relaxUnitFun = true)
     private val sut =
         DefaultLoginUseCase(
             authRepository = authRepository,
@@ -45,6 +48,7 @@ class DefaultLoginUseCaseTest {
             settingsRepository = settingsRepository,
             siteRepository = siteRepository,
             communitySortRepository = communitySortRepository,
+            communityPreferredLanguageRepository = communityPreferredLanguageRepository,
         )
 
     @Test
@@ -184,6 +188,7 @@ class DefaultLoginUseCaseTest {
                 accountRepository.setActive(accountId, true)
                 settingsRepository.changeCurrentSettings(oldSettings)
                 communitySortRepository.clear()
+                communityPreferredLanguageRepository.clear()
             }
             coVerify(inverse = true) {
                 accountRepository.createAccount(any())
