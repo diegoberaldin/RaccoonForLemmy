@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-@OptIn(FlowPreview::class)
 class SelectCommunityViewModel(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
@@ -25,7 +24,7 @@ class SelectCommunityViewModel(
     DefaultMviModel<SelectCommunityMviModel.Intent, SelectCommunityMviModel.UiState, SelectCommunityMviModel.Effect>(
         initialState = SelectCommunityMviModel.UiState(),
     ) {
-    private var communities: List<CommunityModel> = emptyList()
+    private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -39,21 +38,23 @@ class SelectCommunityViewModel(
                 }
             }.launchIn(this)
 
+            @OptIn(FlowPreview::class)
             searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                updateState {
-                    val filtered = filterCommunities()
-                    it.copy(communities = filtered)
-                }
+                refresh()
             }.launchIn(this)
-        }
-        if (communities.isEmpty()) {
-            populate()
+
+            if (uiState.value.initial) {
+                refresh(initial = true)
+            }
         }
     }
 
     override fun reduce(intent: SelectCommunityMviModel.Intent) {
         when (intent) {
             is SelectCommunityMviModel.Intent.SetSearch -> setSearch(intent.value)
+            SelectCommunityMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+                loadNextPage()
+            }
         }
     }
 
@@ -64,27 +65,46 @@ class SelectCommunityViewModel(
         }
     }
 
-    private fun populate() {
-        screenModelScope.launch(Dispatchers.IO) {
-            val auth = identityRepository.authToken.value
-            communities = communityRepository.getSubscribed(auth).sortedBy { it.name }
-            updateState {
-                it.copy(
-                    initial = false,
-                    communities = communities,
-                )
-            }
+    private suspend fun refresh(initial: Boolean = false) {
+        currentPage = 1
+        updateState {
+            it.copy(
+                initial = initial,
+                canFetchMore = true,
+                loading = false,
+                refreshing = true,
+            )
         }
+        loadNextPage()
     }
 
-    private fun filterCommunities(): List<CommunityModel> {
+    private suspend fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            return
+        }
+        val auth = identityRepository.authToken.value
         val searchText = uiState.value.searchText
-        val res =
-            if (searchText.isNotEmpty()) {
-                communities.filter { it.name.contains(searchText) }
-            } else {
-                communities
-            }
-        return res
+        val itemsToAdd = communityRepository.getSubscribed(
+            auth = auth,
+            page = currentPage,
+            query = searchText,
+        )
+        if (itemsToAdd.isNotEmpty()) {
+            currentPage++
+        }
+        updateState {
+            it.copy(
+                communities = if (currentState.refreshing) {
+                    itemsToAdd
+                } else {
+                    currentState.communities + itemsToAdd
+                },
+                canFetchMore = itemsToAdd.isNotEmpty(),
+                loading = false,
+                initial = false,
+                refreshing = false,
+            )
+        }
     }
 }

@@ -9,6 +9,8 @@ interface SelectCommunityMviModel :
     ScreenModel {
     sealed interface Intent {
         data class SetSearch(val value: String) : Intent
+
+        data object LoadNextPage : Intent
     }
 
     data class UiState(
@@ -17,6 +19,9 @@ interface SelectCommunityMviModel :
         val searchText: String = "",
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
+        val loading: Boolean = false,
+        val refreshing: Boolean = false,
+        val canFetchMore: Boolean = true,
     )
 
     sealed interface Effect
