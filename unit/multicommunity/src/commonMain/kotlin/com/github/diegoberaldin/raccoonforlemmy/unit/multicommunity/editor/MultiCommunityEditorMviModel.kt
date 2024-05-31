@@ -17,6 +17,8 @@ interface MultiCommunityEditorMviModel :
 
         data class ToggleCommunity(val id: Long) : Intent
 
+        data object LoadNextPage : Intent
+
         data object Submit : Intent
     }
 
@@ -27,8 +29,12 @@ interface MultiCommunityEditorMviModel :
         val nameError: ValidationError? = null,
         val icon: String? = null,
         val availableIcons: List<String> = emptyList(),
-        val communities: List<Pair<CommunityModel, Boolean>> = emptyList(),
+        val communities: List<CommunityModel> = emptyList(),
+        val selectedCommunityIds: List<Long> = emptyList(),
         val searchText: String = "",
+        val refreshing: Boolean = false,
+        val loading: Boolean = false,
+        val canFetchMore: Boolean = true,
     )
 
     sealed interface Effect {

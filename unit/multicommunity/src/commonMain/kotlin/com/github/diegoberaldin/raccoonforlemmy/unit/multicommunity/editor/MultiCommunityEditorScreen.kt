@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -348,9 +349,8 @@ class MultiCommunityEditorScreen(
                         .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
-                    items(uiState.communities) { communityItem ->
-                        val community = communityItem.first
-                        val selected = communityItem.second
+                    items(uiState.communities) { community ->
+                        val selected = uiState.selectedCommunityIds.contains(community.id)
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
@@ -373,6 +373,23 @@ class MultiCommunityEditorScreen(
                                     )
                                 },
                             )
+                        }
+                    }
+
+                    item {
+                        if (!uiState.loading && uiState.canFetchMore) {
+                            model.reduce(MultiCommunityEditorMviModel.Intent.LoadNextPage)
+                        }
+                        if (uiState.loading) {
+                            Box(
+                                modifier = Modifier.fillMaxWidth().padding(Spacing.xs),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(25.dp),
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                            }
                         }
                     }
                 }
