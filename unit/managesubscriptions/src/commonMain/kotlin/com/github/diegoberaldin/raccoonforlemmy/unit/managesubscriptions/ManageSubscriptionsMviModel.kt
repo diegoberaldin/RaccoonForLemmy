@@ -22,6 +22,8 @@ interface ManageSubscriptionsMviModel :
         data class ToggleFavorite(val id: Long) : Intent
 
         data class SetSearch(val value: String) : Intent
+
+        data object LoadNextPage : Intent
     }
 
     data class UiState(
@@ -32,6 +34,8 @@ interface ManageSubscriptionsMviModel :
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,
         val searchText: String = "",
+        val canFetchMore: Boolean = true,
+        val loading: Boolean = false,
     )
 
     sealed interface Effect {

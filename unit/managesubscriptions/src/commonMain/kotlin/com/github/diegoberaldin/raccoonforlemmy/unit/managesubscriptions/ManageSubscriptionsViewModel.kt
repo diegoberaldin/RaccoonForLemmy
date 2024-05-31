@@ -36,6 +36,7 @@ class ManageSubscriptionsViewModel(
     DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ) {
+    private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -61,16 +62,16 @@ class ManageSubscriptionsViewModel(
                 emitEffect(ManageSubscriptionsMviModel.Effect.BackToTop)
                 refresh()
             }.launchIn(this)
-        }
-        if (uiState.value.communities.isEmpty()) {
-            refresh()
+            if (uiState.value.communities.isEmpty()) {
+                refresh(initial = true)
+            }
         }
     }
 
     override fun reduce(intent: ManageSubscriptionsMviModel.Intent) {
         when (intent) {
             ManageSubscriptionsMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            ManageSubscriptionsMviModel.Intent.Refresh -> refresh()
+            ManageSubscriptionsMviModel.Intent.Refresh -> screenModelScope.launch { refresh() }
             is ManageSubscriptionsMviModel.Intent.Unsubscribe -> {
                 uiState.value.communities.firstOrNull { it.id == intent.id }?.also { community ->
                     unsubscribe(community)
@@ -92,57 +93,43 @@ class ManageSubscriptionsViewModel(
             }
 
             is ManageSubscriptionsMviModel.Intent.SetSearch -> updateSearchText(intent.value)
+
+            ManageSubscriptionsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+                loadNextPage()
+            }
         }
     }
 
-    private fun refresh() {
-        if (uiState.value.refreshing) {
-            return
+    private suspend fun refresh(initial: Boolean = false) {
+        updateState {
+            it.copy(
+                refreshing = true,
+                initial = initial,
+                canFetchMore = true,
+            )
         }
-        screenModelScope.launch {
-            updateState { it.copy(refreshing = true) }
-            val auth = identityRepository.authToken.value
-            val accountId = accountRepository.getActive()?.id ?: 0L
-            val favoriteCommunityIds =
-                favoriteCommunityRepository.getAll(accountId).map { it.communityId }
-            val communities =
-                communityRepository.getSubscribed(auth)
-                    .let {
-                        val searchText = uiState.value.searchText
-                        if (searchText.isNotEmpty()) {
-                            it.filter { c ->
-                                c.title.contains(searchText, ignoreCase = true) ||
-                                    c.name.contains(searchText, ignoreCase = true)
-                            }
-                        } else {
-                            it
+        currentPage = 1
+        val accountId = accountRepository.getActive()?.id ?: 0L
+        val multiCommunitites =
+            multiCommunityRepository.getAll(accountId)
+                .let {
+                    val searchText = uiState.value.searchText
+                    if (searchText.isNotEmpty()) {
+                        it.filter { c ->
+                            c.name.contains(searchText, ignoreCase = true)
                         }
-                    }.map { community ->
-                        community.copy(favorite = community.id in favoriteCommunityIds)
-                    }.sortedBy { it.name }
-            val multiCommunitites =
-                multiCommunityRepository.getAll(accountId)
-                    .let {
-                        val searchText = uiState.value.searchText
-                        if (searchText.isNotEmpty()) {
-                            it.filter { c ->
-                                c.name.contains(searchText, ignoreCase = true)
-                            }
-                        } else {
-                            it
-                        }
+                    } else {
+                        it
                     }
-                    .sortedBy { it.name }
+                }
+                .sortedBy { it.name }
 
-            updateState {
-                it.copy(
-                    refreshing = false,
-                    initial = false,
-                    communities = communities,
-                    multiCommunities = multiCommunitites,
-                )
-            }
+        updateState {
+            it.copy(
+                multiCommunities = multiCommunitites,
+            )
         }
+        loadNextPage()
     }
 
     private fun unsubscribe(community: CommunityModel) {
@@ -227,6 +214,46 @@ class ManageSubscriptionsViewModel(
         screenModelScope.launch {
             updateState { it.copy(searchText = value) }
             searchEventChannel.send(Unit)
+        }
+    }
+
+    private suspend fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
+        }
+        val accountId = accountRepository.getActive()?.id
+        val auth = identityRepository.authToken.value
+        val searchText = uiState.value.searchText
+        val favoriteCommunityIds =
+            favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+        val itemsToAdd = communityRepository.getSubscribed(
+            auth = auth,
+            page = currentPage,
+            query = searchText,
+        ).map { community ->
+            community.copy(favorite = community.id in favoriteCommunityIds)
+        }.sortedBy { it.name }.let {
+            val favorites = it.filter { e -> e.favorite }
+            val res = it - favorites.toSet()
+            favorites + res
+        }
+        if (itemsToAdd.isNotEmpty()) {
+            currentPage++
+        }
+        updateState {
+            it.copy(
+                refreshing = false,
+                communities = if (currentState.refreshing) {
+                    itemsToAdd
+                } else {
+                    currentState.communities + itemsToAdd
+                },
+                canFetchMore = itemsToAdd.isNotEmpty(),
+                loading = false,
+                initial = false,
+            )
         }
     }
 }
