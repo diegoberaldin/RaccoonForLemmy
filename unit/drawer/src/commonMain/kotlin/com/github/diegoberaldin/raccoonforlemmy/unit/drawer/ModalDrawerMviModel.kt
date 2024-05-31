@@ -15,9 +15,12 @@ interface ModalDrawerMviModel :
         data object Refresh : Intent
 
         data class SetSearch(val value: String) : Intent
+        data object LoadNextPage : Intent
     }
 
     data class UiState(
+        val loading: Boolean = false,
+        val canFetchMore: Boolean = true,
         val user: UserModel? = null,
         val autoLoadImages: Boolean = true,
         val preferNicknames: Boolean = true,

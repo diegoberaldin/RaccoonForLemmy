@@ -43,6 +43,7 @@ class ModalDrawerViewModel(
     DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
         initialState = ModalDrawerMviModel.UiState(),
     ) {
+    private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -116,16 +117,17 @@ class ModalDrawerViewModel(
 
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh ->
-                screenModelScope.launch {
-                    refresh()
-                }
+            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch {
+                refresh()
+            }
 
-            is ModalDrawerMviModel.Intent.SetSearch -> {
-                screenModelScope.launch {
-                    updateState { it.copy(searchText = intent.value) }
-                    searchEventChannel.send(Unit)
-                }
+            is ModalDrawerMviModel.Intent.SetSearch -> screenModelScope.launch {
+                updateState { it.copy(searchText = intent.value) }
+                searchEventChannel.send(Unit)
+            }
+
+            ModalDrawerMviModel.Intent.LoadNextPage -> screenModelScope.launch {
+                loadNextPage()
             }
         }
     }
@@ -154,33 +156,18 @@ class ModalDrawerViewModel(
         if (uiState.value.refreshing) {
             return
         }
-        updateState { it.copy(refreshing = true) }
+        currentPage = 1
+        updateState {
+            it.copy(
+                refreshing = true,
+                canFetchMore = true,
+                loading = false,
+            )
+        }
 
-        val auth = identityRepository.authToken.value
         val accountId = accountRepository.getActive()?.id
-        val favoriteCommunityIds =
-            favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val searchText = uiState.value.searchText
-        val communities =
-            communityRepository.getSubscribed(auth)
-                .let {
-                    if (searchText.isEmpty()) {
-                        it
-                    } else {
-                        it.filter { e ->
-                            listOf(e.name, e.title).any { s -> s.contains(other = searchText, ignoreCase = true) }
-                        }
-                    }
-                }.map { community ->
-                    community.copy(favorite = community.id in favoriteCommunityIds)
-                }
-                .sortedBy { it.name }
-                .let {
-                    val favorites = it.filter { e -> e.favorite }
-                    val res = it - favorites.toSet()
-                    favorites + res
-                }
-        val multiCommunitites =
+        val multiCommunities =
             accountId?.let {
                 multiCommunityRepository.getAll(it)
                     .let { communities ->
@@ -192,12 +179,52 @@ class ModalDrawerViewModel(
                     }
                     .sortedBy { e -> e.name }
             }.orEmpty()
+
+        updateState {
+            it.copy(
+                multiCommunities = multiCommunities,
+            )
+        }
+
+        loadNextPage()
+    }
+
+    private suspend fun loadNextPage() {
+        val currentState = uiState.value
+        if (!currentState.canFetchMore || currentState.loading) {
+            updateState { it.copy(refreshing = false) }
+            return
+        }
+        val accountId = accountRepository.getActive()?.id
+        val auth = identityRepository.authToken.value
+        val searchText = uiState.value.searchText
+        val favoriteCommunityIds =
+            favoriteCommunityRepository.getAll(accountId).map { it.communityId }
+        val itemsToAdd = communityRepository.getSubscribed(
+            auth = auth,
+            page = currentPage,
+            query = searchText,
+        ).map { community ->
+            community.copy(favorite = community.id in favoriteCommunityIds)
+        }.sortedBy { it.name }.let {
+            val favorites = it.filter { e -> e.favorite }
+            val res = it - favorites.toSet()
+            favorites + res
+        }
+        if (itemsToAdd.isNotEmpty()) {
+            currentPage++
+        }
         updateState {
             it.copy(
                 isFiltering = searchText.isNotEmpty(),
                 refreshing = false,
-                communities = communities,
-                multiCommunities = multiCommunitites,
+                communities = if (currentState.refreshing) {
+                    itemsToAdd
+                } else {
+                    currentState.communities + itemsToAdd
+                },
+                canFetchMore = itemsToAdd.isNotEmpty(),
+                loading = false,
             )
         }
     }
