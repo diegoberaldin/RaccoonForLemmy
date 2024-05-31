@@ -36,7 +36,12 @@ interface CommunityRepository {
         auth: String? = null,
     ): CommunityModel?
 
-    suspend fun getSubscribed(auth: String? = null): List<CommunityModel>
+    suspend fun getSubscribed(
+        auth: String? = null,
+        page: Int,
+        limit: Int = DEFAULT_PAGE_SIZE,
+        query: String = "",
+    ): List<CommunityModel>
 
     suspend fun get(
         auth: String? = null,

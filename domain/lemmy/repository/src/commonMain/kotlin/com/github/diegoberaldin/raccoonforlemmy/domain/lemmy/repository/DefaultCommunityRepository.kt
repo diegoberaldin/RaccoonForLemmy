@@ -117,15 +117,25 @@ internal class DefaultCommunityRepository(
             }.getOrNull()
         }
 
-    override suspend fun getSubscribed(auth: String?): List<CommunityModel> =
+    override suspend fun getSubscribed(
+        auth: String?,
+        page: Int,
+        limit: Int,
+        query: String,
+    ): List<CommunityModel> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val response =
-                    services.site.get(
+                    services.search.search(
                         authHeader = auth.toAuthHeader(),
+                        q = query,
                         auth = auth,
+                        page = page,
+                        limit = limit,
+                        type = SearchResultType.Communities.toDto(),
+                        listingType = ListingType.Subscribed.toDto(),
                     )
-                response.myUser?.follows?.map { it.community.toModel() }.orEmpty()
+                response.communities.map { it.toModel() }
             }.getOrElse { emptyList() }
         }
 

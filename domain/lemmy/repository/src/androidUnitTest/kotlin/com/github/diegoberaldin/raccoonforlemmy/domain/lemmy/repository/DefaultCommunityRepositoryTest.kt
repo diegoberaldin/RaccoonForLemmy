@@ -193,34 +193,49 @@ class DefaultCommunityRepositoryTest {
     fun givenSuccess_whenGetSubscribed_thenResultIsAsExpected() =
         runTest {
             coEvery {
-                siteService.get(
+                searchService.search(
                     authHeader = any(),
                     auth = any(),
+                    q = any(),
+                    communityId = any(),
+                    communityName = any(),
+                    creatorId = any(),
+                    type = any(),
+                    sort = any(),
+                    listingType = any(),
+                    page = any(),
+                    limit = any(),
                 )
             } returns
                 mockk {
-                    every { myUser } returns
-                        mockk {
-                            every { follows } returns
-                                listOf(
-                                    mockk {
-                                        every { community } returns mockk(relaxed = true)
-                                    },
-                                )
-                        }
+                    every { communities } returns listOf(
+                        mockk(relaxed = true) {
+                            every { community } returns mockk(relaxed = true)
+                        },
+                    )
                 }
 
             val token = "fake-token"
             val res =
                 sut.getSubscribed(
                     auth = token,
+                    page = 1,
                 )
 
             assertEquals(1, res.size)
             coVerify {
-                siteService.get(
-                    auth = token,
+                searchService.search(
                     authHeader = token.toAuthHeader(),
+                    auth = token,
+                    q = "",
+                    communityId = null,
+                    communityName = null,
+                    creatorId = null,
+                    type = SearchType.Communities,
+                    sort = null,
+                    listingType = ListingType.Subscribed.toDto(),
+                    page = 1,
+                    limit = 20,
                 )
             }
         }
