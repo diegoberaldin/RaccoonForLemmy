@@ -86,7 +86,11 @@ internal class DefaultSiteRepository(
     override suspend fun getLanguages(auth: String?): List<LanguageModel> =
         withContext(Dispatchers.IO) {
             runCatching {
-                val response = services.site.get(auth = auth)
+                val response =
+                    services.site.get(
+                        auth = auth,
+                        authHeader = auth.toAuthHeader(),
+                    )
                 response.allLanguages.map { it.toModel() }
             }.getOrElse { emptyList() }
         }
@@ -97,7 +101,11 @@ internal class DefaultSiteRepository(
                 if (auth.isNullOrEmpty()) {
                     return@runCatching true
                 }
-                val response = services.site.get(auth = auth)
+                val response =
+                    services.site.get(
+                        auth = auth,
+                        authHeader = auth.toAuthHeader(),
+                    )
                 response.siteView?.localSite?.enableDownvotes == true
             }.getOrElse { true }
         }
