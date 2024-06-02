@@ -33,7 +33,7 @@ internal class DefaultUserRepository(
             runCatching {
                 val response =
                     services.search.resolveObject(
-                        authHeader = auth,
+                        authHeader = auth.toAuthHeader(),
                         q = query,
                     )
                 response.user?.toModel()
@@ -359,7 +359,7 @@ internal class DefaultUserRepository(
                         dislikedOnly = if (!liked) true else null,
                     )
                 response.comments.map { it.toModel() }
-            }.getOrElse { emptyList() }
+            }.getOrNull()
         }
 
     override suspend fun purge(
