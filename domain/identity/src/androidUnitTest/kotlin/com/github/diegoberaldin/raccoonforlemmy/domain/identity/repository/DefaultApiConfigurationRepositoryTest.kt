@@ -26,6 +26,7 @@ class DefaultApiConfigurationRepositoryTest {
         DefaultApiConfigurationRepository(
             serviceProvider = serviceProvider,
             keyStore = keyStore,
+            dispatcher = dispatcherTestRule.dispatcher,
         )
 
     @Test
