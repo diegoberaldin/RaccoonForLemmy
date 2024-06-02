@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.notifications
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -10,8 +11,11 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 import kotlin.reflect.safeCast
 
-object DefaultNotificationCenter : NotificationCenter {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+internal class DefaultNotificationCenter(
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+) : NotificationCenter {
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+
     private val events = MutableSharedFlow<NotificationCenterEvent>()
 
     override fun send(event: NotificationCenterEvent) {

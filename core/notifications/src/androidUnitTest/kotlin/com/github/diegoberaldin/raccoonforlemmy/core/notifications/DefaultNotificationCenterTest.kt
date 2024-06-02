@@ -12,7 +12,9 @@ class DefaultNotificationCenterTest {
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
-    private val sut = DefaultNotificationCenter
+    private val sut = DefaultNotificationCenter(
+        dispatcher = dispatcherRule.dispatcher,
+    )
 
     @Test
     fun givenSubscription_whenSendEvent_thenEventIsReceivedJustOnce() =

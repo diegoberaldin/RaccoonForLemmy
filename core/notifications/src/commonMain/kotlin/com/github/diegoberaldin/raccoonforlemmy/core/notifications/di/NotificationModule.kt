@@ -7,6 +7,6 @@ import org.koin.dsl.module
 val coreNotificationModule =
     module {
         single<NotificationCenter> {
-            DefaultNotificationCenter
+            DefaultNotificationCenter()
         }
     }
