@@ -17,7 +17,7 @@ internal class DefaultPostNavigationManager(
     }
 
     override fun pop() {
-        states.removeLast()
+        states.removeLastOrNull()
         val canStillNavigate = states.isNotEmpty()
         canNavigate.value = canStillNavigate
         if (canStillNavigate) {
