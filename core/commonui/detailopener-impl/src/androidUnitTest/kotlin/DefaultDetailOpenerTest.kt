@@ -51,6 +51,7 @@ class DefaultDetailOpenerTest {
             itemCache = lemmyItemCache,
             identityRepository = identityRepository,
             communityRepository = communityRepository,
+            dispatcher = dispatcherRule.dispatcher,
         )
 
     @Test

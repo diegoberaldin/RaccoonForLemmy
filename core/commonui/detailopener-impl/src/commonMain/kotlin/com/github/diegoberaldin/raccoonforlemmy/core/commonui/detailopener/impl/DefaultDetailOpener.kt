@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.createcomment.CreateComment
 import com.github.diegoberaldin.raccoonforlemmy.unit.createpost.CreatePostScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.PostDetailScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.userdetail.UserDetailScreen
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -30,8 +31,9 @@ class DefaultDetailOpener(
     private val itemCache: LemmyItemCache,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
 ) : DetailOpener {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     override fun openCommunityDetail(
         community: CommunityModel,
