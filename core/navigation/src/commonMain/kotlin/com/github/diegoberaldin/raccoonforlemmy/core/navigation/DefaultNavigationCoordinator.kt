@@ -6,7 +6,9 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -24,7 +26,9 @@ private sealed interface NavigationEvent {
     data class Show(val screen: Screen) : NavigationEvent
 }
 
-internal class DefaultNavigationCoordinator : NavigationCoordinator {
+internal class DefaultNavigationCoordinator(
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
+) : NavigationCoordinator {
     override val currentSection = MutableStateFlow<TabNavigationSection?>(null)
     override val onDoubleTabSelection = MutableSharedFlow<TabNavigationSection>()
     override val deepLinkUrl = MutableSharedFlow<String>()
@@ -40,10 +44,10 @@ internal class DefaultNavigationCoordinator : NavigationCoordinator {
     private var navigator: Navigator? = null
     private var bottomNavigator: BottomSheetNavigator? = null
     private var tabNavigator: TabNavigator? = null
-    private val scope = CoroutineScope(SupervisorJob())
     private var canGoBackCallback: (() -> Boolean)? = null
     private val bottomSheetChannel = Channel<NavigationEvent>()
     private val screenChannel = Channel<NavigationEvent>()
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     companion object {
         private const val DEEP_LINK_DELAY = 500L

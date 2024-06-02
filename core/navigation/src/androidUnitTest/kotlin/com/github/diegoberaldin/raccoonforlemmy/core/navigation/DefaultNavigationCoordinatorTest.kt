@@ -34,7 +34,9 @@ class DefaultNavigationCoordinatorTest {
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
-    private val sut = DefaultNavigationCoordinator()
+    private val sut = DefaultNavigationCoordinator(
+        dispatcher = dispatcherRule.dispatcher,
+    )
 
     @Test
     fun whenSetCurrentSection_thenValueIsUpdated() =
