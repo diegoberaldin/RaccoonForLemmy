@@ -52,6 +52,7 @@ class DefaultPostPaginationManagerTest {
             userRepository = userRepository,
             multiCommunityPaginator = multiCommunityPaginator,
             notificationCenter = notificationCenter,
+            dispatcher = dispatcherTestRule.dispatcher,
         )
 
     @Test

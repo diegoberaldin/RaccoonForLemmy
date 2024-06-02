@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -24,16 +25,18 @@ internal class DefaultPostPaginationManager(
     private val communityRepository: CommunityRepository,
     private val userRepository: UserRepository,
     private val multiCommunityPaginator: MultiCommunityPaginator,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
     notificationCenter: NotificationCenter,
-) : PostPaginationManager {
+
+    ) : PostPaginationManager {
     override var canFetchMore: Boolean = true
         private set
+    override val history: MutableList<PostModel> = mutableListOf()
 
     private var specification: PostPaginationSpecification? = null
     private var currentPage: Int = 1
     private var pageCursor: String? = null
-    override val history: MutableList<PostModel> = mutableListOf()
-    private val scope = CoroutineScope(SupervisorJob())
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     init {
         notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
