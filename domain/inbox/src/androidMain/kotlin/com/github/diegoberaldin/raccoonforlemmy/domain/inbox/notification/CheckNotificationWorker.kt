@@ -10,6 +10,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.R
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -21,9 +22,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.resources.R as resourcesR
 internal class CheckNotificationWorker(
     private val context: Context,
     parameters: WorkerParameters,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : Worker(context, parameters) {
     private val inboxCoordinator by KoinJavaComponent.inject<InboxCoordinator>(InboxCoordinator::class.java)
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     override fun doWork(): Result {
         scope.launch {
@@ -46,7 +48,8 @@ internal class CheckNotificationWorker(
             ).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         val title = context.getString(R.string.inbox_notification_title)
         val content = context.getString(R.string.inbox_notification_content, count)
@@ -61,11 +64,16 @@ internal class CheckNotificationWorker(
         val notificationManager: NotificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notificationId = getNextNotificationId()
-        notificationManager.notify(NotificationConstants.NOTIFICATION_TAG, notificationId, notification)
+        notificationManager.notify(
+            NotificationConstants.NOTIFICATION_TAG,
+            notificationId,
+            notification
+        )
     }
 
     private fun getNextNotificationId(): Int {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val activeNotifications =
             notificationManager.activeNotifications.filter { it.tag == context.packageName }
         return if (activeNotifications.isEmpty()) {
