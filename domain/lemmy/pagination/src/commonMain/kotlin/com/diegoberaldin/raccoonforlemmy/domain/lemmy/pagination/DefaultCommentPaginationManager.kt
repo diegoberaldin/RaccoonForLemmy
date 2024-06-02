@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -20,6 +21,7 @@ internal class DefaultCommentPaginationManager(
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
     notificationCenter: NotificationCenter,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CommentPaginationManager {
     override var canFetchMore: Boolean = true
         private set
@@ -27,7 +29,7 @@ internal class DefaultCommentPaginationManager(
     private var specification: CommentPaginationSpecification? = null
     private var currentPage: Int = 1
     private val history: MutableList<CommentModel> = mutableListOf()
-    private val scope = CoroutineScope(SupervisorJob())
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     init {
         notificationCenter.subscribe(NotificationCenterEvent.CommentUpdated::class).onEach { evt ->

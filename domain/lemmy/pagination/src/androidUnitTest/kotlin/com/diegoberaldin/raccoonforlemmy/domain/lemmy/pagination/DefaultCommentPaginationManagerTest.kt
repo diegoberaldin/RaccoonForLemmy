@@ -46,6 +46,7 @@ class DefaultCommentPaginationManagerTest {
             commentRepository = commentRepository,
             userRepository = userRepository,
             notificationCenter = notificationCenter,
+            dispatcher = dispatcherTestRule.dispatcher,
         )
 
     @Test
