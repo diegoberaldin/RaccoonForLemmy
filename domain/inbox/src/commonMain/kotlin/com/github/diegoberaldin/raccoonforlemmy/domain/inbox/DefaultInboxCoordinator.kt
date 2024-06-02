@@ -2,7 +2,9 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.inbox
 
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.usecase.GetUnreadItemsUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +18,9 @@ import kotlinx.coroutines.launch
 internal class DefaultInboxCoordinator(
     private val identityRepository: IdentityRepository,
     private val getUnreadItemsUseCase: GetUnreadItemsUseCase,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
 ) : InboxCoordinator {
-    private val scope = CoroutineScope(SupervisorJob())
-
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
     override val events = MutableSharedFlow<InboxCoordinator.Event>()
     override val unreadOnly = MutableStateFlow(true)
     override val unreadReplies = MutableStateFlow(0)

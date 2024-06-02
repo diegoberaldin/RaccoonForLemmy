@@ -35,6 +35,7 @@ class DefaultInboxCoordinatorTest {
         DefaultInboxCoordinator(
             identityRepository = identityRepository,
             getUnreadItemsUseCase = getUnreadItemsUseCase,
+            dispatcher = dispatcherTestRule.dispatcher,
         )
 
     @Test
