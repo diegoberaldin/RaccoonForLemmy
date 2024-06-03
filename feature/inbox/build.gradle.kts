@@ -74,6 +74,7 @@ kotlin {
                 implementation(libs.mockk)
                 implementation(libs.turbine)
                 implementation(projects.core.testutils)
+                implementation(projects.core.architecture.testutils)
             }
         }
     }

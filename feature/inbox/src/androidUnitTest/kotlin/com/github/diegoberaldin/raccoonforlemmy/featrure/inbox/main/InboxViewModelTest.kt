@@ -1,6 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.featrure.inbox.main
 
 import app.cash.turbine.test
+import com.github.diegoberaldin.raccoonforlemmy.core.architecture.testutils.MviModelTestRule
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -10,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxMviModel
+import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxSection
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxViewModel
 import io.mockk.coVerify
 import io.mockk.every
@@ -28,8 +30,75 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class InboxViewModelTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val dispatcherRule = DispatcherTestRule()
+
+    @get:Rule(order = 1)
+    val unloggedRuleRule = MviModelTestRule {
+        every { identityRepository.isLogged } returns MutableStateFlow(false)
+
+        InboxViewModel(
+            identityRepository = identityRepository,
+            userRepository = userRepository,
+            coordinator = inboxCoordinator,
+            settingsRepository = settingsRepository,
+            notificationCenter = notificationCenter,
+        )
+    }
+
+    @get:Rule(order = 1)
+    val loggedDefaultUnreadOnlyRule = MviModelTestRule {
+        every { identityRepository.isLogged } returns MutableStateFlow(true)
+        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+        every { settingsRepository.currentSettings } returns MutableStateFlow(
+            SettingsModel(defaultInboxType = 0)
+        )
+
+        InboxViewModel(
+            identityRepository = identityRepository,
+            userRepository = userRepository,
+            coordinator = inboxCoordinator,
+            settingsRepository = settingsRepository,
+            notificationCenter = notificationCenter,
+        )
+    }
+
+    @get:Rule(order = 1)
+    val loggedDefaultAllRule = MviModelTestRule {
+        every { identityRepository.isLogged } returns MutableStateFlow(true)
+        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+        every { settingsRepository.currentSettings } returns MutableStateFlow(
+            SettingsModel(defaultInboxType = 1)
+        )
+
+        InboxViewModel(
+            identityRepository = identityRepository,
+            userRepository = userRepository,
+            coordinator = inboxCoordinator,
+            settingsRepository = settingsRepository,
+            notificationCenter = notificationCenter,
+        )
+    }
+
+    @get:Rule(order = 1)
+    val loggedWithUnreadsRule = MviModelTestRule {
+        every { identityRepository.isLogged } returns MutableStateFlow(true)
+        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+        every { settingsRepository.currentSettings } returns MutableStateFlow(
+            SettingsModel(defaultInboxType = 1)
+        )
+        every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
+        every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
+        every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
+
+        InboxViewModel(
+            identityRepository = identityRepository,
+            userRepository = userRepository,
+            coordinator = inboxCoordinator,
+            settingsRepository = settingsRepository,
+            notificationCenter = notificationCenter,
+        )
+    }
 
     private val identityRepository = mockk<IdentityRepository>(relaxUnitFun = true)
     private val userRepository = mockk<UserRepository>(relaxUnitFun = true)
@@ -48,108 +117,105 @@ class InboxViewModelTest {
         mockk<NotificationCenter>(relaxUnitFun = true) {
             every { subscribe(any<KClass<NotificationCenterEvent>>()) } returns notificationChannel.receiveAsFlow()
         }
-    private lateinit var sut: InboxViewModel
 
-    private fun createModel() {
-        sut =
-            InboxViewModel(
-                identityRepository = identityRepository,
-                userRepository = userRepository,
-                coordinator = inboxCoordinator,
-                settingsRepository = settingsRepository,
-                notificationCenter = notificationCenter,
-            )
-    }
 
     @Test
     fun givenNotLogged_whenInitialized_thenStateIsAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(false)
-            createModel()
-
-            val state = sut.uiState.value
-
-            assertTrue(state.isLogged == false)
+            with(unloggedRuleRule) {
+                onState { state ->
+                    assertEquals(false, state.isLogged)
+                }
+            }
         }
 
     @Test
     fun givenLoggedAndDefaultUnreadOnly_whenInitialized_thenStateIsAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(true)
-            every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 0))
-            createModel()
-
-            val state = sut.uiState.value
-
-            assertTrue(state.isLogged == true)
-            assertTrue(state.unreadOnly)
+            with(loggedDefaultUnreadOnlyRule) {
+                onState { state ->
+                    assertTrue(state.isLogged == true)
+                    assertTrue(state.unreadOnly)
+                }
+            }
         }
 
     @Test
     fun givenLoggedAndDefaultNotUnreadOnly_whenInitialized_thenStateIsAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(true)
-            every { settingsRepository.currentSettings } returns MutableStateFlow(SettingsModel(defaultInboxType = 1))
-            createModel()
-
-            val state = sut.uiState.value
-
-            assertTrue(state.isLogged == true)
-            assertFalse(state.unreadOnly)
+            with(loggedDefaultAllRule) {
+                onState { state ->
+                    assertTrue(state.isLogged == true)
+                    assertFalse(state.unreadOnly)
+                }
+            }
         }
 
     @Test
     fun givenLoggedWithUnreads_whenInitialized_thenStateIsAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(true)
-            every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
-            every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
-            every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
-            createModel()
-
-            val state = sut.uiState.value
-
-            assertEquals(1, state.unreadReplies)
-            assertEquals(2, state.unreadMentions)
-            assertEquals(3, state.unreadMessages)
+            with(loggedWithUnreadsRule) {
+                onState { state ->
+                    assertTrue(state.isLogged == true)
+                    assertEquals(1, state.unreadReplies)
+                    assertEquals(2, state.unreadMentions)
+                    assertEquals(3, state.unreadMessages)
+                }
+            }
         }
 
     @Test
     fun whenChangeInboxReadOnlyEventReceived_thenInteractionsAndStateAreAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(true)
-            every { identityRepository.authToken } returns MutableStateFlow("fake-token")
-            createModel()
+            with(loggedDefaultUnreadOnlyRule) {
+                notificationChannel.send(NotificationCenterEvent.ChangeInboxType(unreadOnly = false))
 
-            notificationChannel.send(NotificationCenterEvent.ChangeInboxType(unreadOnly = false))
+                onState { state ->
+                    assertFalse(state.unreadOnly)
+                }
 
-            val state = sut.uiState.value
-            assertFalse(state.unreadOnly)
-
-            verify {
-                inboxCoordinator.setUnreadOnly(false)
+                verify {
+                    inboxCoordinator.setUnreadOnly(false)
+                }
             }
         }
 
     @Test
     fun whenMarkAllAsReadIntentReceived_thenInteractionsAreAsExpected() =
         runTest {
-            every { identityRepository.isLogged } returns MutableStateFlow(true)
-            every { identityRepository.authToken } returns MutableStateFlow("fake-token")
-            createModel()
+            with(loggedWithUnreadsRule) {
+                launch {
+                    send(InboxMviModel.Intent.ReadAll)
+                }
 
-            launch {
-                sut.reduce(InboxMviModel.Intent.ReadAll)
-            }
+                onEffects { effects ->
+                    effects.test {
+                        val item = awaitItem()
+                        assertEquals(InboxMviModel.Effect.Refresh, item)
+                    }
 
-            sut.effects.test {
-                val item = awaitItem()
-                assertEquals(InboxMviModel.Effect.Refresh, item)
-            }
-
-            coVerify {
-                userRepository.readAll("fake-token")
-                inboxCoordinator.sendEvent(InboxCoordinator.Event.Refresh)
+                    coVerify {
+                        userRepository.readAll(AUTH_TOKEN)
+                        inboxCoordinator.sendEvent(InboxCoordinator.Event.Refresh)
+                    }
+                }
             }
         }
+
+    @Test
+    fun whenChangeSectionIntentReceived_thenStateIsAsExpected() =
+        runTest {
+            with(loggedDefaultAllRule) {
+                val section = InboxSection.Mentions
+                send(InboxMviModel.Intent.ChangeSection(section))
+
+                onState { state ->
+                    assertEquals(section, state.section)
+                }
+            }
+        }
+
+    companion object {
+        private const val AUTH_TOKEN = "fake-token"
+    }
 }
