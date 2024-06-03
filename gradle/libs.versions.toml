@@ -1,13 +1,13 @@
 [versions]
 
-androidx_activity = "1.8.2"
-androidx_browser = "1.8.0"
-androidx_core = "1.13.0"
-androidx_crypto = "1.0.0"
-androidx_media3 = "1.3.0"
-androidx_splashscreen = "1.0.1"
-androidx_work = "2.9.0"
-android_gradle = "8.4.1"
+androidx-activity = "1.9.0"
+androidx-browser = "1.8.0"
+androidx-core = "1.13.1"
+androidx-crypto = "1.0.0"
+androidx-media3 = "1.3.1"
+androidx-splashscreen = "1.0.1"
+androidx-work = "2.9.0"
+android-gradle = "8.4.1"
 coil = "2.6.0"
 compose = "1.6.10"
 detekt = "1.23.6"
@@ -15,16 +15,16 @@ kamel = "0.9.5"
 koin = "3.5.6"
 kotlin = "2.0.0"
 kotlincrypto = "0.5.1"
-kotlinx_coroutines = "1.8.0"
-kotlinx_serialization_json = "1.6.3"
+kotlinx-coroutines = "1.8.1"
+kotlinx-serialization-json = "1.6.3"
 ksp = "2.0.0-1.0.21"
 ktor = "2.3.11"
 ktorfit = "2.0.0-rc01"
 lyricist = "1.7.0"
 materialKolor = "1.6.0"
 mockk = "1.13.11"
-multiplatform_markdown_renderer = "0.14.0"
-multiplatform_settings = "1.1.1"
+multiplatform-markdown-renderer = "0.14.0"
+multiplatform-settings = "1.1.1"
 reorderable = "2.1.1"
 stately = "2.0.7"
 sqlcipher = "4.6.0"
@@ -32,88 +32,88 @@ sqldelight = "2.0.2"
 turbine = "1.1.0"
 voyager = "1.0.0"
 
-android_targetSdk = "34"
-android_minSdk = "26"
+android-targetSdk = "34"
+android-minSdk = "26"
 
 [libraries]
 
-androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx.activity" }
-androidx_activity = { module = "androidx.activity:activity", version.ref = "androidx.activity" }
-androidx_browser = { module = "androidx.browser:browser", version.ref = "androidx.browser" }
-androidx_core = { module = "androidx.core:core", version.ref = "androidx.core" }
-androidx_security_crypto = { module = "androidx.security:security-crypto", version.ref = "androidx.crypto" }
-androidx_splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx.splashscreen" }
-androidx_work_runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx.work" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "androidx-activity" }
+androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "androidx-crypto" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
+androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 
 kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
-coil_compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coil_gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 
-multiplatform_markdown_renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform.markdown.renderer" }
-multiplatform_markdown_renderer_m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform.markdown.renderer" }
+multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform-markdown-renderer" }
+multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform-markdown-renderer" }
 
-multiplatform_settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform.settings" }
+multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 
-kotlinx_serialization_json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx.serialization.json" }
-kotlinx_coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx.coroutines" }
-kotlinx_coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx.coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 
-koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin_test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
-ktor_serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
-ktor_cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
-ktor_android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-ktor_darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
-ktor_contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor_logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
-ktor_json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktorfit_ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
-ktorfit_lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
+ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
+ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
+ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktorfit-ksp = { module = "de.jensklingenberg.ktorfit:ktorfit-ksp", version.ref = "ktorfit" }
+ktorfit-lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref = "ktorfit" }
 
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
-lyricist_ksp = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
+lyricist-ksp = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
-voyager_navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
-voyager_screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
-voyager_bottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
-voyager_tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
-voyager_transition = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
-voyager_koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyager-bottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tab = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-transition = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
-stately_common = { module = "co.touchlab:stately-common", version.ref = "stately" }
+stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
 
 sqlcipher = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
-sqldelight_android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
-sqldelight_native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 
-kotlincrypto_bom = { module = "org.kotlincrypto.hash:bom", version.ref = "kotlincrypto" }
-kotlincrypto_md5 = { module = "org.kotlincrypto.hash:md" }
+kotlincrypto-bom = { module = "org.kotlincrypto.hash:bom", version.ref = "kotlincrypto" }
+kotlincrypto-md5 = { module = "org.kotlincrypto.hash:md" }
 
-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx.media3" }
-exoplayer_dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx.media3" }
-exoplayer_ui = { module = "androidx.media3:media3-ui", version.ref = "androidx.media3" }
+exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "androidx-media3" }
+exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "androidx-media3" }
+exoplayer-ui = { module = "androidx.media3:media3-ui", version.ref = "androidx-media3" }
 
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-core = { group = "androidx.core", name = "core", version.ref = "androidx.core" }
+core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
 
 [plugins]
 
-android_application = { id = "com.android.application", version.ref = "android.gradle" }
-android_library = { id = "com.android.library", version.ref = "android.gradle" }
-jetbrains_compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-compose_compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "android-gradle" }
+android-library = { id = "com.android.library", version.ref = "android-gradle" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin_multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
-kotlinx_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktorfit = { id = "de.jensklingenberg.ktorfit", version.ref = "ktorfit" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
