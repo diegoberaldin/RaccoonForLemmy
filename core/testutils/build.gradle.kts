@@ -3,8 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.compose)
-    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.detekt)
 }
 
@@ -28,17 +26,9 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-            }
-        }
+        val commonMain by getting
         val androidMain by getting {
             dependencies {
-                implementation(libs.androidx.activity.compose)
-                implementation(libs.androidx.activity)
                 implementation(kotlin("test-junit"))
                 implementation(libs.kotlinx.coroutines.test)
             }
