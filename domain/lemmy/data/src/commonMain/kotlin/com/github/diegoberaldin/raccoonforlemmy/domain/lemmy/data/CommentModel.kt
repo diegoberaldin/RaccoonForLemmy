@@ -6,7 +6,7 @@ data class CommentModel(
     val id: Long = 0,
     val postId: Long = 0,
     val postTitle: String? = null,
-    val text: String,
+    val text: String? = null,
     val community: CommunityModel? = null,
     val creator: UserModel? = null,
     val score: Int = 0,
@@ -30,4 +30,7 @@ data class CommentModel(
     val languageId: Long = 0,
 ) {
     val depth: Int get() = (path.split(".").size - 2).coerceAtLeast(0)
+
+    val parentId: Long?
+        get() = if (depth == 0) null else path.split(".").dropLast(1).lastOrNull()?.toLongOrNull()
 }

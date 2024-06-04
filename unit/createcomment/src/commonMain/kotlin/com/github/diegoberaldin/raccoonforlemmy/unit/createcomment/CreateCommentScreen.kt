@@ -123,7 +123,7 @@ class CreateCommentScreen(
         LaunchedEffect(uiState.editedComment) {
             uiState.editedComment?.also { editedComment ->
                 model.reduce(CreateCommentMviModel.Intent.ChangeLanguage(editedComment.languageId))
-                val newValue = TextFieldValue(text = editedComment.text)
+                val newValue = TextFieldValue(text = editedComment.text.orEmpty())
                 model.reduce(CreateCommentMviModel.Intent.ChangeTextValue(newValue))
             }
         }

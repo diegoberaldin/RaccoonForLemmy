@@ -158,7 +158,7 @@ fun CommentCard(
                                 ),
                         ) {
                             PostCardBody(
-                                text = comment.text,
+                                text = comment.text.orEmpty(),
                                 autoLoadImages = autoLoadImages,
                                 onClick = onClick,
                                 onOpenImage = onImageClick,

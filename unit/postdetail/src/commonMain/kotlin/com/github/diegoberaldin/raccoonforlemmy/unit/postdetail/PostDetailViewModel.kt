@@ -451,7 +451,8 @@ class PostDetailViewModel(
             itemList.let {
                 if (currentState.searching) {
                     it.filter { comment ->
-                        comment.text.contains(other = currentState.searchText, ignoreCase = true)
+                        comment.text.orEmpty()
+                            .contains(other = currentState.searchText, ignoreCase = true)
                     }
                 } else {
                     it

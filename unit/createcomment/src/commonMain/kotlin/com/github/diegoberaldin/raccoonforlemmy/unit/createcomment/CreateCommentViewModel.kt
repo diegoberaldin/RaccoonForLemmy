@@ -56,7 +56,7 @@ class CreateCommentViewModel(
                     originalPostFromCache
                 }
             val originalComment =
-                if (originalCommentFromCache != null && originalCommentFromCache.text.isEmpty()) {
+                if (originalCommentFromCache != null && originalCommentFromCache.text.isNullOrEmpty()) {
                     commentRepository.getBy(
                         id = originalCommentFromCache.id,
                         auth = auth,
@@ -263,11 +263,11 @@ class CreateCommentViewModel(
                     languageId = languageId,
                     date = epochMillis(),
                     reference =
-                        if (currentState.originalComment != null) {
-                            currentState.originalComment.text
-                        } else {
-                            currentState.originalPost?.title.orEmpty()
-                        },
+                    if (currentState.originalComment != null) {
+                        currentState.originalComment.text
+                    } else {
+                        currentState.originalPost?.title
+                    },
                 )
             if (draftId == null) {
                 draftRepository.create(

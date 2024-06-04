@@ -102,7 +102,7 @@ fun InboxCard(
                                 horizontal = Spacing.s,
                             ),
                         // takes just the first line
-                        text = mention.comment.text.substringBefore("\n"),
+                        text = mention.comment.text.orEmpty().substringBefore("\n"),
                         autoLoadImages = autoLoadImages,
                         onOpenImage = onImageClick,
                         onClick = {
