@@ -267,11 +267,11 @@ class CreateCommentViewModel(
                     languageId = languageId,
                     date = epochMillis(),
                     reference =
-                    if (currentState.originalComment != null) {
-                        currentState.originalComment.text
-                    } else {
-                        currentState.originalPost?.title
-                    },
+                        if (currentState.originalComment != null) {
+                            currentState.originalComment.text
+                        } else {
+                            currentState.originalPost?.title
+                        },
                 )
             if (draftId == null) {
                 draftRepository.create(

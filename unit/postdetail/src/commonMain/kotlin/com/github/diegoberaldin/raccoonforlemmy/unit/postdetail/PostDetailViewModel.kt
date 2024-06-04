@@ -84,7 +84,8 @@ class PostDetailViewModel(
             }
             if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+                val downVoteEnabled =
+                    siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
                 updateState {
                     it.copy(
                         post = post,
