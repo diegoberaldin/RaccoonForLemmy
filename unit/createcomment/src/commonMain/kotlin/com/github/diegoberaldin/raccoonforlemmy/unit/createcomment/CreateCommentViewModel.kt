@@ -173,21 +173,25 @@ class CreateCommentViewModel(
             updateState { it.copy(loading = true) }
             try {
                 val auth = identityRepository.authToken.value.orEmpty()
-                if (postId != null) {
-                    commentRepository.create(
-                        postId = postId,
-                        parentId = parentId,
-                        text = text,
-                        languageId = languageId,
-                        auth = auth,
-                    )
-                } else if (editedCommentId != null) {
-                    commentRepository.edit(
-                        commentId = editedCommentId,
-                        text = text,
-                        languageId = languageId,
-                        auth = auth,
-                    )
+                when {
+                    editedCommentId != null -> {
+                        commentRepository.edit(
+                            commentId = editedCommentId,
+                            text = text,
+                            languageId = languageId,
+                            auth = auth,
+                        )
+                    }
+
+                    postId != null -> {
+                        commentRepository.create(
+                            postId = postId,
+                            parentId = parentId,
+                            text = text,
+                            languageId = languageId,
+                            auth = auth,
+                        )
+                    }
                 }
                 // the comment count has changed, emits update
                 emitPostUpdateNotification()
