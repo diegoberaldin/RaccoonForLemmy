@@ -55,12 +55,12 @@ internal class DefaultLoginUseCase(
                     instance = instance,
                     jwt = auth,
                 )
-            val existingId = accountRepository.getBy(username, instance)?.id
-            val id =
-                existingId ?: run {
+            val existing = accountRepository.getBy(username, instance)
+            val accountId =
+                if (existing == null) {
                     // new account with a copy of the anonymous settings
                     // (except a couple of fields from the Lemmy accounts)
-                    val res = accountRepository.createAccount(account)
+                    val newAccountId = accountRepository.createAccount(account)
                     val anonymousSettings =
                         settingsRepository.getSettings(null)
                             .copy(
@@ -69,20 +69,22 @@ internal class DefaultLoginUseCase(
                             )
                     settingsRepository.createSettings(
                         settings = anonymousSettings,
-                        accountId = res,
+                        accountId = newAccountId,
                     )
-                    res
+                    newAccountId
+                } else {
+                    existing.id ?: 0
                 }
             val oldActiveAccountId = accountRepository.getActive()?.id
             if (oldActiveAccountId != null) {
                 accountRepository.setActive(oldActiveAccountId, false)
             }
-            accountRepository.setActive(id, true)
+            accountRepository.setActive(accountId, true)
 
             communitySortRepository.clear()
             communityPreferredLanguageRepository.clear()
 
-            val newSettings = settingsRepository.getSettings(id)
+            val newSettings = settingsRepository.getSettings(accountId)
             settingsRepository.changeCurrentSettings(newSettings)
         }
     }
