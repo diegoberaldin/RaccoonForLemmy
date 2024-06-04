@@ -1344,6 +1344,9 @@ class PostDetailScreen(
                                                                 OptionId.Edit -> {
                                                                     detailOpener.openReply(
                                                                         originalPost = PostModel(id = comment.postId),
+                                                                        originalComment = comment.parentId?.let {
+                                                                            CommentModel(id = it)
+                                                                        },
                                                                         editedComment = comment,
                                                                     )
                                                                 }
@@ -1585,6 +1588,9 @@ class PostDetailScreen(
                                                         OptionId.Edit -> {
                                                             detailOpener.openReply(
                                                                 originalPost = PostModel(id = comment.postId),
+                                                                originalComment = comment.parentId?.let {
+                                                                    CommentModel(id = it)
+                                                                },
                                                                 editedComment = comment,
                                                             )
                                                         }
