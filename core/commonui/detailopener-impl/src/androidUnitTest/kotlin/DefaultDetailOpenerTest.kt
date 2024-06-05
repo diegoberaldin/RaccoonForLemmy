@@ -218,6 +218,6 @@ class DefaultDetailOpenerTest {
         }
 
     companion object {
-        private val OPEN_DELAY = 1.seconds
+        private val OPEN_DELAY = 1.5.seconds
     }
 }
