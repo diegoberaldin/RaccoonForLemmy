@@ -123,7 +123,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
@@ -350,40 +350,40 @@ class PostDetailScreen(
                                     this +=
                                         Option(
                                             OptionId.Share,
-                                            LocalXmlStrings.current.postActionShare,
+                                            LocalStrings.current.postActionShare,
                                         )
                                     this +=
                                         Option(
                                             OptionId.Copy,
-                                            LocalXmlStrings.current.actionCopyClipboard,
+                                            LocalStrings.current.actionCopyClipboard,
                                         )
                                     this +=
                                         Option(
                                             OptionId.SeeRaw,
-                                            LocalXmlStrings.current.postActionSeeRaw,
+                                            LocalStrings.current.postActionSeeRaw,
                                         )
                                     if (uiState.isLogged && !isOnOtherInstance) {
                                         this +=
                                             Option(
                                                 OptionId.CrossPost,
-                                                LocalXmlStrings.current.postActionCrossPost,
+                                                LocalStrings.current.postActionCrossPost,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Report,
-                                                LocalXmlStrings.current.postActionReport,
+                                                LocalStrings.current.postActionReport,
                                             )
                                     }
                                     if (uiState.post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                         this +=
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit,
+                                                LocalStrings.current.postActionEdit,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete,
+                                                LocalStrings.current.commentActionDelete,
                                             )
                                     }
                                     if (uiState.isModerator) {
@@ -391,32 +391,32 @@ class PostDetailScreen(
                                             Option(
                                                 OptionId.FeaturePost,
                                                 if (uiState.post.featuredCommunity) {
-                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                                    LocalStrings.current.modActionUnmarkAsFeatured
                                                 } else {
-                                                    LocalXmlStrings.current.modActionMarkAsFeatured
+                                                    LocalStrings.current.modActionMarkAsFeatured
                                                 },
                                             )
                                         this +=
                                             Option(
                                                 OptionId.LockPost,
                                                 if (uiState.post.locked) {
-                                                    LocalXmlStrings.current.modActionUnlock
+                                                    LocalStrings.current.modActionUnlock
                                                 } else {
-                                                    LocalXmlStrings.current.modActionLock
+                                                    LocalStrings.current.modActionLock
                                                 },
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Remove,
-                                                LocalXmlStrings.current.modActionRemove,
+                                                LocalStrings.current.modActionRemove,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.BanUser,
                                                 if (uiState.post.creator?.banned == true) {
-                                                    LocalXmlStrings.current.modActionAllow
+                                                    LocalStrings.current.modActionAllow
                                                 } else {
-                                                    LocalXmlStrings.current.modActionBan
+                                                    LocalStrings.current.modActionBan
                                                 },
                                             )
                                         uiState.post.creator?.id?.also { creatorId ->
@@ -425,9 +425,9 @@ class PostDetailScreen(
                                                     Option(
                                                         OptionId.AddMod,
                                                         if (uiState.moderators.containsId(creatorId)) {
-                                                            LocalXmlStrings.current.modActionRemoveMod
+                                                            LocalStrings.current.modActionRemoveMod
                                                         } else {
-                                                            LocalXmlStrings.current.modActionAddMod
+                                                            LocalStrings.current.modActionAddMod
                                                         },
                                                     )
                                             }
@@ -437,14 +437,14 @@ class PostDetailScreen(
                                         this +=
                                             Option(
                                                 OptionId.Purge,
-                                                LocalXmlStrings.current.adminActionPurge,
+                                                LocalStrings.current.adminActionPurge,
                                             )
                                         uiState.post.creator?.also { creator ->
                                             this +=
                                                 Option(
                                                     OptionId.PurgeCreator,
                                                     buildString {
-                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                        append(LocalStrings.current.adminActionPurge)
                                                         append(" ")
                                                         append(creator.readableName(uiState.preferNicknames))
                                                     },
@@ -454,9 +454,9 @@ class PostDetailScreen(
                                             Option(
                                                 OptionId.AdminFeaturePost,
                                                 if (uiState.post.featuredLocal) {
-                                                    LocalXmlStrings.current.adminActionUnmarkAsFeatured
+                                                    LocalStrings.current.adminActionUnmarkAsFeatured
                                                 } else {
-                                                    LocalXmlStrings.current.adminActionMarkAsFeatured
+                                                    LocalStrings.current.adminActionMarkAsFeatured
                                                 },
                                             )
                                     }
@@ -464,10 +464,10 @@ class PostDetailScreen(
                                         Option(
                                             OptionId.Search,
                                             if (uiState.searching) {
-                                                LocalXmlStrings.current.actionExitSearch
+                                                LocalStrings.current.actionExitSearch
                                             } else {
                                                 buildString {
-                                                    append(LocalXmlStrings.current.actionSearchInComments)
+                                                    append(LocalStrings.current.actionSearchInComments)
                                                 }
                                             },
                                         )
@@ -702,7 +702,7 @@ class PostDetailScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -718,7 +718,7 @@ class PostDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.AutoMirrored.Default.Reply,
-                                            text = LocalXmlStrings.current.actionReply,
+                                            text = LocalStrings.current.actionReply,
                                             onSelected =
                                                 rememberCallback {
                                                     detailOpener.openReply(
@@ -772,7 +772,7 @@ class PostDetailScreen(
                                         vertical = Spacing.s,
                                     ).fillMaxWidth(),
                             label = {
-                                Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                                Text(text = LocalStrings.current.exploreSearchPlaceholder)
                             },
                             singleLine = true,
                             value = uiState.searchText,
@@ -938,7 +938,7 @@ class PostDetailScreen(
                                         horizontalArrangement = Arrangement.spacedBy(Spacing.xxs),
                                     ) {
                                         Text(
-                                            text = LocalXmlStrings.current.postDetailCrossPosts,
+                                            text = LocalStrings.current.postDetailCrossPosts,
                                             style = MaterialTheme.typography.bodyMedium,
                                         )
                                         uiState.post.crossPosts.forEachIndexed { index, crossPost ->
@@ -1248,23 +1248,23 @@ class PostDetailScreen(
                                                                 this +=
                                                                     Option(
                                                                         OptionId.SeeRaw,
-                                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                                        LocalStrings.current.postActionSeeRaw,
                                                                     )
                                                                 this +=
                                                                     Option(
                                                                         OptionId.Report,
-                                                                        LocalXmlStrings.current.postActionReport,
+                                                                        LocalStrings.current.postActionReport,
                                                                     )
                                                                 if (comment.creator?.id == uiState.currentUserId) {
                                                                     this +=
                                                                         Option(
                                                                             OptionId.Edit,
-                                                                            LocalXmlStrings.current.postActionEdit,
+                                                                            LocalStrings.current.postActionEdit,
                                                                         )
                                                                     this +=
                                                                         Option(
                                                                             OptionId.Delete,
-                                                                            LocalXmlStrings.current.commentActionDelete,
+                                                                            LocalStrings.current.commentActionDelete,
                                                                         )
                                                                 }
                                                                 if (uiState.isModerator) {
@@ -1272,23 +1272,23 @@ class PostDetailScreen(
                                                                         Option(
                                                                             OptionId.DistinguishComment,
                                                                             if (comment.distinguished) {
-                                                                                LocalXmlStrings.current.modActionUnmarkAsDistinguished
+                                                                                LocalStrings.current.modActionUnmarkAsDistinguished
                                                                             } else {
-                                                                                LocalXmlStrings.current.modActionMarkAsDistinguished
+                                                                                LocalStrings.current.modActionMarkAsDistinguished
                                                                             },
                                                                         )
                                                                     this +=
                                                                         Option(
                                                                             OptionId.Remove,
-                                                                            LocalXmlStrings.current.modActionRemove,
+                                                                            LocalStrings.current.modActionRemove,
                                                                         )
                                                                     this +=
                                                                         Option(
                                                                             OptionId.BanUser,
                                                                             if (comment.creator?.banned == true) {
-                                                                                LocalXmlStrings.current.modActionAllow
+                                                                                LocalStrings.current.modActionAllow
                                                                             } else {
-                                                                                LocalXmlStrings.current.modActionBan
+                                                                                LocalStrings.current.modActionBan
                                                                             },
                                                                         )
                                                                     comment.creator?.id?.also { creatorId ->
@@ -1300,9 +1300,9 @@ class PostDetailScreen(
                                                                                             creatorId,
                                                                                         )
                                                                                     ) {
-                                                                                        LocalXmlStrings.current.modActionRemoveMod
+                                                                                        LocalStrings.current.modActionRemoveMod
                                                                                     } else {
-                                                                                        LocalXmlStrings.current.modActionAddMod
+                                                                                        LocalStrings.current.modActionAddMod
                                                                                     },
                                                                                 )
                                                                         }
@@ -1312,7 +1312,7 @@ class PostDetailScreen(
                                                                     this +=
                                                                         Option(
                                                                             OptionId.Purge,
-                                                                            LocalXmlStrings.current.adminActionPurge,
+                                                                            LocalStrings.current.adminActionPurge,
                                                                         )
                                                                     comment.creator?.also { creator ->
                                                                         this +=
@@ -1320,7 +1320,7 @@ class PostDetailScreen(
                                                                                 OptionId.PurgeCreator,
                                                                                 buildString {
                                                                                     append(
-                                                                                        LocalXmlStrings.current.adminActionPurge,
+                                                                                        LocalStrings.current.adminActionPurge,
                                                                                     )
                                                                                     append(" ")
                                                                                     append(
@@ -1519,23 +1519,23 @@ class PostDetailScreen(
                                                         this +=
                                                             Option(
                                                                 OptionId.SeeRaw,
-                                                                LocalXmlStrings.current.postActionSeeRaw,
+                                                                LocalStrings.current.postActionSeeRaw,
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Report,
-                                                                LocalXmlStrings.current.postActionReport,
+                                                                LocalStrings.current.postActionReport,
                                                             )
                                                         if (comment.creator?.id == uiState.currentUserId) {
                                                             this +=
                                                                 Option(
                                                                     OptionId.Edit,
-                                                                    LocalXmlStrings.current.postActionEdit,
+                                                                    LocalStrings.current.postActionEdit,
                                                                 )
                                                             this +=
                                                                 Option(
                                                                     OptionId.Delete,
-                                                                    LocalXmlStrings.current.commentActionDelete,
+                                                                    LocalStrings.current.commentActionDelete,
                                                                 )
                                                         }
                                                         if (uiState.isModerator) {
@@ -1543,23 +1543,23 @@ class PostDetailScreen(
                                                                 Option(
                                                                     OptionId.DistinguishComment,
                                                                     if (comment.distinguished) {
-                                                                        LocalXmlStrings.current.modActionUnmarkAsDistinguished
+                                                                        LocalStrings.current.modActionUnmarkAsDistinguished
                                                                     } else {
-                                                                        LocalXmlStrings.current.modActionMarkAsDistinguished
+                                                                        LocalStrings.current.modActionMarkAsDistinguished
                                                                     },
                                                                 )
                                                             this +=
                                                                 Option(
                                                                     OptionId.Remove,
-                                                                    LocalXmlStrings.current.modActionRemove,
+                                                                    LocalStrings.current.modActionRemove,
                                                                 )
                                                             this +=
                                                                 Option(
                                                                     OptionId.BanUser,
                                                                     if (comment.creator?.banned == true) {
-                                                                        LocalXmlStrings.current.modActionAllow
+                                                                        LocalStrings.current.modActionAllow
                                                                     } else {
-                                                                        LocalXmlStrings.current.modActionBan
+                                                                        LocalStrings.current.modActionBan
                                                                     },
                                                                 )
                                                             comment.creator?.id?.also { creatorId ->
@@ -1571,9 +1571,9 @@ class PostDetailScreen(
                                                                                     creatorId,
                                                                                 )
                                                                             ) {
-                                                                                LocalXmlStrings.current.modActionRemoveMod
+                                                                                LocalStrings.current.modActionRemoveMod
                                                                             } else {
-                                                                                LocalXmlStrings.current.modActionAddMod
+                                                                                LocalStrings.current.modActionAddMod
                                                                             },
                                                                         )
                                                                 }
@@ -1685,7 +1685,7 @@ class PostDetailScreen(
                                                 Text(
                                                     text =
                                                         buildString {
-                                                            append(LocalXmlStrings.current.postDetailLoadMoreComments)
+                                                            append(LocalStrings.current.postDetailLoadMoreComments)
                                                             comment.comments?.takeIf { it > 0 }
                                                                 ?.also { count ->
                                                                     append(" (")
@@ -1725,7 +1725,7 @@ class PostDetailScreen(
                                                     Modifier.fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = LocalXmlStrings.current.messageEmptyComments,
+                                                text = LocalStrings.current.messageEmptyComments,
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -1735,7 +1735,7 @@ class PostDetailScreen(
                                                     Modifier.fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = LocalXmlStrings.current.messageEmptyList,
+                                                text = LocalStrings.current.messageEmptyList,
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -1745,7 +1745,7 @@ class PostDetailScreen(
                                                     Modifier.fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
-                                                text = LocalXmlStrings.current.messageErrorLoadingComments,
+                                                text = LocalStrings.current.messageErrorLoadingComments,
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onBackground,
                                             )
@@ -1758,7 +1758,7 @@ class PostDetailScreen(
                                                         },
                                                 ) {
                                                     Text(
-                                                        text = LocalXmlStrings.current.buttonRetry,
+                                                        text = LocalStrings.current.buttonRetry,
                                                     )
                                                 }
                                                 Spacer(modifier = Modifier.weight(1f))
@@ -1957,7 +1957,7 @@ class PostDetailScreen(
                             postToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -1967,11 +1967,11 @@ class PostDetailScreen(
                             postToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }
@@ -1986,7 +1986,7 @@ class PostDetailScreen(
                             commentIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -1996,11 +1996,11 @@ class PostDetailScreen(
                             commentIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

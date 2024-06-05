@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.unit.postlist.PostListScreen
 
 object HomeTab : Tab {
@@ -15,7 +15,7 @@ object HomeTab : Tab {
         @Composable
         get() {
             val icon = rememberVectorPainter(Icons.AutoMirrored.Default.Article)
-            val title = LocalXmlStrings.current.navigationHome
+            val title = LocalStrings.current.navigationHome
 
             return TabOptions(
                 index = 0u,

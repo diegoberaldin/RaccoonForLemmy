@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,7 +48,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsIntValueRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -83,8 +82,8 @@ class BanUserScreen(
             }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val genericError = LocalStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -126,9 +125,9 @@ class BanUserScreen(
                     title = {
                         val title =
                             if (newValue) {
-                                LocalXmlStrings.current.modActionBan
+                                LocalStrings.current.modActionBan
                             } else {
-                                LocalXmlStrings.current.modActionAllow
+                                LocalStrings.current.modActionAllow
                             }
                         Text(
                             text = title,
@@ -187,7 +186,7 @@ class BanUserScreen(
                             disabledContainerColor = Color.Transparent,
                         ),
                     label = {
-                        Text(text = LocalXmlStrings.current.banReasonPlaceholder)
+                        Text(text = LocalStrings.current.banReasonPlaceholder)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.text,
@@ -214,7 +213,7 @@ class BanUserScreen(
                 if (uiState.targetBanValue) {
                     // it is a ban (as opposed to unban)
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.banItemPermanent,
+                        title = LocalStrings.current.banItemPermanent,
                         value = uiState.permanent,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -224,7 +223,7 @@ class BanUserScreen(
 
                     if (!uiState.permanent) {
                         SettingsIntValueRow(
-                            title = LocalXmlStrings.current.banItemDurationDays,
+                            title = LocalStrings.current.banItemDurationDays,
                             value = uiState.days,
                             onIncrement =
                                 rememberCallback {
@@ -238,7 +237,7 @@ class BanUserScreen(
                     }
 
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.banItemRemoveData,
+                        title = LocalStrings.current.banItemRemoveData,
                         value = uiState.removeData,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->

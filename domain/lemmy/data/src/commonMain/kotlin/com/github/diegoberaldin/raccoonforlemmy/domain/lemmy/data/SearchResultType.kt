@@ -9,7 +9,7 @@ import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface SearchResultType {
     data object All : SearchResultType
@@ -38,10 +38,10 @@ fun SearchResultType.toIcon(): ImageVector =
 @Composable
 fun SearchResultType.toReadableName(): String =
     when (this) {
-        SearchResultType.All -> LocalXmlStrings.current.exploreResultTypeAll
-        SearchResultType.Comments -> LocalXmlStrings.current.exploreResultTypeComments
-        SearchResultType.Communities -> LocalXmlStrings.current.exploreResultTypeCommunities
-        SearchResultType.Posts -> LocalXmlStrings.current.exploreResultTypePosts
-        SearchResultType.Users -> LocalXmlStrings.current.exploreResultTypeUsers
-        SearchResultType.Urls -> LocalXmlStrings.current.createPostUrl
+        SearchResultType.All -> LocalStrings.current.exploreResultTypeAll
+        SearchResultType.Comments -> LocalStrings.current.exploreResultTypeComments
+        SearchResultType.Communities -> LocalStrings.current.exploreResultTypeCommunities
+        SearchResultType.Posts -> LocalStrings.current.exploreResultTypePosts
+        SearchResultType.Users -> LocalStrings.current.exploreResultTypeUsers
+        SearchResultType.Urls -> LocalStrings.current.createPostUrl
     }

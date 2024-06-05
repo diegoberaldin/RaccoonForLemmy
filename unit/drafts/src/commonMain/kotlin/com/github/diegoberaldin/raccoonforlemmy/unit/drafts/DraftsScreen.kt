@@ -50,7 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.DraftModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -107,7 +107,7 @@ class DraftsScreen : Screen {
                     },
                     title = {
                         Text(
-                            text = LocalXmlStrings.current.navigationDrawerTitleDrafts,
+                            text = LocalStrings.current.navigationDrawerTitleDrafts,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -116,25 +116,25 @@ class DraftsScreen : Screen {
         ) { padding ->
             Column(
                 modifier =
-                Modifier
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                    )
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                    Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
                     modifier = Modifier.padding(vertical = Spacing.xs),
                     titles =
                         listOf(
-                            LocalXmlStrings.current.profileSectionPosts,
-                            LocalXmlStrings.current.profileSectionComments,
+                            LocalStrings.current.profileSectionPosts,
+                            LocalStrings.current.profileSectionComments,
                         ),
                     currentSection =
                         when (uiState.section) {
@@ -184,7 +184,7 @@ class DraftsScreen : Screen {
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -214,7 +214,7 @@ class DraftsScreen : Screen {
                                             this +=
                                                 Option(
                                                     OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
+                                                    LocalStrings.current.commentActionDelete,
                                                 )
                                         },
                                     onOptionSelected =
@@ -252,7 +252,7 @@ class DraftsScreen : Screen {
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -269,9 +269,10 @@ class DraftsScreen : Screen {
                                         rememberCallback {
                                             detailOpener.openReply(
                                                 draftId = draft.id,
-                                                originalPost = PostModel(
-                                                    id = draft.postId ?: 0
-                                                ),
+                                                originalPost =
+                                                    PostModel(
+                                                        id = draft.postId ?: 0,
+                                                    ),
                                                 originalComment =
                                                     draft.parentId?.let {
                                                         CommentModel(id = it, text = "")
@@ -284,7 +285,7 @@ class DraftsScreen : Screen {
                                             this +=
                                                 Option(
                                                     OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
+                                                    LocalStrings.current.commentActionDelete,
                                                 )
                                         },
                                     onOptionSelected =
@@ -347,7 +348,7 @@ class DraftsScreen : Screen {
                             itemToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -357,11 +358,11 @@ class DraftsScreen : Screen {
                             itemToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

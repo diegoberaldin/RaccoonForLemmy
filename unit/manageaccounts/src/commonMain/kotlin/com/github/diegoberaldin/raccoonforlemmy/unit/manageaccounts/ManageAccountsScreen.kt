@@ -32,7 +32,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.LoginBottomSheet
@@ -70,7 +70,7 @@ class ManageAccountsScreen : Screen {
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            BottomSheetHeader(LocalXmlStrings.current.manageAccountsTitle)
+            BottomSheetHeader(LocalStrings.current.manageAccountsTitle)
             LazyColumn(
                 modifier = Modifier.padding(top = Spacing.m).height(250.dp),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -88,7 +88,7 @@ class ManageAccountsScreen : Screen {
                                 this +=
                                     Option(
                                         OptionId.Delete,
-                                        LocalXmlStrings.current.commentActionDelete,
+                                        LocalStrings.current.commentActionDelete,
                                     )
                             },
                         onOptionSelected =
@@ -117,7 +117,7 @@ class ManageAccountsScreen : Screen {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                    Text(LocalXmlStrings.current.manageAccountsButtonAdd)
+                    Text(LocalStrings.current.manageAccountsButtonAdd)
                 }
             }
         }
@@ -133,7 +133,7 @@ class ManageAccountsScreen : Screen {
                             indexToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -143,11 +143,11 @@ class ManageAccountsScreen : Screen {
                             indexToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

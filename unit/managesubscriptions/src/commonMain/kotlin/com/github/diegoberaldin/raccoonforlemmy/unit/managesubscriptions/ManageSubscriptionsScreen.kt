@@ -75,7 +75,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -118,7 +118,7 @@ class ManageSubscriptionsScreen : Screen {
             }
         var multiCommunityIdToDelete by remember { mutableStateOf<Long?>(null) }
         val snackbarHostState = remember { SnackbarHostState() }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val successMessage = LocalStrings.current.messageOperationSuccessful
 
         LaunchedEffect(model) {
             model.effects.onEach { event ->
@@ -144,7 +144,7 @@ class ManageSubscriptionsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
+                            text = LocalStrings.current.navigationDrawerTitleSubscriptions,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -182,7 +182,7 @@ class ManageSubscriptionsScreen : Screen {
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -209,9 +209,10 @@ class ManageSubscriptionsScreen : Screen {
             },
         ) { padding ->
             Column(
-                modifier = Modifier.padding(
-                    top = padding.calculateTopPadding(),
-                ),
+                modifier =
+                    Modifier.padding(
+                        top = padding.calculateTopPadding(),
+                    ),
             ) {
                 TextField(
                     modifier =
@@ -221,7 +222,7 @@ class ManageSubscriptionsScreen : Screen {
                                 vertical = Spacing.s,
                             ).fillMaxWidth(),
                     label = {
-                        Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                        Text(text = LocalStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
@@ -288,7 +289,7 @@ class ManageSubscriptionsScreen : Screen {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = LocalXmlStrings.current.manageSubscriptionsHeaderMulticommunities,
+                                    text = LocalStrings.current.manageSubscriptionsHeaderMulticommunities,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -329,12 +330,12 @@ class ManageSubscriptionsScreen : Screen {
                                         this +=
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit,
+                                                LocalStrings.current.postActionEdit,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete,
+                                                LocalStrings.current.commentActionDelete,
                                             )
                                     },
                                 onOptionSelected =
@@ -363,7 +364,7 @@ class ManageSubscriptionsScreen : Screen {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = LocalXmlStrings.current.manageSubscriptionsHeaderSubscriptions,
+                                    text = LocalStrings.current.manageSubscriptionsHeaderSubscriptions,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -392,15 +393,15 @@ class ManageSubscriptionsScreen : Screen {
                                         this +=
                                             Option(
                                                 OptionId.Unsubscribe,
-                                                LocalXmlStrings.current.communityActionUnsubscribe,
+                                                LocalStrings.current.communityActionUnsubscribe,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Favorite,
                                                 if (community.favorite) {
-                                                    LocalXmlStrings.current.communityActionRemoveFavorite
+                                                    LocalStrings.current.communityActionRemoveFavorite
                                                 } else {
-                                                    LocalXmlStrings.current.communityActionAddFavorite
+                                                    LocalStrings.current.communityActionAddFavorite
                                                 },
                                             )
                                     },
@@ -428,7 +429,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -477,7 +478,7 @@ class ManageSubscriptionsScreen : Screen {
                             multiCommunityIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -487,11 +488,11 @@ class ManageSubscriptionsScreen : Screen {
                             multiCommunityIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

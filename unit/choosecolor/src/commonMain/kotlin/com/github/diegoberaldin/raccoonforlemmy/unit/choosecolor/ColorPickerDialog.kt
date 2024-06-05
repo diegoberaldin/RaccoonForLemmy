@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.CornerSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toHexDigit
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,7 +53,7 @@ fun ColorPickerDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = LocalXmlStrings.current.settingsColorDialogTitle,
+                text = LocalStrings.current.settingsColorDialogTitle,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -83,7 +83,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.settingsColorDialogAlpha,
+                    text = LocalStrings.current.settingsColorDialogAlpha,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -99,7 +99,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.settingsColorDialogRed,
+                    text = LocalStrings.current.settingsColorDialogRed,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -115,7 +115,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.settingsColorDialogGreen,
+                    text = LocalStrings.current.settingsColorDialogGreen,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -131,7 +131,7 @@ fun ColorPickerDialog(
                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.settingsColorDialogBlue,
+                    text = LocalStrings.current.settingsColorDialogBlue,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -154,7 +154,7 @@ fun ColorPickerDialog(
                             onReset.invoke()
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonReset)
+                        Text(text = LocalStrings.current.buttonReset)
                     }
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -165,7 +165,7 @@ fun ColorPickerDialog(
                         }
                     },
                 ) {
-                    Text(text = LocalXmlStrings.current.buttonConfirm)
+                    Text(text = LocalStrings.current.buttonConfirm)
                 }
                 if (onReset == null) {
                     Spacer(modifier = Modifier.weight(1f))

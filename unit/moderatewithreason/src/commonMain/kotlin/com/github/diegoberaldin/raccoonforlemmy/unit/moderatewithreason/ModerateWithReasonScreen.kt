@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -46,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -71,8 +70,8 @@ class ModerateWithReasonScreen(
             }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val genericError = LocalStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -114,15 +113,15 @@ class ModerateWithReasonScreen(
                     title = {
                         val title =
                             when (uiState.action) {
-                                is ModerateWithReasonAction.HideCommunity -> LocalXmlStrings.current.postActionHide
-                                is ModerateWithReasonAction.PurgeComment -> LocalXmlStrings.current.adminActionPurge
-                                is ModerateWithReasonAction.PurgeCommunity -> LocalXmlStrings.current.adminActionPurge
-                                is ModerateWithReasonAction.PurgePost -> LocalXmlStrings.current.adminActionPurge
-                                is ModerateWithReasonAction.PurgeUser -> LocalXmlStrings.current.adminActionPurge
-                                is ModerateWithReasonAction.RemoveComment -> LocalXmlStrings.current.modActionRemove
-                                is ModerateWithReasonAction.RemovePost -> LocalXmlStrings.current.modActionRemove
-                                is ModerateWithReasonAction.ReportComment -> LocalXmlStrings.current.createReportTitleComment
-                                is ModerateWithReasonAction.ReportPost -> LocalXmlStrings.current.createReportTitlePost
+                                is ModerateWithReasonAction.HideCommunity -> LocalStrings.current.postActionHide
+                                is ModerateWithReasonAction.PurgeComment -> LocalStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgeCommunity -> LocalStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgePost -> LocalStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.PurgeUser -> LocalStrings.current.adminActionPurge
+                                is ModerateWithReasonAction.RemoveComment -> LocalStrings.current.modActionRemove
+                                is ModerateWithReasonAction.RemovePost -> LocalStrings.current.modActionRemove
+                                is ModerateWithReasonAction.ReportComment -> LocalStrings.current.createReportTitleComment
+                                is ModerateWithReasonAction.ReportPost -> LocalStrings.current.createReportTitlePost
                             }
                         Text(
                             text = title,
@@ -183,7 +182,7 @@ class ModerateWithReasonScreen(
                             disabledContainerColor = Color.Transparent,
                         ),
                     label = {
-                        Text(text = LocalXmlStrings.current.createReportPlaceholder)
+                        Text(text = LocalStrings.current.createReportPlaceholder)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.text,

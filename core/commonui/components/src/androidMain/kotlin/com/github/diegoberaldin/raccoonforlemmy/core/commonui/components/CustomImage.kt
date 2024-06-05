@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 @Composable
 actual fun CustomImage(
@@ -93,7 +93,7 @@ actual fun CustomImage(
                     loadButtonContent.invoke()
                 } else {
                     Text(
-                        text = LocalXmlStrings.current.buttonLoad,
+                        text = LocalStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

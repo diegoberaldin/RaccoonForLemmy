@@ -33,7 +33,7 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SectionSelector
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -101,13 +101,13 @@ object InboxScreen : Tab {
                                     ),
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.navigationInbox,
+                                text = LocalStrings.current.navigationInbox,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             val text =
                                 when (uiState.unreadOnly) {
-                                    true -> LocalXmlStrings.current.inboxListingTypeUnread
-                                    else -> LocalXmlStrings.current.inboxListingTypeAll
+                                    true -> LocalStrings.current.inboxListingTypeUnread
+                                    else -> LocalStrings.current.inboxListingTypeAll
                                 }
                             Text(
                                 text = text,
@@ -139,14 +139,14 @@ object InboxScreen : Tab {
                 false -> {
                     Column(
                         modifier =
-                        Modifier
-                            .padding(
-                                top = padding.calculateTopPadding(),
-                            )
-                            .padding(horizontal = Spacing.m),
+                            Modifier
+                                .padding(
+                                    top = padding.calculateTopPadding(),
+                                )
+                                .padding(horizontal = Spacing.m),
                     ) {
                         Text(
-                            text = LocalXmlStrings.current.inboxNotLoggedMessage,
+                            text = LocalStrings.current.inboxNotLoggedMessage,
                         )
                     }
                 }
@@ -172,7 +172,7 @@ object InboxScreen : Tab {
                             titles =
                                 listOf(
                                     buildString {
-                                        append(LocalXmlStrings.current.inboxSectionReplies)
+                                        append(LocalStrings.current.inboxSectionReplies)
                                         if (uiState.unreadReplies > 0) {
                                             append(" (")
                                             append(uiState.unreadReplies)
@@ -180,7 +180,7 @@ object InboxScreen : Tab {
                                         }
                                     },
                                     buildString {
-                                        append(LocalXmlStrings.current.inboxSectionMentions)
+                                        append(LocalStrings.current.inboxSectionMentions)
                                         if (uiState.unreadMentions > 0) {
                                             append(" (")
                                             append(uiState.unreadMentions)
@@ -188,7 +188,7 @@ object InboxScreen : Tab {
                                         }
                                     },
                                     buildString {
-                                        append(LocalXmlStrings.current.inboxSectionMessages)
+                                        append(LocalStrings.current.inboxSectionMessages)
                                         if (uiState.unreadMessages > 0) {
                                             append(" (")
                                             append(uiState.unreadMessages)

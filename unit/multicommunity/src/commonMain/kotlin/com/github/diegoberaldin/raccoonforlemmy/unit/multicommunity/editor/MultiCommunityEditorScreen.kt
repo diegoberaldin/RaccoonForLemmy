@@ -59,7 +59,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -93,7 +93,7 @@ class MultiCommunityEditorScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            text = LocalXmlStrings.current.multiCommunityEditorTitle,
+                            text = LocalStrings.current.multiCommunityEditorTitle,
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -101,11 +101,11 @@ class MultiCommunityEditorScreen(
                     navigationIcon = {
                         Image(
                             modifier =
-                            Modifier.onClick(
-                                onClick = {
-                                    navigationCoordinator.popScreen()
-                                },
-                            ),
+                                Modifier.onClick(
+                                    onClick = {
+                                        navigationCoordinator.popScreen()
+                                    },
+                                ),
                             imageVector = Icons.AutoMirrored.Default.ArrowBack,
                             contentDescription = null,
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -142,33 +142,33 @@ class MultiCommunityEditorScreen(
                 }
             Column(
                 modifier =
-                Modifier
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                    )
-                    .nestedScroll(keyboardScrollConnection),
+                    Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
+                        .nestedScroll(keyboardScrollConnection),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     colors =
-                    TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                    ),
+                        TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                        ),
                     maxLines = 1,
                     label = {
-                        Text(text = LocalXmlStrings.current.multiCommunityEditorName)
+                        Text(text = LocalStrings.current.multiCommunityEditorName)
                     },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = uiState.name,
                     keyboardOptions =
-                    KeyboardOptions(
-                        keyboardType = KeyboardType.Ascii,
-                        autoCorrect = false,
-                        imeAction = ImeAction.Next,
-                    ),
+                        KeyboardOptions(
+                            keyboardType = KeyboardType.Ascii,
+                            autoCorrect = false,
+                            imeAction = ImeAction.Next,
+                        ),
                     onValueChange = { value ->
                         model.reduce(MultiCommunityEditorMviModel.Intent.SetName(value))
                     },
@@ -188,7 +188,7 @@ class MultiCommunityEditorScreen(
                 Column(
                     modifier = Modifier.padding(horizontal = Spacing.m),
                 ) {
-                    Text(text = LocalXmlStrings.current.multiCommunityEditorIcon)
+                    Text(text = LocalStrings.current.multiCommunityEditorIcon)
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                     ) {
@@ -198,10 +198,53 @@ class MultiCommunityEditorScreen(
                                 val selected = url == uiState.icon
                                 CustomImage(
                                     modifier =
+                                        Modifier
+                                            .size(iconSize)
+                                            .clip(RoundedCornerShape(iconSize / 2))
+                                            .let {
+                                                if (selected) {
+                                                    it.border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.primary,
+                                                        shape = CircleShape,
+                                                    ).padding(1.dp).border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.onPrimary,
+                                                        shape = CircleShape,
+                                                    ).padding(1.dp).border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.primary,
+                                                        shape = CircleShape,
+                                                    )
+                                                } else {
+                                                    it
+                                                }
+                                            }.onClick(
+                                                onClick =
+                                                    rememberCallback(model) {
+                                                        model.reduce(
+                                                            MultiCommunityEditorMviModel.Intent.SelectImage(
+                                                                idx,
+                                                            ),
+                                                        )
+                                                    },
+                                            ),
+                                    url = url,
+                                    contentScale = ContentScale.FillBounds,
+                                )
+                            }
+                        }
+                        item {
+                            val selected = uiState.icon == null
+                            Box(
+                                modifier =
                                     Modifier
+                                        .padding(Spacing.xxxs)
                                         .size(iconSize)
-                                        .clip(RoundedCornerShape(iconSize / 2))
-                                        .let {
+                                        .background(
+                                            color = MaterialTheme.colorScheme.primary,
+                                            shape = RoundedCornerShape(iconSize / 2),
+                                        ).let {
                                             if (selected) {
                                                 it.border(
                                                     width = 1.dp,
@@ -220,63 +263,20 @@ class MultiCommunityEditorScreen(
                                                 it
                                             }
                                         }.onClick(
-                                            onClick =
-                                            rememberCallback(model) {
+                                            onClick = {
                                                 model.reduce(
                                                     MultiCommunityEditorMviModel.Intent.SelectImage(
-                                                        idx,
+                                                        null,
                                                     ),
                                                 )
                                             },
                                         ),
-                                    url = url,
-                                    contentScale = ContentScale.FillBounds,
-                                )
-                            }
-                        }
-                        item {
-                            val selected = uiState.icon == null
-                            Box(
-                                modifier =
-                                Modifier
-                                    .padding(Spacing.xxxs)
-                                    .size(iconSize)
-                                    .background(
-                                        color = MaterialTheme.colorScheme.primary,
-                                        shape = RoundedCornerShape(iconSize / 2),
-                                    ).let {
-                                        if (selected) {
-                                            it.border(
-                                                width = 1.dp,
-                                                color = MaterialTheme.colorScheme.primary,
-                                                shape = CircleShape,
-                                            ).padding(1.dp).border(
-                                                width = 1.dp,
-                                                color = MaterialTheme.colorScheme.onPrimary,
-                                                shape = CircleShape,
-                                            ).padding(1.dp).border(
-                                                width = 1.dp,
-                                                color = MaterialTheme.colorScheme.primary,
-                                                shape = CircleShape,
-                                            )
-                                        } else {
-                                            it
-                                        }
-                                    }.onClick(
-                                        onClick = {
-                                            model.reduce(
-                                                MultiCommunityEditorMviModel.Intent.SelectImage(
-                                                    null,
-                                                ),
-                                            )
-                                        },
-                                    ),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(
                                     text =
-                                    uiState.name.firstOrNull()?.toString().orEmpty()
-                                        .uppercase(),
+                                        uiState.name.firstOrNull()?.toString().orEmpty()
+                                            .uppercase(),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                 )
@@ -288,54 +288,54 @@ class MultiCommunityEditorScreen(
                 Spacer(modifier = Modifier.height(Spacing.s))
                 Column(
                     modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.s),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.s),
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.multiCommunityEditorCommunities,
+                        text = LocalStrings.current.multiCommunityEditorCommunities,
                     )
 
                     // search field
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
                         colors =
-                        TextFieldDefaults.colors(
-                            focusedContainerColor = Color.Transparent,
-                            unfocusedContainerColor = Color.Transparent,
-                            disabledContainerColor = Color.Transparent,
-                        ),
+                            TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                            ),
                         label = {
-                            Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                            Text(text = LocalStrings.current.exploreSearchPlaceholder)
                         },
                         singleLine = true,
                         value = uiState.searchText,
                         keyboardOptions =
-                        KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Search,
-                        ),
+                            KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = ImeAction.Search,
+                            ),
                         onValueChange = { value ->
                             model.reduce(MultiCommunityEditorMviModel.Intent.SetSearch(value))
                         },
                         trailingIcon = {
                             Icon(
                                 modifier =
-                                Modifier.onClick(
-                                    onClick = {
-                                        if (uiState.searchText.isNotEmpty()) {
-                                            model.reduce(
-                                                MultiCommunityEditorMviModel.Intent.SetSearch(""),
-                                            )
-                                        }
-                                    },
-                                ),
+                                    Modifier.onClick(
+                                        onClick = {
+                                            if (uiState.searchText.isNotEmpty()) {
+                                                model.reduce(
+                                                    MultiCommunityEditorMviModel.Intent.SetSearch(""),
+                                                )
+                                            }
+                                        },
+                                    ),
                                 imageVector =
-                                if (uiState.searchText.isEmpty()) {
-                                    Icons.Default.Search
-                                } else {
-                                    Icons.Default.Clear
-                                },
+                                    if (uiState.searchText.isEmpty()) {
+                                        Icons.Default.Search
+                                    } else {
+                                        Icons.Default.Clear
+                                    },
                                 contentDescription = null,
                             )
                         },
@@ -343,10 +343,10 @@ class MultiCommunityEditorScreen(
                 }
                 LazyColumn(
                     modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.s)
-                        .weight(1f),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.s)
+                            .weight(1f),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                 ) {
                     items(uiState.communities) { community ->
@@ -356,9 +356,9 @@ class MultiCommunityEditorScreen(
                         ) {
                             CommunityItem(
                                 modifier =
-                                Modifier
-                                    .weight(1f)
-                                    .background(MaterialTheme.colorScheme.background),
+                                    Modifier
+                                        .weight(1f)
+                                        .background(MaterialTheme.colorScheme.background),
                                 noPadding = true,
                                 community = community,
                                 preferNicknames = uiState.preferNicknames,

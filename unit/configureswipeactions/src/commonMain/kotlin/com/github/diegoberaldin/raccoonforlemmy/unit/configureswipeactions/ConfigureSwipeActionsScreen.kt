@@ -44,7 +44,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipeTarget
@@ -77,7 +77,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsConfigureSwipeActions,
+                            text = LocalStrings.current.settingsConfigureSwipeActions,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -120,7 +120,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // posts
                     item {
                         SettingsHeader(
-                            title = LocalXmlStrings.current.exploreResultTypePosts,
+                            title = LocalStrings.current.exploreResultTypePosts,
                             icon = Icons.AutoMirrored.Default.Article,
                             rightButton = @Composable {
                                 TextButton(
@@ -134,7 +134,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     },
                                 ) {
                                     Text(
-                                        text = LocalXmlStrings.current.buttonReset,
+                                        text = LocalStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -153,7 +153,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideStart,
+                                text = LocalStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -170,7 +170,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->
@@ -217,7 +217,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideEnd,
+                                text = LocalStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -234,7 +234,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->
@@ -276,7 +276,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // comments
                     item {
                         SettingsHeader(
-                            title = LocalXmlStrings.current.exploreResultTypeComments,
+                            title = LocalStrings.current.exploreResultTypeComments,
                             icon = Icons.AutoMirrored.Default.Message,
                             rightButton = @Composable {
                                 TextButton(
@@ -290,7 +290,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     },
                                 ) {
                                     Text(
-                                        text = LocalXmlStrings.current.buttonReset,
+                                        text = LocalStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -309,7 +309,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideStart,
+                                text = LocalStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -326,7 +326,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->
@@ -373,7 +373,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideEnd,
+                                text = LocalStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -390,7 +390,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->
@@ -432,7 +432,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     // inbox
                     item {
                         SettingsHeader(
-                            title = LocalXmlStrings.current.navigationInbox,
+                            title = LocalStrings.current.navigationInbox,
                             icon = Icons.Default.Mail,
                             rightButton = @Composable {
                                 TextButton(
@@ -446,7 +446,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     },
                                 ) {
                                     Text(
-                                        text = LocalXmlStrings.current.buttonReset,
+                                        text = LocalStrings.current.buttonReset,
                                         style = MaterialTheme.typography.labelSmall,
                                     )
                                 }
@@ -465,7 +465,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideStart,
+                                text = LocalStrings.current.configureActionsSideStart,
                             )
                         }
                     }
@@ -482,7 +482,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->
@@ -529,7 +529,7 @@ class ConfigureSwipeActionsScreen : Screen {
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.configureActionsSideEnd,
+                                text = LocalStrings.current.configureActionsSideEnd,
                             )
                         }
                     }
@@ -546,7 +546,7 @@ class ConfigureSwipeActionsScreen : Screen {
                                     this +=
                                         Option(
                                             OptionId.Remove,
-                                            LocalXmlStrings.current.commentActionDelete,
+                                            LocalStrings.current.commentActionDelete,
                                         )
                                 },
                             onOptionSelected = { optionId ->

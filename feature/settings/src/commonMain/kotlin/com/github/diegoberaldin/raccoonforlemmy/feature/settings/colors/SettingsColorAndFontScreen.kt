@@ -39,7 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepos
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -96,7 +96,7 @@ class SettingsColorAndFontScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsColorsAndFonts,
+                            text = LocalStrings.current.settingsColorsAndFonts,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -133,7 +133,7 @@ class SettingsColorAndFontScreen : Screen {
                     // dynamic colors
                     if (uiState.supportsDynamicColors) {
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsDynamicColors,
+                            title = LocalStrings.current.settingsDynamicColors,
                             value = uiState.dynamicColors,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -146,7 +146,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // custom scheme seed color
                     SettingsColorRow(
-                        title = LocalXmlStrings.current.settingsCustomSeedColor,
+                        title = LocalStrings.current.settingsCustomSeedColor,
                         value =
                             uiState.customSeedColor ?: colorSchemeProvider.getColorScheme(
                                 theme = uiState.uiTheme ?: defaultTheme,
@@ -162,7 +162,7 @@ class SettingsColorAndFontScreen : Screen {
                     if (uiState.isLogged) {
                         // action colors
                         SettingsColorRow(
-                            title = LocalXmlStrings.current.settingsUpvoteColor,
+                            title = LocalStrings.current.settingsUpvoteColor,
                             value = uiState.upVoteColor ?: MaterialTheme.colorScheme.primary,
                             onTap =
                                 rememberCallback {
@@ -174,7 +174,7 @@ class SettingsColorAndFontScreen : Screen {
                                 },
                         )
                         SettingsColorRow(
-                            title = LocalXmlStrings.current.settingsDownvoteColor,
+                            title = LocalStrings.current.settingsDownvoteColor,
                             value = uiState.downVoteColor ?: MaterialTheme.colorScheme.tertiary,
                             onTap =
                                 rememberCallback {
@@ -186,7 +186,7 @@ class SettingsColorAndFontScreen : Screen {
                                 },
                         )
                         SettingsColorRow(
-                            title = LocalXmlStrings.current.settingsReplyColor,
+                            title = LocalStrings.current.settingsReplyColor,
                             value = uiState.replyColor ?: MaterialTheme.colorScheme.secondary,
                             onTap =
                                 rememberCallback {
@@ -198,7 +198,7 @@ class SettingsColorAndFontScreen : Screen {
                                 },
                         )
                         SettingsColorRow(
-                            title = LocalXmlStrings.current.settingsSaveColor,
+                            title = LocalStrings.current.settingsSaveColor,
                             value =
                                 uiState.saveColor
                                     ?: MaterialTheme.colorScheme.secondaryContainer,
@@ -217,7 +217,7 @@ class SettingsColorAndFontScreen : Screen {
                     val commentBarColors =
                         themeRepository.getCommentBarColors(uiState.commentBarTheme)
                     SettingsMultiColorRow(
-                        title = LocalXmlStrings.current.settingsCommentBarTheme,
+                        title = LocalStrings.current.settingsCommentBarTheme,
                         values = commentBarColors,
                         onTap =
                             rememberCallback {
@@ -228,7 +228,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // font family
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsUiFontFamily,
+                        title = LocalStrings.current.settingsUiFontFamily,
                         value = uiState.uiFontFamily.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -239,7 +239,7 @@ class SettingsColorAndFontScreen : Screen {
 
                     // font scale
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsUiFontScale,
+                        title = LocalStrings.current.settingsUiFontScale,
                         value = uiState.uiFontScale.toFontScale().toReadableName(),
                         onTap =
                             rememberCallback {

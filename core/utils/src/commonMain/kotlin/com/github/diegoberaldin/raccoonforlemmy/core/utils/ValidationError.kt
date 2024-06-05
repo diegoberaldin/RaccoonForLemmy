@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface ValidationError {
     data object InvalidField : ValidationError
@@ -12,6 +12,6 @@ sealed interface ValidationError {
 @Composable
 fun ValidationError.toReadableMessage(): String =
     when (this) {
-        ValidationError.InvalidField -> LocalXmlStrings.current.messageInvalidField
-        ValidationError.MissingField -> LocalXmlStrings.current.messageMissingField
+        ValidationError.InvalidField -> LocalStrings.current.messageInvalidField
+        ValidationError.MissingField -> LocalStrings.current.messageMissingField
     }

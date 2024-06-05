@@ -29,7 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypography
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +59,7 @@ fun EditTextualInfoDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = LocalXmlStrings.current.postActionEdit,
+                text = LocalStrings.current.postActionEdit,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -97,7 +97,7 @@ fun EditTextualInfoDialog(
                     onClose?.invoke(textFieldValue.text)
                 },
             ) {
-                Text(text = LocalXmlStrings.current.buttonConfirm)
+                Text(text = LocalStrings.current.buttonConfirm)
             }
         }
     }

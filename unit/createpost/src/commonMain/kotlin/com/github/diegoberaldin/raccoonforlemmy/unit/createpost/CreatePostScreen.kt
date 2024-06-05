@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -73,7 +72,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePost
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -110,10 +109,10 @@ class CreatePostScreen(
             }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
+        val genericError = LocalStrings.current.messageGenericError
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
-        val crossPostText = LocalXmlStrings.current.createPostCrossPostText
+        val crossPostText = LocalStrings.current.createPostCrossPostText
         val crossPost = uiState.crossPost
         val editedPost = uiState.editedPost
         val bodyFocusRequester = remember { FocusRequester() }
@@ -254,8 +253,8 @@ class CreatePostScreen(
                         Text(
                             text =
                                 when {
-                                    editedPost != null -> LocalXmlStrings.current.editPostTitle
-                                    else -> LocalXmlStrings.current.createPostTitle
+                                    editedPost != null -> LocalStrings.current.editPostTitle
+                                    else -> LocalStrings.current.createPostTitle
                                 },
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
@@ -316,14 +315,14 @@ class CreatePostScreen(
                 if (forceCommunitySelection) {
                     TextField(
                         modifier =
-                        Modifier
-                            .fillMaxWidth().onFocusChanged(
-                                rememberCallbackArgs { state ->
-                                    if (state.hasFocus) {
-                                        openSelectCommunity = true
-                                    }
-                                },
-                            ),
+                            Modifier
+                                .fillMaxWidth().onFocusChanged(
+                                    rememberCallbackArgs { state ->
+                                        if (state.hasFocus) {
+                                            openSelectCommunity = true
+                                        }
+                                    },
+                                ),
                         colors =
                             TextFieldDefaults.colors(
                                 focusedContainerColor = Color.Transparent,
@@ -332,7 +331,7 @@ class CreatePostScreen(
                             ),
                         label = {
                             Text(
-                                text = LocalXmlStrings.current.createPostCommunity,
+                                text = LocalStrings.current.createPostCommunity,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                         },
@@ -371,7 +370,7 @@ class CreatePostScreen(
                         ),
                     label = {
                         Text(
-                            text = LocalXmlStrings.current.createPostName,
+                            text = LocalStrings.current.createPostName,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -440,7 +439,7 @@ class CreatePostScreen(
                         ),
                     label = {
                         Text(
-                            text = LocalXmlStrings.current.createPostUrl,
+                            text = LocalStrings.current.createPostUrl,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -498,7 +497,7 @@ class CreatePostScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.createPostNsfw,
+                        text = LocalStrings.current.createPostNsfw,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -518,8 +517,8 @@ class CreatePostScreen(
                     SectionSelector(
                         titles =
                             listOf(
-                                LocalXmlStrings.current.createPostTabEditor,
-                                LocalXmlStrings.current.createPostTabPreview,
+                                LocalStrings.current.createPostTabEditor,
+                                LocalStrings.current.createPostTabPreview,
                             ),
                         currentSection =
                             when (uiState.section) {
@@ -572,7 +571,7 @@ class CreatePostScreen(
                                 ),
                             label = {
                                 Text(
-                                    text = LocalXmlStrings.current.createPostBody,
+                                    text = LocalStrings.current.createPostBody,
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             },
@@ -629,7 +628,7 @@ class CreatePostScreen(
                                     .padding(horizontal = Spacing.m),
                             text =
                                 buildString {
-                                    append(LocalXmlStrings.current.postReplySourceAccount)
+                                    append(LocalStrings.current.postReplySourceAccount)
                                     append(" ")
                                     append(uiState.currentUser)
                                     if (uiState.currentInstance.isNotEmpty()) {

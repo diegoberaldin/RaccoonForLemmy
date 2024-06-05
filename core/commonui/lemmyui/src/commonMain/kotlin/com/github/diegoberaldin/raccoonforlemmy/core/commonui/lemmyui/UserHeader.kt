@@ -35,7 +35,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime.prettifyDate
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.getPrettyNumber
@@ -151,8 +151,8 @@ fun UserHeader(
                         Text(
                             text =
                                 postScore.getPrettyNumber(
-                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                    thousandLabel = LocalStrings.current.profileThousandShort,
+                                    millionLabel = LocalStrings.current.profileMillionShort,
                                 ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
@@ -170,8 +170,8 @@ fun UserHeader(
                         Text(
                             text =
                                 commentScore.getPrettyNumber(
-                                    thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                    millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                    thousandLabel = LocalStrings.current.profileThousandShort,
+                                    millionLabel = LocalStrings.current.profileMillionShort,
                                 ),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,

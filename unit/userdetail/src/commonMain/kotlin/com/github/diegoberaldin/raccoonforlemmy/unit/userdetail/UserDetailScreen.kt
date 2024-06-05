@@ -95,7 +95,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
@@ -145,8 +145,8 @@ class UserDetailScreen(
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val genericError = LocalStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
         val topAppBarState = rememberTopAppBarState()
@@ -261,36 +261,36 @@ class UserDetailScreen(
                                         Option(
                                             OptionId.ExploreInstance,
                                             buildString {
-                                                append(LocalXmlStrings.current.navigationSearch)
+                                                append(LocalStrings.current.navigationSearch)
                                                 append(" ")
                                                 append(uiState.user.host)
                                                 append(" (")
-                                                append(LocalXmlStrings.current.beta)
+                                                append(LocalStrings.current.beta)
                                                 append(")")
                                             },
                                         )
                                     this +=
                                         Option(
                                             OptionId.Share,
-                                            LocalXmlStrings.current.postActionShare,
+                                            LocalStrings.current.postActionShare,
                                         )
                                     if (uiState.isLogged) {
                                         this +=
                                             Option(
                                                 OptionId.Block,
-                                                LocalXmlStrings.current.blockActionUser,
+                                                LocalStrings.current.blockActionUser,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.BlockInstance,
-                                                LocalXmlStrings.current.communityDetailBlockInstance,
+                                                LocalStrings.current.communityDetailBlockInstance,
                                             )
                                     }
                                     if (uiState.isAdmin) {
                                         this +=
                                             Option(
                                                 OptionId.Purge,
-                                                LocalXmlStrings.current.adminActionPurge,
+                                                LocalStrings.current.adminActionPurge,
                                             )
                                     }
                                 }
@@ -411,7 +411,7 @@ class UserDetailScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -427,7 +427,7 @@ class UserDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.AutoMirrored.Default.Chat,
-                                            text = LocalXmlStrings.current.actionChat,
+                                            text = LocalStrings.current.actionChat,
                                             onSelected =
                                                 rememberCallback {
                                                     val screen = InboxChatScreen(otherUserId = userId)
@@ -507,8 +507,8 @@ class UserDetailScreen(
                             modifier = Modifier.padding(bottom = Spacing.s),
                             titles =
                                 listOf(
-                                    LocalXmlStrings.current.profileSectionPosts,
-                                    LocalXmlStrings.current.profileSectionComments,
+                                    LocalStrings.current.profileSectionPosts,
+                                    LocalStrings.current.profileSectionComments,
                                 ),
                             currentSection =
                                 when (uiState.section) {
@@ -767,28 +767,28 @@ class UserDetailScreen(
                                                 this +=
                                                     Option(
                                                         OptionId.Share,
-                                                        LocalXmlStrings.current.postActionShare,
+                                                        LocalStrings.current.postActionShare,
                                                     )
                                                 this +=
                                                     Option(
                                                         OptionId.Copy,
-                                                        LocalXmlStrings.current.actionCopyClipboard,
+                                                        LocalStrings.current.actionCopyClipboard,
                                                     )
                                                 this +=
                                                     Option(
                                                         OptionId.SeeRaw,
-                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                        LocalStrings.current.postActionSeeRaw,
                                                     )
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     this +=
                                                         Option(
                                                             OptionId.CrossPost,
-                                                            LocalXmlStrings.current.postActionCrossPost,
+                                                            LocalStrings.current.postActionCrossPost,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.Report,
-                                                            LocalXmlStrings.current.postActionReport,
+                                                            LocalStrings.current.postActionReport,
                                                         )
                                                 }
                                             },
@@ -869,7 +869,7 @@ class UserDetailScreen(
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -1116,13 +1116,13 @@ class UserDetailScreen(
                                                 this +=
                                                     Option(
                                                         OptionId.SeeRaw,
-                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                        LocalStrings.current.postActionSeeRaw,
                                                     )
                                                 if (uiState.isLogged && !isOnOtherInstance) {
                                                     this +=
                                                         Option(
                                                             OptionId.Report,
-                                                            LocalXmlStrings.current.postActionReport,
+                                                            LocalStrings.current.postActionReport,
                                                         )
                                                 }
                                             },
@@ -1160,7 +1160,7 @@ class UserDetailScreen(
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -1187,9 +1187,9 @@ class UserDetailScreen(
                                         Text(
                                             text =
                                                 if (uiState.section == UserDetailSection.Posts) {
-                                                    LocalXmlStrings.current.postListLoadMorePosts
+                                                    LocalStrings.current.postListLoadMorePosts
                                                 } else {
-                                                    LocalXmlStrings.current.postDetailLoadMoreComments
+                                                    LocalStrings.current.postDetailLoadMoreComments
                                                 },
                                             style = MaterialTheme.typography.labelSmall,
                                         )

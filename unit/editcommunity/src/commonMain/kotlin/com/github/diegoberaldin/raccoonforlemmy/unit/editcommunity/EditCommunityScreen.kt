@@ -64,7 +64,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSw
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsTextualInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditFormattedInfoDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditTextualInfoDialog
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -94,8 +94,8 @@ class EditCommunityScreen(
         val settings by settingsRepository.currentSettings.collectAsState()
         var openNameEditDialog by remember { mutableStateOf(false) }
         var openDescriptionEditDialog by remember { mutableStateOf(false) }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
-        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
+        val errorMessage = LocalStrings.current.messageGenericError
         val snackbarHostState = remember { SnackbarHostState() }
         val galleryHelper = remember { getGalleryHelper() }
         var openIconPicker by remember { mutableStateOf(false) }
@@ -145,7 +145,7 @@ class EditCommunityScreen(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text =
                                 buildString {
-                                    append(LocalXmlStrings.current.postActionEdit)
+                                    append(LocalStrings.current.postActionEdit)
                                     append(" ")
                                     append(uiState.title)
                                 },
@@ -212,17 +212,17 @@ class EditCommunityScreen(
         ) { padding ->
             Column(
                 modifier =
-                Modifier
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                    )
-                    .then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                    Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
+                        .then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
             ) {
                 Column(
                     modifier =
@@ -233,13 +233,13 @@ class EditCommunityScreen(
                 ) {
                     SettingsHeader(
                         icon = Icons.Default.Image,
-                        title = LocalXmlStrings.current.settingsTitlePictures,
+                        title = LocalStrings.current.settingsTitlePictures,
                     )
 
                     // icon
                     val avatarSize = IconSize.xxl
                     SettingsImageInfo(
-                        title = LocalXmlStrings.current.multiCommunityEditorIcon,
+                        title = LocalStrings.current.multiCommunityEditorIcon,
                         imageModifier =
                             Modifier
                                 .size(avatarSize)
@@ -253,7 +253,7 @@ class EditCommunityScreen(
 
                     // banner
                     SettingsImageInfo(
-                        title = LocalXmlStrings.current.settingsWebBanner,
+                        title = LocalStrings.current.settingsWebBanner,
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
                         contentScale = ContentScale.Crop,
                         url = uiState.banner,
@@ -265,12 +265,12 @@ class EditCommunityScreen(
 
                     SettingsHeader(
                         icon = Icons.Default.TextFormat,
-                        title = LocalXmlStrings.current.editCommunityHeaderTextual,
+                        title = LocalStrings.current.editCommunityHeaderTextual,
                     )
 
                     // display name
                     SettingsTextualInfo(
-                        title = LocalXmlStrings.current.settingsWebDisplayName,
+                        title = LocalStrings.current.settingsWebDisplayName,
                         value = uiState.title,
                         valueStyle = contentTypography.bodyMedium,
                         onEdit =
@@ -280,7 +280,7 @@ class EditCommunityScreen(
                     )
                     // sidebar
                     SettingsFormattedInfo(
-                        title = LocalXmlStrings.current.editCommunityItemSidebar,
+                        title = LocalStrings.current.editCommunityItemSidebar,
                         value = uiState.description,
                         onEdit =
                             rememberCallback {
@@ -290,11 +290,11 @@ class EditCommunityScreen(
 
                     SettingsHeader(
                         icon = Icons.Default.Shield,
-                        title = LocalXmlStrings.current.settingsSectionNsfw,
+                        title = LocalStrings.current.settingsSectionNsfw,
                     )
 
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.createPostNsfw,
+                        title = LocalStrings.current.createPostNsfw,
                         value = uiState.nsfw,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -302,7 +302,7 @@ class EditCommunityScreen(
                             },
                     )
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.editCommunityItemPostingRestrictedToMods,
+                        title = LocalStrings.current.editCommunityItemPostingRestrictedToMods,
                         value = uiState.postingRestrictedToMods,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -321,7 +321,7 @@ class EditCommunityScreen(
                             model.reduce(EditCommunityMviModel.Intent.Submit)
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.actionSave)
+                        Text(text = LocalStrings.current.actionSave)
                     }
                 }
             }
@@ -329,7 +329,7 @@ class EditCommunityScreen(
 
         if (openNameEditDialog) {
             EditTextualInfoDialog(
-                title = LocalXmlStrings.current.settingsWebEmail,
+                title = LocalStrings.current.settingsWebEmail,
                 value = uiState.title,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -343,7 +343,7 @@ class EditCommunityScreen(
 
         if (openDescriptionEditDialog) {
             EditFormattedInfoDialog(
-                title = LocalXmlStrings.current.settingsWebBio,
+                title = LocalStrings.current.settingsWebBio,
                 value = uiState.description,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -379,7 +379,7 @@ class EditCommunityScreen(
                             confirmBackWithUnsavedChangesDialog = false
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonNoStay)
+                        Text(text = LocalStrings.current.buttonNoStay)
                     }
                 },
                 confirmButton = {
@@ -389,11 +389,11 @@ class EditCommunityScreen(
                             navigationCoordinator.popScreen()
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonYesQuit)
+                        Text(text = LocalStrings.current.buttonYesQuit)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageUnsavedChanges)
+                    Text(text = LocalStrings.current.messageUnsavedChanges)
                 },
             )
         }

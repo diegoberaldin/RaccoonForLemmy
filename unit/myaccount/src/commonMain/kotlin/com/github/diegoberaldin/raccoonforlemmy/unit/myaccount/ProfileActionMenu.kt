@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -26,7 +26,7 @@ internal fun ProfileActionMenu(
         modifier = modifier,
     ) {
         SettingsRow(
-            title = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
+            title = LocalStrings.current.navigationDrawerTitleSubscriptions,
             icon = Icons.Default.Book,
             onTap =
                 rememberCallback {
@@ -34,7 +34,7 @@ internal fun ProfileActionMenu(
                 },
         )
         SettingsRow(
-            title = LocalXmlStrings.current.navigationDrawerTitleBookmarks,
+            title = LocalStrings.current.navigationDrawerTitleBookmarks,
             icon = Icons.Default.Bookmark,
             onTap =
                 rememberCallback {
@@ -42,7 +42,7 @@ internal fun ProfileActionMenu(
                 },
         )
         SettingsRow(
-            title = LocalXmlStrings.current.navigationDrawerTitleDrafts,
+            title = LocalStrings.current.navigationDrawerTitleDrafts,
             icon = Icons.Default.Drafts,
             onTap =
                 rememberCallback {
@@ -50,7 +50,7 @@ internal fun ProfileActionMenu(
                 },
         )
         SettingsRow(
-            title = LocalXmlStrings.current.profileUpvotesDownvotes,
+            title = LocalStrings.current.profileUpvotesDownvotes,
             icon = Icons.Default.ThumbsUpDown,
             onTap =
                 rememberCallback {
@@ -60,7 +60,7 @@ internal fun ProfileActionMenu(
 
         if (isModerator) {
             SettingsRow(
-                title = LocalXmlStrings.current.moderatorZoneTitle,
+                title = LocalStrings.current.moderatorZoneTitle,
                 icon = Icons.Default.Shield,
                 onTap =
                     rememberCallback {

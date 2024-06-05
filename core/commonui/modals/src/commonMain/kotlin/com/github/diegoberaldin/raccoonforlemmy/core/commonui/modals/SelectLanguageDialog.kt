@@ -21,7 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
@@ -45,7 +45,7 @@ fun SelectLanguageDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = LocalXmlStrings.current.settingsLanguage,
+                text = LocalStrings.current.settingsLanguage,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -70,7 +70,7 @@ fun SelectLanguageDialog(
                     onDismiss?.invoke()
                 },
             ) {
-                Text(text = LocalXmlStrings.current.buttonClose)
+                Text(text = LocalStrings.current.buttonClose)
             }
         }
     }

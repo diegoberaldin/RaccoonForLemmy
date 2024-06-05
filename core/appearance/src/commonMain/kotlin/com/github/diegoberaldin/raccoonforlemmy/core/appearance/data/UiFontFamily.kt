@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 enum class UiFontFamily {
     Default,
@@ -32,5 +32,5 @@ fun UiFontFamily.toReadableName() =
         UiFontFamily.Poppins -> "Poppins"
         UiFontFamily.NotoSans -> "Noto Sans"
         UiFontFamily.CharisSIL -> "Charis SIL"
-        UiFontFamily.Default -> LocalXmlStrings.current.settingsFontFamilyDefault
+        UiFontFamily.Default -> LocalStrings.current.settingsFontFamilyDefault
     }

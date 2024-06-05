@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface FontScale {
     data object Largest : FontScale
@@ -34,13 +34,13 @@ val FontScale.scaleFactor: Float
 @Composable
 fun FontScale.toReadableName(): String =
     when (this) {
-        FontScale.Largest -> LocalXmlStrings.current.settingsContentFontLargest
-        FontScale.Larger -> LocalXmlStrings.current.settingsContentFontLarger
-        FontScale.Large -> LocalXmlStrings.current.settingsContentFontLarge
-        FontScale.Normal -> LocalXmlStrings.current.settingsContentFontNormal
-        FontScale.Small -> LocalXmlStrings.current.settingsContentFontSmall
-        FontScale.Smaller -> LocalXmlStrings.current.settingsContentFontSmaller
-        FontScale.Smallest -> LocalXmlStrings.current.settingsContentFontSmallest
+        FontScale.Largest -> LocalStrings.current.settingsContentFontLargest
+        FontScale.Larger -> LocalStrings.current.settingsContentFontLarger
+        FontScale.Large -> LocalStrings.current.settingsContentFontLarge
+        FontScale.Normal -> LocalStrings.current.settingsContentFontNormal
+        FontScale.Small -> LocalStrings.current.settingsContentFontSmall
+        FontScale.Smaller -> LocalStrings.current.settingsContentFontSmaller
+        FontScale.Smallest -> LocalStrings.current.settingsContentFontSmallest
     }
 
 fun Float.toFontScale(): FontScale =

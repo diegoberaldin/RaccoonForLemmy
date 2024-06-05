@@ -48,8 +48,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getCommunityFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getPostFromUrl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.getUserFromUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.ProvideXmlStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.di.getL10nManager
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.ProvideStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.ComposeEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.SideMenuEvents
@@ -273,7 +273,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
         useDynamicColors = useDynamicColors,
         barTheme = barTheme,
     ) {
-        ProvideXmlStrings(
+        ProvideStrings(
             lyricist = l10nManager.lyricist,
         ) {
             CompositionLocalProvider(

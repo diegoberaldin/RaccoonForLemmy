@@ -43,7 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ModeratorZ
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.toModeratorZoneAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ModeratorZoneBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -182,7 +182,7 @@ internal object ProfileMainScreen : Tab {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.navigationProfile,
+                            text = LocalStrings.current.navigationProfile,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -272,12 +272,12 @@ internal object ProfileMainScreen : Tab {
                 },
                 title = {
                     Text(
-                        text = LocalXmlStrings.current.actionLogout,
+                        text = LocalStrings.current.actionLogout,
                         style = MaterialTheme.typography.titleMedium,
                     )
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
                 dismissButton = {
                     Button(
@@ -285,7 +285,7 @@ internal object ProfileMainScreen : Tab {
                             logoutConfirmDialogOpen = false
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -295,7 +295,7 @@ internal object ProfileMainScreen : Tab {
                             model.reduce(ProfileMainMviModel.Intent.Logout)
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
             )

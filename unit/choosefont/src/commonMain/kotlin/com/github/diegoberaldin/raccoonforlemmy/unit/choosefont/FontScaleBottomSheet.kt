@@ -20,7 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableN
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -58,11 +58,11 @@ class FontScaleBottomSheet(
         ) {
             val title =
                 when (contentClass) {
-                    ContentFontClass.Title -> LocalXmlStrings.current.settingsTitleFontScale
-                    ContentFontClass.Body -> LocalXmlStrings.current.settingsContentFontScale
-                    ContentFontClass.Comment -> LocalXmlStrings.current.settingsCommentFontScale
-                    ContentFontClass.AncillaryText -> LocalXmlStrings.current.settingsAncillaryFontScale
-                    else -> LocalXmlStrings.current.settingsUiFontScale
+                    ContentFontClass.Title -> LocalStrings.current.settingsTitleFontScale
+                    ContentFontClass.Body -> LocalStrings.current.settingsContentFontScale
+                    ContentFontClass.Comment -> LocalStrings.current.settingsCommentFontScale
+                    ContentFontClass.AncillaryText -> LocalStrings.current.settingsAncillaryFontScale
+                    else -> LocalStrings.current.settingsUiFontScale
                 }
             BottomSheetHeader(title)
             Text(

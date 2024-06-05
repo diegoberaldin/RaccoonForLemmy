@@ -36,7 +36,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toSaveColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toUpVoteColor
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -68,14 +68,14 @@ class VoteThemeBottomSheet(
         ) {
             val title =
                 when (actionType) {
-                    3 -> LocalXmlStrings.current.settingsSaveColor
-                    2 -> LocalXmlStrings.current.settingsReplyColor
-                    1 -> LocalXmlStrings.current.settingsDownvoteColor
-                    else -> LocalXmlStrings.current.settingsUpvoteColor
+                    3 -> LocalStrings.current.settingsSaveColor
+                    2 -> LocalStrings.current.settingsReplyColor
+                    1 -> LocalStrings.current.settingsDownvoteColor
+                    else -> LocalStrings.current.settingsUpvoteColor
                 }
             BottomSheetHeader(title)
 
-            val customText = LocalXmlStrings.current.settingsColorCustom
+            val customText = LocalStrings.current.settingsColorCustom
             val values: List<CommentBarTheme?> =
                 listOf(
                     CommentBarTheme.Blue,
@@ -92,7 +92,7 @@ class VoteThemeBottomSheet(
                 values.forEachIndexed { idx, value ->
                     val text =
                         if (idx == values.lastIndex) {
-                            LocalXmlStrings.current.buttonReset
+                            LocalStrings.current.buttonReset
                         } else {
                             value.toReadableName()
                         }

@@ -58,7 +58,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ReportListTypeSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -138,13 +138,13 @@ class ReportListScreen(
                     title = {
                         Column(modifier = Modifier.padding(horizontal = Spacing.s)) {
                             Text(
-                                text = LocalXmlStrings.current.reportListTitle,
+                                text = LocalStrings.current.reportListTitle,
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             val text =
                                 when (uiState.unresolvedOnly) {
-                                    true -> LocalXmlStrings.current.reportListTypeUnresolved
-                                    else -> LocalXmlStrings.current.reportListTypeAll
+                                    true -> LocalStrings.current.reportListTypeUnresolved
+                                    else -> LocalStrings.current.reportListTypeAll
                                 }
                             Text(
                                 modifier =
@@ -164,23 +164,23 @@ class ReportListScreen(
         ) { padding ->
             Column(
                 modifier =
-                Modifier
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                    ).then(
-                        if (settings.hideNavigationBarWhileScrolling) {
-                            Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                        } else {
-                            Modifier
-                        },
-                    ),
+                    Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        ).then(
+                            if (settings.hideNavigationBarWhileScrolling) {
+                                Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+                            } else {
+                                Modifier
+                            },
+                        ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 SectionSelector(
                     titles =
                         listOf(
-                            LocalXmlStrings.current.profileSectionPosts,
-                            LocalXmlStrings.current.profileSectionComments,
+                            LocalStrings.current.profileSectionPosts,
+                            LocalStrings.current.profileSectionComments,
                         ),
                     currentSection =
                         when (uiState.section) {
@@ -229,7 +229,7 @@ class ReportListScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -294,15 +294,15 @@ class ReportListScreen(
                                                     this +=
                                                         Option(
                                                             OptionId.SeeRaw,
-                                                            LocalXmlStrings.current.postActionSeeRaw,
+                                                            LocalStrings.current.postActionSeeRaw,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.ResolveReport,
                                                             if (report.resolved) {
-                                                                LocalXmlStrings.current.reportActionUnresolve
+                                                                LocalStrings.current.reportActionUnresolve
                                                             } else {
-                                                                LocalXmlStrings.current.reportActionResolve
+                                                                LocalStrings.current.reportActionResolve
                                                             },
                                                         )
                                                 },
@@ -349,7 +349,7 @@ class ReportListScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -410,15 +410,15 @@ class ReportListScreen(
                                                     this +=
                                                         Option(
                                                             OptionId.SeeRaw,
-                                                            LocalXmlStrings.current.postActionSeeRaw,
+                                                            LocalStrings.current.postActionSeeRaw,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.ResolveReport,
                                                             if (report.resolved) {
-                                                                LocalXmlStrings.current.reportActionUnresolve
+                                                                LocalStrings.current.reportActionUnresolve
                                                             } else {
-                                                                LocalXmlStrings.current.reportActionResolve
+                                                                LocalStrings.current.reportActionResolve
                                                             },
                                                         )
                                                 },

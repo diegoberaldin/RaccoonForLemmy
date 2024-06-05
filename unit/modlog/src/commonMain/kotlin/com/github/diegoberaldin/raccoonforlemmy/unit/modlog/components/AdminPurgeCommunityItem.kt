@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
@@ -31,7 +31,7 @@ internal fun AdminPurgeCommunityItem(
             Text(
                 text =
                     buildAnnotatedString {
-                        append(LocalXmlStrings.current.modlogItemCommunityPurged)
+                        append(LocalStrings.current.modlogItemCommunityPurged)
                     },
                 style = MaterialTheme.typography.bodySmall,
             )

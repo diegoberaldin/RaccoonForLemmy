@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 
@@ -75,7 +75,7 @@ actual fun CustomImage(
                     loadButtonContent()
                 } else {
                     Text(
-                        text = LocalXmlStrings.current.buttonLoad,
+                        text = LocalStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

@@ -9,7 +9,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ellipsize
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -40,9 +40,9 @@ internal fun ModLockPostItem(
                         }
                         append(" ")
                         if (item.locked) {
-                            append(LocalXmlStrings.current.modlogItemPostLocked)
+                            append(LocalStrings.current.modlogItemPostLocked)
                         } else {
-                            append(LocalXmlStrings.current.modlogItemPostUnlocked)
+                            append(LocalStrings.current.modlogItemPostUnlocked)
                         }
                     },
                 style = MaterialTheme.typography.bodySmall,

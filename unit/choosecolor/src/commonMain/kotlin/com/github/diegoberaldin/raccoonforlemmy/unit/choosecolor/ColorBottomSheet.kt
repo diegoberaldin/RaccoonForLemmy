@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -54,22 +54,22 @@ class ColorBottomSheet : Screen {
                 ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHeader(LocalXmlStrings.current.settingsCustomSeedColor)
-            val customText = LocalXmlStrings.current.settingsColorCustom
+            BottomSheetHeader(LocalStrings.current.settingsCustomSeedColor)
+            val customText = LocalStrings.current.settingsColorCustom
             val values: List<Pair<Color?, String>> =
                 listOf(
-                    Color(0xFF001F7D) to LocalXmlStrings.current.settingsColorBlue,
-                    Color(0xFF36B3B3) to LocalXmlStrings.current.settingsColorAquamarine,
-                    Color(0xFF884DFF) to LocalXmlStrings.current.settingsColorPurple,
-                    Color(0xFF00B300) to LocalXmlStrings.current.settingsColorGreen,
-                    Color(0xFFFF0000) to LocalXmlStrings.current.settingsColorRed,
-                    Color(0xFFFF66600) to LocalXmlStrings.current.settingsColorOrange,
-                    Color(0x94786818) to LocalXmlStrings.current.settingsColorBanana,
-                    Color(0xFFFC0FC0) to LocalXmlStrings.current.settingsColorPink,
-                    Color(0xFF303B47) to LocalXmlStrings.current.settingsColorGray,
-                    Color(0xFFd7d7d7) to LocalXmlStrings.current.settingsColorWhite,
+                    Color(0xFF001F7D) to LocalStrings.current.settingsColorBlue,
+                    Color(0xFF36B3B3) to LocalStrings.current.settingsColorAquamarine,
+                    Color(0xFF884DFF) to LocalStrings.current.settingsColorPurple,
+                    Color(0xFF00B300) to LocalStrings.current.settingsColorGreen,
+                    Color(0xFFFF0000) to LocalStrings.current.settingsColorRed,
+                    Color(0xFFFF66600) to LocalStrings.current.settingsColorOrange,
+                    Color(0x94786818) to LocalStrings.current.settingsColorBanana,
+                    Color(0xFFFC0FC0) to LocalStrings.current.settingsColorPink,
+                    Color(0xFF303B47) to LocalStrings.current.settingsColorGray,
+                    Color(0xFFd7d7d7) to LocalStrings.current.settingsColorWhite,
                     null to customText,
-                    null to LocalXmlStrings.current.buttonReset,
+                    null to LocalStrings.current.buttonReset,
                 )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),

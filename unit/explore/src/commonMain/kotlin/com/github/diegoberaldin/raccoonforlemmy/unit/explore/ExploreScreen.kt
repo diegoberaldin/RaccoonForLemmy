@@ -71,7 +71,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ResultTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -140,7 +140,7 @@ class ExploreScreen(
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
         val snackbarHostState = remember { SnackbarHostState() }
-        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val errorMessage = LocalStrings.current.messageGenericError
         val notificationEventKey =
             buildString {
                 append("explore")
@@ -238,9 +238,10 @@ class ExploreScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier.padding(
-                    top = padding.calculateTopPadding(),
-                ),
+                modifier =
+                    Modifier.padding(
+                        top = padding.calculateTopPadding(),
+                    ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 TextField(
@@ -250,7 +251,7 @@ class ExploreScreen(
                             vertical = Spacing.s,
                         ).fillMaxWidth(),
                     label = {
-                        Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                        Text(text = LocalStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
@@ -851,7 +852,7 @@ class ExploreScreen(
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )

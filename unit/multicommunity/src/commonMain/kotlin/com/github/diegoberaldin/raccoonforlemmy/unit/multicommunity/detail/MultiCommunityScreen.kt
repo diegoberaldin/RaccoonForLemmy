@@ -79,7 +79,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabN
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -241,7 +241,7 @@ class MultiCommunityScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -256,7 +256,7 @@ class MultiCommunityScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ClearAll,
-                                        text = LocalXmlStrings.current.actionClearRead,
+                                        text = LocalStrings.current.actionClearRead,
                                         onSelected =
                                             rememberCallback {
                                                 model.reduce(MultiCommunityMviModel.Intent.ClearRead)
@@ -528,23 +528,23 @@ class MultiCommunityScreen(
                                             this +=
                                                 Option(
                                                     OptionId.Share,
-                                                    LocalXmlStrings.current.postActionShare,
+                                                    LocalStrings.current.postActionShare,
                                                 )
                                             this +=
                                                 Option(
                                                     OptionId.Copy,
-                                                    LocalXmlStrings.current.actionCopyClipboard,
+                                                    LocalStrings.current.actionCopyClipboard,
                                                 )
                                             if (uiState.currentUserId != null) {
                                                 this +=
                                                     Option(
                                                         OptionId.Hide,
-                                                        LocalXmlStrings.current.postActionHide,
+                                                        LocalStrings.current.postActionHide,
                                                     )
                                                 this +=
                                                     Option(
                                                         OptionId.Report,
-                                                        LocalXmlStrings.current.postActionReport,
+                                                        LocalStrings.current.postActionReport,
                                                     )
                                             }
                                         },
@@ -628,7 +628,7 @@ class MultiCommunityScreen(
                                             },
                                     ) {
                                         Text(
-                                            text = LocalXmlStrings.current.postListLoadMorePosts,
+                                            text = LocalStrings.current.postListLoadMorePosts,
                                             style = MaterialTheme.typography.labelSmall,
                                         )
                                     }
@@ -653,7 +653,7 @@ class MultiCommunityScreen(
                             Text(
                                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                 textAlign = TextAlign.Center,
-                                text = LocalXmlStrings.current.messageEmptyList,
+                                text = LocalStrings.current.messageEmptyList,
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -60,7 +59,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.autofill
@@ -86,7 +85,7 @@ class LoginBottomSheet : Screen {
         val model = getScreenModel<LoginMviModel>()
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
+        val genericError = LocalStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val uriHandler = LocalUriHandler.current
         val customTabsHelper = remember { getCustomTabsHelper() }
@@ -119,7 +118,7 @@ class LoginBottomSheet : Screen {
                 TopAppBar(
                     title = {
                         Text(
-                            text = LocalXmlStrings.current.profileButtonLogin,
+                            text = LocalStrings.current.profileButtonLogin,
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -190,7 +189,7 @@ class LoginBottomSheet : Screen {
                     TextField(
                         modifier = Modifier.focusRequester(instanceFocusRequester),
                         label = {
-                            Text(text = LocalXmlStrings.current.loginFieldInstanceName)
+                            Text(text = LocalStrings.current.loginFieldInstanceName)
                         },
                         singleLine = true,
                         value = uiState.instanceName,
@@ -255,7 +254,7 @@ class LoginBottomSheet : Screen {
                                 )
                                 .focusRequester(usernameFocusRequester),
                         label = {
-                            Text(text = LocalXmlStrings.current.loginFieldUserName)
+                            Text(text = LocalStrings.current.loginFieldUserName)
                         },
                         singleLine = true,
                         value = uiState.username,
@@ -302,7 +301,7 @@ class LoginBottomSheet : Screen {
                                 )
                                 .focusRequester(passwordFocusRequester),
                         label = {
-                            Text(text = LocalXmlStrings.current.loginFieldPassword)
+                            Text(text = LocalStrings.current.loginFieldPassword)
                         },
                         singleLine = true,
                         value = uiState.password,
@@ -365,9 +364,9 @@ class LoginBottomSheet : Screen {
                                 horizontalArrangement = Arrangement.spacedBy(Spacing.s),
                                 verticalAlignment = Alignment.Bottom,
                             ) {
-                                Text(text = LocalXmlStrings.current.loginFieldToken)
+                                Text(text = LocalStrings.current.loginFieldToken)
                                 Text(
-                                    text = LocalXmlStrings.current.loginFieldLabelOptional,
+                                    text = LocalStrings.current.loginFieldLabelOptional,
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             }
@@ -406,7 +405,7 @@ class LoginBottomSheet : Screen {
                                     color = MaterialTheme.colorScheme.onPrimary,
                                 )
                             }
-                            Text(LocalXmlStrings.current.buttonConfirm)
+                            Text(LocalStrings.current.buttonConfirm)
                         }
                     }
                 }

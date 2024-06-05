@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomWebView
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 @Composable
 fun PostCardEmbeddedWebView(
@@ -44,7 +44,7 @@ fun PostCardEmbeddedWebView(
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 Text(
-                    text = LocalXmlStrings.current.messageVideoNsfw,
+                    text = LocalStrings.current.messageVideoNsfw,
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Button(
@@ -53,7 +53,7 @@ fun PostCardEmbeddedWebView(
                     },
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.buttonLoad,
+                        text = LocalStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -74,7 +74,7 @@ fun PostCardEmbeddedWebView(
                     },
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.buttonLoad,
+                        text = LocalStrings.current.buttonLoad,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )

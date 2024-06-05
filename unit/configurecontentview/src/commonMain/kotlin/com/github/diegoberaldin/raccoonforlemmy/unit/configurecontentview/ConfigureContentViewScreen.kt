@@ -45,7 +45,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSw
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostBodyMaxLinesBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -75,7 +75,7 @@ class ConfigureContentViewScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsConfigureContent,
+                            text = LocalStrings.current.settingsConfigureContent,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -111,12 +111,12 @@ class ConfigureContentViewScreen : Screen {
                 ) {
                     SettingsHeader(
                         icon = Icons.Default.TextFormat,
-                        title = LocalXmlStrings.current.settingsConfigureText,
+                        title = LocalStrings.current.settingsConfigureText,
                     )
 
                     // content font family
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsContentFontFamily,
+                        title = LocalStrings.current.settingsContentFontFamily,
                         value = uiState.contentFontFamily.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -127,7 +127,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // content font scale
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsTitleFontScale,
+                        title = LocalStrings.current.settingsTitleFontScale,
                         value = uiState.contentFontScale.title.toFontScale().toReadableName(),
                         onTap =
                             rememberCallback {
@@ -136,7 +136,7 @@ class ConfigureContentViewScreen : Screen {
                             },
                     )
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsContentFontScale,
+                        title = LocalStrings.current.settingsContentFontScale,
                         value = uiState.contentFontScale.body.toFontScale().toReadableName(),
                         onTap =
                             rememberCallback {
@@ -145,7 +145,7 @@ class ConfigureContentViewScreen : Screen {
                             },
                     )
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsCommentFontScale,
+                        title = LocalStrings.current.settingsCommentFontScale,
                         value = uiState.contentFontScale.comment.toFontScale().toReadableName(),
                         onTap =
                             rememberCallback {
@@ -155,7 +155,7 @@ class ConfigureContentViewScreen : Screen {
                             },
                     )
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsAncillaryFontScale,
+                        title = LocalStrings.current.settingsAncillaryFontScale,
                         value = uiState.contentFontScale.ancillary.toFontScale().toReadableName(),
                         onTap =
                             rememberCallback {
@@ -167,12 +167,12 @@ class ConfigureContentViewScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.Style,
-                        title = LocalXmlStrings.current.settingsConfigureCustomizations,
+                        title = LocalStrings.current.settingsConfigureCustomizations,
                     )
 
                     // post layout
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsPostLayout,
+                        title = LocalStrings.current.settingsPostLayout,
                         value = uiState.postLayout.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -184,10 +184,10 @@ class ConfigureContentViewScreen : Screen {
                     // body max lines in full layout
                     if (uiState.postLayout == PostLayout.Full) {
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsPostBodyMaxLines,
+                            title = LocalStrings.current.settingsPostBodyMaxLines,
                             value =
                                 if (uiState.postBodyMaxLines == null) {
-                                    LocalXmlStrings.current.settingsPostBodyMaxLinesUnlimited
+                                    LocalStrings.current.settingsPostBodyMaxLinesUnlimited
                                 } else {
                                     uiState.postBodyMaxLines.toString()
                                 },
@@ -201,7 +201,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // prefer user nicknames
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsPreferUserNicknames,
+                        title = LocalStrings.current.settingsPreferUserNicknames,
                         value = uiState.preferUserNicknames,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -213,7 +213,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // full height images
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsFullHeightImages,
+                        title = LocalStrings.current.settingsFullHeightImages,
                         value = uiState.fullHeightImages,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -225,7 +225,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // full width images
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsFullWidthImages,
+                        title = LocalStrings.current.settingsFullWidthImages,
                         value = uiState.fullWidthImages,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -237,7 +237,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // vote format
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsVoteFormat,
+                        title = LocalStrings.current.settingsVoteFormat,
                         value = uiState.voteFormat.toReadableName(),
                         onTap = {
                             val sheet = VoteFormatBottomSheet()
@@ -247,7 +247,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // comment bar thickness
                     SettingsIntValueRow(
-                        title = LocalXmlStrings.current.settingsCommentBarThickness,
+                        title = LocalStrings.current.settingsCommentBarThickness,
                         value = uiState.commentBarThickness,
                         onIncrement =
                             rememberCallback(model) {
@@ -261,7 +261,7 @@ class ConfigureContentViewScreen : Screen {
 
                     // comment indent amount
                     SettingsIntValueRow(
-                        title = LocalXmlStrings.current.settingsCommentIndentAmount,
+                        title = LocalStrings.current.settingsCommentIndentAmount,
                         value = uiState.commentIndentAmount,
                         onIncrement =
                             rememberCallback(model) {
@@ -275,7 +275,7 @@ class ConfigureContentViewScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.Preview,
-                        title = LocalXmlStrings.current.createPostTabPreview,
+                        title = LocalStrings.current.createPostTabPreview,
                     )
                     // preview
                     ContentPreview(

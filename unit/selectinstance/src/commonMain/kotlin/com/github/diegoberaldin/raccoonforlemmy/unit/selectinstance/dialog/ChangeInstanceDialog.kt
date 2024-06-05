@@ -26,7 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toReadableMessage
@@ -55,7 +55,7 @@ internal fun ChangeInstanceDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = LocalXmlStrings.current.dialogTitleAddInstance,
+                text = LocalStrings.current.dialogTitleAddInstance,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -67,7 +67,7 @@ internal fun ChangeInstanceDialog(
                         disabledContainerColor = Color.Transparent,
                     ),
                 label = {
-                    Text(text = LocalXmlStrings.current.loginFieldInstanceName)
+                    Text(text = LocalStrings.current.loginFieldInstanceName)
                 },
                 singleLine = true,
                 value = instanceName,
@@ -121,7 +121,7 @@ internal fun ChangeInstanceDialog(
                             color = MaterialTheme.colorScheme.onPrimary,
                         )
                     }
-                    Text(LocalXmlStrings.current.buttonConfirm)
+                    Text(LocalStrings.current.buttonConfirm)
                 }
             }
         }
