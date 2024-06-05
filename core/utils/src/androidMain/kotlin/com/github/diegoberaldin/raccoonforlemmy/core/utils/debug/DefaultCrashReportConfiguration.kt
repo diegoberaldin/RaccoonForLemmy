@@ -12,7 +12,7 @@ class DefaultCrashReportConfiguration(
 
     override fun isEnabled(): Boolean =
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
-            .getBoolean(KEY, true)
+            .getBoolean(KEY, false)
 
     override fun setEnabled(value: Boolean) {
         context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).apply {
