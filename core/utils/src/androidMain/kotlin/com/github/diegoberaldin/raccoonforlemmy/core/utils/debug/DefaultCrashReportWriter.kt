@@ -21,13 +21,10 @@ class DefaultCrashReportWriter(
             } else {
                 File(context.cacheDir, FILE_NAME)
             }
-        try {
-            val writer = FileWriter(logFile, false)
+        FileWriter(logFile, true).use { writer ->
             writer.append(reportText)
+            writer.append("\n")
             writer.flush()
-            writer.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 }
