@@ -211,6 +211,7 @@ class CommunityDetailScreen(
                 WindowInsets.statusBars.getTop(this)
             }
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
+        var unsubscribeConfirmDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -310,9 +311,10 @@ class CommunityDetailScreen(
                                         .onClick(
                                             onClick = {
                                                 when (uiState.community.subscribed) {
-                                                    true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
                                                     false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
-                                                    else -> Unit
+                                                    else -> {
+                                                        unsubscribeConfirmDialogOpen = true
+                                                    }
                                                 }
                                             },
                                         ),
@@ -371,10 +373,11 @@ class CommunityDetailScreen(
                                             LocalXmlStrings.current.communitySetCustomSort,
                                         )
                                     if (uiState.isLogged) {
-                                        this += Option(
-                                            OptionId.SetPreferredLanguage,
-                                            LocalXmlStrings.current.communitySetPreferredLanguage,
-                                        )
+                                        this +=
+                                            Option(
+                                                OptionId.SetPreferredLanguage,
+                                                LocalXmlStrings.current.communitySetPreferredLanguage,
+                                            )
                                     }
                                     this +=
                                         Option(
@@ -735,9 +738,10 @@ class CommunityDetailScreen(
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Column(
-                    modifier = Modifier.padding(
-                        top = padding.calculateTopPadding(),
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            top = padding.calculateTopPadding(),
+                        ),
                 ) {
                     if (uiState.searching) {
                         TextField(
@@ -1539,13 +1543,49 @@ class CommunityDetailScreen(
                 languages = uiState.availableLanguages,
                 currentLanguageId = uiState.currentPreferredLanguageId,
                 onSelect =
-                rememberCallbackArgs { langId ->
-                    model.reduce(CommunityDetailMviModel.Intent.SelectPreferredLanguage(langId))
-                    selectLanguageDialogOpen = false
-                },
+                    rememberCallbackArgs { langId ->
+                        model.reduce(CommunityDetailMviModel.Intent.SelectPreferredLanguage(langId))
+                        selectLanguageDialogOpen = false
+                    },
                 onDismiss =
-                rememberCallback {
-                    selectLanguageDialogOpen = false
+                    rememberCallback {
+                        selectLanguageDialogOpen = false
+                    },
+            )
+        }
+
+        if (unsubscribeConfirmDialogOpen) {
+            AlertDialog(
+                onDismissRequest = {
+                    unsubscribeConfirmDialogOpen = false
+                },
+                title = {
+                    Text(
+                        text = LocalXmlStrings.current.communityActionUnsubscribe,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                },
+                text = {
+                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            unsubscribeConfirmDialogOpen = false
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            unsubscribeConfirmDialogOpen = false
+                            model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                        },
+                    ) {
+                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                    }
                 },
             )
         }
