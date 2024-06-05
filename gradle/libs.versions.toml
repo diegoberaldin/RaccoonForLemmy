@@ -76,7 +76,6 @@ ktorfit-lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref =
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
-lyricist-ksp = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
