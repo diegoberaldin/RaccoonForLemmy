@@ -1,402 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<resources>
-    <string name="action_back_to_top">العودة إلى الأعلى</string>
-    <string name="action_chat">إرسال الرسائل</string>
-    <string name="action_clear_read">مسح القراءة</string>
-    <string name="action_create_post">منشور جديد</string>
-    <string name="action_reply">رد</string>
-    <string name="action_activate_zombie_mode">تفعيل وضع الزومبي</string>
-    <string name="action_deactivate_zombie_mode">إلغاء تنشيط وضع الزومبي</string>
-    <string name="button_close">غلق</string>
-    <string name="button_confirm">تأكيد</string>
-    <string name="button_load">رفع</string>
-    <string name="button_reset">إعادة تعيين</string>
-    <string name="button_retry">إعادة المحاولة</string>
-    <string name="comment_action_delete">حذف</string>
-    <string name="community_detail_block">حظر</string>
-    <string name="community_detail_block_instance">حظر مثيل</string>
-    <string name="community_detail_info">معلومات المجتمع</string>
-    <string name="community_detail_instance_info">تفاصيل الحالة</string>
-    <string name="community_info_comments">التعليقات</string>
-    <string name="community_info_daily_active_users">المستخدمون النشطون (يوم)</string>
-    <string name="community_info_monthly_active_users">المستخدمون النشطون (الشهر)</string>
-    <string name="community_info_posts">المشاركات</string>
-    <string name="community_info_subscribers">اشترك</string>
-    <string name="community_info_weekly_active_users">المستخدمون النشطون (أسبوع)</string>
-    <string name="create_comment_body">نص التعليق</string>
-    <string name="create_comment_title">تعليق جديد</string>
-    <string name="create_post_body">المحتوى</string>
-    <string name="create_post_community">المجتمع</string>
-    <string name="create_post_cross_post_text">تم نشر الشطب من:</string>
-    <string name="create_post_name">عنوان المقالة</string>
-    <string name="create_post_nsfw">NSFW</string>
-    <string name="create_post_tab_editor">..</string>
-    <string name="create_post_tab_preview">نظرة عامة</string>
-    <string name="create_post_title">منشور جديد</string>
-    <string name="create_post_url">رابط URL</string>
-    <string name="create_report_placeholder">نص التقرير (اختياري)</string>
-    <string name="create_report_title_comment">الإبلاغ عن تعليق</string>
-    <string name="create_report_title_post">گزارش دادن پست</string>
-    <string name="dialog_raw_content_text">نص</string>
-    <string name="dialog_raw_content_title">الصفة</string>
-    <string name="dialog_raw_content_url">رابط URL</string>
-    <string name="dialog_title_change_instance">تغيير المثيل</string>
-    <string name="dialog_title_raw_content">محتوى خام</string>
-    <string name="dialog_title_select_community">حدد مجتمعًا</string>
-    <string name="edit_comment_title">تحرير التعليق</string>
-    <string name="edit_post_title">تحرير المنشور</string>
-    <string name="explore_result_type_all">الجميع</string>
-    <string name="explore_result_type_comments">التعليقات</string>
-    <string name="explore_result_type_communities">طورت المجتمعات</string>
-    <string name="explore_result_type_posts">المنشورات</string>
-    <string name="explore_result_type_users">المستخدمون</string>
-    <string name="explore_search_placeholder">بحث</string>
-    <string name="home_instance_via">عبر</string>
-    <string name="home_listing_title">المنشورات</string>
-    <string name="home_listing_type_all">الجميع</string>
-    <string name="home_listing_type_local">محليًا</string>
-    <string name="home_listing_type_subscribed">تم الاشتراك</string>
-    <string name="home_sort_title">فرز حسب</string>
-    <string name="home_sort_type_active">نشط</string>
-    <string name="home_sort_type_controversial">جدلي</string>
-    <string name="home_sort_type_hot">ساخن</string>
-    <string name="home_sort_type_most_comments">معظم التعليقات</string>
-    <string name="home_sort_type_new">جديد</string>
-    <string name="home_sort_type_new_comments">تعليقات جديدة</string>
-    <string name="home_sort_type_old">كبير</string>
-    <string name="home_sort_type_scaled">الدرجة</string>
-    <string name="home_sort_type_top">أعلى</string>
-    <string name="home_sort_type_top_12_hours">.</string>
-    <string name="home_sort_type_top_12_hours_short">12 ساعة</string>
-    <string name="home_sort_type_top_6_hours">6 ساعات</string>
-    <string name="home_sort_type_top_6_hours_short">6 ساعات</string>
-    <string name="home_sort_type_top_day">أفضل يوم</string>
-    <string name="home_sort_type_top_day_short">يوم</string>
-    <string name="home_sort_type_top_hour">ساعات الذروة</string>
-    <string name="home_sort_type_top_hour_short">1 h</string>
-    <string name="home_sort_type_top_month">أفضل شهر</string>
-    <string name="home_sort_type_top_month_short">شهر</string>
-    <string name="home_sort_type_top_week">قمة الاسبوع</string>
-    <string name="home_sort_type_top_week_short">أسبوع</string>
-    <string name="home_sort_type_top_year">أفضل سنة</string>
-    <string name="home_sort_type_top_year_short">السنة</string>
-    <string name="inbox_action_mark_read">وضع علامة كمقروء</string>
-    <string name="inbox_action_mark_unread">وضع علامة كغير مقروء</string>
-    <string name="inbox_chat_message">خطاب</string>
-    <string name="inbox_item_mention">ذكرتك في</string>
-    <string name="inbox_item_reply_comment">رد على تعليقك</string>
-    <string name="inbox_item_reply_post">رد على منشورك</string>
-    <string name="inbox_listing_type_all">الجميع</string>
-    <string name="inbox_listing_type_title">نوع البريد الوارد</string>
-    <string name="inbox_listing_type_unread">غير مقروءة</string>
-    <string name="inbox_not_logged_message">لم تقم بتسجيل الدخول حاليًا.\nيرجى إضافة حساب من شاشة الملف الشخصي لرؤية صندوق الوارد الخاص بكn</string>
-    <string name="inbox_section_mentions">عدد المرات التي ذكر فيها</string>
-    <string name="inbox_section_messages">رسائل</string>
-    <string name="inbox_section_replies">الردود</string>
-    <string name="instance_detail_communities">طورت المجتمعات</string>
-    <string name="instance_detail_title">مثال:</string>
-    <string name="lang">ar</string>
-    <string name="login_field_instance_name">اسم المثيل</string>
-    <string name="login_field_label_optional">(اختياري)</string>
-    <string name="login_field_password">كلمة المرور</string>
-    <string name="login_field_token">توكن TOTP 2FA</string>
-    <string name="login_field_user_name">اسم المستخدم أو البريد الالكتروني</string>
-    <string name="manage_accounts_button_add">إضافة حساب</string>
-    <string name="manage_accounts_title">إدارة الحسابات</string>
-    <string name="manage_subscriptions_header_multicommunities">تعدد المجتمعات</string>
-    <string name="manage_subscriptions_header_subscriptions">الاشتراكات</string>
-    <string name="message_empty_comments">المكان صامت للغاية هناك.\nهل ترغب في أن تكون الشخص الذييكتب التعليق الأول؟</string>
-    <string name="message_empty_list">لا توجد عناصر للعرض</string>
-    <string name="message_error_loading_comments">حدث خطأ أثناء تحميل التعليقات.</string>
-    <string name="message_generic_error">عام خطأ.</string>
-    <string name="message_image_loading_error">خطأ في تحميل الصورة</string>
-    <string name="message_invalid_field">حقل غير صالح</string>
-    <string name="message_missing_field">حقل مفقود</string>
-    <string name="message_operation_successful">اكتملت العملية بنجاح</string>
-    <string name="multi_community_editor_communities">طورت المجتمعات</string>
-    <string name="multi_community_editor_icon">أيقونة</string>
-    <string name="multi_community_editor_name">الاسم</string>
-    <string name="multi_community_editor_title">محرر متعدد المجتمعات</string>
-    <string name="navigation_drawer_anonymous">مجهول</string>
-    <string name="navigation_drawer_title_bookmarks">تم الحفظ</string>
-    <string name="navigation_drawer_title_subscriptions">إدارة الاشتراكات</string>
-    <string name="navigation_home">المنشورات</string>
-    <string name="navigation_inbox">صندوق الوارد</string>
-    <string name="navigation_profile">ملف التعريف</string>
-    <string name="navigation_search">استكشاف</string>
-    <string name="navigation_settings">الإعدادات</string>
-    <string name="post_action_cross_post">رسالة متداولة في عدد من المجموعات الإخبارية</string>
-    <string name="post_action_edit">تحرير</string>
-    <string name="post_action_hide">إخفاء</string>
-    <string name="post_action_report">التقرير</string>
-    <string name="post_action_see_raw">عرض الخام</string>
-    <string name="post_action_share">مشاركة</string>
-    <string name="post_detail_cross_posts">كما تم نشره على:</string>
-    <string name="post_detail_load_more_comments">تصفح المزيد</string>
-    <string name="post_hour_short">ساعات</string>
-    <string name="post_minute_short">دقائق</string>
-    <string name="post_second_short">ثواني</string>
-    <string name="profile_button_login">تسجيل الدخول</string>
-    <string name="profile_day_short">أيام</string>
-    <string name="profile_million_short">ملايين</string>
-    <string name="profile_month_short">شهور</string>
-    <string name="profile_not_logged_message">لم تقم بتسجيل الدخول حاليًا\n .يرجى إضافةحساب للمتابعة.</string>
-    <string name="profile_section_comments">التعليقات</string>
-    <string name="profile_section_posts">المنشورات</string>
-    <string name="profile_thousand_short">k</string>
-    <string name="profile_year_short">سنين</string>
-    <string name="settings_about">نبذة عن هذا التطبيق</string>
-    <string name="settings_about_app_version">إصدار التطبيق</string>
-    <string name="settings_about_changelog">عرض سجل التغييرات الكامل</string>
-    <string name="settings_about_report_github">الإبلاغ عن خطأ (GitHub)</string>
-    <string name="settings_about_report_email">الإبلاغ عن خطأ (البريد الإلكتروني)</string>
-    <string name="settings_about_view_github">عرض على GitHub</string>
-    <string name="settings_about_view_lemmy">مجتمع ليمي</string>
-    <string name="settings_auto_expand_comments">توسيع التعليقات تلقائيًا</string>
-    <string name="settings_auto_load_images">حمّل الصور تلقائيًا</string>
-    <string name="settings_blur_nsfw">ضبابية صور نيو ساوث ويلز</string>
-    <string name="settings_color_aquamarine">🐬 دولفين مشتت الانتباه</string>
-    <string name="settings_color_banana">🦔 قنفذ فرحان</string>
-    <string name="settings_color_blue">🐳 حوت بارع</string>
-    <string name="settings_color_custom">مخصص</string>
-    <string name="settings_color_dialog_alpha">A</string>
-    <string name="settings_color_dialog_blue">B</string>
-    <string name="settings_color_dialog_green">G</string>
-    <string name="settings_color_dialog_red">R</string>
-    <string name="settings_color_dialog_title">اختر لونًا</string>
-    <string name="settings_color_gray">🦝 راكون مفترس</string>
-    <string name="settings_color_green">🐸 ضفدع مرح</string>
-    <string name="settings_color_orange">🦊 الثعلب الناري</string>
-    <string name="settings_color_pink">🦄 وحيد القرن الفريد</string>
-    <string name="settings_color_purple">🐙 أخطبوط محيطي</string>
-    <string name="settings_color_red">🦀 سلطعون مقرمش</string>
-    <string name="settings_color_white">🐼 دب مراهنة</string>
-    <string name="settings_content_font_large">كبير</string>
-    <string name="settings_content_font_larger">كبير جدا</string>
-    <string name="settings_content_font_largest">دوبل إكسترا لارج</string>
-    <string name="settings_content_font_normal">عادي</string>
-    <string name="settings_content_font_scale">حجم النص من المشاركات</string>
-    <string name="settings_content_font_small">صغير</string>
-    <string name="settings_content_font_smaller">صغيرة إضافية</string>
-    <string name="settings_content_font_smallest">مزدوج إضافي صغير</string>
-    <string name="settings_custom_seed_color">لون قالب مخصص</string>
-    <string name="settings_default_comment_sort_type">نوع فرز التعليق الافتراضي</string>
-    <string name="settings_default_listing_type">نوع الخلاصة الافتراضي</string>
-    <string name="settings_default_post_sort_type">Post Type افتراضي</string>
-    <string name="settings_downvote_color">لون التصويت السلبي</string>
-    <string name="settings_dynamic_colors">استخدم الألوان الديناميكية</string>
-    <string name="settings_enable_crash_report">تمكين الإبلاغ عن الأعطال</string>
-    <string name="settings_enable_double_tap">تمكين إجراء النقر المزدوج</string>
-    <string name="settings_enable_swipe_actions">تمكين إجراءات السحب</string>
-    <string name="settings_full_height_images">ارتفاع الصور</string>
-    <string name="settings_include_nsfw">تضمين محتويات NSFW</string>
-    <string name="settings_language">اللغة</string>
-    <string name="settings_navigation_bar_titles_visible">إظهار عناوين شريط التنقل</string>
-    <string name="settings_open_url_external">فتح عناوين URL</string>
-    <string name="settings_points_short">pt</string>
-    <string name="settings_post_layout">تنسيق المقال</string>
-    <string name="settings_post_layout_card">البطاقة</string>
-    <string name="settings_post_layout_compact">مضغوط</string>
-    <string name="settings_post_layout_full">كامل</string>
-    <string name="settings_section_appearance">الشكل والمظهر</string>
-    <string name="settings_advanced">إعدادات متقدمة</string>
-    <string name="settings_section_debug">تصحيح الأخطاء</string>
-    <string name="settings_section_general">عام</string>
-    <string name="settings_section_nsfw">NSFW</string>
-    <string name="settings_theme_black">الظلام (أموليد)</string>
-    <string name="settings_theme_dark">داكن</string>
-    <string name="settings_theme_light">فاتح</string>
-    <string name="settings_ui_font_family">خط واجهة المستخدم</string>
-    <string name="settings_ui_font_scale">حجم نص واجهة المستخدم</string>
-    <string name="settings_ui_theme">سمة واجهة المستخدم</string>
-    <string name="settings_upvote_color">لون التصويت المؤيد</string>
-    <string name="settings_hide_navigation_bar">إخفاء شريط التنقل أثناء التمرير</string>
-    <string name="settings_zombie_mode_interval">مدة الفاصل الزمني لوضع الزومبي</string>
-    <string name="settings_zombie_mode_scroll_amount">كمية التمرير في وضع الزومبي</string>
-    <string name="settings_mark_as_read_while_scrolling">وضع علامة على المنشورات كمقروءة أثناءالتمرير</string>
-    <string name="action_quote">اقتباس</string>
-    <string name="mod_action_allow">السماح للمستخدم مرة أخرى</string>
-    <string name="mod_action_ban">حظر العضو</string>
-    <string name="mod_action_open_reports">فتح التقارير</string>
-    <string name="mod_action_mark_as_featured">انقر هنا لجعل هذا الإعلان مميزا</string>
-    <string name="mod_action_unmark_as_featured">إلغاء التحديد كمميز</string>
-    <string name="mod_action_lock">القفل</string>
-    <string name="mod_action_unlock">فتح</string>
-    <string name="mod_action_remove">حذف</string>
-    <string name="mod_action_mark_as_distinguished">ضع علامة مميزة</string>
-    <string name="mod_action_unmark_as_distinguished">إلغاء وضع علامة مميزة</string>
-    <string name="report_list_title">قائمة التقارير</string>
-    <string name="report_list_type_title">قائمة التقارير</string>
-    <string name="report_list_type_all">الجميع</string>
-    <string name="report_list_type_unresolved">غير محلول</string>
-    <string name="report_action_resolve">تحلل</string>
-    <string name="report_action_unresolve">إلغاء الحل</string>
-    <string name="sidebar_not_logged_message">مرحبًا بك في الراكون من أجل ليمي!\n\nفي الوضع المجهول، استخدم زر القائمة المنسدلة (▼) أعلاه لتغيير المثيل.\n\nيمكنك تسجيل الدخول إلى حسابك في أي وقت من شاشة ملف التعريف.\n\nاستمتع بليمي!</string>
-    <string name="settings_default_inbox_type">نوع البريد الوارد الافتراضي</string>
-    <string name="mod_action_add_mod">إضافة مشرف</string>
-    <string name="mod_action_remove_mod">إزالة المشرف</string>
-    <string name="settings_vote_format">تنسيق التصويت</string>
-    <string name="settings_vote_format_aggregated">إجمالي</string>
-    <string name="settings_vote_format_separated">متفرق</string>
-    <string name="settings_vote_format_percentage">نسبة مئوية</string>
-    <string name="settings_font_family_default">نظام</string>
-    <string name="post_reply_source_account">بواسطة:</string>
-    <string name="settings_comment_bar_theme">موضوع شريط التعليق</string>
-    <string name="settings_comment_bar_theme_blue">🌊 محيط</string>
-    <string name="settings_comment_bar_theme_green">🥑 أفوكادو</string>
-    <string name="settings_comment_bar_theme_red">🍓 الفراولة</string>
-    <string name="settings_comment_bar_theme_multi">🌈 قوس المطر</string>
-    <string name="message_confirm_exit">ضغط على 🔙 مرة أخرى للخروج</string>
-    <string name="community_action_unsubscribe">إلغاء الاشتراك</string>
-    <string name="settings_search_posts_title_only">البحث عن المشاركات فقط في العنوان</string>
-    <string name="settings_content_font_family">عائلة خطوط المحتوى</string>
-    <string name="community_info_moderators">المشرفون</string>
-    <string name="community_action_add_favorite">اضافة الى المفضلة</string>
-    <string name="community_action_remove_favorite">إزالة من المفضلة</string>
-    <string name="community_action_view_modlog">عرض سجل الإشراف</string>
-    <string name="modlog_title">سجل الاعتدال</string>
-    <string name="modlog_item_mod_added">تمت إضافته كمشرف</string>
-    <string name="modlog_item_mod_removed">تمت إزالة الوسيط</string>
-    <string name="modlog_item_user_banned">تم حظره</string>
-    <string name="modlog_item_user_unbanned">كان غير محظور</string>
-    <string name="modlog_item_post_featured">م وضع علامة على أنها مشاركة مميزة</string>
-    <string name="modlog_item_post_unfeatured">تم وضع علامة على أنها مشاركة غير مميزة</string>
-    <string name="modlog_item_post_locked">كان مقفلا</string>
-    <string name="modlog_item_post_unlocked">تم فتحه</string>
-    <string name="modlog_item_post_removed">تمت إزالته</string>
-    <string name="modlog_item_post_restored">تم ترميمه</string>
-    <string name="modlog_item_comment_removed">تمت إزالته من التعليقات</string>
-    <string name="modlog_item_comment_restored">تمت استعادته في تعليقات</string>
-    <string name="modlog_item_community_transfer">تم نقل المجتمع إلى</string>
-    <string name="block_action_user">مستخدم محضور</string>
-    <string name="block_action_community">منع المجتمع</string>
-    <string name="user_detail_info">معلومات المستخدم</string>
-    <string name="user_info_moderates">مشرف</string>
-    <string name="user_info_admin">مدير</string>
-    <string name="settings_reply_color">لون عمل الرد</string>
-    <string name="settings_section_account">إعدادت الحساب</string>
-    <string name="settings_web_preferences">تفضيلات الويب</string>
-    <string name="settings_web_header_personal">معلومات شخصية</string>
-    <string name="settings_web_header_contents">محتويات</string>
-    <string name="settings_web_header_notifications">إشعارات</string>
-    <string name="settings_web_avatar">الصورة الرمزية</string>
-    <string name="settings_web_banner">راية</string>
-    <string name="settings_web_bio">السيرة الذاتية</string>
-    <string name="settings_web_bot">بوت</string>
-    <string name="settings_web_display_name">اسم العرض</string>
-    <string name="settings_web_matrix">معرف المستخدم Matrix</string>
-    <string name="settings_web_email">بريد إلكتروني</string>
-    <string name="settings_web_show_bot">إظهار حسابات البوت</string>
-    <string name="settings_web_show_nsfw">عرض إن إس إف دبليو</string>
-    <string name="settings_web_show_read">إظهار المشاركات المقروءة</string>
-    <string name="settings_web_email_notifications">إرسال إشعارات البريد الإلكتروني</string>
-    <string name="settings_manage_ban">الحظر والمرشحات</string>
-    <string name="settings_manage_ban_action_unban">إزالة الحظر</string>
-    <string name="settings_manage_ban_section_instances">المثيلات</string>
-    <string name="settings_edge_to_edge">محتويات الحافة إلى الحافة</string>
-    <string name="settings_post_body_max_lines">الحد الأقصى لعدد الأسطر لنص الرسالة</string>
-    <string name="settings_post_body_max_lines_unlimited">غير محدود</string>
-    <string name="message_content_removed">(تمت إزالة هذا المحتوى)</string>
-    <string name="post_list_load_more_posts">تحميل المزيد من المشاركات</string>
-    <string name="settings_infinite_scroll_disabled">تعطيل التمرير اللانهائي</string>
-    <string name="dialog_title_add_instance">إضافة مثيل</string>
-    <string name="settings_save_color">لون عملية الحفظ</string>
-    <string name="settings_configure_swipe_actions">تكوين إجراءات التمرير</string>
-    <string name="action_upvote">التصويت لصالح</string>
-    <string name="action_downvote">التصويت السلبي</string>
-    <string name="action_save">يحفظ</string>
-    <string name="action_toggle_read">مقروءة/غير مقروءة</string>
-    <string name="configure_actions_side_start">الإجراءات على الجانب الأيسر</string>
-    <string name="configure_actions_side_end">الإجراءات على الجانب الأيمن</string>
-    <string name="select_action_title">حدد إجراءً</string>
-    <string name="button_add">اضف جديد</string>
-    <string name="bar_theme_opaque">مبهمة</string>
-    <string name="bar_theme_transparent">شفاف</string>
-    <string name="settings_bar_theme">موضوع الحالة وشريط التنقل</string>
-    <string name="settings_colors_and_fonts">مظهر التطبيق</string>
-    <string name="settings_about_view_google_play">عرض على جوجل بلاي</string>
-    <string name="settings_user_manual">دليل الاستخدام</string>
-    <string name="settings_show_scores">أظهر التقييمات</string>
-    <string name="settings_vote_format_hidden">مختفي</string>
-    <string name="settings_comment_bar_thickness">سمك شريط التعليق</string>
-    <string name="settings_prefer_user_nicknames">استخدم أسماء العرض للمستخدمين والمجتمعات</string>
-    <string name="message_video_nsfw">تم وضع علامة على هذا الفيديو على أنه NSFW</string>
-    <string name="settings_title_font_scale">حجم نص العناوين</string>
-    <string name="settings_comment_font_scale">حجم نص التعليقات</string>
-    <string name="settings_ancillary_font_scale">حجم النصوص المساعدة</string>
-    <string name="settings_configure_content">مظهر المحتوى</string>
-    <string name="settings_configure_text">نص</string>
-    <string name="settings_configure_customizations">التخصيصات</string>
-    <string name="navigation_drawer_title_drafts">المسودات</string>
-    <string name="moderator_zone_title">أدوات للمشرفين</string>
-    <string name="moderator_zone_action_contents">محتويات إلى معتدلة</string>
-    <string name="message_auth_issue">حدث خطأ أثناء جلب بيانات المستخدم، حاول تحديث الشاشة</string>
-    <string name="ban_reason_placeholder">لسبب (اختياري)</string>
-    <string name="ban_item_permanent">فرض حظر دائم</string>
-    <string name="ban_item_remove_data">إزالة البيانات</string>
-    <string name="ban_item_duration_days">المدة (أيام)</string>
-    <string name="message_unsaved_changes">هناك تغييرات لم يتم حفظها، هل أنت متأكد من أنك تريد الخروج؟</string>
-    <string name="button_no_stay">لا، ابق هنا</string>
-    <string name="button_yes_quit">نعم، الخروج</string>
-    <string name="settings_item_image_source_path">حفظ الصور في أدلة فرعية محددة</string>
-    <string name="settings_subtitle_image_source_path">استخدم المجتمع أو مقبض المستخدم في المسارات</string>
-    <string name="settings_title_display">شاشة</string>
-    <string name="settings_title_reading">القراءة والمحتويات</string>
-    <string name="settings_title_pictures">الصور</string>
-    <string name="settings_title_experimental">التجارب</string>
-    <string name="community_set_custom_sort">نوع الفرز المخصص</string>
-    <string name="settings_default_explore_type">نوع الخلاصة الافتراضي للاستكشاف</string>
-    <string name="action_search_in_community">البحث داخل المجتمع</string>
-    <string name="action_exit_search">الخروج من البحث</string>
-    <string name="beta">بيتا</string>
-    <string name="action_copy_clipboard">نسخ إلى الحافظة</string>
-    <string name="copy_title">انسخ العنوان</string>
-    <string name="copy_text">نسخ النص</string>
-    <string name="copy_both">انسخ كلاهما</string>
-    <string name="profile_upvotes_downvotes">التصويتات المؤيدة &amp; التصويت السلبي</string>
-    <string name="filtered_contents_type">نوع المحتوى</string>
-    <string name="action_search_in_comments">البحث في التعليقات</string>
-    <string name="advanced_settings_default_language">للغة الافتراضية في المحرر</string>
-    <string name="undetermined">غير معرف</string>
-    <string name="explore_result_type_title">نوع النتيجة</string>
-    <string name="community_action_edit">تحرير المجتمع</string>
-    <string name="edit_community_header_textual">معلومات نصية</string>
-    <string name="edit_community_item_sidebar">الشريط الجانبي</string>
-    <string name="edit_community_item_posting_restricted_to_mods">النشر يقتصر على المشرفين</string>
-    <string name="message_are_you_sure">هل انت متأكد انك تريد المتابعة؟</string>
-    <string name="button_cancel">يلغي</string>
-    <string name="share_mode_url">شارك كعنوان URL</string>
-    <string name="share_mode_file">شارك كملف</string>
-    <string name="modlog_item_community_purged">قام بتطهير المجتمع</string>
-    <string name="modlog_item_comment_purged">تمت إزالة التعليق</string>
-    <string name="modlog_item_person_purged">وقد تطهير الشخص</string>
-    <string name="modlog_item_post_purged">وقد تطهير آخر</string>
-    <string name="modlog_item_hidden">تم إخفاؤه</string>
-    <string name="modlog_item_unhidden">تم الكشف عنها</string>
-    <string name="settings_about_licences">التراخيص</string>
-    <string name="settings_inbox_background_check_period">التحقق من وجود عناصر غير مقروءة في الخلفية</string>
-    <string name="never">أبداً</string>
-    <string name="settings_app_icon">يقونة التطبيق</string>
-    <string name="requires_restart">(إعادة التشغيل مطلوبة)</string>
-    <string name="app_icon_default">تقصير</string>
-    <string name="app_icon_alt_1">أحادية اللون</string>
-    <string name="settings_fade_read_posts">تتلاشى قراءة المشاركات</string>
-    <string name="settings_show_unread_comments">إظهار عدد التعليقات غير المقروءة</string>
-    <string name="action_logout">تسجيل خروج</string>
-    <string name="settings_import">إعدادات الاستيراد من الملف</string>
-    <string name="settings_export">إعدادات التصدير إلى الملف</string>
-    <string name="settings_enable_buttons_to_scroll_between_comments">أزرار التنقل في شاشة النشر</string>
-    <string name="settings_url_opening_mode_internal">داخل التطبيق</string>
-    <string name="settings_url_opening_mode_external">متصفح خارجي</string>
-    <string name="settings_url_opening_mode_custom_tabs">علامات التبويب المخصصة</string>
-    <string name="settings_full_width_images">صور بالعرض الكامل</string>
-    <string name="content_scale_fit">ناسب الحجم</string>
-    <string name="content_scale_fill_width">ملء العرض</string>
-    <string name="content_scale_fill_height">ملء الارتفاع</string>
-    <string name="settings_comment_indent_amount">عرض المسافة البادئة للتعليقات</string>
-    <string name="post_action_unhide">إرجاع الإخفاء</string>
-    <string name="admin_action_purge">تطهير</string>
-    <string name="admin_action_mark_as_featured">وضع علامة مميزة (مثال)</string>
-    <string name="admin_action_unmark_as_featured">إلغاء تحديد علامة مميزة (مثال)</string>
-    <string name="community_set_preferred_language">تعيين اللغة المفضلة</string>
-</resources>
