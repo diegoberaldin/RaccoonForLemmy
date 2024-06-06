@@ -153,25 +153,59 @@ In this case, you should:
 ### 3.4 Add a new localization
 
 The preferred way for localizations (l10ns) is to submit a pull request (PR) as detailed in
-the [next section](#35-submit-a-pull-request). The project uses
-the [Lyricist](https://github.com/adrielcafe/lyricist) library with a KSP plug-in that parses
-XML files in the Android style to generate values that can be accessed via composition locals.
+the [next section](#35-submit-a-pull-request).
 
-You will have to create a new folder under the `core/l10n/src/androidMain/res` directory
-named `values-XX` where XX is locale you want to add (following IANA conventions) and create
-a `strings.xml` file in it, copying the contents
-of [this file](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/l10n/src/androidMain/res/values/strings.xml)
-containing the base localization.
+The project uses
+the [Lyricist](https://github.com/adrielcafe/lyricist) library for internationalization, which
+relies on Composition Locals to access strings in Composables.
 
-After which you'll have to make sure the project compiles, because there are some syntax rules that
-must be enforced in string files, e.g.:
+In order to add a new language, you will have to create a new implementation of the `Strings`
+interface inside the `:core:l10n` module, namely under the `messages` package in the `commonMain`
+source set.
 
-- apostrophes (`'`) must be escaped with a backslash (`\'`)
-- some special characters must be represented as XML entities so `>` becomes `&gt;`, `<`
-  becomes `&lt;`, `&` becomes `&amps;` and so on… (talking of ellipsis, use `…` preferably instead
-  of three dots)
+First of all, determine the locale code, suppose it is `xx_YY`, based on the IANA conventions: it
+can
+consist a set of letters for the language `xx`, optionally followed by an underscore and another
+letter
+set for the region `YY` (e.g. `pt_BR` for Brazilian Portuguese or `pt` for Portuguese). If you only
+have to use the `xx` part, please ignore the `yy` indication in the rest of the explanation
+contained in this paragraph.
 
-If you want you can change the code in the following spots:
+Inside the `messages` package, create a file named `XxYyStrings.kt` which will contain an
+anonymous implementation of `Strings` stored in a variable called `XxYyStrings` like this
+
+```kotlin
+
+internal val XxYyStrings =
+  object : Strings {
+    override val actionBackToTop = "..."
+    // ... continue overriding all the remaining properties
+  }
+```
+
+It is recommended to copy the contents of the existing `EnStrings.kt` (i.e. the base localization)
+in order to already have all the overridden properties and just rewrite the values in quotes.
+
+While editing messages, please escape all apostrophes (`'`) with a backslash (`\'`); while not
+strictly needed any more, it's for compatibility with the old XML format used for localization.
+
+Afterwards, edit the `Strings.kt` file in the same directory with the following modifications:
+
+```kotlin
+object Locales {
+  // ...
+  const val XX_YY = "xx_YY"
+}
+
+internal val localizableStrings: Map<LanguageTag, Strings> =
+  mapOf(
+    // ...
+    Locales.XX_YY to XxYxStrings,
+  )
+```
+
+Finally, if you want you can change the rest of the code (e.g. the language dialog, etc) please do
+the following:
 
 - in
   [Extensions.kt](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/utils/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/utils/Extensions.kt)
@@ -179,18 +213,18 @@ If you want you can change the code in the following spots:
 - add an option (using your language code) in the `values` array
   in [LanguageBottomSheet.kt](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/commonui/modals/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/commonui/modals/LanguageBottomSheet.kt)
 
-That's it. You can test that everything works by launching the development app.
+That's it! You can test that everything works by launching the development app.
 
-**A note for translators:** the strings that correspond to theme names (`settings_color_aquamarine`,
-`settings_color_banana`, `settings_color_blue`, `settings_color_gray`, `settings_color_green`,
-`settings_color_orange`, `settings_color_pink`, `settings_color_purple`, `settings_color_red` and
-`settings_color_white`) contain the name of an animal accompanied by an adjective. If would be nice
+**A note for translators:** the strings that correspond to theme names (`settingsColorAquamarine`,
+`settingsColorBanana`, `settingsColorBlue`, `settingsColorGray`, `settingsColorGreen`,
+`settingsColorOrange`, `settingsColorPink`, `settingsColorPurple`, `settingsColorRed` and
+`settingsColorWhite`) contain the name of an animal accompanied by an adjective. It would be nice
 if the adjective and the noun would start in every language with the same sound in order to create
 humorous pairs like in English ("hilarious hedgehog", "frolicsome frog", etc.).
 
 However, if you are not a developer and do not feel confident with GitHub's PR mechanism, you can
 just download
-the [base l10n](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/resources/src/commonMain/resources/MR/base/strings.xml)
+the [base l10n](https://github.com/diegoberaldin/RaccoonForLemmy/blob/master/core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/EnStrings.kt)
 to your local machine, edit the file and send an email to the maintainers with the attachment, we
 will take care of the rest.
 
