@@ -813,8 +813,8 @@ class CommunityDetailScreen(
                             state = lazyListState,
                             userScrollEnabled = !uiState.zombieModeActive,
                         ) {
-                            if (!uiState.searching) {
-                                item {
+                            item {
+                                if (!uiState.searching) {
                                     CommunityHeader(
                                         modifier = Modifier.padding(bottom = Spacing.s),
                                         community = uiState.community,
