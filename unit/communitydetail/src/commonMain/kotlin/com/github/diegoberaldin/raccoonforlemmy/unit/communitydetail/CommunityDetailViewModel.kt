@@ -81,8 +81,8 @@ class CommunityDetailViewModel(
                     it.copy(
                         community = community,
                         instance =
-                        otherInstance.takeIf { n -> n.isNotEmpty() }
-                            ?: apiConfigurationRepository.instance.value,
+                            otherInstance.takeIf { n -> n.isNotEmpty() }
+                                ?: apiConfigurationRepository.instance.value,
                     )
                 }
             }
@@ -134,16 +134,16 @@ class CommunityDetailViewModel(
                     updateState {
                         it.copy(
                             posts =
-                            it.posts.map { p ->
-                                if (p.id == postId) {
-                                    p.copy(
-                                        creator = newUser,
-                                        updateDate = newUser.updateDate,
-                                    )
-                                } else {
-                                    p
-                                }
-                            },
+                                it.posts.map { p ->
+                                    if (p.id == postId) {
+                                        p.copy(
+                                            creator = newUser,
+                                            updateDate = newUser.updateDate,
+                                        )
+                                    } else {
+                                        p
+                                    }
+                                },
                         )
                     }
                 }.launchIn(this)
@@ -175,6 +175,7 @@ class CommunityDetailViewModel(
             searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
                 updateState { it.copy(loading = false) }
                 emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                delay(50)
                 refresh()
             }.launchIn(this)
 
@@ -572,8 +573,8 @@ class CommunityDetailViewModel(
                 updateState { it.copy(community = community) }
                 notificationCenter.send(
                     NotificationCenterEvent.CommunitySubscriptionChanged(
-                        community
-                    )
+                        community,
+                    ),
                 )
             }
         }
@@ -591,8 +592,8 @@ class CommunityDetailViewModel(
                 updateState { it.copy(community = community) }
                 notificationCenter.send(
                     NotificationCenterEvent.CommunitySubscriptionChanged(
-                        community
-                    )
+                        community,
+                    ),
                 )
             }
         }
@@ -603,13 +604,13 @@ class CommunityDetailViewModel(
             updateState {
                 it.copy(
                     posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
                 )
             }
         }
