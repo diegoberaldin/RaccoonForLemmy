@@ -403,7 +403,7 @@ class CreatePostScreen(
                     },
                     keyboardOptions =
                         KeyboardOptions(
-                            keyboardType = KeyboardType.Ascii,
+                            keyboardType = KeyboardType.Text,
                             autoCorrect = true,
                             imeAction = ImeAction.Next,
                             capitalization = KeyboardCapitalization.Sentences,
@@ -463,7 +463,7 @@ class CreatePostScreen(
                     singleLine = true,
                     keyboardOptions =
                         KeyboardOptions(
-                            keyboardType = KeyboardType.Ascii,
+                            keyboardType = KeyboardType.Text,
                             autoCorrect = false,
                             imeAction = ImeAction.Next,
                         ),

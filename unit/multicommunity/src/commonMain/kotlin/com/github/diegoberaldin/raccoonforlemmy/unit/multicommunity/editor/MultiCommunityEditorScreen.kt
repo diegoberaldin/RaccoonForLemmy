@@ -165,7 +165,7 @@ class MultiCommunityEditorScreen(
                     value = uiState.name,
                     keyboardOptions =
                         KeyboardOptions(
-                            keyboardType = KeyboardType.Ascii,
+                            keyboardType = KeyboardType.Text,
                             autoCorrect = false,
                             imeAction = ImeAction.Next,
                         ),

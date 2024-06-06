@@ -243,7 +243,7 @@ class InboxChatScreen(
                         value = textFieldValue,
                         keyboardOptions =
                             KeyboardOptions(
-                                keyboardType = KeyboardType.Ascii,
+                                keyboardType = KeyboardType.Text,
                                 autoCorrect = true,
                                 capitalization = KeyboardCapitalization.Sentences,
                             ),
