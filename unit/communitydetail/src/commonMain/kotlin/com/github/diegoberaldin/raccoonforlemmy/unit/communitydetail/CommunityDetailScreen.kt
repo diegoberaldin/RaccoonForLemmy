@@ -585,7 +585,8 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Edit -> {
-                                                    val screen = EditCommunityScreen(uiState.community.id)
+                                                    val screen =
+                                                        EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -877,7 +878,9 @@ class CommunityDetailScreen(
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                                    backgroundColor =
+                                                        upVoteColor
+                                                            ?: defaultUpvoteColor,
                                                     onTriggered =
                                                         rememberCallback {
                                                             model.reduce(
@@ -923,7 +926,9 @@ class CommunityDetailScreen(
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = replyColor ?: defaultReplyColor,
+                                                    backgroundColor =
+                                                        replyColor
+                                                            ?: defaultReplyColor,
                                                     onTriggered =
                                                         rememberCallback {
                                                             detailOpener.openReply(originalPost = post)
@@ -1203,7 +1208,11 @@ class CommunityDetailScreen(
                                                                     buildString {
                                                                         append(LocalStrings.current.adminActionPurge)
                                                                         append(" ")
-                                                                        append(creator.readableName(uiState.preferNicknames))
+                                                                        append(
+                                                                            creator.readableName(
+                                                                                uiState.preferNicknames,
+                                                                            ),
+                                                                        )
                                                                     },
                                                                 )
                                                         }
@@ -1291,7 +1300,9 @@ class CommunityDetailScreen(
 
                                                         OptionId.LockPost ->
                                                             model.reduce(
-                                                                CommunityDetailMviModel.Intent.ModLockPost(post.id),
+                                                                CommunityDetailMviModel.Intent.ModLockPost(
+                                                                    post.id,
+                                                                ),
                                                             )
 
                                                         OptionId.Remove -> {
