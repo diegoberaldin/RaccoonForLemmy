@@ -7,13 +7,13 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.github.diegoberaldin.raccoonforlemmy.core.resources.CoreResources
 import org.jetbrains.compose.resources.Font
-import org.jetbrains.compose.resources.FontResource
 import org.jetbrains.compose.resources.painterResource
 import raccoon_for_lemmy.shared.generated.resources.Res
 import raccoon_for_lemmy.shared.generated.resources.charissil_bold
 import raccoon_for_lemmy.shared.generated.resources.charissil_italic
 import raccoon_for_lemmy.shared.generated.resources.charissil_regular
 import raccoon_for_lemmy.shared.generated.resources.ic_alt_1
+import raccoon_for_lemmy.shared.generated.resources.ic_alt_2
 import raccoon_for_lemmy.shared.generated.resources.ic_default
 import raccoon_for_lemmy.shared.generated.resources.ic_github
 import raccoon_for_lemmy.shared.generated.resources.ic_lemmy
@@ -42,6 +42,10 @@ internal class SharedResources : CoreResources {
     override val appIconAlt1: Painter
         @Composable
         get() = painterResource(Res.drawable.ic_alt_1)
+
+    override val appIconAlt2: Painter
+        @Composable
+        get() = painterResource(Res.drawable.ic_alt_2)
 
     override val notoSans: FontFamily
         @Composable
