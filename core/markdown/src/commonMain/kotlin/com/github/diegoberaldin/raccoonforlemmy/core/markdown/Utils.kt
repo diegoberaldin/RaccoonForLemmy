@@ -18,12 +18,12 @@ internal fun ASTNode.findChildOfTypeRecursive(type: IElementType): ASTNode? {
 }
 
 internal fun String.sanitize(): String =
-    this
-        .removeEntities()
+    this.removeEntities()
         .spoilerFixUp()
         .quoteFixUp()
         .expandLemmyHandles()
         .cleanupEscapes()
+        .emptyLinkFixup()
 
 private fun String.removeEntities(): String =
     replace("&amp;", "&")
@@ -103,3 +103,5 @@ private fun String.expandLemmyHandles(): String =
     }
 
 private fun String.cleanupEscapes(): String = replace("\\#", "#")
+
+private fun String.emptyLinkFixup(): String = replace("[]()", "")
