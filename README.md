@@ -10,9 +10,8 @@
 <br />
 
 <div align="center">
-  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/6785188f-9c2a-4622-ab6b-5aa116d27c31" width="240" height="auto" />
+  <img src="https://github.com/diegoberaldin/RaccoonForLemmy/assets/2738294/4db86e14-5966-411c-ae63-fad45aa10e04" width="240" height="auto" />
 </div>
-
 
 # Raccoon for Lemmy
 
