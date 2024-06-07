@@ -810,4 +810,6 @@ internal val TrStrings =
         override val adminActionUnmarkAsFeatured = "Öne çıkan işaretini kaldır (örnek)"
 
         override val communitySetPreferredLanguage = "Tercih edilen dili ayarla"
+
+        override val appIconClassical = "Klasik"
     }

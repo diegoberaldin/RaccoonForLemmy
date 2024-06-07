@@ -811,4 +811,6 @@ internal val GaStrings =
         override val adminActionUnmarkAsFeatured = "Dímharcáil mar atá i gceist (cás)"
 
         override val communitySetPreferredLanguage = "An teanga rogha a shocrú"
+
+        override val appIconClassical = "Clasaiceach"
     }

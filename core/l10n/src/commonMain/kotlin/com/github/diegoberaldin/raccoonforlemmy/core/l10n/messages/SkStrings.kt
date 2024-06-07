@@ -811,4 +811,6 @@ internal val SkStrings =
         override val adminActionUnmarkAsFeatured = "Zrušiť označenie ako odporúčané (inštancia)"
 
         override val communitySetPreferredLanguage = "Nastavenie preferovaného jazyka"
+
+        override val appIconClassical = "Klasická"
     }

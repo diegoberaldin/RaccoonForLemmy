@@ -816,4 +816,6 @@ internal val ElStrings =
             "Κατάργηση επισήμανσης ως επιλεγμένου (παράδειγμα)"
 
         override val communitySetPreferredLanguage = "Ορισμός προτιμώμενης γλώσσας"
+
+        override val appIconClassical = "Κλασσική"
     }

@@ -809,4 +809,6 @@ internal val CsStrings =
         override val adminActionUnmarkAsFeatured = "Zrušit označení jako doporučené (instance)"
 
         override val communitySetPreferredLanguage = "Nastavení preferovaného jazyka"
+
+        override val appIconClassical = "Klasický"
     }

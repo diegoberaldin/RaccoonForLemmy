@@ -809,4 +809,6 @@ internal val RoStrings =
         override val adminActionUnmarkAsFeatured = "Anulează marcare ca recomandat (instanță)"
 
         override val communitySetPreferredLanguage = "Setează limba preferată"
+
+        override val appIconClassical = "Clasic"
     }

@@ -808,4 +808,6 @@ internal val LtStrings =
         override val adminActionUnmarkAsFeatured = "Panaikinkite žymėjimą kaip panašų (pavyzdys)"
 
         override val communitySetPreferredLanguage = "Nustatyti pageidaujamą kalbą"
+
+        override val appIconClassical = "Klasikinis"
     }

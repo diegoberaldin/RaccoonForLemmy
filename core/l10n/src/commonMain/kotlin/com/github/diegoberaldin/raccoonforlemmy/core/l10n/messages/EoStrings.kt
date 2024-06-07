@@ -805,4 +805,6 @@ internal val EoStrings =
         override val adminActionUnmarkAsFeatured = "Malmarki kiel elstara (nodo)"
 
         override val communitySetPreferredLanguage = "Agordi preferatan lingvon"
+
+        override val appIconClassical = "Klasika"
     }

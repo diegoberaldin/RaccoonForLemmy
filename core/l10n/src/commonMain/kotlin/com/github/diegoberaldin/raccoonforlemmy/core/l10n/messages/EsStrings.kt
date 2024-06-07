@@ -810,4 +810,6 @@ internal val EsStrings =
         override val adminActionUnmarkAsFeatured = "Desmarcar como destacado (instancia)"
 
         override val communitySetPreferredLanguage = "Elegir idioma preferido"
+
+        override val appIconClassical = "Clásico"
     }

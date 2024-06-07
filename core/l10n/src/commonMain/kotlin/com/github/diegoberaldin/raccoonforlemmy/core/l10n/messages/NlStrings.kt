@@ -811,4 +811,6 @@ internal val NlStrings =
         override val adminActionUnmarkAsFeatured = "Markering als aanbevolen opheffen (instantie)"
 
         override val communitySetPreferredLanguage = "Voorkeurstaal instellen"
+
+        override val appIconClassical = "Klassiek"
     }

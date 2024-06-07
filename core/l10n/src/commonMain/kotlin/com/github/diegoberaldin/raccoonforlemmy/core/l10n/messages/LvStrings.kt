@@ -809,4 +809,6 @@ internal val LvStrings =
         override val adminActionUnmarkAsFeatured = "Noņemt atzīmēto kā piedāvāto (piemērs)"
 
         override val communitySetPreferredLanguage = "Iestatīt vēlamo valodu"
+
+        override val appIconClassical = "Klasiskā"
     }

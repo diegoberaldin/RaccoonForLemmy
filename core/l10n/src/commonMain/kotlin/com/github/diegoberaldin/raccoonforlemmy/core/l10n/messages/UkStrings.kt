@@ -811,4 +811,6 @@ internal val UkStrings =
             "Скасувати позначення як рекомендованого (екземпляр)"
 
         override val communitySetPreferredLanguage = "Tercih edilen dili ayarla"
+
+        override val appIconClassical = "Класичний"
     }

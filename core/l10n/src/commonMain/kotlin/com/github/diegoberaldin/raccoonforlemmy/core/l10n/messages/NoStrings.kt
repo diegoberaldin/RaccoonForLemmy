@@ -807,4 +807,6 @@ internal val NoStrings =
         override val adminActionUnmarkAsFeatured = "Fjern merking som fremhevet (forekomst)"
 
         override val communitySetPreferredLanguage = "Sett foretrukket språk"
+
+        override val appIconClassical = "Klassisk"
     }

@@ -810,4 +810,6 @@ internal val HrStrings =
         override val adminActionUnmarkAsFeatured = "Ukloni oznaku kao istaknuto (instanca)"
 
         override val communitySetPreferredLanguage = "Postavljanje preferiranog jezik"
+
+        override val appIconClassical = "Klasična"
     }

@@ -811,4 +811,6 @@ internal val SrStrings =
         override val adminActionUnmarkAsFeatured = "Уклони ознаку као истакнуто (инстанца)"
 
         override val communitySetPreferredLanguage = "Подеси преферирани језик"
+
+        override val appIconClassical = "Цлассицал"
     }

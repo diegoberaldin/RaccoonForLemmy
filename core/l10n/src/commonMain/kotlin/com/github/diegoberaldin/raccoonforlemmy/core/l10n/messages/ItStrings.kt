@@ -811,4 +811,6 @@ internal val ItStrings =
         override val adminActionUnmarkAsFeatured = "Contrassegna come non fisasto (istanza)"
 
         override val communitySetPreferredLanguage = "Imposta lingua preferita"
+
+        override val appIconClassical = "Classica"
     }

@@ -809,4 +809,6 @@ internal val SlStrings =
         override val adminActionUnmarkAsFeatured = "Odznači kot predstavljeno (primer)"
 
         override val communitySetPreferredLanguage = "Nastavitev prednostnega jezika"
+
+        override val appIconClassical = "Klasična"
     }

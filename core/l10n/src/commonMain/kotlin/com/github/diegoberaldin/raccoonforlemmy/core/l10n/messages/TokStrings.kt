@@ -806,4 +806,6 @@ internal val TokStrings =
         override val adminActionUnmarkAsFeatured = "o sitelen ala sama sewi (ilo nanpa)"
 
         override val communitySetPreferredLanguage = "o anu e toki pi wile sina"
+
+        override val appIconClassical = "majuna"
     }

@@ -811,4 +811,6 @@ internal val SqStrings =
         override val adminActionUnmarkAsFeatured = "Hiq shënimin si të paraqitur (shembull)"
 
         override val communitySetPreferredLanguage = "Cakto gjuhën e preferuar"
+
+        override val appIconClassical = "Klasike"
     }

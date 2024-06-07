@@ -808,4 +808,6 @@ internal val DaStrings =
         override val adminActionUnmarkAsFeatured = "Fjern markering som fremhævet (forekomst)"
 
         override val communitySetPreferredLanguage = "Indstil foretrukket sprog"
+
+        override val appIconClassical = "Klassisk"
     }

@@ -810,4 +810,6 @@ internal val MtStrings =
         override val adminActionUnmarkAsFeatured = "Neħħi l-immarka bħala dehru (istanza)"
 
         override val communitySetPreferredLanguage = "Issettja l-lingwa preferuta"
+
+        override val appIconClassical = "Klassiku"
     }

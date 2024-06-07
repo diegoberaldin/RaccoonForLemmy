@@ -813,4 +813,6 @@ internal val DeStrings =
         override val adminActionUnmarkAsFeatured = "Markierung als vorgestellt aufheben (Instanz)"
 
         override val communitySetPreferredLanguage = "Bevorzugte Sprache festlegen"
+
+        override val appIconClassical = "Klassisch"
     }

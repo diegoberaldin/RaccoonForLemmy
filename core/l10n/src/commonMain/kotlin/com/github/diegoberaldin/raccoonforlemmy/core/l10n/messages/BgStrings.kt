@@ -813,4 +813,6 @@ internal val BgStrings =
         override val adminActionUnmarkAsFeatured = "Демаркиране като представено (екземпляр)"
 
         override val communitySetPreferredLanguage = "Задаване на предпочитанияезик"
+
+        override val appIconClassical = "Класическа"
     }

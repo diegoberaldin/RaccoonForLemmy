@@ -806,4 +806,6 @@ internal val EnStrings =
         override val adminActionUnmarkAsFeatured = "Unmark as featured (instance)"
 
         override val communitySetPreferredLanguage = "Set preferred language"
+
+        override val appIconClassical = "Classical"
     }

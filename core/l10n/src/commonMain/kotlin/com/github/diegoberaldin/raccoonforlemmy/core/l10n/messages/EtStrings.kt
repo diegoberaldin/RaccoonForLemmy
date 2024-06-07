@@ -811,4 +811,6 @@ internal val EtStrings =
         override val adminActionUnmarkAsFeatured = "Tühista esiletõstetud märgistus (näide)"
 
         override val communitySetPreferredLanguage = "Eelistatud keele määramine"
+
+        override val appIconClassical = "Klassikaline"
     }

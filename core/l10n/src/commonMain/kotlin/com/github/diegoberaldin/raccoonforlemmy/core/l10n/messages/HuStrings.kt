@@ -814,4 +814,6 @@ internal val HuStrings =
             "Kiemeltként való megjelölés visszavonása (példány)"
 
         override val communitySetPreferredLanguage = "Előnyben részesítettnyelv beállítása"
+
+        override val appIconClassical = "Klasszikus"
     }

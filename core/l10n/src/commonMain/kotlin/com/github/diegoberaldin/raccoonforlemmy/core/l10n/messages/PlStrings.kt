@@ -810,4 +810,6 @@ internal val PlStrings =
         override val adminActionUnmarkAsFeatured = "Usuń oznaczenie jako polecane (instancja)"
 
         override val communitySetPreferredLanguage = "Ustaw preferowany język"
+
+        override val appIconClassical = "Klasyczny"
     }

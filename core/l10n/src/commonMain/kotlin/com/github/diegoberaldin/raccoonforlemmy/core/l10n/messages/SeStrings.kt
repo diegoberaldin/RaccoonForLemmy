@@ -809,4 +809,6 @@ internal val SeStrings =
         override val adminActionUnmarkAsFeatured = "Avmarkera som utvald (instans)"
 
         override val communitySetPreferredLanguage = "Ställ in önskat språk"
+
+        override val appIconClassical = "Klassisk"
     }

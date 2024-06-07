@@ -809,4 +809,6 @@ internal val PtBrStrings =
         override val adminActionUnmarkAsFeatured = "Desmarcar como destaque (instância)"
 
         override val communitySetPreferredLanguage = "Definir idioma preferido"
+
+        override val appIconClassical = "Clássico"
     }

@@ -806,4 +806,6 @@ internal val ArStrings =
         override val adminActionUnmarkAsFeatured = "إلغاء تحديد علامة مميزة (مثال)"
 
         override val communitySetPreferredLanguage = "تعيين اللغة المفضلة"
+
+        override val appIconClassical = "كلاسيكي"
     }

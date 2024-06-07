@@ -807,4 +807,6 @@ internal val FiStrings =
         override val adminActionUnmarkAsFeatured = "Poista suositellun merkintä (esim.)"
 
         override val communitySetPreferredLanguage = "Aseta ensisijainen kieli"
+
+        override val appIconClassical = "Klassinen"
     }

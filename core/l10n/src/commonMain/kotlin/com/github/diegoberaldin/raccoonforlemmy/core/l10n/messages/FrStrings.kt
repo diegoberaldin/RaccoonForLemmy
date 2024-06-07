@@ -815,4 +815,6 @@ internal val FrStrings =
         override val adminActionUnmarkAsFeatured = "Démarquer comme présenté (instance)"
 
         override val communitySetPreferredLanguage = "Définir la langue préférée"
+
+        override val appIconClassical = "Classique"
     }

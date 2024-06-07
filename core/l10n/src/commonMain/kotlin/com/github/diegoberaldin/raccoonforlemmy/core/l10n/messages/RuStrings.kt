@@ -812,4 +812,6 @@ internal val RuStrings =
         override val adminActionUnmarkAsFeatured = "Снять пометку как избранное (экземпляр)"
 
         override val communitySetPreferredLanguage = "Установить предпочитаемый язык"
+
+        override val appIconClassical = "Классический"
     }
