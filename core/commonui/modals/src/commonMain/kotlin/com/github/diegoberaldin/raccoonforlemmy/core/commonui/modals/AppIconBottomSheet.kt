@@ -49,6 +49,7 @@ class AppIconBottomSheet : Screen {
                 listOf(
                     AppIconVariant.Default,
                     AppIconVariant.Alt1,
+                    AppIconVariant.Alt2,
                 )
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
@@ -60,6 +61,7 @@ class AppIconBottomSheet : Screen {
                         title = value.toReadableName(),
                         painter =
                             when (value) {
+                                AppIconVariant.Alt2 -> coreResources.appIconAlt2
                                 AppIconVariant.Alt1 -> coreResources.appIconAlt1
                                 else -> coreResources.appIconDefault
                             },
