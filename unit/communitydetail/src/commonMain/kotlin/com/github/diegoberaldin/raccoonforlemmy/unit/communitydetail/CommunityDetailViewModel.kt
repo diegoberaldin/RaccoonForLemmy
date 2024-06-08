@@ -347,6 +347,10 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.SelectPreferredLanguage -> {
                 updatePreferredLanguage(intent.languageId)
             }
+
+            CommunityDetailMviModel.Intent.DeleteCommunity -> {
+                deleteCommunity()
+            }
         }
     }
 
@@ -780,8 +784,7 @@ class CommunityDetailViewModel(
                 )
                 emitEffect(CommunityDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                val message = e.message
-                emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+                emitEffect(CommunityDetailMviModel.Effect.Failure(e.message))
             }
         }
     }
@@ -792,6 +795,21 @@ class CommunityDetailViewModel(
             communityPreferredLanguageRepository.save(handle = communityHandle, value = languageId)
             updateState {
                 it.copy(currentPreferredLanguageId = languageId)
+            }
+        }
+    }
+
+    private fun deleteCommunity() {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            try {
+                communityRepository.delete(
+                    auth = auth,
+                    communityId = communityId,
+                )
+                emitEffect(CommunityDetailMviModel.Effect.Back)
+            } catch (e: Exception) {
+                emitEffect(CommunityDetailMviModel.Effect.Failure(e.message))
             }
         }
     }

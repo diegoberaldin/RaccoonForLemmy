@@ -72,6 +72,8 @@ interface CommunityDetailMviModel :
         data object UnhideCommunity : Intent
 
         data class SelectPreferredLanguage(val languageId: Long?) : Intent
+
+        data object DeleteCommunity : Intent
     }
 
     data class UiState(
@@ -123,5 +125,7 @@ interface CommunityDetailMviModel :
         data class ZombieModeTick(val index: Int) : Effect
 
         data class TriggerCopy(val text: String) : Effect
+
+        data object Back : Effect
     }
 }

@@ -212,6 +212,7 @@ class CommunityDetailScreen(
             }
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
         var unsubscribeConfirmDialogOpen by remember { mutableStateOf(false) }
+        var deleteConfirmDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -250,6 +251,8 @@ class CommunityDetailScreen(
                     is CommunityDetailMviModel.Effect.Failure -> {
                         snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
+
+                    CommunityDetailMviModel.Effect.Back -> navigationCoordinator.popScreen()
                 }
             }.launchIn(this)
         }
@@ -437,11 +440,15 @@ class CommunityDetailScreen(
                                                 OptionId.OpenReports,
                                                 LocalStrings.current.modActionOpenReports,
                                             )
-
                                         this +=
                                             Option(
                                                 OptionId.Edit,
                                                 LocalStrings.current.communityActionEdit,
+                                            )
+                                        this +=
+                                            Option(
+                                                OptionId.Delete,
+                                                LocalStrings.current.commentActionDelete,
                                             )
                                     }
                                     if (uiState.isAdmin) {
@@ -588,6 +595,10 @@ class CommunityDetailScreen(
                                                     val screen =
                                                         EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Delete -> {
+                                                    deleteConfirmDialogOpen = true
                                                 }
 
                                                 OptionId.Hide -> {
@@ -1593,6 +1604,42 @@ class CommunityDetailScreen(
                         onClick = {
                             unsubscribeConfirmDialogOpen = false
                             model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonConfirm)
+                    }
+                },
+            )
+        }
+
+        if (deleteConfirmDialogOpen) {
+            AlertDialog(
+                onDismissRequest = {
+                    deleteConfirmDialogOpen = false
+                },
+                title = {
+                    Text(
+                        text = LocalStrings.current.commentActionDelete,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                },
+                text = {
+                    Text(text = LocalStrings.current.messageAreYouSure)
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            deleteConfirmDialogOpen = false
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            deleteConfirmDialogOpen = false
+                            model.reduce(CommunityDetailMviModel.Intent.DeleteCommunity)
                         },
                     ) {
                         Text(text = LocalStrings.current.buttonConfirm)
