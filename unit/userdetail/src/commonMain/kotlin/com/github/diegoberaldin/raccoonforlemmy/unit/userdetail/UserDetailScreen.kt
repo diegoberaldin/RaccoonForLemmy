@@ -1113,6 +1113,10 @@ class UserDetailScreen(
                                             },
                                         options =
                                             buildList {
+                                                Option(
+                                                    OptionId.Share,
+                                                    LocalStrings.current.postActionShare,
+                                                )
                                                 this +=
                                                     Option(
                                                         OptionId.SeeRaw,
@@ -1140,6 +1144,27 @@ class UserDetailScreen(
 
                                                     OptionId.SeeRaw -> {
                                                         rawContent = comment
+                                                    }
+
+                                                    OptionId.Share -> {
+                                                        val urls =
+                                                            listOfNotNull(
+                                                                comment.originalUrl,
+                                                                "https://${uiState.instance}/comment/${comment.id}",
+                                                            ).distinct()
+                                                        if (urls.size == 1) {
+                                                            model.reduce(
+                                                                UserDetailMviModel.Intent.Share(
+                                                                    urls.first(),
+                                                                ),
+                                                            )
+                                                        } else {
+                                                            val screen =
+                                                                ShareBottomSheet(urls = urls)
+                                                            navigationCoordinator.showBottomSheet(
+                                                                screen,
+                                                            )
+                                                        }
                                                     }
 
                                                     else -> Unit
