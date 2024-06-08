@@ -8,6 +8,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommunityResponse
@@ -70,6 +71,13 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: AddModToCommunityForm,
     ): AddModToCommunityResponse
+
+    @POST("community")
+    @Headers("Content-Type: application/json")
+    suspend fun create(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: CreateCommunityForm,
+    ): CommunityResponse
 
     @PUT("community")
     @Headers("Content-Type: application/json")
