@@ -415,4 +415,8 @@ internal val SrStrings =
         override val communitySetPreferredLanguage = "Подеси преферирани језик"
         override val appIconClassical = "Цлассицал"
         override val settingsAboutAcknowledgements: String = "Признања"
+        override val actionCreateCommunity: String = "Креирајте заједницу"
+        override val editCommunityItemVisibility: String = "Видљивост"
+        override val communityVisibilityLocalOnly: String = "само локална инстанца"
+        override val communityVisibilityPublic: String = "јавности"
     }

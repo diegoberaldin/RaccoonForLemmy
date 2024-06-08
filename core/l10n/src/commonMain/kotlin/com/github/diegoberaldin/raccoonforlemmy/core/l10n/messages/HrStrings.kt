@@ -414,4 +414,8 @@ internal val HrStrings =
         override val communitySetPreferredLanguage = "Postavljanje preferiranog jezik"
         override val appIconClassical = "Klasična"
         override val settingsAboutAcknowledgements: String = "Priznanja"
+        override val actionCreateCommunity: String = "Stvorite zajednicu"
+        override val editCommunityItemVisibility: String = "Vidljivost"
+        override val communityVisibilityLocalOnly: String = "samo lokalna instanca"
+        override val communityVisibilityPublic: String = "javnost"
     }

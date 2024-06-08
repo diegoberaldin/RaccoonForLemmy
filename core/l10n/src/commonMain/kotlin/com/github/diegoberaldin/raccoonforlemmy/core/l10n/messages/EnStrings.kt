@@ -410,4 +410,8 @@ internal val EnStrings =
         override val communitySetPreferredLanguage = "Set preferred language"
         override val appIconClassical = "Classical"
         override val settingsAboutAcknowledgements: String = "Acknowledgements"
+        override val actionCreateCommunity: String = "Create community"
+        override val editCommunityItemVisibility: String = "Visibility"
+        override val communityVisibilityLocalOnly: String = "local instance only"
+        override val communityVisibilityPublic: String = "public"
     }

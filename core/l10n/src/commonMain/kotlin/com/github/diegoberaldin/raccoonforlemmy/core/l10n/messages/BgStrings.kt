@@ -417,4 +417,8 @@ internal val BgStrings =
         override val communitySetPreferredLanguage = "Задаване на предпочитанияезик"
         override val appIconClassical = "Класическа"
         override val settingsAboutAcknowledgements: String = "Благодарности"
+        override val actionCreateCommunity: String = "Създайте общност"
+        override val editCommunityItemVisibility: String = "Видимост"
+        override val communityVisibilityLocalOnly: String = "само локален екземпляр"
+        override val communityVisibilityPublic: String = "публичен"
     }

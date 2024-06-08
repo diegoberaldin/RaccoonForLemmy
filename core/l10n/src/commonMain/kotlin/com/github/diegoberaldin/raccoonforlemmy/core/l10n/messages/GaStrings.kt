@@ -415,4 +415,8 @@ internal val GaStrings =
         override val communitySetPreferredLanguage = "An teanga rogha a shocrú"
         override val appIconClassical = "Clasaiceach"
         override val settingsAboutAcknowledgements: String = "Buíochas"
+        override val actionCreateCommunity: String = "Cruthaigh pobail"
+        override val editCommunityItemVisibility: String = "Infheictheacht"
+        override val communityVisibilityLocalOnly: String = "shampla áitiúil amháin"
+        override val communityVisibilityPublic: String = "poiblí"
     }

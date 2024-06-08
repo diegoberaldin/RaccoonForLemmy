@@ -415,4 +415,8 @@ internal val SqStrings =
         override val communitySetPreferredLanguage = "Cakto gjuhën e preferuar"
         override val appIconClassical = "Klasike"
         override val settingsAboutAcknowledgements: String = "Mirënjohje"
+        override val actionCreateCommunity: String = "Krijo komunitet"
+        override val editCommunityItemVisibility: String = "Dukshmëria"
+        override val communityVisibilityLocalOnly: String = "vetëm për shembull lokal"
+        override val communityVisibilityPublic: String = "publike"
     }

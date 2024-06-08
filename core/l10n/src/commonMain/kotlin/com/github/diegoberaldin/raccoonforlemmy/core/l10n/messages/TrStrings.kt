@@ -414,4 +414,8 @@ internal val TrStrings =
         override val communitySetPreferredLanguage = "Tercih edilen dili ayarla"
         override val appIconClassical = "Klasik"
         override val settingsAboutAcknowledgements: String = "Teşekkür"
+        override val actionCreateCommunity: String = "Topluluk oluştur"
+        override val editCommunityItemVisibility: String = "Görünürlük"
+        override val communityVisibilityLocalOnly: String = "yalnızca yerel örnek"
+        override val communityVisibilityPublic: String = "halk"
     }

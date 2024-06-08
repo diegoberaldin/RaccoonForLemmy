@@ -413,4 +413,8 @@ internal val SeStrings =
         override val communitySetPreferredLanguage = "Ställ in önskat språk"
         override val appIconClassical = "Klassisk"
         override val settingsAboutAcknowledgements: String = "Erkännanden"
+        override val actionCreateCommunity: String = "Skapa gemenskap"
+        override val editCommunityItemVisibility: String = "Synlighet"
+        override val communityVisibilityLocalOnly: String = "endast lokal instans"
+        override val communityVisibilityPublic: String = "offentlig"
     }

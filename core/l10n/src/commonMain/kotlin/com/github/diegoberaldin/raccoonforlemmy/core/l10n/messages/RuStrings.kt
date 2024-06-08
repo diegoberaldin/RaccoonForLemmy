@@ -416,4 +416,8 @@ internal val RuStrings =
         override val communitySetPreferredLanguage = "Установить предпочитаемый язык"
         override val appIconClassical = "Классический"
         override val settingsAboutAcknowledgements: String = "Благодарности"
+        override val actionCreateCommunity: String = "Создать сообщество"
+        override val editCommunityItemVisibility: String = "Видимость"
+        override val communityVisibilityLocalOnly: String = "только локальный экземпляр"
+        override val communityVisibilityPublic: String = "общественный"
     }

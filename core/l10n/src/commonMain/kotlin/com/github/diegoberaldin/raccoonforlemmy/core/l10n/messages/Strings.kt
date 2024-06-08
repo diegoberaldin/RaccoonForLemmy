@@ -409,6 +409,10 @@ interface Strings {
     val communitySetPreferredLanguage: String
     val appIconClassical: String
     val settingsAboutAcknowledgements: String
+    val actionCreateCommunity: String
+    val editCommunityItemVisibility: String
+    val communityVisibilityLocalOnly: String
+    val communityVisibilityPublic: String
 }
 
 object Locales {

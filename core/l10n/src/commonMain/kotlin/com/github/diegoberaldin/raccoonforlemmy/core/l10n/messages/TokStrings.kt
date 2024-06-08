@@ -5,7 +5,7 @@ internal val TokStrings =
         override val actionBackToTop = "o tawa sewi"
         override val actionChat = "o open e toki"
         override val actionClearRead = "lukin la, o weka"
-        override val actionCreatePost = "o sin e lipu"
+        override val actionCreatePost = "o pali e lipu sin"
         override val actionReply = "o toki lili"
         override val actionActivateZombieMode = "o open e nasin pi jan moli"
         override val actionDeactivateZombieMode = "o pini e nasin pi jan moli"
@@ -410,4 +410,8 @@ internal val TokStrings =
         override val communitySetPreferredLanguage = "o anu e toki pi wile sina"
         override val appIconClassical = "majuna"
         override val settingsAboutAcknowledgements: String = "jan pona"
+        override val actionCreateCommunity: String = "o pali e kulupu sin"
+        override val editCommunityItemVisibility: String = "nasin lukin"
+        override val communityVisibilityLocalOnly: String = "tawa ilo nanpa ni taso"
+        override val communityVisibilityPublic: String = "tawa ale"
     }

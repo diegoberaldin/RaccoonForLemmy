@@ -413,4 +413,8 @@ internal val PtBrStrings =
         override val communitySetPreferredLanguage = "Definir idioma preferido"
         override val appIconClassical = "Clássico"
         override val settingsAboutAcknowledgements: String = "Reconhecimentos"
+        override val actionCreateCommunity: String = "Criar comunidade"
+        override val editCommunityItemVisibility: String = "Visibilidade"
+        override val communityVisibilityLocalOnly: String = "apenas instância local"
+        override val communityVisibilityPublic: String = "pública"
     }

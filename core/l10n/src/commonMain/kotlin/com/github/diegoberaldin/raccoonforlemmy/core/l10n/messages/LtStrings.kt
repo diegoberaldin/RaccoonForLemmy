@@ -412,4 +412,8 @@ internal val LtStrings =
         override val communitySetPreferredLanguage = "Nustatyti pageidaujamą kalbą"
         override val appIconClassical = "Klasikinis"
         override val settingsAboutAcknowledgements: String = "Padėkos"
+        override val actionCreateCommunity: String = "Sukurti bendruomenę"
+        override val editCommunityItemVisibility: String = "Matomumas"
+        override val communityVisibilityLocalOnly: String = "tik vietinis pavyzdys"
+        override val communityVisibilityPublic: String = "viešas"
     }

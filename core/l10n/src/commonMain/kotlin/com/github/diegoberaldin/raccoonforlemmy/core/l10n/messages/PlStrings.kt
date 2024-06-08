@@ -414,4 +414,8 @@ internal val PlStrings =
         override val communitySetPreferredLanguage = "Ustaw preferowany język"
         override val appIconClassical = "Klasyczny"
         override val settingsAboutAcknowledgements: String = "Podziękowanie"
+        override val actionCreateCommunity: String = "Utwórz społeczność"
+        override val editCommunityItemVisibility: String = "Widoczność"
+        override val communityVisibilityLocalOnly: String = "tylko instancja lokalna"
+        override val communityVisibilityPublic: String = "publiczny"
     }

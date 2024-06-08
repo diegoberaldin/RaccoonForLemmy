@@ -415,4 +415,8 @@ internal val UkStrings =
         override val communitySetPreferredLanguage = "Встановіть бажану мову"
         override val appIconClassical = "Класичний"
         override val settingsAboutAcknowledgements: String = "Подяки"
+        override val actionCreateCommunity: String = "Створіть спільноту"
+        override val editCommunityItemVisibility: String = "Видимість"
+        override val communityVisibilityLocalOnly: String = "лише локальний екземпляр"
+        override val communityVisibilityPublic: String = "громадськість"
     }

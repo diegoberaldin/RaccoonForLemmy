@@ -413,4 +413,8 @@ internal val CsStrings =
         override val communitySetPreferredLanguage = "Nastavení preferovaného jazyka"
         override val appIconClassical = "Klasický"
         override val settingsAboutAcknowledgements: String = "Poděkování"
+        override val actionCreateCommunity: String = "Vytvořte komunitu"
+        override val editCommunityItemVisibility: String = "Viditelnost"
+        override val communityVisibilityLocalOnly: String = "pouze místní instance"
+        override val communityVisibilityPublic: String = "veřejnost"
     }

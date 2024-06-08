@@ -420,4 +420,8 @@ internal val ElStrings =
         override val communitySetPreferredLanguage = "Ορισμός προτιμώμενης γλώσσας"
         override val appIconClassical = "Κλασσική"
         override val settingsAboutAcknowledgements: String = "Ευχαριστίες"
+        override val actionCreateCommunity: String = "Δημιουργία κοινότητας"
+        override val editCommunityItemVisibility: String = "Ορατότητα"
+        override val communityVisibilityLocalOnly: String = "μόνο τοπική περίπτωση"
+        override val communityVisibilityPublic: String = "δημόσιο"
     }

@@ -409,4 +409,8 @@ internal val EoStrings =
         override val communitySetPreferredLanguage = "Agordi preferatan lingvon"
         override val appIconClassical = "Klasika"
         override val settingsAboutAcknowledgements: String = "Dankon"
+        override val actionCreateCommunity: String = "Krei komunumon"
+        override val editCommunityItemVisibility: String = "Videbleco"
+        override val communityVisibilityLocalOnly: String = "nur loka instanco"
+        override val communityVisibilityPublic: String = "publika"
     }

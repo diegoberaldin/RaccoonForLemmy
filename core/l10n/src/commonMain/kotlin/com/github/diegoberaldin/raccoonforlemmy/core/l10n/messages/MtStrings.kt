@@ -414,4 +414,8 @@ internal val MtStrings =
         override val communitySetPreferredLanguage = "Issettja l-lingwa preferuta"
         override val appIconClassical = "Klassiku"
         override val settingsAboutAcknowledgements: String = "Rikonoxximenti"
+        override val actionCreateCommunity: String = "Oħloq komunità"
+        override val editCommunityItemVisibility: String = "Viżibilità"
+        override val communityVisibilityLocalOnly: String = "istanza lokali biss"
+        override val communityVisibilityPublic: String = "pubbliku"
     }

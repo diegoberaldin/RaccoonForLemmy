@@ -415,4 +415,8 @@ internal val SkStrings =
         override val communitySetPreferredLanguage = "Nastavenie preferovaného jazyka"
         override val appIconClassical = "Klasická"
         override val settingsAboutAcknowledgements: String = "Poďakovanie"
+        override val actionCreateCommunity: String = "Vytvorte komunitu"
+        override val editCommunityItemVisibility: String = "Viditeľnosť"
+        override val communityVisibilityLocalOnly: String = "iba lokálna inštancia"
+        override val communityVisibilityPublic: String = "verejnosti"
     }

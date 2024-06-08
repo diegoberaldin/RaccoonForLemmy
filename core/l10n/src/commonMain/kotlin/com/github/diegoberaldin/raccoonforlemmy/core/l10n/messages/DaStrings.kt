@@ -412,4 +412,8 @@ internal val DaStrings =
         override val communitySetPreferredLanguage = "Indstil foretrukket sprog"
         override val appIconClassical = "Klassisk"
         override val settingsAboutAcknowledgements: String = "Anerkendelser"
+        override val actionCreateCommunity: String = "Skab fællesskab"
+        override val editCommunityItemVisibility: String = "Sigtbarhed"
+        override val communityVisibilityLocalOnly: String = "kun lokal instans"
+        override val communityVisibilityPublic: String = "offentlig"
     }

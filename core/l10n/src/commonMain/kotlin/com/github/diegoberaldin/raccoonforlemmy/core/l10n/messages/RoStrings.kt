@@ -413,4 +413,8 @@ internal val RoStrings =
         override val communitySetPreferredLanguage = "Setează limba preferată"
         override val appIconClassical = "Clasic"
         override val settingsAboutAcknowledgements: String = "Mulțumiri"
+        override val actionCreateCommunity: String = "Creează o comunitate"
+        override val editCommunityItemVisibility: String = "Vizibilitate"
+        override val communityVisibilityLocalOnly: String = "numai instanță locală"
+        override val communityVisibilityPublic: String = "publică"
     }

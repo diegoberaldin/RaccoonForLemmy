@@ -413,4 +413,8 @@ internal val LvStrings =
         override val communitySetPreferredLanguage = "Iestatīt vēlamo valodu"
         override val appIconClassical = "Klasiskā"
         override val settingsAboutAcknowledgements: String = "Pateicības"
+        override val actionCreateCommunity: String = "Izveidot kopienu"
+        override val editCommunityItemVisibility: String = "Redzamība"
+        override val communityVisibilityLocalOnly: String = "tikai vietējais gadījums"
+        override val communityVisibilityPublic: String = "publiski"
     }

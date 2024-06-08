@@ -417,4 +417,8 @@ internal val DeStrings =
         override val communitySetPreferredLanguage = "Bevorzugte Sprache festlegen"
         override val appIconClassical = "Klassisch"
         override val settingsAboutAcknowledgements: String = "Danksagungen"
+        override val actionCreateCommunity: String = "Gemeinschaft schaffen"
+        override val editCommunityItemVisibility: String = "Sichtweite"
+        override val communityVisibilityLocalOnly: String = "Nur lokale Instanz"
+        override val communityVisibilityPublic: String = "öffentlich"
     }

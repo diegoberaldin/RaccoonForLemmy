@@ -418,4 +418,8 @@ internal val HuStrings =
         override val communitySetPreferredLanguage = "Előnyben részesítettnyelv beállítása"
         override val appIconClassical = "Klasszikus"
         override val settingsAboutAcknowledgements: String = "Köszönetnyilvánítás"
+        override val actionCreateCommunity: String = "Közösség létrehozása"
+        override val editCommunityItemVisibility: String = "Láthatóság"
+        override val communityVisibilityLocalOnly: String = "csak helyi példány"
+        override val communityVisibilityPublic: String = "nyilvános"
     }

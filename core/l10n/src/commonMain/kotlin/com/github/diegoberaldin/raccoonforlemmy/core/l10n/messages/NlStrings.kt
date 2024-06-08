@@ -415,4 +415,8 @@ internal val NlStrings =
         override val communitySetPreferredLanguage = "Voorkeurstaal instellen"
         override val appIconClassical = "Klassiek"
         override val settingsAboutAcknowledgements: String = "Dankbetuigingen"
+        override val actionCreateCommunity: String = "Creëer gemeenschap"
+        override val editCommunityItemVisibility: String = "Zichtbaarheid"
+        override val communityVisibilityLocalOnly: String = "alleen lokale instantie"
+        override val communityVisibilityPublic: String = "openbaar"
     }

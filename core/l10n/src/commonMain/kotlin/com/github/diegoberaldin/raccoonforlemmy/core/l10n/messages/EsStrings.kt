@@ -414,4 +414,8 @@ internal val EsStrings =
         override val communitySetPreferredLanguage = "Elegir idioma preferido"
         override val appIconClassical = "Clásico"
         override val settingsAboutAcknowledgements: String = "Agradecimientos"
+        override val actionCreateCommunity: String = "Crear comunidad"
+        override val editCommunityItemVisibility: String = "Visibilidad"
+        override val communityVisibilityLocalOnly: String = "sólo instancia local"
+        override val communityVisibilityPublic: String = "pública"
     }

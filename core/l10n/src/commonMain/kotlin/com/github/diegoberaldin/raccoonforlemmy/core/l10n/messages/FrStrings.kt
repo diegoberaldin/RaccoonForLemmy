@@ -419,4 +419,8 @@ internal val FrStrings =
         override val communitySetPreferredLanguage = "Définir la langue préférée"
         override val appIconClassical = "Classique"
         override val settingsAboutAcknowledgements: String = "Remerciements"
+        override val actionCreateCommunity: String = "Créer une communauté"
+        override val editCommunityItemVisibility: String = "Visibilité"
+        override val communityVisibilityLocalOnly: String = "instance locale uniquement"
+        override val communityVisibilityPublic: String = "publique"
     }

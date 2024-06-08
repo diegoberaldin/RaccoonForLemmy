@@ -411,4 +411,8 @@ internal val FiStrings =
         override val communitySetPreferredLanguage = "Aseta ensisijainen kieli"
         override val appIconClassical = "Klassinen"
         override val settingsAboutAcknowledgements: String = "Kiitokset"
+        override val actionCreateCommunity: String = "Luo yhteisö"
+        override val editCommunityItemVisibility: String = "Näkyvyys"
+        override val communityVisibilityLocalOnly: String = "vain paikallinen esimerkki"
+        override val communityVisibilityPublic: String = "julkinen"
     }

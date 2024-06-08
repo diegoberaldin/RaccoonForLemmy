@@ -410,4 +410,8 @@ internal val ArStrings =
         override val communitySetPreferredLanguage = "تعيين اللغة المفضلة"
         override val appIconClassical = "كلاسيكي"
         override val settingsAboutAcknowledgements: String = "شكر وتقدير"
+        override val actionCreateCommunity: String = "إنشاء المجتمع"
+        override val editCommunityItemVisibility: String = "الرؤية"
+        override val communityVisibilityLocalOnly: String = "المثيل المحلي فقط"
+        override val communityVisibilityPublic: String = "عام"
     }

@@ -415,4 +415,8 @@ internal val EtStrings =
         override val communitySetPreferredLanguage = "Eelistatud keele määramine"
         override val appIconClassical = "Klassikaline"
         override val settingsAboutAcknowledgements: String = "Tänuavaldused"
+        override val actionCreateCommunity: String = "Looge kogukond"
+        override val editCommunityItemVisibility: String = "Nähtavus"
+        override val communityVisibilityLocalOnly: String = "ainult kohalik eksemplar"
+        override val communityVisibilityPublic: String = "avalik"
     }
