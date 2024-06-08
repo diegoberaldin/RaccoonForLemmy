@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Shop
+import androidx.compose.material.icons.filled.VolunteerActivism
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.components.AboutItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.acknowledgements.AcknowledgementsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.LicencesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
@@ -200,6 +202,16 @@ class AboutDialog : Screen {
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 navigationCoordinator.pushScreen(LicencesScreen())
+                            },
+                        )
+                    }
+                    item {
+                        AboutItem(
+                            text = LocalStrings.current.settingsAboutAcknowledgements,
+                            vector = Icons.Default.VolunteerActivism,
+                            textDecoration = TextDecoration.Underline,
+                            onClick = {
+                                navigationCoordinator.pushScreen(AcknowledgementsScreen())
                             },
                         )
                     }
