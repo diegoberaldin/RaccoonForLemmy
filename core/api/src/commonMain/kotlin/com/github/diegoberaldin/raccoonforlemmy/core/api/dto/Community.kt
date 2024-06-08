@@ -21,4 +21,5 @@ data class Community(
     @SerialName("hidden") val hidden: Boolean,
     @SerialName("posting_restricted_to_mods") val postingRestrictedToMods: Boolean,
     @SerialName("instance_id") val instanceId: InstanceId,
+    @SerialName("visibility") val visibility: CommunityVisibility? = null,
 )

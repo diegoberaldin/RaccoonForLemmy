@@ -14,4 +14,5 @@ data class CreateCommunityForm(
     @SerialName("posting_restricted_to_mods") val postingRestrictedToMods: Boolean? = null,
     @SerialName("local_only") val localOnly: Boolean? = null,
     @SerialName("discussion_languages") val discussionLanguages: List<LanguageId>? = null,
+    @SerialName("visibility") val visibility: CommunityVisibility? = null,
 )
