@@ -135,10 +135,10 @@ A special thanks goes to all those who contributed so far (in nearly chronologic
 - [u/heyazorin](https://lemmy.ml/u/heyazorin)
 - [u/thegiddystitcher](https://lemm.ee/u/thegiddystitcher)
 - [u/SgtAStrawberry](https://lemmy.world/u/SgtAStrawberry)
-- [outerair](https://github.com/outerair)
 - [u/Wild_Mastic](https://lemmy.world/u/Wild_Mastic)
 - [reusityback](https://github.com/reusityback)
 - [u/fisco](https://lemmy.ml/u/fisco)
+- [u/NicKoehler](https://feddit.it/u/NicKoehler)
 - all those who reported feedback and ideas through the Lemmy community, GitHub issues, emails,
   private messages, homing pigeons and every other imaginable media.
 
@@ -147,7 +147,7 @@ these early adopters who sent me continuous feedback and ideas for improvement a
 reported bugs, offered to help, submitted translations to their local language, offered help to
 other users and made the community a better place, etc.
 
-You are awesome… THANKS 🙏️❤️🦝
+You are **awesome**… THANKS ❤️🦝️❤️
 
 # Further reading
 
