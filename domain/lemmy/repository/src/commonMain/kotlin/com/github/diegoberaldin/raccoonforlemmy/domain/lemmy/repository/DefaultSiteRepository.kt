@@ -110,6 +110,21 @@ internal class DefaultSiteRepository(
             }.getOrElse { true }
         }
 
+    override suspend fun isCommunityCreationAdminOnly(auth: String?): Boolean =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                if (auth.isNullOrEmpty()) {
+                    return@runCatching true
+                }
+                val response =
+                    services.site.get(
+                        auth = auth,
+                        authHeader = auth.toAuthHeader(),
+                    )
+                response.siteView?.localSite?.communityCreationAdminOnly == true
+            }.getOrElse { true }
+        }
+
     override suspend fun getAccountSettings(auth: String): AccountSettingsModel? =
         withContext(Dispatchers.IO) {
             runCatching {

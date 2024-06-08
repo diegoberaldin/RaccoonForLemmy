@@ -17,6 +17,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -187,14 +188,41 @@ class DefaultSiteRepositoryTest {
                         mockk {
                             every { localSite } returns
                                 mockk {
-                                    every { enableDownvotes } returns true
+                                    every { enableDownvotes } returns false
                                 }
                         }
                 }
 
             val res = sut.isDownVoteEnabled(auth = AUTH_TOKEN)
 
-            assertTrue(res)
+            assertFalse(res)
+            coVerify {
+                siteService.get(
+                    auth = AUTH_TOKEN,
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                )
+            }
+        }
+
+    @Test
+    fun whenIsCommunityCreationAdminOnly_thenResultAndInteractionsAreAsExpected() =
+        runTest {
+            coEvery {
+                siteService.get(auth = any(), authHeader = any())
+            } returns
+                mockk(relaxed = true) {
+                    every { siteView } returns
+                        mockk {
+                            every { localSite } returns
+                                mockk {
+                                    every { communityCreationAdminOnly } returns false
+                                }
+                        }
+                }
+
+            val res = sut.isCommunityCreationAdminOnly(auth = AUTH_TOKEN)
+
+            assertFalse(res)
             coVerify {
                 siteService.get(
                     auth = AUTH_TOKEN,

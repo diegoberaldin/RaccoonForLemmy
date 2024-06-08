@@ -26,6 +26,8 @@ interface SiteRepository {
 
     suspend fun isDownVoteEnabled(auth: String?): Boolean
 
+    suspend fun isCommunityCreationAdminOnly(auth: String?): Boolean
+
     suspend fun getAccountSettings(auth: String): AccountSettingsModel?
 
     suspend fun updateAccountSettings(
