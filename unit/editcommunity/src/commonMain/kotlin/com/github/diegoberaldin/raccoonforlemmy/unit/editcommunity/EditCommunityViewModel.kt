@@ -11,7 +11,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 
 class EditCommunityViewModel(
-    private val communityId: Long,
+    private val communityId: Long?,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val postRepository: PostRepository,
@@ -53,6 +53,17 @@ class EditCommunityViewModel(
                 }
             }
 
+            is EditCommunityMviModel.Intent.ChangeName -> {
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            name = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
+                }
+            }
+
             is EditCommunityMviModel.Intent.ChangeNsfw -> {
                 screenModelScope.launch {
                     updateState {
@@ -80,6 +91,9 @@ class EditCommunityViewModel(
     }
 
     private suspend fun refresh() {
+        if (communityId == null) {
+            return
+        }
         updateState { it.copy(loading = true) }
         val auth = identityRepository.authToken.value.orEmpty()
         val community =
@@ -91,6 +105,7 @@ class EditCommunityViewModel(
         if (community != null) {
             updateState {
                 it.copy(
+                    name = community.name,
                     title = community.title,
                     icon = community.icon.orEmpty(),
                     banner = community.banner.orEmpty(),
@@ -144,8 +159,9 @@ class EditCommunityViewModel(
     }
 
     private fun submit() {
-        val community = originalCommunity?.copy() ?: return
+        val community = originalCommunity?.copy() ?: CommunityModel()
         val currentState = uiState.value
+
         screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }
             try {
@@ -159,10 +175,21 @@ class EditCommunityViewModel(
                         nsfw = currentState.nsfw,
                         postingRestrictedToMods = currentState.postingRestrictedToMods,
                     )
-                communityRepository.update(
-                    auth = auth,
-                    community = newValue,
-                )
+                if (community.id == 0L) {
+                    // creating a new community
+                    val newCommunity =
+                        communityRepository.create(
+                            auth = auth,
+                            community = newValue.copy(name = currentState.name),
+                        )
+                    originalCommunity = newCommunity
+                } else {
+                    // editing and existing community
+                    communityRepository.update(
+                        auth = auth,
+                        community = newValue,
+                    )
+                }
                 updateState {
                     it.copy(
                         loading = false,

@@ -9,6 +9,8 @@ interface EditCommunityMviModel :
     sealed interface Intent {
         data object Refresh : Intent
 
+        data class ChangeName(val value: String) : Intent
+
         data class ChangeTitle(val value: String) : Intent
 
         data class ChangeDescription(val value: String) : Intent
@@ -52,6 +54,7 @@ interface EditCommunityMviModel :
 
     data class UiState(
         val loading: Boolean = false,
+        val name: String = "",
         val title: String = "",
         val description: String = "",
         val icon: String = "",

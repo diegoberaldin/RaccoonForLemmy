@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Sync
@@ -75,7 +76,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
 
 class EditCommunityScreen(
-    private val communityId: Long,
+    private val communityId: Long? = null,
 ) : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -92,6 +93,7 @@ class EditCommunityScreen(
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         var openNameEditDialog by remember { mutableStateOf(false) }
+        var openTitleEditDialog by remember { mutableStateOf(false) }
         var openDescriptionEditDialog by remember { mutableStateOf(false) }
         val successMessage = LocalStrings.current.messageOperationSuccessful
         val errorMessage = LocalStrings.current.messageGenericError
@@ -142,10 +144,14 @@ class EditCommunityScreen(
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
                             text =
-                                buildString {
-                                    append(LocalStrings.current.postActionEdit)
-                                    append(" ")
-                                    append(uiState.title)
+                                if (communityId == null) {
+                                    LocalStrings.current.actionCreateCommunity
+                                } else {
+                                    buildString {
+                                        append(LocalStrings.current.postActionEdit)
+                                        append(" ")
+                                        append(uiState.title)
+                                    }
                                 },
                             style = MaterialTheme.typography.titleMedium,
                         )
@@ -229,6 +235,24 @@ class EditCommunityScreen(
                             .verticalScroll(scrollState),
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
+                    if (communityId == null) {
+                        SettingsHeader(
+                            icon = Icons.Default.Badge,
+                            title = LocalStrings.current.communityDetailInfo,
+                        )
+
+                        // name (handle prefix)
+                        SettingsTextualInfo(
+                            title = LocalStrings.current.multiCommunityEditorName,
+                            value = uiState.name,
+                            valueStyle = contentTypography.bodyMedium,
+                            onEdit =
+                                rememberCallback {
+                                    openNameEditDialog = true
+                                },
+                        )
+                    }
+
                     SettingsHeader(
                         icon = Icons.Default.Image,
                         title = LocalStrings.current.settingsTitlePictures,
@@ -273,7 +297,7 @@ class EditCommunityScreen(
                         valueStyle = contentTypography.bodyMedium,
                         onEdit =
                             rememberCallback {
-                                openNameEditDialog = true
+                                openTitleEditDialog = true
                             },
                     )
                     // sidebar
@@ -327,11 +351,25 @@ class EditCommunityScreen(
 
         if (openNameEditDialog) {
             EditTextualInfoDialog(
-                title = LocalStrings.current.settingsWebEmail,
+                title = LocalStrings.current.multiCommunityEditorName,
                 value = uiState.title,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
                         openNameEditDialog = false
+                        newValue?.also {
+                            model.reduce(EditCommunityMviModel.Intent.ChangeName(it))
+                        }
+                    },
+            )
+        }
+
+        if (openTitleEditDialog) {
+            EditTextualInfoDialog(
+                title = LocalStrings.current.settingsWebDisplayName,
+                value = uiState.title,
+                onClose =
+                    rememberCallbackArgs(model) { newValue ->
+                        openTitleEditDialog = false
                         newValue?.also {
                             model.reduce(EditCommunityMviModel.Intent.ChangeTitle(it))
                         }
