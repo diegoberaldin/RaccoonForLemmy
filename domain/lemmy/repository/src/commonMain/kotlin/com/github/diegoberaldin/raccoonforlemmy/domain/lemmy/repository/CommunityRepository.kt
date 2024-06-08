@@ -88,6 +88,11 @@ interface CommunityRepository {
         added: Boolean,
     ): List<UserModel>
 
+    suspend fun create(
+        auth: String? = null,
+        community: CommunityModel,
+    ): CommunityModel?
+
     suspend fun update(
         auth: String? = null,
         community: CommunityModel,

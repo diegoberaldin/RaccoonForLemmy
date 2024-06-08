@@ -3,6 +3,7 @@ package com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HideCommunityForm
@@ -297,6 +298,29 @@ internal class DefaultCommunityRepository(
             }.getOrElse { emptyList() }
         }
 
+    override suspend fun create(
+        auth: String?,
+        community: CommunityModel,
+    ): CommunityModel =
+        withContext(Dispatchers.IO) {
+            val data =
+                CreateCommunityForm(
+                    name = community.name,
+                    icon = community.icon,
+                    banner = community.banner,
+                    title = community.name,
+                    description = community.description,
+                    nsfw = community.nsfw,
+                    postingRestrictedToMods = community.postingRestrictedToMods,
+                )
+            val res =
+                services.community.create(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            res.communityView.toModel()
+        }
+
     override suspend fun update(
         auth: String?,
         community: CommunityModel,
@@ -307,7 +331,7 @@ internal class DefaultCommunityRepository(
                     communityId = community.id,
                     icon = community.icon,
                     banner = community.banner,
-                    title = community.name,
+                    title = community.title,
                     description = community.description,
                     nsfw = community.nsfw,
                     postingRestrictedToMods = community.postingRestrictedToMods,

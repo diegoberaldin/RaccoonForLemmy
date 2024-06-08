@@ -208,11 +208,12 @@ class DefaultCommunityRepositoryTest {
                 )
             } returns
                 mockk {
-                    every { communities } returns listOf(
-                        mockk(relaxed = true) {
-                            every { community } returns mockk(relaxed = true)
-                        },
-                    )
+                    every { communities } returns
+                        listOf(
+                            mockk(relaxed = true) {
+                                every { community } returns mockk(relaxed = true)
+                            },
+                        )
                 }
 
             val token = "fake-token"
@@ -490,7 +491,7 @@ class DefaultCommunityRepositoryTest {
 
             val token = "fake-token"
             val newName = "fake-community-name"
-            val data = CommunityModel(id = communityId, name = newName)
+            val data = CommunityModel(id = communityId, title = newName)
             sut.update(
                 auth = token,
                 community = data,
@@ -502,6 +503,34 @@ class DefaultCommunityRepositoryTest {
                     withArg { data ->
                         assertEquals(communityId, data.communityId)
                         assertEquals(newName, data.title)
+                    },
+                )
+            }
+        }
+
+    @Test
+    fun givenSuccess_whenCreate_thenInteractionsAreAsExpected() =
+        runTest {
+            coEvery {
+                communityService.create(any(), any())
+            } returns mockk(relaxed = true)
+
+            val token = "fake-token"
+            val newName = "fake-community-name"
+            val data = CommunityModel(name = newName)
+
+            val res =
+                sut.create(
+                    auth = token,
+                    community = data,
+                )
+
+            assertNotNull(res)
+            coVerify {
+                communityService.create(
+                    authHeader = token.toAuthHeader(),
+                    withArg { data ->
+                        assertEquals(newName, data.name)
                     },
                 )
             }
