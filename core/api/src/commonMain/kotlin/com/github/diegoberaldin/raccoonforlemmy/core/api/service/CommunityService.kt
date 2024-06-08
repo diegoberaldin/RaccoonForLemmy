@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityRespo
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommunityResponse
@@ -92,6 +93,13 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: HideCommunityForm,
     ): SuccessResponse
+
+    @POST("community/delete")
+    @Headers("Content-Type: application/json")
+    suspend fun delete(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: DeleteCommunityForm,
+    ): CommunityResponse
 
     @POST("admin/purge/community")
     @Headers("Content-Type: application/json")
