@@ -1247,6 +1247,11 @@ class PostDetailScreen(
                                                             buildList {
                                                                 this +=
                                                                     Option(
+                                                                        OptionId.Share,
+                                                                        LocalStrings.current.postActionShare,
+                                                                    )
+                                                                this +=
+                                                                    Option(
                                                                         OptionId.SeeRaw,
                                                                         LocalStrings.current.postActionSeeRaw,
                                                                     )
@@ -1432,6 +1437,29 @@ class PostDetailScreen(
                                                                                     contentId = userId,
                                                                                 )
                                                                             navigationCoordinator.pushScreen(
+                                                                                screen,
+                                                                            )
+                                                                        }
+                                                                    }
+
+                                                                    OptionId.Share -> {
+                                                                        val urls =
+                                                                            listOfNotNull(
+                                                                                comment.originalUrl,
+                                                                                "https://${uiState.instance}/comment/${comment.id}",
+                                                                            ).distinct()
+                                                                        if (urls.size == 1) {
+                                                                            model.reduce(
+                                                                                PostDetailMviModel.Intent.Share(
+                                                                                    urls.first(),
+                                                                                ),
+                                                                            )
+                                                                        } else {
+                                                                            val screen =
+                                                                                ShareBottomSheet(
+                                                                                    urls = urls,
+                                                                                )
+                                                                            navigationCoordinator.showBottomSheet(
                                                                                 screen,
                                                                             )
                                                                         }
