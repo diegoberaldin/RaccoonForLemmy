@@ -56,16 +56,16 @@ fun NavigationCoordinator.handleUrl(
     val isMedia = url.looksLikeAVideo || url.looksLikeAnImage
 
     when {
-        community != null && !isMedia -> {
-            onOpenCommunity?.invoke(community, community.host)
+        community != null && !isMedia && onOpenCommunity != null -> {
+            onOpenCommunity.invoke(community, community.host)
         }
 
-        user != null && !isMedia -> {
-            onOpenUser?.invoke(user, user.host)
+        user != null && !isMedia && onOpenUser != null -> {
+            onOpenUser.invoke(user, user.host)
         }
 
-        post != null && !isMedia -> {
-            onOpenPost?.invoke(post, postInstance.orEmpty())
+        post != null && !isMedia && onOpenPost != null -> {
+            onOpenPost.invoke(post, postInstance.orEmpty())
         }
 
         openingMode == UrlOpeningMode.External -> {
