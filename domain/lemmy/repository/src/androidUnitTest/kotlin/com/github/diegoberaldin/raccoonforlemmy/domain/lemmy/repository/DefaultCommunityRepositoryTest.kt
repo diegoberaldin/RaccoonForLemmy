@@ -82,7 +82,7 @@ class DefaultCommunityRepositoryTest {
                     users = emptyList(),
                 )
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val query = "q"
             val res =
                 sut.search(
@@ -172,7 +172,7 @@ class DefaultCommunityRepositoryTest {
                     every { community } returns mockk(relaxed = true)
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val query = "q"
             val res =
                 sut.getResolved(
@@ -216,7 +216,7 @@ class DefaultCommunityRepositoryTest {
                         )
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val res =
                 sut.getSubscribed(
                     auth = token,
@@ -263,7 +263,7 @@ class DefaultCommunityRepositoryTest {
                         }
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val res =
                 sut.get(
                     auth = token,
@@ -305,7 +305,7 @@ class DefaultCommunityRepositoryTest {
                         }
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val res =
                 sut.getModerators(
                     auth = token,
@@ -340,7 +340,7 @@ class DefaultCommunityRepositoryTest {
                         }
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val res =
                 sut.subscribe(
                     auth = token,
@@ -377,7 +377,7 @@ class DefaultCommunityRepositoryTest {
                         }
                 }
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val res =
                 sut.unsubscribe(
                     auth = token,
@@ -404,7 +404,7 @@ class DefaultCommunityRepositoryTest {
             coEvery {
                 communityService.block(any(), any())
             } returns mockk()
-            val token = "fake-token"
+            val token = AUTH_TOKEN
 
             sut.block(
                 auth = token,
@@ -432,7 +432,7 @@ class DefaultCommunityRepositoryTest {
                 communityService.ban(any(), any())
             } returns mockk()
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             sut.banUser(
                 auth = token,
                 communityId = communityId,
@@ -461,7 +461,7 @@ class DefaultCommunityRepositoryTest {
                 communityService.addMod(any(), any())
             } returns mockk()
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             sut.addModerator(
                 auth = token,
                 communityId = communityId,
@@ -489,7 +489,7 @@ class DefaultCommunityRepositoryTest {
                 communityService.edit(any(), any())
             } returns mockk()
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val newName = "fake-community-name"
             val data = CommunityModel(id = communityId, title = newName)
             sut.update(
@@ -515,7 +515,7 @@ class DefaultCommunityRepositoryTest {
                 communityService.create(any(), any())
             } returns mockk(relaxed = true)
 
-            val token = "fake-token"
+            val token = AUTH_TOKEN
             val newName = "fake-community-name"
             val data = CommunityModel(name = newName)
 
@@ -535,4 +535,84 @@ class DefaultCommunityRepositoryTest {
                 )
             }
         }
+
+    @Test
+    fun whenDelete_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.delete(any(), any())
+            } returns mockk()
+
+            sut.delete(
+                auth = AUTH_TOKEN,
+                communityId = communityId,
+            )
+
+            coVerify {
+                communityService.delete(
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                    withArg {
+                        assertEquals(1, it.communityId)
+                        assertTrue(it.deleted)
+                    },
+                )
+            }
+        }
+
+    @Test
+    fun whenHide_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.hide(any(), any())
+            } returns mockk { every { success } returns true }
+
+            sut.hide(
+                auth = AUTH_TOKEN,
+                communityId = communityId,
+                hidden = true,
+                reason = "fake-reason",
+            )
+
+            coVerify {
+                communityService.hide(
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                    withArg {
+                        assertEquals(1, it.communityId)
+                        assertTrue(it.hidden)
+                        assertEquals("fake-reason", it.reason)
+                    },
+                )
+            }
+        }
+
+    @Test
+    fun whenPurge_thenInteractionsAreAsExpected() =
+        runTest {
+            val communityId = 1L
+            coEvery {
+                communityService.purge(any(), any())
+            } returns mockk { every { success } returns true }
+
+            sut.purge(
+                auth = AUTH_TOKEN,
+                communityId = communityId,
+                reason = "fake-reason",
+            )
+
+            coVerify {
+                communityService.purge(
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                    withArg {
+                        assertEquals(1, it.communityId)
+                        assertEquals("fake-reason", it.reason)
+                    },
+                )
+            }
+        }
+
+    companion object {
+        private const val AUTH_TOKEN = "fake-token"
+    }
 }

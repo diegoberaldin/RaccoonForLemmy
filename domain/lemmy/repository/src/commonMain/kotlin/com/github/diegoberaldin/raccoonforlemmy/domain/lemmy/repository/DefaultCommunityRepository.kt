@@ -4,6 +4,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.AddModToCommunityFo
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BanFromCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HideCommunityForm
@@ -339,6 +340,22 @@ internal class DefaultCommunityRepository(
             services.community.edit(
                 authHeader = auth.toAuthHeader(),
                 form = data,
+            )
+        }
+
+    override suspend fun delete(
+        auth: String,
+        communityId: Long,
+    ): Unit =
+        withContext(Dispatchers.IO) {
+            val data =
+                DeleteCommunityForm(
+                    communityId = communityId,
+                    deleted = true,
+                )
+            services.community.delete(
+                form = data,
+                authHeader = auth.toAuthHeader(),
             )
         }
 

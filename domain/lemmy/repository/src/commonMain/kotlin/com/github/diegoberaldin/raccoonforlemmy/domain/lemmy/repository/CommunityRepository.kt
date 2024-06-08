@@ -98,6 +98,11 @@ interface CommunityRepository {
         community: CommunityModel,
     )
 
+    suspend fun delete(
+        auth: String,
+        communityId: Long,
+    )
+
     suspend fun hide(
         auth: String?,
         communityId: Long,
