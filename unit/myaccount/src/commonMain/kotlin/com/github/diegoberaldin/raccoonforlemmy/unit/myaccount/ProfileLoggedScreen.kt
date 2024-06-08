@@ -383,7 +383,9 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                        modifier =
+                                            Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
@@ -473,24 +475,26 @@ object ProfileLoggedScreen : Tab {
                                         },
                                     options =
                                         buildList {
-                                            add(
+                                            this +=
                                                 Option(
                                                     OptionId.SeeRaw,
                                                     LocalStrings.current.postActionSeeRaw,
-                                                ),
-                                            )
-                                            add(
+                                                )
+                                            this +=
+                                                Option(
+                                                    OptionId.SeeRaw,
+                                                    LocalStrings.current.postActionSeeRaw,
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.Edit,
                                                     LocalStrings.current.postActionEdit,
-                                                ),
-                                            )
-                                            add(
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.Delete,
                                                     LocalStrings.current.commentActionDelete,
-                                                ),
-                                            )
+                                                )
                                         },
                                     onOptionSelected =
                                         rememberCallbackArgs(model) { optionId ->
@@ -510,6 +514,27 @@ object ProfileLoggedScreen : Tab {
                                                     rawContent = comment
                                                 }
 
+                                                OptionId.Share -> {
+                                                    val urls =
+                                                        listOfNotNull(
+                                                            comment.originalUrl,
+                                                            "https://${uiState.instance}/comment/${comment.id}",
+                                                        ).distinct()
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            ProfileLoggedMviModel.Intent.Share(
+                                                                urls.first(),
+                                                            ),
+                                                        )
+                                                    } else {
+                                                        val screen =
+                                                            ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(
+                                                            screen,
+                                                        )
+                                                    }
+                                                }
+
                                                 else -> Unit
                                             }
                                         },
@@ -523,7 +548,9 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                        modifier =
+                                            Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
