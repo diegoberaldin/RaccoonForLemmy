@@ -408,6 +408,7 @@ interface Strings {
     val adminActionUnmarkAsFeatured: String
     val communitySetPreferredLanguage: String
     val appIconClassical: String
+    val settingsAboutAcknowledgements: String
 }
 
 object Locales {
