@@ -242,6 +242,7 @@ internal fun Comment.toModel() =
         removed = removed,
         deleted = deleted,
         languageId = languageId,
+        originalUrl = apId,
     )
 
 internal fun Community.toModel() =
