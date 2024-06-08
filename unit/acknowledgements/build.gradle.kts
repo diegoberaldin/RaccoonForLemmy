@@ -3,7 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.ktorfit)
+    alias(libs.plugins.jetbrains.compose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.detekt)
@@ -23,7 +24,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach {
         it.binaries.framework {
-            baseName = "core.api"
+            baseName = "unit.acknowledgements"
             isStatic = true
         }
     }
@@ -31,14 +32,29 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
+
                 implementation(libs.koin.core)
                 implementation(libs.kotlinx.serialization.json)
-                implementation(libs.ktorfit.lib)
-                implementation(libs.ktor.serialization)
-                implementation(libs.ktor.contentnegotiation)
-                implementation(libs.ktor.json)
-                implementation(libs.ktor.logging)
+                implementation(libs.ktor.client.core)
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.screenmodel)
+                implementation(libs.voyager.koin)
+
+                implementation(projects.core.appearance)
+                implementation(projects.core.architecture)
+                implementation(projects.core.commonui.components)
+                implementation(projects.core.commonui.lemmyui)
+                implementation(projects.core.l10n)
+                implementation(projects.core.navigation)
+                implementation(projects.core.persistence)
                 implementation(projects.core.utils)
+
+                implementation(projects.unit.web)
             }
         }
         val commonTest by getting {
@@ -50,17 +66,9 @@ kotlin {
 }
 
 android {
-    namespace = "com.github.diegoberaldin.raccoonforlemmy.core.api"
+    namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.acknowledgements"
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.ktorfit.ksp)
-    add("kspAndroid", libs.ktorfit.ksp)
-    add("kspIosX64", libs.ktorfit.ksp)
-    add("kspIosArm64", libs.ktorfit.ksp)
-    add("kspIosSimulatorArm64", libs.ktorfit.ksp)
 }

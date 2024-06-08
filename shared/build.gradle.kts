@@ -69,6 +69,7 @@ kotlin {
                 implementation(projects.domain.lemmy.repository)
 
                 implementation(projects.unit.accountsettings)
+                implementation(projects.unit.acknowledgements)
                 implementation(projects.unit.ban)
                 implementation(projects.unit.chat)
                 implementation(projects.unit.communitydetail)

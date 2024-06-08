@@ -12,6 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.service.UserService
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.network.provideHttpClientEngineFactory
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngineFactory
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -20,7 +21,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-internal class DefaultServiceProvider : ServiceProvider {
+internal class DefaultServiceProvider(
+    private val factory: HttpClientEngineFactory<*> = provideHttpClientEngineFactory(),
+) : ServiceProvider {
     companion object {
         private const val DEFAULT_INSTANCE = "lemmy.world"
         private const val VERSION = "v3"
@@ -58,8 +61,6 @@ internal class DefaultServiceProvider : ServiceProvider {
         private set
 
     private val baseUrl: String get() = "https://$currentInstance/api/$VERSION/"
-
-    private val factory = provideHttpClientEngineFactory()
 
     init {
         reinitialize()

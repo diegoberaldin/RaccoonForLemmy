@@ -52,6 +52,7 @@ include(":feature:search")
 include(":feature:settings")
 
 include(":unit:about")
+include(":unit:acknowledgements")
 include(":unit:accountsettings")
 include(":unit:ban")
 include(":unit:chat")
