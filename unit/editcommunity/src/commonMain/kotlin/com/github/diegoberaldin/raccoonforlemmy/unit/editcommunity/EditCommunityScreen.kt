@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -134,7 +133,6 @@ class EditCommunityScreen(
         Scaffold(
             modifier =
                 Modifier
-                    .safeContentPadding()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(Spacing.xs),
             topBar = {
