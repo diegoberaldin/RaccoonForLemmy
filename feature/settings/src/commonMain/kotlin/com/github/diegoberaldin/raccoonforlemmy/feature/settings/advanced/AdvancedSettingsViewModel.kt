@@ -103,6 +103,7 @@ class AdvancedSettingsViewModel(
                     appIconChangeSupported = appIconManager.supportsMultipleIcons,
                     fadeReadPosts = settings.fadeReadPosts,
                     showUnreadComments = settings.showUnreadComments,
+                    inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod,
                     supportSettingsImportExport = fileSystemManager.isSupported,
                     enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
                 )
