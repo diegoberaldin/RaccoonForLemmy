@@ -36,6 +36,7 @@ interface ManageSubscriptionsMviModel :
         val searchText: String = "",
         val canFetchMore: Boolean = true,
         val loading: Boolean = false,
+        val canCreateCommunity: Boolean = false,
     )
 
     sealed interface Effect {

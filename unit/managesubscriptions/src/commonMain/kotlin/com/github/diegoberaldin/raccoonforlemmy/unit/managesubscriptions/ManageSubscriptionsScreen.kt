@@ -81,6 +81,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsR
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorScreen
 import kotlinx.coroutines.flow.launchIn
@@ -283,12 +284,46 @@ class ManageSubscriptionsScreen : Screen {
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
+                        if (uiState.canCreateCommunity) {
+                            // create community header
+                            item {
+                                Row(
+                                    modifier =
+                                        Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        modifier = Modifier.padding(vertical = Spacing.xs),
+                                        text = LocalStrings.current.actionCreateCommunity,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Icon(
+                                        modifier =
+                                            Modifier
+                                                .padding(horizontal = Spacing.xs)
+                                                .onClick(
+                                                    onClick = {
+                                                        navigatorCoordinator.pushScreen(
+                                                            EditCommunityScreen(),
+                                                        )
+                                                    },
+                                                ),
+                                        imageVector = Icons.Default.AddCircle,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
+                            }
+                        }
                         item {
                             Row(
                                 modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
+                                    modifier = Modifier.padding(vertical = Spacing.xs),
                                     text = LocalStrings.current.manageSubscriptionsHeaderMulticommunities,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
@@ -297,6 +332,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Icon(
                                     modifier =
                                         Modifier
+                                            .padding(horizontal = Spacing.xs)
                                             .onClick(
                                                 onClick = {
                                                     navigatorCoordinator.pushScreen(
@@ -364,6 +400,7 @@ class ManageSubscriptionsScreen : Screen {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
+                                    modifier = Modifier.padding(vertical = Spacing.xs),
                                     text = LocalStrings.current.manageSubscriptionsHeaderSubscriptions,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
@@ -409,12 +446,18 @@ class ManageSubscriptionsScreen : Screen {
                                     rememberCallbackArgs(model) { optionId ->
                                         when (optionId) {
                                             OptionId.Unsubscribe -> {
-                                                model.reduce(ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id))
+                                                model.reduce(
+                                                    ManageSubscriptionsMviModel.Intent.Unsubscribe(
+                                                        community.id,
+                                                    ),
+                                                )
                                             }
 
                                             OptionId.Favorite -> {
                                                 model.reduce(
-                                                    ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id),
+                                                    ManageSubscriptionsMviModel.Intent.ToggleFavorite(
+                                                        community.id,
+                                                    ),
                                                 )
                                             }
 
@@ -484,7 +527,11 @@ class ManageSubscriptionsScreen : Screen {
                 confirmButton = {
                     Button(
                         onClick = {
-                            model.reduce(ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(itemId))
+                            model.reduce(
+                                ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
+                                    itemId,
+                                ),
+                            )
                             multiCommunityIdToDelete = null
                         },
                     ) {

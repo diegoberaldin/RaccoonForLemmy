@@ -19,6 +19,7 @@ val manageSubscriptionsModule =
                 notificationCenter = get(),
                 settingsRepository = get(),
                 favoriteCommunityRepository = get(),
+                siteRepository = get(),
             )
         }
     }

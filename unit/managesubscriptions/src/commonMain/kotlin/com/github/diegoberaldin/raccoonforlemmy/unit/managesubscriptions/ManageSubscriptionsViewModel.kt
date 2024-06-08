@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedbac
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
@@ -30,6 +31,7 @@ class ManageSubscriptionsViewModel(
     private val multiCommunityRepository: MultiCommunityRepository,
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
+    private val siteRepository: SiteRepository,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
 ) : ManageSubscriptionsMviModel,
@@ -63,6 +65,14 @@ class ManageSubscriptionsViewModel(
                 refresh()
             }.launchIn(this)
             if (uiState.value.communities.isEmpty()) {
+                // determine whether community creation is allowed
+                val isAdmin = identityRepository.cachedUser?.admin ?: false
+                val auth = identityRepository.authToken.value
+                val isCommunityCreationAdminOnly = siteRepository.isCommunityCreationAdminOnly(auth)
+                updateState {
+                    it.copy(canCreateCommunity = isAdmin || !isCommunityCreationAdminOnly)
+                }
+
                 refresh(initial = true)
             }
         }
@@ -94,9 +104,10 @@ class ManageSubscriptionsViewModel(
 
             is ManageSubscriptionsMviModel.Intent.SetSearch -> updateSearchText(intent.value)
 
-            ManageSubscriptionsMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            ManageSubscriptionsMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
         }
     }
 
@@ -228,28 +239,30 @@ class ManageSubscriptionsViewModel(
         val searchText = uiState.value.searchText
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
-        val itemsToAdd = communityRepository.getSubscribed(
-            auth = auth,
-            page = currentPage,
-            query = searchText,
-        ).map { community ->
-            community.copy(favorite = community.id in favoriteCommunityIds)
-        }.sortedBy { it.name }.let {
-            val favorites = it.filter { e -> e.favorite }
-            val res = it - favorites.toSet()
-            favorites + res
-        }
+        val itemsToAdd =
+            communityRepository.getSubscribed(
+                auth = auth,
+                page = currentPage,
+                query = searchText,
+            ).map { community ->
+                community.copy(favorite = community.id in favoriteCommunityIds)
+            }.sortedBy { it.name }.let {
+                val favorites = it.filter { e -> e.favorite }
+                val res = it - favorites.toSet()
+                favorites + res
+            }
         if (itemsToAdd.isNotEmpty()) {
             currentPage++
         }
         updateState {
             it.copy(
                 refreshing = false,
-                communities = if (currentState.refreshing) {
-                    itemsToAdd
-                } else {
-                    currentState.communities + itemsToAdd
-                },
+                communities =
+                    if (currentState.refreshing) {
+                        itemsToAdd
+                    } else {
+                        currentState.communities + itemsToAdd
+                    },
                 canFetchMore = itemsToAdd.isNotEmpty(),
                 loading = false,
                 initial = false,
