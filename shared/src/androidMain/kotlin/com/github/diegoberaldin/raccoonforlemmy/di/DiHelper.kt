@@ -28,6 +28,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.profileTabMod
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.searchTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di.accountSettingsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.acknowledgements.di.acknowledgementsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.communityDetailModule
@@ -113,5 +114,6 @@ val sharedHelperModule =
             paginationModule,
             customTabsModule,
             moderateWithReasonModule,
+            acknowledgementsModule,
         )
     }
