@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Community
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityVisibility
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Instance
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Language
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
@@ -63,6 +64,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSetting
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.InstanceModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -153,6 +155,12 @@ internal fun SearchResultType.toDto(): SearchType =
         SearchResultType.Posts -> SearchType.Posts
         SearchResultType.Users -> SearchType.Users
         SearchResultType.Urls -> SearchType.Url
+    }
+
+internal fun CommunityVisibility?.toModel(): CommunityVisibilityType =
+    when (this) {
+        CommunityVisibility.LocalOnly -> CommunityVisibilityType.LocalOnly
+        else -> CommunityVisibilityType.Public
     }
 
 internal fun Person.toModel() =
@@ -260,6 +268,7 @@ internal fun Community.toModel() =
         creationDate = published,
         postingRestrictedToMods = postingRestrictedToMods,
         hidden = hidden,
+        visibilityType = visibility.toModel(),
     )
 
 internal fun CommunityView.toModel() =

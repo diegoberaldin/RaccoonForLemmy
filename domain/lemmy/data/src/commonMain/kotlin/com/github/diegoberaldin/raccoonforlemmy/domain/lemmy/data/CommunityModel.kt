@@ -24,6 +24,7 @@ data class CommunityModel(
     val postingRestrictedToMods: Boolean? = null,
     @Transient val favorite: Boolean = false,
     val hidden: Boolean = false,
+    val visibilityType: CommunityVisibilityType = CommunityVisibilityType.Public,
 )
 
 fun CommunityModel.readableName(preferNickname: Boolean): String {
