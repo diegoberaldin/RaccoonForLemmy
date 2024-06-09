@@ -31,5 +31,8 @@ data class SaveUserSettingsForm(
     @SerialName("show_nsfw") val showNsfw: Boolean? = null,
     @SerialName("show_read_posts") val showReadPosts: Boolean? = null,
     @SerialName("show_scores") val showScores: Boolean? = null,
+    @SerialName("show_upvotes") val showUpvotes: Boolean? = null,
+    @SerialName("show_downvotes") val showDownvotes: Boolean? = null,
+    @SerialName("show_upvote_percentage") val showUpvotePercentage: Boolean? = null,
     @SerialName("theme") val theme: String? = null,
 )
