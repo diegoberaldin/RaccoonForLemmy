@@ -285,6 +285,7 @@ internal fun CommunityView.toModel() =
         subscribers = counts.subscribers,
         posts = counts.posts,
         comments = counts.comments,
+        currentlyBanned = bannedFromCommunity == true,
     )
 
 internal fun PersonMentionView.toModel() =
