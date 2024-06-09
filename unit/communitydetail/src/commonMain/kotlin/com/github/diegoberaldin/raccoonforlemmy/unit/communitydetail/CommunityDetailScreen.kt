@@ -872,6 +872,8 @@ class CommunityDetailScreen(
                                                     when (notice) {
                                                         CommunityNotices.LocalOnlyVisibility ->
                                                             LocalStrings.current.noticeCommunityLocalOnly
+
+                                                        CommunityNotices.BannedUser -> LocalStrings.current.noticeBannedUser
                                                     },
                                             )
                                         }
