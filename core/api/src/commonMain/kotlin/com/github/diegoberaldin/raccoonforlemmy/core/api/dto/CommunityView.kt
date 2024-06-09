@@ -9,4 +9,5 @@ data class CommunityView(
     @SerialName("subscribed") val subscribed: SubscribedType,
     @SerialName("blocked") val blocked: Boolean,
     @SerialName("counts") val counts: CommunityAggregates,
+    @SerialName("banned_from_community") val bannedFromCommunity: Boolean? = null,
 )
