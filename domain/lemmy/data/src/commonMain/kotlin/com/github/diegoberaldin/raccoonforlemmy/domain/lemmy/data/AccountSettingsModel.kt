@@ -15,4 +15,7 @@ data class AccountSettingsModel(
     val showScores: Boolean? = null,
     val defaultListingType: ListingType? = null,
     val defaultSortType: SortType? = null,
+    val showUpVotes: Boolean? = null,
+    val showDownVotes: Boolean? = null,
+    val showUpVotePercentage: Boolean? = null,
 )
