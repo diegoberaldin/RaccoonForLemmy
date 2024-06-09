@@ -2,6 +2,7 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 
 interface EditCommunityMviModel :
     ScreenModel,
@@ -62,6 +63,7 @@ interface EditCommunityMviModel :
         val hasUnsavedChanges: Boolean = false,
         val nsfw: Boolean = false,
         val postingRestrictedToMods: Boolean = false,
+        val visibilityType: CommunityVisibilityType = CommunityVisibilityType.Public,
     )
 
     sealed interface Effect {

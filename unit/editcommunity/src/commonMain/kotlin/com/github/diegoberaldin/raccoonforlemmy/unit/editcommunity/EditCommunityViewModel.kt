@@ -2,12 +2,17 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity
 
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class EditCommunityViewModel(
@@ -15,11 +20,21 @@ class EditCommunityViewModel(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
     private val postRepository: PostRepository,
+    private val notificationCenter: NotificationCenter,
 ) : EditCommunityMviModel,
     DefaultMviModel<EditCommunityMviModel.Intent, EditCommunityMviModel.UiState, EditCommunityMviModel.Effect>(
         initialState = EditCommunityMviModel.UiState(),
     ) {
     private var originalCommunity: CommunityModel? = null
+
+    init {
+        screenModelScope.launch {
+            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommunityVisibility::class)
+                .onEach { event ->
+                    updateVisibility(event.value)
+                }.launchIn(this)
+        }
+    }
 
     override fun reduce(intent: EditCommunityMviModel.Intent) {
         when (intent) {
@@ -113,6 +128,7 @@ class EditCommunityViewModel(
                     nsfw = community.nsfw,
                     postingRestrictedToMods = community.postingRestrictedToMods == true,
                     loading = false,
+                    visibilityType = community.visibilityType,
                 )
             }
         }
@@ -158,6 +174,17 @@ class EditCommunityViewModel(
         }
     }
 
+    private fun updateVisibility(value: CommunityVisibilityType) {
+        screenModelScope.launch {
+            updateState {
+                it.copy(
+                    visibilityType = value,
+                    hasUnsavedChanges = true,
+                )
+            }
+        }
+    }
+
     private fun submit() {
         val community = originalCommunity?.copy() ?: CommunityModel()
         val currentState = uiState.value
@@ -174,6 +201,7 @@ class EditCommunityViewModel(
                         banner = currentState.banner,
                         nsfw = currentState.nsfw,
                         postingRestrictedToMods = currentState.postingRestrictedToMods,
+                        visibilityType = currentState.visibilityType,
                     )
                 if (community.id == 0L) {
                     // creating a new community

@@ -14,6 +14,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.MultiCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
@@ -158,4 +159,7 @@ sealed interface NotificationCenterEvent {
     }
 
     data class ChangeUrlOpeningMode(val value: Int) : NotificationCenterEvent
+
+    data class ChangeCommunityVisibility(val value: CommunityVisibilityType) :
+        NotificationCenterEvent
 }
