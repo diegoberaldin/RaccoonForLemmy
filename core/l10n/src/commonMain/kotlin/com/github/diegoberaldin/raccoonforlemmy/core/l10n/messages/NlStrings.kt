@@ -419,4 +419,6 @@ internal val NlStrings =
         override val editCommunityItemVisibility: String = "Zichtbaarheid"
         override val communityVisibilityLocalOnly: String = "alleen lokale instantie"
         override val communityVisibilityPublic: String = "openbaar"
+        override val noticeCommunityLocalOnly: String =
+            "Deze community is alleen zichtbaar binnen het huidige exemplaar"
     }

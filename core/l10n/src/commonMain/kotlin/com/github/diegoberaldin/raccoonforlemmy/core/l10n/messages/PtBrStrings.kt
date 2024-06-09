@@ -417,4 +417,6 @@ internal val PtBrStrings =
         override val editCommunityItemVisibility: String = "Visibilidade"
         override val communityVisibilityLocalOnly: String = "apenas instância local"
         override val communityVisibilityPublic: String = "pública"
+        override val noticeCommunityLocalOnly: String =
+            "Esta comunidade só é visível na instância atual"
     }

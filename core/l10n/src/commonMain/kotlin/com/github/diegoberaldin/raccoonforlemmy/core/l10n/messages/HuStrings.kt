@@ -422,4 +422,6 @@ internal val HuStrings =
         override val editCommunityItemVisibility: String = "Láthatóság"
         override val communityVisibilityLocalOnly: String = "csak helyi példány"
         override val communityVisibilityPublic: String = "nyilvános"
+        override val noticeCommunityLocalOnly: String =
+            "Ez a közösség csak az aktuális példányon belül látható"
     }

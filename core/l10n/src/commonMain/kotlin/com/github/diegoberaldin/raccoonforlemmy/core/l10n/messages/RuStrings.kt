@@ -420,4 +420,6 @@ internal val RuStrings =
         override val editCommunityItemVisibility: String = "Видимость"
         override val communityVisibilityLocalOnly: String = "только локальный экземпляр"
         override val communityVisibilityPublic: String = "общественный"
+        override val noticeCommunityLocalOnly: String =
+            "Это сообщество видно только в текущем экземпляре"
     }

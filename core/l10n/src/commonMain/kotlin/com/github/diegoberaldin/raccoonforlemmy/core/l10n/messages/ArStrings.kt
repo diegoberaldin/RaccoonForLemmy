@@ -414,4 +414,5 @@ internal val ArStrings =
         override val editCommunityItemVisibility: String = "الرؤية"
         override val communityVisibilityLocalOnly: String = "المثيل المحلي فقط"
         override val communityVisibilityPublic: String = "عام"
+        override val noticeCommunityLocalOnly: String = "هذا المجتمع مرئي فقط في المثيل الحالي"
     }

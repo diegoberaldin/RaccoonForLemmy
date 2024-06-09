@@ -423,4 +423,6 @@ internal val FrStrings =
         override val editCommunityItemVisibility: String = "Visibilité"
         override val communityVisibilityLocalOnly: String = "instance locale uniquement"
         override val communityVisibilityPublic: String = "publique"
+        override val noticeCommunityLocalOnly: String =
+            "Cette communauté n\'est visible que dans l\'instance actuelle"
     }

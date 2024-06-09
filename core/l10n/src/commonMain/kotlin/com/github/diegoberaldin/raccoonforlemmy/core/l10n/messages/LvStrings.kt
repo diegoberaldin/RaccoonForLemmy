@@ -417,4 +417,6 @@ internal val LvStrings =
         override val editCommunityItemVisibility: String = "Redzamība"
         override val communityVisibilityLocalOnly: String = "tikai vietējais gadījums"
         override val communityVisibilityPublic: String = "publiski"
+        override val noticeCommunityLocalOnly: String =
+            "Šī kopiena ir redzama tikai pašreizējā instancē"
     }

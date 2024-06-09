@@ -415,4 +415,6 @@ internal val FiStrings =
         override val editCommunityItemVisibility: String = "Näkyvyys"
         override val communityVisibilityLocalOnly: String = "vain paikallinen esimerkki"
         override val communityVisibilityPublic: String = "julkinen"
+        override val noticeCommunityLocalOnly: String =
+            "Tämä yhteisö näkyy vain nykyisessä ilmentymässä"
     }

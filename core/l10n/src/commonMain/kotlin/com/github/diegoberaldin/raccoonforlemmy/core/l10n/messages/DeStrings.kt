@@ -421,4 +421,6 @@ internal val DeStrings =
         override val editCommunityItemVisibility: String = "Sichtweite"
         override val communityVisibilityLocalOnly: String = "Nur lokale Instanz"
         override val communityVisibilityPublic: String = "öffentlich"
+        override val noticeCommunityLocalOnly: String =
+            "Diese Community ist nur innerhalb der aktuellen Instanz sichtbar"
     }

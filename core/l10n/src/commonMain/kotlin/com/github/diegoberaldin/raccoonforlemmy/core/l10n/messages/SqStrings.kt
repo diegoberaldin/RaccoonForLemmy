@@ -419,4 +419,6 @@ internal val SqStrings =
         override val editCommunityItemVisibility: String = "Dukshmëria"
         override val communityVisibilityLocalOnly: String = "vetëm për shembull lokal"
         override val communityVisibilityPublic: String = "publike"
+        override val noticeCommunityLocalOnly: String =
+            "Ky komunitet është i dukshëm vetëm brenda shembullit aktual"
     }

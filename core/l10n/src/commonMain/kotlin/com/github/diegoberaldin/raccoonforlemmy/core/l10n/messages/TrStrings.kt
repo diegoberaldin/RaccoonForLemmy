@@ -418,4 +418,6 @@ internal val TrStrings =
         override val editCommunityItemVisibility: String = "Görünürlük"
         override val communityVisibilityLocalOnly: String = "yalnızca yerel örnek"
         override val communityVisibilityPublic: String = "halk"
+        override val noticeCommunityLocalOnly: String =
+            "Bu topluluk yalnızca mevcut örnekte görülebilir"
     }

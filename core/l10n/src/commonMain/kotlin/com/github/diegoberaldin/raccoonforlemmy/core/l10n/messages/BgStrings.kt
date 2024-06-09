@@ -421,4 +421,6 @@ internal val BgStrings =
         override val editCommunityItemVisibility: String = "Видимост"
         override val communityVisibilityLocalOnly: String = "само локален екземпляр"
         override val communityVisibilityPublic: String = "публичен"
+        override val noticeCommunityLocalOnly: String =
+            "Тази общност е видима само в рамките на текущия екземпляр"
     }

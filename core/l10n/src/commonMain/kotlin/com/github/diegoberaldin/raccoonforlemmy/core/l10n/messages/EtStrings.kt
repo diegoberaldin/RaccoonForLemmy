@@ -419,4 +419,6 @@ internal val EtStrings =
         override val editCommunityItemVisibility: String = "Nähtavus"
         override val communityVisibilityLocalOnly: String = "ainult kohalik eksemplar"
         override val communityVisibilityPublic: String = "avalik"
+        override val noticeCommunityLocalOnly: String =
+            "See kommuun on nähtav ainult praeguses eksemplaris"
     }

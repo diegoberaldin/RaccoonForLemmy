@@ -419,4 +419,6 @@ internal val ItStrings =
         override val editCommunityItemVisibility: String = "Visibilità"
         override val communityVisibilityLocalOnly: String = "solo istanza locale"
         override val communityVisibilityPublic: String = "pubblica"
+        override val noticeCommunityLocalOnly: String =
+            "Questa comunità è visibile esclusivamente all'interno dell'istanza corrente"
     }

@@ -418,4 +418,6 @@ internal val HrStrings =
         override val editCommunityItemVisibility: String = "Vidljivost"
         override val communityVisibilityLocalOnly: String = "samo lokalna instanca"
         override val communityVisibilityPublic: String = "javnost"
+        override val noticeCommunityLocalOnly: String =
+            "Ova je zajednica vidljiva samo unutar trenutne instance"
     }

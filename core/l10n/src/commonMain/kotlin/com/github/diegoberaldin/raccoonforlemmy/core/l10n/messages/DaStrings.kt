@@ -416,4 +416,6 @@ internal val DaStrings =
         override val editCommunityItemVisibility: String = "Sigtbarhed"
         override val communityVisibilityLocalOnly: String = "kun lokal instans"
         override val communityVisibilityPublic: String = "offentlig"
+        override val noticeCommunityLocalOnly: String =
+            "Dette fællesskab er kun synligt i den aktuelle forekomst"
     }

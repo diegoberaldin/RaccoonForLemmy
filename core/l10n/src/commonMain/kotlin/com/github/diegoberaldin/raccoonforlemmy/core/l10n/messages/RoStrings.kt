@@ -417,4 +417,6 @@ internal val RoStrings =
         override val editCommunityItemVisibility: String = "Vizibilitate"
         override val communityVisibilityLocalOnly: String = "numai instanță locală"
         override val communityVisibilityPublic: String = "publică"
+        override val noticeCommunityLocalOnly: String =
+            "Această comunitate este vizibilă numai în instanța curentă"
     }

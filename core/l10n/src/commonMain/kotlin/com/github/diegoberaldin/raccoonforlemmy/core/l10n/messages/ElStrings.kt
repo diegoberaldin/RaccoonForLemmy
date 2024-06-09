@@ -424,4 +424,6 @@ internal val ElStrings =
         override val editCommunityItemVisibility: String = "Ορατότητα"
         override val communityVisibilityLocalOnly: String = "μόνο τοπική περίπτωση"
         override val communityVisibilityPublic: String = "δημόσιο"
+        override val noticeCommunityLocalOnly: String =
+            "Αυτή η κοινότητα είναι ορατή μόνο στην τρέχουσα παρουσία"
     }

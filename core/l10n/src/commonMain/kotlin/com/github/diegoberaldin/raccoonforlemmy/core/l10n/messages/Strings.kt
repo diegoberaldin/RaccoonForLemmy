@@ -413,6 +413,7 @@ interface Strings {
     val editCommunityItemVisibility: String
     val communityVisibilityLocalOnly: String
     val communityVisibilityPublic: String
+    val noticeCommunityLocalOnly: String
 }
 
 object Locales {

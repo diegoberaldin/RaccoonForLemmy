@@ -419,4 +419,6 @@ internal val UkStrings =
         override val editCommunityItemVisibility: String = "Видимість"
         override val communityVisibilityLocalOnly: String = "лише локальний екземпляр"
         override val communityVisibilityPublic: String = "громадськість"
+        override val noticeCommunityLocalOnly: String =
+            "Цю спільноту можна побачити лише в поточному екземплярі"
     }

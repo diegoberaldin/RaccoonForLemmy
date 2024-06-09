@@ -419,4 +419,6 @@ internal val SrStrings =
         override val editCommunityItemVisibility: String = "Видљивост"
         override val communityVisibilityLocalOnly: String = "само локална инстанца"
         override val communityVisibilityPublic: String = "јавности"
+        override val noticeCommunityLocalOnly: String =
+            "Ова заједница је видљива само у оквиру тренутне инстанце"
     }

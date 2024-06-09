@@ -413,4 +413,6 @@ internal val EoStrings =
         override val editCommunityItemVisibility: String = "Videbleco"
         override val communityVisibilityLocalOnly: String = "nur loka instanco"
         override val communityVisibilityPublic: String = "publika"
+        override val noticeCommunityLocalOnly: String =
+            "Ĉi tiu komunumo estas videbla nur ene de la nuna nodo"
     }

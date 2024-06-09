@@ -415,4 +415,6 @@ internal val NoStrings =
         override val editCommunityItemVisibility: String = "Synlighet"
         override val communityVisibilityLocalOnly: String = "kun lokal instans"
         override val communityVisibilityPublic: String = "offentlig"
+        override val noticeCommunityLocalOnly: String =
+            "Dette fellesskapet er bare synlig i gjeldende forekomst"
     }

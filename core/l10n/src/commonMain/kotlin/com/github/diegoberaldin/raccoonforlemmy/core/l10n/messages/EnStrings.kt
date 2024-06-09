@@ -414,4 +414,6 @@ internal val EnStrings =
         override val editCommunityItemVisibility: String = "Visibility"
         override val communityVisibilityLocalOnly: String = "local instance only"
         override val communityVisibilityPublic: String = "public"
+        override val noticeCommunityLocalOnly: String =
+            "This community is only visible within the current instance"
     }

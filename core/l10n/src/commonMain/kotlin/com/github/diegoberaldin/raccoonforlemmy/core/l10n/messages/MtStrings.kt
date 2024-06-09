@@ -418,4 +418,6 @@ internal val MtStrings =
         override val editCommunityItemVisibility: String = "Viżibilità"
         override val communityVisibilityLocalOnly: String = "istanza lokali biss"
         override val communityVisibilityPublic: String = "pubbliku"
+        override val noticeCommunityLocalOnly: String =
+            "Din il-komunità hija viżibbli biss fl-istanza attwali"
     }

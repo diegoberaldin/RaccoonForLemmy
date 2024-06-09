@@ -418,4 +418,6 @@ internal val PlStrings =
         override val editCommunityItemVisibility: String = "Widoczność"
         override val communityVisibilityLocalOnly: String = "tylko instancja lokalna"
         override val communityVisibilityPublic: String = "publiczny"
+        override val noticeCommunityLocalOnly: String =
+            "Ta społeczność jest widoczna tylko w bieżącej instancji"
     }

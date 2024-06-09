@@ -417,4 +417,6 @@ internal val SeStrings =
         override val editCommunityItemVisibility: String = "Synlighet"
         override val communityVisibilityLocalOnly: String = "endast lokal instans"
         override val communityVisibilityPublic: String = "offentlig"
+        override val noticeCommunityLocalOnly: String =
+            "Denna grupp är endast synlig inom den aktuella instansen"
     }

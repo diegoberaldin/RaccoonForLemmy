@@ -414,4 +414,6 @@ internal val TokStrings =
         override val editCommunityItemVisibility: String = "nasin lukin"
         override val communityVisibilityLocalOnly: String = "tawa ilo nanpa ni taso"
         override val communityVisibilityPublic: String = "tawa ale"
+        override val noticeCommunityLocalOnly: String =
+            "kulupu ni li ken lukin lon ilo nanpa ni taso"
     }

@@ -417,4 +417,6 @@ internal val CsStrings =
         override val editCommunityItemVisibility: String = "Viditelnost"
         override val communityVisibilityLocalOnly: String = "pouze místní instance"
         override val communityVisibilityPublic: String = "veřejnost"
+        override val noticeCommunityLocalOnly: String =
+            "Tato komunita je viditelná pouze v aktuální instanci"
     }

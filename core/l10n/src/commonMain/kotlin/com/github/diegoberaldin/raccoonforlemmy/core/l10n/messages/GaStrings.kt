@@ -419,4 +419,6 @@ internal val GaStrings =
         override val editCommunityItemVisibility: String = "Infheictheacht"
         override val communityVisibilityLocalOnly: String = "shampla áitiúil amháin"
         override val communityVisibilityPublic: String = "poiblí"
+        override val noticeCommunityLocalOnly: String =
+            "Níl an pobal seo le feiceáil ach sa chás reatha"
     }

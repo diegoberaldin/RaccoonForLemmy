@@ -419,4 +419,6 @@ internal val SkStrings =
         override val editCommunityItemVisibility: String = "Viditeľnosť"
         override val communityVisibilityLocalOnly: String = "iba lokálna inštancia"
         override val communityVisibilityPublic: String = "verejnosti"
+        override val noticeCommunityLocalOnly: String =
+            "Táto komunita je viditeľná iba v rámci aktuálnej inštancie"
     }

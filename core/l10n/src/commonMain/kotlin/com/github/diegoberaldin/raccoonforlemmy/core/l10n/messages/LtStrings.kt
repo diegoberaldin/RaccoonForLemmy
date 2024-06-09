@@ -416,4 +416,6 @@ internal val LtStrings =
         override val editCommunityItemVisibility: String = "Matomumas"
         override val communityVisibilityLocalOnly: String = "tik vietinis pavyzdys"
         override val communityVisibilityPublic: String = "viešas"
+        override val noticeCommunityLocalOnly: String =
+            "Ši bendruomenė matoma tik dabartiniame egzemplioriuje"
     }
