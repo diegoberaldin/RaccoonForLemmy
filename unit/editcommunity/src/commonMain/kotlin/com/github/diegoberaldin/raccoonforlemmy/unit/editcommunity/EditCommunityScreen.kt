@@ -9,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -20,7 +22,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.SettingsApplications
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.TextFormat
 import androidx.compose.material3.AlertDialog
@@ -60,8 +62,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.toTypograp
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsFormattedInfo
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsImageInfo
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsTextualInfo
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CommunityVisibilityBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditFormattedInfoDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditTextualInfoDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
@@ -71,6 +75,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.gallery.getGalleryHelper
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toReadableName
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.parameter.parametersOf
@@ -81,7 +86,8 @@ class EditCommunityScreen(
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val model = getScreenModel<EditCommunityMviModel>(parameters = { parametersOf(communityId) })
+        val model =
+            getScreenModel<EditCommunityMviModel>(parameters = { parametersOf(communityId) })
         val uiState by model.uiState.collectAsState()
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val topAppBarState = rememberTopAppBarState()
@@ -219,6 +225,7 @@ class EditCommunityScreen(
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
+                            bottom = Spacing.m,
                         )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
@@ -311,8 +318,8 @@ class EditCommunityScreen(
                     )
 
                     SettingsHeader(
-                        icon = Icons.Default.Shield,
-                        title = LocalStrings.current.settingsSectionNsfw,
+                        icon = Icons.Default.SettingsApplications,
+                        title = LocalStrings.current.navigationSettings,
                     )
 
                     SettingsSwitchRow(
@@ -328,9 +335,25 @@ class EditCommunityScreen(
                         value = uiState.postingRestrictedToMods,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
-                                model.reduce(EditCommunityMviModel.Intent.ChangePostingRestrictedToMods(value))
+                                model.reduce(
+                                    EditCommunityMviModel.Intent.ChangePostingRestrictedToMods(
+                                        value,
+                                    ),
+                                )
                             },
                     )
+
+                    SettingsRow(
+                        title = LocalStrings.current.editCommunityItemVisibility,
+                        value = uiState.visibilityType.toReadableName(),
+                        onTap =
+                            rememberCallback {
+                                val sheet = CommunityVisibilityBottomSheet()
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                    )
+
+                    Spacer(modifier = Modifier.height(Spacing.m))
                 }
 
                 Box(
