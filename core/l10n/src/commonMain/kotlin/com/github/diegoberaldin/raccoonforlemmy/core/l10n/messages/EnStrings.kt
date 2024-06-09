@@ -409,11 +409,12 @@ internal val EnStrings =
         override val adminActionUnmarkAsFeatured = "Unmark as featured (instance)"
         override val communitySetPreferredLanguage = "Set preferred language"
         override val appIconClassical = "Classical"
-        override val settingsAboutAcknowledgements: String = "Acknowledgements"
-        override val actionCreateCommunity: String = "Create community"
-        override val editCommunityItemVisibility: String = "Visibility"
-        override val communityVisibilityLocalOnly: String = "local instance only"
-        override val communityVisibilityPublic: String = "public"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Acknowledgements"
+        override val actionCreateCommunity = "Create community"
+        override val editCommunityItemVisibility = "Visibility"
+        override val communityVisibilityLocalOnly = "local instance only"
+        override val communityVisibilityPublic = "public"
+        override val noticeCommunityLocalOnly =
             "This community is only visible within the current instance"
+        override val noticeBannedUser = "The current user has been banned from this community"
     }

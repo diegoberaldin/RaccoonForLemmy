@@ -412,11 +412,12 @@ internal val RoStrings =
         override val adminActionUnmarkAsFeatured = "Anulează marcare ca recomandat (instanță)"
         override val communitySetPreferredLanguage = "Setează limba preferată"
         override val appIconClassical = "Clasic"
-        override val settingsAboutAcknowledgements: String = "Mulțumiri"
-        override val actionCreateCommunity: String = "Creează o comunitate"
-        override val editCommunityItemVisibility: String = "Vizibilitate"
-        override val communityVisibilityLocalOnly: String = "numai instanță locală"
-        override val communityVisibilityPublic: String = "publică"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Mulțumiri"
+        override val actionCreateCommunity = "Creează o comunitate"
+        override val editCommunityItemVisibility = "Vizibilitate"
+        override val communityVisibilityLocalOnly = "numai instanță locală"
+        override val communityVisibilityPublic = "publică"
+        override val noticeCommunityLocalOnly =
             "Această comunitate este vizibilă numai în instanța curentă"
+        override val noticeBannedUser = "Utilizatorul actual a fost exclus din această comunitate"
     }

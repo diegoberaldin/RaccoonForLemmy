@@ -414,11 +414,12 @@ internal val ItStrings =
         override val adminActionUnmarkAsFeatured = "Contrassegna come non fisasto (istanza)"
         override val communitySetPreferredLanguage = "Imposta lingua preferita"
         override val appIconClassical = "Classica"
-        override val settingsAboutAcknowledgements: String = "Riconoscimenti"
-        override val actionCreateCommunity: String = "Crea comunità"
-        override val editCommunityItemVisibility: String = "Visibilità"
-        override val communityVisibilityLocalOnly: String = "solo istanza locale"
-        override val communityVisibilityPublic: String = "pubblica"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Riconoscimenti"
+        override val actionCreateCommunity = "Crea comunità"
+        override val editCommunityItemVisibility = "Visibilità"
+        override val communityVisibilityLocalOnly = "solo istanza locale"
+        override val communityVisibilityPublic = "pubblica"
+        override val noticeCommunityLocalOnly =
             "Questa comunità è visibile esclusivamente all'interno dell'istanza corrente"
+        override val noticeBannedUser = "L\'utente corrente è stato bannato da questa comunità"
     }

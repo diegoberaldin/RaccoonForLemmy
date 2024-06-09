@@ -416,11 +416,12 @@ internal val BgStrings =
         override val adminActionUnmarkAsFeatured = "Демаркиране като представено (екземпляр)"
         override val communitySetPreferredLanguage = "Задаване на предпочитанияезик"
         override val appIconClassical = "Класическа"
-        override val settingsAboutAcknowledgements: String = "Благодарности"
-        override val actionCreateCommunity: String = "Създайте общност"
-        override val editCommunityItemVisibility: String = "Видимост"
-        override val communityVisibilityLocalOnly: String = "само локален екземпляр"
-        override val communityVisibilityPublic: String = "публичен"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Благодарности"
+        override val actionCreateCommunity = "Създайте общност"
+        override val editCommunityItemVisibility = "Видимост"
+        override val communityVisibilityLocalOnly = "само локален екземпляр"
+        override val communityVisibilityPublic = "публичен"
+        override val noticeCommunityLocalOnly =
             "Тази общност е видима само в рамките на текущия екземпляр"
+        override val noticeBannedUser = "Настоящият потребител е забранен от тази общност"
     }

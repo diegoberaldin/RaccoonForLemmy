@@ -413,11 +413,12 @@ internal val PlStrings =
         override val adminActionUnmarkAsFeatured = "Usuń oznaczenie jako polecane (instancja)"
         override val communitySetPreferredLanguage = "Ustaw preferowany język"
         override val appIconClassical = "Klasyczny"
-        override val settingsAboutAcknowledgements: String = "Podziękowanie"
-        override val actionCreateCommunity: String = "Utwórz społeczność"
-        override val editCommunityItemVisibility: String = "Widoczność"
-        override val communityVisibilityLocalOnly: String = "tylko instancja lokalna"
-        override val communityVisibilityPublic: String = "publiczny"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Podziękowanie"
+        override val actionCreateCommunity = "Utwórz społeczność"
+        override val editCommunityItemVisibility = "Widoczność"
+        override val communityVisibilityLocalOnly = "tylko instancja lokalna"
+        override val communityVisibilityPublic = "publiczny"
+        override val noticeCommunityLocalOnly =
             "Ta społeczność jest widoczna tylko w bieżącej instancji"
+        override val noticeBannedUser = "Bieżący użytkownik został zablokowany w tej społeczności"
     }

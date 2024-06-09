@@ -415,11 +415,11 @@ internal val RuStrings =
         override val adminActionUnmarkAsFeatured = "Снять пометку как избранное (экземпляр)"
         override val communitySetPreferredLanguage = "Установить предпочитаемый язык"
         override val appIconClassical = "Классический"
-        override val settingsAboutAcknowledgements: String = "Благодарности"
-        override val actionCreateCommunity: String = "Создать сообщество"
-        override val editCommunityItemVisibility: String = "Видимость"
-        override val communityVisibilityLocalOnly: String = "только локальный экземпляр"
-        override val communityVisibilityPublic: String = "общественный"
-        override val noticeCommunityLocalOnly: String =
-            "Это сообщество видно только в текущем экземпляре"
+        override val settingsAboutAcknowledgements = "Благодарности"
+        override val actionCreateCommunity = "Создать сообщество"
+        override val editCommunityItemVisibility = "Видимость"
+        override val communityVisibilityLocalOnly = "только локальный экземпляр"
+        override val communityVisibilityPublic = "общественный"
+        override val noticeCommunityLocalOnly = "Это сообщество видно только в текущем экземпляре"
+        override val noticeBannedUser = "Текущий пользователь заблокирован в этом сообществе"
     }

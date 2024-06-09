@@ -413,11 +413,12 @@ internal val TrStrings =
         override val adminActionUnmarkAsFeatured = "Öne çıkan işaretini kaldır (örnek)"
         override val communitySetPreferredLanguage = "Tercih edilen dili ayarla"
         override val appIconClassical = "Klasik"
-        override val settingsAboutAcknowledgements: String = "Teşekkür"
-        override val actionCreateCommunity: String = "Topluluk oluştur"
-        override val editCommunityItemVisibility: String = "Görünürlük"
-        override val communityVisibilityLocalOnly: String = "yalnızca yerel örnek"
-        override val communityVisibilityPublic: String = "halk"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Teşekkür"
+        override val actionCreateCommunity = "Topluluk oluştur"
+        override val editCommunityItemVisibility = "Görünürlük"
+        override val communityVisibilityLocalOnly = "yalnızca yerel örnek"
+        override val communityVisibilityPublic = "halk"
+        override val noticeCommunityLocalOnly =
             "Bu topluluk yalnızca mevcut örnekte görülebilir"
+        override val noticeBannedUser = "Mevcut kullanıcı bu topluluktan yasaklandı"
     }

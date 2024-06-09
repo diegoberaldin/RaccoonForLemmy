@@ -410,11 +410,13 @@ internal val NoStrings =
         override val adminActionUnmarkAsFeatured = "Fjern merking som fremhevet (forekomst)"
         override val communitySetPreferredLanguage = "Sett foretrukket språk"
         override val appIconClassical = "Klassisk"
-        override val settingsAboutAcknowledgements: String = "Anerkjennelser"
-        override val actionCreateCommunity: String = "Skap fellesskap"
-        override val editCommunityItemVisibility: String = "Synlighet"
-        override val communityVisibilityLocalOnly: String = "kun lokal instans"
-        override val communityVisibilityPublic: String = "offentlig"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Anerkjennelser"
+        override val actionCreateCommunity = "Skap fellesskap"
+        override val editCommunityItemVisibility = "Synlighet"
+        override val communityVisibilityLocalOnly = "kun lokal instans"
+        override val communityVisibilityPublic = "offentlig"
+        override val noticeCommunityLocalOnly =
             "Dette fellesskapet er bare synlig i gjeldende forekomst"
+        override val noticeBannedUser =
+            "Den nåværende brukeren har blitt utestengt fra dette fellesskapet"
     }

@@ -416,11 +416,12 @@ internal val DeStrings =
         override val adminActionUnmarkAsFeatured = "Markierung als vorgestellt aufheben (Instanz)"
         override val communitySetPreferredLanguage = "Bevorzugte Sprache festlegen"
         override val appIconClassical = "Klassisch"
-        override val settingsAboutAcknowledgements: String = "Danksagungen"
-        override val actionCreateCommunity: String = "Gemeinschaft schaffen"
-        override val editCommunityItemVisibility: String = "Sichtweite"
-        override val communityVisibilityLocalOnly: String = "Nur lokale Instanz"
-        override val communityVisibilityPublic: String = "öffentlich"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Danksagungen"
+        override val actionCreateCommunity = "Gemeinschaft schaffen"
+        override val editCommunityItemVisibility = "Sichtweite"
+        override val communityVisibilityLocalOnly = "Nur lokale Instanz"
+        override val communityVisibilityPublic = "öffentlich"
+        override val noticeCommunityLocalOnly =
             "Diese Community ist nur innerhalb der aktuellen Instanz sichtbar"
+        override val noticeBannedUser = "Der aktuelle Benutzer wurde aus dieser Community gesperrt"
     }

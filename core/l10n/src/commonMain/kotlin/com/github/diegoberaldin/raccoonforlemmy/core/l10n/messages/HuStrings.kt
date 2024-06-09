@@ -417,11 +417,12 @@ internal val HuStrings =
             "Kiemeltként való megjelölés visszavonása (példány)"
         override val communitySetPreferredLanguage = "Előnyben részesítettnyelv beállítása"
         override val appIconClassical = "Klasszikus"
-        override val settingsAboutAcknowledgements: String = "Köszönetnyilvánítás"
-        override val actionCreateCommunity: String = "Közösség létrehozása"
-        override val editCommunityItemVisibility: String = "Láthatóság"
-        override val communityVisibilityLocalOnly: String = "csak helyi példány"
-        override val communityVisibilityPublic: String = "nyilvános"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Köszönetnyilvánítás"
+        override val actionCreateCommunity = "Közösség létrehozása"
+        override val editCommunityItemVisibility = "Láthatóság"
+        override val communityVisibilityLocalOnly = "csak helyi példány"
+        override val communityVisibilityPublic = "nyilvános"
+        override val noticeCommunityLocalOnly =
             "Ez a közösség csak az aktuális példányon belül látható"
+        override val noticeBannedUser = "A jelenlegi felhasználót kitiltották a közösségből"
     }

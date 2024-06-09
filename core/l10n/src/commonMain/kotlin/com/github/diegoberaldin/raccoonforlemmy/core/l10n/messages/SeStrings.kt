@@ -412,11 +412,12 @@ internal val SeStrings =
         override val adminActionUnmarkAsFeatured = "Avmarkera som utvald (instans)"
         override val communitySetPreferredLanguage = "Ställ in önskat språk"
         override val appIconClassical = "Klassisk"
-        override val settingsAboutAcknowledgements: String = "Erkännanden"
-        override val actionCreateCommunity: String = "Skapa gemenskap"
-        override val editCommunityItemVisibility: String = "Synlighet"
-        override val communityVisibilityLocalOnly: String = "endast lokal instans"
-        override val communityVisibilityPublic: String = "offentlig"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Erkännanden"
+        override val actionCreateCommunity = "Skapa gemenskap"
+        override val editCommunityItemVisibility = "Synlighet"
+        override val communityVisibilityLocalOnly = "endast lokal instans"
+        override val communityVisibilityPublic = "offentlig"
+        override val noticeCommunityLocalOnly =
             "Denna grupp är endast synlig inom den aktuella instansen"
+        override val noticeBannedUser = "Den nuvarande användaren har blockerats från denna grupp"
     }

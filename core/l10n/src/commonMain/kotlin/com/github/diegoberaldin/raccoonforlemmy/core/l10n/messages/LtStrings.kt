@@ -411,11 +411,13 @@ internal val LtStrings =
         override val adminActionUnmarkAsFeatured = "Panaikinkite žymėjimą kaip panašų (pavyzdys)"
         override val communitySetPreferredLanguage = "Nustatyti pageidaujamą kalbą"
         override val appIconClassical = "Klasikinis"
-        override val settingsAboutAcknowledgements: String = "Padėkos"
-        override val actionCreateCommunity: String = "Sukurti bendruomenę"
-        override val editCommunityItemVisibility: String = "Matomumas"
-        override val communityVisibilityLocalOnly: String = "tik vietinis pavyzdys"
-        override val communityVisibilityPublic: String = "viešas"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Padėkos"
+        override val actionCreateCommunity = "Sukurti bendruomenę"
+        override val editCommunityItemVisibility = "Matomumas"
+        override val communityVisibilityLocalOnly = "tik vietinis pavyzdys"
+        override val communityVisibilityPublic = "viešas"
+        override val noticeCommunityLocalOnly =
             "Ši bendruomenė matoma tik dabartiniame egzemplioriuje"
+        override val noticeBannedUser =
+            "Dabartinis vartotojas buvo uždraustas dalyvauti šioje bendruomenėje"
     }

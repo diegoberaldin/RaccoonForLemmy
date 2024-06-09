@@ -412,11 +412,12 @@ internal val SlStrings =
         override val adminActionUnmarkAsFeatured = "Odznači kot predstavljeno (primer)"
         override val communitySetPreferredLanguage = "Nastavitev prednostnega jezika"
         override val appIconClassical = "Klasična"
-        override val settingsAboutAcknowledgements: String = "Zahvala"
-        override val actionCreateCommunity: String = "Ustvari skupnost"
-        override val editCommunityItemVisibility: String = "Vidnost"
-        override val communityVisibilityLocalOnly: String = "samo lokalni primerek"
-        override val communityVisibilityPublic: String = "javnosti"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Zahvala"
+        override val actionCreateCommunity = "Ustvari skupnost"
+        override val editCommunityItemVisibility = "Vidnost"
+        override val communityVisibilityLocalOnly = "samo lokalni primerek"
+        override val communityVisibilityPublic = "javnosti"
+        override val noticeCommunityLocalOnly =
             "Ta skupnost je vidna samo znotraj trenutne instance"
+        override val noticeBannedUser = "Trenutni uporabnik je bil izključen iz te skupnosti"
     }

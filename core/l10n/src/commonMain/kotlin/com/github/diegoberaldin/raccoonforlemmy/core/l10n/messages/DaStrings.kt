@@ -411,11 +411,13 @@ internal val DaStrings =
         override val adminActionUnmarkAsFeatured = "Fjern markering som fremhævet (forekomst)"
         override val communitySetPreferredLanguage = "Indstil foretrukket sprog"
         override val appIconClassical = "Klassisk"
-        override val settingsAboutAcknowledgements: String = "Anerkendelser"
-        override val actionCreateCommunity: String = "Skab fællesskab"
-        override val editCommunityItemVisibility: String = "Sigtbarhed"
-        override val communityVisibilityLocalOnly: String = "kun lokal instans"
-        override val communityVisibilityPublic: String = "offentlig"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Anerkendelser"
+        override val actionCreateCommunity = "Skab fællesskab"
+        override val editCommunityItemVisibility = "Sigtbarhed"
+        override val communityVisibilityLocalOnly = "kun lokal instans"
+        override val communityVisibilityPublic = "offentlig"
+        override val noticeCommunityLocalOnly =
             "Dette fællesskab er kun synligt i den aktuelle forekomst"
+        override val noticeBannedUser =
+            "Den nuværende bruger er blevet udelukket fra dette fællesskab"
     }

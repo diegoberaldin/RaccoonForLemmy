@@ -414,11 +414,12 @@ internal val SrStrings =
         override val adminActionUnmarkAsFeatured = "Уклони ознаку као истакнуто (инстанца)"
         override val communitySetPreferredLanguage = "Подеси преферирани језик"
         override val appIconClassical = "Цлассицал"
-        override val settingsAboutAcknowledgements: String = "Признања"
-        override val actionCreateCommunity: String = "Креирајте заједницу"
-        override val editCommunityItemVisibility: String = "Видљивост"
-        override val communityVisibilityLocalOnly: String = "само локална инстанца"
-        override val communityVisibilityPublic: String = "јавности"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Признања"
+        override val actionCreateCommunity = "Креирајте заједницу"
+        override val editCommunityItemVisibility = "Видљивост"
+        override val communityVisibilityLocalOnly = "само локална инстанца"
+        override val communityVisibilityPublic = "јавности"
+        override val noticeCommunityLocalOnly =
             "Ова заједница је видљива само у оквиру тренутне инстанце"
+        override val noticeBannedUser = "Тренутном кориснику је забрањен приступ овој заједници"
     }

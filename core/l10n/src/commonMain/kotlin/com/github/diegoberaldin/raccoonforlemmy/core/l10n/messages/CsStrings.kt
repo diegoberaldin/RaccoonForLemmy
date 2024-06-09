@@ -412,11 +412,12 @@ internal val CsStrings =
         override val adminActionUnmarkAsFeatured = "Zrušit označení jako doporučené (instance)"
         override val communitySetPreferredLanguage = "Nastavení preferovaného jazyka"
         override val appIconClassical = "Klasický"
-        override val settingsAboutAcknowledgements: String = "Poděkování"
-        override val actionCreateCommunity: String = "Vytvořte komunitu"
-        override val editCommunityItemVisibility: String = "Viditelnost"
-        override val communityVisibilityLocalOnly: String = "pouze místní instance"
-        override val communityVisibilityPublic: String = "veřejnost"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Poděkování"
+        override val actionCreateCommunity = "Vytvořte komunitu"
+        override val editCommunityItemVisibility = "Viditelnost"
+        override val communityVisibilityLocalOnly = "pouze místní instance"
+        override val communityVisibilityPublic = "veřejnost"
+        override val noticeCommunityLocalOnly =
             "Tato komunita je viditelná pouze v aktuální instanci"
+        override val noticeBannedUser = "Aktuálnímu uživateli byl zakázán přístup do této komunity"
     }

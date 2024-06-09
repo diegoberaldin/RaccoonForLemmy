@@ -412,11 +412,11 @@ internal val LvStrings =
         override val adminActionUnmarkAsFeatured = "Noņemt atzīmēto kā piedāvāto (piemērs)"
         override val communitySetPreferredLanguage = "Iestatīt vēlamo valodu"
         override val appIconClassical = "Klasiskā"
-        override val settingsAboutAcknowledgements: String = "Pateicības"
-        override val actionCreateCommunity: String = "Izveidot kopienu"
-        override val editCommunityItemVisibility: String = "Redzamība"
-        override val communityVisibilityLocalOnly: String = "tikai vietējais gadījums"
-        override val communityVisibilityPublic: String = "publiski"
-        override val noticeCommunityLocalOnly: String =
-            "Šī kopiena ir redzama tikai pašreizējā instancē"
+        override val settingsAboutAcknowledgements = "Pateicības"
+        override val actionCreateCommunity = "Izveidot kopienu"
+        override val editCommunityItemVisibility = "Redzamība"
+        override val communityVisibilityLocalOnly = "tikai vietējais gadījums"
+        override val communityVisibilityPublic = "publiski"
+        override val noticeCommunityLocalOnly = "Šī kopiena ir redzama tikai pašreizējā instancē"
+        override val noticeBannedUser = "Pašreizējais lietotājs ir bloķēts no šīs kopienas"
     }

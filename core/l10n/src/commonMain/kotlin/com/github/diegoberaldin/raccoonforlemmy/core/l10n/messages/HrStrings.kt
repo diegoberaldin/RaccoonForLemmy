@@ -413,11 +413,12 @@ internal val HrStrings =
         override val adminActionUnmarkAsFeatured = "Ukloni oznaku kao istaknuto (instanca)"
         override val communitySetPreferredLanguage = "Postavljanje preferiranog jezik"
         override val appIconClassical = "Klasična"
-        override val settingsAboutAcknowledgements: String = "Priznanja"
-        override val actionCreateCommunity: String = "Stvorite zajednicu"
-        override val editCommunityItemVisibility: String = "Vidljivost"
-        override val communityVisibilityLocalOnly: String = "samo lokalna instanca"
-        override val communityVisibilityPublic: String = "javnost"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Priznanja"
+        override val actionCreateCommunity = "Stvorite zajednicu"
+        override val editCommunityItemVisibility = "Vidljivost"
+        override val communityVisibilityLocalOnly = "samo lokalna instanca"
+        override val communityVisibilityPublic = "javnost"
+        override val noticeCommunityLocalOnly =
             "Ova je zajednica vidljiva samo unutar trenutne instance"
+        override val noticeBannedUser = "Trenutačni korisnik je zabranjen iz ove zajednice"
     }

@@ -408,11 +408,12 @@ internal val EoStrings =
         override val adminActionUnmarkAsFeatured = "Malmarki kiel elstara (nodo)"
         override val communitySetPreferredLanguage = "Agordi preferatan lingvon"
         override val appIconClassical = "Klasika"
-        override val settingsAboutAcknowledgements: String = "Dankon"
-        override val actionCreateCommunity: String = "Krei komunumon"
-        override val editCommunityItemVisibility: String = "Videbleco"
-        override val communityVisibilityLocalOnly: String = "nur loka instanco"
-        override val communityVisibilityPublic: String = "publika"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Dankon"
+        override val actionCreateCommunity = "Krei komunumon"
+        override val editCommunityItemVisibility = "Videbleco"
+        override val communityVisibilityLocalOnly = "nur loka instanco"
+        override val communityVisibilityPublic = "publika"
+        override val noticeCommunityLocalOnly =
             "Ĉi tiu komunumo estas videbla nur ene de la nuna nodo"
+        override val noticeBannedUser = "La nuna uzanto estas malpermesita de ĉi tiu komunumo"
     }

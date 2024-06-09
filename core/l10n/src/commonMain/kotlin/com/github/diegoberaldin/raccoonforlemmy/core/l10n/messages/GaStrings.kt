@@ -414,11 +414,11 @@ internal val GaStrings =
         override val adminActionUnmarkAsFeatured = "Dímharcáil mar atá i gceist (cás)"
         override val communitySetPreferredLanguage = "An teanga rogha a shocrú"
         override val appIconClassical = "Clasaiceach"
-        override val settingsAboutAcknowledgements: String = "Buíochas"
-        override val actionCreateCommunity: String = "Cruthaigh pobail"
-        override val editCommunityItemVisibility: String = "Infheictheacht"
-        override val communityVisibilityLocalOnly: String = "shampla áitiúil amháin"
-        override val communityVisibilityPublic: String = "poiblí"
-        override val noticeCommunityLocalOnly: String =
-            "Níl an pobal seo le feiceáil ach sa chás reatha"
+        override val settingsAboutAcknowledgements = "Buíochas"
+        override val actionCreateCommunity = "Cruthaigh pobail"
+        override val editCommunityItemVisibility = "Infheictheacht"
+        override val communityVisibilityLocalOnly = "shampla áitiúil amháin"
+        override val communityVisibilityPublic = "poiblí"
+        override val noticeCommunityLocalOnly = "Níl an pobal seo le feiceáil ach sa chás reatha"
+        override val noticeBannedUser = "Tá cosc ar an úsáideoir reatha ón bpobal seo"
     }

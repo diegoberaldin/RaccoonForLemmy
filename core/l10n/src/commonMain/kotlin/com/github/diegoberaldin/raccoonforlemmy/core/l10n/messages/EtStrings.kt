@@ -414,11 +414,12 @@ internal val EtStrings =
         override val adminActionUnmarkAsFeatured = "Tühista esiletõstetud märgistus (näide)"
         override val communitySetPreferredLanguage = "Eelistatud keele määramine"
         override val appIconClassical = "Klassikaline"
-        override val settingsAboutAcknowledgements: String = "Tänuavaldused"
-        override val actionCreateCommunity: String = "Looge kogukond"
-        override val editCommunityItemVisibility: String = "Nähtavus"
-        override val communityVisibilityLocalOnly: String = "ainult kohalik eksemplar"
-        override val communityVisibilityPublic: String = "avalik"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Tänuavaldused"
+        override val actionCreateCommunity = "Looge kogukond"
+        override val editCommunityItemVisibility = "Nähtavus"
+        override val communityVisibilityLocalOnly = "ainult kohalik eksemplar"
+        override val communityVisibilityPublic = "avalik"
+        override val noticeCommunityLocalOnly =
             "See kommuun on nähtav ainult praeguses eksemplaris"
+        override val noticeBannedUser = "Praegune kasutaja on sellest kogukonnast keelatud"
     }

@@ -418,11 +418,12 @@ internal val FrStrings =
         override val adminActionUnmarkAsFeatured = "Démarquer comme présenté (instance)"
         override val communitySetPreferredLanguage = "Définir la langue préférée"
         override val appIconClassical = "Classique"
-        override val settingsAboutAcknowledgements: String = "Remerciements"
-        override val actionCreateCommunity: String = "Créer une communauté"
-        override val editCommunityItemVisibility: String = "Visibilité"
-        override val communityVisibilityLocalOnly: String = "instance locale uniquement"
-        override val communityVisibilityPublic: String = "publique"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Remerciements"
+        override val actionCreateCommunity = "Créer une communauté"
+        override val editCommunityItemVisibility = "Visibilité"
+        override val communityVisibilityLocalOnly = "instance locale uniquement"
+        override val communityVisibilityPublic = "publique"
+        override val noticeCommunityLocalOnly =
             "Cette communauté n\'est visible que dans l\'instance actuelle"
+        override val noticeBannedUser = "L\'utilisateur actuel a été banni de cette communauté"
     }

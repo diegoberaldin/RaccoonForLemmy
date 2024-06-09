@@ -409,11 +409,11 @@ internal val TokStrings =
         override val adminActionUnmarkAsFeatured = "o sitelen ala sama sewi (ilo nanpa)"
         override val communitySetPreferredLanguage = "o anu e toki pi wile sina"
         override val appIconClassical = "majuna"
-        override val settingsAboutAcknowledgements: String = "jan pona"
-        override val actionCreateCommunity: String = "o pali e kulupu sin"
-        override val editCommunityItemVisibility: String = "nasin lukin"
-        override val communityVisibilityLocalOnly: String = "tawa ilo nanpa ni taso"
-        override val communityVisibilityPublic: String = "tawa ale"
-        override val noticeCommunityLocalOnly: String =
-            "kulupu ni li ken lukin lon ilo nanpa ni taso"
+        override val settingsAboutAcknowledgements = "jan pona"
+        override val actionCreateCommunity = "o pali e kulupu sin"
+        override val editCommunityItemVisibility = "nasin lukin"
+        override val communityVisibilityLocalOnly = "tawa ilo nanpa ni taso"
+        override val communityVisibilityPublic = "tawa ale"
+        override val noticeCommunityLocalOnly = "kulupu ni li ken lukin lon ilo nanpa ni taso"
+        override val noticeBannedUser = "sina ken lukin ala e lipu mute pi kulupu ni"
     }

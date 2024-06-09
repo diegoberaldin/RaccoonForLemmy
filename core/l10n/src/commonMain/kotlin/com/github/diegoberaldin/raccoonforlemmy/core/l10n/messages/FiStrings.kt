@@ -410,11 +410,11 @@ internal val FiStrings =
         override val adminActionUnmarkAsFeatured = "Poista suositellun merkintä (esim.)"
         override val communitySetPreferredLanguage = "Aseta ensisijainen kieli"
         override val appIconClassical = "Klassinen"
-        override val settingsAboutAcknowledgements: String = "Kiitokset"
-        override val actionCreateCommunity: String = "Luo yhteisö"
-        override val editCommunityItemVisibility: String = "Näkyvyys"
-        override val communityVisibilityLocalOnly: String = "vain paikallinen esimerkki"
-        override val communityVisibilityPublic: String = "julkinen"
-        override val noticeCommunityLocalOnly: String =
-            "Tämä yhteisö näkyy vain nykyisessä ilmentymässä"
+        override val settingsAboutAcknowledgements = "Kiitokset"
+        override val actionCreateCommunity = "Luo yhteisö"
+        override val editCommunityItemVisibility = "Näkyvyys"
+        override val communityVisibilityLocalOnly = "vain paikallinen esimerkki"
+        override val communityVisibilityPublic = "julkinen"
+        override val noticeCommunityLocalOnly = "Tämä yhteisö näkyy vain nykyisessä ilmentymässä"
+        override val noticeBannedUser = "Nykyinen käyttäjä on estetty tästä yhteisöstä"
     }

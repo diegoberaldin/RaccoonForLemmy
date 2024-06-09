@@ -414,11 +414,12 @@ internal val SkStrings =
         override val adminActionUnmarkAsFeatured = "Zrušiť označenie ako odporúčané (inštancia)"
         override val communitySetPreferredLanguage = "Nastavenie preferovaného jazyka"
         override val appIconClassical = "Klasická"
-        override val settingsAboutAcknowledgements: String = "Poďakovanie"
-        override val actionCreateCommunity: String = "Vytvorte komunitu"
-        override val editCommunityItemVisibility: String = "Viditeľnosť"
-        override val communityVisibilityLocalOnly: String = "iba lokálna inštancia"
-        override val communityVisibilityPublic: String = "verejnosti"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Poďakovanie"
+        override val actionCreateCommunity = "Vytvorte komunitu"
+        override val editCommunityItemVisibility = "Viditeľnosť"
+        override val communityVisibilityLocalOnly = "iba lokálna inštancia"
+        override val communityVisibilityPublic = "verejnosti"
+        override val noticeCommunityLocalOnly =
             "Táto komunita je viditeľná iba v rámci aktuálnej inštancie"
+        override val noticeBannedUser = "Aktuálny používateľ má zakázaný prístup do tejto komunity"
     }

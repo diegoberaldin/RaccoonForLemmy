@@ -421,4 +421,5 @@ internal val NlStrings =
         override val communityVisibilityPublic: String = "openbaar"
         override val noticeCommunityLocalOnly: String =
             "Deze community is alleen zichtbaar binnen het huidige exemplaar"
+        override val noticeBannedUser = "De huidige gebruiker is uitgesloten van deze community"
     }

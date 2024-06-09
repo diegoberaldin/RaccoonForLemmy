@@ -419,11 +419,12 @@ internal val ElStrings =
             "Κατάργηση επισήμανσης ως επιλεγμένου (παράδειγμα)"
         override val communitySetPreferredLanguage = "Ορισμός προτιμώμενης γλώσσας"
         override val appIconClassical = "Κλασσική"
-        override val settingsAboutAcknowledgements: String = "Ευχαριστίες"
-        override val actionCreateCommunity: String = "Δημιουργία κοινότητας"
-        override val editCommunityItemVisibility: String = "Ορατότητα"
-        override val communityVisibilityLocalOnly: String = "μόνο τοπική περίπτωση"
-        override val communityVisibilityPublic: String = "δημόσιο"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Ευχαριστίες"
+        override val actionCreateCommunity = "Δημιουργία κοινότητας"
+        override val editCommunityItemVisibility = "Ορατότητα"
+        override val communityVisibilityLocalOnly = "μόνο τοπική περίπτωση"
+        override val communityVisibilityPublic = "δημόσιο"
+        override val noticeCommunityLocalOnly =
             "Αυτή η κοινότητα είναι ορατή μόνο στην τρέχουσα παρουσία"
+        override val noticeBannedUser = "Ο τρέχων χρήστης έχει αποκλειστεί από αυτήν την κοινότητα"
     }

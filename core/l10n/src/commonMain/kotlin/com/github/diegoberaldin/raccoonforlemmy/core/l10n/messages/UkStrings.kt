@@ -414,11 +414,12 @@ internal val UkStrings =
             "Скасувати позначення як рекомендованого (екземпляр)"
         override val communitySetPreferredLanguage = "Встановіть бажану мову"
         override val appIconClassical = "Класичний"
-        override val settingsAboutAcknowledgements: String = "Подяки"
-        override val actionCreateCommunity: String = "Створіть спільноту"
-        override val editCommunityItemVisibility: String = "Видимість"
-        override val communityVisibilityLocalOnly: String = "лише локальний екземпляр"
-        override val communityVisibilityPublic: String = "громадськість"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Подяки"
+        override val actionCreateCommunity = "Створіть спільноту"
+        override val editCommunityItemVisibility = "Видимість"
+        override val communityVisibilityLocalOnly = "лише локальний екземпляр"
+        override val communityVisibilityPublic = "громадськість"
+        override val noticeCommunityLocalOnly =
             "Цю спільноту можна побачити лише в поточному екземплярі"
+        override val noticeBannedUser = "Поточний користувач був забанений у цій спільноті"
     }

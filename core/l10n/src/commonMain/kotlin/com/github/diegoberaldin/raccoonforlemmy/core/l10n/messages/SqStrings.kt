@@ -414,11 +414,12 @@ internal val SqStrings =
         override val adminActionUnmarkAsFeatured = "Hiq shënimin si të paraqitur (shembull)"
         override val communitySetPreferredLanguage = "Cakto gjuhën e preferuar"
         override val appIconClassical = "Klasike"
-        override val settingsAboutAcknowledgements: String = "Mirënjohje"
-        override val actionCreateCommunity: String = "Krijo komunitet"
-        override val editCommunityItemVisibility: String = "Dukshmëria"
-        override val communityVisibilityLocalOnly: String = "vetëm për shembull lokal"
-        override val communityVisibilityPublic: String = "publike"
-        override val noticeCommunityLocalOnly: String =
+        override val settingsAboutAcknowledgements = "Mirënjohje"
+        override val actionCreateCommunity = "Krijo komunitet"
+        override val editCommunityItemVisibility = "Dukshmëria"
+        override val communityVisibilityLocalOnly = "vetëm për shembull lokal"
+        override val communityVisibilityPublic = "publike"
+        override val noticeCommunityLocalOnly =
             "Ky komunitet është i dukshëm vetëm brenda shembullit aktual"
+        override val noticeBannedUser = "Përdoruesi aktual është përjashtuar nga ky komunitet"
     }

@@ -413,11 +413,11 @@ internal val PtStrings =
         override val adminActionUnmarkAsFeatured = "Desmarcar como destaque (instância)"
         override val communitySetPreferredLanguage = "Definir idioma preferido"
         override val appIconClassical = "Clássico"
-        override val settingsAboutAcknowledgements: String = "Reconhecimentos"
-        override val actionCreateCommunity: String = "Criar comunidade"
-        override val editCommunityItemVisibility: String = "Visibilidade"
-        override val communityVisibilityLocalOnly: String = "apenas instância local"
-        override val communityVisibilityPublic: String = "pública"
-        override val noticeCommunityLocalOnly: String =
-            "Esta comunidade só é visível na instância atual"
+        override val settingsAboutAcknowledgements = "Reconhecimentos"
+        override val actionCreateCommunity = "Criar comunidade"
+        override val editCommunityItemVisibility = "Visibilidade"
+        override val communityVisibilityLocalOnly = "apenas instância local"
+        override val communityVisibilityPublic = "pública"
+        override val noticeCommunityLocalOnly = "Esta comunidade só é visível na instância atual"
+        override val noticeBannedUser = "O usuário atual foi banido desta comunidade"
     }
