@@ -9,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.ThumbsUpDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -211,6 +214,7 @@ class AccountSettingsScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
+                            bottom = Spacing.m,
                         )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
@@ -368,6 +372,21 @@ class AccountSettingsScreen : Screen {
                             },
                     )
 
+                    // show read posts
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.settingsWebShowRead,
+                        value = uiState.showReadPosts,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowReadPosts(value))
+                            },
+                    )
+
+                    SettingsHeader(
+                        icon = Icons.Default.ThumbsUpDown,
+                        title = LocalStrings.current.settingsVoteFormat,
+                    )
+
                     // show scores
                     SettingsSwitchRow(
                         title = LocalStrings.current.settingsShowScores,
@@ -378,13 +397,37 @@ class AccountSettingsScreen : Screen {
                             },
                     )
 
-                    // show read posts
+                    // show positive votes
                     SettingsSwitchRow(
-                        title = LocalStrings.current.settingsWebShowRead,
-                        value = uiState.showReadPosts,
+                        title = LocalStrings.current.actionUpvote,
+                        value = uiState.showUpVotes,
                         onValueChanged =
                             rememberCallbackArgs { value ->
-                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowReadPosts(value))
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowUpVotes(value))
+                            },
+                    )
+
+                    // show negative votes
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.actionDownvote,
+                        value = uiState.showDownVotes,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowDownVotes(value))
+                            },
+                    )
+
+                    // show vote percentage
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.settingsVoteFormatPercentage,
+                        value = uiState.showUpVotePercentage,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(
+                                    AccountSettingsMviModel.Intent.ChangeShowUpVotePercentage(
+                                        value,
+                                    ),
+                                )
                             },
                     )
 
@@ -406,6 +449,8 @@ class AccountSettingsScreen : Screen {
                                 )
                             },
                     )
+
+                    Spacer(modifier = Modifier.height(Spacing.m))
                 }
 
                 Box(
