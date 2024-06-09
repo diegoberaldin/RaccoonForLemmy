@@ -28,6 +28,11 @@ kotlin {
     }
 
     sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.multiplatform.markdown.renderer.coil2)
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)

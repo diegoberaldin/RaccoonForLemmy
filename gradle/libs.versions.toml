@@ -23,7 +23,7 @@ ktorfit = "2.0.0-rc01"
 lyricist = "1.7.0"
 materialKolor = "1.6.1"
 mockk = "1.13.11"
-multiplatform-markdown-renderer = "0.20.0-coil2"
+multiplatform-markdown-renderer = "0.21.0"
 multiplatform-settings = "1.1.1"
 reorderable = "2.1.1"
 stately = "2.0.7"
@@ -52,6 +52,7 @@ coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 
 multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform-markdown-renderer" }
 multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform-markdown-renderer" }
+multiplatform-markdown-renderer-coil2 = { module = "com.mikepenz:multiplatform-markdown-renderer-coil2", version.ref = "multiplatform-markdown-renderer" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 
@@ -102,7 +103,6 @@ reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reo
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
 
 [plugins]
 
