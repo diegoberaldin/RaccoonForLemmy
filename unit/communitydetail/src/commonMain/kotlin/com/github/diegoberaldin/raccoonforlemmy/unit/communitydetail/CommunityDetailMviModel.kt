@@ -12,6 +12,10 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
+sealed interface CommunityNotices {
+    data object LocalOnlyVisibility : CommunityNotices
+}
+
 @Stable
 interface CommunityDetailMviModel :
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
@@ -111,6 +115,7 @@ interface CommunityDetailMviModel :
         val downVoteEnabled: Boolean = true,
         val currentPreferredLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
+        val notices: List<CommunityNotices> = emptyList(),
     )
 
     sealed interface Effect {

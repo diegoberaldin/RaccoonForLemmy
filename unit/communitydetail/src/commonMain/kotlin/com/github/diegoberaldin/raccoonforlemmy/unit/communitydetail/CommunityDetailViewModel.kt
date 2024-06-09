@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.ZombieMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
@@ -392,12 +393,20 @@ class CommunityDetailViewModel(
                 id = currentState.community.id,
             )
         if (refreshedCommunity != null) {
+            val newNotices = currentState.notices.toMutableList()
+            if (
+                refreshedCommunity.visibilityType == CommunityVisibilityType.LocalOnly &&
+                newNotices.none { it == CommunityNotices.LocalOnlyVisibility }
+            ) {
+                newNotices += CommunityNotices.LocalOnlyVisibility
+            }
             updateState {
                 it.copy(
                     community = refreshedCommunity,
                     moderators = moderators,
                     loading = false,
                     zombieModeActive = false,
+                    notices = newNotices,
                 )
             }
         }
