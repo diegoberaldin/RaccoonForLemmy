@@ -19,6 +19,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.ModeratorView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUserView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanFromCommunityView
@@ -595,6 +596,9 @@ internal fun AccountSettingsModel.toDto() =
         showBotAccounts = showBotAccounts,
         showNsfw = showNsfw,
         showScores = showScores,
+        showUpvotes = showUpVotes,
+        showDownvotes = showDownVotes,
+        showUpvotePercentage = showUpVotePercentage,
         showReadPosts = showReadPosts,
     )
 
@@ -602,4 +606,18 @@ internal fun Instance.toModel() =
     InstanceModel(
         id = id,
         domain = domain,
+    )
+
+internal fun LocalUserView.toModel() =
+    localUser?.toModel()?.copy(
+        avatar = person.avatar,
+        banner = person.banner,
+        bio = person.bio,
+        bot = person.botAccount ?: false,
+        displayName = person.displayName,
+        matrixUserId = person.matrixUserId,
+        showUpVotes = localUserVoteDisplayMode?.upvotes,
+        showDownVotes = localUserVoteDisplayMode?.downvotes,
+        showScores = localUserVoteDisplayMode?.score,
+        showUpVotePercentage = localUserVoteDisplayMode?.upvotePercentage,
     )

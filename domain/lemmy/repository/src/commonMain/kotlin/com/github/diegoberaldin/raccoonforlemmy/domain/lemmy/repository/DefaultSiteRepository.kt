@@ -133,16 +133,7 @@ internal class DefaultSiteRepository(
                         auth = auth,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.myUser?.localUserView?.run {
-                    localUser?.toModel()?.copy(
-                        avatar = person.avatar,
-                        banner = person.banner,
-                        bio = person.bio,
-                        bot = person.botAccount ?: false,
-                        displayName = person.displayName,
-                        matrixUserId = person.matrixUserId,
-                    )
-                }
+                response.myUser?.localUserView?.toModel()
             }.getOrNull()
         }
 
