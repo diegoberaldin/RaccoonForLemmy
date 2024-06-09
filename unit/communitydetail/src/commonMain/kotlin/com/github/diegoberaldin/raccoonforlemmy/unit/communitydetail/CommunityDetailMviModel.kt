@@ -14,6 +14,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
 sealed interface CommunityNotices {
     data object LocalOnlyVisibility : CommunityNotices
+
+    data object BannedUser : CommunityNotices
 }
 
 @Stable

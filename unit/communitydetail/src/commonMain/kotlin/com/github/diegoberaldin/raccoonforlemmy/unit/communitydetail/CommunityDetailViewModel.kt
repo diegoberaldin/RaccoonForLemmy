@@ -394,11 +394,13 @@ class CommunityDetailViewModel(
             )
         if (refreshedCommunity != null) {
             val newNotices = currentState.notices.toMutableList()
-            if (
-                refreshedCommunity.visibilityType == CommunityVisibilityType.LocalOnly &&
+            if (refreshedCommunity.visibilityType == CommunityVisibilityType.LocalOnly &&
                 newNotices.none { it == CommunityNotices.LocalOnlyVisibility }
             ) {
                 newNotices += CommunityNotices.LocalOnlyVisibility
+            }
+            if (refreshedCommunity.currentlyBanned && newNotices.none { it == CommunityNotices.BannedUser }) {
+                newNotices += CommunityNotices.BannedUser
             }
             updateState {
                 it.copy(
