@@ -1,5 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.domain.identity.usecase
 
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.VoteFormat
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.AccountModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
@@ -59,13 +60,27 @@ internal class DefaultLoginUseCase(
             val accountId =
                 if (existing == null) {
                     // new account with a copy of the anonymous settings
-                    // (except a couple of fields from the Lemmy accounts)
+                    // (except a couple of fields from the Lemmy account)
                     val newAccountId = accountRepository.createAccount(account)
                     val anonymousSettings =
                         settingsRepository.getSettings(null)
                             .copy(
                                 showScores = accountSettings?.showScores ?: true,
                                 includeNsfw = accountSettings?.showNsfw ?: false,
+                                voteFormat =
+                                    accountSettings?.let { settings ->
+                                        val showPercentage = settings.showUpVotePercentage == true
+                                        val separate =
+                                            settings.showUpVotes == true && settings.showDownVotes == true && settings.showScores == false
+                                        val hidden =
+                                            settings.showUpVotes == false && settings.showDownVotes == false && settings.showScores == false
+                                        when {
+                                            showPercentage -> VoteFormat.Percentage
+                                            separate -> VoteFormat.Separated
+                                            hidden -> VoteFormat.Hidden
+                                            else -> VoteFormat.Aggregated
+                                        }
+                                    } ?: VoteFormat.Aggregated,
                             )
                     settingsRepository.createSettings(
                         settings = anonymousSettings,
