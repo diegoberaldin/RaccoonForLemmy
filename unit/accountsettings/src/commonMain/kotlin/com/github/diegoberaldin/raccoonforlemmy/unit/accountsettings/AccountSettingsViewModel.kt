@@ -153,6 +153,36 @@ class AccountSettingsViewModel(
                 }
             }
 
+            is AccountSettingsMviModel.Intent.ChangeShowDownVotes ->
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showDownVotes = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
+                }
+
+            is AccountSettingsMviModel.Intent.ChangeShowUpVotePercentage ->
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showUpVotePercentage = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
+                }
+
+            is AccountSettingsMviModel.Intent.ChangeShowUpVotes ->
+                screenModelScope.launch {
+                    updateState {
+                        it.copy(
+                            showUpVotes = intent.value,
+                            hasUnsavedChanges = true,
+                        )
+                    }
+                }
+
             is AccountSettingsMviModel.Intent.ChangeShowReadPosts -> {
                 screenModelScope.launch {
                     updateState {
@@ -194,9 +224,12 @@ class AccountSettingsViewModel(
                 showBotAccounts = accountSettings?.showBotAccounts ?: false,
                 showReadPosts = accountSettings?.showReadPosts ?: false,
                 showNsfw = accountSettings?.showNsfw ?: false,
-                showScores = accountSettings?.showScores ?: true,
                 defaultListingType = accountSettings?.defaultListingType ?: ListingType.All,
                 defaultSortType = accountSettings?.defaultSortType ?: SortType.Active,
+                showScores = accountSettings?.showScores ?: true,
+                showUpVotes = accountSettings?.showUpVotes ?: false,
+                showDownVotes = accountSettings?.showDownVotes ?: false,
+                showUpVotePercentage = accountSettings?.showUpVotePercentage ?: false,
             )
         }
     }
@@ -257,8 +290,11 @@ class AccountSettingsViewModel(
                 sendNotificationsToEmail = currentState.sendNotificationsToEmail,
                 showBotAccounts = currentState.showBotAccounts,
                 showNsfw = currentState.showNsfw,
-                showScores = currentState.showScores,
                 showReadPosts = currentState.showReadPosts,
+                showScores = currentState.showScores,
+                showUpVotes = currentState.showUpVotes,
+                showDownVotes = currentState.showDownVotes,
+                showUpVotePercentage = currentState.showUpVotePercentage,
             ) ?: return
         screenModelScope.launch(Dispatchers.IO) {
             updateState { it.copy(loading = true) }

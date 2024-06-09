@@ -31,6 +31,12 @@ interface AccountSettingsMviModel :
 
         data class ChangeShowScores(val value: Boolean) : Intent
 
+        data class ChangeShowUpVotes(val value: Boolean) : Intent
+
+        data class ChangeShowDownVotes(val value: Boolean) : Intent
+
+        data class ChangeShowUpVotePercentage(val value: Boolean) : Intent
+
         data class AvatarSelected(val value: ByteArray) : Intent {
             override fun equals(other: Any?): Boolean {
                 if (this === other) return true
@@ -78,10 +84,13 @@ interface AccountSettingsMviModel :
         val showBotAccounts: Boolean = false,
         val showReadPosts: Boolean = false,
         val showNsfw: Boolean = false,
-        val showScores: Boolean = true,
         val defaultListingType: ListingType = ListingType.All,
         val availableSortTypes: List<SortType> = emptyList(),
         val defaultSortType: SortType = SortType.Active,
+        val showScores: Boolean = true,
+        val showUpVotes: Boolean = false,
+        val showDownVotes: Boolean = false,
+        val showUpVotePercentage: Boolean = false,
     )
 
     sealed interface Effect {
