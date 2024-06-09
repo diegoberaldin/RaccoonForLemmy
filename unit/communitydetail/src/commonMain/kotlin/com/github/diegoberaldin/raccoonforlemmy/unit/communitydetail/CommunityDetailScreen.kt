@@ -103,6 +103,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAc
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.IndicatorCallout
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
@@ -851,6 +852,30 @@ class CommunityDetailScreen(
                                                 navigationCoordinator.openSideMenu(screen)
                                             },
                                     )
+                                }
+                            }
+                            item {
+                                if (!uiState.searching && uiState.notices.isNotEmpty()) {
+                                    Column(
+                                        modifier =
+                                            Modifier.padding(
+                                                start = Spacing.s,
+                                                end = Spacing.s,
+                                                bottom = Spacing.s,
+                                            ),
+                                        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                                    ) {
+                                        for (notice in uiState.notices) {
+                                            IndicatorCallout(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                text =
+                                                    when (notice) {
+                                                        CommunityNotices.LocalOnlyVisibility ->
+                                                            LocalStrings.current.noticeCommunityLocalOnly
+                                                    },
+                                            )
+                                        }
+                                    }
                                 }
                             }
                             if (uiState.posts.isEmpty() && uiState.initial) {
