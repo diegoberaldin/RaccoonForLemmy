@@ -68,6 +68,7 @@ kotlin {
                 implementation(projects.unit.choosefont)
                 implementation(projects.unit.configureswipeactions)
                 implementation(projects.unit.configurecontentview)
+                implementation(projects.unit.filteredcontents)
             }
         }
         val commonTest by getting {

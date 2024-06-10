@@ -72,6 +72,9 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.ConfigureContentViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import kotlinx.coroutines.flow.launchIn
@@ -342,6 +345,21 @@ class SettingsScreen : Screen {
                                     navigationCoordinator.pushScreen(screen)
                                 },
                         )
+
+                        if (uiState.supportsHiddenPosts) {
+                            SettingsRow(
+                                title = LocalStrings.current.settingsHiddenPosts,
+                                disclosureIndicator = true,
+                                onTap =
+                                    rememberCallback {
+                                        val screen =
+                                            FilteredContentsScreen(
+                                                type = FilteredContentsType.Hidden.toInt(),
+                                            )
+                                        navigationCoordinator.pushScreen(screen)
+                                    },
+                            )
+                        }
                     }
 
                     SettingsHeader(

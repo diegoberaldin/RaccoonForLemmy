@@ -39,6 +39,7 @@ interface SettingsMviModel :
         val availableSortTypesForPosts: List<SortType> = emptyList(),
         val availableSortTypesForComments: List<SortType> = emptyList(),
         val customTabsEnabled: Boolean = true,
+        val supportsHiddenPosts: Boolean = false,
     )
 
     sealed interface Effect

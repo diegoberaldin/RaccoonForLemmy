@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSiteSupportsHiddenPostsUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,6 +38,7 @@ class SettingsViewModel(
     private val l10nManager: L10nManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val customTabsHelper: CustomTabsHelper,
+    private val siteSupportsHiddenPosts: GetSiteSupportsHiddenPostsUseCase,
 ) : SettingsMviModel,
     DefaultMviModel<SettingsMviModel.Intent, SettingsMviModel.UiState, SettingsMviModel.Effect>(
         initialState = SettingsMviModel.UiState(),
@@ -90,10 +92,12 @@ class SettingsViewModel(
 
             val availableSortTypesForPosts = getSortTypesUseCase.getTypesForPosts()
             val availableSortTypesForComments = getSortTypesUseCase.getTypesForComments()
+            val supportsHiddenPosts = siteSupportsHiddenPosts()
             updateState {
                 it.copy(
                     availableSortTypesForPosts = availableSortTypesForPosts,
                     availableSortTypesForComments = availableSortTypesForComments,
+                    supportsHiddenPosts = supportsHiddenPosts,
                 )
             }
 

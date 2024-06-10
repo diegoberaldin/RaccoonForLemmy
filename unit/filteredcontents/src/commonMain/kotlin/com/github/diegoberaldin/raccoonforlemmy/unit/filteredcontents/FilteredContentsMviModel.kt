@@ -14,6 +14,8 @@ sealed interface FilteredContentsType {
     data object Moderated : FilteredContentsType
 
     data object Bookmarks : FilteredContentsType
+
+    data object Hidden : FilteredContentsType
 }
 
 fun FilteredContentsType.toInt(): Int =
@@ -21,10 +23,12 @@ fun FilteredContentsType.toInt(): Int =
         FilteredContentsType.Moderated -> 0
         FilteredContentsType.Votes -> 1
         FilteredContentsType.Bookmarks -> 2
+        FilteredContentsType.Hidden -> 3
     }
 
 fun Int.toFilteredContentsType(): FilteredContentsType =
     when (this) {
+        3 -> FilteredContentsType.Hidden
         2 -> FilteredContentsType.Bookmarks
         1 -> FilteredContentsType.Votes
         else -> FilteredContentsType.Moderated
