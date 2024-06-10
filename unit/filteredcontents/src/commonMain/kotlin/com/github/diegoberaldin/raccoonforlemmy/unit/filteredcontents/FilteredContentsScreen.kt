@@ -183,6 +183,7 @@ class FilteredContentsScreen(
                                         FilteredContentsType.Moderated -> LocalStrings.current.moderatorZoneActionContents
                                         FilteredContentsType.Votes -> LocalStrings.current.profileUpvotesDownvotes
                                         FilteredContentsType.Bookmarks -> LocalStrings.current.navigationDrawerTitleBookmarks
+                                        FilteredContentsType.Hidden -> LocalStrings.current.settingsHiddenPosts
                                     },
                                 style = MaterialTheme.typography.titleMedium,
                             )
@@ -266,26 +267,28 @@ class FilteredContentsScreen(
                         ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
-                SectionSelector(
-                    titles =
-                        listOf(
-                            LocalStrings.current.profileSectionPosts,
-                            LocalStrings.current.profileSectionComments,
-                        ),
-                    currentSection =
-                        when (uiState.section) {
-                            FilteredContentsSection.Comments -> 1
-                            else -> 0
+                if (!uiState.isPostOnly) {
+                    SectionSelector(
+                        titles =
+                            listOf(
+                                LocalStrings.current.profileSectionPosts,
+                                LocalStrings.current.profileSectionComments,
+                            ),
+                        currentSection =
+                            when (uiState.section) {
+                                FilteredContentsSection.Comments -> 1
+                                else -> 0
+                            },
+                        onSectionSelected = {
+                            val section =
+                                when (it) {
+                                    1 -> FilteredContentsSection.Comments
+                                    else -> FilteredContentsSection.Posts
+                                }
+                            model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
                         },
-                    onSectionSelected = {
-                        val section =
-                            when (it) {
-                                1 -> FilteredContentsSection.Comments
-                                else -> FilteredContentsSection.Posts
-                            }
-                        model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
-                    },
-                )
+                    )
+                }
 
                 Box(
                     modifier =

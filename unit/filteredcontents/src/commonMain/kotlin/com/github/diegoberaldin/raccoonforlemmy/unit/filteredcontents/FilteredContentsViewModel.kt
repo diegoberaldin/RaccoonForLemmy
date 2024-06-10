@@ -49,10 +49,12 @@ class FilteredContentsViewModel(
     init {
         screenModelScope.launch {
             updateState {
-                it.copy(contentsType = contentsType.toFilteredContentsType())
-            }
-            updateState {
-                it.copy(isAdmin = identityRepository.cachedUser?.admin == true)
+                val type = contentsType.toFilteredContentsType()
+                it.copy(
+                    contentsType = type,
+                    isAdmin = identityRepository.cachedUser?.admin == true,
+                    isPostOnly = type == FilteredContentsType.Hidden,
+                )
             }
             themeRepository.postLayout.onEach { layout ->
                 updateState { it.copy(postLayout = layout) }
@@ -76,12 +78,14 @@ class FilteredContentsViewModel(
                 }
             }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangedLikedType::class).onEach { evt ->
-                changeLiked(evt.value)
-            }.launchIn(this)
+            notificationCenter.subscribe(NotificationCenterEvent.ChangedLikedType::class)
+                .onEach { evt ->
+                    changeLiked(evt.value)
+                }.launchIn(this)
 
             if (uiState.value.initial) {
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+                val downVoteEnabled =
+                    siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
                 updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
@@ -208,6 +212,11 @@ class FilteredContentsViewModel(
                     PostPaginationSpecification.Saved(
                         sortType = SortType.New,
                     )
+
+                FilteredContentsType.Hidden ->
+                    PostPaginationSpecification.Hidden(
+                        sortType = SortType.New,
+                    )
             }
         postPaginationManager.reset(postSpecification)
         val commentSpecification =
@@ -228,8 +237,12 @@ class FilteredContentsViewModel(
                     CommentPaginationSpecification.Saved(
                         sortType = SortType.New,
                     )
+
+                FilteredContentsType.Hidden -> null
             }
-        commentPaginationManager.reset(commentSpecification)
+        if (commentSpecification != null) {
+            commentPaginationManager.reset(commentSpecification)
+        }
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -267,15 +280,19 @@ class FilteredContentsViewModel(
                         postPaginationManager.loadNextPage()
                     }.await()
                 val comments =
-                    async {
-                        if (currentState.comments.isEmpty() || refreshing) {
-                            // this is needed because otherwise on first selector change
-                            // the lazy column scrolls back to top (it must have an empty data set)
-                            commentPaginationManager.loadNextPage()
-                        } else {
-                            currentState.comments
-                        }
-                    }.await()
+                    if (currentState.isPostOnly) {
+                        emptyList()
+                    } else {
+                        async {
+                            if (currentState.comments.isEmpty() || refreshing) {
+                                // this is needed because otherwise on first selector change
+                                // the lazy column scrolls back to top (it must have an empty data set)
+                                commentPaginationManager.loadNextPage()
+                            } else {
+                                currentState.comments
+                            }
+                        }.await()
+                    }
                 if (uiState.value.autoLoadImages) {
                     posts.forEach { post ->
                         post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
