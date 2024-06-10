@@ -426,4 +426,5 @@ internal val FrStrings =
         override val noticeCommunityLocalOnly =
             "Cette communauté n\'est visible que dans l\'instance actuelle"
         override val noticeBannedUser = "L\'utilisateur actuel a été banni de cette communauté"
+        override val settingsHiddenPosts = "Messages masqués"
     }

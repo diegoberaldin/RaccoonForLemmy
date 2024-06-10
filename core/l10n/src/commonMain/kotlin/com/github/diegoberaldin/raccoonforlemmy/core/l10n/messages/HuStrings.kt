@@ -425,4 +425,5 @@ internal val HuStrings =
         override val noticeCommunityLocalOnly =
             "Ez a közösség csak az aktuális példányon belül látható"
         override val noticeBannedUser = "A jelenlegi felhasználót kitiltották a közösségből"
+        override val settingsHiddenPosts = "Rejtett bejegyzések"
     }

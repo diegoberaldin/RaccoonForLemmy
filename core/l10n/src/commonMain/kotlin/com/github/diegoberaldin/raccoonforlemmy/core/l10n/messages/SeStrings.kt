@@ -420,4 +420,5 @@ internal val SeStrings =
         override val noticeCommunityLocalOnly =
             "Denna grupp är endast synlig inom den aktuella instansen"
         override val noticeBannedUser = "Den nuvarande användaren har blockerats från denna grupp"
+        override val settingsHiddenPosts = "Dolda inlägg"
     }

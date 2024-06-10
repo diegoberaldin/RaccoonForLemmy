@@ -421,4 +421,5 @@ internal val TrStrings =
         override val noticeCommunityLocalOnly =
             "Bu topluluk yalnızca mevcut örnekte görülebilir"
         override val noticeBannedUser = "Mevcut kullanıcı bu topluluktan yasaklandı"
+        override val settingsHiddenPosts = "Gizli gönderiler"
     }

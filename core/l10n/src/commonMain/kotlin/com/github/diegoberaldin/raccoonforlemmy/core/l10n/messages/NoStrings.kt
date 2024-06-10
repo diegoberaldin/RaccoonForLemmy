@@ -419,4 +419,5 @@ internal val NoStrings =
             "Dette fellesskapet er bare synlig i gjeldende forekomst"
         override val noticeBannedUser =
             "Den nåværende brukeren har blitt utestengt fra dette fellesskapet"
+        override val settingsHiddenPosts = "Skjulte innlegg"
     }

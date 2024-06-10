@@ -422,4 +422,5 @@ internal val SqStrings =
         override val noticeCommunityLocalOnly =
             "Ky komunitet është i dukshëm vetëm brenda shembullit aktual"
         override val noticeBannedUser = "Përdoruesi aktual është përjashtuar nga ky komunitet"
+        override val settingsHiddenPosts = "Postimet e fshehura"
     }

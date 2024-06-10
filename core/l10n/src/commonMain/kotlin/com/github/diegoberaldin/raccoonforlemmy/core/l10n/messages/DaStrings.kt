@@ -420,4 +420,5 @@ internal val DaStrings =
             "Dette fællesskab er kun synligt i den aktuelle forekomst"
         override val noticeBannedUser =
             "Den nuværende bruger er blevet udelukket fra dette fællesskab"
+        override val settingsHiddenPosts = "Skjulte indlæg"
     }

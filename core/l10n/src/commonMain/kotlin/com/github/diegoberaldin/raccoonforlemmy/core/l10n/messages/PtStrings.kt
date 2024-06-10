@@ -420,4 +420,5 @@ internal val PtStrings =
         override val communityVisibilityPublic = "pública"
         override val noticeCommunityLocalOnly = "Esta comunidade só é visível na instância atual"
         override val noticeBannedUser = "O usuário atual foi banido desta comunidade"
+        override val settingsHiddenPosts = "Postagens ocultadas"
     }

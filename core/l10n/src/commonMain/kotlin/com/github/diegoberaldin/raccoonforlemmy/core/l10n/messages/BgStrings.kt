@@ -424,4 +424,5 @@ internal val BgStrings =
         override val noticeCommunityLocalOnly =
             "Тази общност е видима само в рамките на текущия екземпляр"
         override val noticeBannedUser = "Настоящият потребител е забранен от тази общност"
+        override val settingsHiddenPosts = "Скрити публикации"
     }

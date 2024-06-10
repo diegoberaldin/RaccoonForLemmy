@@ -417,4 +417,5 @@ internal val EnStrings =
         override val noticeCommunityLocalOnly =
             "This community is only visible within the current instance"
         override val noticeBannedUser = "The current user has been banned from this community"
+        override val settingsHiddenPosts = "Hidden posts"
     }

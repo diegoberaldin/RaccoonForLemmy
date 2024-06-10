@@ -420,4 +420,5 @@ internal val LtStrings =
             "Ši bendruomenė matoma tik dabartiniame egzemplioriuje"
         override val noticeBannedUser =
             "Dabartinis vartotojas buvo uždraustas dalyvauti šioje bendruomenėje"
+        override val settingsHiddenPosts = "Paslėpti įrašai"
     }

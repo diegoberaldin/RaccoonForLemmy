@@ -427,4 +427,5 @@ internal val ElStrings =
         override val noticeCommunityLocalOnly =
             "Αυτή η κοινότητα είναι ορατή μόνο στην τρέχουσα παρουσία"
         override val noticeBannedUser = "Ο τρέχων χρήστης έχει αποκλειστεί από αυτήν την κοινότητα"
+        override val settingsHiddenPosts = "Κρυφές αναρτήσεις"
     }

@@ -422,4 +422,5 @@ internal val ItStrings =
         override val noticeCommunityLocalOnly =
             "Questa comunità è visibile esclusivamente all'interno dell'istanza corrente"
         override val noticeBannedUser = "L\'utente corrente è stato bannato da questa comunità"
+        override val settingsHiddenPosts = "Post nascosti"
     }

@@ -422,4 +422,5 @@ internal val EtStrings =
         override val noticeCommunityLocalOnly =
             "See kommuun on nähtav ainult praeguses eksemplaris"
         override val noticeBannedUser = "Praegune kasutaja on sellest kogukonnast keelatud"
+        override val settingsHiddenPosts = "Peidetud postitused"
     }

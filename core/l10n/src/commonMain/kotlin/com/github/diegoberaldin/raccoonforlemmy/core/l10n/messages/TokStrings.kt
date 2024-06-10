@@ -416,4 +416,5 @@ internal val TokStrings =
         override val communityVisibilityPublic = "tawa ale"
         override val noticeCommunityLocalOnly = "kulupu ni li ken lukin lon ilo nanpa ni taso"
         override val noticeBannedUser = "sina ken lukin ala e lipu mute pi kulupu ni"
+        override val settingsHiddenPosts = "lipu pi lukin ala"
     }

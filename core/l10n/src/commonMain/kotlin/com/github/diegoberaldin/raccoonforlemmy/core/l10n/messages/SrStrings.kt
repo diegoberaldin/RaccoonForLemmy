@@ -422,4 +422,5 @@ internal val SrStrings =
         override val noticeCommunityLocalOnly =
             "Ова заједница је видљива само у оквиру тренутне инстанце"
         override val noticeBannedUser = "Тренутном кориснику је забрањен приступ овој заједници"
+        override val settingsHiddenPosts = "Скривени постови"
     }

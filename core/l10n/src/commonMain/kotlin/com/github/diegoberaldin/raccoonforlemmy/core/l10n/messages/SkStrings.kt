@@ -422,4 +422,5 @@ internal val SkStrings =
         override val noticeCommunityLocalOnly =
             "Táto komunita je viditeľná iba v rámci aktuálnej inštancie"
         override val noticeBannedUser = "Aktuálny používateľ má zakázaný prístup do tejto komunity"
+        override val settingsHiddenPosts = "Skryté príspevky"
     }

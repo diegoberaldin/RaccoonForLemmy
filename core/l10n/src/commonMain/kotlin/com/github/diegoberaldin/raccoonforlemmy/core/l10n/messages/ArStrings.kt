@@ -416,4 +416,5 @@ internal val ArStrings =
         override val communityVisibilityPublic = "عام"
         override val noticeCommunityLocalOnly = "هذا المجتمع مرئي فقط في المثيل الحالي"
         override val noticeBannedUser = "تم حظر المستخدم الحالي من هذا المجتمع"
+        override val settingsHiddenPosts = "المشاركات المخفية"
     }

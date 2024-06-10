@@ -419,4 +419,5 @@ internal val LvStrings =
         override val communityVisibilityPublic = "publiski"
         override val noticeCommunityLocalOnly = "Šī kopiena ir redzama tikai pašreizējā instancē"
         override val noticeBannedUser = "Pašreizējais lietotājs ir bloķēts no šīs kopienas"
+        override val settingsHiddenPosts = "Slēptās ziņas"
     }

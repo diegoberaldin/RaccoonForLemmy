@@ -415,6 +415,7 @@ interface Strings {
     val communityVisibilityPublic: String
     val noticeCommunityLocalOnly: String
     val noticeBannedUser: String
+    val settingsHiddenPosts: String
 }
 
 object Locales {
