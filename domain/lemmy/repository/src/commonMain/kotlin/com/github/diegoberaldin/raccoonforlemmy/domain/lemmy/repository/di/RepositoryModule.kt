@@ -35,7 +35,7 @@ val repositoryModule =
         }
         single<GetSortTypesUseCase> {
             DefaultGetSortTypesUseCase(
-                siteRepository = get(),
+                isSiteVersionAtLeastUseCase = get(),
             )
         }
         single<PostRepository> {
