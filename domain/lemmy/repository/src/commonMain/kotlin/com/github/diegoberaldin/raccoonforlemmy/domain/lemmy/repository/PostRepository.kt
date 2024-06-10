@@ -88,6 +88,12 @@ interface PostRepository {
         auth: String? = null,
     ): Result<PostResponse>
 
+    suspend fun hide(
+        hidden: Boolean,
+        postId: Long,
+        auth: String? = null,
+    ): Result<PostResponse>
+
     suspend fun delete(
         id: Long,
         auth: String,
