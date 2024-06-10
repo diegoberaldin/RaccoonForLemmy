@@ -41,4 +41,8 @@ sealed interface PostPaginationSpecification {
     data class Saved(
         val sortType: SortType = SortType.Active,
     ) : PostPaginationSpecification
+
+    data class Hidden(
+        val sortType: SortType = SortType.Active,
+    ) : PostPaginationSpecification
 }
