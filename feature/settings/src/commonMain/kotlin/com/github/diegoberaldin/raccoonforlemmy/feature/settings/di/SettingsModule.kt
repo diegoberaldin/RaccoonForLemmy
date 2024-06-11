@@ -24,6 +24,7 @@ val settingsTabModule =
                 getSortTypesUseCase = get(),
                 customTabsHelper = get(),
                 siteSupportsHiddenPosts = get(),
+                siteSupportsMediaListUseCase = get(),
             )
         }
         factory<SettingsColorAndFontMviModel> {

@@ -76,6 +76,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredCo
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
 import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.medialist.MediaListScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -334,6 +335,18 @@ class SettingsScreen : Screen {
                                     navigationCoordinator.pushScreen(screen)
                                 },
                         )
+
+                        if (uiState.supportsMediaList) {
+                            // uploaded media
+                            SettingsRow(
+                                title = LocalStrings.current.settingsMediaList,
+                                disclosureIndicator = true,
+                                onTap =
+                                    rememberCallback {
+                                        navigationCoordinator.pushScreen(MediaListScreen())
+                                    },
+                            )
+                        }
 
                         // bans and filters
                         SettingsRow(
