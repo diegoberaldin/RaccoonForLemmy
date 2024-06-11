@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/badge/Compose-1.6.7-4285F4?logo=jetpackcompose" />
   <img src="https://img.shields.io/github/license/diegoberaldin/RaccoonForLemmy" />
   <img src="https://github.com/diegoberaldin/RaccoonForLemmy/actions/workflows/android.yml/badge.svg" />
+  <a href="https://hosted.weblate.org/engage/raccoonforlemmy/"><img src="https://hosted.weblate.org/widget/raccoonforlemmy/status-badge.png" /></a>
 </div>
 
 <br />
