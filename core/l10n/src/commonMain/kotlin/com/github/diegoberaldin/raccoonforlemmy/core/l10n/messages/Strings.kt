@@ -416,6 +416,7 @@ interface Strings {
     val noticeCommunityLocalOnly: String
     val noticeBannedUser: String
     val settingsHiddenPosts: String
+    val settingsMediaList: String
 }
 
 object Locales {

@@ -421,4 +421,5 @@ internal val PtStrings =
         override val noticeCommunityLocalOnly = "Esta comunidade só é visível na instância atual"
         override val noticeBannedUser = "O usuário atual foi banido desta comunidade"
         override val settingsHiddenPosts = "Postagens ocultadas"
+        override val settingsMediaList = "Carregamentos de mídia"
     }

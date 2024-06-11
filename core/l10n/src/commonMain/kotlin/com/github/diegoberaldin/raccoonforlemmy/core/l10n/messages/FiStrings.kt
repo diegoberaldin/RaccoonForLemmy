@@ -418,4 +418,5 @@ internal val FiStrings =
         override val noticeCommunityLocalOnly = "Tämä yhteisö näkyy vain nykyisessä ilmentymässä"
         override val noticeBannedUser = "Nykyinen käyttäjä on estetty tästä yhteisöstä"
         override val settingsHiddenPosts = "Piilotetut viestit"
+        override val settingsMediaList = "Median lataukset"
     }

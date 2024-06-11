@@ -422,4 +422,5 @@ internal val EsStrings =
             "Esta comunidad sólo es visible dentro de la instancia actual"
         override val noticeBannedUser = "El usuario actual ha sido baneado de esta comunidad"
         override val settingsHiddenPosts = "Publicaciones escondidas"
+        override val settingsMediaList = "Cargas de medios"
     }

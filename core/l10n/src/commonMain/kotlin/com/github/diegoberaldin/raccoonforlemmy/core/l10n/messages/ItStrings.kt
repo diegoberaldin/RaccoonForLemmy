@@ -423,4 +423,5 @@ internal val ItStrings =
             "Questa comunità è visibile esclusivamente all'interno dell'istanza corrente"
         override val noticeBannedUser = "L\'utente corrente è stato bannato da questa comunità"
         override val settingsHiddenPosts = "Post nascosti"
+        override val settingsMediaList = "Caricamenti multimediali"
     }

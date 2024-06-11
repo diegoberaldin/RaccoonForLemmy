@@ -417,4 +417,5 @@ internal val EoStrings =
             "Ĉi tiu komunumo estas videbla nur ene de la nuna nodo"
         override val noticeBannedUser = "La nuna uzanto estas malpermesita de ĉi tiu komunumo"
         override val settingsHiddenPosts = "Kaŝitaj afiŝoj"
+        override val settingsMediaList = "Amaskomunikiloj alŝutoj"
     }

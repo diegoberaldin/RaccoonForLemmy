@@ -422,4 +422,5 @@ internal val MtStrings =
             "Din il-komunità hija viżibbli biss fl-istanza attwali"
         override val noticeBannedUser = "L-utent attwali ġie pprojbit minn din il-komunità"
         override val settingsHiddenPosts = "Postijiet moħbija"
+        override val settingsMediaList = "Uploads tal-midja"
     }

@@ -422,4 +422,5 @@ internal val TrStrings =
             "Bu topluluk yalnızca mevcut örnekte görülebilir"
         override val noticeBannedUser = "Mevcut kullanıcı bu topluluktan yasaklandı"
         override val settingsHiddenPosts = "Gizli gönderiler"
+        override val settingsMediaList = "Medya yüklemeleri"
     }

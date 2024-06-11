@@ -421,4 +421,5 @@ internal val CsStrings =
             "Tato komunita je viditelná pouze v aktuální instanci"
         override val noticeBannedUser = "Aktuálnímu uživateli byl zakázán přístup do této komunity"
         override val settingsHiddenPosts = "Skryté příspěvky"
+        override val settingsMediaList = "Nahrávání médií"
     }

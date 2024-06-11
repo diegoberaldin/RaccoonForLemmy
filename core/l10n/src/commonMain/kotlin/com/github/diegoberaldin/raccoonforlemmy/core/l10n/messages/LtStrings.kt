@@ -421,4 +421,5 @@ internal val LtStrings =
         override val noticeBannedUser =
             "Dabartinis vartotojas buvo uždraustas dalyvauti šioje bendruomenėje"
         override val settingsHiddenPosts = "Paslėpti įrašai"
+        override val settingsMediaList = "Žiniasklaidos įkėlimai"
     }

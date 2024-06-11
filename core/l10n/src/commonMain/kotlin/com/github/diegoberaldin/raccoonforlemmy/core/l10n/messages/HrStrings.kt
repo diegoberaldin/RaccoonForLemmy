@@ -422,4 +422,5 @@ internal val HrStrings =
             "Ova je zajednica vidljiva samo unutar trenutne instance"
         override val noticeBannedUser = "Trenutačni korisnik je zabranjen iz ove zajednice"
         override val settingsHiddenPosts = "Skriveni postovi"
+        override val settingsMediaList = "Prijenos medija"
     }

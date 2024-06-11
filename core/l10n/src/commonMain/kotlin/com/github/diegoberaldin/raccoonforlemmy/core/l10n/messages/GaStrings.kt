@@ -422,4 +422,5 @@ internal val GaStrings =
         override val noticeCommunityLocalOnly = "Níl an pobal seo le feiceáil ach sa chás reatha"
         override val noticeBannedUser = "Tá cosc ar an úsáideoir reatha ón bpobal seo"
         override val settingsHiddenPosts = "Poist i bhfolach"
+        override val settingsMediaList = "Uaslódálacha meáin"
     }

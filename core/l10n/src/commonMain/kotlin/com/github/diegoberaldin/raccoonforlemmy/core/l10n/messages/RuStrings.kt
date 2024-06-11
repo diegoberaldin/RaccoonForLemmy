@@ -423,4 +423,5 @@ internal val RuStrings =
         override val noticeCommunityLocalOnly = "Это сообщество видно только в текущем экземпляре"
         override val noticeBannedUser = "Текущий пользователь заблокирован в этом сообществе"
         override val settingsHiddenPosts = "Скрытые сообщения"
+        override val settingsMediaList = "Загрузка мультимедиа"
     }

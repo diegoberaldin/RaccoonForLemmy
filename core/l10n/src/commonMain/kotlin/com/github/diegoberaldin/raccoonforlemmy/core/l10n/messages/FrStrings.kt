@@ -427,4 +427,5 @@ internal val FrStrings =
             "Cette communauté n\'est visible que dans l\'instance actuelle"
         override val noticeBannedUser = "L\'utilisateur actuel a été banni de cette communauté"
         override val settingsHiddenPosts = "Messages masqués"
+        override val settingsMediaList = "Téléchargements de médias"
     }

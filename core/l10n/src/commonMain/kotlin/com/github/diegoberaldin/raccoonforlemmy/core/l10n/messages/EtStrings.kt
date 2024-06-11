@@ -423,4 +423,5 @@ internal val EtStrings =
             "See kommuun on nähtav ainult praeguses eksemplaris"
         override val noticeBannedUser = "Praegune kasutaja on sellest kogukonnast keelatud"
         override val settingsHiddenPosts = "Peidetud postitused"
+        override val settingsMediaList = "Meedia üleslaadimine"
     }

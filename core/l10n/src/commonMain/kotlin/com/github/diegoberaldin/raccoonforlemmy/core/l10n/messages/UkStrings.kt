@@ -423,4 +423,5 @@ internal val UkStrings =
             "Цю спільноту можна побачити лише в поточному екземплярі"
         override val noticeBannedUser = "Поточний користувач був забанений у цій спільноті"
         override val settingsHiddenPosts = "Приховані пости"
+        override val settingsMediaList = "Завантаження медіа"
     }

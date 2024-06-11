@@ -420,4 +420,5 @@ internal val NoStrings =
         override val noticeBannedUser =
             "Den nåværende brukeren har blitt utestengt fra dette fellesskapet"
         override val settingsHiddenPosts = "Skjulte innlegg"
+        override val settingsMediaList = "Medieopplastinger"
     }

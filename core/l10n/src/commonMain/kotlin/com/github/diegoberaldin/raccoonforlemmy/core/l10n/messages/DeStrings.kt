@@ -425,4 +425,5 @@ internal val DeStrings =
             "Diese Community ist nur innerhalb der aktuellen Instanz sichtbar"
         override val noticeBannedUser = "Der aktuelle Benutzer wurde aus dieser Community gesperrt"
         override val settingsHiddenPosts = "Versteckte Beiträge"
+        override val settingsMediaList = "Medien-Uploads"
     }

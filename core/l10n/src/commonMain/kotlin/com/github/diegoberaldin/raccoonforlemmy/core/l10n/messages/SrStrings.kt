@@ -423,4 +423,5 @@ internal val SrStrings =
             "Ова заједница је видљива само у оквиру тренутне инстанце"
         override val noticeBannedUser = "Тренутном кориснику је забрањен приступ овој заједници"
         override val settingsHiddenPosts = "Скривени постови"
+        override val settingsMediaList = "Учитавање медија"
     }

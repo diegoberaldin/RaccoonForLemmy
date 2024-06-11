@@ -421,4 +421,5 @@ internal val SeStrings =
             "Denna grupp är endast synlig inom den aktuella instansen"
         override val noticeBannedUser = "Den nuvarande användaren har blockerats från denna grupp"
         override val settingsHiddenPosts = "Dolda inlägg"
+        override val settingsMediaList = "Mediauppladdningar"
     }

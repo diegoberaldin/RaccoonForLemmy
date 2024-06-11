@@ -421,4 +421,5 @@ internal val DaStrings =
         override val noticeBannedUser =
             "Den nuværende bruger er blevet udelukket fra dette fællesskab"
         override val settingsHiddenPosts = "Skjulte indlæg"
+        override val settingsMediaList = "Medieuploads"
     }

@@ -421,4 +421,5 @@ internal val SlStrings =
             "Ta skupnost je vidna samo znotraj trenutne instance"
         override val noticeBannedUser = "Trenutni uporabnik je bil izključen iz te skupnosti"
         override val settingsHiddenPosts = "Skrite objave"
+        override val settingsMediaList = "Nalaganje medijev"
     }

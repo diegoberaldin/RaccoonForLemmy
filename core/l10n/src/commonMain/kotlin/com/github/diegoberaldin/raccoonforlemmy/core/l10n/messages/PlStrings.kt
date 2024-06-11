@@ -422,4 +422,5 @@ internal val PlStrings =
             "Ta społeczność jest widoczna tylko w bieżącej instancji"
         override val noticeBannedUser = "Bieżący użytkownik został zablokowany w tej społeczności"
         override val settingsHiddenPosts = "Ukryte posty"
+        override val settingsMediaList = "Przesyłanie multimediów"
     }

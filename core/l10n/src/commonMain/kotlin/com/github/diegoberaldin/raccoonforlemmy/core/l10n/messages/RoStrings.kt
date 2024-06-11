@@ -421,4 +421,5 @@ internal val RoStrings =
             "Această comunitate este vizibilă numai în instanța curentă"
         override val noticeBannedUser = "Utilizatorul actual a fost exclus din această comunitate"
         override val settingsHiddenPosts = "Postări ascunse"
+        override val settingsMediaList = "Încărcări media"
     }

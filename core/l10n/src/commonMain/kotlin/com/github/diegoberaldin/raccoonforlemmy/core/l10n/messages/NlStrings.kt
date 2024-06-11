@@ -423,4 +423,5 @@ internal val NlStrings =
             "Deze community is alleen zichtbaar binnen het huidige exemplaar"
         override val noticeBannedUser = "De huidige gebruiker is uitgesloten van deze community"
         override val settingsHiddenPosts = "Verborgen berichten"
+        override val settingsMediaList = "Media-uploads"
     }
