@@ -18,6 +18,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.ModeratorView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalImageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUserView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
@@ -69,6 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisib
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.InstanceModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MediaModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItemType
@@ -620,4 +622,11 @@ internal fun LocalUserView.toModel() =
         showDownVotes = localUserVoteDisplayMode?.downvotes,
         showScores = localUserVoteDisplayMode?.score,
         showUpVotePercentage = localUserVoteDisplayMode?.upvotePercentage,
+    )
+
+internal fun LocalImageView.toModel() =
+    MediaModel(
+        alias = localImage.pictrsAlias,
+        deleteToken = localImage.pictrsDeleteToken,
+        date = localImage.published,
     )
