@@ -268,13 +268,7 @@ class ManageSubscriptionsScreen : Screen {
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .then(
-                                if (settings.hideNavigationBarWhileScrolling) {
-                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                                } else {
-                                    Modifier
-                                },
-                            )
+                            .nestedScroll(scrollBehavior.nestedScrollConnection)
                             .nestedScroll(fabNestedScrollConnection)
                             .nestedScroll(keyboardScrollConnection)
                             .pullRefresh(pullRefreshState),
