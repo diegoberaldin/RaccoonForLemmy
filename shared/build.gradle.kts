@@ -83,6 +83,7 @@ kotlin {
                 implementation(projects.unit.editcommunity)
                 implementation(projects.unit.instanceinfo)
                 implementation(projects.unit.manageban)
+                implementation(projects.unit.medialist)
                 implementation(projects.unit.managesubscriptions)
                 implementation(projects.unit.moderatewithreason)
                 implementation(projects.unit.filteredcontents)
