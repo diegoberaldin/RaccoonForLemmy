@@ -152,8 +152,11 @@ In this case, you should:
 
 ### 3.4 Add a new localization
 
-The preferred way for localizations (l10ns) is to submit a pull request (PR) as detailed in
-the [next section](#35-submit-a-pull-request).
+> [!NOTE]
+> This section explains how translation are managed in the app (creating a new implementation of the
+> Strings interface, modify the bottom sheet to allow selecting it etc.) and it is useful to
+> understand the global mechanism. However, translators are encouraged to review the messages on
+> Weblate and leave all the heavy-lifting work to project maintainers.
 
 The project uses
 the [Lyricist](https://github.com/adrielcafe/lyricist) library for internationalization, which
@@ -177,10 +180,10 @@ anonymous implementation of `Strings` stored in a variable called `XxYyStrings` 
 ```kotlin
 
 internal val XxYyStrings =
-  object : Strings {
-    override val actionBackToTop = "..."
-    // ... continue overriding all the remaining properties
-  }
+    object : Strings {
+        override val actionBackToTop = "..."
+        // ... continue overriding all the remaining properties
+    }
 ```
 
 It is recommended to copy the contents of the existing `EnStrings.kt` (i.e. the base localization)
@@ -193,15 +196,15 @@ Afterwards, edit the `Strings.kt` file in the same directory with the following 
 
 ```kotlin
 object Locales {
-  // ...
-  const val XX_YY = "xx_YY"
+    // ...
+    const val XX_YY = "xx_YY"
 }
 
 internal val localizableStrings: Map<LanguageTag, Strings> =
-  mapOf(
-    // ...
-    Locales.XX_YY to XxYyStrings,
-  )
+    mapOf(
+        // ...
+        Locales.XX_YY to XxYyStrings,
+    )
 ```
 
 Finally, if you want you can change the rest of the code (e.g. the language dialog, etc) please do
