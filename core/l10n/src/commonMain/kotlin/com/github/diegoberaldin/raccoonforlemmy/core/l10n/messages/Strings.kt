@@ -452,6 +452,8 @@ object Locales {
     const val DA = "da"
     const val NO = "no"
     const val MT = "mt"
+    const val ZH_TW = "zh_TW"
+    const val ZH_HK = "zh_HK"
 }
 
 internal val localizableStrings: Map<LanguageTag, Strings> =
@@ -490,6 +492,8 @@ internal val localizableStrings: Map<LanguageTag, Strings> =
         Locales.DA to DaStrings,
         Locales.NO to NoStrings,
         Locales.MT to MtStrings,
+        Locales.ZH_TW to ZhTwStrings,
+        Locales.ZH_HK to ZhHkStrings,
     )
 
 val LocalStrings: ProvidableCompositionLocal<Strings> =
