@@ -89,8 +89,6 @@ internal val ElStrings =
         override val inboxListingTypeAll = "Όλα"
         override val inboxListingTypeTitle = "Τύπος εισερχομένων"
         override val inboxListingTypeUnread = "Μη αναγνωσμένα"
-        override val inboxActionMarkRead = "Σημειώσε ως αναγνωσμένο"
-        override val inboxActionMarkUnread = "Σημειώστε ως αδιάβαστο"
         override val inboxNotLoggedMessage =
             "Προς το παρόν, δεν έχετε συνδεθεί.\nΠαρακαλούμε προσθέστε έναν λογαριασμό από την οθόνη προφίλ για να δείτε τα εισερχόμενά σας."
         override val inboxSectionMentions = "Αναφορές"

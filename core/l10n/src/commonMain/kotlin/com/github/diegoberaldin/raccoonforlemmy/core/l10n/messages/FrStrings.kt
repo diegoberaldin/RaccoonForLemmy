@@ -89,8 +89,6 @@ internal val FrStrings =
         override val inboxListingTypeAll = "Tous"
         override val inboxListingTypeTitle = "Type de boîte de réception"
         override val inboxListingTypeUnread = "Non lus"
-        override val inboxActionMarkRead = "Marquer comme lu"
-        override val inboxActionMarkUnread = "Marquer comme non lu"
         override val inboxNotLoggedMessage =
             "Vous n\'êtes pas connecté.\nVeuillez ajouter un compte à partir de l\'écran de profil pour voir votre boîte de réception."
         override val inboxSectionMentions = "Mentions"

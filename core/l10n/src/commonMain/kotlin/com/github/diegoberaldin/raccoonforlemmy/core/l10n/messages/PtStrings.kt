@@ -89,8 +89,6 @@ internal val PtStrings =
         override val inboxListingTypeAll = "Todas"
         override val inboxListingTypeTitle = "Tipo de caixa"
         override val inboxListingTypeUnread = "Não lidas"
-        override val inboxActionMarkRead = "Marcar como lido"
-        override val inboxActionMarkUnread = "Marcar como não lido"
         override val inboxNotLoggedMessage =
             "Atualmente, não tem sessão iniciada.\nAdicione uma conta a partir do ecrã de perfil para ver as mensagens."
         override val inboxSectionMentions = "Menções"

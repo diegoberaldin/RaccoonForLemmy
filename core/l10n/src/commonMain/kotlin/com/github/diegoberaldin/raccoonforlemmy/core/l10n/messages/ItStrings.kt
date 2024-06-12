@@ -89,8 +89,6 @@ internal val ItStrings =
         override val inboxListingTypeAll = "Tutti"
         override val inboxListingTypeTitle = "Tipo inbox"
         override val inboxListingTypeUnread = "Non letti"
-        override val inboxActionMarkRead = "Segna come letto"
-        override val inboxActionMarkUnread = "Segna come non letto"
         override val inboxNotLoggedMessage =
             "Login non effettuato.\nAggiungi un account dalla schermata Profilo per accedere alla inbox."
         override val inboxSectionMentions = "Menzioni"

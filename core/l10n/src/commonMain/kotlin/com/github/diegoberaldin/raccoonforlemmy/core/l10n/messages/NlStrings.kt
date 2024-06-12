@@ -89,8 +89,6 @@ internal val NlStrings =
         override val inboxListingTypeAll = "Alle"
         override val inboxListingTypeTitle = "Type inbox"
         override val inboxListingTypeUnread = "Ongelezen"
-        override val inboxActionMarkRead = "Markeren als gelezen"
-        override val inboxActionMarkUnread = "Markeren als ongelezen"
         override val inboxNotLoggedMessage =
             "U bent momenteel niet ingelogd.\nVoeg een account toe vanuit het profielscherm om je inbox te zien."
         override val inboxSectionMentions = "Vermeldingen"

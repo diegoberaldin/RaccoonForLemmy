@@ -88,8 +88,6 @@ interface Strings {
     val homeSortTypeTopWeekShort: String
     val homeSortTypeTopYear: String
     val homeSortTypeTopYearShort: String
-    val inboxActionMarkRead: String
-    val inboxActionMarkUnread: String
     val inboxChatMessage: String
     val inboxItemMention: String
     val inboxItemReplyComment: String

@@ -89,8 +89,6 @@ internal val RoStrings =
         override val inboxListingTypeAll = "Toate"
         override val inboxListingTypeTitle = "Tip de inbox"
         override val inboxListingTypeUnread = "Necitite"
-        override val inboxActionMarkRead = "Marchează ca citit"
-        override val inboxActionMarkUnread = "Marchează ca necitit"
         override val inboxNotLoggedMessage =
             "Momentan nu sunteți autentificat.\nVă rugăm să adăugați un cont din ecranul de profil pentru a vedea mesajele."
         override val inboxSectionMentions = "Mențiuni"

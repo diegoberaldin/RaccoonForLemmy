@@ -89,8 +89,6 @@ internal val PlStrings =
         override val inboxListingTypeAll = "Wszystkie"
         override val inboxListingTypeTitle = "Typ skrzynki"
         override val inboxListingTypeUnread = "Nieprzeczytany"
-        override val inboxActionMarkRead = "Oznacz jako przeczytane"
-        override val inboxActionMarkUnread = "Oznacz jako nieprzeczytane"
         override val inboxNotLoggedMessage =
             "Obecnie nie jesteś zalogowany.\nDodaj konto na ekranie profilu, aby zobaczyć swoją skrzynkę odbiorczą.\""
         override val inboxSectionMentions = "Wspomnienia"

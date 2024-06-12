@@ -89,8 +89,6 @@ internal val DeStrings =
         override val inboxListingTypeAll = "Alle"
         override val inboxListingTypeTitle = "Posteingangstyp"
         override val inboxListingTypeUnread = "Ungelesen"
-        override val inboxActionMarkRead = "Als gelesen markieren"
-        override val inboxActionMarkUnread = "Als ungelesen markieren"
         override val inboxNotLoggedMessage =
             "Sie sind derzeit nicht angemeldet.\nBitte fügen Sie über den Profilbildschirm ein Konto hinzu, um Ihren Posteingang anzuzeigen."
         override val inboxSectionMentions = "Erwähnungen"
