@@ -48,6 +48,8 @@ fun String.toLanguageName() =
         Locales.TOK -> "toki pona"
         Locales.TR -> "Türkçe"
         Locales.UK -> "Українська"
+        Locales.ZH_TW -> "正體中文"
+        Locales.ZH_HK -> "廣東話"
         else -> "English"
     }
 
@@ -88,6 +90,8 @@ fun String.toLanguageFlag(): AnnotatedString =
         Locales.TOK -> "🦝️"
         Locales.TR -> "🇹🇷"
         Locales.UK -> "🇺🇦"
+        Locales.ZH_TW -> "🇹🇼"
+        Locales.ZH_HK -> "🇭🇰"
         else -> ""
     }.let {
         AnnotatedString(
