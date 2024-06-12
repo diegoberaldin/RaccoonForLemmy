@@ -83,6 +83,8 @@ class LanguageBottomSheet : Screen {
                     Locales.TOK,
                     Locales.TR,
                     Locales.UK,
+                    Locales.ZH_TW,
+                    Locales.ZH_HK,
                 )
             Column(
                 modifier =
