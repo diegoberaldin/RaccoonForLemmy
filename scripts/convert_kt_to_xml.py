@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
+#
+# This script converts the resource strings from Kotlin files for Lyricist to Android XML format.
+#
+# Input files are expected to be inside core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
+# and to be named as XxYxStrings.kt where xx is the language code and yy is the country code.
+#
+# Output files are saved in the l10n folder in the root of the project in the form of strings_xxyy.xml.
+#
+# Usage:
+# python3 convert_xml_to_kt.py <lang_code> <country_code>
+#
 
 import os
 import sys

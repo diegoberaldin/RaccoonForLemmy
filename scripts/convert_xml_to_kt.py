@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
+#
+# This script converts the resource strings in Android XML format to Kotlin files for Lyricist.
+#
+# Input files are expected to be inside the l10n folder in root of the project and are expected to
+# be named as strings_xx_yy where xx is the language code and yy is the country code.
+#
+# Output files are saved in core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
+# and will have the XxYyStrings.kt naming scheme.
+#
+# Usage:
+# python3 convert_xml_to_kt.py <lang_code> <country_code>
+#
 
 import sys
 from bs4 import BeautifulSoup
+import re
 
 def read_l10n_from_file(input_path):
     res = []
@@ -11,9 +24,16 @@ def read_l10n_from_file(input_path):
         elements = soup.find_all("string")
         for element in elements:
             k = element["name"]
-            v = element.string
+            v = unescape(element.string)
             res.append({"key": k, "value": v})
     return res
+
+def unescape(str_xml):
+    str_xml = re.sub(r"\n", "", str_xml)
+    str_xml = str_xml.replace("&amp;", "&")
+    str_xml = str_xml.replace("&lt;", "<")
+    str_xml = str_xml.replace("&gt;", ">")
+    return str_xml
 
 def write_l10n_to_file(lang_code, country_code, messages, output_path):
     with open(output_path, "w") as file_handle:
@@ -35,6 +55,7 @@ def main():
         return
     lang_code = sys.argv[1]
     country_code = ""
+    region_code = ""
     if len(sys.argv) > 2:
         country_code = sys.argv[2]
     source_file = "../l10n/strings_{0}{1}.xml".format(lang_code, country_code)
