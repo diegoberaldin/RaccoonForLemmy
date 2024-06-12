@@ -107,7 +107,7 @@ internal val EnStrings =
         override val manageSubscriptionsHeaderMulticommunities = "Multi-communities"
         override val manageSubscriptionsHeaderSubscriptions = "Subscriptions"
         override val messageEmptyComments =
-            "It\'s too silent there.\nWould you like to be the one who writes the first comment?"
+            "It\'s too silent here.\nWould you like to be the one who writes the first comment?"
         override val messageEmptyList = "No items to display"
         override val messageErrorLoadingComments = "An error has occurred loading comments."
         override val messageGenericError = "Generic error"
