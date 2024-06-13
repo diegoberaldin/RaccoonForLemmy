@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetPostsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetSiteMetadataResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HidePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListPostReportsResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
@@ -50,6 +51,7 @@ interface PostService {
         @Query("saved_only") savedOnly: Boolean? = null,
         @Query("liked_only") likedOnly: Boolean? = null,
         @Query("disliked_only") dislikedOnly: Boolean? = null,
+        @Query("show_hidden") showHidden: Boolean? = null,
     ): GetPostsResponse
 
     @GET("post")
@@ -100,6 +102,13 @@ interface PostService {
     suspend fun markAsRead(
         @Header("Authorization") authHeader: String? = null,
         @Body form: MarkPostAsReadForm,
+    ): PostResponse
+
+    @POST("post/hide")
+    @Headers("Content-Type: application/json")
+    suspend fun hide(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: HidePostForm,
     ): PostResponse
 
     @POST("post/delete")

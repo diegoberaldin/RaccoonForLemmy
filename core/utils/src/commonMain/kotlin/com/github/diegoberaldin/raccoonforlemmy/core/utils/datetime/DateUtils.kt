@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.datetime
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import kotlin.math.round
 import kotlin.time.Duration
 
@@ -13,24 +13,24 @@ fun String.prettifyDate(): String =
             !it.endsWith("Z") -> {
                 getPrettyDate(
                     iso8601Timestamp = it + "Z",
-                    yearLabel = LocalXmlStrings.current.profileYearShort,
-                    monthLabel = LocalXmlStrings.current.profileMonthShort,
-                    dayLabel = LocalXmlStrings.current.profileDayShort,
-                    hourLabel = LocalXmlStrings.current.postHourShort,
-                    minuteLabel = LocalXmlStrings.current.postMinuteShort,
-                    secondLabel = LocalXmlStrings.current.postSecondShort,
+                    yearLabel = LocalStrings.current.profileYearShort,
+                    monthLabel = LocalStrings.current.profileMonthShort,
+                    dayLabel = LocalStrings.current.profileDayShort,
+                    hourLabel = LocalStrings.current.postHourShort,
+                    minuteLabel = LocalStrings.current.postMinuteShort,
+                    secondLabel = LocalStrings.current.postSecondShort,
                 )
             }
 
             else -> {
                 getPrettyDate(
                     iso8601Timestamp = it,
-                    yearLabel = LocalXmlStrings.current.profileYearShort,
-                    monthLabel = LocalXmlStrings.current.profileMonthShort,
-                    dayLabel = LocalXmlStrings.current.profileDayShort,
-                    hourLabel = LocalXmlStrings.current.postHourShort,
-                    minuteLabel = LocalXmlStrings.current.postMinuteShort,
-                    secondLabel = LocalXmlStrings.current.postSecondShort,
+                    yearLabel = LocalStrings.current.profileYearShort,
+                    monthLabel = LocalStrings.current.profileMonthShort,
+                    dayLabel = LocalStrings.current.profileDayShort,
+                    hourLabel = LocalStrings.current.postHourShort,
+                    minuteLabel = LocalStrings.current.postMinuteShort,
+                    secondLabel = LocalStrings.current.postSecondShort,
                 )
             }
         }

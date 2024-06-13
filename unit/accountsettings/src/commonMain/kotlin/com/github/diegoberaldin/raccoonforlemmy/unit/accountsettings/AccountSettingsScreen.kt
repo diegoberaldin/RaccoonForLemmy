@@ -9,10 +9,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Sync
+import androidx.compose.material.icons.filled.ThumbsUpDown
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -68,7 +70,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditFormatt
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.EditTextualInfoDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -99,8 +101,8 @@ class AccountSettingsScreen : Screen {
         var openEmailEditDialog by remember { mutableStateOf(false) }
         var openMatrixUserIdEditDialog by remember { mutableStateOf(false) }
         var openBioEditDialog by remember { mutableStateOf(false) }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
-        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
+        val errorMessage = LocalStrings.current.messageGenericError
         val snackbarHostState = remember { SnackbarHostState() }
         val galleryHelper = remember { getGalleryHelper() }
         var openAvatarPicker by remember { mutableStateOf(false) }
@@ -137,7 +139,6 @@ class AccountSettingsScreen : Screen {
         Scaffold(
             modifier =
                 Modifier
-                    .safeContentPadding()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(Spacing.xs),
             topBar = {
@@ -146,7 +147,7 @@ class AccountSettingsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsWebPreferences,
+                            text = LocalStrings.current.settingsWebPreferences,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -213,6 +214,7 @@ class AccountSettingsScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
+                            bottom = Spacing.m,
                         )
                         .then(
                             if (settings.hideNavigationBarWhileScrolling) {
@@ -228,13 +230,13 @@ class AccountSettingsScreen : Screen {
                 ) {
                     SettingsHeader(
                         icon = Icons.Default.AccountCircle,
-                        title = LocalXmlStrings.current.settingsWebHeaderPersonal,
+                        title = LocalStrings.current.settingsWebHeaderPersonal,
                     )
 
                     // avatar
                     val avatarSize = IconSize.xxl
                     SettingsImageInfo(
-                        title = LocalXmlStrings.current.settingsWebAvatar,
+                        title = LocalStrings.current.settingsWebAvatar,
                         imageModifier =
                             Modifier
                                 .size(avatarSize)
@@ -248,7 +250,7 @@ class AccountSettingsScreen : Screen {
 
                     // banner
                     SettingsImageInfo(
-                        title = LocalXmlStrings.current.settingsWebBanner,
+                        title = LocalStrings.current.settingsWebBanner,
                         imageModifier = Modifier.fillMaxWidth().aspectRatio(3.5f),
                         contentScale = ContentScale.Crop,
                         url = uiState.banner,
@@ -260,7 +262,7 @@ class AccountSettingsScreen : Screen {
 
                     // display name
                     SettingsTextualInfo(
-                        title = LocalXmlStrings.current.settingsWebDisplayName,
+                        title = LocalStrings.current.settingsWebDisplayName,
                         value = uiState.displayName,
                         valueStyle = contentTypography.bodyMedium,
                         onEdit =
@@ -271,7 +273,7 @@ class AccountSettingsScreen : Screen {
 
                     // email
                     SettingsTextualInfo(
-                        title = LocalXmlStrings.current.settingsWebEmail,
+                        title = LocalStrings.current.settingsWebEmail,
                         value = uiState.email,
                         valueStyle = contentTypography.bodyMedium,
                         onEdit =
@@ -282,7 +284,7 @@ class AccountSettingsScreen : Screen {
 
                     // Matrix user ID
                     SettingsTextualInfo(
-                        title = LocalXmlStrings.current.settingsWebMatrix,
+                        title = LocalStrings.current.settingsWebMatrix,
                         value = uiState.matrixUserId,
                         valueStyle =
                             contentTypography.bodyMedium.copy(
@@ -296,7 +298,7 @@ class AccountSettingsScreen : Screen {
 
                     // bio
                     SettingsFormattedInfo(
-                        title = LocalXmlStrings.current.settingsWebBio,
+                        title = LocalStrings.current.settingsWebBio,
                         value = uiState.bio,
                         onEdit =
                             rememberCallback {
@@ -306,7 +308,7 @@ class AccountSettingsScreen : Screen {
 
                     // bots account
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsWebBot,
+                        title = LocalStrings.current.settingsWebBot,
                         value = uiState.bot,
                         onValueChanged =
                             rememberCallbackArgs { value ->
@@ -316,12 +318,12 @@ class AccountSettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.AutoMirrored.Default.Article,
-                        title = LocalXmlStrings.current.settingsWebHeaderContents,
+                        title = LocalStrings.current.settingsWebHeaderContents,
                     )
 
                     // default listing type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultListingType,
+                        title = LocalStrings.current.settingsDefaultListingType,
                         value = uiState.defaultListingType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -336,7 +338,7 @@ class AccountSettingsScreen : Screen {
 
                     // default sort type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultPostSortType,
+                        title = LocalStrings.current.settingsDefaultPostSortType,
                         value = uiState.defaultSortType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -352,7 +354,7 @@ class AccountSettingsScreen : Screen {
 
                     // show bots
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsWebShowBot,
+                        title = LocalStrings.current.settingsWebShowBot,
                         value = uiState.showBotAccounts,
                         onValueChanged =
                             rememberCallbackArgs { value ->
@@ -362,7 +364,7 @@ class AccountSettingsScreen : Screen {
 
                     // show NSFW
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsWebShowNsfw,
+                        title = LocalStrings.current.settingsWebShowNsfw,
                         value = uiState.showNsfw,
                         onValueChanged =
                             rememberCallbackArgs { value ->
@@ -370,19 +372,9 @@ class AccountSettingsScreen : Screen {
                             },
                     )
 
-                    // show scores
-                    SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsShowScores,
-                        value = uiState.showScores,
-                        onValueChanged =
-                            rememberCallbackArgs { value ->
-                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowScores(value))
-                            },
-                    )
-
                     // show read posts
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsWebShowRead,
+                        title = LocalStrings.current.settingsWebShowRead,
                         value = uiState.showReadPosts,
                         onValueChanged =
                             rememberCallbackArgs { value ->
@@ -391,13 +383,62 @@ class AccountSettingsScreen : Screen {
                     )
 
                     SettingsHeader(
+                        icon = Icons.Default.ThumbsUpDown,
+                        title = LocalStrings.current.settingsVoteFormat,
+                    )
+
+                    // show scores
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.settingsShowScores,
+                        value = uiState.showScores,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowScores(value))
+                            },
+                    )
+
+                    // show positive votes
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.actionUpvote,
+                        value = uiState.showUpVotes,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowUpVotes(value))
+                            },
+                    )
+
+                    // show negative votes
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.actionDownvote,
+                        value = uiState.showDownVotes,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(AccountSettingsMviModel.Intent.ChangeShowDownVotes(value))
+                            },
+                    )
+
+                    // show vote percentage
+                    SettingsSwitchRow(
+                        title = LocalStrings.current.settingsVoteFormatPercentage,
+                        value = uiState.showUpVotePercentage,
+                        onValueChanged =
+                            rememberCallbackArgs { value ->
+                                model.reduce(
+                                    AccountSettingsMviModel.Intent.ChangeShowUpVotePercentage(
+                                        value,
+                                    ),
+                                )
+                            },
+                    )
+
+                    SettingsHeader(
                         icon = Icons.Default.Notifications,
-                        title = LocalXmlStrings.current.settingsWebHeaderNotifications,
+                        title = LocalStrings.current.settingsWebHeaderNotifications,
                     )
 
                     // email notifications
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsWebEmailNotifications,
+                        title = LocalStrings.current.settingsWebEmailNotifications,
                         value = uiState.sendNotificationsToEmail,
                         onValueChanged =
                             rememberCallbackArgs { value ->
@@ -408,6 +449,8 @@ class AccountSettingsScreen : Screen {
                                 )
                             },
                     )
+
+                    Spacer(modifier = Modifier.height(Spacing.m))
                 }
 
                 Box(
@@ -420,7 +463,7 @@ class AccountSettingsScreen : Screen {
                             model.reduce(AccountSettingsMviModel.Intent.Submit)
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.actionSave)
+                        Text(text = LocalStrings.current.actionSave)
                     }
                 }
             }
@@ -428,7 +471,7 @@ class AccountSettingsScreen : Screen {
 
         if (openDisplayNameEditDialog) {
             EditTextualInfoDialog(
-                title = LocalXmlStrings.current.settingsWebDisplayName,
+                title = LocalStrings.current.settingsWebDisplayName,
                 value = uiState.displayName,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -442,7 +485,7 @@ class AccountSettingsScreen : Screen {
 
         if (openEmailEditDialog) {
             EditTextualInfoDialog(
-                title = LocalXmlStrings.current.settingsWebEmail,
+                title = LocalStrings.current.settingsWebEmail,
                 value = uiState.email,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -456,7 +499,7 @@ class AccountSettingsScreen : Screen {
 
         if (openMatrixUserIdEditDialog) {
             EditTextualInfoDialog(
-                title = LocalXmlStrings.current.settingsWebMatrix,
+                title = LocalStrings.current.settingsWebMatrix,
                 value = uiState.matrixUserId,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -470,7 +513,7 @@ class AccountSettingsScreen : Screen {
 
         if (openBioEditDialog) {
             EditFormattedInfoDialog(
-                title = LocalXmlStrings.current.settingsWebBio,
+                title = LocalStrings.current.settingsWebBio,
                 value = uiState.bio,
                 onClose =
                     rememberCallbackArgs(model) { newValue ->
@@ -506,7 +549,7 @@ class AccountSettingsScreen : Screen {
                             confirmBackWithUnsavedChangesDialog = false
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonNoStay)
+                        Text(text = LocalStrings.current.buttonNoStay)
                     }
                 },
                 confirmButton = {
@@ -516,11 +559,11 @@ class AccountSettingsScreen : Screen {
                             navigationCoordinator.popScreen()
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonYesQuit)
+                        Text(text = LocalStrings.current.buttonYesQuit)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageUnsavedChanges)
+                    Text(text = LocalStrings.current.messageUnsavedChanges)
                 },
             )
         }

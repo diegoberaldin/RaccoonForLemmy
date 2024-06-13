@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.OpenInBrowser
 import androidx.compose.material.icons.filled.Shop
+import androidx.compose.material.icons.filled.VolunteerActivism
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +33,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -42,6 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.getCustomTabsHelp
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.url.toUrlOpeningMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.about.components.AboutItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.acknowledgements.AcknowledgementsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.LicencesScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 
@@ -73,7 +75,7 @@ class AboutDialog : Screen {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = LocalXmlStrings.current.settingsAbout,
+                    text = LocalStrings.current.settingsAbout,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
@@ -87,13 +89,13 @@ class AboutDialog : Screen {
                 ) {
                     item {
                         AboutItem(
-                            text = LocalXmlStrings.current.settingsAboutAppVersion,
+                            text = LocalStrings.current.settingsAboutAppVersion,
                             value = uiState.version,
                         )
                     }
                     item {
                         AboutItem(
-                            text = LocalXmlStrings.current.settingsAboutChangelog,
+                            text = LocalStrings.current.settingsAboutChangelog,
                             vector = Icons.Default.OpenInBrowser,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
@@ -125,7 +127,7 @@ class AboutDialog : Screen {
                         ) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = LocalXmlStrings.current.settingsAboutReportGithub,
+                                text = LocalStrings.current.settingsAboutReportGithub,
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
@@ -138,7 +140,7 @@ class AboutDialog : Screen {
                         ) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = LocalXmlStrings.current.settingsAboutReportEmail,
+                                text = LocalStrings.current.settingsAboutReportEmail,
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
@@ -146,7 +148,7 @@ class AboutDialog : Screen {
                     item {
                         AboutItem(
                             painter = coreResources.github,
-                            text = LocalXmlStrings.current.settingsAboutViewGithub,
+                            text = LocalStrings.current.settingsAboutViewGithub,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 navigationCoordinator.handleUrl(
@@ -164,7 +166,7 @@ class AboutDialog : Screen {
                     item {
                         AboutItem(
                             vector = Icons.Default.Shop,
-                            text = LocalXmlStrings.current.settingsAboutViewGooglePlay,
+                            text = LocalStrings.current.settingsAboutViewGooglePlay,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 navigationCoordinator.handleUrl(
@@ -182,7 +184,7 @@ class AboutDialog : Screen {
                     item {
                         AboutItem(
                             painter = coreResources.lemmy,
-                            text = LocalXmlStrings.current.settingsAboutViewLemmy,
+                            text = LocalStrings.current.settingsAboutViewLemmy,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 detailOpener.openCommunityDetail(
@@ -195,11 +197,21 @@ class AboutDialog : Screen {
 
                     item {
                         AboutItem(
-                            text = LocalXmlStrings.current.settingsAboutLicences,
+                            text = LocalStrings.current.settingsAboutLicences,
                             vector = Icons.Default.Gavel,
                             textDecoration = TextDecoration.Underline,
                             onClick = {
                                 navigationCoordinator.pushScreen(LicencesScreen())
+                            },
+                        )
+                    }
+                    item {
+                        AboutItem(
+                            text = LocalStrings.current.settingsAboutAcknowledgements,
+                            vector = Icons.Default.VolunteerActivism,
+                            textDecoration = TextDecoration.Underline,
+                            onClick = {
+                                navigationCoordinator.pushScreen(AcknowledgementsScreen())
                             },
                         )
                     }
@@ -209,7 +221,7 @@ class AboutDialog : Screen {
                         notificationCenter.send(NotificationCenterEvent.CloseDialog)
                     },
                 ) {
-                    Text(text = LocalXmlStrings.current.buttonClose)
+                    Text(text = LocalStrings.current.buttonClose)
                 }
             }
         }

@@ -589,6 +589,35 @@ class DefaultPostRepositoryTest {
         }
 
     @Test
+    fun whenHide_thenInteractionsAreAsExpected() =
+        runTest {
+            coEvery {
+                postService.hide(
+                    authHeader = any(),
+                    form = any(),
+                )
+            } returns mockk(relaxed = true)
+
+            val postId = 1L
+            sut.hide(
+                postId = postId,
+                hidden = true,
+                auth = AUTH_TOKEN,
+            )
+
+            coVerify {
+                postService.hide(
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                    form =
+                        withArg {
+                            assertEquals(listOf(postId), it.postIds)
+                            assertTrue(it.hidden)
+                        },
+                )
+            }
+        }
+
+    @Test
     fun whenUploadImage_thenInteractionsAreAsExpected() =
         runTest {
             val instance = "fake-instance"

@@ -50,7 +50,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ThemeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.UrlOpeningModeBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -72,7 +72,11 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.about.AboutDialog
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.AccountSettingsScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configurecontentview.ConfigureContentViewScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.configureswipeactions.ConfigureSwipeActionsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.FilteredContentsType
+import com.github.diegoberaldin.raccoonforlemmy.unit.filteredcontents.toInt
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.ManageBanScreen
+import com.github.diegoberaldin.raccoonforlemmy.unit.medialist.MediaListScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.web.WebViewScreen
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -135,7 +139,7 @@ class SettingsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.navigationSettings,
+                            text = LocalStrings.current.navigationSettings,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -156,12 +160,12 @@ class SettingsScreen : Screen {
                 ) {
                     SettingsHeader(
                         icon = Icons.Default.Style,
-                        title = LocalXmlStrings.current.settingsSectionAppearance,
+                        title = LocalStrings.current.settingsSectionAppearance,
                     )
 
                     // language
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsLanguage,
+                        title = LocalStrings.current.settingsLanguage,
                         annotatedValue =
                             buildAnnotatedString {
                                 with(uiState.lang) {
@@ -179,7 +183,7 @@ class SettingsScreen : Screen {
 
                     // theme
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsUiTheme,
+                        title = LocalStrings.current.settingsUiTheme,
                         value = uiState.uiTheme.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -190,7 +194,7 @@ class SettingsScreen : Screen {
 
                     // colors and fonts
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsColorsAndFonts,
+                        title = LocalStrings.current.settingsColorsAndFonts,
                         disclosureIndicator = true,
                         onTap =
                             rememberCallback {
@@ -200,7 +204,7 @@ class SettingsScreen : Screen {
 
                     // content view configuration
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsConfigureContent,
+                        title = LocalStrings.current.settingsConfigureContent,
                         disclosureIndicator = true,
                         onTap =
                             rememberCallback {
@@ -210,12 +214,12 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.SettingsApplications,
-                        title = LocalXmlStrings.current.settingsSectionGeneral,
+                        title = LocalStrings.current.settingsSectionGeneral,
                     )
 
                     // default listing type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultListingType,
+                        title = LocalStrings.current.settingsDefaultListingType,
                         value = uiState.defaultListingType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -230,7 +234,7 @@ class SettingsScreen : Screen {
 
                     // default post sort type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultPostSortType,
+                        title = LocalStrings.current.settingsDefaultPostSortType,
                         value = uiState.defaultPostSortType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -246,7 +250,7 @@ class SettingsScreen : Screen {
 
                     // default comment sort type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultCommentSortType,
+                        title = LocalStrings.current.settingsDefaultCommentSortType,
                         value = uiState.defaultCommentSortType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -263,7 +267,7 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // swipe actions
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsEnableSwipeActions,
+                            title = LocalStrings.current.settingsEnableSwipeActions,
                             value = uiState.enableSwipeActions,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -273,7 +277,7 @@ class SettingsScreen : Screen {
                                 },
                         )
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsConfigureSwipeActions,
+                            title = LocalStrings.current.settingsConfigureSwipeActions,
                             disclosureIndicator = true,
                             onTap =
                                 rememberCallback {
@@ -285,7 +289,7 @@ class SettingsScreen : Screen {
 
                     // URL open
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsOpenUrlExternal,
+                        title = LocalStrings.current.settingsOpenUrlExternal,
                         value = uiState.urlOpeningMode.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -306,7 +310,7 @@ class SettingsScreen : Screen {
 
                     // advanced settings
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsAdvanced,
+                        title = LocalStrings.current.settingsAdvanced,
                         disclosureIndicator = true,
                         onTap =
                             rememberCallback {
@@ -318,12 +322,12 @@ class SettingsScreen : Screen {
                     if (uiState.isLogged) {
                         SettingsHeader(
                             icon = Icons.Default.AdminPanelSettings,
-                            title = LocalXmlStrings.current.settingsSectionAccount,
+                            title = LocalStrings.current.settingsSectionAccount,
                         )
 
                         // web preferences
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsWebPreferences,
+                            title = LocalStrings.current.settingsWebPreferences,
                             disclosureIndicator = true,
                             onTap =
                                 rememberCallback {
@@ -332,9 +336,21 @@ class SettingsScreen : Screen {
                                 },
                         )
 
+                        if (uiState.supportsMediaList) {
+                            // uploaded media
+                            SettingsRow(
+                                title = LocalStrings.current.settingsMediaList,
+                                disclosureIndicator = true,
+                                onTap =
+                                    rememberCallback {
+                                        navigationCoordinator.pushScreen(MediaListScreen())
+                                    },
+                            )
+                        }
+
                         // bans and filters
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsManageBan,
+                            title = LocalStrings.current.settingsManageBan,
                             disclosureIndicator = true,
                             onTap =
                                 rememberCallback {
@@ -342,16 +358,31 @@ class SettingsScreen : Screen {
                                     navigationCoordinator.pushScreen(screen)
                                 },
                         )
+
+                        if (uiState.supportsHiddenPosts) {
+                            SettingsRow(
+                                title = LocalStrings.current.settingsHiddenPosts,
+                                disclosureIndicator = true,
+                                onTap =
+                                    rememberCallback {
+                                        val screen =
+                                            FilteredContentsScreen(
+                                                type = FilteredContentsType.Hidden.toInt(),
+                                            )
+                                        navigationCoordinator.pushScreen(screen)
+                                    },
+                            )
+                        }
                     }
 
                     SettingsHeader(
                         icon = Icons.Default.Explicit,
-                        title = LocalXmlStrings.current.settingsSectionNsfw,
+                        title = LocalStrings.current.settingsSectionNsfw,
                     )
 
                     // NSFW options
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsIncludeNsfw,
+                        title = LocalStrings.current.settingsIncludeNsfw,
                         value = uiState.includeNsfw,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -359,7 +390,7 @@ class SettingsScreen : Screen {
                             },
                     )
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsBlurNsfw,
+                        title = LocalStrings.current.settingsBlurNsfw,
                         value = uiState.blurNsfw,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -369,12 +400,12 @@ class SettingsScreen : Screen {
 
                     SettingsHeader(
                         icon = Icons.Default.BugReport,
-                        title = LocalXmlStrings.current.settingsSectionDebug,
+                        title = LocalStrings.current.settingsSectionDebug,
                     )
 
                     // enable crash report
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsEnableCrashReport,
+                        title = LocalStrings.current.settingsEnableCrashReport,
                         value = uiState.crashReportEnabled,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -384,7 +415,7 @@ class SettingsScreen : Screen {
 
                     // about
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsAbout,
+                        title = LocalStrings.current.settingsAbout,
                         value = "",
                         disclosureIndicator = true,
                         onTap =
@@ -395,7 +426,7 @@ class SettingsScreen : Screen {
 
                     // user manual
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsUserManual,
+                        title = LocalStrings.current.settingsUserManual,
                         value = "",
                         disclosureIndicator = true,
                         onTap =

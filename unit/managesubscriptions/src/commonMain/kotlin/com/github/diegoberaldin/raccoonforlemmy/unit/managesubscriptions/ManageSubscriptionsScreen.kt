@@ -75,12 +75,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.MultiCommu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallbackArgs
+import com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity.EditCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor.MultiCommunityEditorScreen
 import kotlinx.coroutines.flow.launchIn
@@ -118,7 +119,7 @@ class ManageSubscriptionsScreen : Screen {
             }
         var multiCommunityIdToDelete by remember { mutableStateOf<Long?>(null) }
         val snackbarHostState = remember { SnackbarHostState() }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val successMessage = LocalStrings.current.messageOperationSuccessful
 
         LaunchedEffect(model) {
             model.effects.onEach { event ->
@@ -144,7 +145,7 @@ class ManageSubscriptionsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.navigationDrawerTitleSubscriptions,
+                            text = LocalStrings.current.navigationDrawerTitleSubscriptions,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -182,7 +183,7 @@ class ManageSubscriptionsScreen : Screen {
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -209,9 +210,10 @@ class ManageSubscriptionsScreen : Screen {
             },
         ) { padding ->
             Column(
-                modifier = Modifier.padding(
-                    top = padding.calculateTopPadding(),
-                ),
+                modifier =
+                    Modifier.padding(
+                        top = padding.calculateTopPadding(),
+                    ),
             ) {
                 TextField(
                     modifier =
@@ -221,7 +223,7 @@ class ManageSubscriptionsScreen : Screen {
                                 vertical = Spacing.s,
                             ).fillMaxWidth(),
                     label = {
-                        Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                        Text(text = LocalStrings.current.exploreSearchPlaceholder)
                     },
                     singleLine = true,
                     value = uiState.searchText,
@@ -266,13 +268,7 @@ class ManageSubscriptionsScreen : Screen {
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            .then(
-                                if (settings.hideNavigationBarWhileScrolling) {
-                                    Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
-                                } else {
-                                    Modifier
-                                },
-                            )
+                            .nestedScroll(scrollBehavior.nestedScrollConnection)
                             .nestedScroll(fabNestedScrollConnection)
                             .nestedScroll(keyboardScrollConnection)
                             .pullRefresh(pullRefreshState),
@@ -282,13 +278,47 @@ class ManageSubscriptionsScreen : Screen {
                         state = lazyListState,
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
+                        if (uiState.canCreateCommunity) {
+                            // create community header
+                            item {
+                                Row(
+                                    modifier =
+                                        Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Text(
+                                        modifier = Modifier.padding(vertical = Spacing.xs),
+                                        text = LocalStrings.current.actionCreateCommunity,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Icon(
+                                        modifier =
+                                            Modifier
+                                                .padding(horizontal = Spacing.xs)
+                                                .onClick(
+                                                    onClick = {
+                                                        navigatorCoordinator.pushScreen(
+                                                            EditCommunityScreen(),
+                                                        )
+                                                    },
+                                                ),
+                                        imageVector = Icons.Default.AddCircle,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                    )
+                                }
+                            }
+                        }
                         item {
                             Row(
                                 modifier = Modifier.fillMaxWidth().padding(horizontal = Spacing.s),
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = LocalXmlStrings.current.manageSubscriptionsHeaderMulticommunities,
+                                    modifier = Modifier.padding(vertical = Spacing.xs),
+                                    text = LocalStrings.current.manageSubscriptionsHeaderMulticommunities,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -296,6 +326,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Icon(
                                     modifier =
                                         Modifier
+                                            .padding(horizontal = Spacing.xs)
                                             .onClick(
                                                 onClick = {
                                                     navigatorCoordinator.pushScreen(
@@ -329,12 +360,12 @@ class ManageSubscriptionsScreen : Screen {
                                         this +=
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.postActionEdit,
+                                                LocalStrings.current.postActionEdit,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Delete,
-                                                LocalXmlStrings.current.commentActionDelete,
+                                                LocalStrings.current.commentActionDelete,
                                             )
                                     },
                                 onOptionSelected =
@@ -363,7 +394,8 @@ class ManageSubscriptionsScreen : Screen {
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {
                                 Text(
-                                    text = LocalXmlStrings.current.manageSubscriptionsHeaderSubscriptions,
+                                    modifier = Modifier.padding(vertical = Spacing.xs),
+                                    text = LocalStrings.current.manageSubscriptionsHeaderSubscriptions,
                                     style = MaterialTheme.typography.titleMedium,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -392,15 +424,15 @@ class ManageSubscriptionsScreen : Screen {
                                         this +=
                                             Option(
                                                 OptionId.Unsubscribe,
-                                                LocalXmlStrings.current.communityActionUnsubscribe,
+                                                LocalStrings.current.communityActionUnsubscribe,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.Favorite,
                                                 if (community.favorite) {
-                                                    LocalXmlStrings.current.communityActionRemoveFavorite
+                                                    LocalStrings.current.communityActionRemoveFavorite
                                                 } else {
-                                                    LocalXmlStrings.current.communityActionAddFavorite
+                                                    LocalStrings.current.communityActionAddFavorite
                                                 },
                                             )
                                     },
@@ -408,12 +440,18 @@ class ManageSubscriptionsScreen : Screen {
                                     rememberCallbackArgs(model) { optionId ->
                                         when (optionId) {
                                             OptionId.Unsubscribe -> {
-                                                model.reduce(ManageSubscriptionsMviModel.Intent.Unsubscribe(community.id))
+                                                model.reduce(
+                                                    ManageSubscriptionsMviModel.Intent.Unsubscribe(
+                                                        community.id,
+                                                    ),
+                                                )
                                             }
 
                                             OptionId.Favorite -> {
                                                 model.reduce(
-                                                    ManageSubscriptionsMviModel.Intent.ToggleFavorite(community.id),
+                                                    ManageSubscriptionsMviModel.Intent.ToggleFavorite(
+                                                        community.id,
+                                                    ),
                                                 )
                                             }
 
@@ -428,7 +466,7 @@ class ManageSubscriptionsScreen : Screen {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -477,21 +515,25 @@ class ManageSubscriptionsScreen : Screen {
                             multiCommunityIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
                     Button(
                         onClick = {
-                            model.reduce(ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(itemId))
+                            model.reduce(
+                                ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity(
+                                    itemId,
+                                ),
+                            )
                             multiCommunityIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

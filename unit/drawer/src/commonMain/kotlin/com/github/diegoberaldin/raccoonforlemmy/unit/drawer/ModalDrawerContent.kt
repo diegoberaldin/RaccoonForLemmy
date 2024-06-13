@@ -47,7 +47,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -172,7 +172,7 @@ object ModalDrawerContent : Tab {
                                             vertical = Spacing.xxs,
                                         ).fillMaxWidth(),
                                 label = {
-                                    Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                                    Text(text = LocalStrings.current.exploreSearchPlaceholder)
                                 },
                                 singleLine = true,
                                 value = uiState.searchText,
@@ -306,13 +306,13 @@ object ModalDrawerContent : Tab {
             } else {
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
-                    text = LocalXmlStrings.current.sidebarNotLoggedMessage,
+                    text = LocalStrings.current.sidebarNotLoggedMessage,
                     style = MaterialTheme.typography.bodySmall,
                 )
 
                 Text(
                     modifier = Modifier.padding(horizontal = Spacing.s, vertical = Spacing.s),
-                    text = LocalXmlStrings.current.homeListingTitle,
+                    text = LocalStrings.current.homeListingTitle,
                     style = MaterialTheme.typography.titleMedium,
                 )
 

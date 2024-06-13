@@ -27,8 +27,7 @@ internal class DefaultPostPaginationManager(
     private val multiCommunityPaginator: MultiCommunityPaginator,
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     notificationCenter: NotificationCenter,
-
-    ) : PostPaginationManager {
+) : PostPaginationManager {
     override var canFetchMore: Boolean = true
         private set
     override val history: MutableList<PostModel> = mutableListOf()
@@ -190,6 +189,27 @@ internal class DefaultPostPaginationManager(
                             )
                         if (!itemList.isNullOrEmpty()) {
                             currentPage++
+                        }
+                        canFetchMore = itemList?.isEmpty() != true
+                        itemList
+                            .orEmpty()
+                            .deduplicate()
+                            .filterDeleted()
+                    }
+
+                    is PostPaginationSpecification.Hidden -> {
+                        val (itemList, nextPage) =
+                            userRepository.getHiddenPosts(
+                                auth = auth,
+                                page = currentPage,
+                                pageCursor = pageCursor,
+                                sort = SortType.New,
+                            ) ?: (null to null)
+                        if (!itemList.isNullOrEmpty()) {
+                            currentPage++
+                        }
+                        if (nextPage != null) {
+                            pageCursor = nextPage
                         }
                         canFetchMore = itemList?.isEmpty() != true
                         itemList

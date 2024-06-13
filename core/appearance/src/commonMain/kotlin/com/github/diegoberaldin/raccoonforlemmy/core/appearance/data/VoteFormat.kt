@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface VoteFormat {
     data object Aggregated : VoteFormat
@@ -36,10 +36,10 @@ fun Long.toVoteFormat(): VoteFormat =
 @Composable
 fun VoteFormat.toReadableName(): String =
     when (this) {
-        VoteFormat.Percentage -> LocalXmlStrings.current.settingsVoteFormatPercentage
-        VoteFormat.Separated -> LocalXmlStrings.current.settingsVoteFormatSeparated
-        VoteFormat.Hidden -> LocalXmlStrings.current.settingsVoteFormatHidden
-        else -> LocalXmlStrings.current.settingsVoteFormatAggregated
+        VoteFormat.Percentage -> LocalStrings.current.settingsVoteFormatPercentage
+        VoteFormat.Separated -> LocalStrings.current.settingsVoteFormatSeparated
+        VoteFormat.Hidden -> LocalStrings.current.settingsVoteFormatHidden
+        else -> LocalStrings.current.settingsVoteFormatAggregated
     }
 
 fun formatToReadableValue(

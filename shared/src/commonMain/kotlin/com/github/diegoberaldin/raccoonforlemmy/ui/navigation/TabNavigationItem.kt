@@ -26,7 +26,7 @@ import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
@@ -78,7 +78,7 @@ internal fun RowScope.TabNavigationItem(
                         tint = color,
                     )
                 }
-                val inboxTitle = LocalXmlStrings.current.navigationInbox
+                val inboxTitle = LocalStrings.current.navigationInbox
                 if (tab.options.title == inboxTitle && unread > 0) {
                     BadgedBox(
                         badge = {

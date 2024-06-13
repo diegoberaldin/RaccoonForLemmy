@@ -41,7 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.g
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -114,7 +114,7 @@ class InstanceInfoScreen(
                         Text(
                             text =
                                 buildString {
-                                    append(LocalXmlStrings.current.instanceDetailTitle)
+                                    append(LocalStrings.current.instanceDetailTitle)
                                     append(" ")
                                     append(instanceName)
                                 },
@@ -213,7 +213,7 @@ class InstanceInfoScreen(
                     item {
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = LocalXmlStrings.current.instanceDetailCommunities,
+                            text = LocalStrings.current.instanceDetailCommunities,
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground,
                         )

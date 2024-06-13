@@ -110,6 +110,21 @@ internal class DefaultSiteRepository(
             }.getOrElse { true }
         }
 
+    override suspend fun isCommunityCreationAdminOnly(auth: String?): Boolean =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                if (auth.isNullOrEmpty()) {
+                    return@runCatching true
+                }
+                val response =
+                    services.site.get(
+                        auth = auth,
+                        authHeader = auth.toAuthHeader(),
+                    )
+                response.siteView?.localSite?.communityCreationAdminOnly == true
+            }.getOrElse { true }
+        }
+
     override suspend fun getAccountSettings(auth: String): AccountSettingsModel? =
         withContext(Dispatchers.IO) {
             runCatching {
@@ -118,16 +133,7 @@ internal class DefaultSiteRepository(
                         auth = auth,
                         authHeader = auth.toAuthHeader(),
                     )
-                response.myUser?.localUserView?.run {
-                    localUser?.toModel()?.copy(
-                        avatar = person.avatar,
-                        banner = person.banner,
-                        bio = person.bio,
-                        bot = person.botAccount ?: false,
-                        displayName = person.displayName,
-                        matrixUserId = person.matrixUserId,
-                    )
-                }
+                response.myUser?.localUserView?.toModel()
             }.getOrNull()
         }
 

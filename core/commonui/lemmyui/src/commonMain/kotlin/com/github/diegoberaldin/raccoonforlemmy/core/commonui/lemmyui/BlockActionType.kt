@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface BlockActionType {
     data object User : BlockActionType
@@ -21,7 +21,7 @@ fun Int.toBlockActionType(): BlockActionType =
 @Composable
 fun BlockActionType.toReadableName(): String =
     when (this) {
-        BlockActionType.Community -> LocalXmlStrings.current.blockActionCommunity
-        BlockActionType.Instance -> LocalXmlStrings.current.communityDetailBlockInstance
-        BlockActionType.User -> LocalXmlStrings.current.blockActionUser
+        BlockActionType.Community -> LocalStrings.current.blockActionCommunity
+        BlockActionType.Instance -> LocalStrings.current.communityDetailBlockInstance
+        BlockActionType.User -> LocalStrings.current.blockActionUser
     }

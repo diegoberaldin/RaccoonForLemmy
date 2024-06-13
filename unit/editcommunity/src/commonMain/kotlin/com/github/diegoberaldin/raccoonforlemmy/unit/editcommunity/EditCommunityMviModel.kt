@@ -2,12 +2,15 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.editcommunity
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 
 interface EditCommunityMviModel :
     ScreenModel,
     MviModel<EditCommunityMviModel.Intent, EditCommunityMviModel.UiState, EditCommunityMviModel.Effect> {
     sealed interface Intent {
         data object Refresh : Intent
+
+        data class ChangeName(val value: String) : Intent
 
         data class ChangeTitle(val value: String) : Intent
 
@@ -52,6 +55,7 @@ interface EditCommunityMviModel :
 
     data class UiState(
         val loading: Boolean = false,
+        val name: String = "",
         val title: String = "",
         val description: String = "",
         val icon: String = "",
@@ -59,6 +63,7 @@ interface EditCommunityMviModel :
         val hasUnsavedChanges: Boolean = false,
         val nsfw: Boolean = false,
         val postingRestrictedToMods: Boolean = false,
+        val visibilityType: CommunityVisibilityType = CommunityVisibilityType.Public,
     )
 
     sealed interface Effect {

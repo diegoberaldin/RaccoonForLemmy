@@ -1,13 +1,10 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.detekt)
 }
 
@@ -51,41 +48,5 @@ android {
     compileSdk = libs.versions.android.targetSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-}
-
-dependencies {
-    add("kspCommonMainMetadata", libs.lyricist.ksp)
-}
-
-ksp {
-    arg(
-        "lyricist.xml.resourcesPath",
-        kotlin.sourceSets.findByName("androidMain")?.resources?.srcDirs
-            ?.first()?.absolutePath.orEmpty()
-            .replace(
-                "androidMain/resources",
-                "androidMain/res",
-            ),
-    )
-    arg("lyricist.packageName", "com.github.diegoberaldin.raccoonforlemmy.core.l10n")
-    arg("lyricist.xml.moduleName", "xml")
-    arg("lyricist.xml.defaultLanguageTag", "en")
-}
-
-tasks.withType<KotlinCompilationTask<*>>().configureEach {
-    if (name != "kspCommonMainKotlinMetadata") {
-        dependsOn("kspCommonMainKotlinMetadata")
-    }
-}
-
-kotlin.sourceSets.commonMain {
-    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
-}
-
-allprojects {
-    tasks.withType<Detekt> {
-        setSource(files(project.projectDir))
-        exclude("**/build/**")
     }
 }

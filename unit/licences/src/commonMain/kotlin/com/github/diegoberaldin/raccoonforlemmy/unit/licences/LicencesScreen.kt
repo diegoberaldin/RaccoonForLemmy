@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -26,12 +25,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.handleUrl
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -56,7 +56,6 @@ class LicencesScreen : Screen {
         Scaffold(
             modifier =
                 Modifier
-                    .safeContentPadding()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(Spacing.xs),
             topBar = {
@@ -65,7 +64,7 @@ class LicencesScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsAboutLicences,
+                            text = LocalStrings.current.settingsAboutLicences,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -89,11 +88,13 @@ class LicencesScreen : Screen {
             },
         ) { padding ->
             LazyColumn(
-                modifier = Modifier
-                    .padding(
-                        top = padding.calculateTopPadding(),
-                    )
-                    .fillMaxSize(),
+                modifier =
+                    Modifier
+                        .padding(
+                            top = padding.calculateTopPadding(),
+                        )
+                        .nestedScroll(scrollBehavior.nestedScrollConnection)
+                        .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
                 items(uiState.items) { item ->

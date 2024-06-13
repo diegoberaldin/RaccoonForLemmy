@@ -32,9 +32,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.koin.core)
+                implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktorfit.lib)
                 implementation(libs.ktor.serialization)
-                implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.contentnegotiation)
                 implementation(libs.ktor.json)
                 implementation(libs.ktor.logging)

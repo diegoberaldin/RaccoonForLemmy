@@ -110,7 +110,7 @@ fun CommunityAndCreatorInfo(
                                 },
                                 onDoubleClick = onDoubleClick ?: {},
                             ),
-                        size = IconSize.l,
+                        size = iconSize,
                         title = communityName,
                     )
                 }

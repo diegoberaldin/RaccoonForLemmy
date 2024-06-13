@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.utils.url
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface UrlOpeningMode {
     data object CustomTabs : UrlOpeningMode
@@ -28,7 +28,7 @@ fun Int.toUrlOpeningMode(): UrlOpeningMode =
 @Composable
 fun UrlOpeningMode.toReadableName(): String =
     when (this) {
-        UrlOpeningMode.CustomTabs -> LocalXmlStrings.current.settingsUrlOpeningModeCustomTabs
-        UrlOpeningMode.External -> LocalXmlStrings.current.settingsUrlOpeningModeExternal
-        UrlOpeningMode.Internal -> LocalXmlStrings.current.settingsUrlOpeningModeInternal
+        UrlOpeningMode.CustomTabs -> LocalStrings.current.settingsUrlOpeningModeCustomTabs
+        UrlOpeningMode.External -> LocalStrings.current.settingsUrlOpeningModeExternal
+        UrlOpeningMode.Internal -> LocalStrings.current.settingsUrlOpeningModeInternal
     }

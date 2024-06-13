@@ -43,7 +43,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomD
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ProgressHud
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.ZoomableImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareImageBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
@@ -66,8 +66,8 @@ class ZoomableImageScreen(
         val model = getScreenModel<ZoomableImageMviModel>(tag = url, parameters = { parametersOf(url) })
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
-        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
+        val errorMessage = LocalStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val drawerCoordinator = remember { getDrawerCoordinator() }
         val shareHelper = remember { getShareHelper() }
@@ -185,9 +185,9 @@ class ZoomableImageScreen(
                                         text = {
                                             val text =
                                                 when (option) {
-                                                    ContentScale.FillHeight -> LocalXmlStrings.current.contentScaleFillHeight
-                                                    ContentScale.FillWidth -> LocalXmlStrings.current.contentScaleFillWidth
-                                                    else -> LocalXmlStrings.current.contentScaleFit
+                                                    ContentScale.FillHeight -> LocalStrings.current.contentScaleFillHeight
+                                                    ContentScale.FillWidth -> LocalStrings.current.contentScaleFillWidth
+                                                    else -> LocalStrings.current.contentScaleFit
                                                 }
                                             Text(text)
                                         },
@@ -212,7 +212,7 @@ class ZoomableImageScreen(
                 }
             },
             content =
-            { padding ->
+                { padding ->
                     Box(
                         modifier =
                             Modifier

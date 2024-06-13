@@ -119,4 +119,12 @@ interface UserRepository {
         id: Long,
         reason: String? = null,
     )
+
+    suspend fun getHiddenPosts(
+        auth: String?,
+        page: Int,
+        pageCursor: String? = null,
+        limit: Int = PostRepository.DEFAULT_PAGE_SIZE,
+        sort: SortType = SortType.New,
+    ): Pair<List<PostModel>, String?>?
 }

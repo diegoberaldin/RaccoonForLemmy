@@ -57,6 +57,7 @@ kotlin {
                 implementation(projects.domain.lemmy.data)
                 implementation(projects.domain.lemmy.repository)
 
+                implementation(projects.unit.acknowledgements)
                 implementation(projects.unit.licences)
                 implementation(projects.unit.web)
             }

@@ -29,6 +29,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.profile.di.profileTabMod
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.di.searchTabModule
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.di.settingsTabModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.accountsettings.di.accountSettingsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.acknowledgements.di.acknowledgementsModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.ban.di.banModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.chat.di.chatModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.communitydetail.di.communityDetailModule
@@ -45,6 +46,7 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo.di.instanceInf
 import com.github.diegoberaldin.raccoonforlemmy.unit.licences.di.licenceModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.manageban.di.manageBanModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions.di.manageSubscriptionsModule
+import com.github.diegoberaldin.raccoonforlemmy.unit.medialist.di.mediaListModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.moderatewithreason.di.moderateWithReasonModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.modlog.di.modlogModule
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.di.postDetailModule
@@ -115,6 +117,8 @@ fun initKoin() {
             paginationModule,
             customTabsModule,
             moderateWithReasonModule,
+            acknowledgementsModule,
+            mediaListModule,
         )
     }
 

@@ -29,7 +29,7 @@ internal fun LicenceItem(
         modifier =
             modifier.padding(
                 vertical = Spacing.xs,
-                horizontal = Spacing.m,
+                horizontal = Spacing.s,
             ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.m),
         verticalAlignment = Alignment.CenterVertically,

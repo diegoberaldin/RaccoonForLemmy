@@ -38,7 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -103,7 +103,7 @@ class SelectInstanceBottomSheet : Screen {
             Box(
                 modifier = Modifier.fillMaxWidth().padding(top = Spacing.s),
             ) {
-                BottomSheetHeader(LocalXmlStrings.current.dialogTitleChangeInstance)
+                BottomSheetHeader(LocalStrings.current.dialogTitleChangeInstance)
                 IconButton(
                     modifier = Modifier.align(Alignment.TopEnd),
                     content = {
@@ -128,7 +128,7 @@ class SelectInstanceBottomSheet : Screen {
                         Text(
                             modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                             textAlign = TextAlign.Center,
-                            text = LocalXmlStrings.current.messageEmptyList,
+                            text = LocalStrings.current.messageEmptyList,
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onBackground,
                         )
@@ -173,7 +173,7 @@ class SelectInstanceBottomSheet : Screen {
                                             this +=
                                                 Option(
                                                     OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
+                                                    LocalStrings.current.commentActionDelete,
                                                 )
                                         }
                                     },
@@ -222,7 +222,7 @@ class SelectInstanceBottomSheet : Screen {
                             instanceToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -232,11 +232,11 @@ class SelectInstanceBottomSheet : Screen {
                             instanceToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

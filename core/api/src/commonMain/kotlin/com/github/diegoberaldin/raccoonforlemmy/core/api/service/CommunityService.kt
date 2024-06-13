@@ -8,6 +8,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.BlockCommunityResponse
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityId
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityResponse
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreateCommunityForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeleteCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FollowCommunityForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.GetCommunityResponse
@@ -71,6 +73,13 @@ interface CommunityService {
         @Body form: AddModToCommunityForm,
     ): AddModToCommunityResponse
 
+    @POST("community")
+    @Headers("Content-Type: application/json")
+    suspend fun create(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: CreateCommunityForm,
+    ): CommunityResponse
+
     @PUT("community")
     @Headers("Content-Type: application/json")
     suspend fun edit(
@@ -84,6 +93,13 @@ interface CommunityService {
         @Header("Authorization") authHeader: String? = null,
         @Body form: HideCommunityForm,
     ): SuccessResponse
+
+    @POST("community/delete")
+    @Headers("Content-Type: application/json")
+    suspend fun delete(
+        @Header("Authorization") authHeader: String? = null,
+        @Body form: DeleteCommunityForm,
+    ): CommunityResponse
 
     @POST("admin/purge/community")
     @Headers("Content-Type: application/json")

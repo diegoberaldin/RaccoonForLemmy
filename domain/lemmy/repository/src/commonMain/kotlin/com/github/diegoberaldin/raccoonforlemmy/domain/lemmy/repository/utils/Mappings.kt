@@ -11,13 +11,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentSortType
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommentView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Community
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityView
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CommunityVisibility
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Instance
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.Language
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.All
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Local
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.ModeratorView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ListingType.Subscribed
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalImageView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUser
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LocalUserView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddCommunityView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModAddView
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.ModBanFromCommunityView
@@ -63,9 +66,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.AccountSetting
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentReportModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.InstanceModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MediaModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.MetadataModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItemType
@@ -155,6 +160,12 @@ internal fun SearchResultType.toDto(): SearchType =
         SearchResultType.Urls -> SearchType.Url
     }
 
+internal fun CommunityVisibility?.toModel(): CommunityVisibilityType =
+    when (this) {
+        CommunityVisibility.LocalOnly -> CommunityVisibilityType.LocalOnly
+        else -> CommunityVisibilityType.Public
+    }
+
 internal fun Person.toModel() =
     UserModel(
         id = id,
@@ -242,6 +253,7 @@ internal fun Comment.toModel() =
         removed = removed,
         deleted = deleted,
         languageId = languageId,
+        originalUrl = apId,
     )
 
 internal fun Community.toModel() =
@@ -259,6 +271,7 @@ internal fun Community.toModel() =
         creationDate = published,
         postingRestrictedToMods = postingRestrictedToMods,
         hidden = hidden,
+        visibilityType = visibility.toModel(),
     )
 
 internal fun CommunityView.toModel() =
@@ -275,6 +288,7 @@ internal fun CommunityView.toModel() =
         subscribers = counts.subscribers,
         posts = counts.posts,
         comments = counts.comments,
+        currentlyBanned = bannedFromCommunity == true,
     )
 
 internal fun PersonMentionView.toModel() =
@@ -584,6 +598,9 @@ internal fun AccountSettingsModel.toDto() =
         showBotAccounts = showBotAccounts,
         showNsfw = showNsfw,
         showScores = showScores,
+        showUpvotes = showUpVotes,
+        showDownvotes = showDownVotes,
+        showUpvotePercentage = showUpVotePercentage,
         showReadPosts = showReadPosts,
     )
 
@@ -591,4 +608,25 @@ internal fun Instance.toModel() =
     InstanceModel(
         id = id,
         domain = domain,
+    )
+
+internal fun LocalUserView.toModel() =
+    localUser?.toModel()?.copy(
+        avatar = person.avatar,
+        banner = person.banner,
+        bio = person.bio,
+        bot = person.botAccount ?: false,
+        displayName = person.displayName,
+        matrixUserId = person.matrixUserId,
+        showUpVotes = localUserVoteDisplayMode?.upvotes,
+        showDownVotes = localUserVoteDisplayMode?.downvotes,
+        showScores = localUserVoteDisplayMode?.score,
+        showUpVotePercentage = localUserVoteDisplayMode?.upvotePercentage,
+    )
+
+internal fun LocalImageView.toModel() =
+    MediaModel(
+        alias = localImage.pictrsAlias,
+        deleteToken = localImage.pictrsDeleteToken,
+        date = localImage.published,
     )

@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Dimensions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalPixel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
@@ -141,7 +141,7 @@ internal fun PostsTopBar(
                         ),
                     text =
                         buildString {
-                            append(LocalXmlStrings.current.homeInstanceVia)
+                            append(LocalStrings.current.homeInstanceVia)
                             append(" ")
                             append(currentInstance)
                         },

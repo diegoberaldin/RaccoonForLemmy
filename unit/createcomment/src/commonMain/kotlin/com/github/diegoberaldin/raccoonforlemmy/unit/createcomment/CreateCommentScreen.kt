@@ -67,7 +67,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -105,7 +105,7 @@ class CreateCommentScreen(
             }
         val uiState by model.uiState.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
+        val genericError = LocalStrings.current.messageGenericError
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         val galleryHelper = remember { getGalleryHelper() }
@@ -186,11 +186,11 @@ class CreateCommentScreen(
                             text =
                                 when {
                                     uiState.editedComment != null -> {
-                                        LocalXmlStrings.current.editCommentTitle
+                                        LocalStrings.current.editCommentTitle
                                     }
 
                                     else -> {
-                                        LocalXmlStrings.current.createCommentTitle
+                                        LocalStrings.current.createCommentTitle
                                     }
                                 },
                             color = MaterialTheme.colorScheme.onBackground,
@@ -274,7 +274,7 @@ class CreateCommentScreen(
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
+                                                    LocalStrings.current.postActionSeeRaw,
                                                 ),
                                             )
                                         },
@@ -310,7 +310,7 @@ class CreateCommentScreen(
                                         add(
                                             Option(
                                                 OptionId.SeeRaw,
-                                                LocalXmlStrings.current.postActionSeeRaw,
+                                                LocalStrings.current.postActionSeeRaw,
                                             ),
                                         )
                                     },
@@ -334,8 +334,8 @@ class CreateCommentScreen(
                     SectionSelector(
                         titles =
                             listOf(
-                                LocalXmlStrings.current.createPostTabEditor,
-                                LocalXmlStrings.current.createPostTabPreview,
+                                LocalStrings.current.createPostTabEditor,
+                                LocalStrings.current.createPostTabPreview,
                             ),
                         currentSection =
                             when (uiState.section) {
@@ -388,7 +388,7 @@ class CreateCommentScreen(
                                 ),
                             label = {
                                 Text(
-                                    text = LocalXmlStrings.current.createCommentBody,
+                                    text = LocalStrings.current.createCommentBody,
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             },
@@ -444,7 +444,7 @@ class CreateCommentScreen(
                                     ),
                             text =
                                 buildString {
-                                    append(LocalXmlStrings.current.postReplySourceAccount)
+                                    append(LocalStrings.current.postReplySourceAccount)
                                     append(" ")
                                     append(uiState.currentUser)
                                     if (uiState.currentInstance.isNotEmpty()) {

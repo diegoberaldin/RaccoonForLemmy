@@ -505,13 +505,22 @@ class PostListViewModel(
 
     private fun hide(post: PostModel) {
         screenModelScope.launch {
-            updateState {
-                val newPosts = it.posts.filter { e -> e.id != post.id }
-                it.copy(
-                    posts = newPosts,
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postRepository.hide(
+                    hidden = true,
+                    postId = post.id,
+                    auth = auth,
                 )
+                updateState {
+                    val newPosts = it.posts.filter { e -> e.id != post.id }
+                    it.copy(
+                        posts = newPosts,
+                    )
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
             }
-            markAsRead(post)
         }
     }
 

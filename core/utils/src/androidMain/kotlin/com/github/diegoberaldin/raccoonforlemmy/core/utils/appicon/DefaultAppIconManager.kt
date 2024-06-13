@@ -11,6 +11,7 @@ class DefaultAppIconManager(
         listOf(
             "com.github.diegoberaldin.raccoonforlemmy.android.MainActivity",
             "com.github.diegoberaldin.raccoonforlemmy.android.MainActivityAlias1",
+            "com.github.diegoberaldin.raccoonforlemmy.android.MainActivityAlias2",
         )
 
     override val supportsMultipleIcons = allComponentNames.isNotEmpty()

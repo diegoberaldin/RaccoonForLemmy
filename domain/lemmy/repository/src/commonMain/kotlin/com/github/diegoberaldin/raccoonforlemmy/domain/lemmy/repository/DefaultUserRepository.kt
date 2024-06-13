@@ -379,4 +379,29 @@ internal class DefaultUserRepository(
             )
         require(response.success)
     }
+
+    override suspend fun getHiddenPosts(
+        auth: String?,
+        page: Int,
+        pageCursor: String?,
+        limit: Int,
+        sort: SortType,
+    ): Pair<List<PostModel>, String?>? =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val response =
+                    services.post.getAll(
+                        authHeader = auth.toAuthHeader(),
+                        auth = auth,
+                        page = page,
+                        pageCursor = pageCursor,
+                        limit = limit,
+                        sort = sort.toDto(),
+                        type = ListingType.All,
+                        showHidden = true,
+                    )
+                val posts = response.posts.map { it.toModel() }
+                posts to response.nextPage
+            }.getOrNull()
+        }
 }

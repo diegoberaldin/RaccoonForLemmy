@@ -21,6 +21,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.zombiemode.ZombieMode
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityVisibilityType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.containsId
@@ -81,8 +82,8 @@ class CommunityDetailViewModel(
                     it.copy(
                         community = community,
                         instance =
-                        otherInstance.takeIf { n -> n.isNotEmpty() }
-                            ?: apiConfigurationRepository.instance.value,
+                            otherInstance.takeIf { n -> n.isNotEmpty() }
+                                ?: apiConfigurationRepository.instance.value,
                     )
                 }
             }
@@ -134,16 +135,16 @@ class CommunityDetailViewModel(
                     updateState {
                         it.copy(
                             posts =
-                            it.posts.map { p ->
-                                if (p.id == postId) {
-                                    p.copy(
-                                        creator = newUser,
-                                        updateDate = newUser.updateDate,
-                                    )
-                                } else {
-                                    p
-                                }
-                            },
+                                it.posts.map { p ->
+                                    if (p.id == postId) {
+                                        p.copy(
+                                            creator = newUser,
+                                            updateDate = newUser.updateDate,
+                                        )
+                                    } else {
+                                        p
+                                    }
+                                },
                         )
                     }
                 }.launchIn(this)
@@ -175,6 +176,7 @@ class CommunityDetailViewModel(
             searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
                 updateState { it.copy(loading = false) }
                 emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                delay(50)
                 refresh()
             }.launchIn(this)
 
@@ -346,6 +348,10 @@ class CommunityDetailViewModel(
             is CommunityDetailMviModel.Intent.SelectPreferredLanguage -> {
                 updatePreferredLanguage(intent.languageId)
             }
+
+            CommunityDetailMviModel.Intent.DeleteCommunity -> {
+                deleteCommunity()
+            }
         }
     }
 
@@ -387,12 +393,22 @@ class CommunityDetailViewModel(
                 id = currentState.community.id,
             )
         if (refreshedCommunity != null) {
+            val newNotices = currentState.notices.toMutableList()
+            if (refreshedCommunity.visibilityType == CommunityVisibilityType.LocalOnly &&
+                newNotices.none { it == CommunityNotices.LocalOnlyVisibility }
+            ) {
+                newNotices += CommunityNotices.LocalOnlyVisibility
+            }
+            if (refreshedCommunity.currentlyBanned && newNotices.none { it == CommunityNotices.BannedUser }) {
+                newNotices += CommunityNotices.BannedUser
+            }
             updateState {
                 it.copy(
                     community = refreshedCommunity,
                     moderators = moderators,
                     loading = false,
                     zombieModeActive = false,
+                    notices = newNotices,
                 )
             }
         }
@@ -572,8 +588,8 @@ class CommunityDetailViewModel(
                 updateState { it.copy(community = community) }
                 notificationCenter.send(
                     NotificationCenterEvent.CommunitySubscriptionChanged(
-                        community
-                    )
+                        community,
+                    ),
                 )
             }
         }
@@ -591,8 +607,8 @@ class CommunityDetailViewModel(
                 updateState { it.copy(community = community) }
                 notificationCenter.send(
                     NotificationCenterEvent.CommunitySubscriptionChanged(
-                        community
-                    )
+                        community,
+                    ),
                 )
             }
         }
@@ -603,13 +619,13 @@ class CommunityDetailViewModel(
             updateState {
                 it.copy(
                     posts =
-                    it.posts.map { p ->
-                        if (p.id == post.id) {
-                            post
-                        } else {
-                            p
-                        }
-                    },
+                        it.posts.map { p ->
+                            if (p.id == post.id) {
+                                post
+                            } else {
+                                p
+                            }
+                        },
                 )
             }
         }
@@ -671,13 +687,22 @@ class CommunityDetailViewModel(
 
     private fun hide(post: PostModel) {
         screenModelScope.launch {
-            updateState {
-                val newPosts = it.posts.filter { e -> e.id != post.id }
-                it.copy(
-                    posts = newPosts,
+            try {
+                val auth = identityRepository.authToken.value.orEmpty()
+                postRepository.hide(
+                    hidden = true,
+                    postId = post.id,
+                    auth = auth,
                 )
+                updateState {
+                    val newPosts = it.posts.filter { e -> e.id != post.id }
+                    it.copy(
+                        posts = newPosts,
+                    )
+                }
+            } catch (e: Throwable) {
+                e.printStackTrace()
             }
-            markAsRead(post)
         }
     }
 
@@ -779,8 +804,7 @@ class CommunityDetailViewModel(
                 )
                 emitEffect(CommunityDetailMviModel.Effect.Success)
             } catch (e: Throwable) {
-                val message = e.message
-                emitEffect(CommunityDetailMviModel.Effect.Failure(message))
+                emitEffect(CommunityDetailMviModel.Effect.Failure(e.message))
             }
         }
     }
@@ -791,6 +815,21 @@ class CommunityDetailViewModel(
             communityPreferredLanguageRepository.save(handle = communityHandle, value = languageId)
             updateState {
                 it.copy(currentPreferredLanguageId = languageId)
+            }
+        }
+    }
+
+    private fun deleteCommunity() {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            try {
+                communityRepository.delete(
+                    auth = auth,
+                    communityId = communityId,
+                )
+                emitEffect(CommunityDetailMviModel.Effect.Back)
+            } catch (e: Exception) {
+                emitEffect(CommunityDetailMviModel.Effect.Failure(e.message))
             }
         }
     }

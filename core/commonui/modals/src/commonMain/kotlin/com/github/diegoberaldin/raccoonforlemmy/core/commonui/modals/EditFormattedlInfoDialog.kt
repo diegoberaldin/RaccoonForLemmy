@@ -38,7 +38,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Section
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CreatePostSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.TextFormattingBar
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,7 +71,7 @@ fun EditFormattedInfoDialog(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
         ) {
             Text(
-                text = LocalXmlStrings.current.postActionEdit,
+                text = LocalStrings.current.postActionEdit,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -83,8 +83,8 @@ fun EditFormattedInfoDialog(
                 SectionSelector(
                     titles =
                         listOf(
-                            LocalXmlStrings.current.createPostTabEditor,
-                            LocalXmlStrings.current.createPostTabPreview,
+                            LocalStrings.current.createPostTabEditor,
+                            LocalStrings.current.createPostTabPreview,
                         ),
                     currentSection =
                         when (currentSection) {
@@ -167,7 +167,7 @@ fun EditFormattedInfoDialog(
                     onClose?.invoke(textFieldValue.text)
                 },
             ) {
-                Text(text = LocalXmlStrings.current.buttonConfirm)
+                Text(text = LocalStrings.current.buttonConfirm)
             }
         }
     }

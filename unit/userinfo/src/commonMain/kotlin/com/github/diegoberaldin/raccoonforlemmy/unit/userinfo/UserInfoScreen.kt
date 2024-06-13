@@ -42,7 +42,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.Customi
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.DetailInfoItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardBody
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
@@ -147,21 +147,21 @@ class UserInfoScreen(
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.AutoMirrored.Default.Article,
-                                title = LocalXmlStrings.current.communityInfoPosts,
+                                title = LocalStrings.current.communityInfoPosts,
                                 value =
                                     score.postScore.getPrettyNumber(
-                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                        thousandLabel = LocalStrings.current.profileThousandShort,
+                                        millionLabel = LocalStrings.current.profileMillionShort,
                                     ),
                             )
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.AutoMirrored.Default.Reply,
-                                title = LocalXmlStrings.current.communityInfoComments,
+                                title = LocalStrings.current.communityInfoComments,
                                 value =
                                     score.commentScore.getPrettyNumber(
-                                        thousandLabel = LocalXmlStrings.current.profileThousandShort,
-                                        millionLabel = LocalXmlStrings.current.profileMillionShort,
+                                        thousandLabel = LocalStrings.current.profileThousandShort,
+                                        millionLabel = LocalStrings.current.profileMillionShort,
                                     ),
                             )
                         }
@@ -169,7 +169,7 @@ class UserInfoScreen(
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Shield,
-                                title = LocalXmlStrings.current.userInfoAdmin,
+                                title = LocalStrings.current.userInfoAdmin,
                             )
                         }
                     }
@@ -190,7 +190,7 @@ class UserInfoScreen(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.settingsWebBio,
+                                text = LocalStrings.current.settingsWebBio,
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                             )
@@ -253,7 +253,7 @@ class UserInfoScreen(
                             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                         ) {
                             Text(
-                                text = LocalXmlStrings.current.settingsWebMatrix,
+                                text = LocalStrings.current.settingsWebMatrix,
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                             )
@@ -283,7 +283,7 @@ class UserInfoScreen(
                                         top = Spacing.s,
                                         bottom = Spacing.xs,
                                     ),
-                            text = LocalXmlStrings.current.userInfoModerates,
+                            text = LocalStrings.current.userInfoModerates,
                         )
                         LazyRow(
                             modifier = Modifier.padding(top = Spacing.xxs),

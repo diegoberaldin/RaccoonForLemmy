@@ -57,7 +57,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSh
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
@@ -89,8 +89,8 @@ class AdvancedSettingsScreen : Screen {
         var screenWidth by remember { mutableStateOf(0f) }
         var languageDialogOpened by remember { mutableStateOf(false) }
         val snackbarHostState = remember { SnackbarHostState() }
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
-        val errorMessage = LocalXmlStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
+        val errorMessage = LocalStrings.current.messageGenericError
         val scope = rememberCoroutineScope()
         val fileSystemManager = remember { getFileSystemManager() }
         var fileInputOpened by remember { mutableStateOf(false) }
@@ -119,7 +119,7 @@ class AdvancedSettingsScreen : Screen {
                     title = {
                         Text(
                             modifier = Modifier.padding(horizontal = Spacing.s),
-                            text = LocalXmlStrings.current.settingsAdvanced,
+                            text = LocalStrings.current.settingsAdvanced,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
@@ -163,12 +163,12 @@ class AdvancedSettingsScreen : Screen {
                     verticalArrangement = Arrangement.spacedBy(Spacing.xs),
                 ) {
                     SettingsHeader(
-                        title = LocalXmlStrings.current.settingsTitleDisplay,
+                        title = LocalStrings.current.settingsTitleDisplay,
                         icon = Icons.Default.DisplaySettings,
                     )
                     // navigation bar titles
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsNavigationBarTitlesVisible,
+                        title = LocalStrings.current.settingsNavigationBarTitlesVisible,
                         value = uiState.navBarTitlesVisible,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -180,7 +180,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // edge to edge
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsEdgeToEdge,
+                        title = LocalStrings.current.settingsEdgeToEdge,
                         value = uiState.edgeToEdge,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -199,7 +199,7 @@ class AdvancedSettingsScreen : Screen {
                                 UiBarTheme.Transparent.toReadableName()
                             }
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsBarTheme,
+                            title = LocalStrings.current.settingsBarTheme,
                             value = barThemeName,
                             onTap =
                                 rememberCallback {
@@ -211,7 +211,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // bottom navigation hiding
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsHideNavigationBar,
+                        title = LocalStrings.current.settingsHideNavigationBar,
                         value = uiState.hideNavigationBarWhileScrolling,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -224,13 +224,13 @@ class AdvancedSettingsScreen : Screen {
                     )
 
                     SettingsHeader(
-                        title = LocalXmlStrings.current.settingsTitleReading,
+                        title = LocalStrings.current.settingsTitleReading,
                         icon = Icons.AutoMirrored.Default.Article,
                     )
                     if (uiState.isLogged) {
                         // visually differentiate read posts
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsFadeReadPosts,
+                            title = LocalStrings.current.settingsFadeReadPosts,
                             value = uiState.fadeReadPosts,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -242,7 +242,7 @@ class AdvancedSettingsScreen : Screen {
 
                         // show unread comment number
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsShowUnreadComments,
+                            title = LocalStrings.current.settingsShowUnreadComments,
                             value = uiState.showUnreadComments,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -255,7 +255,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // default explore type
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsDefaultExploreType,
+                        title = LocalStrings.current.settingsDefaultExploreType,
                         value = uiState.defaultExploreType.toReadableName(),
                         onTap =
                             rememberCallback {
@@ -270,12 +270,12 @@ class AdvancedSettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // default inbox type
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsDefaultInboxType,
+                            title = LocalStrings.current.settingsDefaultInboxType,
                             value =
                                 if (uiState.defaultInboxUnreadOnly) {
-                                    LocalXmlStrings.current.inboxListingTypeUnread
+                                    LocalStrings.current.inboxListingTypeUnread
                                 } else {
-                                    LocalXmlStrings.current.inboxListingTypeAll
+                                    LocalStrings.current.inboxListingTypeAll
                                 },
                             onTap =
                                 rememberCallback {
@@ -291,9 +291,9 @@ class AdvancedSettingsScreen : Screen {
                             l.id == uiState.defaultLanguageId
                         }?.takeIf { l ->
                             l.id > 0 // undetermined language
-                        }?.name ?: LocalXmlStrings.current.undetermined
+                        }?.name ?: LocalStrings.current.undetermined
                     SettingsRow(
-                        title = LocalXmlStrings.current.advancedSettingsDefaultLanguage,
+                        title = LocalStrings.current.advancedSettingsDefaultLanguage,
                         value = languageValue,
                         onTap =
                             rememberCallback {
@@ -303,7 +303,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // infinite scrolling
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsInfiniteScrollDisabled,
+                        title = LocalStrings.current.settingsInfiniteScrollDisabled,
                         value = uiState.infiniteScrollDisabled,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -315,7 +315,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // auto-expand comments
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsAutoExpandComments,
+                        title = LocalStrings.current.settingsAutoExpandComments,
                         value = uiState.autoExpandComments,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -328,7 +328,7 @@ class AdvancedSettingsScreen : Screen {
                     if (uiState.isLogged) {
                         // mark as read while scrolling
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsMarkAsReadWhileScrolling,
+                            title = LocalStrings.current.settingsMarkAsReadWhileScrolling,
                             value = uiState.markAsReadWhileScrolling,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -343,12 +343,12 @@ class AdvancedSettingsScreen : Screen {
 
                     // zombie mode interval
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsZombieModeInterval,
+                        title = LocalStrings.current.settingsZombieModeInterval,
                         value =
                             uiState.zombieModeInterval.getPrettyDuration(
-                                secondsLabel = LocalXmlStrings.current.postSecondShort,
-                                minutesLabel = LocalXmlStrings.current.postMinuteShort,
-                                hoursLabel = LocalXmlStrings.current.homeSortTypeTop6Hours,
+                                secondsLabel = LocalStrings.current.postSecondShort,
+                                minutesLabel = LocalStrings.current.postMinuteShort,
+                                hoursLabel = LocalStrings.current.homeSortTypeTop6Hours,
                             ),
                         onTap =
                             rememberCallback {
@@ -362,12 +362,12 @@ class AdvancedSettingsScreen : Screen {
 
                     // zombie scroll amount
                     SettingsRow(
-                        title = LocalXmlStrings.current.settingsZombieModeScrollAmount,
+                        title = LocalStrings.current.settingsZombieModeScrollAmount,
                         value =
                             buildString {
                                 val pt = uiState.zombieModeScrollAmount.toLocalDp().value.roundToInt()
                                 append(pt)
-                                append(LocalXmlStrings.current.settingsPointsShort)
+                                append(LocalStrings.current.settingsPointsShort)
                             },
                         onTap =
                             rememberCallback {
@@ -383,7 +383,7 @@ class AdvancedSettingsScreen : Screen {
 
                     // enable buttons to scroll between comments
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsEnableButtonsToScrollBetweenComments,
+                        title = LocalStrings.current.settingsEnableButtonsToScrollBetweenComments,
                         value = uiState.enableButtonsToScrollBetweenComments,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -394,12 +394,12 @@ class AdvancedSettingsScreen : Screen {
                     )
 
                     SettingsHeader(
-                        title = LocalXmlStrings.current.settingsTitlePictures,
+                        title = LocalStrings.current.settingsTitlePictures,
                         icon = Icons.Default.Photo,
                     )
                     // image loading
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsAutoLoadImages,
+                        title = LocalStrings.current.settingsAutoLoadImages,
                         value = uiState.autoLoadImages,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -412,8 +412,8 @@ class AdvancedSettingsScreen : Screen {
                     if (uiState.imageSourceSupported) {
                         // image source path
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsItemImageSourcePath,
-                            subtitle = LocalXmlStrings.current.settingsSubtitleImageSourcePath,
+                            title = LocalStrings.current.settingsItemImageSourcePath,
+                            subtitle = LocalStrings.current.settingsSubtitleImageSourcePath,
                             value = uiState.imageSourcePath,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -425,13 +425,13 @@ class AdvancedSettingsScreen : Screen {
                     }
 
                     SettingsHeader(
-                        title = LocalXmlStrings.current.settingsTitleExperimental,
+                        title = LocalStrings.current.settingsTitleExperimental,
                         icon = Icons.Default.Science,
                     )
                     if (uiState.isLogged) {
                         // double tap
                         SettingsSwitchRow(
-                            title = LocalXmlStrings.current.settingsEnableDoubleTap,
+                            title = LocalStrings.current.settingsEnableDoubleTap,
                             value = uiState.enableDoubleTapAction,
                             onValueChanged =
                                 rememberCallbackArgs(model) { value ->
@@ -445,7 +445,7 @@ class AdvancedSettingsScreen : Screen {
                     }
                     // search posts only in title
                     SettingsSwitchRow(
-                        title = LocalXmlStrings.current.settingsSearchPostsTitleOnly,
+                        title = LocalStrings.current.settingsSearchPostsTitleOnly,
                         value = uiState.searchPostTitleOnly,
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
@@ -460,15 +460,15 @@ class AdvancedSettingsScreen : Screen {
                         SettingsRow(
                             title =
                                 buildString {
-                                    append(LocalXmlStrings.current.settingsInboxBackgroundCheckPeriod)
+                                    append(LocalStrings.current.settingsInboxBackgroundCheckPeriod)
                                 },
                             value =
                                 uiState.inboxBackgroundCheckPeriod.let { value ->
                                     value?.getPrettyDuration(
-                                        secondsLabel = LocalXmlStrings.current.postSecondShort,
-                                        minutesLabel = LocalXmlStrings.current.postMinuteShort,
-                                        hoursLabel = LocalXmlStrings.current.postHourShort,
-                                    ) ?: LocalXmlStrings.current.never
+                                        secondsLabel = LocalStrings.current.postSecondShort,
+                                        minutesLabel = LocalStrings.current.postMinuteShort,
+                                        hoursLabel = LocalStrings.current.postHourShort,
+                                    ) ?: LocalStrings.current.never
                                 },
                             onTap = {
                                 val sheet =
@@ -493,9 +493,9 @@ class AdvancedSettingsScreen : Screen {
                         SettingsRow(
                             title =
                                 buildString {
-                                    append(LocalXmlStrings.current.settingsAppIcon)
+                                    append(LocalStrings.current.settingsAppIcon)
                                     append(" ")
-                                    append(LocalXmlStrings.current.requiresRestart)
+                                    append(LocalStrings.current.requiresRestart)
                                 },
                             onTap =
                                 rememberCallback {
@@ -507,14 +507,14 @@ class AdvancedSettingsScreen : Screen {
 
                     if (uiState.supportSettingsImportExport) {
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsExport,
+                            title = LocalStrings.current.settingsExport,
                             onTap =
                                 rememberCallback(model) {
                                     model.reduce(AdvancedSettingsMviModel.Intent.ExportSettings)
                                 },
                         )
                         SettingsRow(
-                            title = LocalXmlStrings.current.settingsImport,
+                            title = LocalStrings.current.settingsImport,
                             onTap =
                                 rememberCallback {
                                     fileInputOpened = true

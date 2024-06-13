@@ -12,6 +12,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
 
+sealed interface CommunityNotices {
+    data object LocalOnlyVisibility : CommunityNotices
+
+    data object BannedUser : CommunityNotices
+}
+
 @Stable
 interface CommunityDetailMviModel :
     MviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>,
@@ -72,6 +78,8 @@ interface CommunityDetailMviModel :
         data object UnhideCommunity : Intent
 
         data class SelectPreferredLanguage(val languageId: Long?) : Intent
+
+        data object DeleteCommunity : Intent
     }
 
     data class UiState(
@@ -109,6 +117,7 @@ interface CommunityDetailMviModel :
         val downVoteEnabled: Boolean = true,
         val currentPreferredLanguageId: Long? = null,
         val availableLanguages: List<LanguageModel> = emptyList(),
+        val notices: List<CommunityNotices> = emptyList(),
     )
 
     sealed interface Effect {
@@ -123,5 +132,7 @@ interface CommunityDetailMviModel :
         data class ZombieModeTick(val index: Int) : Effect
 
         data class TriggerCopy(val text: String) : Effect
+
+        data object Back : Effect
     }
 }

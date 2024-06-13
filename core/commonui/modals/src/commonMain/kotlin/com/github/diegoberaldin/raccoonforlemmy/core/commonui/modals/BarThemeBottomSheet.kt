@@ -20,7 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toReadableName
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -43,7 +43,7 @@ class BarThemeBottomSheet : Screen {
                     ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHeader(LocalXmlStrings.current.settingsBarTheme)
+            BottomSheetHeader(LocalStrings.current.settingsBarTheme)
             val values =
                 listOf(
                     UiBarTheme.Transparent,

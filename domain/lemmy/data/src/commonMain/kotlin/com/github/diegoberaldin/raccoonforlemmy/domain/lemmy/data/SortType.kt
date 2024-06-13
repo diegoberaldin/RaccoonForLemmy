@@ -12,7 +12,7 @@ import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface SortType {
     data object Active : SortType
@@ -106,33 +106,33 @@ fun SortType.toIcon(): ImageVector =
 @Composable
 fun SortType.toReadableName(): String =
     when (this) {
-        SortType.Active -> LocalXmlStrings.current.homeSortTypeActive
-        SortType.Hot -> LocalXmlStrings.current.homeSortTypeHot
-        SortType.MostComments -> LocalXmlStrings.current.homeSortTypeMostComments
-        SortType.New -> LocalXmlStrings.current.homeSortTypeNew
-        SortType.NewComments -> LocalXmlStrings.current.homeSortTypeNewComments
-        SortType.Top.Day -> LocalXmlStrings.current.homeSortTypeTopDay
-        SortType.Top.Month -> LocalXmlStrings.current.homeSortTypeTopMonth
-        SortType.Top.Past12Hours -> LocalXmlStrings.current.homeSortTypeTop12Hours
-        SortType.Top.Past6Hours -> LocalXmlStrings.current.homeSortTypeTop6Hours
-        SortType.Top.PastHour -> LocalXmlStrings.current.homeSortTypeTopHour
-        SortType.Top.Week -> LocalXmlStrings.current.homeSortTypeTopWeek
-        SortType.Top.Year -> LocalXmlStrings.current.homeSortTypeTopYear
-        SortType.Old -> LocalXmlStrings.current.homeSortTypeOld
-        SortType.Controversial -> LocalXmlStrings.current.homeSortTypeControversial
-        SortType.Scaled -> LocalXmlStrings.current.homeSortTypeScaled
-        else -> LocalXmlStrings.current.homeSortTypeTop
+        SortType.Active -> LocalStrings.current.homeSortTypeActive
+        SortType.Hot -> LocalStrings.current.homeSortTypeHot
+        SortType.MostComments -> LocalStrings.current.homeSortTypeMostComments
+        SortType.New -> LocalStrings.current.homeSortTypeNew
+        SortType.NewComments -> LocalStrings.current.homeSortTypeNewComments
+        SortType.Top.Day -> LocalStrings.current.homeSortTypeTopDay
+        SortType.Top.Month -> LocalStrings.current.homeSortTypeTopMonth
+        SortType.Top.Past12Hours -> LocalStrings.current.homeSortTypeTop12Hours
+        SortType.Top.Past6Hours -> LocalStrings.current.homeSortTypeTop6Hours
+        SortType.Top.PastHour -> LocalStrings.current.homeSortTypeTopHour
+        SortType.Top.Week -> LocalStrings.current.homeSortTypeTopWeek
+        SortType.Top.Year -> LocalStrings.current.homeSortTypeTopYear
+        SortType.Old -> LocalStrings.current.homeSortTypeOld
+        SortType.Controversial -> LocalStrings.current.homeSortTypeControversial
+        SortType.Scaled -> LocalStrings.current.homeSortTypeScaled
+        else -> LocalStrings.current.homeSortTypeTop
     }
 
 @Composable
 fun SortType?.getAdditionalLabel(): String =
     when (this) {
-        SortType.Top.Day -> LocalXmlStrings.current.homeSortTypeTopDayShort
-        SortType.Top.Month -> LocalXmlStrings.current.homeSortTypeTopMonthShort
-        SortType.Top.Past12Hours -> LocalXmlStrings.current.homeSortTypeTop12HoursShort
-        SortType.Top.Past6Hours -> LocalXmlStrings.current.homeSortTypeTop6HoursShort
-        SortType.Top.PastHour -> LocalXmlStrings.current.homeSortTypeTopHourShort
-        SortType.Top.Week -> LocalXmlStrings.current.homeSortTypeTopWeekShort
-        SortType.Top.Year -> LocalXmlStrings.current.homeSortTypeTopYearShort
+        SortType.Top.Day -> LocalStrings.current.homeSortTypeTopDayShort
+        SortType.Top.Month -> LocalStrings.current.homeSortTypeTopMonthShort
+        SortType.Top.Past12Hours -> LocalStrings.current.homeSortTypeTop12HoursShort
+        SortType.Top.Past6Hours -> LocalStrings.current.homeSortTypeTop6HoursShort
+        SortType.Top.PastHour -> LocalStrings.current.homeSortTypeTopHourShort
+        SortType.Top.Week -> LocalStrings.current.homeSortTypeTopWeekShort
+        SortType.Top.Year -> LocalStrings.current.homeSortTypeTopYearShort
         else -> ""
     }

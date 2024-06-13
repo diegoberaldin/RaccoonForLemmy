@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.BottomSheetHeader
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
@@ -43,7 +43,7 @@ class LikedTypeSheet : Screen {
                     ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHeader(LocalXmlStrings.current.filteredContentsType)
+            BottomSheetHeader(LocalStrings.current.filteredContentsType)
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -67,7 +67,7 @@ class LikedTypeSheet : Screen {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.actionUpvote,
+                        text = LocalStrings.current.actionUpvote,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -90,7 +90,7 @@ class LikedTypeSheet : Screen {
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = LocalXmlStrings.current.actionDownvote,
+                        text = LocalStrings.current.actionDownvote,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )

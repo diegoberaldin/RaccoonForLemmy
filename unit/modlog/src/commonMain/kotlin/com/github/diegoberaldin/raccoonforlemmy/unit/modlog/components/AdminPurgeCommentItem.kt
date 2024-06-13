@@ -9,7 +9,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ellipsize
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ModlogItem
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.UserModel
@@ -35,7 +35,7 @@ internal fun AdminPurgeCommentItem(
             Text(
                 text =
                     buildAnnotatedString {
-                        append(LocalXmlStrings.current.modlogItemCommentPurged)
+                        append(LocalStrings.current.modlogItemCommentPurged)
                         if (item.post != null) {
                             withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
                                 append(item.post?.title.ellipsize())

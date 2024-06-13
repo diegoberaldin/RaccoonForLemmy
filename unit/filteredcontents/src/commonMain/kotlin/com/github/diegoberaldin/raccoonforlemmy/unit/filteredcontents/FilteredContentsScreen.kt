@@ -73,7 +73,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPlaceholder
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.di.getFabNestedScrollConnection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.LikedTypeSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
@@ -180,17 +180,18 @@ class FilteredContentsScreen(
                             Text(
                                 text =
                                     when (uiState.contentsType) {
-                                        FilteredContentsType.Moderated -> LocalXmlStrings.current.moderatorZoneActionContents
-                                        FilteredContentsType.Votes -> LocalXmlStrings.current.profileUpvotesDownvotes
-                                        FilteredContentsType.Bookmarks -> LocalXmlStrings.current.navigationDrawerTitleBookmarks
+                                        FilteredContentsType.Moderated -> LocalStrings.current.moderatorZoneActionContents
+                                        FilteredContentsType.Votes -> LocalStrings.current.profileUpvotesDownvotes
+                                        FilteredContentsType.Bookmarks -> LocalStrings.current.navigationDrawerTitleBookmarks
+                                        FilteredContentsType.Hidden -> LocalStrings.current.settingsHiddenPosts
                                     },
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             if (uiState.contentsType == FilteredContentsType.Votes) {
                                 val text =
                                     when (uiState.liked) {
-                                        true -> LocalXmlStrings.current.actionUpvote
-                                        else -> LocalXmlStrings.current.actionDownvote
+                                        true -> LocalStrings.current.actionUpvote
+                                        else -> LocalStrings.current.actionDownvote
                                     }
                                 Text(
                                     modifier =
@@ -225,7 +226,7 @@ class FilteredContentsScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -266,26 +267,28 @@ class FilteredContentsScreen(
                         ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
-                SectionSelector(
-                    titles =
-                        listOf(
-                            LocalXmlStrings.current.profileSectionPosts,
-                            LocalXmlStrings.current.profileSectionComments,
-                        ),
-                    currentSection =
-                        when (uiState.section) {
-                            FilteredContentsSection.Comments -> 1
-                            else -> 0
+                if (!uiState.isPostOnly) {
+                    SectionSelector(
+                        titles =
+                            listOf(
+                                LocalStrings.current.profileSectionPosts,
+                                LocalStrings.current.profileSectionComments,
+                            ),
+                        currentSection =
+                            when (uiState.section) {
+                                FilteredContentsSection.Comments -> 1
+                                else -> 0
+                            },
+                        onSectionSelected = {
+                            val section =
+                                when (it) {
+                                    1 -> FilteredContentsSection.Comments
+                                    else -> FilteredContentsSection.Posts
+                                }
+                            model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
                         },
-                    onSectionSelected = {
-                        val section =
-                            when (it) {
-                                1 -> FilteredContentsSection.Comments
-                                else -> FilteredContentsSection.Posts
-                            }
-                        model.reduce(FilteredContentsMviModel.Intent.ChangeSection(section))
-                    },
-                )
+                    )
+                }
 
                 Box(
                     modifier =
@@ -323,7 +326,7 @@ class FilteredContentsScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -512,54 +515,54 @@ class FilteredContentsScreen(
                                                     this +=
                                                         Option(
                                                             OptionId.SeeRaw,
-                                                            LocalXmlStrings.current.postActionSeeRaw,
+                                                            LocalStrings.current.postActionSeeRaw,
                                                         )
                                                     if (uiState.contentsType == FilteredContentsType.Moderated) {
                                                         this +=
                                                             Option(
                                                                 OptionId.FeaturePost,
                                                                 if (post.featuredCommunity) {
-                                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                                                    LocalStrings.current.modActionUnmarkAsFeatured
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionMarkAsFeatured
+                                                                    LocalStrings.current.modActionMarkAsFeatured
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.LockPost,
                                                                 if (post.locked) {
-                                                                    LocalXmlStrings.current.modActionUnlock
+                                                                    LocalStrings.current.modActionUnlock
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionLock
+                                                                    LocalStrings.current.modActionLock
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.BanUser,
                                                                 if (post.creator?.banned == true) {
-                                                                    LocalXmlStrings.current.modActionAllow
+                                                                    LocalStrings.current.modActionAllow
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionBan
+                                                                    LocalStrings.current.modActionBan
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Remove,
-                                                                LocalXmlStrings.current.modActionRemove,
+                                                                LocalStrings.current.modActionRemove,
                                                             )
                                                     }
                                                     if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
                                                         this +=
                                                             Option(
                                                                 OptionId.Purge,
-                                                                LocalXmlStrings.current.adminActionPurge,
+                                                                LocalStrings.current.adminActionPurge,
                                                             )
                                                         post.creator?.also { creator ->
                                                             this +=
                                                                 Option(
                                                                     OptionId.PurgeCreator,
                                                                     buildString {
-                                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                                        append(LocalStrings.current.adminActionPurge)
                                                                         append(" ")
                                                                         append(creator.readableName(uiState.preferNicknames))
                                                                     },
@@ -569,9 +572,9 @@ class FilteredContentsScreen(
                                                             Option(
                                                                 OptionId.AdminFeaturePost,
                                                                 if (post.featuredLocal) {
-                                                                    LocalXmlStrings.current.adminActionUnmarkAsFeatured
+                                                                    LocalStrings.current.adminActionUnmarkAsFeatured
                                                                 } else {
-                                                                    LocalXmlStrings.current.adminActionMarkAsFeatured
+                                                                    LocalStrings.current.adminActionMarkAsFeatured
                                                                 },
                                                             )
                                                     }
@@ -671,7 +674,7 @@ class FilteredContentsScreen(
                                     Text(
                                         modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -835,45 +838,45 @@ class FilteredContentsScreen(
                                                     this +=
                                                         Option(
                                                             OptionId.SeeRaw,
-                                                            LocalXmlStrings.current.postActionSeeRaw,
+                                                            LocalStrings.current.postActionSeeRaw,
                                                         )
                                                     if (uiState.contentsType == FilteredContentsType.Moderated) {
                                                         this +=
                                                             Option(
                                                                 OptionId.DistinguishComment,
                                                                 if (comment.distinguished) {
-                                                                    LocalXmlStrings.current.modActionUnmarkAsDistinguished
+                                                                    LocalStrings.current.modActionUnmarkAsDistinguished
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionMarkAsDistinguished
+                                                                    LocalStrings.current.modActionMarkAsDistinguished
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.BanUser,
                                                                 if (comment.creator?.banned == true) {
-                                                                    LocalXmlStrings.current.modActionAllow
+                                                                    LocalStrings.current.modActionAllow
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionBan
+                                                                    LocalStrings.current.modActionBan
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Remove,
-                                                                LocalXmlStrings.current.modActionRemove,
+                                                                LocalStrings.current.modActionRemove,
                                                             )
                                                     }
                                                     if (uiState.isAdmin && uiState.contentsType == FilteredContentsType.Moderated) {
                                                         this +=
                                                             Option(
                                                                 OptionId.Purge,
-                                                                LocalXmlStrings.current.adminActionPurge,
+                                                                LocalStrings.current.adminActionPurge,
                                                             )
                                                         comment.creator?.also { creator ->
                                                             this +=
                                                                 Option(
                                                                     OptionId.PurgeCreator,
                                                                     buildString {
-                                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                                        append(LocalStrings.current.adminActionPurge)
                                                                         append(" ")
                                                                         append(creator.readableName(uiState.preferNicknames))
                                                                     },

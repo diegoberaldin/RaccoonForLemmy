@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.main.InboxScreen
 
 object InboxTab : Tab {
@@ -15,7 +15,7 @@ object InboxTab : Tab {
         @Composable
         get() {
             val icon = rememberVectorPainter(Icons.Default.Inbox)
-            val title = LocalXmlStrings.current.navigationInbox
+            val title = LocalStrings.current.navigationInbox
             return TabOptions(
                 index = 3u,
                 title = title,

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface PostLayout {
     data object Card : PostLayout
@@ -14,9 +14,9 @@ sealed interface PostLayout {
 @Composable
 fun PostLayout.toReadableName(): String =
     when (this) {
-        PostLayout.Full -> LocalXmlStrings.current.settingsPostLayoutFull
-        PostLayout.Compact -> LocalXmlStrings.current.settingsPostLayoutCompact
-        else -> LocalXmlStrings.current.settingsPostLayoutCard
+        PostLayout.Full -> LocalStrings.current.settingsPostLayoutFull
+        PostLayout.Compact -> LocalStrings.current.settingsPostLayoutCompact
+        else -> LocalStrings.current.settingsPostLayoutCard
     }
 
 fun Int.toPostLayout(): PostLayout =

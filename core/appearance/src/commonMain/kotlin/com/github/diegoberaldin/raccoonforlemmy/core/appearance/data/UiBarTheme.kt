@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.appearance.data
 
 import androidx.compose.runtime.Composable
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface UiBarTheme {
     data object Solid : UiBarTheme
@@ -21,7 +21,7 @@ fun UiBarTheme?.toInt(): Int =
 @Composable
 fun UiBarTheme?.toReadableName(): String =
     when (this) {
-        UiBarTheme.Transparent -> LocalXmlStrings.current.barThemeTransparent
-        UiBarTheme.Opaque -> LocalXmlStrings.current.barThemeOpaque
+        UiBarTheme.Transparent -> LocalStrings.current.barThemeTransparent
+        UiBarTheme.Opaque -> LocalStrings.current.barThemeOpaque
         else -> ""
     }

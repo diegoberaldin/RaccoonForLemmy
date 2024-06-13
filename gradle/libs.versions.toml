@@ -16,14 +16,14 @@ koin = "3.5.6"
 kotlin = "2.0.0"
 kotlincrypto = "0.5.1"
 kotlinx-coroutines = "1.8.1"
-kotlinx-serialization-json = "1.6.3"
-ksp = "2.0.0-1.0.21"
+kotlinx-serialization-json = "1.7.0"
+ksp = "2.0.0-1.0.22"
 ktor = "2.3.11"
 ktorfit = "2.0.0-rc01"
 lyricist = "1.7.0"
-materialKolor = "1.6.1"
+materialKolor = "1.6.2"
 mockk = "1.13.11"
-multiplatform-markdown-renderer = "0.20.0-coil2"
+multiplatform-markdown-renderer = "0.21.0"
 multiplatform-settings = "1.1.1"
 reorderable = "2.1.1"
 stately = "2.0.7"
@@ -52,6 +52,7 @@ coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 
 multiplatform-markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer", version.ref = "multiplatform-markdown-renderer" }
 multiplatform-markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "multiplatform-markdown-renderer" }
+multiplatform-markdown-renderer-coil2 = { module = "com.mikepenz:multiplatform-markdown-renderer-coil2", version.ref = "multiplatform-markdown-renderer" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatform-settings" }
 
@@ -65,6 +66,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-contentnegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -76,7 +78,6 @@ ktorfit-lib = { module = "de.jensklingenberg.ktorfit:ktorfit-lib", version.ref =
 materialKolor = { module = "com.materialkolor:material-kolor", version.ref = "materialKolor" }
 
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
-lyricist-ksp = { module = "cafe.adriel.lyricist:lyricist-processor-xml", version.ref = "lyricist" }
 
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
@@ -102,7 +103,6 @@ reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reo
 
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-core = { group = "androidx.core", name = "core", version.ref = "androidx-core" }
 
 [plugins]
 

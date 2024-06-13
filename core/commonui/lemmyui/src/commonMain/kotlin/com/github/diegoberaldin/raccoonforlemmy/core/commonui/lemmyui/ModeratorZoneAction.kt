@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 sealed interface ModeratorZoneAction {
     data object GlobalModLog : ModeratorZoneAction
@@ -33,9 +33,9 @@ fun ModeratorZoneAction.toInt(): Int =
 @Composable
 fun ModeratorZoneAction.toReadableName(): String =
     when (this) {
-        ModeratorZoneAction.GlobalModLog -> LocalXmlStrings.current.modlogTitle
-        ModeratorZoneAction.GlobalReports -> LocalXmlStrings.current.reportListTitle
-        ModeratorZoneAction.ModeratedContents -> LocalXmlStrings.current.moderatorZoneActionContents
+        ModeratorZoneAction.GlobalModLog -> LocalStrings.current.modlogTitle
+        ModeratorZoneAction.GlobalReports -> LocalStrings.current.reportListTitle
+        ModeratorZoneAction.ModeratedContents -> LocalStrings.current.moderatorZoneActionContents
     }
 
 @Composable

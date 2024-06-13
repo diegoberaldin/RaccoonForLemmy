@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import kotlinx.coroutines.delay
 
@@ -114,7 +114,7 @@ fun ZoomableImage(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center,
-                        text = LocalXmlStrings.current.messageImageLoadingError,
+                        text = LocalStrings.current.messageImageLoadingError,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 },

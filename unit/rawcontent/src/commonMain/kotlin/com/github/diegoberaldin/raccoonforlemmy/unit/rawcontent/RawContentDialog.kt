@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.getShareHelper
 import com.github.diegoberaldin.raccoonforlemmy.unit.rawcontent.di.getCustomTextToolbar
@@ -66,8 +66,8 @@ fun RawContentDialog(
             val query = clipboardManager.getText()?.text.orEmpty()
             onQuote?.invoke(query)
         }
-    val quoteActionLabel = LocalXmlStrings.current.actionQuote
-    val shareActionLabel = LocalXmlStrings.current.postActionShare
+    val quoteActionLabel = LocalStrings.current.actionQuote
+    val shareActionLabel = LocalStrings.current.postActionShare
     val fullColor = MaterialTheme.colorScheme.onBackground
 
     BasicAlertDialog(
@@ -80,7 +80,7 @@ fun RawContentDialog(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = LocalXmlStrings.current.dialogTitleRawContent,
+                text = LocalStrings.current.dialogTitleRawContent,
                 style = MaterialTheme.typography.titleMedium,
                 color = fullColor,
             )
@@ -97,7 +97,7 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = LocalXmlStrings.current.dialogRawContentTitle,
+                                text = LocalStrings.current.dialogRawContentTitle,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = fullColor,
                             )
@@ -131,7 +131,7 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = LocalXmlStrings.current.dialogRawContentUrl,
+                                text = LocalStrings.current.dialogRawContentUrl,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = fullColor,
                             )
@@ -165,7 +165,7 @@ fun RawContentDialog(
                         Column {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = LocalXmlStrings.current.dialogRawContentText,
+                                text = LocalStrings.current.dialogRawContentText,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = fullColor,
                             )
@@ -306,7 +306,7 @@ fun RawContentDialog(
                     onDismiss?.invoke()
                 },
             ) {
-                Text(text = LocalXmlStrings.current.buttonClose)
+                Text(text = LocalStrings.current.buttonClose)
             }
         }
     }

@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import org.intellij.markdown.MarkdownElementTypes
@@ -71,7 +71,7 @@ internal fun CustomMarkdownImage(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = LocalXmlStrings.current.messageImageLoadingError,
+                text = LocalStrings.current.messageImageLoadingError,
                 style = LocalMarkdownTypography.current.text,
             )
         },

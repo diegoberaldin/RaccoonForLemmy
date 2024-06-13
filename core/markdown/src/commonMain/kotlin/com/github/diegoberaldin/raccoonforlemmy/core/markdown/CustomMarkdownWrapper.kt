@@ -156,6 +156,7 @@ fun CustomMarkdownWrapper(
             typography = typography,
             padding = padding,
             components = components,
+            imageTransformer = provideImageTransformer(),
         )
     }
 }

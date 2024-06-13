@@ -83,7 +83,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -259,7 +259,7 @@ class PostListScreen : Screen {
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.SyncDisabled,
-                                            text = LocalXmlStrings.current.actionDeactivateZombieMode,
+                                            text = LocalStrings.current.actionDeactivateZombieMode,
                                             onSelected =
                                                 rememberCallback(model) {
                                                     model.reduce(PostListMviModel.Intent.PauseZombieMode)
@@ -269,7 +269,7 @@ class PostListScreen : Screen {
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.Sync,
-                                            text = LocalXmlStrings.current.actionActivateZombieMode,
+                                            text = LocalStrings.current.actionActivateZombieMode,
                                             onSelected =
                                                 rememberCallback(model) {
                                                     model.reduce(PostListMviModel.Intent.StartZombieMode(-1))
@@ -279,7 +279,7 @@ class PostListScreen : Screen {
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -295,7 +295,7 @@ class PostListScreen : Screen {
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.ClearAll,
-                                            text = LocalXmlStrings.current.actionClearRead,
+                                            text = LocalStrings.current.actionClearRead,
                                             onSelected =
                                                 rememberCallback {
                                                     model.reduce(PostListMviModel.Intent.ClearRead)
@@ -312,7 +312,7 @@ class PostListScreen : Screen {
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.Create,
-                                            text = LocalXmlStrings.current.actionCreatePost,
+                                            text = LocalStrings.current.actionCreatePost,
                                             onSelected =
                                                 rememberCallback {
                                                     detailOpener.openCreatePost(
@@ -579,52 +579,52 @@ class PostListScreen : Screen {
                                                 this +=
                                                     Option(
                                                         OptionId.Share,
-                                                        LocalXmlStrings.current.postActionShare,
+                                                        LocalStrings.current.postActionShare,
                                                     )
                                                 this +=
                                                     Option(
                                                         OptionId.Copy,
-                                                        LocalXmlStrings.current.actionCopyClipboard,
+                                                        LocalStrings.current.actionCopyClipboard,
                                                     )
                                                 if (uiState.isLogged) {
                                                     this +=
                                                         Option(
                                                             OptionId.Hide,
-                                                            LocalXmlStrings.current.postActionHide,
+                                                            LocalStrings.current.postActionHide,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.Block,
-                                                            LocalXmlStrings.current.communityDetailBlock,
+                                                            LocalStrings.current.communityDetailBlock,
                                                         )
                                                 }
                                                 this +=
                                                     Option(
                                                         OptionId.SeeRaw,
-                                                        LocalXmlStrings.current.postActionSeeRaw,
+                                                        LocalStrings.current.postActionSeeRaw,
                                                     )
                                                 if (uiState.isLogged) {
                                                     this +=
                                                         Option(
                                                             OptionId.CrossPost,
-                                                            LocalXmlStrings.current.postActionCrossPost,
+                                                            LocalStrings.current.postActionCrossPost,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.Report,
-                                                            LocalXmlStrings.current.postActionReport,
+                                                            LocalStrings.current.postActionReport,
                                                         )
                                                 }
                                                 if (post.creator?.id == uiState.currentUserId) {
                                                     this +=
                                                         Option(
                                                             OptionId.Edit,
-                                                            LocalXmlStrings.current.postActionEdit,
+                                                            LocalStrings.current.postActionEdit,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.Delete,
-                                                            LocalXmlStrings.current.commentActionDelete,
+                                                            LocalStrings.current.commentActionDelete,
                                                         )
                                                 }
                                             },
@@ -750,7 +750,7 @@ class PostListScreen : Screen {
                                                 },
                                         ) {
                                             Text(
-                                                text = LocalXmlStrings.current.postListLoadMorePosts,
+                                                text = LocalStrings.current.postListLoadMorePosts,
                                                 style = MaterialTheme.typography.labelSmall,
                                             )
                                         }
@@ -774,7 +774,7 @@ class PostListScreen : Screen {
                                 Text(
                                     modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
                                     textAlign = TextAlign.Center,
-                                    text = LocalXmlStrings.current.messageEmptyList,
+                                    text = LocalStrings.current.messageEmptyList,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onBackground,
                                 )
@@ -804,7 +804,7 @@ class PostListScreen : Screen {
                                 .fillMaxWidth()
                                 .padding(top = Spacing.xs),
                         textAlign = TextAlign.Center,
-                        text = LocalXmlStrings.current.messageGenericError,
+                        text = LocalStrings.current.messageGenericError,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
@@ -815,7 +815,7 @@ class PostListScreen : Screen {
                                 model.reduce(PostListMviModel.Intent.Refresh(hardReset = true))
                             },
                     ) {
-                        Text(LocalXmlStrings.current.buttonRetry)
+                        Text(LocalStrings.current.buttonRetry)
                     }
                 }
             }
@@ -868,7 +868,7 @@ class PostListScreen : Screen {
                             itemIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -878,11 +878,11 @@ class PostListScreen : Screen {
                             itemIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

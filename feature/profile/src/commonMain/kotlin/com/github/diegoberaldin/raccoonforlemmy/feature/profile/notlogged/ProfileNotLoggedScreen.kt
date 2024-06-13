@@ -18,7 +18,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.unit.login.LoginBottomSheet
 
@@ -40,9 +40,9 @@ internal object ProfileNotLoggedScreen : Tab {
         ) {
             val message =
                 if (uiState.authError) {
-                    LocalXmlStrings.current.messageAuthIssue
+                    LocalStrings.current.messageAuthIssue
                 } else {
-                    LocalXmlStrings.current.profileNotLoggedMessage
+                    LocalStrings.current.profileNotLoggedMessage
                 }
             Text(text = message)
 
@@ -55,7 +55,7 @@ internal object ProfileNotLoggedScreen : Tab {
                         model.reduce(ProfileNotLoggedMviModel.Intent.Retry)
                     },
                 ) {
-                    Text(LocalXmlStrings.current.buttonRetry)
+                    Text(LocalStrings.current.buttonRetry)
                 }
             } else {
                 Button(
@@ -64,7 +64,7 @@ internal object ProfileNotLoggedScreen : Tab {
                         navigationCoordinator.pushScreen(LoginBottomSheet())
                     },
                 ) {
-                    Text(LocalXmlStrings.current.profileButtonLogin)
+                    Text(LocalStrings.current.profileButtonLogin)
                 }
             }
         }

@@ -103,6 +103,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAc
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityHeader
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.IndicatorCallout
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCard
@@ -112,7 +113,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.CopyPostBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SortBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSwipe
@@ -168,8 +169,8 @@ class CommunityDetailScreen(
         val lazyListState = rememberLazyListState()
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
-        val genericError = LocalXmlStrings.current.messageGenericError
-        val successMessage = LocalXmlStrings.current.messageOperationSuccessful
+        val genericError = LocalStrings.current.messageGenericError
+        val successMessage = LocalStrings.current.messageOperationSuccessful
         val isOnOtherInstance = remember { otherInstance.isNotEmpty() }
         val otherInstanceName = remember { otherInstance }
         val topAppBarState = rememberTopAppBarState()
@@ -211,6 +212,8 @@ class CommunityDetailScreen(
                 WindowInsets.statusBars.getTop(this)
             }
         var selectLanguageDialogOpen by remember { mutableStateOf(false) }
+        var unsubscribeConfirmDialogOpen by remember { mutableStateOf(false) }
+        var deleteConfirmDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
             model.effects.onEach { effect ->
@@ -249,6 +252,8 @@ class CommunityDetailScreen(
                     is CommunityDetailMviModel.Effect.Failure -> {
                         snackbarHostState.showSnackbar(effect.message ?: genericError)
                     }
+
+                    CommunityDetailMviModel.Effect.Back -> navigationCoordinator.popScreen()
                 }
             }.launchIn(this)
         }
@@ -310,9 +315,10 @@ class CommunityDetailScreen(
                                         .onClick(
                                             onClick = {
                                                 when (uiState.community.subscribed) {
-                                                    true -> model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
                                                     false -> model.reduce(CommunityDetailMviModel.Intent.Subscribe)
-                                                    else -> Unit
+                                                    else -> {
+                                                        unsubscribeConfirmDialogOpen = true
+                                                    }
                                                 }
                                             },
                                         ),
@@ -357,10 +363,10 @@ class CommunityDetailScreen(
                                             Option(
                                                 OptionId.Search,
                                                 if (uiState.searching) {
-                                                    LocalXmlStrings.current.actionExitSearch
+                                                    LocalStrings.current.actionExitSearch
                                                 } else {
                                                     buildString {
-                                                        append(LocalXmlStrings.current.actionSearchInCommunity)
+                                                        append(LocalStrings.current.actionSearchInCommunity)
                                                     }
                                                 },
                                             )
@@ -368,46 +374,47 @@ class CommunityDetailScreen(
                                     this +=
                                         Option(
                                             OptionId.SetCustomSort,
-                                            LocalXmlStrings.current.communitySetCustomSort,
+                                            LocalStrings.current.communitySetCustomSort,
                                         )
                                     if (uiState.isLogged) {
-                                        this += Option(
-                                            OptionId.SetPreferredLanguage,
-                                            LocalXmlStrings.current.communitySetPreferredLanguage,
-                                        )
+                                        this +=
+                                            Option(
+                                                OptionId.SetPreferredLanguage,
+                                                LocalStrings.current.communitySetPreferredLanguage,
+                                            )
                                     }
                                     this +=
                                         Option(
                                             OptionId.InfoInstance,
-                                            LocalXmlStrings.current.communityDetailInstanceInfo,
+                                            LocalStrings.current.communityDetailInstanceInfo,
                                         )
                                     this +=
                                         Option(
                                             OptionId.ExploreInstance,
                                             buildString {
-                                                append(LocalXmlStrings.current.navigationSearch)
+                                                append(LocalStrings.current.navigationSearch)
                                                 append(" ")
                                                 append(uiState.community.host)
                                                 append(" (")
-                                                append(LocalXmlStrings.current.beta)
+                                                append(LocalStrings.current.beta)
                                                 append(")")
                                             },
                                         )
                                     this +=
                                         Option(
                                             OptionId.Share,
-                                            LocalXmlStrings.current.postActionShare,
+                                            LocalStrings.current.postActionShare,
                                         )
                                     if (uiState.isLogged) {
                                         this +=
                                             Option(
                                                 OptionId.Block,
-                                                LocalXmlStrings.current.blockActionCommunity,
+                                                LocalStrings.current.blockActionCommunity,
                                             )
                                         this +=
                                             Option(
                                                 OptionId.BlockInstance,
-                                                LocalXmlStrings.current.communityDetailBlockInstance,
+                                                LocalStrings.current.communityDetailBlockInstance,
                                             )
                                     }
                                     if (uiState.currentUserId != null && otherInstanceName.isEmpty()) {
@@ -415,9 +422,9 @@ class CommunityDetailScreen(
                                             Option(
                                                 OptionId.Favorite,
                                                 if (uiState.community.favorite) {
-                                                    LocalXmlStrings.current.communityActionRemoveFavorite
+                                                    LocalStrings.current.communityActionRemoveFavorite
                                                 } else {
-                                                    LocalXmlStrings.current.communityActionAddFavorite
+                                                    LocalStrings.current.communityActionAddFavorite
                                                 },
                                             )
                                     }
@@ -425,20 +432,24 @@ class CommunityDetailScreen(
                                     this +=
                                         Option(
                                             OptionId.ViewModlog,
-                                            LocalXmlStrings.current.communityActionViewModlog,
+                                            LocalStrings.current.communityActionViewModlog,
                                         )
 
                                     if (uiState.moderators.containsId(uiState.currentUserId)) {
                                         this +=
                                             Option(
                                                 OptionId.OpenReports,
-                                                LocalXmlStrings.current.modActionOpenReports,
+                                                LocalStrings.current.modActionOpenReports,
                                             )
-
                                         this +=
                                             Option(
                                                 OptionId.Edit,
-                                                LocalXmlStrings.current.communityActionEdit,
+                                                LocalStrings.current.communityActionEdit,
+                                            )
+                                        this +=
+                                            Option(
+                                                OptionId.Delete,
+                                                LocalStrings.current.commentActionDelete,
                                             )
                                     }
                                     if (uiState.isAdmin) {
@@ -446,19 +457,19 @@ class CommunityDetailScreen(
                                             this +=
                                                 Option(
                                                     OptionId.Hide,
-                                                    LocalXmlStrings.current.postActionUnhide,
+                                                    LocalStrings.current.postActionUnhide,
                                                 )
                                         } else {
                                             this +=
                                                 Option(
                                                     OptionId.Hide,
-                                                    LocalXmlStrings.current.postActionHide,
+                                                    LocalStrings.current.postActionHide,
                                                 )
                                         }
                                         this +=
                                             Option(
                                                 OptionId.Purge,
-                                                LocalXmlStrings.current.adminActionPurge,
+                                                LocalStrings.current.adminActionPurge,
                                             )
                                     }
                                 }
@@ -582,8 +593,13 @@ class CommunityDetailScreen(
                                                 }
 
                                                 OptionId.Edit -> {
-                                                    val screen = EditCommunityScreen(uiState.community.id)
+                                                    val screen =
+                                                        EditCommunityScreen(uiState.community.id)
                                                     navigationCoordinator.pushScreen(screen)
+                                                }
+
+                                                OptionId.Delete -> {
+                                                    deleteConfirmDialogOpen = true
                                                 }
 
                                                 OptionId.Hide -> {
@@ -656,7 +672,7 @@ class CommunityDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.SyncDisabled,
-                                            text = LocalXmlStrings.current.actionDeactivateZombieMode,
+                                            text = LocalStrings.current.actionDeactivateZombieMode,
                                             onSelected =
                                                 rememberCallback(model) {
                                                     model.reduce(CommunityDetailMviModel.Intent.PauseZombieMode)
@@ -666,7 +682,7 @@ class CommunityDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.Sync,
-                                            text = LocalXmlStrings.current.actionActivateZombieMode,
+                                            text = LocalStrings.current.actionActivateZombieMode,
                                             onSelected =
                                                 rememberCallback(model) {
                                                     model.reduce(
@@ -678,7 +694,7 @@ class CommunityDetailScreen(
                                 this +=
                                     FloatingActionButtonMenuItem(
                                         icon = Icons.Default.ExpandLess,
-                                        text = LocalXmlStrings.current.actionBackToTop,
+                                        text = LocalStrings.current.actionBackToTop,
                                         onSelected =
                                             rememberCallback {
                                                 scope.launch {
@@ -694,7 +710,7 @@ class CommunityDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.ClearAll,
-                                            text = LocalXmlStrings.current.actionClearRead,
+                                            text = LocalStrings.current.actionClearRead,
                                             onSelected =
                                                 rememberCallback {
                                                     model.reduce(CommunityDetailMviModel.Intent.ClearRead)
@@ -710,7 +726,7 @@ class CommunityDetailScreen(
                                     this +=
                                         FloatingActionButtonMenuItem(
                                             icon = Icons.Default.Create,
-                                            text = LocalXmlStrings.current.actionCreatePost,
+                                            text = LocalStrings.current.actionCreatePost,
                                             onSelected =
                                                 rememberCallback {
                                                     detailOpener.openCreatePost(
@@ -735,9 +751,10 @@ class CommunityDetailScreen(
         ) { padding ->
             if (uiState.currentUserId != null) {
                 Column(
-                    modifier = Modifier.padding(
-                        top = padding.calculateTopPadding(),
-                    ),
+                    modifier =
+                        Modifier.padding(
+                            top = padding.calculateTopPadding(),
+                        ),
                 ) {
                     if (uiState.searching) {
                         TextField(
@@ -748,7 +765,7 @@ class CommunityDetailScreen(
                                         vertical = Spacing.s,
                                     ).fillMaxWidth(),
                             label = {
-                                Text(text = LocalXmlStrings.current.exploreSearchPlaceholder)
+                                Text(text = LocalStrings.current.exploreSearchPlaceholder)
                             },
                             singleLine = true,
                             value = uiState.searchText,
@@ -809,8 +826,8 @@ class CommunityDetailScreen(
                             state = lazyListState,
                             userScrollEnabled = !uiState.zombieModeActive,
                         ) {
-                            if (!uiState.searching) {
-                                item {
+                            item {
+                                if (!uiState.searching) {
                                     CommunityHeader(
                                         modifier = Modifier.padding(bottom = Spacing.s),
                                         community = uiState.community,
@@ -835,6 +852,32 @@ class CommunityDetailScreen(
                                                 navigationCoordinator.openSideMenu(screen)
                                             },
                                     )
+                                }
+                            }
+                            item {
+                                if (!uiState.searching && uiState.notices.isNotEmpty()) {
+                                    Column(
+                                        modifier =
+                                            Modifier.padding(
+                                                start = Spacing.s,
+                                                end = Spacing.s,
+                                                bottom = Spacing.s,
+                                            ),
+                                        verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
+                                    ) {
+                                        for (notice in uiState.notices) {
+                                            IndicatorCallout(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                text =
+                                                    when (notice) {
+                                                        CommunityNotices.LocalOnlyVisibility ->
+                                                            LocalStrings.current.noticeCommunityLocalOnly
+
+                                                        CommunityNotices.BannedUser -> LocalStrings.current.noticeBannedUser
+                                                    },
+                                            )
+                                        }
+                                    }
                                 }
                             }
                             if (uiState.posts.isEmpty() && uiState.initial) {
@@ -873,7 +916,9 @@ class CommunityDetailScreen(
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = upVoteColor ?: defaultUpvoteColor,
+                                                    backgroundColor =
+                                                        upVoteColor
+                                                            ?: defaultUpvoteColor,
                                                     onTriggered =
                                                         rememberCallback {
                                                             model.reduce(
@@ -919,7 +964,9 @@ class CommunityDetailScreen(
                                                             tint = Color.White,
                                                         )
                                                     },
-                                                    backgroundColor = replyColor ?: defaultReplyColor,
+                                                    backgroundColor =
+                                                        replyColor
+                                                            ?: defaultReplyColor,
                                                     onTriggered =
                                                         rememberCallback {
                                                             detailOpener.openReply(originalPost = post)
@@ -1093,47 +1140,47 @@ class CommunityDetailScreen(
                                                     this +=
                                                         Option(
                                                             OptionId.Share,
-                                                            LocalXmlStrings.current.postActionShare,
+                                                            LocalStrings.current.postActionShare,
                                                         )
                                                     this +=
                                                         Option(
                                                             OptionId.Copy,
-                                                            LocalXmlStrings.current.actionCopyClipboard,
+                                                            LocalStrings.current.actionCopyClipboard,
                                                         )
                                                     if (uiState.isLogged && !isOnOtherInstance) {
                                                         this +=
                                                             Option(
                                                                 OptionId.Hide,
-                                                                LocalXmlStrings.current.postActionHide,
+                                                                LocalStrings.current.postActionHide,
                                                             )
                                                     }
                                                     this +=
                                                         Option(
                                                             OptionId.SeeRaw,
-                                                            LocalXmlStrings.current.postActionSeeRaw,
+                                                            LocalStrings.current.postActionSeeRaw,
                                                         )
                                                     if (uiState.isLogged && !isOnOtherInstance) {
                                                         this +=
                                                             Option(
                                                                 OptionId.CrossPost,
-                                                                LocalXmlStrings.current.postActionCrossPost,
+                                                                LocalStrings.current.postActionCrossPost,
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Report,
-                                                                LocalXmlStrings.current.postActionReport,
+                                                                LocalStrings.current.postActionReport,
                                                             )
                                                     }
                                                     if (post.creator?.id == uiState.currentUserId && !isOnOtherInstance) {
                                                         this +=
                                                             Option(
                                                                 OptionId.Edit,
-                                                                LocalXmlStrings.current.postActionEdit,
+                                                                LocalStrings.current.postActionEdit,
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Delete,
-                                                                LocalXmlStrings.current.commentActionDelete,
+                                                                LocalStrings.current.commentActionDelete,
                                                             )
                                                     }
                                                     if (uiState.moderators.containsId(uiState.currentUserId)) {
@@ -1141,32 +1188,32 @@ class CommunityDetailScreen(
                                                             Option(
                                                                 OptionId.FeaturePost,
                                                                 if (post.featuredCommunity) {
-                                                                    LocalXmlStrings.current.modActionUnmarkAsFeatured
+                                                                    LocalStrings.current.modActionUnmarkAsFeatured
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionMarkAsFeatured
+                                                                    LocalStrings.current.modActionMarkAsFeatured
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.LockPost,
                                                                 if (post.locked) {
-                                                                    LocalXmlStrings.current.modActionUnlock
+                                                                    LocalStrings.current.modActionUnlock
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionLock
+                                                                    LocalStrings.current.modActionLock
                                                                 },
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.Remove,
-                                                                LocalXmlStrings.current.modActionRemove,
+                                                                LocalStrings.current.modActionRemove,
                                                             )
                                                         this +=
                                                             Option(
                                                                 OptionId.BanUser,
                                                                 if (post.creator?.banned == true) {
-                                                                    LocalXmlStrings.current.modActionAllow
+                                                                    LocalStrings.current.modActionAllow
                                                                 } else {
-                                                                    LocalXmlStrings.current.modActionBan
+                                                                    LocalStrings.current.modActionBan
                                                                 },
                                                             )
                                                         post.creator?.id?.also { creatorId ->
@@ -1178,9 +1225,9 @@ class CommunityDetailScreen(
                                                                                 creatorId,
                                                                             )
                                                                         ) {
-                                                                            LocalXmlStrings.current.modActionRemoveMod
+                                                                            LocalStrings.current.modActionRemoveMod
                                                                         } else {
-                                                                            LocalXmlStrings.current.modActionAddMod
+                                                                            LocalStrings.current.modActionAddMod
                                                                         },
                                                                     )
                                                             }
@@ -1190,16 +1237,20 @@ class CommunityDetailScreen(
                                                         this +=
                                                             Option(
                                                                 OptionId.Purge,
-                                                                LocalXmlStrings.current.adminActionPurge,
+                                                                LocalStrings.current.adminActionPurge,
                                                             )
                                                         post.creator?.also { creator ->
                                                             this +=
                                                                 Option(
                                                                     OptionId.PurgeCreator,
                                                                     buildString {
-                                                                        append(LocalXmlStrings.current.adminActionPurge)
+                                                                        append(LocalStrings.current.adminActionPurge)
                                                                         append(" ")
-                                                                        append(creator.readableName(uiState.preferNicknames))
+                                                                        append(
+                                                                            creator.readableName(
+                                                                                uiState.preferNicknames,
+                                                                            ),
+                                                                        )
                                                                     },
                                                                 )
                                                         }
@@ -1207,9 +1258,9 @@ class CommunityDetailScreen(
                                                             Option(
                                                                 OptionId.AdminFeaturePost,
                                                                 if (post.featuredLocal) {
-                                                                    LocalXmlStrings.current.adminActionUnmarkAsFeatured
+                                                                    LocalStrings.current.adminActionUnmarkAsFeatured
                                                                 } else {
-                                                                    LocalXmlStrings.current.adminActionMarkAsFeatured
+                                                                    LocalStrings.current.adminActionMarkAsFeatured
                                                                 },
                                                             )
                                                     }
@@ -1287,7 +1338,9 @@ class CommunityDetailScreen(
 
                                                         OptionId.LockPost ->
                                                             model.reduce(
-                                                                CommunityDetailMviModel.Intent.ModLockPost(post.id),
+                                                                CommunityDetailMviModel.Intent.ModLockPost(
+                                                                    post.id,
+                                                                ),
                                                             )
 
                                                         OptionId.Remove -> {
@@ -1397,7 +1450,7 @@ class CommunityDetailScreen(
                                                     },
                                             ) {
                                                 Text(
-                                                    text = LocalXmlStrings.current.postListLoadMorePosts,
+                                                    text = LocalStrings.current.postListLoadMorePosts,
                                                     style = MaterialTheme.typography.labelSmall,
                                                 )
                                             }
@@ -1515,7 +1568,7 @@ class CommunityDetailScreen(
                             itemIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -1525,11 +1578,11 @@ class CommunityDetailScreen(
                             itemIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }
@@ -1539,13 +1592,85 @@ class CommunityDetailScreen(
                 languages = uiState.availableLanguages,
                 currentLanguageId = uiState.currentPreferredLanguageId,
                 onSelect =
-                rememberCallbackArgs { langId ->
-                    model.reduce(CommunityDetailMviModel.Intent.SelectPreferredLanguage(langId))
-                    selectLanguageDialogOpen = false
-                },
+                    rememberCallbackArgs { langId ->
+                        model.reduce(CommunityDetailMviModel.Intent.SelectPreferredLanguage(langId))
+                        selectLanguageDialogOpen = false
+                    },
                 onDismiss =
-                rememberCallback {
-                    selectLanguageDialogOpen = false
+                    rememberCallback {
+                        selectLanguageDialogOpen = false
+                    },
+            )
+        }
+
+        if (unsubscribeConfirmDialogOpen) {
+            AlertDialog(
+                onDismissRequest = {
+                    unsubscribeConfirmDialogOpen = false
+                },
+                title = {
+                    Text(
+                        text = LocalStrings.current.communityActionUnsubscribe,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                },
+                text = {
+                    Text(text = LocalStrings.current.messageAreYouSure)
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            unsubscribeConfirmDialogOpen = false
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            unsubscribeConfirmDialogOpen = false
+                            model.reduce(CommunityDetailMviModel.Intent.Unsubscribe)
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonConfirm)
+                    }
+                },
+            )
+        }
+
+        if (deleteConfirmDialogOpen) {
+            AlertDialog(
+                onDismissRequest = {
+                    deleteConfirmDialogOpen = false
+                },
+                title = {
+                    Text(
+                        text = LocalStrings.current.commentActionDelete,
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                },
+                text = {
+                    Text(text = LocalStrings.current.messageAreYouSure)
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            deleteConfirmDialogOpen = false
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonCancel)
+                    }
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            deleteConfirmDialogOpen = false
+                            model.reduce(CommunityDetailMviModel.Intent.DeleteCommunity)
+                        },
+                    ) {
+                        Text(text = LocalStrings.current.buttonConfirm)
+                    }
                 },
             )
         }

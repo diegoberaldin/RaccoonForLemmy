@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +81,7 @@ fun NumberPickerDialog(
                     onSubmit?.invoke(currentValue.toIntOrNull() ?: 0)
                 },
             ) {
-                Text(text = LocalXmlStrings.current.buttonConfirm)
+                Text(text = LocalStrings.current.buttonConfirm)
             }
         }
     }

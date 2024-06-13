@@ -52,7 +52,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.PostCardPl
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.ProfileLoggedSection
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.UserHeader
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ShareBottomSheet
-import com.github.diegoberaldin.raccoonforlemmy.core.l10n.LocalXmlStrings
+import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -139,7 +139,7 @@ object ProfileLoggedScreen : Tab {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
                                 textAlign = TextAlign.Center,
-                                text = LocalXmlStrings.current.messageAuthIssue,
+                                text = LocalStrings.current.messageAuthIssue,
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )
@@ -180,8 +180,8 @@ object ProfileLoggedScreen : Tab {
                                 modifier = Modifier.padding(bottom = Spacing.s),
                                 titles =
                                     listOf(
-                                        LocalXmlStrings.current.profileSectionPosts,
-                                        LocalXmlStrings.current.profileSectionComments,
+                                        LocalStrings.current.profileSectionPosts,
+                                        LocalStrings.current.profileSectionComments,
                                     ),
                                 currentSection =
                                     when (uiState.section) {
@@ -299,31 +299,31 @@ object ProfileLoggedScreen : Tab {
                                             add(
                                                 Option(
                                                     OptionId.Share,
-                                                    LocalXmlStrings.current.postActionShare,
+                                                    LocalStrings.current.postActionShare,
                                                 ),
                                             )
                                             add(
                                                 Option(
                                                     OptionId.CrossPost,
-                                                    LocalXmlStrings.current.postActionCrossPost,
+                                                    LocalStrings.current.postActionCrossPost,
                                                 ),
                                             )
                                             add(
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
+                                                    LocalStrings.current.postActionSeeRaw,
                                                 ),
                                             )
                                             add(
                                                 Option(
                                                     OptionId.Edit,
-                                                    LocalXmlStrings.current.postActionEdit,
+                                                    LocalStrings.current.postActionEdit,
                                                 ),
                                             )
                                             add(
                                                 Option(
                                                     OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
+                                                    LocalStrings.current.commentActionDelete,
                                                 ),
                                             )
                                         },
@@ -383,9 +383,11 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.posts.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                        modifier =
+                                            Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -473,24 +475,26 @@ object ProfileLoggedScreen : Tab {
                                         },
                                     options =
                                         buildList {
-                                            add(
+                                            this +=
                                                 Option(
                                                     OptionId.SeeRaw,
-                                                    LocalXmlStrings.current.postActionSeeRaw,
-                                                ),
-                                            )
-                                            add(
+                                                    LocalStrings.current.postActionSeeRaw,
+                                                )
+                                            this +=
+                                                Option(
+                                                    OptionId.SeeRaw,
+                                                    LocalStrings.current.postActionSeeRaw,
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.Edit,
-                                                    LocalXmlStrings.current.postActionEdit,
-                                                ),
-                                            )
-                                            add(
+                                                    LocalStrings.current.postActionEdit,
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.Delete,
-                                                    LocalXmlStrings.current.commentActionDelete,
-                                                ),
-                                            )
+                                                    LocalStrings.current.commentActionDelete,
+                                                )
                                         },
                                     onOptionSelected =
                                         rememberCallbackArgs(model) { optionId ->
@@ -510,6 +514,27 @@ object ProfileLoggedScreen : Tab {
                                                     rawContent = comment
                                                 }
 
+                                                OptionId.Share -> {
+                                                    val urls =
+                                                        listOfNotNull(
+                                                            comment.originalUrl,
+                                                            "https://${uiState.instance}/comment/${comment.id}",
+                                                        ).distinct()
+                                                    if (urls.size == 1) {
+                                                        model.reduce(
+                                                            ProfileLoggedMviModel.Intent.Share(
+                                                                urls.first(),
+                                                            ),
+                                                        )
+                                                    } else {
+                                                        val screen =
+                                                            ShareBottomSheet(urls = urls)
+                                                        navigationCoordinator.showBottomSheet(
+                                                            screen,
+                                                        )
+                                                    }
+                                                }
+
                                                 else -> Unit
                                             }
                                         },
@@ -523,9 +548,11 @@ object ProfileLoggedScreen : Tab {
                             if (uiState.comments.isEmpty() && !uiState.loading && !uiState.initial) {
                                 item {
                                     Text(
-                                        modifier = Modifier.fillMaxWidth().padding(top = Spacing.xs),
+                                        modifier =
+                                            Modifier.fillMaxWidth()
+                                                .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
-                                        text = LocalXmlStrings.current.messageEmptyList,
+                                        text = LocalStrings.current.messageEmptyList,
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.onBackground,
                                     )
@@ -550,9 +577,9 @@ object ProfileLoggedScreen : Tab {
                                             Text(
                                                 text =
                                                     if (uiState.section == ProfileLoggedSection.Posts) {
-                                                        LocalXmlStrings.current.postListLoadMorePosts
+                                                        LocalStrings.current.postListLoadMorePosts
                                                     } else {
-                                                        LocalXmlStrings.current.postDetailLoadMoreComments
+                                                        LocalStrings.current.postDetailLoadMoreComments
                                                     },
                                                 style = MaterialTheme.typography.labelSmall,
                                             )
@@ -663,7 +690,7 @@ object ProfileLoggedScreen : Tab {
                             postIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -673,11 +700,11 @@ object ProfileLoggedScreen : Tab {
                             postIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }
@@ -692,7 +719,7 @@ object ProfileLoggedScreen : Tab {
                             commentIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonCancel)
+                        Text(text = LocalStrings.current.buttonCancel)
                     }
                 },
                 confirmButton = {
@@ -702,11 +729,11 @@ object ProfileLoggedScreen : Tab {
                             commentIdToDelete = null
                         },
                     ) {
-                        Text(text = LocalXmlStrings.current.buttonConfirm)
+                        Text(text = LocalStrings.current.buttonConfirm)
                     }
                 },
                 text = {
-                    Text(text = LocalXmlStrings.current.messageAreYouSure)
+                    Text(text = LocalStrings.current.messageAreYouSure)
                 },
             )
         }

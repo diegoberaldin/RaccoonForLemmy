@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.CreatePostReportFor
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.DeletePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.EditPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.FeaturePostForm
+import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.HidePostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.LockPostForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.MarkPostAsReadForm
 import com.github.diegoberaldin.raccoonforlemmy.core.api.dto.PostFeatureType
@@ -273,6 +274,24 @@ internal class DefaultPostRepository(
                     auth = auth.orEmpty(),
                 )
             services.post.markAsRead(
+                authHeader = auth.toAuthHeader(),
+                form = data,
+            )
+        }
+    }
+
+    override suspend fun hide(
+        hidden: Boolean,
+        postId: Long,
+        auth: String?,
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data =
+                HidePostForm(
+                    postIds = listOf(postId),
+                    hidden = hidden,
+                )
+            services.post.hide(
                 authHeader = auth.toAuthHeader(),
                 form = data,
             )
