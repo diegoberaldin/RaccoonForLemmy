@@ -221,7 +221,8 @@ class PostDetailViewModel(
                     }
                 }
             }
-            if (uiState.value.post.text.isEmpty() && uiState.value.post.title.isEmpty()) {
+            if (uiState.value.post.text.isEmpty()) {
+                // incomplete data from cache
                 refreshPost()
             }
             if (uiState.value.initial) {

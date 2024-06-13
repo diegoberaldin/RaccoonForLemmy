@@ -741,7 +741,7 @@ class PostDetailScreen(
                 }
             },
         ) { padding ->
-            if (uiState.currentUserId == null) {
+            if (uiState.isLogged && uiState.currentUserId == null) {
                 return@Scaffold
             }
             Box(
