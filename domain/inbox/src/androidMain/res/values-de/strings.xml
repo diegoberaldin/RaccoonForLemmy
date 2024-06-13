@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="inbox_notification_title">Ungelesene Artikel</string>
-    <string name="inbox_notification_content">Es gibt %1$d ungelesene Elemente</string>
+    <string name="inbox_notification_title">Ungelesene Beiträge</string>
+    <string name="inbox_notification_content">Es gibt %1$d ungelesene Beiträge</string>
 </resources>
