@@ -256,38 +256,40 @@ class PostDetailScreen(
             }
 
         LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    PostDetailMviModel.Effect.Close -> {
-                        navigationCoordinator.popScreen()
-                    }
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        PostDetailMviModel.Effect.Close -> {
+                            navigationCoordinator.popScreen()
+                        }
 
-                    is PostDetailMviModel.Effect.ScrollToComment -> {
-                        runCatching {
-                            lazyListState.scrollToItem(effect.index)
+                        is PostDetailMviModel.Effect.ScrollToComment -> {
+                            runCatching {
+                                lazyListState.scrollToItem(effect.index)
+                            }
+                        }
+
+                        PostDetailMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
+                            }
+                        }
+
+                        is PostDetailMviModel.Effect.TriggerCopy -> {
+                            clipboardManager.setText(AnnotatedString(text = effect.text))
                         }
                     }
-
-                    PostDetailMviModel.Effect.BackToTop -> {
-                        runCatching {
-                            lazyListState.scrollToItem(0)
-                            topAppBarState.heightOffset = 0f
-                            topAppBarState.contentOffset = 0f
-                        }
-                    }
-
-                    is PostDetailMviModel.Effect.TriggerCopy -> {
-                        clipboardManager.setText(AnnotatedString(text = effect.text))
-                    }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.globalMessage.onEach { message ->
-                snackbarHostState.showSnackbar(
-                    message = message,
-                )
-            }.launchIn(this)
+            navigationCoordinator.globalMessage
+                .onEach { message ->
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                    )
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -295,16 +297,17 @@ class PostDetailScreen(
             topBar = {
                 val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
-                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset =
-                        (maxTopInset * (1 - it)).let { insetValue ->
-                            if (uiState.searching) {
-                                insetValue.coerceAtLeast(statusBarInset.toFloat())
-                            } else {
-                                insetValue
+                snapshotFlow { topAppBarState.collapsedFraction }
+                    .onEach {
+                        topInset =
+                            (maxTopInset * (1 - it)).let { insetValue ->
+                                if (uiState.searching) {
+                                    insetValue.coerceAtLeast(statusBarInset.toFloat())
+                                } else {
+                                    insetValue
+                                }
                             }
-                        }
-                }.launchIn(scope)
+                    }.launchIn(scope)
 
                 TopAppBar(
                     windowInsets =
@@ -476,13 +479,14 @@ class PostDetailScreen(
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
                                 modifier =
-                                    Modifier.onGloballyPositioned {
-                                        optionsOffset = it.positionInParent()
-                                    }.onClick(
-                                        onClick = {
-                                            optionsExpanded = true
-                                        },
-                                    ),
+                                    Modifier
+                                        .onGloballyPositioned {
+                                            optionsOffset = it.positionInParent()
+                                        }.onClick(
+                                            onClick = {
+                                                optionsExpanded = true
+                                            },
+                                        ),
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -749,8 +753,7 @@ class PostDetailScreen(
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .fillMaxSize(),
+                        ).fillMaxSize(),
             ) {
                 Column(
                     modifier =
@@ -824,8 +827,7 @@ class PostDetailScreen(
                                     } else {
                                         Modifier
                                     },
-                                )
-                                .nestedScroll(fabNestedScrollConnection)
+                                ).nestedScroll(fabNestedScrollConnection)
                                 .nestedScroll(keyboardScrollConnection)
                                 .pullRefresh(pullRefreshState),
                     ) {
@@ -834,95 +836,100 @@ class PostDetailScreen(
                             state = lazyListState,
                         ) {
                             item {
-                                PostCard(
-                                    post = uiState.post,
-                                    isFromModerator =
-                                        uiState.post.creator?.id.let { creatorId ->
-                                            uiState.isModerator &&
-                                                uiState.moderators.containsId(
-                                                    creatorId,
+                                if (uiState.post.title.isNotEmpty()) {
+                                    PostCard(
+                                        post = uiState.post,
+                                        isFromModerator =
+                                            uiState.post.creator?.id.let { creatorId ->
+                                                uiState.isModerator &&
+                                                    uiState.moderators.containsId(
+                                                        creatorId,
+                                                    )
+                                            },
+                                        postLayout =
+                                            if (uiState.postLayout == PostLayout.Card) {
+                                                uiState.postLayout
+                                            } else {
+                                                PostLayout.Full
+                                            },
+                                        fullHeightImage = uiState.fullHeightImages,
+                                        fullWidthImage = uiState.fullWidthImages,
+                                        includeFullBody = true,
+                                        voteFormat = uiState.voteFormat,
+                                        autoLoadImages = uiState.autoLoadImages,
+                                        preferNicknames = uiState.preferNicknames,
+                                        showScores = uiState.showScores,
+                                        actionButtonsActive = uiState.isLogged,
+                                        blurNsfw = false,
+                                        downVoteEnabled = uiState.downVoteEnabled,
+                                        onOpenCommunity =
+                                            rememberCallbackArgs { community, instance ->
+                                                detailOpener.openCommunityDetail(community, instance)
+                                            },
+                                        onOpenCreator =
+                                            rememberCallbackArgs { user, instance ->
+                                                detailOpener.openUserDetail(user, instance)
+                                            },
+                                        onOpenPost =
+                                            rememberCallbackArgs { p, instance ->
+                                                detailOpener.openPostDetail(p, instance)
+                                            },
+                                        onOpenWeb =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(
+                                                    WebViewScreen(url),
                                                 )
-                                        },
-                                    postLayout =
-                                        if (uiState.postLayout == PostLayout.Card) {
-                                            uiState.postLayout
-                                        } else {
-                                            PostLayout.Full
-                                        },
-                                    fullHeightImage = uiState.fullHeightImages,
-                                    fullWidthImage = uiState.fullWidthImages,
-                                    includeFullBody = true,
-                                    voteFormat = uiState.voteFormat,
-                                    autoLoadImages = uiState.autoLoadImages,
-                                    preferNicknames = uiState.preferNicknames,
-                                    showScores = uiState.showScores,
-                                    actionButtonsActive = uiState.isLogged,
-                                    blurNsfw = false,
-                                    downVoteEnabled = uiState.downVoteEnabled,
-                                    onOpenCommunity =
-                                        rememberCallbackArgs { community, instance ->
-                                            detailOpener.openCommunityDetail(community, instance)
-                                        },
-                                    onOpenCreator =
-                                        rememberCallbackArgs { user, instance ->
-                                            detailOpener.openUserDetail(user, instance)
-                                        },
-                                    onOpenPost =
-                                        rememberCallbackArgs { p, instance ->
-                                            detailOpener.openPostDetail(p, instance)
-                                        },
-                                    onOpenWeb =
-                                        rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                WebViewScreen(url),
-                                            )
-                                        },
-                                    onUpVote =
-                                        rememberCallback(model) {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
+                                            },
+                                        onUpVote =
+                                            rememberCallback(model) {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        PostDetailMviModel.Intent.UpVotePost(),
+                                                    )
+                                                }
+                                            },
+                                        onDownVote =
+                                            rememberCallback(model) {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    model.reduce(
+                                                        PostDetailMviModel.Intent.DownVotePost(),
+                                                    )
+                                                }
+                                            },
+                                        onSave =
+                                            rememberCallback(model) {
                                                 model.reduce(
-                                                    PostDetailMviModel.Intent.UpVotePost(),
+                                                    PostDetailMviModel.Intent.SavePost(
+                                                        post = uiState.post,
+                                                    ),
                                                 )
-                                            }
-                                        },
-                                    onDownVote =
-                                        rememberCallback(model) {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                model.reduce(
-                                                    PostDetailMviModel.Intent.DownVotePost(),
+                                            },
+                                        onReply =
+                                            rememberCallback {
+                                                if (uiState.isLogged && !isOnOtherInstance) {
+                                                    detailOpener.openReply(
+                                                        originalPost = uiState.post,
+                                                    )
+                                                }
+                                            },
+                                        onOpenImage =
+                                            rememberCallbackArgs { url ->
+                                                navigationCoordinator.pushScreen(
+                                                    ZoomableImageScreen(
+                                                        url = url,
+                                                        source =
+                                                            uiState.post.community
+                                                                ?.readableHandle
+                                                                .orEmpty(),
+                                                    ),
                                                 )
-                                            }
-                                        },
-                                    onSave =
-                                        rememberCallback(model) {
-                                            model.reduce(
-                                                PostDetailMviModel.Intent.SavePost(
-                                                    post = uiState.post,
-                                                ),
-                                            )
-                                        },
-                                    onReply =
-                                        rememberCallback {
-                                            if (uiState.isLogged && !isOnOtherInstance) {
-                                                detailOpener.openReply(
-                                                    originalPost = uiState.post,
-                                                )
-                                            }
-                                        },
-                                    onOpenImage =
-                                        rememberCallbackArgs { url ->
-                                            navigationCoordinator.pushScreen(
-                                                ZoomableImageScreen(
-                                                    url = url,
-                                                    source = uiState.post.community?.readableHandle.orEmpty(),
-                                                ),
-                                            )
-                                        },
-                                )
-                                if (uiState.postLayout != PostLayout.Card) {
-                                    HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
-                                } else {
-                                    Spacer(modifier = Modifier.height(Spacing.interItem))
+                                            },
+                                    )
+                                    if (uiState.postLayout != PostLayout.Card) {
+                                        HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.interItem))
+                                    } else {
+                                        Spacer(modifier = Modifier.height(Spacing.interItem))
+                                    }
                                 }
                             }
                             if (uiState.post.crossPosts.isNotEmpty()) {
@@ -1123,9 +1130,10 @@ class PostDetailScreen(
                                                                 .then(
                                                                     if (comment.id == commentIdToHighlight) {
                                                                         Modifier.background(
-                                                                            MaterialTheme.colorScheme.surfaceColorAtElevation(
-                                                                                5.dp,
-                                                                            ).copy(alpha = 0.75f),
+                                                                            MaterialTheme.colorScheme
+                                                                                .surfaceColorAtElevation(
+                                                                                    5.dp,
+                                                                                ).copy(alpha = 0.75f),
                                                                         )
                                                                     } else {
                                                                         Modifier
@@ -1239,7 +1247,10 @@ class PostDetailScreen(
                                                                 navigationCoordinator.pushScreen(
                                                                     ZoomableImageScreen(
                                                                         url = url,
-                                                                        source = uiState.post.community?.readableHandle.orEmpty(),
+                                                                        source =
+                                                                            uiState.post.community
+                                                                                ?.readableHandle
+                                                                                .orEmpty(),
                                                                     ),
                                                                 )
                                                             },
@@ -1714,7 +1725,8 @@ class PostDetailScreen(
                                                     text =
                                                         buildString {
                                                             append(LocalStrings.current.postDetailLoadMoreComments)
-                                                            comment.comments?.takeIf { it > 0 }
+                                                            comment.comments
+                                                                ?.takeIf { it > 0 }
                                                                 ?.also { count ->
                                                                     append(" (")
                                                                     append(count)
@@ -1750,7 +1762,8 @@ class PostDetailScreen(
                                         if (uiState.post.comments == 0) {
                                             Text(
                                                 modifier =
-                                                    Modifier.fillMaxWidth()
+                                                    Modifier
+                                                        .fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
                                                 text = LocalStrings.current.messageEmptyComments,
@@ -1760,7 +1773,8 @@ class PostDetailScreen(
                                         } else if (uiState.searching) {
                                             Text(
                                                 modifier =
-                                                    Modifier.fillMaxWidth()
+                                                    Modifier
+                                                        .fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
                                                 text = LocalStrings.current.messageEmptyList,
@@ -1770,7 +1784,8 @@ class PostDetailScreen(
                                         } else {
                                             Text(
                                                 modifier =
-                                                    Modifier.fillMaxWidth()
+                                                    Modifier
+                                                        .fillMaxWidth()
                                                         .padding(top = Spacing.xs),
                                                 textAlign = TextAlign.Center,
                                                 text = LocalStrings.current.messageErrorLoadingComments,
@@ -1820,15 +1835,13 @@ class PostDetailScreen(
                                     if (bottomBarHeightPx == 0f) {
                                         bottomBarHeightPx = it.size.toSize().height
                                     }
-                                }
-                                .padding(bottom = bottomNavigationInset)
+                                }.padding(bottom = bottomNavigationInset)
                                 .offset {
                                     IntOffset(
                                         x = 0,
                                         y = -bottomBarOffsetHeightPx.roundToInt(),
                                     )
-                                }
-                                .background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.45f)),
+                                }.background(color = MaterialTheme.colorScheme.background.copy(alpha = 0.45f)),
                     ) {
                         if (uiState.isNavigationSupported) {
                             Icon(

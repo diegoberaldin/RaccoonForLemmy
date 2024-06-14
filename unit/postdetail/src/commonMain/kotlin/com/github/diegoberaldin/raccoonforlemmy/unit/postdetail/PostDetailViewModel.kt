@@ -57,10 +57,10 @@ class PostDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
     private val postNavigationManager: PostNavigationManager,
-) : PostDetailMviModel,
-    DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>(
+) : DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>(
         initialState = PostDetailMviModel.UiState(),
-    ) {
+    ),
+    PostDetailMviModel {
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
     private val searchEventChannel = Channel<Unit>()
@@ -84,71 +84,90 @@ class PostDetailViewModel(
             }
             if (uiState.value.post.id == 0L) {
                 val post = itemCache.getPost(postId) ?: PostModel()
-                val downVoteEnabled =
-                    siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
                 updateState {
                     it.copy(
                         post = post,
                         isModerator = isModerator,
                         currentUserId = identityRepository.cachedUser?.id,
                         isAdmin = identityRepository.cachedUser?.admin == true,
-                        downVoteEnabled = downVoteEnabled,
                     )
                 }
             }
 
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
+            val downVoteEnabled =
+                siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
+            updateState {
+                it.copy(
+                    downVoteEnabled = downVoteEnabled,
+                )
+            }
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
 
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
-                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
-                        showScores = settings.showScores,
-                        enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
-                        commentBarThickness = settings.commentBarThickness,
-                        commentIndentAmount = settings.commentIndentAmount,
-                    )
-                }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                            actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                            showScores = settings.showScores,
+                            enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
+                            commentBarThickness = settings.commentBarThickness,
+                            commentIndentAmount = settings.commentIndentAmount,
+                        )
+                    }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { _ ->
-                emitEffect(PostDetailMviModel.Effect.Close)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostRemoved::class)
+                .onEach { _ ->
+                    emitEffect(PostDetailMviModel.Effect.Close)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommentRemoved::class)
                 .onEach { evt ->
                     handleCommentDelete(evt.model.id)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
                 .onEach { evt ->
                     applySortType(evt.value)
                 }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                refresh()
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommentCreated::class)
+                .onEach {
+                    refresh()
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                if (evt.model.id == uiState.value.post.id) {
-                    refreshPost()
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(PostDetailMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.UserBannedComment::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    if (evt.model.id == uiState.value.post.id) {
+                        refreshPost()
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CopyText::class)
+                .onEach {
+                    emitEffect(PostDetailMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.UserBannedComment::class)
                 .onEach { evt ->
                     val commentId = evt.commentId
                     val newUser = evt.user
@@ -169,19 +188,24 @@ class PostDetailViewModel(
                     }
                 }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
-                updateState { it.copy(loading = false) }
-                emitEffect(PostDetailMviModel.Effect.BackToTop)
-                refresh()
-            }.launchIn(this)
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1_000)
+                .onEach {
+                    updateState { it.copy(loading = false) }
+                    emitEffect(PostDetailMviModel.Effect.BackToTop)
+                    refresh()
+                }.launchIn(this)
 
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-            }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                }.launchIn(this)
 
-            postNavigationManager.canNavigate.onEach { canNavigate ->
-                updateState { it.copy(isNavigationSupported = canNavigate) }
-            }.launchIn(this)
+            postNavigationManager.canNavigate
+                .onEach { canNavigate ->
+                    updateState { it.copy(isNavigationSupported = canNavigate) }
+                }.launchIn(this)
 
             val auth = identityRepository.authToken.value
             val updatedPost =
@@ -221,7 +245,9 @@ class PostDetailViewModel(
                     }
                 }
             }
-            if (uiState.value.post.text.isEmpty()) {
+            if (uiState.value.post.text
+                    .isEmpty()
+            ) {
                 // incomplete data from cache
                 refreshPost()
             }
@@ -229,7 +255,8 @@ class PostDetailViewModel(
                 val sortTypes =
                     getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
                 val defaultCommentSortType =
-                    settingsRepository.currentSettings.value.defaultCommentSortType.toSortType()
+                    settingsRepository.currentSettings.value.defaultCommentSortType
+                        .toSortType()
                 updateState {
                     it.copy(
                         sortType = defaultCommentSortType,
@@ -249,9 +276,11 @@ class PostDetailViewModel(
             }
         if (indexOfHighlight == -1) {
             val lastCommentOfThread =
-                uiState.value.comments.filter {
-                    highlightPath.startsWith(it.path)
-                }.takeIf { it.isNotEmpty() }?.maxBy { it.depth }
+                uiState.value.comments
+                    .filter {
+                        highlightPath.startsWith(it.path)
+                    }.takeIf { it.isNotEmpty() }
+                    ?.maxBy { it.depth }
             if (lastCommentOfThread != null) {
                 // comment has an ancestor in the list, go down that path
                 loadMoreComments(
@@ -292,7 +321,8 @@ class PostDetailViewModel(
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                uiState.value.comments
+                    .firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
                         toggleDownVoteComment(comment = comment)
                     }
@@ -309,7 +339,8 @@ class PostDetailViewModel(
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                uiState.value.comments
+                    .firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
                         toggleSaveComment(comment = comment)
                     }
@@ -330,7 +361,8 @@ class PostDetailViewModel(
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                uiState.value.comments
+                    .firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
                         toggleUpVoteComment(comment = comment)
                     }
@@ -351,7 +383,8 @@ class PostDetailViewModel(
             PostDetailMviModel.Intent.DeletePost -> deletePost()
 
             is PostDetailMviModel.Intent.ToggleExpandComment -> {
-                uiState.value.comments.firstOrNull { it.id == intent.commentId }
+                uiState.value.comments
+                    .firstOrNull { it.id == intent.commentId }
                     ?.also { comment ->
                         toggleExpanded(comment)
                     }
@@ -361,11 +394,12 @@ class PostDetailViewModel(
             PostDetailMviModel.Intent.AdminFeaturePost -> featureLocal(uiState.value.post)
             PostDetailMviModel.Intent.ModLockPost -> lock(uiState.value.post)
             is PostDetailMviModel.Intent.ModDistinguishComment ->
-                uiState.value.comments.firstOrNull {
-                    it.id == intent.commentId
-                }?.also { comment ->
-                    distinguish(comment)
-                }
+                uiState.value.comments
+                    .firstOrNull {
+                        it.id == intent.commentId
+                    }?.also { comment ->
+                        distinguish(comment)
+                    }
 
             is PostDetailMviModel.Intent.ModToggleModUser -> toggleModeratorStatus(intent.id)
             is PostDetailMviModel.Intent.Copy ->
@@ -438,7 +472,8 @@ class PostDetailViewModel(
 
         updateState { it.copy(loading = true) }
         val itemList =
-            commentPaginationManager.loadNextPage()
+            commentPaginationManager
+                .loadNextPage()
                 .sortToNestedOrder()
                 .populateLoadMoreComments()
                 .map {
@@ -453,7 +488,8 @@ class PostDetailViewModel(
             itemList.let {
                 if (currentState.searching) {
                     it.filter { comment ->
-                        comment.text.orEmpty()
+                        comment.text
+                            .orEmpty()
                             .contains(other = currentState.searchText, ignoreCase = true)
                     }
                 } else {
@@ -503,16 +539,15 @@ class PostDetailViewModel(
             val auth = identityRepository.authToken.value
             val sort = currentState.sortType
             val fetchResult =
-                commentRepository.getChildren(
-                    auth = auth,
-                    parentId = parentId,
-                    instance = otherInstance,
-                    sort = sort,
-                )
-                    ?.sortToNestedOrder(
+                commentRepository
+                    .getChildren(
+                        auth = auth,
+                        parentId = parentId,
+                        instance = otherInstance,
+                        sort = sort,
+                    )?.sortToNestedOrder(
                         ancestorId = parentId,
-                    )
-                    ?.filter { c1 ->
+                    )?.filter { c1 ->
                         // prevents accidental duplication
                         currentState.comments.none { c2 -> c2.id == c1.id }
                     }
@@ -531,12 +566,15 @@ class PostDetailViewModel(
                 updateState { it.copy(comments = newList) }
             } else {
                 val newList =
-                    uiState.value.comments.let { list ->
-                        val index = list.indexOfFirst { c -> c.id == parentId }
-                        list.toMutableList().apply {
-                            addAll(index + 1, fetchResult.orEmpty())
-                        }.toList()
-                    }.populateLoadMoreComments()
+                    uiState.value.comments
+                        .let { list ->
+                            val index = list.indexOfFirst { c -> c.id == parentId }
+                            list
+                                .toMutableList()
+                                .apply {
+                                    addAll(index + 1, fetchResult.orEmpty())
+                                }.toList()
+                        }.populateLoadMoreComments()
                 updateState { it.copy(comments = newList) }
 
                 if (loadUntilHighlight) {
@@ -907,12 +945,13 @@ class PostDetailViewModel(
         val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
         val (start, end) = 0 to index.coerceAtMost(comments.lastIndex)
         val newIndex =
-            comments.subList(
-                fromIndex = start,
-                toIndex = end,
-            ).indexOfLast {
-                it.depth == 0
-            }.takeIf { it >= 0 }
+            comments
+                .subList(
+                    fromIndex = start,
+                    toIndex = end,
+                ).indexOfLast {
+                    it.depth == 0
+                }.takeIf { it >= 0 }
         if (newIndex != null) {
             screenModelScope.launch {
                 emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
@@ -924,14 +963,16 @@ class PostDetailViewModel(
         val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
         val (start, end) = (index + 1).coerceAtMost(comments.lastIndex) to comments.lastIndex
         val newIndex =
-            comments.subList(
-                fromIndex = start,
-                toIndex = end,
-            ).indexOfFirst {
-                it.depth == 0
-            }.takeIf { it >= 0 }?.let {
-                it + start
-            }
+            comments
+                .subList(
+                    fromIndex = start,
+                    toIndex = end,
+                ).indexOfFirst {
+                    it.depth == 0
+                }.takeIf { it >= 0 }
+                ?.let {
+                    it + start
+                }
         if (newIndex != null) {
             screenModelScope.launch {
                 emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
