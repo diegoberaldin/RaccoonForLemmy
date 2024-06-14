@@ -1886,9 +1886,7 @@ class PostDetailScreen(
                                     .onClick(
                                         onClick =
                                             rememberCallback(lazyListState) {
-                                                val idx =
-                                                    lazyListState.firstVisibleItemIndex +
-                                                        lazyListState.layoutInfo.visibleItemsInfo.size
+                                                val idx = lazyListState.firstVisibleItemIndex
                                                 model.reduce(
                                                     PostDetailMviModel.Intent.NavigateNextComment(idx),
                                                 )

@@ -65,6 +65,7 @@ class PostDetailViewModel(
     private var commentWasHighlighted = false
     private val searchEventChannel = Channel<Unit>()
     private val initialNavigationEnabled = postNavigationManager.canNavigate.value
+    private var lastCommentNavigateIndex: Int? = null
 
     override fun onDispose() {
         super.onDispose()
@@ -295,7 +296,8 @@ class PostDetailViewModel(
             // comment to highlight found
             commentWasHighlighted = true
             screenModelScope.launch(Dispatchers.Main) {
-                emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight))
+                // skip the first item which is the post
+                emitEffect(PostDetailMviModel.Effect.ScrollToComment(indexOfHighlight + 1))
             }
         }
     }
@@ -943,7 +945,7 @@ class PostDetailViewModel(
 
     private fun navigateToPreviousComment(index: Int) {
         val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
-        val (start, end) = 0 to index.coerceAtMost(comments.lastIndex)
+        val (start, end) = 0 to (index - 1).coerceIn(0, comments.lastIndex) + 1
         val newIndex =
             comments
                 .subList(
@@ -951,17 +953,26 @@ class PostDetailViewModel(
                     toIndex = end,
                 ).indexOfLast {
                     it.depth == 0
-                }.takeIf { it >= 0 }
-        if (newIndex != null) {
-            screenModelScope.launch {
-                emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
+                }.let {
+                    // +1 because of the initial item for the post
+                    it + 1
+                }
+        val viewIndex =
+            if (newIndex == lastCommentNavigateIndex) {
+                ((lastCommentNavigateIndex ?: newIndex) - 1).coerceAtLeast(0)
+            } else {
+                newIndex
             }
+        // save last scrolled index to make function strictly decreasing
+        lastCommentNavigateIndex = viewIndex
+        screenModelScope.launch {
+            emitEffect(PostDetailMviModel.Effect.ScrollToComment(viewIndex))
         }
     }
 
     private fun navigateToNextComment(index: Int) {
         val comments = uiState.value.comments.takeIf { it.isNotEmpty() } ?: return
-        val (start, end) = (index + 1).coerceAtMost(comments.lastIndex) to comments.lastIndex
+        val (start, end) = (index - 1).coerceAtLeast(0) to comments.lastIndex + 1
         val newIndex =
             comments
                 .subList(
@@ -972,16 +983,27 @@ class PostDetailViewModel(
                 }.takeIf { it >= 0 }
                 ?.let {
                     it + start
+                }?.let {
+                    // +1 because of the initial item for the post
+                    it + 1
                 }
         if (newIndex != null) {
+            val viewIndex =
+                if (newIndex == lastCommentNavigateIndex) {
+                    (lastCommentNavigateIndex ?: newIndex) + 1
+                } else {
+                    newIndex
+                }
+            // save last scrolled index to make function strictly increasing
+            lastCommentNavigateIndex = viewIndex
             screenModelScope.launch {
-                emitEffect(PostDetailMviModel.Effect.ScrollToComment(newIndex))
+                emitEffect(PostDetailMviModel.Effect.ScrollToComment(viewIndex))
             }
         } else if (uiState.value.canFetchMore) {
             // fetch a new page and try again if possible (terminates on pagination end)
             screenModelScope.launch {
                 loadNextPage()
-                navigateToNextComment(index)
+                navigateToNextComment(index + 1)
             }
         }
     }
