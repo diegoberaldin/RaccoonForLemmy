@@ -959,7 +959,7 @@ class PostDetailViewModel(
                 }
         val viewIndex =
             if (newIndex == lastCommentNavigateIndex) {
-                ((lastCommentNavigateIndex ?: newIndex) - 1).coerceAtLeast(0)
+                ((lastCommentNavigateIndex ?: newIndex) - 1).coerceAtLeast(1)
             } else {
                 newIndex
             }
@@ -992,7 +992,7 @@ class PostDetailViewModel(
                 if (newIndex == lastCommentNavigateIndex) {
                     (lastCommentNavigateIndex ?: newIndex) + 1
                 } else {
-                    newIndex
+                    newIndex.coerceAtLeast(lastCommentNavigateIndex ?: 0)
                 }
             // save last scrolled index to make function strictly increasing
             lastCommentNavigateIndex = viewIndex
