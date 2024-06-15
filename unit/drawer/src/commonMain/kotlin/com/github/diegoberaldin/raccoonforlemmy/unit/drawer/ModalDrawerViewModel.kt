@@ -15,7 +15,9 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.debounce
@@ -105,13 +107,18 @@ class ModalDrawerViewModel(
                 }
             }.distinctUntilChanged()
         }.onEach { favoriteCommunityIds ->
+            val currentState = uiState.value
+            val newFavorites =
+                currentState.favorites.filter { it.id in favoriteCommunityIds } + currentState.communities.filter { it.id in favoriteCommunityIds }
             val newCommunities =
-                uiState.value.communities.map { community ->
-                    community.copy(favorite = community.id in favoriteCommunityIds)
-                }
-                    .sortedBy { it.name }
-                    .sortedByDescending { it.favorite }
-            updateState { it.copy(communities = newCommunities) }
+                (currentState.communities.filter { it.id !in favoriteCommunityIds } + currentState.favorites.filter { it.id !in favoriteCommunityIds })
+            updateState {
+                it.copy(
+                    favorites = newFavorites,
+                    communities = newCommunities,
+                )
+            }
+
         }.launchIn(this)
     }
 
@@ -174,15 +181,45 @@ class ModalDrawerViewModel(
                         if (searchText.isEmpty()) {
                             communities
                         } else {
-                            communities.filter { c -> c.name.contains(other = searchText, ignoreCase = true) }
+                            communities.filter { c ->
+                                c.name.contains(
+                                    other = searchText,
+                                    ignoreCase = true
+                                )
+                            }
                         }
                     }
                     .sortedBy { e -> e.name }
             }.orEmpty()
 
+        val favorites = coroutineScope {
+            val auth = identityRepository.authToken.value
+            favoriteCommunityRepository.getAll(accountId).mapNotNull { favorite ->
+                val communityId = favorite.communityId
+                async {
+                    communityRepository.get(
+                        auth = auth,
+                        id = communityId,
+                    )
+                }.await()
+            }
+        }.let { communities ->
+            if (searchText.isEmpty()) {
+                communities
+            } else {
+                communities.filter { c ->
+                    c.name.contains(
+                        other = searchText,
+                        ignoreCase = true
+                    )
+                }
+            }
+        }
+
         updateState {
             it.copy(
                 multiCommunities = multiCommunities,
+                favorites = favorites,
             )
         }
 
@@ -195,21 +232,22 @@ class ModalDrawerViewModel(
             updateState { it.copy(refreshing = false) }
             return
         }
-        val accountId = accountRepository.getActive()?.id
         val auth = identityRepository.authToken.value
         val searchText = uiState.value.searchText
-        val favoriteCommunityIds =
-            favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val itemsToAdd = communityRepository.getSubscribed(
             auth = auth,
             page = currentPage,
             query = searchText,
-        ).map { community ->
-            community.copy(favorite = community.id in favoriteCommunityIds)
-        }.sortedBy { it.name }.let {
-            val favorites = it.filter { e -> e.favorite }
-            val res = it - favorites.toSet()
-            favorites + res
+        ).filter { c1 ->
+            // exclude items already included in favorites
+            currentState.favorites.none { c2 -> c2.id == c1.id }
+        }.filter { c1 ->
+            // prevents accidental duplication
+            if (!currentState.refreshing) {
+                currentState.communities.none { c2 -> c2.id == c1.id }
+            } else {
+                true
+            }
         }
         if (itemsToAdd.isNotEmpty()) {
             currentPage++
