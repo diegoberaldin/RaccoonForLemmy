@@ -28,6 +28,7 @@ interface ModalDrawerMviModel :
         val instance: String? = null,
         val communities: List<CommunityModel> = emptyList(),
         val multiCommunities: List<MultiCommunityModel> = emptyList(),
+        val favorites: List<CommunityModel> = emptyList(),
         val searchText: String = "",
         val isFiltering: Boolean = false,
     )
