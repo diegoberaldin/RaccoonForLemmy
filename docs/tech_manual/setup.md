@@ -2,8 +2,8 @@
 
 This is a Kotlin Multiplatform (KMP) project that uses the Gradle build tool. The recommended
 development environment is Android Studio with the Kotlin Multiplatform Mobile plugin installed.
-Since the project is using Gradle 8.8 with the Android Gradle Plugin (AGP) version 8.4.2 you
-should use Android Studio Jellyfish or later (have a
+Since the project is using Gradle 8.8 with the Android Gradle Plugin (AGP) version 8.5.0 you
+should use Android Studio Koala or later (have a
 look [here](https://developer.android.com/build/releases/gradle-plugin?hl=en#android_gradle_plugin_and_android_studio_compatibility)
 for a compatibility matrix between versions of Gradle, AGP and Android Studio).
 Alternatively, you can try and use IntelliJ IDEA or Fleet but some extra steps may be needed to

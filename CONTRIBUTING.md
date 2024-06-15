@@ -255,8 +255,8 @@ This project uses the Gradle build tool. The recommended development environment
 with the Kotlin Multiplatform Mobile plugin installed, which will automatically detect the build
 tool and download a Gradle distribution for you.
 
-Since the project is using Gradle 8.8 with the Android Gradle Plugin (AGP) version 8.4.2 please
-make sure that you are using Android Studio Jellyfish or later -- have a
+Since the project is using Gradle 8.8 with the Android Gradle Plugin (AGP) version 8.5.0 please
+make sure that you are using Android Studio Koala or later -- have a
 look [here](https://developer.android.com/build/releases/gradle-plugin?hl=en#android_gradle_plugin_and_android_studio_compatibility)
 for a compatibility matrix between versions of Gradle, AGP and Android Studio.
 
