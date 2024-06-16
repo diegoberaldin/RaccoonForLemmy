@@ -103,20 +103,24 @@ object ModalDrawerContent : Tab {
 
         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
         LaunchedEffect(themeRepository) {
-            themeRepository.uiFontScale.drop(1).onEach {
-                uiFontSizeWorkaround = false
-                delay(50)
-                uiFontSizeWorkaround = true
-            }.launchIn(this)
+            themeRepository.uiFontScale
+                .drop(1)
+                .onEach {
+                    uiFontSizeWorkaround = false
+                    delay(50)
+                    uiFontSizeWorkaround = true
+                }.launchIn(this)
         }
         if (!uiFontSizeWorkaround) {
             return
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
-                // closes the navigation drawer after instance change
-                coordinator.closeDrawer()
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.InstanceSelected::class)
+                .onEach {
+                    // closes the navigation drawer after instance change
+                    coordinator.closeDrawer()
+                }.launchIn(this)
         }
 
         ModalDrawerSheet {
@@ -125,21 +129,22 @@ object ModalDrawerContent : Tab {
                 instance = uiState.instance,
                 autoLoadImages = uiState.autoLoadImages,
                 onOpenChangeInstance =
-                rememberCallback(model) {
-                    navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
-                },
-                onOpenSwitchAccount = {
-                    navigationCoordinator.showBottomSheet(ManageAccountsScreen())
-                },
+                    rememberCallback(model) {
+                        navigationCoordinator.showBottomSheet(SelectInstanceBottomSheet())
+                    },
+                onOpenSwitchAccount =
+                    rememberCallback {
+                        navigationCoordinator.showBottomSheet(ManageAccountsScreen())
+                    },
             )
 
             HorizontalDivider(
                 modifier =
-                Modifier
-                    .padding(
-                        top = Spacing.s,
-                        bottom = Spacing.s,
-                    ),
+                    Modifier
+                        .padding(
+                            top = Spacing.s,
+                            bottom = Spacing.s,
+                        ),
             )
 
             if (uiState.user != null) {
@@ -147,16 +152,16 @@ object ModalDrawerContent : Tab {
                     rememberPullRefreshState(
                         refreshing = uiState.refreshing,
                         onRefresh =
-                        rememberCallback(model) {
-                            model.reduce(ModalDrawerMviModel.Intent.Refresh)
-                        },
+                            rememberCallback(model) {
+                                model.reduce(ModalDrawerMviModel.Intent.Refresh)
+                            },
                     )
                 Box(
                     modifier =
-                    Modifier
-                        .weight(1f)
-                        .nestedScroll(keyboardScrollConnection)
-                        .pullRefresh(pullRefreshState),
+                        Modifier
+                            .weight(1f)
+                            .nestedScroll(keyboardScrollConnection)
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize().padding(horizontal = Spacing.xxs),
@@ -165,45 +170,45 @@ object ModalDrawerContent : Tab {
                         item {
                             TextField(
                                 modifier =
-                                Modifier
-                                    .scale(0.95f)
-                                    .padding(
-                                        horizontal = Spacing.xxs,
-                                        vertical = Spacing.xxs,
-                                    ).fillMaxWidth(),
+                                    Modifier
+                                        .scale(0.95f)
+                                        .padding(
+                                            horizontal = Spacing.xxs,
+                                            vertical = Spacing.xxs,
+                                        ).fillMaxWidth(),
                                 label = {
                                     Text(text = LocalStrings.current.exploreSearchPlaceholder)
                                 },
                                 singleLine = true,
                                 value = uiState.searchText,
                                 keyboardOptions =
-                                KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Search,
-                                ),
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.Text,
+                                        imeAction = ImeAction.Search,
+                                    ),
                                 onValueChange = { value ->
                                     model.reduce(ModalDrawerMviModel.Intent.SetSearch(value))
                                 },
                                 trailingIcon = {
                                     Icon(
                                         modifier =
-                                        Modifier.onClick(
-                                            onClick = {
-                                                if (uiState.searchText.isNotEmpty()) {
-                                                    model.reduce(
-                                                        ModalDrawerMviModel.Intent.SetSearch(
-                                                            "",
-                                                        ),
-                                                    )
-                                                }
-                                            },
-                                        ),
+                                            Modifier.onClick(
+                                                onClick = {
+                                                    if (uiState.searchText.isNotEmpty()) {
+                                                        model.reduce(
+                                                            ModalDrawerMviModel.Intent.SetSearch(
+                                                                "",
+                                                            ),
+                                                        )
+                                                    }
+                                                },
+                                            ),
                                         imageVector =
-                                        if (uiState.searchText.isEmpty()) {
-                                            Icons.Default.Search
-                                        } else {
-                                            Icons.Default.Clear
-                                        },
+                                            if (uiState.searchText.isEmpty()) {
+                                                Icons.Default.Search
+                                            } else {
+                                                Icons.Default.Clear
+                                            },
                                         contentDescription = null,
                                     )
                                 },
@@ -223,15 +228,15 @@ object ModalDrawerContent : Tab {
                                         title = listingType.toReadableName(),
                                         icon = listingType.toIcon(),
                                         onSelected =
-                                        rememberCallback(coordinator) {
-                                            scope.launch {
-                                                focusManager.clearFocus()
-                                                coordinator.toggleDrawer()
-                                                coordinator.sendEvent(
-                                                    DrawerEvent.ChangeListingType(listingType),
-                                                )
-                                            }
-                                        },
+                                            rememberCallback(coordinator) {
+                                                scope.launch {
+                                                    focusManager.clearFocus()
+                                                    coordinator.toggleDrawer()
+                                                    coordinator.sendEvent(
+                                                        DrawerEvent.ChangeListingType(listingType),
+                                                    )
+                                                }
+                                            },
                                     )
                                 }
                             }
@@ -259,7 +264,7 @@ object ModalDrawerContent : Tab {
 
                         items(
                             items = uiState.favorites,
-                            key = { it.id.toString() },
+                            key = { "${it.id}-favorite" },
                         ) { community ->
                             DrawerCommunityItem(
                                 title = community.readableName(uiState.preferNicknames),
@@ -276,17 +281,28 @@ object ModalDrawerContent : Tab {
                                         )
                                     }
                                 },
+                                onToggleFavorite =
+                                    if (!uiState.enableToggleFavorite) {
+                                        null
+                                    } else {
+                                        rememberCallback(model) {
+                                            model.reduce(
+                                                ModalDrawerMviModel.Intent.ToggleFavorite(community.id),
+                                            )
+                                        }
+                                    },
                             )
                         }
 
                         items(
                             items = uiState.communities,
-                            key = { it.id.toString() },
+                            key = { "${it.id}-community" },
                         ) { community ->
                             DrawerCommunityItem(
                                 title = community.readableName(uiState.preferNicknames),
                                 subtitle = community.readableHandle,
                                 url = community.icon,
+                                favorite = false,
                                 autoLoadImages = uiState.autoLoadImages,
                                 onSelected = {
                                     scope.launch {
@@ -297,6 +313,16 @@ object ModalDrawerContent : Tab {
                                         )
                                     }
                                 },
+                                onToggleFavorite =
+                                    if (!uiState.enableToggleFavorite) {
+                                        null
+                                    } else {
+                                        rememberCallback(model) {
+                                            model.reduce(
+                                                ModalDrawerMviModel.Intent.ToggleFavorite(community.id),
+                                            )
+                                        }
+                                    },
                             )
                         }
 

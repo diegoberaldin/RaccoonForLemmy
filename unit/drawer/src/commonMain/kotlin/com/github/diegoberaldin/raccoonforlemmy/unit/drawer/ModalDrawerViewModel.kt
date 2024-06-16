@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
+import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.FavoriteCommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.FavoriteCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
@@ -112,6 +113,8 @@ class ModalDrawerViewModel(
                 screenModelScope.launch {
                     loadNextPage()
                 }
+
+            is ModalDrawerMviModel.Intent.ToggleFavorite -> toggleFavorite(intent.id)
         }
     }
 
@@ -245,6 +248,40 @@ class ModalDrawerViewModel(
                 canFetchMore = itemsToAdd.isNotEmpty(),
                 loading = false,
             )
+        }
+    }
+
+    private fun toggleFavorite(communityId: Long) {
+        screenModelScope.launch {
+            val currentState = uiState.value
+            val accountId = accountRepository.getActive()?.id ?: 0L
+            val isCurrentlyFavorite = currentState.favorites.any { it.id == communityId }
+            if (isCurrentlyFavorite) {
+                val community = currentState.favorites.first { it.id == communityId }
+                favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
+                    favoriteCommunityRepository.delete(accountId, toDelete)
+                }
+                val newFavorites = currentState.favorites.filter { it.id != communityId }
+                val newCommunities = currentState.communities + community
+                updateState {
+                    it.copy(
+                        favorites = newFavorites,
+                        communities = newCommunities,
+                    )
+                }
+            } else {
+                val model = FavoriteCommunityModel(communityId = communityId)
+                favoriteCommunityRepository.create(model, accountId)
+                val community = currentState.communities.first { it.id == communityId }
+                val newFavorites = currentState.favorites + community
+                val newCommunities = currentState.communities.filter { it.id != communityId }
+                updateState {
+                    it.copy(
+                        favorites = newFavorites,
+                        communities = newCommunities,
+                    )
+                }
+            }
         }
     }
 }

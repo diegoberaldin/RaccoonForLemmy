@@ -14,8 +14,15 @@ interface ModalDrawerMviModel :
     sealed interface Intent {
         data object Refresh : Intent
 
-        data class SetSearch(val value: String) : Intent
+        data class SetSearch(
+            val value: String,
+        ) : Intent
+
         data object LoadNextPage : Intent
+
+        data class ToggleFavorite(
+            val id: Long,
+        ) : Intent
     }
 
     data class UiState(
@@ -31,6 +38,7 @@ interface ModalDrawerMviModel :
         val favorites: List<CommunityModel> = emptyList(),
         val searchText: String = "",
         val isFiltering: Boolean = false,
+        val enableToggleFavorite: Boolean = false,
     )
 
     sealed interface Effect

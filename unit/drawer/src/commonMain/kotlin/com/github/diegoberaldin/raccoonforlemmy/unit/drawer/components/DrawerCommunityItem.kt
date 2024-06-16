@@ -1,10 +1,12 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
@@ -13,10 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
 @Composable
 internal fun DrawerCommunityItem(
@@ -27,6 +31,7 @@ internal fun DrawerCommunityItem(
     favorite: Boolean = false,
     autoLoadImages: Boolean = true,
     onSelected: (() -> Unit)? = null,
+    onToggleFavorite: (() -> Unit)? = null,
 ) {
     NavigationDrawerItem(
         modifier = modifier,
@@ -51,7 +56,8 @@ internal fun DrawerCommunityItem(
         },
         label = {
             val fullColor = MaterialTheme.colorScheme.onBackground
-            val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
+            val ancillaryColor =
+                MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
             Column {
                 Text(
                     text = title,
@@ -70,13 +76,24 @@ internal fun DrawerCommunityItem(
             }
         },
         badge =
-            if (favorite) {
+            if (onToggleFavorite != null || favorite) {
                 @Composable {
                     Icon(
-                        modifier = Modifier.size(IconSize.s),
-                        imageVector = Icons.Default.Star,
+                        modifier =
+                            Modifier
+                                .size(IconSize.s)
+                                .padding(start = 1.dp)
+                                .onClick(onClick = { onToggleFavorite?.invoke() }),
+                        imageVector = if (favorite) Icons.Default.Star else Icons.Default.StarBorder,
                         contentDescription = "",
-                        tint = MaterialTheme.colorScheme.onBackground,
+                        tint =
+                            MaterialTheme.colorScheme.onBackground.let {
+                                if (favorite) {
+                                    it
+                                } else {
+                                    it.copy(alpha = 0.25f)
+                                }
+                            },
                     )
                 }
             } else {
