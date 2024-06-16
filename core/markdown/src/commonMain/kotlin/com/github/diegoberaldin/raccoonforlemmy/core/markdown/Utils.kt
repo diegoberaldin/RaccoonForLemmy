@@ -81,26 +81,7 @@ private fun String.quoteFixUp(): String =
     }
 
 private fun String.expandLemmyHandles(): String =
-    let { content ->
-        buildString {
-            val matches = LemmyLinkRegex.lemmyHandle.findAll(content)
-            var lastIndex = 0
-            for (match in matches) {
-                val start = match.range.first
-                val end = match.range.last
-                if (start > lastIndex) {
-                    append(content.substring(startIndex = lastIndex, endIndex = start))
-                }
-                val detail = match.groups["detail"]?.value.orEmpty()
-                val instance = match.groups["instance"]?.value.orEmpty()
-                append("[$detail@$instance](!$detail@$instance)")
-                lastIndex = end + 1
-            }
-            if (lastIndex < content.lastIndex) {
-                append(content.substring(startIndex = lastIndex))
-            }
-        }
-    }
+    LemmyLinkRegex.lemmyHandle.replace(this, "[$1@$2](!$1@$2)")
 
 private fun String.cleanupEscapes(): String = replace("\\#", "#")
 
