@@ -67,10 +67,10 @@ class CommunityDetailViewModel(
     private val communitySortRepository: CommunitySortRepository,
     private val postNavigationManager: PostNavigationManager,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
-) : CommunityDetailMviModel,
-    DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
+) : DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
-    ) {
+    ),
+    CommunityDetailMviModel {
     private var hideReadPosts = false
     private val searchEventChannel = Channel<Unit>()
 
@@ -88,47 +88,56 @@ class CommunityDetailViewModel(
                 }
             }
 
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-                updateAvailableSortTypes()
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                    updateAvailableSortTypes()
+                }.launchIn(this)
 
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        showScores = settings.showScores,
-                        fadeReadPosts = settings.fadeReadPosts,
-                        showUnreadComments = settings.showUnreadComments,
-                    )
-                }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            showScores = settings.showScores,
+                            fadeReadPosts = settings.fadeReadPosts,
+                            showUnreadComments = settings.showUnreadComments,
+                        )
+                    }
+                }.launchIn(this)
 
-            zombieModeHelper.index.onEach { index ->
-                if (uiState.value.zombieModeActive) {
-                    emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
-                }
-            }.launchIn(this)
+            zombieModeHelper.index
+                .onEach { index ->
+                    if (uiState.value.zombieModeActive) {
+                        emitEffect(CommunityDetailMviModel.Effect.ZombieModeTick(index))
+                    }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostRemoved::class).onEach { evt ->
-                handlePostDelete(evt.model.id)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.UserBannedPost::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostRemoved::class)
+                .onEach { evt ->
+                    handlePostDelete(evt.model.id)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.UserBannedPost::class)
                 .onEach { evt ->
                     val postId = evt.postId
                     val newUser = evt.user
@@ -148,7 +157,8 @@ class CommunityDetailViewModel(
                         )
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommentRemoved::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommentRemoved::class)
                 .onEach { evt ->
                     val postId = evt.model.postId
                     uiState.value.posts.firstOrNull { it.id == postId }?.also {
@@ -157,7 +167,8 @@ class CommunityDetailViewModel(
                     }
                 }.launchIn(this)
             val communityHandle = uiState.value.community.readableHandle
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == communityHandle) {
                         if (evt.defaultForCommunity) {
@@ -166,19 +177,26 @@ class CommunityDetailViewModel(
                         applySortType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CopyText::class)
+                .onEach {
+                    emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1_000).onEach {
-                updateState { it.copy(loading = false) }
-                emitEffect(CommunityDetailMviModel.Effect.BackToTop)
-                delay(50)
-                refresh()
-            }.launchIn(this)
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1_000)
+                .onEach {
+                    updateState { it.copy(loading = false) }
+                    emitEffect(CommunityDetailMviModel.Effect.BackToTop)
+                    delay(50)
+                    refresh()
+                }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
@@ -194,7 +212,8 @@ class CommunityDetailViewModel(
             }
             if (uiState.value.initial) {
                 val defaultPostSortType =
-                    settingsRepository.currentSettings.value.defaultPostSortType.toSortType()
+                    settingsRepository.currentSettings.value.defaultPostSortType
+                        .toSortType()
                 val customPostSortType =
                     communitySortRepository.get(communityHandle)?.toSortType()
                 val preferredLanguageId = communityPreferredLanguageRepository.get(communityHandle)
@@ -296,19 +315,22 @@ class CommunityDetailViewModel(
             }
 
             is CommunityDetailMviModel.Intent.ModFeaturePost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         feature(post = post)
                     }
 
             is CommunityDetailMviModel.Intent.AdminFeaturePost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         featureLocal(post = post)
                     }
 
             is CommunityDetailMviModel.Intent.ModLockPost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         lock(post = post)
                     }
@@ -381,12 +403,13 @@ class CommunityDetailViewModel(
         val isFavorite =
             favoriteCommunityRepository.getBy(accountId, currentState.community.id) != null
         val refreshedCommunity =
-            communityRepository.get(
-                auth = auth,
-                name = currentState.community.name,
-                id = currentState.community.id,
-                instance = otherInstance,
-            )?.copy(favorite = isFavorite)
+            communityRepository
+                .get(
+                    auth = auth,
+                    name = currentState.community.name,
+                    id = currentState.community.id,
+                    instance = otherInstance,
+                )?.copy(favorite = isFavorite)
         val moderators =
             communityRepository.getModerators(
                 auth = auth,
@@ -436,26 +459,28 @@ class CommunityDetailViewModel(
         }
         updateState { it.copy(loading = true) }
         val posts =
-            postPaginationManager.loadNextPage().let {
-                if (!hideReadPosts) {
-                    it
-                } else {
-                    it.filter { post -> !post.read }
-                }
-            }.let {
-                if (currentState.searching) {
-                    it.filter { post ->
-                        listOf(post.title, post.text).any { s ->
-                            s.contains(
-                                other = currentState.searchText,
-                                ignoreCase = true,
-                            )
-                        }
+            postPaginationManager
+                .loadNextPage()
+                .let {
+                    if (!hideReadPosts) {
+                        it
+                    } else {
+                        it.filter { post -> !post.read }
                     }
-                } else {
-                    it
+                }.let {
+                    if (currentState.searching) {
+                        it.filter { post ->
+                            listOf(post.title, post.text).any { s ->
+                                s.contains(
+                                    other = currentState.searchText,
+                                    ignoreCase = true,
+                                )
+                            }
+                        }
+                    } else {
+                        it
+                    }
                 }
-            }
         if (uiState.value.autoLoadImages) {
             posts.forEach { post ->
                 post.imageUrl.takeIf { i -> i.isNotEmpty() }?.also { url ->
@@ -775,9 +800,11 @@ class CommunityDetailViewModel(
             if (newValue) {
                 val model = FavoriteCommunityModel(communityId = communityId)
                 favoriteCommunityRepository.create(model, accountId)
+                notificationCenter.send(NotificationCenterEvent.FavoritesUpdated)
             } else {
                 favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
                     favoriteCommunityRepository.delete(accountId, toDelete)
+                    notificationCenter.send(NotificationCenterEvent.FavoritesUpdated)
                 }
             }
             val newCommunity = uiState.value.community.copy(favorite = newValue)

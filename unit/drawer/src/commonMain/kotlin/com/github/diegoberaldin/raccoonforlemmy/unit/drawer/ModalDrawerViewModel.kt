@@ -12,21 +12,15 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiCo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
@@ -41,47 +35,59 @@ class ModalDrawerViewModel(
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
     private val notificationCenter: NotificationCenter,
-) : ModalDrawerMviModel,
-    DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
+) : DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
         initialState = ModalDrawerMviModel.UiState(),
-    ) {
+    ),
+    ModalDrawerMviModel {
     private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
-            apiConfigurationRepository.instance.onEach { instance ->
-                updateState {
-                    it.copy(instance = instance)
-                }
-            }.launchIn(this)
+            apiConfigurationRepository.instance
+                .onEach { instance ->
+                    updateState {
+                        it.copy(instance = instance)
+                    }
+                }.launchIn(this)
 
-            identityRepository.isLogged.onEach { _ ->
-                refreshUser()
-                refresh()
-            }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { _ ->
+                    refreshUser()
+                    refresh()
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                delay(250)
-                refreshUser()
-                refresh()
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Logout::class)
+                .onEach {
+                    delay(250)
+                    refreshUser()
+                    refresh()
+                }.launchIn(this)
 
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                    )
-                }
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.FavoritesUpdated::class)
+                .onEach {
+                    refresh()
+                }.launchIn(this)
+
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
 
             @OptIn(FlowPreview::class)
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                refresh()
-            }.launchIn(this)
-
-            observeChangesInFavoriteCommunities()
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1000)
+                .onEach {
+                    refresh()
+                }.launchIn(this)
 
             delay(250)
             refreshUser()
@@ -89,53 +95,23 @@ class ModalDrawerViewModel(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private fun CoroutineScope.observeChangesInFavoriteCommunities() {
-        channelFlow {
-            while (isActive) {
-                val accountId = accountRepository.getActive()?.id
-                trySend(accountId)
-                delay(1000)
-            }
-        }.distinctUntilChanged().flatMapConcat { accountId ->
-            channelFlow {
-                while (isActive) {
-                    val communityIds =
-                        favoriteCommunityRepository.getAll(accountId).map { it.communityId }
-                    trySend(communityIds)
-                    delay(1000)
-                }
-            }.distinctUntilChanged()
-        }.onEach { favoriteCommunityIds ->
-            val currentState = uiState.value
-            val newFavorites =
-                currentState.favorites.filter { it.id in favoriteCommunityIds } + currentState.communities.filter { it.id in favoriteCommunityIds }
-            val newCommunities =
-                (currentState.communities.filter { it.id !in favoriteCommunityIds } + currentState.favorites.filter { it.id !in favoriteCommunityIds })
-            updateState {
-                it.copy(
-                    favorites = newFavorites,
-                    communities = newCommunities,
-                )
-            }
-
-        }.launchIn(this)
-    }
-
     override fun reduce(intent: ModalDrawerMviModel.Intent) {
         when (intent) {
-            ModalDrawerMviModel.Intent.Refresh -> screenModelScope.launch {
-                refresh()
-            }
+            ModalDrawerMviModel.Intent.Refresh ->
+                screenModelScope.launch {
+                    refresh()
+                }
 
-            is ModalDrawerMviModel.Intent.SetSearch -> screenModelScope.launch {
-                updateState { it.copy(searchText = intent.value) }
-                searchEventChannel.send(Unit)
-            }
+            is ModalDrawerMviModel.Intent.SetSearch ->
+                screenModelScope.launch {
+                    updateState { it.copy(searchText = intent.value) }
+                    searchEventChannel.send(Unit)
+                }
 
-            ModalDrawerMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            ModalDrawerMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
         }
     }
 
@@ -175,46 +151,48 @@ class ModalDrawerViewModel(
         val accountId = accountRepository.getActive()?.id
         val searchText = uiState.value.searchText
         val multiCommunities =
-            accountId?.let {
-                multiCommunityRepository.getAll(it)
-                    .let { communities ->
-                        if (searchText.isEmpty()) {
-                            communities
-                        } else {
-                            communities.filter { c ->
-                                c.name.contains(
-                                    other = searchText,
-                                    ignoreCase = true
-                                )
+            accountId
+                ?.let {
+                    multiCommunityRepository
+                        .getAll(it)
+                        .let { communities ->
+                            if (searchText.isEmpty()) {
+                                communities
+                            } else {
+                                communities.filter { c ->
+                                    c.name.contains(
+                                        other = searchText,
+                                        ignoreCase = true,
+                                    )
+                                }
                             }
-                        }
-                    }
-                    .sortedBy { e -> e.name }
-            }.orEmpty()
+                        }.sortedBy { e -> e.name }
+                }.orEmpty()
 
-        val favorites = coroutineScope {
-            val auth = identityRepository.authToken.value
-            favoriteCommunityRepository.getAll(accountId).mapNotNull { favorite ->
-                val communityId = favorite.communityId
-                async {
-                    communityRepository.get(
-                        auth = auth,
-                        id = communityId,
-                    )
-                }.await()
-            }
-        }.let { communities ->
-            if (searchText.isEmpty()) {
-                communities
-            } else {
-                communities.filter { c ->
-                    c.name.contains(
-                        other = searchText,
-                        ignoreCase = true
-                    )
+        val favorites =
+            coroutineScope {
+                val auth = identityRepository.authToken.value
+                favoriteCommunityRepository.getAll(accountId).mapNotNull { favorite ->
+                    val communityId = favorite.communityId
+                    async {
+                        communityRepository.get(
+                            auth = auth,
+                            id = communityId,
+                        )
+                    }.await()
+                }
+            }.let { communities ->
+                if (searchText.isEmpty()) {
+                    communities
+                } else {
+                    communities.filter { c ->
+                        c.name.contains(
+                            other = searchText,
+                            ignoreCase = true,
+                        )
+                    }
                 }
             }
-        }
 
         updateState {
             it.copy(
@@ -234,21 +212,23 @@ class ModalDrawerViewModel(
         }
         val auth = identityRepository.authToken.value
         val searchText = uiState.value.searchText
-        val itemsToAdd = communityRepository.getSubscribed(
-            auth = auth,
-            page = currentPage,
-            query = searchText,
-        ).filter { c1 ->
-            // exclude items already included in favorites
-            currentState.favorites.none { c2 -> c2.id == c1.id }
-        }.filter { c1 ->
-            // prevents accidental duplication
-            if (!currentState.refreshing) {
-                currentState.communities.none { c2 -> c2.id == c1.id }
-            } else {
-                true
-            }
-        }
+        val itemsToAdd =
+            communityRepository
+                .getSubscribed(
+                    auth = auth,
+                    page = currentPage,
+                    query = searchText,
+                ).filter { c1 ->
+                    // exclude items already included in favorites
+                    currentState.favorites.none { c2 -> c2.id == c1.id }
+                }.filter { c1 ->
+                    // prevents accidental duplication
+                    if (!currentState.refreshing) {
+                        currentState.communities.none { c2 -> c2.id == c1.id }
+                    } else {
+                        true
+                    }
+                }
         if (itemsToAdd.isNotEmpty()) {
             currentPage++
         }
@@ -256,11 +236,12 @@ class ModalDrawerViewModel(
             it.copy(
                 isFiltering = searchText.isNotEmpty(),
                 refreshing = false,
-                communities = if (currentState.refreshing) {
-                    itemsToAdd
-                } else {
-                    currentState.communities + itemsToAdd
-                },
+                communities =
+                    if (currentState.refreshing) {
+                        itemsToAdd
+                    } else {
+                        currentState.communities + itemsToAdd
+                    },
                 canFetchMore = itemsToAdd.isNotEmpty(),
                 loading = false,
             )

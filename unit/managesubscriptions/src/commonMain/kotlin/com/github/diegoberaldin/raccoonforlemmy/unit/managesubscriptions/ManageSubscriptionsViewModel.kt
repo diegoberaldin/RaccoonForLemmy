@@ -34,36 +34,42 @@ class ManageSubscriptionsViewModel(
     private val siteRepository: SiteRepository,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
-) : ManageSubscriptionsMviModel,
-    DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
+) : DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
         initialState = ManageSubscriptionsMviModel.UiState(),
-    ) {
+    ),
+    ManageSubscriptionsMviModel {
     private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.MultiCommunityCreated::class)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.MultiCommunityCreated::class)
                 .onEach { evt ->
                     handleMultiCommunityCreated(evt.model)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class)
                 .onEach { evt ->
                     handleCommunityUpdate(evt.value)
                 }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                emitEffect(ManageSubscriptionsMviModel.Effect.BackToTop)
-                refresh()
-            }.launchIn(this)
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1000)
+                .onEach {
+                    emitEffect(ManageSubscriptionsMviModel.Effect.BackToTop)
+                    refresh()
+                }.launchIn(this)
             if (uiState.value.communities.isEmpty()) {
                 // determine whether community creation is allowed
                 val isAdmin = identityRepository.cachedUser?.admin ?: false
@@ -89,11 +95,12 @@ class ManageSubscriptionsViewModel(
             }
 
             is ManageSubscriptionsMviModel.Intent.DeleteMultiCommunity -> {
-                uiState.value.multiCommunities.firstOrNull {
-                    (it.id ?: 0L) == intent.id
-                }?.also { community ->
-                    deleteMultiCommunity(community)
-                }
+                uiState.value.multiCommunities
+                    .firstOrNull {
+                        (it.id ?: 0L) == intent.id
+                    }?.also { community ->
+                        deleteMultiCommunity(community)
+                    }
             }
 
             is ManageSubscriptionsMviModel.Intent.ToggleFavorite -> {
@@ -122,7 +129,8 @@ class ManageSubscriptionsViewModel(
         currentPage = 1
         val accountId = accountRepository.getActive()?.id ?: 0L
         val multiCommunitites =
-            multiCommunityRepository.getAll(accountId)
+            multiCommunityRepository
+                .getAll(accountId)
                 .let {
                     val searchText = uiState.value.searchText
                     if (searchText.isNotEmpty()) {
@@ -132,8 +140,7 @@ class ManageSubscriptionsViewModel(
                     } else {
                         it
                     }
-                }
-                .sortedBy { it.name }
+                }.sortedBy { it.name }
 
         updateState {
             it.copy(
@@ -193,9 +200,11 @@ class ManageSubscriptionsViewModel(
             if (newValue) {
                 val model = FavoriteCommunityModel(communityId = communityId)
                 favoriteCommunityRepository.create(model, accountId)
+                notificationCenter.send(NotificationCenterEvent.FavoritesUpdated)
             } else {
                 favoriteCommunityRepository.getBy(accountId, communityId)?.also { toDelete ->
                     favoriteCommunityRepository.delete(accountId, toDelete)
+                    notificationCenter.send(NotificationCenterEvent.FavoritesUpdated)
                 }
             }
             val newCommunity = community.copy(favorite = newValue)
@@ -240,17 +249,19 @@ class ManageSubscriptionsViewModel(
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val itemsToAdd =
-            communityRepository.getSubscribed(
-                auth = auth,
-                page = currentPage,
-                query = searchText,
-            ).map { community ->
-                community.copy(favorite = community.id in favoriteCommunityIds)
-            }.sortedBy { it.name }.let {
-                val favorites = it.filter { e -> e.favorite }
-                val res = it - favorites.toSet()
-                favorites + res
-            }
+            communityRepository
+                .getSubscribed(
+                    auth = auth,
+                    page = currentPage,
+                    query = searchText,
+                ).map { community ->
+                    community.copy(favorite = community.id in favoriteCommunityIds)
+                }.sortedBy { it.name }
+                .let {
+                    val favorites = it.filter { e -> e.favorite }
+                    val res = it - favorites.toSet()
+                    favorites + res
+                }
         if (itemsToAdd.isNotEmpty()) {
             currentPage++
         }

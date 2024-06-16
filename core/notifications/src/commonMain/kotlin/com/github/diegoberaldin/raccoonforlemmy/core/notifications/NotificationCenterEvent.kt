@@ -162,4 +162,6 @@ sealed interface NotificationCenterEvent {
 
     data class ChangeCommunityVisibility(val value: CommunityVisibilityType) :
         NotificationCenterEvent
+
+    data object FavoritesUpdated : NotificationCenterEvent
 }
