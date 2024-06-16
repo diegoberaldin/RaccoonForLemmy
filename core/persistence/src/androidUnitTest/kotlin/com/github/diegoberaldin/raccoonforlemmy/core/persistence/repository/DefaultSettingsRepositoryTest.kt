@@ -155,6 +155,7 @@ class DefaultSettingsRepositoryTest {
                     fullWidthImages = if (model.fullWidthImages) 1 else 0,
                     showUnreadComments = if (model.showUnreadComments) 1 else 0,
                     commentIndentAmount = model.commentIndentAmount.toLong(),
+                    enableToggleFavoriteInNavDrawer = if (model.enableToggleFavoriteInNavDrawer) 1 else 0,
                     account_id = 1,
                 )
             }
@@ -226,6 +227,7 @@ class DefaultSettingsRepositoryTest {
                     fullWidthImages = if (model.fullWidthImages) 1 else 0,
                     showUnreadComments = if (model.showUnreadComments) 1 else 0,
                     commentIndentAmount = model.commentIndentAmount.toLong(),
+                    enableToggleFavoriteInNavDrawer = if (model.enableToggleFavoriteInNavDrawer) 1 else 0,
                     account_id = 1,
                 )
             }
@@ -293,6 +295,7 @@ class DefaultSettingsRepositoryTest {
         fullWidthImages: Boolean = false,
         showUnreadComments: Boolean = true,
         commentIndentAmount: Int = 2,
+        enableToggleFavoriteInNavDrawer: Boolean = false,
     ) = GetBy(
         id = id,
         theme = theme,
@@ -353,5 +356,6 @@ class DefaultSettingsRepositoryTest {
         fullWidthImages = if (fullWidthImages) 1 else 0,
         showUnreadComments = if (showUnreadComments) 1 else 0,
         commentIndentAmount = commentIndentAmount.toLong(),
+        enableToggleFavoriteInNavDrawer = if (enableToggleFavoriteInNavDrawer) 1 else 0,
     )
 }

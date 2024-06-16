@@ -120,22 +120,28 @@ internal class DefaultSettingsRepository(
             postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
             infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1 else 0,
             actionsOnSwipeToStartPosts =
-                settings.actionsOnSwipeToStartPosts.map { it.toInt() }
+                settings.actionsOnSwipeToStartPosts
+                    .map { it.toInt() }
                     .joinToString(","),
             actionsOnSwipeToEndPosts =
-                settings.actionsOnSwipeToEndPosts.map { it.toInt() }
+                settings.actionsOnSwipeToEndPosts
+                    .map { it.toInt() }
                     .joinToString(","),
             actionsOnSwipeToStartComments =
-                settings.actionsOnSwipeToStartComments.map { it.toInt() }
+                settings.actionsOnSwipeToStartComments
+                    .map { it.toInt() }
                     .joinToString(","),
             actionsOnSwipeToEndComments =
-                settings.actionsOnSwipeToEndComments.map { it.toInt() }
+                settings.actionsOnSwipeToEndComments
+                    .map { it.toInt() }
                     .joinToString(","),
             actionsOnSwipeToStartInbox =
-                settings.actionsOnSwipeToStartInbox.map { it.toInt() }
+                settings.actionsOnSwipeToStartInbox
+                    .map { it.toInt() }
                     .joinToString(","),
             actionsOnSwipeToEndInbox =
-                settings.actionsOnSwipeToEndInbox.map { it.toInt() }
+                settings.actionsOnSwipeToEndInbox
+                    .map { it.toInt() }
                     .joinToString(","),
             opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
             showScores = if (settings.showScores) 1L else 0L,
@@ -150,6 +156,7 @@ internal class DefaultSettingsRepository(
             showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
             enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
             fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
+            enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
         )
     }
 
@@ -387,22 +394,28 @@ internal class DefaultSettingsRepository(
                 postBodyMaxLines = settings.postBodyMaxLines?.toLong(),
                 infiniteScrollEnabled = if (settings.infiniteScrollEnabled) 1L else 0L,
                 actionsOnSwipeToStartPosts =
-                    settings.actionsOnSwipeToStartPosts.map { it.toInt() }
+                    settings.actionsOnSwipeToStartPosts
+                        .map { it.toInt() }
                         .joinToString(","),
                 actionsOnSwipeToEndPosts =
-                    settings.actionsOnSwipeToEndPosts.map { it.toInt() }
+                    settings.actionsOnSwipeToEndPosts
+                        .map { it.toInt() }
                         .joinToString(","),
                 actionsOnSwipeToStartComments =
-                    settings.actionsOnSwipeToStartComments.map { it.toInt() }
+                    settings.actionsOnSwipeToStartComments
+                        .map { it.toInt() }
                         .joinToString(","),
                 actionsOnSwipeToEndComments =
-                    settings.actionsOnSwipeToEndComments.map { it.toInt() }
+                    settings.actionsOnSwipeToEndComments
+                        .map { it.toInt() }
                         .joinToString(","),
                 actionsOnSwipeToStartInbox =
-                    settings.actionsOnSwipeToStartInbox.map { it.toInt() }
+                    settings.actionsOnSwipeToStartInbox
+                        .map { it.toInt() }
                         .joinToString(","),
                 actionsOnSwipeToEndInbox =
-                    settings.actionsOnSwipeToEndInbox.map { it.toInt() }
+                    settings.actionsOnSwipeToEndInbox
+                        .map { it.toInt() }
                         .joinToString(","),
                 opaqueSystemBars = if (settings.opaqueSystemBars) 1L else 0L,
                 showScores = if (settings.showScores) 1L else 0L,
@@ -417,6 +430,7 @@ internal class DefaultSettingsRepository(
                 showUnreadComments = if (settings.showUnreadComments) 1L else 0L,
                 enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
                 fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
+                enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
             )
         }
     }
@@ -472,27 +486,33 @@ private fun GetBy.toModel() =
         postBodyMaxLines = postBodyMaxLines?.toInt(),
         infiniteScrollEnabled = infiniteScrollEnabled != 0L,
         actionsOnSwipeToStartPosts =
-            actionsOnSwipeToStartPosts?.split(",")
+            actionsOnSwipeToStartPosts
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS,
         actionsOnSwipeToEndPosts =
-            actionsOnSwipeToEndPosts?.split(",")
+            actionsOnSwipeToEndPosts
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS,
         actionsOnSwipeToStartComments =
-            actionsOnSwipeToStartComments?.split(",")
+            actionsOnSwipeToStartComments
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS,
         actionsOnSwipeToEndComments =
-            actionsOnSwipeToEndComments?.split(",")
+            actionsOnSwipeToEndComments
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS,
         actionsOnSwipeToStartInbox =
-            actionsOnSwipeToStartInbox?.split(",")
+            actionsOnSwipeToStartInbox
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_START_INBOX,
         actionsOnSwipeToEndInbox =
-            actionsOnSwipeToEndInbox?.split(",")
+            actionsOnSwipeToEndInbox
+                ?.split(",")
                 ?.mapNotNull { it.toIntOrNull()?.toActionOnSwipe() }
                 ?: ActionOnSwipe.DEFAULT_SWIPE_TO_END_INBOX,
         opaqueSystemBars = opaqueSystemBars == 1L,
@@ -508,4 +528,5 @@ private fun GetBy.toModel() =
         showUnreadComments = showUnreadComments == 1L,
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments == 1L,
         fullWidthImages = fullWidthImages == 1L,
+        enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer == 1L,
     )

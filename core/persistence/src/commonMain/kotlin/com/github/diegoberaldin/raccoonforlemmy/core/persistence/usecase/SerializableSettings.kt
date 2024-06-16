@@ -74,6 +74,7 @@ internal data class SerializableSettings(
     val showUnreadComments: Boolean = false,
     val enableButtonsToScrollBetweenComments: Boolean = false,
     val fullWidthImages: Boolean = false,
+    val enableToggleFavoriteInNavDrawer: Boolean = false,
 )
 
 internal fun SerializableSettings.toModel() =
@@ -139,6 +140,7 @@ internal fun SerializableSettings.toModel() =
         showUnreadComments = showUnreadComments,
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
         fullWidthImages = fullWidthImages,
+        enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
     )
 
 internal fun SettingsModel.toData() =
@@ -198,4 +200,5 @@ internal fun SettingsModel.toData() =
         showUnreadComments = showUnreadComments,
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
         fullWidthImages = fullWidthImages,
+        enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
     )

@@ -62,4 +62,5 @@ data class SettingsModel(
     val showUnreadComments: Boolean = false,
     val enableButtonsToScrollBetweenComments: Boolean = false,
     val commentIndentAmount: Int = 2,
+    val enableToggleFavoriteInNavDrawer: Boolean = false,
 )

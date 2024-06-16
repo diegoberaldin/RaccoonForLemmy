@@ -78,6 +78,7 @@ class ModalDrawerViewModel(
                         it.copy(
                             autoLoadImages = settings.autoLoadImages,
                             preferNicknames = settings.preferUserNicknames,
+                            enableToggleFavorite = settings.enableToggleFavoriteInNavDrawer,
                         )
                     }
                 }.launchIn(this)
