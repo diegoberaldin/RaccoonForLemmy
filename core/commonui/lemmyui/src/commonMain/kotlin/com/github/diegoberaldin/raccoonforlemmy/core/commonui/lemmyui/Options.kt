@@ -5,7 +5,9 @@ data class Option(
     val text: String,
 )
 
-sealed class OptionId(val value: Int) {
+sealed class OptionId(
+    val value: Int,
+) {
     data object Share : OptionId(0)
 
     data object Hide : OptionId(1)
@@ -65,4 +67,6 @@ sealed class OptionId(val value: Int) {
     data object Unsubscribe : OptionId(28)
 
     data object PurgeCreator : OptionId(29)
+
+    data object Restore : OptionId(30)
 }
