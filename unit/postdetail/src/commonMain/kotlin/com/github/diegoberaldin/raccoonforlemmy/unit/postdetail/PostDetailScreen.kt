@@ -40,6 +40,7 @@ import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -1004,7 +1005,7 @@ class PostDetailScreen(
                                         },
                                     ) {
                                         @Composable
-                                        fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                        fun List<ActionOnSwipe>.toSwipeActions(canEdit: Boolean): List<SwipeAction> =
                                             mapNotNull {
                                                 when (it) {
                                                     ActionOnSwipe.UpVote ->
@@ -1098,6 +1099,33 @@ class PostDetailScreen(
                                                                 },
                                                         )
 
+                                                    ActionOnSwipe.Edit ->
+                                                        if (!canEdit) {
+                                                            null
+                                                        } else {
+                                                            SwipeAction(
+                                                                swipeContent = {
+                                                                    Icon(
+                                                                        imageVector = Icons.Default.Edit,
+                                                                        contentDescription = null,
+                                                                        tint = Color.White,
+                                                                    )
+                                                                },
+                                                                backgroundColor = MaterialTheme.colorScheme.tertiary,
+                                                                onTriggered =
+                                                                    rememberCallback {
+                                                                        detailOpener.openReply(
+                                                                            originalPost = PostModel(id = comment.postId),
+                                                                            originalComment =
+                                                                                comment.parentId?.let { parentId ->
+                                                                                    CommentModel(id = parentId)
+                                                                                },
+                                                                            editedComment = comment,
+                                                                        )
+                                                                    },
+                                                            )
+                                                        }
+
                                                     else -> null
                                                 }
                                             }
@@ -1112,13 +1140,17 @@ class PostDetailScreen(
                                                     },
                                                 swipeToStartActions =
                                                     if (uiState.isLogged && !isOnOtherInstance) {
-                                                        uiState.actionsOnSwipeToStartComments.toSwipeActions()
+                                                        uiState.actionsOnSwipeToStartComments.toSwipeActions(
+                                                            canEdit = comment.creator?.id == uiState.currentUserId,
+                                                        )
                                                     } else {
                                                         emptyList()
                                                     },
                                                 swipeToEndActions =
                                                     if (uiState.isLogged && !isOnOtherInstance) {
-                                                        uiState.actionsOnSwipeToEndComments.toSwipeActions()
+                                                        uiState.actionsOnSwipeToEndComments.toSwipeActions(
+                                                            canEdit = comment.creator?.id == uiState.currentUserId,
+                                                        )
                                                     } else {
                                                         emptyList()
                                                     },
