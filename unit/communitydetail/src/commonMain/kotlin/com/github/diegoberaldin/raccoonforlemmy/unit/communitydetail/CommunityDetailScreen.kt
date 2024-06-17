@@ -1205,11 +1205,19 @@ class CommunityDetailScreen(
                                                                 OptionId.Edit,
                                                                 LocalStrings.current.postActionEdit,
                                                             )
-                                                        this +=
-                                                            Option(
-                                                                OptionId.Delete,
-                                                                LocalStrings.current.commentActionDelete,
-                                                            )
+                                                        if (post.deleted) {
+                                                            this +=
+                                                                Option(
+                                                                    OptionId.Restore,
+                                                                    LocalStrings.current.actionRestore,
+                                                                )
+                                                        } else {
+                                                            this +=
+                                                                Option(
+                                                                    OptionId.Delete,
+                                                                    LocalStrings.current.commentActionDelete,
+                                                                )
+                                                        }
                                                     }
                                                     if (uiState.moderators.containsId(uiState.currentUserId)) {
                                                         this +=
@@ -1445,6 +1453,14 @@ class CommunityDetailScreen(
                                                                     )
                                                                 navigationCoordinator.pushScreen(screen)
                                                             }
+                                                        }
+
+                                                        OptionId.Restore -> {
+                                                            model.reduce(
+                                                                CommunityDetailMviModel.Intent.RestorePost(
+                                                                    post.id,
+                                                                ),
+                                                            )
                                                         }
 
                                                         else -> Unit

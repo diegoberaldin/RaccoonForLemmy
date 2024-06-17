@@ -157,15 +157,6 @@ class CommunityDetailViewModel(
                         )
                     }
                 }.launchIn(this)
-            notificationCenter
-                .subscribe(NotificationCenterEvent.CommentRemoved::class)
-                .onEach { evt ->
-                    val postId = evt.model.postId
-                    uiState.value.posts.firstOrNull { it.id == postId }?.also {
-                        val newPost = it.copy(comments = (it.comments - 1).coerceAtLeast(0))
-                        handlePostUpdate(newPost)
-                    }
-                }.launchIn(this)
             val communityHandle = uiState.value.community.readableHandle
             notificationCenter
                 .subscribe(NotificationCenterEvent.ChangeSortType::class)
@@ -374,6 +365,10 @@ class CommunityDetailViewModel(
             CommunityDetailMviModel.Intent.DeleteCommunity -> {
                 deleteCommunity()
             }
+
+            is CommunityDetailMviModel.Intent.RestorePost -> {
+                restorePost(intent.id)
+            }
         }
     }
 
@@ -389,6 +384,7 @@ class CommunityDetailViewModel(
                 otherInstance = otherInstance,
                 query = currentState.searchText.takeIf { currentState.searching },
                 includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
+                includeDeleted = true,
             ),
         )
         updateState {
@@ -857,6 +853,20 @@ class CommunityDetailViewModel(
                 emitEffect(CommunityDetailMviModel.Effect.Back)
             } catch (e: Exception) {
                 emitEffect(CommunityDetailMviModel.Effect.Failure(e.message))
+            }
+        }
+    }
+
+    private fun restorePost(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.restore(
+                    id = id,
+                    auth = auth,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
             }
         }
     }
