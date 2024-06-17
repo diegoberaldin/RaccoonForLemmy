@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ClearAll
 import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -216,46 +217,47 @@ class CommunityDetailScreen(
         var deleteConfirmDialogOpen by remember { mutableStateOf(false) }
 
         LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    is CommunityDetailMviModel.Effect.Error -> {
-                        snackbarHostState.showSnackbar(effect.message ?: genericError)
-                    }
-
-                    CommunityDetailMviModel.Effect.Success -> {
-                        snackbarHostState.showSnackbar(successMessage)
-                    }
-
-                    CommunityDetailMviModel.Effect.BackToTop -> {
-                        runCatching {
-                            lazyListState.scrollToItem(0)
-                            topAppBarState.heightOffset = 0f
-                            topAppBarState.contentOffset = 0f
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        is CommunityDetailMviModel.Effect.Error -> {
+                            snackbarHostState.showSnackbar(effect.message ?: genericError)
                         }
-                    }
 
-                    is CommunityDetailMviModel.Effect.ZombieModeTick -> {
-                        runCatching {
-                            if (effect.index >= 0) {
-                                lazyListState.animateScrollBy(
-                                    value = settings.zombieModeScrollAmount,
-                                    animationSpec = tween(350),
-                                )
+                        CommunityDetailMviModel.Effect.Success -> {
+                            snackbarHostState.showSnackbar(successMessage)
+                        }
+
+                        CommunityDetailMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
                             }
                         }
-                    }
 
-                    is CommunityDetailMviModel.Effect.TriggerCopy -> {
-                        clipboardManager.setText(AnnotatedString(text = effect.text))
-                    }
+                        is CommunityDetailMviModel.Effect.ZombieModeTick -> {
+                            runCatching {
+                                if (effect.index >= 0) {
+                                    lazyListState.animateScrollBy(
+                                        value = settings.zombieModeScrollAmount,
+                                        animationSpec = tween(350),
+                                    )
+                                }
+                            }
+                        }
 
-                    is CommunityDetailMviModel.Effect.Failure -> {
-                        snackbarHostState.showSnackbar(effect.message ?: genericError)
-                    }
+                        is CommunityDetailMviModel.Effect.TriggerCopy -> {
+                            clipboardManager.setText(AnnotatedString(text = effect.text))
+                        }
 
-                    CommunityDetailMviModel.Effect.Back -> navigationCoordinator.popScreen()
-                }
-            }.launchIn(this)
+                        is CommunityDetailMviModel.Effect.Failure -> {
+                            snackbarHostState.showSnackbar(effect.message ?: genericError)
+                        }
+
+                        CommunityDetailMviModel.Effect.Back -> navigationCoordinator.popScreen()
+                    }
+                }.launchIn(this)
         }
         LaunchedEffect(uiState.zombieModeActive) {
             if (uiState.zombieModeActive) {
@@ -265,11 +267,12 @@ class CommunityDetailScreen(
             }
         }
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.globalMessage.onEach { message ->
-                snackbarHostState.showSnackbar(
-                    message = message,
-                )
-            }.launchIn(this)
+            navigationCoordinator.globalMessage
+                .onEach { message ->
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                    )
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -277,16 +280,17 @@ class CommunityDetailScreen(
             topBar = {
                 val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
-                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset =
-                        (maxTopInset * (1 - it)).let { insetValue ->
-                            if (uiState.searching) {
-                                insetValue.coerceAtLeast(statusBarInset.toFloat())
-                            } else {
-                                insetValue
+                snapshotFlow { topAppBarState.collapsedFraction }
+                    .onEach {
+                        topInset =
+                            (maxTopInset * (1 - it)).let { insetValue ->
+                                if (uiState.searching) {
+                                    insetValue.coerceAtLeast(statusBarInset.toFloat())
+                                } else {
+                                    insetValue
+                                }
                             }
-                        }
-                }.launchIn(scope)
+                    }.launchIn(scope)
 
                 TopAppBar(
                     windowInsets =
@@ -477,13 +481,14 @@ class CommunityDetailScreen(
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
                                 modifier =
-                                    Modifier.onGloballyPositioned {
-                                        optionsOffset = it.positionInParent()
-                                    }.onClick(
-                                        onClick = {
-                                            optionsExpanded = true
-                                        },
-                                    ),
+                                    Modifier
+                                        .onGloballyPositioned {
+                                            optionsOffset = it.positionInParent()
+                                        }.onClick(
+                                            onClick = {
+                                                optionsExpanded = true
+                                            },
+                                        ),
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -816,8 +821,7 @@ class CommunityDetailScreen(
                                     } else {
                                         Modifier
                                     },
-                                )
-                                .nestedScroll(fabNestedScrollConnection)
+                                ).nestedScroll(fabNestedScrollConnection)
                                 .nestedScroll(keyboardScrollConnection)
                                 .pullRefresh(pullRefreshState),
                     ) {
@@ -904,7 +908,7 @@ class CommunityDetailScreen(
                                 }
 
                                 @Composable
-                                fun List<ActionOnSwipe>.toSwipeActions(): List<SwipeAction> =
+                                fun List<ActionOnSwipe>.toSwipeActions(canEdit: Boolean): List<SwipeAction> =
                                     mapNotNull {
                                         when (it) {
                                             ActionOnSwipe.UpVote ->
@@ -993,6 +997,26 @@ class CommunityDetailScreen(
                                                         },
                                                 )
 
+                                            ActionOnSwipe.Edit ->
+                                                if (!canEdit) {
+                                                    null
+                                                } else {
+                                                    SwipeAction(
+                                                        swipeContent = {
+                                                            Icon(
+                                                                imageVector = Icons.Default.Edit,
+                                                                contentDescription = null,
+                                                                tint = Color.White,
+                                                            )
+                                                        },
+                                                        backgroundColor = MaterialTheme.colorScheme.tertiary,
+                                                        onTriggered =
+                                                            rememberCallback {
+                                                                detailOpener.openCreatePost(editedPost = post)
+                                                            },
+                                                    )
+                                                }
+
                                             else -> null
                                         }
                                     }
@@ -1006,13 +1030,17 @@ class CommunityDetailScreen(
                                         },
                                     swipeToStartActions =
                                         if (uiState.isLogged && !isOnOtherInstance) {
-                                            uiState.actionsOnSwipeToStartPosts.toSwipeActions()
+                                            uiState.actionsOnSwipeToStartPosts.toSwipeActions(
+                                                canEdit = post.creator?.id == uiState.currentUserId,
+                                            )
                                         } else {
                                             emptyList()
                                         },
                                     swipeToEndActions =
                                         if (uiState.isLogged && !isOnOtherInstance) {
-                                            uiState.actionsOnSwipeToEndPosts.toSwipeActions()
+                                            uiState.actionsOnSwipeToEndPosts.toSwipeActions(
+                                                canEdit = post.creator?.id == uiState.currentUserId,
+                                            )
                                         } else {
                                             emptyList()
                                         },
@@ -1438,7 +1466,8 @@ class CommunityDetailScreen(
                                     } else {
                                         Row(
                                             modifier =
-                                                Modifier.fillMaxWidth()
+                                                Modifier
+                                                    .fillMaxWidth()
                                                     .padding(top = Spacing.s),
                                             horizontalArrangement = Arrangement.Center,
                                             verticalAlignment = Alignment.CenterVertically,
