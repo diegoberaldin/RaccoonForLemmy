@@ -91,22 +91,27 @@ object ProfileLoggedScreen : Tab {
         var commentIdToDelete by remember { mutableStateOf<Long?>(null) }
 
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                runCatching {
-                    if (section == TabNavigationSection.Profile) {
-                        lazyListState.scrollToItem(0)
+            navigationCoordinator.onDoubleTabSelection
+                .onEach { section ->
+                    runCatching {
+                        if (section == TabNavigationSection.Profile) {
+                            lazyListState.scrollToItem(0)
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.PostCreated::class).onEach {
-                model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostCreated::class)
+                .onEach {
+                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.CommentCreated::class).onEach {
-                model.reduce(ProfileLoggedMviModel.Intent.Refresh)
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommentCreated::class)
+                .onEach {
+                    model.reduce(ProfileLoggedMviModel.Intent.Refresh)
+                }.launchIn(this)
         }
 
         if (uiState.initial) {
@@ -169,8 +174,7 @@ object ProfileLoggedScreen : Tab {
                                         .padding(
                                             top = Spacing.xs,
                                             bottom = Spacing.s,
-                                        )
-                                        .fillMaxWidth(),
+                                        ).fillMaxWidth(),
                                 isModerator = uiState.user?.moderator == true,
                             )
                             HorizontalDivider()
@@ -296,36 +300,39 @@ object ProfileLoggedScreen : Tab {
                                         },
                                     options =
                                         buildList {
-                                            add(
+                                            this +=
                                                 Option(
                                                     OptionId.Share,
                                                     LocalStrings.current.postActionShare,
-                                                ),
-                                            )
-                                            add(
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.CrossPost,
                                                     LocalStrings.current.postActionCrossPost,
-                                                ),
-                                            )
-                                            add(
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.SeeRaw,
                                                     LocalStrings.current.postActionSeeRaw,
-                                                ),
-                                            )
-                                            add(
+                                                )
+                                            this +=
                                                 Option(
                                                     OptionId.Edit,
                                                     LocalStrings.current.postActionEdit,
-                                                ),
-                                            )
-                                            add(
-                                                Option(
-                                                    OptionId.Delete,
-                                                    LocalStrings.current.commentActionDelete,
-                                                ),
-                                            )
+                                                )
+                                            if (post.deleted) {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Restore,
+                                                        LocalStrings.current.actionRestore,
+                                                    )
+                                            } else {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Delete,
+                                                        LocalStrings.current.commentActionDelete,
+                                                    )
+                                            }
                                         },
                                     onOptionSelected =
                                         rememberCallbackArgs(model) { optionId ->
@@ -369,6 +376,14 @@ object ProfileLoggedScreen : Tab {
                                                     }
                                                 }
 
+                                                OptionId.Restore -> {
+                                                    model.reduce(
+                                                        ProfileLoggedMviModel.Intent.RestorePost(
+                                                            post.id,
+                                                        ),
+                                                    )
+                                                }
+
                                                 else -> Unit
                                             }
                                         },
@@ -384,7 +399,8 @@ object ProfileLoggedScreen : Tab {
                                 item {
                                     Text(
                                         modifier =
-                                            Modifier.fillMaxWidth()
+                                            Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalStrings.current.messageEmptyList,
@@ -490,11 +506,19 @@ object ProfileLoggedScreen : Tab {
                                                     OptionId.Edit,
                                                     LocalStrings.current.postActionEdit,
                                                 )
-                                            this +=
-                                                Option(
-                                                    OptionId.Delete,
-                                                    LocalStrings.current.commentActionDelete,
-                                                )
+                                            if (comment.deleted) {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Restore,
+                                                        LocalStrings.current.actionRestore,
+                                                    )
+                                            } else {
+                                                this +=
+                                                    Option(
+                                                        OptionId.Delete,
+                                                        LocalStrings.current.commentActionDelete,
+                                                    )
+                                            }
                                         },
                                     onOptionSelected =
                                         rememberCallbackArgs(model) { optionId ->
@@ -535,6 +559,14 @@ object ProfileLoggedScreen : Tab {
                                                     }
                                                 }
 
+                                                OptionId.Restore -> {
+                                                    model.reduce(
+                                                        ProfileLoggedMviModel.Intent.RestoreComment(
+                                                            comment.id,
+                                                        ),
+                                                    )
+                                                }
+
                                                 else -> Unit
                                             }
                                         },
@@ -549,7 +581,8 @@ object ProfileLoggedScreen : Tab {
                                 item {
                                     Text(
                                         modifier =
-                                            Modifier.fillMaxWidth()
+                                            Modifier
+                                                .fillMaxWidth()
                                                 .padding(top = Spacing.xs),
                                         textAlign = TextAlign.Center,
                                         text = LocalStrings.current.messageEmptyList,

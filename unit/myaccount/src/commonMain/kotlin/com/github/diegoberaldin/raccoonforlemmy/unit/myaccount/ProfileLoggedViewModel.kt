@@ -48,57 +48,65 @@ class ProfileLoggedViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val postNavigationManager: PostNavigationManager,
-) : ProfileLoggedMviModel,
-    DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
+) : DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
         initialState = ProfileLoggedMviModel.UiState(),
-    ) {
+    ),
+    ProfileLoggedMviModel {
     init {
         screenModelScope.launch {
             updateState { it.copy(instance = apiConfigurationRepository.instance.value) }
 
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
 
             @OptIn(FlowPreview::class)
-            identityRepository.isLogged.drop(1).debounce(500).onEach { logged ->
-                if (logged == true) {
+            identityRepository.isLogged
+                .drop(1)
+                .debounce(500)
+                .onEach { logged ->
+                    if (logged == true) {
+                        updateState {
+                            it.copy(
+                                posts = emptyList(),
+                                comments = emptyList(),
+                            )
+                        }
+                        refreshUser()
+                        refresh()
+                    }
+                }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
                     updateState {
                         it.copy(
-                            posts = emptyList(),
-                            comments = emptyList(),
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            showScores = settings.showScores,
+                            showUnreadComments = settings.showUnreadComments,
                         )
                     }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Logout::class)
+                .onEach {
+                    delay(250)
                     refreshUser()
-                    refresh()
-                }
-            }.launchIn(this)
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        showScores = settings.showScores,
-                        showUnreadComments = settings.showUnreadComments,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class).onEach { evt ->
-                handlePostDelete(evt.model.id)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                delay(250)
-                refreshUser()
-            }.launchIn(this)
+                }.launchIn(this)
 
             if (uiState.value.initial) {
                 val userFromCache = identityRepository.cachedUser
@@ -195,6 +203,14 @@ class ProfileLoggedViewModel(
                 val state = postPaginationManager.extractState()
                 postNavigationManager.push(state)
             }
+
+            is ProfileLoggedMviModel.Intent.RestorePost -> {
+                restorePost(intent.id)
+            }
+
+            is ProfileLoggedMviModel.Intent.RestoreComment -> {
+                restoreComment(intent.id)
+            }
         }
     }
 
@@ -231,12 +247,14 @@ class ProfileLoggedViewModel(
             PostPaginationSpecification.User(
                 id = userId,
                 sortType = SortType.New,
+                includeDeleted = true,
             ),
         )
         commentPaginationManager.reset(
             CommentPaginationSpecification.User(
                 id = userId,
                 sortType = SortType.New,
+                includeDeleted = true,
             ),
         )
         updateState {
@@ -480,29 +498,51 @@ class ProfileLoggedViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Long) {
-        screenModelScope.launch {
-            updateState {
-                it.copy(
-                    posts = it.posts.filter { post -> post.id != id },
-                )
-            }
-        }
-    }
-
     private fun deletePost(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            postRepository.delete(id = id, auth = auth)
-            handlePostDelete(id)
+            val newPost = postRepository.delete(id = id, auth = auth)
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
         }
     }
 
     private fun deleteComment(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            commentRepository.delete(id, auth)
-            refresh()
+            val newComment = commentRepository.delete(id, auth)
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
+            }
+        }
+    }
+
+    private fun restorePost(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.restore(
+                    id = id,
+                    auth = auth,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun restoreComment(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newComment =
+                commentRepository.restore(
+                    commentId = id,
+                    auth = auth,
+                )
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
+            }
         }
     }
 }

@@ -13,31 +13,65 @@ interface ProfileLoggedMviModel :
     MviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>,
     ScreenModel {
     sealed interface Intent {
-        data class ChangeSection(val section: ProfileLoggedSection) : Intent
+        data class ChangeSection(
+            val section: ProfileLoggedSection,
+        ) : Intent
 
         data object Refresh : Intent
 
         data object LoadNextPage : Intent
 
-        data class DeletePost(val id: Long) : Intent
+        data class DeletePost(
+            val id: Long,
+        ) : Intent
 
-        data class DeleteComment(val id: Long) : Intent
+        data class DeleteComment(
+            val id: Long,
+        ) : Intent
 
-        data class Share(val url: String) : Intent
+        data class Share(
+            val url: String,
+        ) : Intent
 
-        data class UpVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class UpVotePost(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
-        data class DownVotePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVotePost(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
-        data class SavePost(val id: Long, val feedback: Boolean = false) : Intent
+        data class SavePost(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
-        data class UpVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class UpVoteComment(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
-        data class DownVoteComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class DownVoteComment(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
-        data class SaveComment(val id: Long, val feedback: Boolean = false) : Intent
+        data class SaveComment(
+            val id: Long,
+            val feedback: Boolean = false,
+        ) : Intent
 
         data object WillOpenDetail : Intent
+
+        data class RestorePost(
+            val id: Long,
+        ) : Intent
+
+        data class RestoreComment(
+            val id: Long,
+        ) : Intent
     }
 
     data class UiState(
