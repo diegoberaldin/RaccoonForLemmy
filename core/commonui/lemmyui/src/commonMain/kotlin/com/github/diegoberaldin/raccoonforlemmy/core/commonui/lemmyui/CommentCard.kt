@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
@@ -95,17 +96,19 @@ fun CommentCard(
     ) {
         Box(
             modifier =
-                Modifier.onClick(
-                    onClick = onClick ?: {},
-                    onDoubleClick = onDoubleClick ?: {},
-                ).padding(
-                    start =
-                        indentAmount.takeIf {
-                            it > 0 && comment.depth > 0
-                        }?.let {
-                            (it * comment.depth).dp + Spacing.xxxs
-                        } ?: 0.dp,
-                ),
+                Modifier
+                    .onClick(
+                        onClick = onClick ?: {},
+                        onDoubleClick = onDoubleClick ?: {},
+                    ).padding(
+                        start =
+                            indentAmount
+                                .takeIf {
+                                    it > 0 && comment.depth > 0
+                                }?.let {
+                                    (it * comment.depth).dp + Spacing.xxxs
+                                } ?: 0.dp,
+                    ),
         ) {
             Column(
                 modifier =
@@ -144,6 +147,14 @@ fun CommentCard(
                 if (comment.removed) {
                     Text(
                         text = LocalStrings.current.messageContentRemoved,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
+                    )
+                } else if (comment.deleted) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = LocalStrings.current.messageContentDeleted,
+                        textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                     )
