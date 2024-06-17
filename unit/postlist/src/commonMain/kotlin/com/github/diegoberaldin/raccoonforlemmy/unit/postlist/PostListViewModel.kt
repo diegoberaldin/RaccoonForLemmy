@@ -48,81 +48,93 @@ class PostListViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val postNavigationManager: PostNavigationManager,
-) : PostListMviModel,
-    DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
+) : DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
         initialState = PostListMviModel.UiState(),
-    ) {
+    ),
+    PostListMviModel {
     private var hideReadPosts = false
 
     init {
         screenModelScope.launch {
-            apiConfigurationRepository.instance.onEach { instance ->
-                updateState {
-                    it.copy(instance = instance)
-                }
-            }.launchIn(this)
-
-            identityRepository.isLogged.onEach { logged ->
-                refreshUser()
-                updateState {
-                    it.copy(isLogged = logged ?: false)
-                }
-                updateAvailableSortTypes()
-            }.launchIn(this)
-
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        showScores = settings.showScores,
-                        fadeReadPosts = settings.fadeReadPosts,
-                        showUnreadComments = settings.showUnreadComments,
-                    )
-                }
-            }.launchIn(this)
-
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class)
-                .onEach { evt ->
-                    handlePostUpdate(evt.model)
+            apiConfigurationRepository.instance
+                .onEach { instance ->
+                    updateState {
+                        it.copy(instance = instance)
+                    }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostDeleted::class)
-                .onEach { evt ->
-                    handlePostDelete(evt.model.id)
+
+            identityRepository.isLogged
+                .onEach { logged ->
+                    refreshUser()
+                    updateState {
+                        it.copy(isLogged = logged ?: false)
+                    }
+                    updateAvailableSortTypes()
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            showScores = settings.showScores,
+                            fadeReadPosts = settings.fadeReadPosts,
+                            showUnreadComments = settings.showUnreadComments,
+                        )
+                    }
+                }.launchIn(this)
+
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    if (evt.model.deleted) {
+                        handlePostDelete(evt.model)
+                    } else {
+                        handlePostUpdate(evt.model)
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
                     if (evt.screenKey == "postList") {
                         applyListingType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == "postList") {
                         applySortType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                handleLogout()
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.InstanceSelected::class).onEach {
-                refresh(initial = true)
-                delay(100)
-                emitEffect(PostListMviModel.Effect.BackToTop)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.BlockActionSelected::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Logout::class)
+                .onEach {
+                    handleLogout()
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.InstanceSelected::class)
+                .onEach {
+                    refresh(initial = true)
+                    delay(100)
+                    emitEffect(PostListMviModel.Effect.BackToTop)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.BlockActionSelected::class)
                 .onEach { evt ->
                     val userId = evt.userId
                     val communityId = evt.communityId
@@ -133,21 +145,28 @@ class PostListViewModel(
                         instanceId != null -> blockInstance(instanceId)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ResetHome::class).onEach {
-                onFirstLoad()
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(PostListMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ResetHome::class)
+                .onEach {
+                    onFirstLoad()
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CopyText::class)
+                .onEach {
+                    emitEffect(PostListMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
 
-            zombieModeHelper.index.onEach { index ->
-                if (uiState.value.zombieModeActive) {
-                    emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
-                }
-            }.launchIn(this)
+            zombieModeHelper.index
+                .onEach { index ->
+                    if (uiState.value.zombieModeActive) {
+                        emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
+                    }
+                }.launchIn(this)
         }
 
         if (uiState.value.initial) {
@@ -231,8 +250,7 @@ class PostListViewModel(
             }
 
             PostListMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
-            is PostListMviModel.Intent.HandlePostUpdate -> handlePostUpdate(intent.post)
-            is PostListMviModel.Intent.DeletePost -> handlePostDelete(intent.id)
+            is PostListMviModel.Intent.DeletePost -> deletePost(intent.id)
             is PostListMviModel.Intent.Share -> {
                 shareHelper.share(intent.url)
             }
@@ -485,11 +503,21 @@ class PostListViewModel(
         }
     }
 
-    private fun handlePostDelete(id: Long) {
+    private fun deletePost(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            postRepository.delete(id = id, auth = auth)
-            handlePostDelete(id)
+            val newPost = postRepository.delete(id = id, auth = auth)
+            if (newPost != null) {
+                handlePostDelete(newPost)
+            }
+        }
+    }
+
+    private fun handlePostDelete(post: PostModel) {
+        screenModelScope.launch {
+            updateState {
+                it.copy(posts = it.posts.filter { p -> p.id != post.id })
+            }
         }
     }
 
