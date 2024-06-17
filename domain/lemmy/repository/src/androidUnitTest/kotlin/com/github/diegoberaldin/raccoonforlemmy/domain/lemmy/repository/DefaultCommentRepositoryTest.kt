@@ -407,6 +407,28 @@ class DefaultCommentRepositoryTest {
         }
 
     @Test
+    fun whenRestore_thenInteractionsAreAsExpected() =
+        runTest {
+            val itemId = 1L
+            val token = "fake-token"
+            sut.restore(
+                commentId = itemId,
+                auth = token,
+            )
+
+            coVerify {
+                commentService.delete(
+                    authHeader = token.toAuthHeader(),
+                    form =
+                        withArg { data ->
+                            assertEquals(itemId, data.commentId)
+                            assertFalse(data.deleted)
+                        },
+                )
+            }
+        }
+
+    @Test
     fun whenReport_thenInteractionsAreAsExpected() =
         runTest {
             val itemId = 1L

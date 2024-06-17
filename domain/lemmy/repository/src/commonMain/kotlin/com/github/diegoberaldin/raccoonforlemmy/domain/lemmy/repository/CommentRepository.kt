@@ -101,7 +101,12 @@ interface CommentRepository {
     suspend fun delete(
         commentId: Long,
         auth: String,
-    )
+    ): CommentModel?
+
+    suspend fun restore(
+        commentId: Long,
+        auth: String,
+    ): CommentModel?
 
     suspend fun report(
         commentId: Long,

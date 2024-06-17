@@ -320,9 +320,24 @@ internal class DefaultCommentRepository(
                     commentId = commentId,
                     deleted = true,
                 )
-            services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
-            Unit
-        }.getOrDefault(Unit)
+            val res = services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
+            res.commentView?.toModel()
+        }.getOrNull()
+    }
+
+    override suspend fun restore(
+        commentId: Long,
+        auth: String,
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data =
+                DeleteCommentForm(
+                    commentId = commentId,
+                    deleted = false,
+                )
+            val res = services.comment.delete(authHeader = auth.toAuthHeader(), form = data)
+            res.commentView.toModel()
+        }.getOrNull()
     }
 
     override suspend fun report(
