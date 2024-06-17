@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MarkChatUnread
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -36,6 +37,8 @@ sealed interface ActionOnSwipe {
     data object Save : ActionOnSwipe
 
     data object ToggleRead : ActionOnSwipe
+
+    data object Edit : ActionOnSwipe
 
     companion object {
         val DEFAULT_SWIPE_TO_START_POSTS =
@@ -83,6 +86,7 @@ internal fun ActionOnSwipe.toInt(): Int =
         ActionOnSwipe.Reply -> 3
         ActionOnSwipe.Save -> 4
         ActionOnSwipe.ToggleRead -> 5
+        ActionOnSwipe.Edit -> 6
     }
 
 internal fun Int.toActionOnSwipe(): ActionOnSwipe =
@@ -92,6 +96,7 @@ internal fun Int.toActionOnSwipe(): ActionOnSwipe =
         3 -> ActionOnSwipe.Reply
         4 -> ActionOnSwipe.Save
         5 -> ActionOnSwipe.ToggleRead
+        6 -> ActionOnSwipe.Edit
         else -> ActionOnSwipe.None
     }
 
@@ -104,6 +109,7 @@ fun ActionOnSwipe.toReadableName(): String =
         ActionOnSwipe.Save -> LocalStrings.current.actionSave
         ActionOnSwipe.ToggleRead -> LocalStrings.current.actionToggleRead
         ActionOnSwipe.UpVote -> LocalStrings.current.actionUpvote
+        ActionOnSwipe.Edit -> LocalStrings.current.postActionEdit
     }
 
 @Composable
@@ -115,4 +121,5 @@ fun ActionOnSwipe.toIcon(): ImageVector? =
         ActionOnSwipe.Save -> Icons.Default.Bookmark
         ActionOnSwipe.ToggleRead -> Icons.Default.MarkChatUnread
         ActionOnSwipe.UpVote -> Icons.Default.ArrowCircleUp
+        ActionOnSwipe.Edit -> Icons.Default.Edit
     }
