@@ -27,37 +27,62 @@ sealed interface NotificationCenterEvent {
         val value: SortType,
         val defaultForCommunity: Boolean,
         val screenKey: String?,
-    ) :
-        NotificationCenterEvent
+    ) : NotificationCenterEvent
 
-    data class ChangeCommentSortType(val value: SortType, val screenKey: String?) :
-        NotificationCenterEvent
+    data class ChangeCommentSortType(
+        val value: SortType,
+        val screenKey: String?,
+    ) : NotificationCenterEvent
 
-    data class ChangeFeedType(val value: ListingType, val screenKey: String?) :
-        NotificationCenterEvent
+    data class ChangeFeedType(
+        val value: ListingType,
+        val screenKey: String?,
+    ) : NotificationCenterEvent
 
-    data class ChangeInboxType(val unreadOnly: Boolean) : NotificationCenterEvent
+    data class ChangeInboxType(
+        val unreadOnly: Boolean,
+    ) : NotificationCenterEvent
 
-    data class ChangeTheme(val value: UiTheme?) : NotificationCenterEvent
+    data class ChangeTheme(
+        val value: UiTheme?,
+    ) : NotificationCenterEvent
 
-    data class ChangeContentFontSize(val value: Float, val contentClass: ContentFontClass) :
-        NotificationCenterEvent
+    data class ChangeContentFontSize(
+        val value: Float,
+        val contentClass: ContentFontClass,
+    ) : NotificationCenterEvent
 
-    data class ChangeUiFontSize(val value: Float) : NotificationCenterEvent
+    data class ChangeUiFontSize(
+        val value: Float,
+    ) : NotificationCenterEvent
 
-    data class ChangeFontFamily(val value: UiFontFamily) : NotificationCenterEvent
+    data class ChangeFontFamily(
+        val value: UiFontFamily,
+    ) : NotificationCenterEvent
 
-    data class ChangeContentFontFamily(val value: UiFontFamily) : NotificationCenterEvent
+    data class ChangeContentFontFamily(
+        val value: UiFontFamily,
+    ) : NotificationCenterEvent
 
-    data class ChangeZombieInterval(val value: Duration) : NotificationCenterEvent
+    data class ChangeZombieInterval(
+        val value: Duration,
+    ) : NotificationCenterEvent
 
-    data class ChangeInboxBackgroundCheckPeriod(val value: Duration) : NotificationCenterEvent
+    data class ChangeInboxBackgroundCheckPeriod(
+        val value: Duration,
+    ) : NotificationCenterEvent
 
-    data class ChangeLanguage(val value: String) : NotificationCenterEvent
+    data class ChangeLanguage(
+        val value: String,
+    ) : NotificationCenterEvent
 
-    data class ChangePostLayout(val value: PostLayout) : NotificationCenterEvent
+    data class ChangePostLayout(
+        val value: PostLayout,
+    ) : NotificationCenterEvent
 
-    data class ChangeVoteFormat(val value: VoteFormat) : NotificationCenterEvent
+    data class ChangeVoteFormat(
+        val value: VoteFormat,
+    ) : NotificationCenterEvent
 
     data object Logout : NotificationCenterEvent
 
@@ -65,35 +90,58 @@ sealed interface NotificationCenterEvent {
 
     data object CommentCreated : NotificationCenterEvent
 
-    data class PostUpdated(val model: PostModel) : NotificationCenterEvent
+    data class PostUpdated(
+        val model: PostModel,
+    ) : NotificationCenterEvent
 
-    data class CommentUpdated(val model: CommentModel) : NotificationCenterEvent
+    data class CommentUpdated(
+        val model: CommentModel,
+    ) : NotificationCenterEvent
 
-    data class PostDeleted(val model: PostModel) : NotificationCenterEvent
+    data class ChangeColor(
+        val color: Color?,
+    ) : NotificationCenterEvent
 
-    data class ChangeColor(val color: Color?) : NotificationCenterEvent
+    data class ChangeActionColor(
+        val color: Color?,
+        val actionType: Int,
+    ) : NotificationCenterEvent
 
-    data class ChangeActionColor(val color: Color?, val actionType: Int) : NotificationCenterEvent
+    data class ChangeZombieScrollAmount(
+        val value: Float,
+    ) : NotificationCenterEvent
 
-    data class ChangeZombieScrollAmount(val value: Float) : NotificationCenterEvent
-
-    data class MultiCommunityCreated(val model: MultiCommunityModel) : NotificationCenterEvent
+    data class MultiCommunityCreated(
+        val model: MultiCommunityModel,
+    ) : NotificationCenterEvent
 
     data object CloseDialog : NotificationCenterEvent
 
-    data class SelectCommunity(val model: CommunityModel) : NotificationCenterEvent
+    data class SelectCommunity(
+        val model: CommunityModel,
+    ) : NotificationCenterEvent
 
-    data class PostRemoved(val model: PostModel) : NotificationCenterEvent
+    data class PostRemoved(
+        val model: PostModel,
+    ) : NotificationCenterEvent
 
-    data class CommentRemoved(val model: CommentModel) : NotificationCenterEvent
+    data class ChangeReportListType(
+        val unresolvedOnly: Boolean,
+    ) : NotificationCenterEvent
 
-    data class ChangeReportListType(val unresolvedOnly: Boolean) : NotificationCenterEvent
+    data class UserBannedPost(
+        val postId: Long,
+        val user: UserModel,
+    ) : NotificationCenterEvent
 
-    data class UserBannedPost(val postId: Long, val user: UserModel) : NotificationCenterEvent
+    data class UserBannedComment(
+        val commentId: Long,
+        val user: UserModel,
+    ) : NotificationCenterEvent
 
-    data class UserBannedComment(val commentId: Long, val user: UserModel) : NotificationCenterEvent
-
-    data class ChangeCommentBarTheme(val value: CommentBarTheme) : NotificationCenterEvent
+    data class ChangeCommentBarTheme(
+        val value: CommentBarTheme,
+    ) : NotificationCenterEvent
 
     data class BlockActionSelected(
         val userId: Long? = null,
@@ -101,11 +149,17 @@ sealed interface NotificationCenterEvent {
         val instanceId: Long? = null,
     ) : NotificationCenterEvent
 
-    data class Share(val url: String) : NotificationCenterEvent
+    data class Share(
+        val url: String,
+    ) : NotificationCenterEvent
 
-    data class ChangePostBodyMaxLines(val value: Int?) : NotificationCenterEvent
+    data class ChangePostBodyMaxLines(
+        val value: Int?,
+    ) : NotificationCenterEvent
 
-    data class InstanceSelected(val value: String) : NotificationCenterEvent
+    data class InstanceSelected(
+        val value: String,
+    ) : NotificationCenterEvent
 
     data class ActionsOnSwipeSelected(
         val value: ActionOnSwipe,
@@ -113,11 +167,15 @@ sealed interface NotificationCenterEvent {
         val target: ActionOnSwipeTarget,
     ) : NotificationCenterEvent
 
-    data class ChangeSystemBarTheme(val value: UiBarTheme) : NotificationCenterEvent
+    data class ChangeSystemBarTheme(
+        val value: UiBarTheme,
+    ) : NotificationCenterEvent
 
     data object DraftDeleted : NotificationCenterEvent
 
-    data class ModeratorZoneActionSelected(val value: Int) : NotificationCenterEvent
+    data class ModeratorZoneActionSelected(
+        val value: Int,
+    ) : NotificationCenterEvent
 
     data object ResetHome : NotificationCenterEvent
 
@@ -125,22 +183,37 @@ sealed interface NotificationCenterEvent {
 
     data object ResetInbox : NotificationCenterEvent
 
-    data class CopyText(val value: String) : NotificationCenterEvent
+    data class CopyText(
+        val value: String,
+    ) : NotificationCenterEvent
 
-    data class ChangedLikedType(val value: Boolean) : NotificationCenterEvent
+    data class ChangedLikedType(
+        val value: Boolean,
+    ) : NotificationCenterEvent
 
-    data class ChangeSearchResultType(val value: SearchResultType, val screenKey: String?) :
-        NotificationCenterEvent
+    data class ChangeSearchResultType(
+        val value: SearchResultType,
+        val screenKey: String?,
+    ) : NotificationCenterEvent
 
-    data class CommunitySubscriptionChanged(val value: CommunityModel) : NotificationCenterEvent
+    data class CommunitySubscriptionChanged(
+        val value: CommunityModel,
+    ) : NotificationCenterEvent
 
     sealed interface ShareImageModeSelected : NotificationCenterEvent {
-        data class ModeUrl(val url: String) : ShareImageModeSelected
+        data class ModeUrl(
+            val url: String,
+        ) : ShareImageModeSelected
 
-        data class ModeFile(val url: String, val source: String) : ShareImageModeSelected
+        data class ModeFile(
+            val url: String,
+            val source: String,
+        ) : ShareImageModeSelected
     }
 
-    data class AppIconVariantSelected(val value: Int) : NotificationCenterEvent
+    data class AppIconVariantSelected(
+        val value: Int,
+    ) : NotificationCenterEvent
 
     sealed interface ProfileSideMenuAction : NotificationCenterEvent {
         data object ManageAccounts : ProfileSideMenuAction
@@ -158,10 +231,13 @@ sealed interface NotificationCenterEvent {
         data object Logout : ProfileSideMenuAction
     }
 
-    data class ChangeUrlOpeningMode(val value: Int) : NotificationCenterEvent
+    data class ChangeUrlOpeningMode(
+        val value: Int,
+    ) : NotificationCenterEvent
 
-    data class ChangeCommunityVisibility(val value: CommunityVisibilityType) :
-        NotificationCenterEvent
+    data class ChangeCommunityVisibility(
+        val value: CommunityVisibilityType,
+    ) : NotificationCenterEvent
 
     data object FavoritesUpdated : NotificationCenterEvent
 }
