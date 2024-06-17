@@ -18,11 +18,13 @@ internal fun ASTNode.findChildOfTypeRecursive(type: IElementType): ASTNode? {
 }
 
 internal fun String.sanitize(): String =
-    this.removeEntities()
+    this
+        .removeEntities()
         .spoilerFixUp()
         .quoteFixUp()
         .expandLemmyHandles()
         .cleanupEscapes()
+        .dollarSignFixUp()
         .emptyLinkFixup()
 
 private fun String.removeEntities(): String =
@@ -80,9 +82,12 @@ private fun String.quoteFixUp(): String =
         finalLines.joinToString("\n")
     }
 
-private fun String.expandLemmyHandles(): String =
-    LemmyLinkRegex.lemmyHandle.replace(this, "[$1@$2](!$1@$2)")
+private fun String.expandLemmyHandles(): String = LemmyLinkRegex.lemmyHandle.replace(this, "[$1@$2](!$1@$2)")
 
 private fun String.cleanupEscapes(): String = replace("\\#", "#")
+
+private fun String.dollarSignFixUp(): String =
+    // due to a bug in how the renderer builds annotated strings, replace with full width dollar sign
+    replace("$", "\uff04")
 
 private fun String.emptyLinkFixup(): String = replace("[]()", "")
