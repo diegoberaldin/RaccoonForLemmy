@@ -11,7 +11,9 @@ import androidx.compose.ui.graphics.Color
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiTheme
 import com.materialkolor.dynamicColorScheme
 
-internal class DefaultColorSchemeProvider(private val context: Context) : ColorSchemeProvider {
+internal class DefaultColorSchemeProvider(
+    private val context: Context,
+) : ColorSchemeProvider {
     override val supportsDynamicColors: Boolean
         @ChecksSdkIntAtLeast(31)
         get() {
@@ -32,7 +34,11 @@ internal class DefaultColorSchemeProvider(private val context: Context) : ColorS
                     }
 
                     customSeed != null -> {
-                        dynamicColorScheme(customSeed, true)
+                        dynamicColorScheme(
+                            seedColor = customSeed,
+                            isDark = true,
+                            isAmoled = false,
+                        )
                     }
 
                     else -> {
@@ -48,7 +54,11 @@ internal class DefaultColorSchemeProvider(private val context: Context) : ColorS
                     }
 
                     customSeed != null -> {
-                        dynamicColorScheme(customSeed, true).blackify()
+                        dynamicColorScheme(
+                            seedColor = customSeed,
+                            isDark = true,
+                            isAmoled = true,
+                        )
                     }
 
                     else -> {
@@ -64,7 +74,11 @@ internal class DefaultColorSchemeProvider(private val context: Context) : ColorS
                     }
 
                     customSeed != null -> {
-                        dynamicColorScheme(customSeed, false)
+                        dynamicColorScheme(
+                            seedColor = customSeed,
+                            isDark = false,
+                            isAmoled = false,
+                        )
                     }
 
                     else -> {

@@ -16,7 +16,11 @@ internal class DefaultColorSchemeProvider : ColorSchemeProvider {
         when (theme) {
             UiTheme.Dark -> {
                 if (customSeed != null) {
-                    dynamicColorScheme(customSeed, true)
+                    dynamicColorScheme(
+                        seedColor = customSeed,
+                        isDark = true,
+                        isAmoled = false,
+                    )
                 } else {
                     DarkColors
                 }
@@ -24,7 +28,11 @@ internal class DefaultColorSchemeProvider : ColorSchemeProvider {
 
             UiTheme.Black -> {
                 if (customSeed != null) {
-                    dynamicColorScheme(customSeed, true).blackify()
+                    dynamicColorScheme(
+                        seedColor = customSeed,
+                        isDark = true,
+                        isAmoled = true,
+                    )
                 } else {
                     BlackColors
                 }
@@ -32,7 +40,11 @@ internal class DefaultColorSchemeProvider : ColorSchemeProvider {
 
             else -> {
                 if (customSeed != null) {
-                    dynamicColorScheme(customSeed, false)
+                    dynamicColorScheme(
+                        seedColor = customSeed,
+                        isDark = false,
+                        isAmoled = false,
+                    )
                 } else {
                     LightColors
                 }
