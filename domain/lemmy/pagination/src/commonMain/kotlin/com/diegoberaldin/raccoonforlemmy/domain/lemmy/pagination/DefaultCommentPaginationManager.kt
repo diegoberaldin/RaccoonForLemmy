@@ -32,9 +32,11 @@ internal class DefaultCommentPaginationManager(
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     init {
-        notificationCenter.subscribe(NotificationCenterEvent.CommentUpdated::class).onEach { evt ->
-            handleCommentUpdate(evt.model)
-        }.launchIn(scope)
+        notificationCenter
+            .subscribe(NotificationCenterEvent.CommentUpdated::class)
+            .onEach { evt ->
+                handleCommentUpdate(evt.model)
+            }.launchIn(scope)
     }
 
     override fun reset(specification: CommentPaginationSpecification) {
@@ -68,8 +70,13 @@ internal class DefaultCommentPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
-                            .filterDeleted()
-                            .also {
+                            .let {
+                                if (specification.includeDeleted) {
+                                    it
+                                } else {
+                                    it.filterDeleted()
+                                }
+                            }.also {
                                 // deleted comments should not be counted
                                 canFetchMore = it.isNotEmpty()
                             }
@@ -92,8 +99,13 @@ internal class DefaultCommentPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
-                            .filterDeleted()
-                            .also {
+                            .let {
+                                if (specification.includeDeleted) {
+                                    it
+                                } else {
+                                    it.filterDeleted()
+                                }
+                            }.also {
                                 canFetchMore = it.isNotEmpty()
                             }
                     }

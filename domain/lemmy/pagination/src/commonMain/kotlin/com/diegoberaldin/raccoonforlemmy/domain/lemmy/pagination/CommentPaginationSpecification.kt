@@ -9,6 +9,7 @@ sealed interface CommentPaginationSpecification {
         val listingType: ListingType? = null,
         val otherInstance: String? = null,
         val sortType: SortType = SortType.Active,
+        val includeDeleted: Boolean = false,
     ) : CommentPaginationSpecification
 
     data class User(
@@ -16,6 +17,7 @@ sealed interface CommentPaginationSpecification {
         val name: String? = null,
         val otherInstance: String? = null,
         val sortType: SortType = SortType.New,
+        val includeDeleted: Boolean = false,
     ) : CommentPaginationSpecification
 
     data class Votes(
