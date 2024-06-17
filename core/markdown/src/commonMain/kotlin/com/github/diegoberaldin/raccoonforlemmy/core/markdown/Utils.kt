@@ -26,6 +26,7 @@ internal fun String.sanitize(): String =
         .cleanupEscapes()
         .dollarSignFixUp()
         .emptyLinkFixup()
+        .imageBeforeFixup()
 
 private fun String.removeEntities(): String =
     replace("&amp;", "&")
@@ -91,3 +92,8 @@ private fun String.dollarSignFixUp(): String =
     replace("$", "\uff04")
 
 private fun String.emptyLinkFixup(): String = replace("[]()", "")
+
+private fun String.imageBeforeFixup(): String =
+    // due to a bug in the renderer, images after a new line must be on a paragraph on their own,
+    // so an additional newline must be inserted (they are nor inline nor a block otherwise)
+    ImageRegex.imageNotAfter2Newlines.replace(this, "$1\n\n$2")

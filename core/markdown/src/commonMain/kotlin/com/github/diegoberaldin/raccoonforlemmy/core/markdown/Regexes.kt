@@ -17,4 +17,5 @@ internal object LemmyLinkRegex {
 
 internal object ImageRegex {
     val image = Regex("!\\[[^]]*]\\((?<url>.*?)\\)")
+    val imageNotAfter2Newlines = Regex("(?<before>[^\n])\n(?<image>!\\[[^]]*]\\(.*?\\))")
 }
