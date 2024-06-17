@@ -38,9 +38,11 @@ internal class DefaultPostPaginationManager(
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
     init {
-        notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-            handlePostUpdate(evt.model)
-        }.launchIn(scope)
+        notificationCenter
+            .subscribe(NotificationCenterEvent.PostUpdated::class)
+            .onEach { evt ->
+                handlePostUpdate(evt.model)
+            }.launchIn(scope)
     }
 
     override fun reset(specification: PostPaginationSpecification?) {
@@ -89,16 +91,17 @@ internal class DefaultPostPaginationManager(
                         val searching = !specification.query.isNullOrEmpty()
                         val (itemList, nextPage) =
                             if (searching) {
-                                communityRepository.search(
-                                    auth = auth,
-                                    communityId = specification.id,
-                                    page = currentPage,
-                                    sortType = specification.sortType,
-                                    resultType = SearchResultType.Posts,
-                                    query = specification.query.orEmpty(),
-                                ).mapNotNull {
-                                    (it as? SearchResult.Post)?.model
-                                } to null
+                                communityRepository
+                                    .search(
+                                        auth = auth,
+                                        communityId = specification.id,
+                                        page = currentPage,
+                                        sortType = specification.sortType,
+                                        resultType = SearchResultType.Posts,
+                                        query = specification.query.orEmpty(),
+                                    ).mapNotNull {
+                                        (it as? SearchResult.Post)?.model
+                                    } to null
                             } else {
                                 postRepository.getAll(
                                     auth = auth,
@@ -121,7 +124,13 @@ internal class DefaultPostPaginationManager(
                             .orEmpty()
                             .deduplicate()
                             .filterNsfw(specification.includeNsfw)
-                            .filterDeleted()
+                            .let {
+                                if (specification.includeDeleted) {
+                                    it
+                                } else {
+                                    it.filterDeleted()
+                                }
+                            }
                     }
 
                     is PostPaginationSpecification.MultiCommunity -> {
@@ -155,7 +164,13 @@ internal class DefaultPostPaginationManager(
                             .orEmpty()
                             .deduplicate()
                             .filterNsfw(specification.includeNsfw)
-                            .filterDeleted()
+                            .let {
+                                if (specification.includeDeleted) {
+                                    it
+                                } else {
+                                    it.filterDeleted()
+                                }
+                            }
                     }
 
                     is PostPaginationSpecification.Votes -> {

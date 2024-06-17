@@ -23,6 +23,7 @@ sealed interface PostPaginationSpecification {
         val query: String? = null,
         val sortType: SortType = SortType.Active,
         val includeNsfw: Boolean = true,
+        val includeDeleted: Boolean = false,
     ) : PostPaginationSpecification
 
     data class User(
@@ -31,6 +32,7 @@ sealed interface PostPaginationSpecification {
         val otherInstance: String? = null,
         val sortType: SortType = SortType.New,
         val includeNsfw: Boolean = true,
+        val includeDeleted: Boolean = false,
     ) : PostPaginationSpecification
 
     data class Votes(
