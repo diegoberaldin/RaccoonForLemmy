@@ -420,4 +420,6 @@ internal val LtStrings =
             "Dabartinis vartotojas buvo uždraustas dalyvauti šioje bendruomenėje"
         override val settingsHiddenPosts = "Paslėpti įrašai"
         override val settingsMediaList = "Žiniasklaidos įkėlimai"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Pridėti / pašalinti mėgstamiausius naršymo skydelyje"
     }

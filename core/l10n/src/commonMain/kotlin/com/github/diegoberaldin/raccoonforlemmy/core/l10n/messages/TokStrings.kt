@@ -416,4 +416,6 @@ internal val TokStrings =
         override val noticeBannedUser = "sina ken lukin ala e lipu mute pi kulupu ni"
         override val settingsHiddenPosts = "lipu pi lukin ala"
         override val settingsMediaList = "sitelen linluwi"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "o sin/o weka e ijo pona lon leko luka"
     }

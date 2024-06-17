@@ -422,4 +422,6 @@ internal val RuStrings =
         override val noticeBannedUser = "Текущий пользователь заблокирован в этом сообществе"
         override val settingsHiddenPosts = "Скрытые сообщения"
         override val settingsMediaList = "Загрузка мультимедиа"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Добавить/удалить избранное в панели навигации"
     }

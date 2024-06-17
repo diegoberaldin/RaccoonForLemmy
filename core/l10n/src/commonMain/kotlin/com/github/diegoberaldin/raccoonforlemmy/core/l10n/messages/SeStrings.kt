@@ -420,4 +420,6 @@ internal val SeStrings =
         override val noticeBannedUser = "Den nuvarande användaren har blockerats från denna grupp"
         override val settingsHiddenPosts = "Dolda inlägg"
         override val settingsMediaList = "Mediauppladdningar"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Lägg till/ta bort favoriter i navigeringslådan"
     }

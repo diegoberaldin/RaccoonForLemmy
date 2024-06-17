@@ -420,4 +420,6 @@ internal val DaStrings =
             "Den nuværende bruger er blevet udelukket fra dette fællesskab"
         override val settingsHiddenPosts = "Skjulte indlæg"
         override val settingsMediaList = "Medieuploads"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Tilføj/fjern favoritter i navigationsskuffen"
     }

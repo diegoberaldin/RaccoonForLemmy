@@ -423,4 +423,6 @@ internal val DeStrings =
         override val contentScaleFit = "Angepasste Größe"
         override val contentScaleFillWidth = "Breite füllen"
         override val settingsMediaList = "Medien-Uploads"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Favoriten in der Navigationsleiste hinzufügen/entfernen"
     }

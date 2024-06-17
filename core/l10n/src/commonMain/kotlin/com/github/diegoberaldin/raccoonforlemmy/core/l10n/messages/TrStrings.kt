@@ -421,4 +421,6 @@ internal val TrStrings =
         override val noticeBannedUser = "Mevcut kullanıcı bu topluluktan yasaklandı"
         override val settingsHiddenPosts = "Gizli gönderiler"
         override val settingsMediaList = "Medya yüklemeleri"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Gezinme çekmecesinde favorileri ekle/kaldır"
     }

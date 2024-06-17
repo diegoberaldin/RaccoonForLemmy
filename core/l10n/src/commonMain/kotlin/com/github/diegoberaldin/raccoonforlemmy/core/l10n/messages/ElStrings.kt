@@ -427,4 +427,6 @@ internal val ElStrings =
         override val noticeBannedUser = "Ο τρέχων χρήστης έχει αποκλειστεί από αυτήν την κοινότητα"
         override val settingsHiddenPosts = "Κρυφές αναρτήσεις"
         override val settingsMediaList = "Μεταφορτώσεις πολυμέσων"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Προσθήκη/αφαίρεση αγαπημένων στο συρτάρι πλοήγησης"
     }

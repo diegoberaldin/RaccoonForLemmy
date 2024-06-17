@@ -419,4 +419,6 @@ internal val PtBrStrings =
         override val noticeBannedUser = "O usuário atual foi banido desta comunidade"
         override val settingsHiddenPosts = "Posts escondidos"
         override val settingsMediaList = "Carregamentos de mídia"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Adicionar/remover favoritos na gaveta de navegação"
     }

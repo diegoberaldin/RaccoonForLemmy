@@ -426,4 +426,6 @@ internal val FrStrings =
         override val noticeBannedUser = "L\'utilisateur actuel a été banni de cette communauté"
         override val settingsHiddenPosts = "Messages masqués"
         override val settingsMediaList = "Téléchargements de médias"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Ajouter/supprimer des favoris dans le tiroir de navigation"
     }

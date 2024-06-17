@@ -421,4 +421,5 @@ internal val PlStrings =
         override val noticeBannedUser = "Bieżący użytkownik został zablokowany w tej społeczności"
         override val settingsHiddenPosts = "Ukryte posty"
         override val settingsMediaList = "Przesyłanie multimediów"
+        override val settingsEnableToggleFavoriteInNavDrawer = "Dodaj/usuń ulubione w szufladzie nawigacji"
     }

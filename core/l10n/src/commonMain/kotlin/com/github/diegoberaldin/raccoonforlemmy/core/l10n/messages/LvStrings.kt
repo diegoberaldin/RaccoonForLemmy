@@ -419,4 +419,6 @@ internal val LvStrings =
         override val noticeBannedUser = "Pašreizējais lietotājs ir bloķēts no šīs kopienas"
         override val settingsHiddenPosts = "Slēptās ziņas"
         override val settingsMediaList = "Multivides augšupielādes"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Pievienojiet/noņemiet izlasi navigācijas atvilktnē"
     }

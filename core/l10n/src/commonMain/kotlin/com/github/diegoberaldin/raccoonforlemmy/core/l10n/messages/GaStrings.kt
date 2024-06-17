@@ -421,4 +421,6 @@ internal val GaStrings =
         override val noticeBannedUser = "Tá cosc ar an úsáideoir reatha ón bpobal seo"
         override val settingsHiddenPosts = "Poist i bhfolach"
         override val settingsMediaList = "Uaslódálacha meáin"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Cuir leis/bain na ceanáin sa tarraiceán nascleanúna"
     }

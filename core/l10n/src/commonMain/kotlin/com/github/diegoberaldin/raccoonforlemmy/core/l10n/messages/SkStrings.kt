@@ -422,4 +422,6 @@ internal val SkStrings =
         override val noticeBannedUser = "Aktuálny používateľ má zakázaný prístup do tejto komunity"
         override val settingsHiddenPosts = "Skryté príspevky"
         override val settingsMediaList = "Nahrávanie médií"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Pridať/odstrániť obľúbené položky v navigačnej zásuvke"
     }

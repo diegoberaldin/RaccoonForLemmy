@@ -421,4 +421,6 @@ internal val MtStrings =
         override val noticeBannedUser = "L-utent attwali ġie pprojbit minn din il-komunità"
         override val settingsHiddenPosts = "Postijiet moħbija"
         override val settingsMediaList = "Uploads tal-midja"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Żid/neħħi l-favoriti fil-kexxun tan-navigazzjoni"
     }

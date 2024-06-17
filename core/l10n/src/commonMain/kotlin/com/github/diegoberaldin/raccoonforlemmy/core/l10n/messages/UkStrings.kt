@@ -422,4 +422,6 @@ internal val UkStrings =
         override val noticeBannedUser = "Поточний користувач був забанений у цій спільноті"
         override val settingsHiddenPosts = "Приховані пости"
         override val settingsMediaList = "Завантаження медіа"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Додати/видалити вибране в панелі навігації"
     }

@@ -422,4 +422,6 @@ internal val SrStrings =
         override val noticeBannedUser = "Тренутном кориснику је забрањен приступ овој заједници"
         override val settingsHiddenPosts = "Скривени постови"
         override val settingsMediaList = "Учитавање медија"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Додајте/уклоните фаворите у фиоци за навигацију"
     }

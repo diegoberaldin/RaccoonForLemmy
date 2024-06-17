@@ -411,4 +411,6 @@ internal val ZhHkStrings =
         override val noticeBannedUser = "呢個用戶已被呢個社區禁止"
         override val settingsHiddenPosts = "隱藏帖子"
         override val settingsMediaList = "媒體上傳"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Add/remove favorites in navigation drawer"
     }

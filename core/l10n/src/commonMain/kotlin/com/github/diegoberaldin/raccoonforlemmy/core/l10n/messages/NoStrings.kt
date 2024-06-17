@@ -419,4 +419,6 @@ internal val NoStrings =
             "Den nåværende brukeren har blitt utestengt fra dette fellesskapet"
         override val settingsHiddenPosts = "Skjulte innlegg"
         override val settingsMediaList = "Medieopplastinger"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Legg til/fjern favoritter i navigasjonsskuffen"
     }

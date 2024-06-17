@@ -422,4 +422,6 @@ internal val SqStrings =
         override val noticeBannedUser = "Përdoruesi aktual është përjashtuar nga ky komunitet"
         override val settingsHiddenPosts = "Postimet e fshehura"
         override val settingsMediaList = "Ngarkimet e mediave"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Shto/hiq të preferuarat në sirtarin e navigimit"
     }

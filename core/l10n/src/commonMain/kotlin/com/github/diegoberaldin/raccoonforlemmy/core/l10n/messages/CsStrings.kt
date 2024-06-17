@@ -420,4 +420,6 @@ internal val CsStrings =
         override val noticeBannedUser = "Aktuálnímu uživateli byl zakázán přístup do této komunity"
         override val settingsHiddenPosts = "Skryté příspěvky"
         override val settingsMediaList = "Nahrávání médií"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Přidat/odebrat oblíbené položky v navigační zásuvce"
     }

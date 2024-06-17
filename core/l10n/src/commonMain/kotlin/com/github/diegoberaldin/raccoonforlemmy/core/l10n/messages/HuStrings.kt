@@ -425,4 +425,6 @@ internal val HuStrings =
         override val noticeBannedUser = "A jelenlegi felhasználót kitiltották a közösségből"
         override val settingsHiddenPosts = "Rejtett bejegyzések"
         override val settingsMediaList = "Médiafeltöltések"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Kedvencek hozzáadása/eltávolítása a navigációs fiókban"
     }

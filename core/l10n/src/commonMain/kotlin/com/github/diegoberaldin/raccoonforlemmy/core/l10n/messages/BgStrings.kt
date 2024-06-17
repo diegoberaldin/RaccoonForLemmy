@@ -424,4 +424,6 @@ internal val BgStrings =
         override val noticeBannedUser = "Настоящият потребител е забранен от тази общност"
         override val settingsHiddenPosts = "Скрити публикации"
         override val settingsMediaList = "Качване на мултимедия"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Добавяне/премахване на любими в чекмеджето за навигация"
     }

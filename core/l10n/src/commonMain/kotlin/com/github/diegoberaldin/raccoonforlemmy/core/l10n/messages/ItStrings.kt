@@ -422,4 +422,5 @@ internal val ItStrings =
         override val noticeBannedUser = "L\'utente corrente è stato bannato da questa comunità"
         override val settingsHiddenPosts = "Post nascosti"
         override val settingsMediaList = "Caricamenti multimediali"
+        override val settingsEnableToggleFavoriteInNavDrawer = "Aggiungi/rimuovi preferiti in menu laterale"
     }

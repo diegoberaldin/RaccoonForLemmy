@@ -422,4 +422,6 @@ internal val EtStrings =
         override val noticeBannedUser = "Praegune kasutaja on sellest kogukonnast keelatud"
         override val settingsHiddenPosts = "Peidetud postitused"
         override val settingsMediaList = "Meedia üleslaadimine"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Lemmikute lisamine/eemaldamine navigeerimissahtlis"
     }

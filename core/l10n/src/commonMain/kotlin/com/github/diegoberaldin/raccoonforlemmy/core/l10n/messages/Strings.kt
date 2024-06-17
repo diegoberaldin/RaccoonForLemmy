@@ -415,6 +415,7 @@ interface Strings {
     val noticeBannedUser: String
     val settingsHiddenPosts: String
     val settingsMediaList: String
+    val settingsEnableToggleFavoriteInNavDrawer: String
 }
 
 object Locales {

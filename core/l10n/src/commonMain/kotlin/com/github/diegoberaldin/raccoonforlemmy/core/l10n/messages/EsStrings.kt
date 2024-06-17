@@ -421,4 +421,6 @@ internal val EsStrings =
         override val noticeBannedUser = "El usuario actual ha sido baneado de esta comunidad"
         override val settingsHiddenPosts = "Publicaciones escondidas"
         override val settingsMediaList = "Cargas de medios"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Agregar/eliminar favoritos en el cajón de navegación"
     }

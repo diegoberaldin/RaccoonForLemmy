@@ -416,4 +416,5 @@ internal val ArStrings =
         override val noticeBannedUser = "تم حظر المستخدم الحالي من هذا المجتمع"
         override val settingsHiddenPosts = "المشاركات المخفية"
         override val settingsMediaList = "تحميلات الوسائط"
+        override val settingsEnableToggleFavoriteInNavDrawer = "إضافة/إزالة المفضلة في درج التنقل"
     }

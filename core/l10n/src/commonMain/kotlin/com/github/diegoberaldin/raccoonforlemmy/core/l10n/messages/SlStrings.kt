@@ -420,4 +420,6 @@ internal val SlStrings =
         override val noticeBannedUser = "Trenutni uporabnik je bil izključen iz te skupnosti"
         override val settingsHiddenPosts = "Skrite objave"
         override val settingsMediaList = "Nalaganje medijev"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Dodajte/odstranite priljubljene v predalu za krmarjenje"
     }

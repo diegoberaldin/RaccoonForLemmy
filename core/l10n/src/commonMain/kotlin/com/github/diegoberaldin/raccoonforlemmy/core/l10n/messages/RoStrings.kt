@@ -420,4 +420,6 @@ internal val RoStrings =
         override val noticeBannedUser = "Utilizatorul actual a fost exclus din această comunitate"
         override val settingsHiddenPosts = "Postări ascunse"
         override val settingsMediaList = "Încărcări media"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Adăugă/elimină favoritele din sertarul de navigare"
     }

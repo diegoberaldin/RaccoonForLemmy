@@ -421,4 +421,6 @@ internal val HrStrings =
         override val noticeBannedUser = "Trenutačni korisnik je zabranjen iz ove zajednice"
         override val settingsHiddenPosts = "Skriveni postovi"
         override val settingsMediaList = "Prijenos medija"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Dodajte/uklonite favorite u ladici za navigaciju"
     }
