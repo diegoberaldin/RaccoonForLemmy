@@ -423,4 +423,6 @@ internal val TrStrings =
         override val settingsMediaList = "Medya yüklemeleri"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Gezinme çekmecesinde favorileri ekle/kaldır"
+        override val messageContentDeleted = "Bu içeriği sildiniz"
+        override val actionRestore = "Eski haline getirmek"
     }

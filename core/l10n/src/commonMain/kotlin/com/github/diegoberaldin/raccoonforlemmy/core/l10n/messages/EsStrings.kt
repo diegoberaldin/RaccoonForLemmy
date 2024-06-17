@@ -423,4 +423,6 @@ internal val EsStrings =
         override val settingsMediaList = "Cargas de medios"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Agregar/eliminar favoritos en el cajón de navegación"
+        override val messageContentDeleted = "Has eliminado este contenido"
+        override val actionRestore = "Restaurar"
     }

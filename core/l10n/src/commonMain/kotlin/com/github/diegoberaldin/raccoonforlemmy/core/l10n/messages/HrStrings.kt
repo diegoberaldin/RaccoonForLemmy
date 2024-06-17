@@ -423,4 +423,6 @@ internal val HrStrings =
         override val settingsMediaList = "Prijenos medija"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Dodajte/uklonite favorite u ladici za navigaciju"
+        override val messageContentDeleted = "Izbrisali ste ovaj sadržaj"
+        override val actionRestore = "Vratiti"
     }

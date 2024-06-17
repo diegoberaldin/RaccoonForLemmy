@@ -417,5 +417,8 @@ internal val EnStrings =
         override val noticeBannedUser = "The current user has been banned from this community"
         override val settingsHiddenPosts = "Hidden posts"
         override val settingsMediaList = "Media uploads"
-        override val settingsEnableToggleFavoriteInNavDrawer = "Add/remove favorites in navigation drawer"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Add/remove favorites in navigation drawer"
+        override val messageContentDeleted = "You have deleted this content"
+        override val actionRestore = "Restore"
     }

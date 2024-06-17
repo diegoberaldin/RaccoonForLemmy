@@ -423,4 +423,6 @@ internal val GaStrings =
         override val settingsMediaList = "Uaslódálacha meáin"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Cuir leis/bain na ceanáin sa tarraiceán nascleanúna"
+        override val messageContentDeleted = "Tá an t-ábhar seo scriosta agat"
+        override val actionRestore = "Athchóirigh"
     }

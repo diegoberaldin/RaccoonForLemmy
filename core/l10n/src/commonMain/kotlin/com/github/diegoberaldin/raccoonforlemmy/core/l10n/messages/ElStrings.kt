@@ -429,4 +429,6 @@ internal val ElStrings =
         override val settingsMediaList = "Μεταφορτώσεις πολυμέσων"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Προσθήκη/αφαίρεση αγαπημένων στο συρτάρι πλοήγησης"
+        override val messageContentDeleted = "Έχετε διαγράψει αυτό το περιεχόμενο"
+        override val actionRestore = "Αποκαταστήστε το"
     }

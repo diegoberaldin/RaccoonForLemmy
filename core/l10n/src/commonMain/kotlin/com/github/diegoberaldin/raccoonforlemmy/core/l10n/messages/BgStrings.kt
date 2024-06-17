@@ -426,4 +426,6 @@ internal val BgStrings =
         override val settingsMediaList = "Качване на мултимедия"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Добавяне/премахване на любими в чекмеджето за навигация"
+        override val messageContentDeleted = "Вие изтрихте това съдържание"
+        override val actionRestore = "Възстанови"
     }

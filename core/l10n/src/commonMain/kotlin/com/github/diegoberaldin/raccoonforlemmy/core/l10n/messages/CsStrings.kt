@@ -422,4 +422,6 @@ internal val CsStrings =
         override val settingsMediaList = "Nahrávání médií"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Přidat/odebrat oblíbené položky v navigační zásuvce"
+        override val messageContentDeleted = "Tento obsah jste smazali"
+        override val actionRestore = "Obnovit"
     }

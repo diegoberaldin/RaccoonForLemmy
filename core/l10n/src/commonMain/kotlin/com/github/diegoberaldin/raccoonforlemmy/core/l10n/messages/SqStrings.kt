@@ -424,4 +424,6 @@ internal val SqStrings =
         override val settingsMediaList = "Ngarkimet e mediave"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Shto/hiq të preferuarat në sirtarin e navigimit"
+        override val messageContentDeleted = "Ju e keni fshirë këtë përmbajtje"
+        override val actionRestore = "Rivendos"
     }

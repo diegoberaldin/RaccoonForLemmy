@@ -411,6 +411,7 @@ internal val ZhTwStrings =
         override val settingsAboutLicences = "授權"
         override val never = "從不"
         override val appIconDefault = "默認"
-        override val settingsEnableToggleFavoriteInNavDrawer =
-            "Add/remove favorites in navigation drawer"
+        override val settingsEnableToggleFavoriteInNavDrawer = "加入/移除導航抽屜中的收藏"
+        override val messageContentDeleted = "您已刪除此內容"
+        override val actionRestore = "恢復"
     }

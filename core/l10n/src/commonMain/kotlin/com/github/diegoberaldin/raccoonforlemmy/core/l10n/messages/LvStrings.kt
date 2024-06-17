@@ -421,4 +421,6 @@ internal val LvStrings =
         override val settingsMediaList = "Multivides augšupielādes"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Pievienojiet/noņemiet izlasi navigācijas atvilktnē"
+        override val messageContentDeleted = "Jūs esat izdzēsis šo saturu"
+        override val actionRestore = "Atjaunot"
     }

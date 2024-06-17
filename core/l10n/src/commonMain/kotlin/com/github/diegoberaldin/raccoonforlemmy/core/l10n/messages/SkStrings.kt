@@ -424,4 +424,6 @@ internal val SkStrings =
         override val settingsMediaList = "Nahrávanie médií"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Pridať/odstrániť obľúbené položky v navigačnej zásuvke"
+        override val messageContentDeleted = "Tento obsah ste odstránili"
+        override val actionRestore = "Obnoviť"
     }

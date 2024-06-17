@@ -422,4 +422,6 @@ internal val SeStrings =
         override val settingsMediaList = "Mediauppladdningar"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Lägg till/ta bort favoriter i navigeringslådan"
+        override val messageContentDeleted = "Du har tagit bort detta innehåll"
+        override val actionRestore = "Återställ"
     }

@@ -423,4 +423,6 @@ internal val MtStrings =
         override val settingsMediaList = "Uploads tal-midja"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Żid/neħħi l-favoriti fil-kexxun tan-navigazzjoni"
+        override val messageContentDeleted = "Ħassejt dan il-kontenut"
+        override val actionRestore = "Irrestawra"
     }

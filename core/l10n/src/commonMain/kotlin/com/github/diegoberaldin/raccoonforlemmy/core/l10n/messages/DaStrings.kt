@@ -422,4 +422,6 @@ internal val DaStrings =
         override val settingsMediaList = "Medieuploads"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Tilføj/fjern favoritter i navigationsskuffen"
+        override val messageContentDeleted = "Du har slettet dette indhold"
+        override val actionRestore = "Gendan"
     }

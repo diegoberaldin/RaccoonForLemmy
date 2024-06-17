@@ -424,4 +424,6 @@ internal val EtStrings =
         override val settingsMediaList = "Meedia üleslaadimine"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Lemmikute lisamine/eemaldamine navigeerimissahtlis"
+        override val messageContentDeleted = "Olete selle sisu kustutanud"
+        override val actionRestore = "Taastama"
     }

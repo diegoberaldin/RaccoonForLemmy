@@ -428,4 +428,6 @@ internal val FrStrings =
         override val settingsMediaList = "Téléchargements de médias"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Ajouter/supprimer des favoris dans le tiroir de navigation"
+        override val messageContentDeleted = "Vous avez supprimé ce contenu"
+        override val actionRestore = "Restaurer"
     }

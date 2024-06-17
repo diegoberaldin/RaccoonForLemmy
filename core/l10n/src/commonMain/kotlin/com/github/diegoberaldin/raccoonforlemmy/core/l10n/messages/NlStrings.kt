@@ -424,4 +424,6 @@ internal val NlStrings =
         override val settingsMediaList = "Media-uploads"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Favorieten toevoegen/verwijderen in de navigatielade"
+        override val messageContentDeleted = "Je hebt deze inhoud verwijderd"
+        override val actionRestore = "Herstellen"
     }

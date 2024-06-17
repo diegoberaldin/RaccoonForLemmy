@@ -424,4 +424,6 @@ internal val UkStrings =
         override val settingsMediaList = "Завантаження медіа"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Додати/видалити вибране в панелі навігації"
+        override val messageContentDeleted = "Ви видалили цей вміст"
+        override val actionRestore = "Відновлення"
     }

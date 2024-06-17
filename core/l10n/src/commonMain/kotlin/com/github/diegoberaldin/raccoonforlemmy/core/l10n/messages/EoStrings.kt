@@ -416,5 +416,8 @@ internal val EoStrings =
         override val noticeBannedUser = "La nuna uzanto estas malpermesita de ĉi tiu komunumo"
         override val settingsHiddenPosts = "Kaŝitaj afiŝoj"
         override val settingsMediaList = "Amaskomunikiloj alŝutoj"
-        override val settingsEnableToggleFavoriteInNavDrawer = "Aldoni/forigi plej ŝatatajn en navigada tirkesto"
+        override val settingsEnableToggleFavoriteInNavDrawer =
+            "Aldoni/forigi plej ŝatatajn en navigada tirkesto"
+        override val messageContentDeleted = "Vi forigis ĉi tiun enhavon"
+        override val actionRestore = "Restaŭri"
     }

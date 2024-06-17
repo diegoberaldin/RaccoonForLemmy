@@ -417,4 +417,6 @@ internal val ArStrings =
         override val settingsHiddenPosts = "المشاركات المخفية"
         override val settingsMediaList = "تحميلات الوسائط"
         override val settingsEnableToggleFavoriteInNavDrawer = "إضافة/إزالة المفضلة في درج التنقل"
+        override val messageContentDeleted = "لقد قمت بحذف هذا المحتوى"
+        override val actionRestore = "يعيد"
     }

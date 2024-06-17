@@ -422,4 +422,6 @@ internal val PtStrings =
         override val settingsMediaList = "Carregamentos de mídia"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Adicionar/remover favoritos na gaveta de navegação"
+        override val messageContentDeleted = "Você excluiu este conteúdo"
+        override val actionRestore = "Restaura"
     }

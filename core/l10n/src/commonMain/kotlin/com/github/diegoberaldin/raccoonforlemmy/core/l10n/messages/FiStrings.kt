@@ -419,4 +419,6 @@ internal val FiStrings =
         override val settingsMediaList = "Median lataukset"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Lisää/poista suosikkeja navigointipaneelissa"
+        override val messageContentDeleted = "Olet poistanut tämän sisällön"
+        override val actionRestore = "Palauttaa"
     }

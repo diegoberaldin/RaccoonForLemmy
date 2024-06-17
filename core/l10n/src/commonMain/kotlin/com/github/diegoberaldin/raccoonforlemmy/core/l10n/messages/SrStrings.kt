@@ -424,4 +424,6 @@ internal val SrStrings =
         override val settingsMediaList = "Учитавање медија"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Додајте/уклоните фаворите у фиоци за навигацију"
+        override val messageContentDeleted = "Избрисали сте овај садржај"
+        override val actionRestore = "Ресторе"
     }

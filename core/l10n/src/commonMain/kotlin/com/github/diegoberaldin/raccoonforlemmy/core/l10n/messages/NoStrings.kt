@@ -421,4 +421,6 @@ internal val NoStrings =
         override val settingsMediaList = "Medieopplastinger"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Legg til/fjern favoritter i navigasjonsskuffen"
+        override val messageContentDeleted = "Du har slettet dette innholdet"
+        override val actionRestore = "Restaurere"
     }

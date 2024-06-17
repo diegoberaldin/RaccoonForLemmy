@@ -422,4 +422,6 @@ internal val LtStrings =
         override val settingsMediaList = "Žiniasklaidos įkėlimai"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Pridėti / pašalinti mėgstamiausius naršymo skydelyje"
+        override val messageContentDeleted = "Ištrynėte šį turinį"
+        override val actionRestore = "Atkurti"
     }

@@ -427,4 +427,6 @@ internal val HuStrings =
         override val settingsMediaList = "Médiafeltöltések"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Kedvencek hozzáadása/eltávolítása a navigációs fiókban"
+        override val messageContentDeleted = "Ezt a tartalmat törölted"
+        override val actionRestore = "visszaállítás"
     }

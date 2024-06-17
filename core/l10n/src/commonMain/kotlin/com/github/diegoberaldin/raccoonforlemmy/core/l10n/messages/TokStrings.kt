@@ -418,4 +418,6 @@ internal val TokStrings =
         override val settingsMediaList = "sitelen linluwi"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "o sin/o weka e ijo pona lon leko luka"
+        override val messageContentDeleted = "tenpo pini la, sina weka e ijo ni"
+        override val actionRestore = "o awen e ona"
     }

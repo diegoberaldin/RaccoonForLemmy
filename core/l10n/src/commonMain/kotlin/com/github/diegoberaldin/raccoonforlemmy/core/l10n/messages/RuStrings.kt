@@ -424,4 +424,6 @@ internal val RuStrings =
         override val settingsMediaList = "Загрузка мультимедиа"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Добавить/удалить избранное в панели навигации"
+        override val messageContentDeleted = "Вы удалили этот контент"
+        override val actionRestore = "Восстановить"
     }

@@ -422,4 +422,6 @@ internal val RoStrings =
         override val settingsMediaList = "Încărcări media"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Adăugă/elimină favoritele din sertarul de navigare"
+        override val messageContentDeleted = "Ați șters acest conținut"
+        override val actionRestore = "Restaurați-l"
     }

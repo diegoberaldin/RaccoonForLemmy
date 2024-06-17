@@ -425,4 +425,6 @@ internal val DeStrings =
         override val settingsMediaList = "Medien-Uploads"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Favoriten in der Navigationsleiste hinzufügen/entfernen"
+        override val messageContentDeleted = "Sie haben diesen Inhalt gelöscht"
+        override val actionRestore = "Wiederherstellen"
     }

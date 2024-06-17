@@ -422,4 +422,6 @@ internal val SlStrings =
         override val settingsMediaList = "Nalaganje medijev"
         override val settingsEnableToggleFavoriteInNavDrawer =
             "Dodajte/odstranite priljubljene v predalu za krmarjenje"
+        override val messageContentDeleted = "To vsebino ste izbrisali"
+        override val actionRestore = "Obnovi"
     }
