@@ -37,6 +37,7 @@ class DefaultShareHelper(
             Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_STREAM, uri)
+                flags += Intent.FLAG_GRANT_READ_URI_PERMISSION
                 type = mimeType
             }
 
