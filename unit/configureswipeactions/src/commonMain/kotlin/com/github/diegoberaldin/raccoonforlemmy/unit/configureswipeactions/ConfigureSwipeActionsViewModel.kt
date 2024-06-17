@@ -21,15 +21,16 @@ class ConfigureSwipeActionsViewModel(
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
-) : ConfigureSwipeActionsMviModel,
-    DefaultMviModel<ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect>(
+) : DefaultMviModel<ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect>(
         initialState = ConfigureSwipeActionsMviModel.UiState(),
-    ) {
+    ),
+    ConfigureSwipeActionsMviModel {
     init {
         screenModelScope.launch {
             val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
             updateState { it.copy(downVoteEnabled = downVoteEnabled) }
-            notificationCenter.subscribe(NotificationCenterEvent.ActionsOnSwipeSelected::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ActionsOnSwipeSelected::class)
                 .onEach { evt ->
                     when (evt.target) {
                         ActionOnSwipeTarget.Posts ->
@@ -493,6 +494,7 @@ class ConfigureSwipeActionsViewModel(
             buildSet {
                 this += ActionOnSwipe.DEFAULT_SWIPE_TO_START_POSTS
                 this += ActionOnSwipe.DEFAULT_SWIPE_TO_END_POSTS
+                this += ActionOnSwipe.Edit
                 if (preventActionsOnBothSides) {
                     this -= currentState.actionsOnSwipeToStartPosts.toSet()
                     this -= currentState.actionsOnSwipeToEndPosts.toSet()
@@ -502,6 +504,7 @@ class ConfigureSwipeActionsViewModel(
             buildSet {
                 this += ActionOnSwipe.DEFAULT_SWIPE_TO_START_COMMENTS
                 this += ActionOnSwipe.DEFAULT_SWIPE_TO_END_COMMENTS
+                this += ActionOnSwipe.Edit
                 if (preventActionsOnBothSides) {
                     this -= currentState.actionsOnSwipeToStartComments.toSet()
                     this -= currentState.actionsOnSwipeToEndComments.toSet()

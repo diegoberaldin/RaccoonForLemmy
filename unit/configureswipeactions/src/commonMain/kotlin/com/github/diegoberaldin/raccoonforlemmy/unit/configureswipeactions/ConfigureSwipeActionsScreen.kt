@@ -104,8 +104,7 @@ class ConfigureSwipeActionsScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .then(
+                        ).then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
@@ -580,6 +579,10 @@ class ConfigureSwipeActionsScreen : Screen {
                                 navigationCoordinator.showBottomSheet(sheet)
                             }
                         }
+                    }
+
+                    item {
+                        Spacer(modifier = Modifier.height(Spacing.xxxl))
                     }
                 }
             }
