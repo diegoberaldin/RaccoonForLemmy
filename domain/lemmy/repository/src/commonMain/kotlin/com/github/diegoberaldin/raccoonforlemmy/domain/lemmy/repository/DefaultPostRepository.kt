@@ -301,19 +301,40 @@ internal class DefaultPostRepository(
     override suspend fun delete(
         id: Long,
         auth: String,
-    ): Unit =
+    ) = withContext(Dispatchers.IO) {
+        runCatching {
+            val data =
+                DeletePostForm(
+                    postId = id,
+                    deleted = true,
+                )
+            val res =
+                services.post.delete(
+                    authHeader = auth.toAuthHeader(),
+                    form = data,
+                )
+            res.postView.toModel()
+        }.getOrNull()
+    }
+
+    override suspend fun restore(
+        id: Long,
+        auth: String,
+    ): PostModel? =
         withContext(Dispatchers.IO) {
             runCatching {
                 val data =
                     DeletePostForm(
                         postId = id,
-                        deleted = true,
+                        deleted = false,
                     )
-                services.post.delete(
-                    authHeader = auth.toAuthHeader(),
-                    form = data,
-                )
-            }.getOrDefault(Unit)
+                val res =
+                    services.post.delete(
+                        authHeader = auth.toAuthHeader(),
+                        form = data,
+                    )
+                res.postView.toModel()
+            }.getOrNull()
         }
 
     override suspend fun uploadImage(

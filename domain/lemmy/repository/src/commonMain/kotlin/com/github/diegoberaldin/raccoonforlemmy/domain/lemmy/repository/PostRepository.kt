@@ -97,7 +97,12 @@ interface PostRepository {
     suspend fun delete(
         id: Long,
         auth: String,
-    )
+    ): PostModel?
+
+    suspend fun restore(
+        id: Long,
+        auth: String,
+    ): PostModel?
 
     suspend fun uploadImage(
         auth: String,

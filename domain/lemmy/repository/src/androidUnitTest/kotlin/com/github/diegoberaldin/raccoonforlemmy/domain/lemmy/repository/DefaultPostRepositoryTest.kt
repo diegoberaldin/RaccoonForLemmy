@@ -583,6 +583,35 @@ class DefaultPostRepositoryTest {
                     form =
                         withArg {
                             assertEquals(postId, it.postId)
+                            assertTrue(it.deleted)
+                        },
+                )
+            }
+        }
+
+    @Test
+    fun whenRestore_thenInteractionsAreAsExpected() =
+        runTest {
+            coEvery {
+                postService.delete(
+                    authHeader = any(),
+                    form = any(),
+                )
+            } returns mockk(relaxed = true)
+
+            val postId = 1L
+            sut.restore(
+                id = postId,
+                auth = AUTH_TOKEN,
+            )
+
+            coVerify {
+                postService.delete(
+                    authHeader = AUTH_TOKEN.toAuthHeader(),
+                    form =
+                        withArg {
+                            assertEquals(postId, it.postId)
+                            assertFalse(it.deleted)
                         },
                 )
             }
