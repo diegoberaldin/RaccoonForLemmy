@@ -134,11 +134,6 @@ class PostDetailViewModel(
                     emitEffect(PostDetailMviModel.Effect.Close)
                 }.launchIn(this)
             notificationCenter
-                .subscribe(NotificationCenterEvent.CommentRemoved::class)
-                .onEach { evt ->
-                    handleCommentDelete(evt.model.id)
-                }.launchIn(this)
-            notificationCenter
                 .subscribe(NotificationCenterEvent.ChangeCommentSortType::class)
                 .onEach { evt ->
                     applySortType(evt.value)
@@ -426,6 +421,9 @@ class PostDetailViewModel(
 
             is PostDetailMviModel.Intent.NavigateNextComment ->
                 navigateToNextComment(intent.currentIndex)
+
+            PostDetailMviModel.Intent.RestorePost -> restorePost()
+            is PostDetailMviModel.Intent.RestoreComment -> restoreComment(intent.commentId)
         }
     }
 
@@ -451,6 +449,7 @@ class PostDetailViewModel(
                 postId = uiState.value.post.id,
                 sortType = uiState.value.sortType,
                 otherInstance = otherInstance,
+                includeDeleted = true,
             ),
         )
         updateState {
@@ -761,15 +760,11 @@ class PostDetailViewModel(
     private fun deleteComment(id: Long) {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
-            commentRepository.delete(id, auth)
-            handleCommentDelete(id)
-            refreshPost()
-        }
-    }
-
-    private fun handleCommentDelete(id: Long) {
-        screenModelScope.launch {
-            updateState { it.copy(comments = it.comments.filter { comment -> comment.id != id }) }
+            val newComment = commentRepository.delete(id, auth)
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
+                refreshPost()
+            }
         }
     }
 
@@ -777,11 +772,13 @@ class PostDetailViewModel(
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
             val postId = uiState.value.post.id
-            postRepository.delete(id = postId, auth = auth)
-            notificationCenter.send(
-                event = NotificationCenterEvent.PostDeleted(uiState.value.post),
-            )
-            emitEffect(PostDetailMviModel.Effect.Close)
+            val newPost = postRepository.delete(id = postId, auth = auth)
+            if (newPost != null) {
+                notificationCenter.send(
+                    event = NotificationCenterEvent.PostUpdated(newPost),
+                )
+                emitEffect(PostDetailMviModel.Effect.Close)
+            }
         }
     }
 
@@ -1004,6 +1001,34 @@ class PostDetailViewModel(
             screenModelScope.launch {
                 loadNextPage()
                 navigateToNextComment(index + 1)
+            }
+        }
+    }
+
+    private fun restorePost() {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newPost =
+                postRepository.restore(
+                    id = uiState.value.post.id,
+                    auth = auth,
+                )
+            if (newPost != null) {
+                handlePostUpdate(newPost)
+            }
+        }
+    }
+
+    private fun restoreComment(id: Long) {
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value.orEmpty()
+            val newComment =
+                commentRepository.restore(
+                    commentId = id,
+                    auth = auth,
+                )
+            if (newComment != null) {
+                handleCommentUpdate(newComment)
             }
         }
     }

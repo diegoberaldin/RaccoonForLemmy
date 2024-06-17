@@ -384,11 +384,19 @@ class PostDetailScreen(
                                                 OptionId.Edit,
                                                 LocalStrings.current.postActionEdit,
                                             )
-                                        this +=
-                                            Option(
-                                                OptionId.Delete,
-                                                LocalStrings.current.commentActionDelete,
-                                            )
+                                        if (uiState.post.deleted) {
+                                            this +=
+                                                Option(
+                                                    OptionId.Restore,
+                                                    LocalStrings.current.actionRestore,
+                                                )
+                                        } else {
+                                            this +=
+                                                Option(
+                                                    OptionId.Delete,
+                                                    LocalStrings.current.commentActionDelete,
+                                                )
+                                        }
                                     }
                                     if (uiState.isModerator) {
                                         this +=
@@ -652,6 +660,10 @@ class PostDetailScreen(
                                                             )
                                                         navigationCoordinator.pushScreen(screen)
                                                     }
+                                                }
+
+                                                OptionId.Restore -> {
+                                                    model.reduce(PostDetailMviModel.Intent.RestorePost)
                                                 }
 
                                                 else -> Unit
@@ -1309,11 +1321,19 @@ class PostDetailScreen(
                                                                             OptionId.Edit,
                                                                             LocalStrings.current.postActionEdit,
                                                                         )
-                                                                    this +=
-                                                                        Option(
-                                                                            OptionId.Delete,
-                                                                            LocalStrings.current.commentActionDelete,
-                                                                        )
+                                                                    if (comment.deleted) {
+                                                                        this +=
+                                                                            Option(
+                                                                                OptionId.Restore,
+                                                                                LocalStrings.current.actionRestore,
+                                                                            )
+                                                                    } else {
+                                                                        this +=
+                                                                            Option(
+                                                                                OptionId.Delete,
+                                                                                LocalStrings.current.commentActionDelete,
+                                                                            )
+                                                                    }
                                                                 }
                                                                 if (uiState.isModerator) {
                                                                     this +=
@@ -1508,6 +1528,14 @@ class PostDetailScreen(
                                                                         }
                                                                     }
 
+                                                                    OptionId.Restore -> {
+                                                                        model.reduce(
+                                                                            PostDetailMviModel.Intent.RestoreComment(
+                                                                                comment.id,
+                                                                            ),
+                                                                        )
+                                                                    }
+
                                                                     else -> Unit
                                                                 }
                                                             },
@@ -1603,11 +1631,19 @@ class PostDetailScreen(
                                                                     OptionId.Edit,
                                                                     LocalStrings.current.postActionEdit,
                                                                 )
-                                                            this +=
-                                                                Option(
-                                                                    OptionId.Delete,
-                                                                    LocalStrings.current.commentActionDelete,
-                                                                )
+                                                            if (comment.deleted) {
+                                                                this +=
+                                                                    Option(
+                                                                        OptionId.Restore,
+                                                                        LocalStrings.current.actionRestore,
+                                                                    )
+                                                            } else {
+                                                                this +=
+                                                                    Option(
+                                                                        OptionId.Delete,
+                                                                        LocalStrings.current.commentActionDelete,
+                                                                    )
+                                                            }
                                                         }
                                                         if (uiState.isModerator) {
                                                             this +=
@@ -1723,6 +1759,14 @@ class PostDetailScreen(
                                                                         ),
                                                                     )
                                                                 }
+                                                            }
+
+                                                            OptionId.Restore -> {
+                                                                model.reduce(
+                                                                    PostDetailMviModel.Intent.RestoreComment(
+                                                                        comment.id,
+                                                                    ),
+                                                                )
                                                             }
 
                                                             else -> Unit
