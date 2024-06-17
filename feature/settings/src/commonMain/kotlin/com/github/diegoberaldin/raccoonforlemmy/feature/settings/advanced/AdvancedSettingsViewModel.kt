@@ -40,44 +40,59 @@ class AdvancedSettingsViewModel(
     private val fileSystemManager: FileSystemManager,
     private val importSettings: ImportSettingsUseCase,
     private val exportSettings: ExportSettingsUseCase,
-) : AdvancedSettingsMviModel,
-    DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
+) : DefaultMviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect>(
         initialState = AdvancedSettingsMviModel.UiState(),
-    ) {
+    ),
+    AdvancedSettingsMviModel {
     init {
         screenModelScope.launch {
-            themeRepository.navItemTitles.onEach { value ->
-                updateState { it.copy(navBarTitlesVisible = value) }
-            }.launchIn(this)
+            themeRepository.navItemTitles
+                .onEach { value ->
+                    updateState { it.copy(navBarTitlesVisible = value) }
+                }.launchIn(this)
 
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-            }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieInterval::class).onEach { evt ->
-                changeZombieModeInterval(evt.value)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class).onEach { evt ->
-                if (evt.screenKey == "advancedSettings") {
-                    changeExploreType(evt.value)
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class).onEach { evt ->
-                changeZombieModeScrollAmount(evt.value)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class).onEach { evt ->
-                changeDefaultInboxUnreadOnly(evt.unreadOnly)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class).onEach { evt ->
-                changeSystemBarTheme(evt.value)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeZombieInterval::class)
+                .onEach { evt ->
+                    changeZombieModeInterval(evt.value)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeFeedType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "advancedSettings") {
+                        changeExploreType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeZombieScrollAmount::class)
+                .onEach { evt ->
+                    changeZombieModeScrollAmount(evt.value)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeInboxType::class)
+                .onEach { evt ->
+                    changeDefaultInboxUnreadOnly(evt.unreadOnly)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSystemBarTheme::class)
+                .onEach { evt ->
+                    changeSystemBarTheme(evt.value)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeInboxBackgroundCheckPeriod::class)
                 .onEach { evt ->
                     changeInboxBackgroundCheckPeriod(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.AppIconVariantSelected::class).onEach { evt ->
-                changeAppIconVariant(evt.value.toAppIconVariant())
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.AppIconVariantSelected::class)
+                .onEach { evt ->
+                    changeAppIconVariant(evt.value.toAppIconVariant())
+                }.launchIn(this)
 
             updateAvailableLanguages()
 
@@ -106,6 +121,7 @@ class AdvancedSettingsViewModel(
                     inboxBackgroundCheckPeriod = settings.inboxBackgroundCheckPeriod,
                     supportSettingsImportExport = fileSystemManager.isSupported,
                     enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
+                    enableToggleFavoriteInNavDrawer = settings.enableToggleFavoriteInNavDrawer,
                 )
             }
         }
@@ -129,26 +145,44 @@ class AdvancedSettingsViewModel(
             is AdvancedSettingsMviModel.Intent.ChangeMarkAsReadWhileScrolling ->
                 changeMarkAsReadWhileScrolling(intent.value)
 
-            is AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly -> changeSearchPostTitleOnly(intent.value)
+            is AdvancedSettingsMviModel.Intent.ChangeSearchPostTitleOnly ->
+                changeSearchPostTitleOnly(
+                    intent.value,
+                )
+
             is AdvancedSettingsMviModel.Intent.ChangeEdgeToEdge -> changeEdgeToEdge(intent.value)
             is AdvancedSettingsMviModel.Intent.ChangeInfiniteScrollDisabled ->
                 changeInfiniteScrollDisabled(intent.value)
 
             is AdvancedSettingsMviModel.Intent.ChangeImageSourcePath -> changeImageSourcePath(intent.value)
-            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage -> changeDefaultLanguageId(intent.value)
+            is AdvancedSettingsMviModel.Intent.ChangeDefaultLanguage ->
+                changeDefaultLanguageId(
+                    intent.value,
+                )
+
             is AdvancedSettingsMviModel.Intent.ChangeFadeReadPosts -> changeFadeReadPosts(intent.value)
-            is AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments -> changeShowUnreadPosts(intent.value)
+            is AdvancedSettingsMviModel.Intent.ChangeShowUnreadComments ->
+                changeShowUnreadPosts(
+                    intent.value,
+                )
+
             is AdvancedSettingsMviModel.Intent.ExportSettings -> handleExportSettings()
             is AdvancedSettingsMviModel.Intent.ImportSettings -> handleImportSettings(intent.content)
             is AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments ->
                 changeEnableButtonsToScrollBetweenComments(intent.value)
+
+            is AdvancedSettingsMviModel.Intent.ChangeEnableToggleFavoriteInNavDrawer ->
+                changeEnableToggleFavoriteInNavDrawer(
+                    intent.value,
+                )
         }
     }
 
     private fun changeNavBarTitlesVisible(value: Boolean) {
         themeRepository.changeNavItemTitles(value)
         screenModelScope.launch {
-            val settings = settingsRepository.currentSettings.value.copy(navigationTitlesVisible = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(navigationTitlesVisible = value)
             saveSettings(settings)
         }
     }
@@ -156,7 +190,8 @@ class AdvancedSettingsViewModel(
     private fun changeEnableDoubleTapAction(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(enableDoubleTapAction = value) }
-            val settings = settingsRepository.currentSettings.value.copy(enableDoubleTapAction = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(enableDoubleTapAction = value)
             saveSettings(settings)
         }
     }
@@ -180,7 +215,8 @@ class AdvancedSettingsViewModel(
     private fun changeHideNavigationBarWhileScrolling(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(hideNavigationBarWhileScrolling = value) }
-            val settings = settingsRepository.currentSettings.value.copy(hideNavigationBarWhileScrolling = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(hideNavigationBarWhileScrolling = value)
             saveSettings(settings)
         }
     }
@@ -188,7 +224,8 @@ class AdvancedSettingsViewModel(
     private fun changeMarkAsReadWhileScrolling(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(markAsReadWhileScrolling = value) }
-            val settings = settingsRepository.currentSettings.value.copy(markAsReadWhileScrolling = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(markAsReadWhileScrolling = value)
             saveSettings(settings)
         }
     }
@@ -204,7 +241,8 @@ class AdvancedSettingsViewModel(
     private fun changeZombieModeScrollAmount(value: Float) {
         screenModelScope.launch {
             updateState { it.copy(zombieModeScrollAmount = value) }
-            val settings = settingsRepository.currentSettings.value.copy(zombieModeScrollAmount = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(zombieModeScrollAmount = value)
             saveSettings(settings)
         }
     }
@@ -212,7 +250,8 @@ class AdvancedSettingsViewModel(
     private fun changeDefaultInboxUnreadOnly(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(defaultInboxUnreadOnly = value) }
-            val settings = settingsRepository.currentSettings.value.copy(defaultInboxType = value.toInboxDefaultType())
+            val settings =
+                settingsRepository.currentSettings.value.copy(defaultInboxType = value.toInboxDefaultType())
             saveSettings(settings)
             notificationCenter.send(NotificationCenterEvent.ResetInbox)
         }
@@ -221,7 +260,8 @@ class AdvancedSettingsViewModel(
     private fun changeSearchPostTitleOnly(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(searchPostTitleOnly = value) }
-            val settings = settingsRepository.currentSettings.value.copy(searchPostTitleOnly = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(searchPostTitleOnly = value)
             saveSettings(settings)
         }
     }
@@ -229,7 +269,8 @@ class AdvancedSettingsViewModel(
     private fun changeExploreType(value: ListingType) {
         screenModelScope.launch {
             updateState { it.copy(defaultExploreType = value) }
-            val settings = settingsRepository.currentSettings.value.copy(defaultExploreType = value.toInt())
+            val settings =
+                settingsRepository.currentSettings.value.copy(defaultExploreType = value.toInt())
             saveSettings(settings)
         }
     }
@@ -245,7 +286,8 @@ class AdvancedSettingsViewModel(
     private fun changeInfiniteScrollDisabled(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(infiniteScrollDisabled = value) }
-            val settings = settingsRepository.currentSettings.value.copy(infiniteScrollEnabled = !value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(infiniteScrollEnabled = !value)
             saveSettings(settings)
         }
     }
@@ -290,7 +332,8 @@ class AdvancedSettingsViewModel(
     private fun changeInboxBackgroundCheckPeriod(value: Duration) {
         screenModelScope.launch {
             updateState { it.copy(inboxBackgroundCheckPeriod = value) }
-            val settings = settingsRepository.currentSettings.value.copy(inboxBackgroundCheckPeriod = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(inboxBackgroundCheckPeriod = value)
             saveSettings(settings)
         }
     }
@@ -314,7 +357,17 @@ class AdvancedSettingsViewModel(
     private fun changeEnableButtonsToScrollBetweenComments(value: Boolean) {
         screenModelScope.launch {
             updateState { it.copy(enableButtonsToScrollBetweenComments = value) }
-            val settings = settingsRepository.currentSettings.value.copy(enableButtonsToScrollBetweenComments = value)
+            val settings =
+                settingsRepository.currentSettings.value.copy(enableButtonsToScrollBetweenComments = value)
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeEnableToggleFavoriteInNavDrawer(value: Boolean) {
+        screenModelScope.launch {
+            updateState { it.copy(enableToggleFavoriteInNavDrawer = value) }
+            val settings =
+                settingsRepository.currentSettings.value.copy(enableToggleFavoriteInNavDrawer = value)
             saveSettings(settings)
         }
     }

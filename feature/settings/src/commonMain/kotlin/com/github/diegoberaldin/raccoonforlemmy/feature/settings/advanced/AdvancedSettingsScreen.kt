@@ -97,13 +97,14 @@ class AdvancedSettingsScreen : Screen {
         var settingsContent by remember { mutableStateOf<String?>(null) }
 
         LaunchedEffect(model) {
-            model.effects.onEach { evt ->
-                when (evt) {
-                    is AdvancedSettingsMviModel.Effect.SaveSettings -> {
-                        settingsContent = evt.content
+            model.effects
+                .onEach { evt ->
+                    when (evt) {
+                        is AdvancedSettingsMviModel.Effect.SaveSettings -> {
+                            settingsContent = evt.content
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -155,8 +156,7 @@ class AdvancedSettingsScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                        ).nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
@@ -287,11 +287,12 @@ class AdvancedSettingsScreen : Screen {
 
                     // default language
                     val languageValue =
-                        uiState.availableLanguages.firstOrNull { l ->
-                            l.id == uiState.defaultLanguageId
-                        }?.takeIf { l ->
-                            l.id > 0 // undetermined language
-                        }?.name ?: LocalStrings.current.undetermined
+                        uiState.availableLanguages
+                            .firstOrNull { l ->
+                                l.id == uiState.defaultLanguageId
+                            }?.takeIf { l ->
+                                l.id > 0 // undetermined language
+                            }?.name ?: LocalStrings.current.undetermined
                     SettingsRow(
                         title = LocalStrings.current.advancedSettingsDefaultLanguage,
                         value = languageValue,
@@ -365,7 +366,11 @@ class AdvancedSettingsScreen : Screen {
                         title = LocalStrings.current.settingsZombieModeScrollAmount,
                         value =
                             buildString {
-                                val pt = uiState.zombieModeScrollAmount.toLocalDp().value.roundToInt()
+                                val pt =
+                                    uiState.zombieModeScrollAmount
+                                        .toLocalDp()
+                                        .value
+                                        .roundToInt()
                                 append(pt)
                                 append(LocalStrings.current.settingsPointsShort)
                             },
@@ -429,6 +434,20 @@ class AdvancedSettingsScreen : Screen {
                         icon = Icons.Default.Science,
                     )
                     if (uiState.isLogged) {
+                        // edit favorites in navigation drawer
+                        SettingsSwitchRow(
+                            title = LocalStrings.current.settingsEnableToggleFavoriteInNavDrawer,
+                            value = uiState.enableToggleFavoriteInNavDrawer,
+                            onValueChanged =
+                                rememberCallbackArgs(model) { value ->
+                                    model.reduce(
+                                        AdvancedSettingsMviModel.Intent.ChangeEnableToggleFavoriteInNavDrawer(
+                                            value,
+                                        ),
+                                    )
+                                },
+                        )
+
                         // double tap
                         SettingsSwitchRow(
                             title = LocalStrings.current.settingsEnableDoubleTap,

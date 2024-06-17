@@ -11,37 +11,71 @@ interface AdvancedSettingsMviModel :
     ScreenModel,
     MviModel<AdvancedSettingsMviModel.Intent, AdvancedSettingsMviModel.UiState, AdvancedSettingsMviModel.Effect> {
     sealed interface Intent {
-        data class ChangeEnableDoubleTapAction(val value: Boolean) : Intent
+        data class ChangeEnableDoubleTapAction(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeAutoLoadImages(val value: Boolean) : Intent
+        data class ChangeAutoLoadImages(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeAutoExpandComments(val value: Boolean) : Intent
+        data class ChangeAutoExpandComments(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeHideNavigationBarWhileScrolling(val value: Boolean) : Intent
+        data class ChangeHideNavigationBarWhileScrolling(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeMarkAsReadWhileScrolling(val value: Boolean) : Intent
+        data class ChangeMarkAsReadWhileScrolling(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeNavBarTitlesVisible(val value: Boolean) : Intent
+        data class ChangeNavBarTitlesVisible(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeSearchPostTitleOnly(val value: Boolean) : Intent
+        data class ChangeSearchPostTitleOnly(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeEdgeToEdge(val value: Boolean) : Intent
+        data class ChangeEdgeToEdge(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeInfiniteScrollDisabled(val value: Boolean) : Intent
+        data class ChangeInfiniteScrollDisabled(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeImageSourcePath(val value: Boolean) : Intent
+        data class ChangeImageSourcePath(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeDefaultLanguage(val value: Long?) : Intent
+        data class ChangeDefaultLanguage(
+            val value: Long?,
+        ) : Intent
 
-        data class ChangeFadeReadPosts(val value: Boolean) : Intent
+        data class ChangeFadeReadPosts(
+            val value: Boolean,
+        ) : Intent
 
-        data class ChangeShowUnreadComments(val value: Boolean) : Intent
+        data class ChangeShowUnreadComments(
+            val value: Boolean,
+        ) : Intent
 
         data object ExportSettings : Intent
 
-        data class ImportSettings(val content: String) : Intent
+        data class ImportSettings(
+            val content: String,
+        ) : Intent
 
-        data class ChangeEnableButtonsToScrollBetweenComments(val value: Boolean) : Intent
+        data class ChangeEnableButtonsToScrollBetweenComments(
+            val value: Boolean,
+        ) : Intent
+
+        data class ChangeEnableToggleFavoriteInNavDrawer(
+            val value: Boolean,
+        ) : Intent
     }
 
     data class UiState(
@@ -71,9 +105,12 @@ interface AdvancedSettingsMviModel :
         val supportSettingsImportExport: Boolean = true,
         val loading: Boolean = false,
         val enableButtonsToScrollBetweenComments: Boolean = false,
+        val enableToggleFavoriteInNavDrawer: Boolean = false,
     )
 
     sealed interface Effect {
-        data class SaveSettings(val content: String) : Effect
+        data class SaveSettings(
+            val content: String,
+        ) : Effect
     }
 }
