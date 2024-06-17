@@ -13,6 +13,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.imagepreload.ImagePre
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.share.ShareHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,22 +26,25 @@ class ZoomableImageViewModel(
     private val galleryHelper: GalleryHelper,
     private val notificationCenter: NotificationCenter,
     private val imagePreloadManager: ImagePreloadManager,
-) : ZoomableImageMviModel,
-    DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>(
+) : DefaultMviModel<ZoomableImageMviModel.Intent, ZoomableImageMviModel.UiState, ZoomableImageMviModel.Effect>(
         initialState = ZoomableImageMviModel.UiState(),
-    ) {
+    ),
+    ZoomableImageMviModel {
     init {
         screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState { it.copy(autoLoadImages = settings.autoLoadImages) }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ShareImageModeSelected::class).onEach { event ->
-                when (event) {
-                    is NotificationCenterEvent.ShareImageModeSelected.ModeFile -> shareFile(event.url, event.source)
-                    is NotificationCenterEvent.ShareImageModeSelected.ModeUrl -> shareUrl(event.url)
-                }
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ShareImageModeSelected::class)
+                .onEach { event ->
+                    when (event) {
+                        is NotificationCenterEvent.ShareImageModeSelected.ModeFile -> shareFile(event.url, event.source)
+                        is NotificationCenterEvent.ShareImageModeSelected.ModeUrl -> shareUrl(event.url)
+                    }
+                }.launchIn(this)
         }
     }
 
@@ -107,7 +111,8 @@ class ZoomableImageViewModel(
                             additionalPathSegment = folder.takeIf { imageSourcePath },
                         )
                     }
-
+                // if done too early no image is found
+                delay(250)
                 updateState { it.copy(loading = false) }
 
                 if (path != null) {
