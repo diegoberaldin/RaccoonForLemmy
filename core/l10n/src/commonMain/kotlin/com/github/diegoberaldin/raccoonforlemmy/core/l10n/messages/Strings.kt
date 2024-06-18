@@ -453,7 +453,8 @@ object Locales {
     const val PT = "pt"
     const val AR = "ar"
     const val DA = "da"
-    const val NO = "no"
+    const val NN = "nn"
+    const val NB = "nb"
     const val MT = "mt"
     const val ZH_TW = "zh_TW"
     const val ZH_HK = "zh_HK"
@@ -493,7 +494,8 @@ internal val localizableStrings: Map<LanguageTag, Strings> =
         Locales.PT to PtStrings,
         Locales.AR to ArStrings,
         Locales.DA to DaStrings,
-        Locales.NO to NoStrings,
+        Locales.NB to NbStrings,
+        Locales.NN to NnStrings,
         Locales.MT to MtStrings,
         Locales.ZH_TW to ZhTwStrings,
         Locales.ZH_HK to ZhHkStrings,

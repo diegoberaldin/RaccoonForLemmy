@@ -68,7 +68,8 @@ class LanguageBottomSheet : Screen {
                     Locales.HU,
                     Locales.MT,
                     Locales.NL,
-                    Locales.NO,
+                    Locales.NB,
+                    Locales.NN,
                     Locales.PL,
                     Locales.PT,
                     Locales.PT_BR,
@@ -97,11 +98,11 @@ class LanguageBottomSheet : Screen {
                 for (value in values) {
                     Row(
                         modifier =
-                            Modifier.padding(
-                                horizontal = Spacing.s,
-                                vertical = Spacing.s,
-                            )
-                                .fillMaxWidth()
+                            Modifier
+                                .padding(
+                                    horizontal = Spacing.s,
+                                    vertical = Spacing.s,
+                                ).fillMaxWidth()
                                 .onClick(
                                     onClick = {
                                         notificationCenter.send(
