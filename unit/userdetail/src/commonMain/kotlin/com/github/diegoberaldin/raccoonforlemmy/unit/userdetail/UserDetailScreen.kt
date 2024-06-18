@@ -170,38 +170,40 @@ class UserDetailScreen(
         val clipboardManager = LocalClipboardManager.current
 
         LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    is UserDetailMviModel.Effect.Error -> {
-                        snackbarHostState.showSnackbar(effect.message ?: genericError)
-                    }
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        is UserDetailMviModel.Effect.Error -> {
+                            snackbarHostState.showSnackbar(effect.message ?: genericError)
+                        }
 
-                    UserDetailMviModel.Effect.Success -> {
-                        snackbarHostState.showSnackbar(successMessage)
-                    }
+                        UserDetailMviModel.Effect.Success -> {
+                            snackbarHostState.showSnackbar(successMessage)
+                        }
 
-                    UserDetailMviModel.Effect.BackToTop -> {
-                        scope.launch {
-                            runCatching {
-                                lazyListState.scrollToItem(0)
-                                topAppBarState.heightOffset = 0f
-                                topAppBarState.contentOffset = 0f
+                        UserDetailMviModel.Effect.BackToTop -> {
+                            scope.launch {
+                                runCatching {
+                                    lazyListState.scrollToItem(0)
+                                    topAppBarState.heightOffset = 0f
+                                    topAppBarState.contentOffset = 0f
+                                }
                             }
                         }
-                    }
 
-                    is UserDetailMviModel.Effect.TriggerCopy -> {
-                        clipboardManager.setText(AnnotatedString(text = effect.text))
+                        is UserDetailMviModel.Effect.TriggerCopy -> {
+                            clipboardManager.setText(AnnotatedString(text = effect.text))
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.globalMessage.onEach { message ->
-                snackbarHostState.showSnackbar(
-                    message = message,
-                )
-            }.launchIn(this)
+            navigationCoordinator.globalMessage
+                .onEach { message ->
+                    snackbarHostState.showSnackbar(
+                        message = message,
+                    )
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -210,9 +212,10 @@ class UserDetailScreen(
                 val userName = uiState.user.readableName(uiState.preferNicknames)
                 val maxTopInset = Dimensions.maxTopBarInset.toLocalPixel()
                 var topInset by remember { mutableStateOf(maxTopInset) }
-                snapshotFlow { topAppBarState.collapsedFraction }.onEach {
-                    topInset = maxTopInset * (1 - it)
-                }.launchIn(scope)
+                snapshotFlow { topAppBarState.collapsedFraction }
+                    .onEach {
+                        topInset = maxTopInset * (1 - it)
+                    }.launchIn(scope)
 
                 TopAppBar(
                     windowInsets =
@@ -298,13 +301,14 @@ class UserDetailScreen(
                             var optionsOffset by remember { mutableStateOf(Offset.Zero) }
                             Image(
                                 modifier =
-                                    Modifier.onGloballyPositioned {
-                                        optionsOffset = it.positionInParent()
-                                    }.onClick(
-                                        onClick = {
-                                            optionsExpanded = true
-                                        },
-                                    ),
+                                    Modifier
+                                        .onGloballyPositioned {
+                                            optionsOffset = it.positionInParent()
+                                        }.onClick(
+                                            onClick = {
+                                                optionsExpanded = true
+                                            },
+                                        ),
                                 imageVector = Icons.Default.MoreVert,
                                 contentDescription = null,
                                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground),
@@ -355,7 +359,8 @@ class UserDetailScreen(
                                                 }
 
                                                 OptionId.ExploreInstance -> {
-                                                    val screen = ExploreScreen(otherInstance = uiState.user.host)
+                                                    val screen =
+                                                        ExploreScreen(otherInstance = uiState.user.host)
                                                     navigationCoordinator.pushScreen(screen)
                                                 }
 
@@ -462,15 +467,13 @@ class UserDetailScreen(
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .then(
+                        ).then(
                             if (settings.hideNavigationBarWhileScrolling) {
                                 Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                             } else {
                                 Modifier
                             },
-                        )
-                        .nestedScroll(fabNestedScrollConnection)
+                        ).nestedScroll(fabNestedScrollConnection)
                         .pullRefresh(pullRefreshState),
             ) {
                 LazyColumn(
@@ -535,7 +538,7 @@ class UserDetailScreen(
                         if (uiState.posts.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 PostCardPlaceholder(
-                                    modifier = Modifier.padding(horizontal = Spacing.s),
+                                    modifier = Modifier.padding(horizontal = Spacing.xs),
                                     postLayout = uiState.postLayout,
                                 )
                                 if (uiState.postLayout != PostLayout.Card) {
@@ -592,7 +595,9 @@ class UserDetailScreen(
                                                     onTriggered =
                                                         rememberCallback {
                                                             model.reduce(
-                                                                UserDetailMviModel.Intent.DownVotePost(post.id),
+                                                                UserDetailMviModel.Intent.DownVotePost(
+                                                                    post.id,
+                                                                ),
                                                             )
                                                         },
                                                 )
@@ -661,7 +666,6 @@ class UserDetailScreen(
                                     },
                                 content = {
                                     PostCard(
-                                        modifier = Modifier.padding(horizontal = Spacing.s),
                                         post = post,
                                         hideAuthor = true,
                                         postLayout = uiState.postLayout,
@@ -879,7 +883,7 @@ class UserDetailScreen(
                         if (uiState.comments.isEmpty() && uiState.loading && uiState.initial) {
                             items(5) {
                                 CommentCardPlaceholder(
-                                    modifier = Modifier.padding(horizontal = Spacing.s),
+                                    modifier = Modifier.padding(horizontal = Spacing.xs),
                                 )
                                 HorizontalDivider(
                                     modifier = Modifier.padding(vertical = Spacing.xxxs),
@@ -910,7 +914,9 @@ class UserDetailScreen(
                                                 onTriggered =
                                                     rememberCallback {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.UpVoteComment(comment.id),
+                                                            UserDetailMviModel.Intent.UpVoteComment(
+                                                                comment.id,
+                                                            ),
                                                         )
                                                     },
                                             )
@@ -977,7 +983,9 @@ class UserDetailScreen(
                                                 onTriggered =
                                                     rememberCallback {
                                                         model.reduce(
-                                                            UserDetailMviModel.Intent.SaveComment(comment.id),
+                                                            UserDetailMviModel.Intent.SaveComment(
+                                                                comment.id,
+                                                            ),
                                                         )
                                                     },
                                             )
@@ -1007,10 +1015,7 @@ class UserDetailScreen(
                                     },
                                 content = {
                                     CommentCard(
-                                        modifier =
-                                            Modifier
-                                                .padding(horizontal = Spacing.s)
-                                                .background(MaterialTheme.colorScheme.background),
+                                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                         comment = comment,
                                         voteFormat = uiState.voteFormat,
                                         autoLoadImages = uiState.autoLoadImages,
@@ -1064,7 +1069,11 @@ class UserDetailScreen(
                                                 null
                                             } else {
                                                 rememberCallback(model) {
-                                                    model.reduce(UserDetailMviModel.Intent.UpVoteComment(comment.id))
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.UpVoteComment(
+                                                            comment.id,
+                                                        ),
+                                                    )
                                                 }
                                             },
                                         onDownVote =
@@ -1072,7 +1081,11 @@ class UserDetailScreen(
                                                 null
                                             } else {
                                                 rememberCallback(model) {
-                                                    model.reduce(UserDetailMviModel.Intent.DownVoteComment(comment.id))
+                                                    model.reduce(
+                                                        UserDetailMviModel.Intent.DownVoteComment(
+                                                            comment.id,
+                                                        ),
+                                                    )
                                                 }
                                             },
                                         onReply =
@@ -1199,7 +1212,8 @@ class UserDetailScreen(
                             } else {
                                 Row(
                                     modifier =
-                                        Modifier.fillMaxWidth()
+                                        Modifier
+                                            .fillMaxWidth()
                                             .padding(top = Spacing.s),
                                     horizontalArrangement = Arrangement.Center,
                                 ) {

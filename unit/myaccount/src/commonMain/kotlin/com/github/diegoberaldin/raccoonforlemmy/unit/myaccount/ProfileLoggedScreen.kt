@@ -427,10 +427,7 @@ object ProfileLoggedScreen : Tab {
                                 key = { it.id.toString() + (it.updateDate ?: it.publishDate) },
                             ) { comment ->
                                 CommentCard(
-                                    modifier =
-                                        Modifier
-                                            .background(MaterialTheme.colorScheme.background)
-                                            .padding(horizontal = Spacing.xs),
+                                    modifier = Modifier.background(MaterialTheme.colorScheme.background),
                                     comment = comment,
                                     voteFormat = uiState.voteFormat,
                                     autoLoadImages = uiState.autoLoadImages,
