@@ -25,13 +25,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private const val MAX_PAGE_NUMBER_IN_COMMUNITY_REC_SEARCH = 10
+private const val PAGE_SIZE_IN_COMMUNITY_REC_SEARCH = 50
 
 class DefaultDetailOpener(
     private val navigationCoordinator: NavigationCoordinator,
     private val itemCache: LemmyItemCache,
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
-    dispatcher: CoroutineDispatcher = Dispatchers.Main
+    dispatcher: CoroutineDispatcher = Dispatchers.Main,
 ) : DetailOpener {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
 
@@ -175,18 +176,20 @@ class DefaultDetailOpener(
 
         tailrec suspend fun searchRec(page: Int = 0): CommunityModel? {
             val results =
-                communityRepository.search(
-                    auth = auth,
-                    query = name,
-                    resultType = SearchResultType.Communities,
-                    page = page,
-                    limit = 50,
-                ).filterIsInstance<SearchResult.Community>()
+                communityRepository
+                    .search(
+                        auth = auth,
+                        query = name,
+                        resultType = SearchResultType.Communities,
+                        page = page,
+                        limit = PAGE_SIZE_IN_COMMUNITY_REC_SEARCH,
+                    ).filterIsInstance<SearchResult.Community>()
 
             val found =
-                results.firstOrNull {
-                    it.model.name == name && it.model.host == host
-                }?.model
+                results
+                    .firstOrNull {
+                        it.model.name == name && it.model.host == host
+                    }?.model
             // iterates for no more than a number of pages before giving up
             if (found != null || page >= MAX_PAGE_NUMBER_IN_COMMUNITY_REC_SEARCH) {
                 return found
