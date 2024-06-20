@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.editor
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -9,8 +11,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.MultiCommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
-import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
@@ -22,33 +22,35 @@ import kotlinx.coroutines.launch
 @OptIn(FlowPreview::class)
 class MultiCommunityEditorViewModel(
     private val communityId: Long?,
-    private val identityRepository: IdentityRepository,
-    private val communityRepository: CommunityRepository,
     private val multiCommunityRepository: MultiCommunityRepository,
+    private val communityPaginationManager: CommunityPaginationManager,
     private val accountRepository: AccountRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
-) : MultiCommunityEditorMviModel,
-    DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>(
+) : DefaultMviModel<MultiCommunityEditorMviModel.Intent, MultiCommunityEditorMviModel.UiState, MultiCommunityEditorMviModel.Effect>(
         initialState = MultiCommunityEditorMviModel.UiState(),
-    ) {
-    private var currentPage = 1
+    ),
+    MultiCommunityEditorMviModel {
     private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                    )
-                }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                refresh()
-            }.launchIn(this)
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1000)
+                .onEach {
+                    refresh()
+                }.launchIn(this)
 
             if (uiState.value.communities.isEmpty()) {
                 val editedCommunity =
@@ -70,21 +72,29 @@ class MultiCommunityEditorViewModel(
                 screenModelScope.launch {
                     updateState { it.copy(name = intent.value) }
                 }
+
             is MultiCommunityEditorMviModel.Intent.ToggleCommunity -> toggleCommunity(intent.id)
             is MultiCommunityEditorMviModel.Intent.SetSearch -> setSearch(intent.value)
-            MultiCommunityEditorMviModel.Intent.LoadNextPage -> screenModelScope.launch {
-                loadNextPage()
-            }
+            MultiCommunityEditorMviModel.Intent.LoadNextPage ->
+                screenModelScope.launch {
+                    loadNextPage()
+                }
 
             MultiCommunityEditorMviModel.Intent.Submit -> submit()
         }
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        val editedCommunity = communityId?.let {
-            multiCommunityRepository.getById(it)
-        }
-        currentPage = 1
+        val editedCommunity =
+            communityId?.let {
+                multiCommunityRepository.getById(it)
+            }
+        val searchText = uiState.value.searchText
+        communityPaginationManager.reset(
+            CommunityPaginationSpecification.Subscribed(
+                searchText = searchText,
+            ),
+        )
         updateState {
             it.copy(
                 name = editedCommunity?.name.orEmpty(),
@@ -103,30 +113,16 @@ class MultiCommunityEditorViewModel(
             return
         }
 
-        val auth = identityRepository.authToken.value
-        val searchText = uiState.value.searchText
-        val itemsToAdd = communityRepository.getSubscribed(
-            auth = auth,
-            page = currentPage,
-            query = searchText,
-        )
-        if (itemsToAdd.isNotEmpty()) {
-            currentPage++
-        }
+        val itemsToAdd = communityPaginationManager.loadNextPage()
         updateState {
             it.copy(
-                communities = if (currentState.refreshing) {
-                    itemsToAdd
-                } else {
-                    currentState.communities + itemsToAdd
-                },
-                canFetchMore = itemsToAdd.isNotEmpty(),
+                communities = itemsToAdd,
+                canFetchMore = communityPaginationManager.canFetchMore,
                 loading = false,
                 refreshing = false,
             )
         }
     }
-
 
     private fun setSearch(value: String) {
         screenModelScope.launch {
@@ -151,21 +147,27 @@ class MultiCommunityEditorViewModel(
         screenModelScope.launch {
             val currentCommunityIds = uiState.value.selectedCommunityIds
             val shouldBeRemoved = currentCommunityIds.contains(communityId)
-            val iconUrl = uiState.value.communities.firstOrNull { c -> c.id == communityId }?.icon
+            val iconUrl =
+                uiState.value.communities
+                    .firstOrNull { c -> c.id == communityId }
+                    ?.icon
             if (shouldBeRemoved) {
                 updateState {
                     it.copy(
                         selectedCommunityIds = currentCommunityIds.filter { id -> id != communityId },
-                        availableIcons = it.availableIcons.filter { url -> url != iconUrl }
+                        availableIcons = it.availableIcons.filter { url -> url != iconUrl },
                     )
                 }
             } else {
                 updateState {
                     it.copy(
                         selectedCommunityIds = currentCommunityIds + communityId,
-                        availableIcons = if (iconUrl != null) {
-                            it.availableIcons + iconUrl
-                        } else it.availableIcons
+                        availableIcons =
+                            if (iconUrl != null) {
+                                it.availableIcons + iconUrl
+                            } else {
+                                it.availableIcons
+                            },
                     )
                 }
             }
