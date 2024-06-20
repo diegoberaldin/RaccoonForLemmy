@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.managesubscriptions
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -32,13 +34,13 @@ class ManageSubscriptionsViewModel(
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
     private val siteRepository: SiteRepository,
+    private val communityPaginationManager: CommunityPaginationManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
 ) : DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ),
     ManageSubscriptionsMviModel {
-    private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -119,20 +121,17 @@ class ManageSubscriptionsViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        updateState {
-            it.copy(
-                refreshing = true,
-                initial = initial,
-                canFetchMore = true,
-            )
-        }
-        currentPage = 1
+        val searchText = uiState.value.searchText
+        communityPaginationManager.reset(
+            CommunityPaginationSpecification.Subscribed(
+                searchText = searchText,
+            ),
+        )
         val accountId = accountRepository.getActive()?.id ?: 0L
         val multiCommunitites =
             multiCommunityRepository
                 .getAll(accountId)
                 .let {
-                    val searchText = uiState.value.searchText
                     if (searchText.isNotEmpty()) {
                         it.filter { c ->
                             c.name.contains(searchText, ignoreCase = true)
@@ -144,6 +143,9 @@ class ManageSubscriptionsViewModel(
 
         updateState {
             it.copy(
+                refreshing = true,
+                initial = initial,
+                canFetchMore = true,
                 multiCommunities = multiCommunitites,
             )
         }
@@ -244,37 +246,20 @@ class ManageSubscriptionsViewModel(
             return
         }
         val accountId = accountRepository.getActive()?.id
-        val auth = identityRepository.authToken.value
-        val searchText = uiState.value.searchText
         val favoriteCommunityIds =
             favoriteCommunityRepository.getAll(accountId).map { it.communityId }
         val itemsToAdd =
-            communityRepository
-                .getSubscribed(
-                    auth = auth,
-                    page = currentPage,
-                    query = searchText,
-                ).map { community ->
-                    community.copy(favorite = community.id in favoriteCommunityIds)
-                }.sortedBy { it.name }
-                .let {
-                    val favorites = it.filter { e -> e.favorite }
-                    val res = it - favorites.toSet()
-                    favorites + res
+            communityPaginationManager
+                .loadNextPage()
+                .map {
+                    val favorite = favoriteCommunityIds.contains(it.id)
+                    it.copy(favorite = favorite)
                 }
-        if (itemsToAdd.isNotEmpty()) {
-            currentPage++
-        }
         updateState {
             it.copy(
                 refreshing = false,
-                communities =
-                    if (currentState.refreshing) {
-                        itemsToAdd
-                    } else {
-                        currentState.communities + itemsToAdd
-                    },
-                canFetchMore = itemsToAdd.isNotEmpty(),
+                communities = itemsToAdd,
+                canFetchMore = communityPaginationManager.canFetchMore,
                 loading = false,
                 initial = false,
             )
