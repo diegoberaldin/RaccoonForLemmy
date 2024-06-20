@@ -43,6 +43,7 @@ fun InboxCard(
     preferNicknames: Boolean = true,
     showScores: Boolean = true,
     downVoteEnabled: Boolean = true,
+    previewMaxLines: Int? = 1,
     voteFormat: VoteFormat = VoteFormat.Aggregated,
     postLayout: PostLayout = PostLayout.Card,
     options: List<Option> = emptyList(),
@@ -57,27 +58,26 @@ fun InboxCard(
 ) {
     Box(
         modifier =
-            Modifier.then(
-                if (postLayout == PostLayout.Card) {
-                    Modifier
-                        .padding(horizontal = Spacing.xs)
-                        .shadow(
-                            elevation = 5.dp,
-                            shape = RoundedCornerShape(CornerSize.l),
-                        )
-                        .clip(RoundedCornerShape(CornerSize.l))
-                        .background(
-                            color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
-                        )
-                        .padding(vertical = Spacing.s)
-                } else {
-                    Modifier.background(MaterialTheme.colorScheme.background)
-                },
-            ).onClick(
-                onClick = {
-                    onOpenPost(mention.post)
-                },
-            ),
+            Modifier
+                .then(
+                    if (postLayout == PostLayout.Card) {
+                        Modifier
+                            .padding(horizontal = Spacing.xs)
+                            .shadow(
+                                elevation = 5.dp,
+                                shape = RoundedCornerShape(CornerSize.l),
+                            ).clip(RoundedCornerShape(CornerSize.l))
+                            .background(
+                                color = MaterialTheme.colorScheme.surfaceColorAtElevation(5.dp),
+                            ).padding(vertical = Spacing.s)
+                    } else {
+                        Modifier.background(MaterialTheme.colorScheme.background)
+                    },
+                ).onClick(
+                    onClick = {
+                        onOpenPost(mention.post)
+                    },
+                ),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -95,14 +95,23 @@ fun InboxCard(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha),
                 )
             } else {
+                val previewText =
+                    if (previewMaxLines == null || previewMaxLines < 0) {
+                        mention.comment.text.orEmpty()
+                    } else {
+                        mention.comment.text
+                            .orEmpty()
+                            .split("\n")
+                            .take(previewMaxLines)
+                            .joinToString("\n")
+                    }
                 CustomizedContent(ContentFontClass.Body) {
                     PostCardBody(
                         modifier =
                             Modifier.padding(
                                 horizontal = Spacing.s,
                             ),
-                        // takes just the first line
-                        text = mention.comment.text.orEmpty().substringBefore("\n"),
+                        text = previewText,
                         autoLoadImages = autoLoadImages,
                         onOpenImage = onImageClick,
                         onClick = {
