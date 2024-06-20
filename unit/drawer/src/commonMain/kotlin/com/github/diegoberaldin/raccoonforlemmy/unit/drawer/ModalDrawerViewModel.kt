@@ -1,6 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.drawer
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
@@ -13,16 +15,23 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiCo
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.cache.SubscriptionsCache
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.cache.SubscriptionsCacheState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
@@ -35,12 +44,13 @@ class ModalDrawerViewModel(
     private val apiConfigurationRepository: ApiConfigurationRepository,
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
+    private val communityPaginationManager: CommunityPaginationManager,
     private val notificationCenter: NotificationCenter,
+    private val subscriptionsCache: SubscriptionsCache,
 ) : DefaultMviModel<ModalDrawerMviModel.Intent, ModalDrawerMviModel.UiState, ModalDrawerMviModel.Effect>(
         initialState = ModalDrawerMviModel.UiState(),
     ),
     ModalDrawerMviModel {
-    private var currentPage = 1
     private val searchEventChannel = Channel<Unit>()
 
     init {
@@ -55,7 +65,13 @@ class ModalDrawerViewModel(
             identityRepository.isLogged
                 .onEach { _ ->
                     refreshUser()
-                    refresh()
+                }.launchIn(this)
+
+            subscriptionsCache.state
+                .onEach {
+                    if (it is SubscriptionsCacheState.Loaded) {
+                        loadCachedSubscriptions()
+                    }
                 }.launchIn(this)
 
             notificationCenter
@@ -93,7 +109,7 @@ class ModalDrawerViewModel(
 
             delay(250)
             refreshUser()
-            refresh()
+            refresh(initial = true)
         }
     }
 
@@ -108,11 +124,6 @@ class ModalDrawerViewModel(
                 screenModelScope.launch {
                     updateState { it.copy(searchText = intent.value) }
                     searchEventChannel.send(Unit)
-                }
-
-            ModalDrawerMviModel.Intent.LoadNextPage ->
-                screenModelScope.launch {
-                    loadNextPage()
                 }
 
             is ModalDrawerMviModel.Intent.ToggleFavorite -> toggleFavorite(intent.id)
@@ -139,21 +150,25 @@ class ModalDrawerViewModel(
         }
     }
 
-    private suspend fun refresh() {
+    private suspend fun refresh(initial: Boolean = false) {
         if (uiState.value.refreshing) {
             return
         }
-        currentPage = 1
+        val searchText = uiState.value.searchText
+        communityPaginationManager.reset(
+            CommunityPaginationSpecification.Subscribed(
+                searchText = searchText,
+            ),
+        )
         updateState {
             it.copy(
+                isFiltering = searchText.isNotEmpty(),
                 refreshing = true,
-                canFetchMore = true,
                 loading = false,
             )
         }
 
         val accountId = accountRepository.getActive()?.id
-        val searchText = uiState.value.searchText
         val multiCommunities =
             accountId
                 ?.let {
@@ -205,48 +220,41 @@ class ModalDrawerViewModel(
             )
         }
 
-        loadNextPage()
+        if (!initial) {
+            loadAllSubscriptions()
+        } else {
+            loadCachedSubscriptions()
+        }
     }
 
-    private suspend fun loadNextPage() {
+    private suspend fun loadCachedSubscriptions() {
+        withContext(Dispatchers.IO) {
+            val cachedValues =
+                subscriptionsCache.state
+                    .filterIsInstance<SubscriptionsCacheState.Loaded>()
+                    .first()
+                    .communities
+            updateState {
+                it.copy(
+                    communities = cachedValues.sortedBy { c -> c.name },
+                    refreshing = false,
+                    loading = false,
+                )
+            }
+        }
+    }
+
+    private suspend fun loadAllSubscriptions() {
         val currentState = uiState.value
-        if (!currentState.canFetchMore || currentState.loading) {
+        if (currentState.loading) {
             updateState { it.copy(refreshing = false) }
             return
         }
-        val auth = identityRepository.authToken.value
-        val searchText = uiState.value.searchText
-        val itemsToAdd =
-            communityRepository
-                .getSubscribed(
-                    auth = auth,
-                    page = currentPage,
-                    query = searchText,
-                ).filter { c1 ->
-                    // exclude items already included in favorites
-                    currentState.favorites.none { c2 -> c2.id == c1.id }
-                }.filter { c1 ->
-                    // prevents accidental duplication
-                    if (!currentState.refreshing) {
-                        currentState.communities.none { c2 -> c2.id == c1.id }
-                    } else {
-                        true
-                    }
-                }
-        if (itemsToAdd.isNotEmpty()) {
-            currentPage++
-        }
+        val itemsToAdd = communityPaginationManager.fetchAll().sortedBy { c -> c.name }
         updateState {
             it.copy(
-                isFiltering = searchText.isNotEmpty(),
                 refreshing = false,
-                communities =
-                    if (currentState.refreshing) {
-                        itemsToAdd
-                    } else {
-                        currentState.communities + itemsToAdd
-                    },
-                canFetchMore = itemsToAdd.isNotEmpty(),
+                communities = itemsToAdd,
                 loading = false,
             )
         }
@@ -267,7 +275,7 @@ class ModalDrawerViewModel(
                 updateState {
                     it.copy(
                         favorites = newFavorites,
-                        communities = newCommunities,
+                        communities = newCommunities.sortedBy { c -> c.name },
                     )
                 }
             } else {
@@ -278,7 +286,7 @@ class ModalDrawerViewModel(
                 val newCommunities = currentState.communities.filter { it.id != communityId }
                 updateState {
                     it.copy(
-                        favorites = newFavorites,
+                        favorites = newFavorites.sortedBy { c -> c.name },
                         communities = newCommunities,
                     )
                 }
