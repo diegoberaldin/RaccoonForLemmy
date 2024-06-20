@@ -157,6 +157,7 @@ class DefaultSettingsRepositoryTest {
                     commentIndentAmount = model.commentIndentAmount.toLong(),
                     enableToggleFavoriteInNavDrawer = if (model.enableToggleFavoriteInNavDrawer) 1 else 0,
                     account_id = 1,
+                    inboxPreviewMaxLines = model.inboxPreviewMaxLines?.toLong(),
                 )
             }
         }
@@ -229,6 +230,7 @@ class DefaultSettingsRepositoryTest {
                     commentIndentAmount = model.commentIndentAmount.toLong(),
                     enableToggleFavoriteInNavDrawer = if (model.enableToggleFavoriteInNavDrawer) 1 else 0,
                     account_id = 1,
+                    inboxPreviewMaxLines = model.inboxPreviewMaxLines?.toLong(),
                 )
             }
         }
@@ -296,6 +298,7 @@ class DefaultSettingsRepositoryTest {
         showUnreadComments: Boolean = true,
         commentIndentAmount: Int = 2,
         enableToggleFavoriteInNavDrawer: Boolean = false,
+        inboxPreviewMaxLines: Int? = null,
     ) = GetBy(
         id = id,
         theme = theme,
@@ -357,5 +360,6 @@ class DefaultSettingsRepositoryTest {
         showUnreadComments = if (showUnreadComments) 1 else 0,
         commentIndentAmount = commentIndentAmount.toLong(),
         enableToggleFavoriteInNavDrawer = if (enableToggleFavoriteInNavDrawer) 1 else 0,
+        inboxPreviewMaxLines = inboxPreviewMaxLines?.toLong(),
     )
 }

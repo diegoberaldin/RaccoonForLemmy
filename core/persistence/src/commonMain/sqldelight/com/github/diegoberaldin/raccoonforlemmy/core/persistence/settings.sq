@@ -60,6 +60,7 @@ CREATE TABLE SettingsEntity (
     fullWidthImages INTEGER NOT NULL DEFAULT 0,
     commentIndentAmount INTEGER NOT NULL DEFAULT 2,
     enableToggleFavoriteInNavDrawer INTEGER NOT NULL DEFAULT 0,
+    inboxPreviewMaxLines INTEGER DEFAULT NULL,
     FOREIGN KEY (account_id) REFERENCES AccountEntity(id) ON DELETE CASCADE,
     UNIQUE(account_id)
 );
@@ -125,8 +126,10 @@ INSERT OR IGNORE INTO SettingsEntity (
     fullWidthImages,
     commentIndentAmount,
     enableToggleFavoriteInNavDrawer,
+    inboxPreviewMaxLines,
     account_id
 ) VALUES (
+    ?,
     ?,
     ?,
     ?,
@@ -249,7 +252,8 @@ SET theme = ?,
     enableButtonsToScrollBetweenComments = ?,
     fullWidthImages = ?,
     commentIndentAmount = ?,
-    enableToggleFavoriteInNavDrawer = ?
+    enableToggleFavoriteInNavDrawer = ?,
+    inboxPreviewMaxLines = ?
 WHERE account_id = ?;
 
 getBy:
@@ -313,6 +317,7 @@ SELECT
     enableButtonsToScrollBetweenComments,
     fullWidthImages,
     commentIndentAmount,
-    enableToggleFavoriteInNavDrawer
+    enableToggleFavoriteInNavDrawer,
+    inboxPreviewMaxLines
 FROM SettingsEntity
 WHERE account_id = ?;

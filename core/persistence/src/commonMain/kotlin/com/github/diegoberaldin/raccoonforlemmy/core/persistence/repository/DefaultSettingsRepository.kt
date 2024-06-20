@@ -157,6 +157,7 @@ internal class DefaultSettingsRepository(
             enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
             fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
             enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
+            inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
         )
     }
 
@@ -431,6 +432,7 @@ internal class DefaultSettingsRepository(
                 enableButtonsToScrollBetweenComments = if (settings.enableButtonsToScrollBetweenComments) 1L else 0L,
                 fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
                 enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
+                inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
             )
         }
     }
@@ -529,4 +531,5 @@ private fun GetBy.toModel() =
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments == 1L,
         fullWidthImages = fullWidthImages == 1L,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer == 1L,
+        inboxPreviewMaxLines = inboxPreviewMaxLines?.toInt(),
     )
