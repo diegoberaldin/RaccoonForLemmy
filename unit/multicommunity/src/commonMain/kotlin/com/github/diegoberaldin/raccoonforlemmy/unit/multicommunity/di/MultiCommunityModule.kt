@@ -29,10 +29,9 @@ val multiCommunityModule =
         factory<MultiCommunityEditorMviModel> { params ->
             MultiCommunityEditorViewModel(
                 communityId = params[0],
-                identityRepository = get(),
-                communityRepository = get(),
                 accountRepository = get(),
                 multiCommunityRepository = get(),
+                communityPaginationManager = get(),
                 notificationCenter = get(),
                 settingsRepository = get(),
             )

@@ -1,7 +1,9 @@
 package com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.di
 
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.DefaultCommentPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.DefaultCommunityPaginationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.DefaultMultiCommunityPaginator
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.DefaultPostNavigationManager
 import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.DefaultPostPaginationManager
@@ -38,6 +40,12 @@ val paginationModule =
         single<PostNavigationManager> {
             DefaultPostNavigationManager(
                 postPaginationManager = get(),
+            )
+        }
+        factory<CommunityPaginationManager> {
+            DefaultCommunityPaginationManager(
+                identityRepository = get(),
+                communityRepository = get(),
             )
         }
     }

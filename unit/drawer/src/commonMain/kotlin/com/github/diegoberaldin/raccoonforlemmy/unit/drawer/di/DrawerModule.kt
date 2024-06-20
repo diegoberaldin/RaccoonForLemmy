@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di
 
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerMviModel
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerViewModel
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.cache.DefaultSubscriptionsCache
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.cache.SubscriptionsCache
 import org.koin.dsl.module
 
 val drawerModule =
@@ -17,6 +19,14 @@ val drawerModule =
                 settingsRepository = get(),
                 favoriteCommunityRepository = get(),
                 notificationCenter = get(),
+                communityPaginationManager = get(),
+                subscriptionsCache = get(),
+            )
+        }
+        single<SubscriptionsCache> {
+            DefaultSubscriptionsCache(
+                identityRepository = get(),
+                communityPaginationManager = get(),
             )
         }
     }

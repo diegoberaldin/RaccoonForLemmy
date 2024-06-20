@@ -8,9 +8,8 @@ val selectCommunityModule =
     module {
         factory<SelectCommunityMviModel> {
             SelectCommunityViewModel(
-                identityRepository = get(),
-                communityRepository = get(),
                 settingsRepository = get(),
+                communityPaginationManager = get(),
             )
         }
     }

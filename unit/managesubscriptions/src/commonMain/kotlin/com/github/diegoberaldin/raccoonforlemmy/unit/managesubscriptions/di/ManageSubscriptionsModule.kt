@@ -20,6 +20,7 @@ val manageSubscriptionsModule =
                 settingsRepository = get(),
                 favoriteCommunityRepository = get(),
                 siteRepository = get(),
+                communityPaginationManager = get(),
             )
         }
     }

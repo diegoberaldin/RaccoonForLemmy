@@ -10,10 +10,10 @@ val instanceInfoModule =
             InstanceInfoViewModel(
                 url = it[0],
                 siteRepository = get(),
-                communityRepository = get(),
                 settingsRepository = get(),
                 notificationCenter = get(),
                 getSortTypesUseCase = get(),
+                communityPaginationManager = get(),
             )
         }
     }
