@@ -61,6 +61,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLanguageDirection
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.di.getApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.ModalDrawerContent
+import com.github.diegoberaldin.raccoonforlemmy.unit.drawer.di.getSubscriptionsCache
 import com.github.diegoberaldin.raccoonforlemmy.unit.multicommunity.detail.MultiCommunityScreen
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -104,6 +105,7 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     var sideMenuContent by remember { mutableStateOf<@Composable (() -> Unit)?>(null) }
     val sideMenuOpened by navigationCoordinator.sideMenuOpened.collectAsState()
     val scope = rememberCoroutineScope()
+    val subscriptionsCache = remember { getSubscriptionsCache() }
 
     LaunchedEffect(Unit) {
         val accountId = accountRepository.getActive()?.id
@@ -134,6 +136,8 @@ fun App(onLoadingFinished: () -> Unit = {}) {
                 changeSaveColor(currentSettings.saveColor?.let { Color(it) })
             }
         }
+
+        subscriptionsCache.initialize()
 
         hasBeenInitialized = true
         launch {
@@ -168,58 +172,63 @@ fun App(onLoadingFinished: () -> Unit = {}) {
     }
 
     LaunchedEffect(navigationCoordinator) {
-        navigationCoordinator.deepLinkUrl.debounce(750).onEach { url ->
-            val community = getCommunityFromUrl(url)
-            val user = getUserFromUrl(url)
-            val postAndInstance = getPostFromUrl(url)
-            when {
-                community != null -> {
-                    detailOpener.openCommunityDetail(community, community.host)
+        navigationCoordinator.deepLinkUrl
+            .debounce(750)
+            .onEach { url ->
+                val community = getCommunityFromUrl(url)
+                val user = getUserFromUrl(url)
+                val postAndInstance = getPostFromUrl(url)
+                when {
+                    community != null -> {
+                        detailOpener.openCommunityDetail(community, community.host)
+                    }
+
+                    user != null -> {
+                        detailOpener.openUserDetail(user, user.host)
+                    }
+
+                    postAndInstance != null -> {
+                        val (post, otherInstance) = postAndInstance
+                        detailOpener.openPostDetail(post, otherInstance)
+                    }
+
+                    else -> Unit
                 }
+            }.launchIn(this)
+        navigationCoordinator.composeEvents
+            .debounce(750)
+            .onEach { event ->
+                when (event) {
+                    is ComposeEvent.WithText ->
+                        detailOpener.openCreatePost(
+                            initialText = event.text,
+                            forceCommunitySelection = true,
+                        )
 
-                user != null -> {
-                    detailOpener.openUserDetail(user, user.host)
+                    is ComposeEvent.WithUrl ->
+                        detailOpener.openCreatePost(
+                            initialUrl = event.url,
+                            forceCommunitySelection = true,
+                        )
+
+                    else -> Unit
                 }
+            }.launchIn(this)
+        navigationCoordinator.sideMenuEvents
+            .onEach { evt ->
+                when (evt) {
+                    is SideMenuEvents.Open -> {
+                        sideMenuContent = @Composable {
+                            evt.screen.Content()
+                        }
+                    }
 
-                postAndInstance != null -> {
-                    val (post, otherInstance) = postAndInstance
-                    detailOpener.openPostDetail(post, otherInstance)
-                }
-
-                else -> Unit
-            }
-        }.launchIn(this)
-        navigationCoordinator.composeEvents.debounce(750).onEach { event ->
-            when (event) {
-                is ComposeEvent.WithText ->
-                    detailOpener.openCreatePost(
-                        initialText = event.text,
-                        forceCommunitySelection = true,
-                    )
-
-                is ComposeEvent.WithUrl ->
-                    detailOpener.openCreatePost(
-                        initialUrl = event.url,
-                        forceCommunitySelection = true,
-                    )
-
-                else -> Unit
-            }
-        }.launchIn(this)
-        navigationCoordinator.sideMenuEvents.onEach { evt ->
-            when (evt) {
-                is SideMenuEvents.Open -> {
-                    sideMenuContent = @Composable {
-                        evt.screen.Content()
+                    SideMenuEvents.Close -> {
+                        delay(250)
+                        sideMenuContent = null
                     }
                 }
-
-                SideMenuEvents.Close -> {
-                    delay(250)
-                    sideMenuContent = null
-                }
-            }
-        }.launchIn(this)
+            }.launchIn(this)
     }
 
     LaunchedEffect(drawerCoordinator) {
@@ -230,43 +239,44 @@ fun App(onLoadingFinished: () -> Unit = {}) {
             drawerCoordinator.changeDrawerOpened(!closed)
         }.launchIn(this)
 
-        drawerCoordinator.events.onEach { evt ->
-            when (evt) {
-                DrawerEvent.Toggle -> {
-                    drawerState.apply {
-                        launch {
-                            if (isClosed) {
-                                open()
-                            } else {
-                                close()
+        drawerCoordinator.events
+            .onEach { evt ->
+                when (evt) {
+                    DrawerEvent.Toggle -> {
+                        drawerState.apply {
+                            launch {
+                                if (isClosed) {
+                                    open()
+                                } else {
+                                    close()
+                                }
                             }
                         }
                     }
-                }
 
-                DrawerEvent.Close -> {
-                    drawerState.apply {
-                        launch {
-                            if (!isClosed) {
-                                close()
+                    DrawerEvent.Close -> {
+                        drawerState.apply {
+                            launch {
+                                if (!isClosed) {
+                                    close()
+                                }
                             }
                         }
                     }
-                }
 
-                is DrawerEvent.OpenCommunity -> {
-                    detailOpener.openCommunityDetail(community = evt.community)
-                }
-
-                is DrawerEvent.OpenMultiCommunity -> {
-                    evt.community.id?.also {
-                        navigationCoordinator.pushScreen(MultiCommunityScreen(it))
+                    is DrawerEvent.OpenCommunity -> {
+                        detailOpener.openCommunityDetail(community = evt.community)
                     }
-                }
 
-                else -> Unit
-            }
-        }.launchIn(this)
+                    is DrawerEvent.OpenMultiCommunity -> {
+                        evt.community.id?.also {
+                            navigationCoordinator.pushScreen(MultiCommunityScreen(it))
+                        }
+                    }
+
+                    else -> Unit
+                }
+            }.launchIn(this)
     }
 
     AppTheme(
