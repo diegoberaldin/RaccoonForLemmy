@@ -80,28 +80,30 @@ class InboxMentionsScreen : Tab {
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
 
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                runCatching {
-                    if (section == TabNavigationSection.Inbox) {
-                        lazyListState.scrollToItem(0)
-                    }
-                }
-            }.launchIn(this)
-        }
-        LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    is InboxMentionsMviModel.Effect.UpdateUnreadItems -> {
-                        navigationCoordinator.setInboxUnread(effect.value)
-                    }
-
-                    InboxMentionsMviModel.Effect.BackToTop -> {
-                        runCatching {
+            navigationCoordinator.onDoubleTabSelection
+                .onEach { section ->
+                    runCatching {
+                        if (section == TabNavigationSection.Inbox) {
                             lazyListState.scrollToItem(0)
                         }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
+        }
+        LaunchedEffect(model) {
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        is InboxMentionsMviModel.Effect.UpdateUnreadItems -> {
+                            navigationCoordinator.setInboxUnread(effect.value)
+                        }
+
+                        InboxMentionsMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                            }
+                        }
+                    }
+                }.launchIn(this)
         }
 
         val pullRefreshState =
@@ -241,6 +243,7 @@ class InboxMentionsScreen : Tab {
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
                                 downVoteEnabled = uiState.downVoteEnabled,
+                                previewMaxLines = uiState.previewMaxLines,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
                                         if (!mention.read) {
@@ -270,7 +273,10 @@ class InboxMentionsScreen : Tab {
                                         navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(
                                                 url = url,
-                                                source = mention.post.community?.readableHandle.orEmpty(),
+                                                source =
+                                                    mention.post.community
+                                                        ?.readableHandle
+                                                        .orEmpty(),
                                             ),
                                         )
                                     },

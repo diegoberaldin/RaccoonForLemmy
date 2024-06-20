@@ -28,46 +28,53 @@ class InboxMentionsViewModel(
     private val hapticFeedback: HapticFeedback,
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
-) : InboxMentionsMviModel,
-    DefaultMviModel<InboxMentionsMviModel.Intent, InboxMentionsMviModel.UiState, InboxMentionsMviModel.Effect>(
+) : DefaultMviModel<InboxMentionsMviModel.Intent, InboxMentionsMviModel.UiState, InboxMentionsMviModel.Effect>(
         initialState = InboxMentionsMviModel.UiState(),
-    ) {
+    ),
+    InboxMentionsMviModel {
     private var currentPage: Int = 1
 
     init {
         screenModelScope.launch {
-            coordinator.events.onEach {
-                when (it) {
-                    InboxCoordinator.Event.Refresh -> {
-                        refresh()
-                        emitEffect(InboxMentionsMviModel.Effect.BackToTop)
+            coordinator.events
+                .onEach {
+                    when (it) {
+                        InboxCoordinator.Event.Refresh -> {
+                            refresh()
+                            emitEffect(InboxMentionsMviModel.Effect.BackToTop)
+                        }
                     }
-                }
-            }.launchIn(this)
-            coordinator.unreadOnly.onEach {
-                if (it != uiState.value.unreadOnly) {
-                    changeUnreadOnly(it)
-                }
-            }.launchIn(this)
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        voteFormat = settings.voteFormat,
-                        actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox,
-                        actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox,
-                        showScores = settings.showScores,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                handleLogout()
-            }.launchIn(this)
+                }.launchIn(this)
+            coordinator.unreadOnly
+                .onEach {
+                    if (it != uiState.value.unreadOnly) {
+                        changeUnreadOnly(it)
+                    }
+                }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            voteFormat = settings.voteFormat,
+                            actionsOnSwipeToStartInbox = settings.actionsOnSwipeToStartInbox,
+                            actionsOnSwipeToEndInbox = settings.actionsOnSwipeToEndInbox,
+                            showScores = settings.showScores,
+                            previewMaxLines = settings.inboxPreviewMaxLines,
+                        )
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Logout::class)
+                .onEach {
+                    handleLogout()
+                }.launchIn(this)
 
             if (uiState.value.initial) {
                 val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
@@ -145,14 +152,15 @@ class InboxMentionsViewModel(
         val refreshing = currentState.refreshing
         val unreadOnly = currentState.unreadOnly
         val itemList =
-            userRepository.getMentions(
-                auth = auth,
-                page = currentPage,
-                unreadOnly = unreadOnly,
-                sort = SortType.New,
-            )?.map {
-                it.copy(isCommentReply = it.comment.depth > 0)
-            }
+            userRepository
+                .getMentions(
+                    auth = auth,
+                    page = currentPage,
+                    unreadOnly = unreadOnly,
+                    sort = SortType.New,
+                )?.map {
+                    it.copy(isCommentReply = it.comment.depth > 0)
+                }
         if (!itemList.isNullOrEmpty()) {
             currentPage++
         }
