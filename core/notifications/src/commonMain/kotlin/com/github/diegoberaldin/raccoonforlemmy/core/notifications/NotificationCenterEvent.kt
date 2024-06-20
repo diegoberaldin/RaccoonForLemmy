@@ -153,8 +153,9 @@ sealed interface NotificationCenterEvent {
         val url: String,
     ) : NotificationCenterEvent
 
-    data class ChangePostBodyMaxLines(
+    data class SelectNumberBottomSheetClosed(
         val value: Int?,
+        val type: Int,
     ) : NotificationCenterEvent
 
     data class InstanceSelected(

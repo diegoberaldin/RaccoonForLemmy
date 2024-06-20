@@ -26,10 +26,34 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.persistence.di.getSettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 
-class PostBodyMaxLinesBottomSheet(
+sealed interface SelectNumberBottomSheetType {
+    data object PostBodyMaxLines : SelectNumberBottomSheetType
+
+    data object InboxPreviewMaxLines : SelectNumberBottomSheetType
+}
+
+@Composable
+private fun SelectNumberBottomSheetType.toReadableTitle() =
+    when (this) {
+        SelectNumberBottomSheetType.InboxPreviewMaxLines -> LocalStrings.current.settingsInboxPreviewMaxLines
+        SelectNumberBottomSheetType.PostBodyMaxLines -> LocalStrings.current.settingsPostBodyMaxLines
+    }
+
+private fun SelectNumberBottomSheetType.toInt() =
+    when (this) {
+        SelectNumberBottomSheetType.InboxPreviewMaxLines -> 1
+        SelectNumberBottomSheetType.PostBodyMaxLines -> 0
+    }
+
+fun Int.toSelectNumberBottomSheetType(): SelectNumberBottomSheetType =
+    when (this) {
+        1 -> SelectNumberBottomSheetType.InboxPreviewMaxLines
+        else -> SelectNumberBottomSheetType.PostBodyMaxLines
+    }
+
+class SelectNumberBottomSheet(
     private val values: List<Int?> =
         listOf(
             10,
@@ -38,13 +62,14 @@ class PostBodyMaxLinesBottomSheet(
             -1, // custom number
             null, // unlimited
         ),
+    private val initialValue: Int?,
+    private val type: SelectNumberBottomSheetType,
 ) : Screen {
     @Composable
     override fun Content() {
         val navigationCoordinator = remember { getNavigationCoordinator() }
         val notificationCenter = remember { getNotificationCenter() }
         var customDialogOpened by remember { mutableStateOf(false) }
-        val settingsRepository = remember { getSettingsRepository() }
 
         Column(
             modifier =
@@ -58,7 +83,7 @@ class PostBodyMaxLinesBottomSheet(
                     ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
-            BottomSheetHeader(LocalStrings.current.settingsPostBodyMaxLines)
+            BottomSheetHeader(title = type.toReadableTitle())
             Column(
                 modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
@@ -70,15 +95,17 @@ class PostBodyMaxLinesBottomSheet(
                                 .padding(
                                     horizontal = Spacing.s,
                                     vertical = Spacing.s,
-                                )
-                                .fillMaxWidth()
+                                ).fillMaxWidth()
                                 .onClick(
                                     onClick = {
                                         if (value != null && value < 0) {
                                             customDialogOpened = true
                                         } else {
                                             notificationCenter.send(
-                                                NotificationCenterEvent.ChangePostBodyMaxLines(value),
+                                                NotificationCenterEvent.SelectNumberBottomSheetClosed(
+                                                    value = value,
+                                                    type = type.toInt(),
+                                                ),
                                             )
                                             navigationCoordinator.hideBottomSheet()
                                         }
@@ -103,15 +130,19 @@ class PostBodyMaxLinesBottomSheet(
         }
 
         if (customDialogOpened) {
-            val current = settingsRepository.currentSettings.value.postBodyMaxLines ?: 0
             NumberPickerDialog(
                 title = LocalStrings.current.settingsColorCustom,
-                initialValue = current,
+                initialValue = initialValue ?: 0,
                 onClose = {
                     customDialogOpened = false
                 },
                 onSubmit = { value ->
-                    notificationCenter.send(NotificationCenterEvent.ChangePostBodyMaxLines(value))
+                    notificationCenter.send(
+                        NotificationCenterEvent.SelectNumberBottomSheetClosed(
+                            value = value,
+                            type = type.toInt(),
+                        ),
+                    )
                     navigationCoordinator.hideBottomSheet()
                 },
             )
