@@ -1,12 +1,13 @@
 package com.github.diegoberaldin.raccoonforlemmy.unit.instanceinfo
 
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationManager
+import com.diegoberaldin.raccoonforlemmy.domain.lemmy.pagination.CommunityPaginationSpecification
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
@@ -16,27 +17,27 @@ import kotlinx.coroutines.launch
 class InstanceInfoViewModel(
     private val url: String,
     private val siteRepository: SiteRepository,
-    private val communityRepository: CommunityRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val getSortTypesUseCase: GetSortTypesUseCase,
-) : InstanceInfoMviModel,
-    DefaultMviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>(
+    private val communityPaginationManager: CommunityPaginationManager,
+) : DefaultMviModel<InstanceInfoMviModel.Intent, InstanceInfoMviModel.UiState, InstanceInfoMviModel.Effect>(
         initialState = InstanceInfoMviModel.UiState(),
-    ) {
-    private var currentPage = 1
-
+    ),
+    InstanceInfoMviModel {
     init {
         screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                        )
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == "instanceInfo") {
                         changeSortType(evt.value)
@@ -72,7 +73,13 @@ class InstanceInfoViewModel(
     }
 
     private suspend fun refresh(initial: Boolean = false) {
-        currentPage = 1
+        val instance = url.replace("https://", "")
+        communityPaginationManager.reset(
+            CommunityPaginationSpecification.Instance(
+                otherInstance = instance,
+                sortType = uiState.value.sortType,
+            ),
+        )
         updateState {
             it.copy(
                 canFetchMore = true,
@@ -95,41 +102,12 @@ class InstanceInfoViewModel(
 
         screenModelScope.launch {
             updateState { it.copy(loading = true) }
-            val refreshing = currentState.refreshing
-            val instance = url.replace("https://", "")
-            val itemList =
-                communityRepository.getList(
-                    instance = instance,
-                    page = currentPage,
-                    sortType = currentState.sortType,
-                    limit = 50,
-                ).let {
-                    if (refreshing) {
-                        it
-                    } else {
-                        // prevents accidental duplication
-                        it.filter { c1 ->
-                            currentState.communities.none { c2 -> c1.id == c2.id }
-                        }
-                    }
-                }
-            if (itemList.isNotEmpty()) {
-                currentPage++
-            }
-            val itemsToAdd =
-                itemList.filter { e ->
-                    e.instanceUrl == url
-                }
+            val itemsToAdd = communityPaginationManager.loadNextPage()
             updateState {
                 it.copy(
-                    communities =
-                        if (refreshing) {
-                            itemsToAdd
-                        } else {
-                            it.communities + itemsToAdd
-                        },
+                    communities = itemsToAdd,
                     loading = false,
-                    canFetchMore = itemList.isNotEmpty(),
+                    canFetchMore = communityPaginationManager.canFetchMore,
                     refreshing = false,
                 )
             }
