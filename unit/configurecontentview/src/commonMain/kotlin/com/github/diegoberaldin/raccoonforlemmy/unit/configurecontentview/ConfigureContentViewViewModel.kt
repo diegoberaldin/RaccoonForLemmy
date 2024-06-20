@@ -8,6 +8,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ContentFontClass
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheetType
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.toSelectNumberBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -29,39 +31,49 @@ class ConfigureContentViewViewModel(
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
-) : ConfigureContentViewMviModel,
-    DefaultMviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>(
+) : DefaultMviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>(
         initialState = ConfigureContentViewMviModel.State(),
-    ) {
+    ),
+    ConfigureContentViewMviModel {
     init {
         screenModelScope.launch {
-            themeRepository.postLayout.onEach { value ->
-                updateState { it.copy(postLayout = value) }
-            }.launchIn(this)
-            themeRepository.contentFontScale.onEach { value ->
-                updateState { it.copy(contentFontScale = value) }
-            }.launchIn(this)
-            themeRepository.contentFontFamily.onEach { value ->
-                updateState { it.copy(contentFontFamily = value) }
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { value ->
+                    updateState { it.copy(postLayout = value) }
+                }.launchIn(this)
+            themeRepository.contentFontScale
+                .onEach { value ->
+                    updateState { it.copy(contentFontScale = value) }
+                }.launchIn(this)
+            themeRepository.contentFontFamily
+                .onEach { value ->
+                    updateState { it.copy(contentFontFamily = value) }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangePostLayout::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangePostLayout::class)
                 .onEach { evt ->
                     changePostLayout(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeVoteFormat::class)
                 .onEach { evt ->
                     changeVoteFormat(evt.value)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangePostBodyMaxLines::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.SelectNumberBottomSheetClosed::class)
                 .onEach { evt ->
-                    changePostBodyMaxLines(evt.value)
+                    if (evt.type.toSelectNumberBottomSheetType() == SelectNumberBottomSheetType.PostBodyMaxLines) {
+                        changePostBodyMaxLines(evt.value)
+                    }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeContentFontSize::class)
                 .onEach { evt ->
                     changeContentFontScale(evt.value, evt.contentClass)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeContentFontFamily::class)
                 .onEach { evt ->
                     changeContentFontFamily(evt.value)
                 }.launchIn(this)

@@ -42,8 +42,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsHe
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsIntValueRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsRow
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.SettingsSwitchRow
-import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostBodyMaxLinesBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.PostLayoutBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.VoteFormatBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -102,8 +103,7 @@ class ConfigureContentViewScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                        ).nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
@@ -128,7 +128,10 @@ class ConfigureContentViewScreen : Screen {
                     // content font scale
                     SettingsRow(
                         title = LocalStrings.current.settingsTitleFontScale,
-                        value = uiState.contentFontScale.title.toFontScale().toReadableName(),
+                        value =
+                            uiState.contentFontScale.title
+                                .toFontScale()
+                                .toReadableName(),
                         onTap =
                             rememberCallback {
                                 val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Title)
@@ -137,7 +140,10 @@ class ConfigureContentViewScreen : Screen {
                     )
                     SettingsRow(
                         title = LocalStrings.current.settingsContentFontScale,
-                        value = uiState.contentFontScale.body.toFontScale().toReadableName(),
+                        value =
+                            uiState.contentFontScale.body
+                                .toFontScale()
+                                .toReadableName(),
                         onTap =
                             rememberCallback {
                                 val sheet = FontScaleBottomSheet(contentClass = ContentFontClass.Body)
@@ -146,7 +152,10 @@ class ConfigureContentViewScreen : Screen {
                     )
                     SettingsRow(
                         title = LocalStrings.current.settingsCommentFontScale,
-                        value = uiState.contentFontScale.comment.toFontScale().toReadableName(),
+                        value =
+                            uiState.contentFontScale.comment
+                                .toFontScale()
+                                .toReadableName(),
                         onTap =
                             rememberCallback {
                                 val sheet =
@@ -156,7 +165,10 @@ class ConfigureContentViewScreen : Screen {
                     )
                     SettingsRow(
                         title = LocalStrings.current.settingsAncillaryFontScale,
-                        value = uiState.contentFontScale.ancillary.toFontScale().toReadableName(),
+                        value =
+                            uiState.contentFontScale.ancillary
+                                .toFontScale()
+                                .toReadableName(),
                         onTap =
                             rememberCallback {
                                 val sheet =
@@ -193,7 +205,11 @@ class ConfigureContentViewScreen : Screen {
                                 },
                             onTap =
                                 rememberCallback {
-                                    val screen = PostBodyMaxLinesBottomSheet()
+                                    val screen =
+                                        SelectNumberBottomSheet(
+                                            type = SelectNumberBottomSheetType.PostBodyMaxLines,
+                                            initialValue = uiState.postBodyMaxLines,
+                                        )
                                     navigationCoordinator.showBottomSheet(screen)
                                 },
                         )
