@@ -17,13 +17,20 @@ interface InboxRepliesMviModel :
 
         data object LoadNextPage : Intent
 
-        data class MarkAsRead(val read: Boolean, val id: Long) : Intent
+        data class MarkAsRead(
+            val read: Boolean,
+            val id: Long,
+        ) : Intent
 
         data object HapticIndication : Intent
 
-        data class UpVoteComment(val id: Long) : Intent
+        data class UpVoteComment(
+            val id: Long,
+        ) : Intent
 
-        data class DownVoteComment(val id: Long) : Intent
+        data class DownVoteComment(
+            val id: Long,
+        ) : Intent
     }
 
     data class UiState(
@@ -33,6 +40,7 @@ interface InboxRepliesMviModel :
         val canFetchMore: Boolean = true,
         val unreadOnly: Boolean = true,
         val replies: List<PersonMentionModel> = emptyList(),
+        val previewMaxLines: Int? = null,
         val postLayout: PostLayout = PostLayout.Card,
         val swipeActionsEnabled: Boolean = true,
         val autoLoadImages: Boolean = true,
@@ -45,7 +53,9 @@ interface InboxRepliesMviModel :
     )
 
     sealed interface Effect {
-        data class UpdateUnreadItems(val value: Int) : Effect
+        data class UpdateUnreadItems(
+            val value: Int,
+        ) : Effect
 
         data object BackToTop : Effect
     }

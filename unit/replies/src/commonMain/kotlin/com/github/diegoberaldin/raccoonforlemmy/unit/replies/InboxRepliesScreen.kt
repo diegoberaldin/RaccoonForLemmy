@@ -81,28 +81,30 @@ class InboxRepliesScreen : Tab {
         val defaultDownVoteColor = MaterialTheme.colorScheme.tertiary
 
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                runCatching {
-                    if (section == TabNavigationSection.Inbox) {
-                        lazyListState.scrollToItem(0)
-                    }
-                }
-            }.launchIn(this)
-        }
-        LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    is InboxRepliesMviModel.Effect.UpdateUnreadItems -> {
-                        navigationCoordinator.setInboxUnread(effect.value)
-                    }
-
-                    InboxRepliesMviModel.Effect.BackToTop -> {
-                        runCatching {
+            navigationCoordinator.onDoubleTabSelection
+                .onEach { section ->
+                    runCatching {
+                        if (section == TabNavigationSection.Inbox) {
                             lazyListState.scrollToItem(0)
                         }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
+        }
+        LaunchedEffect(model) {
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        is InboxRepliesMviModel.Effect.UpdateUnreadItems -> {
+                            navigationCoordinator.setInboxUnread(effect.value)
+                        }
+
+                        InboxRepliesMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                            }
+                        }
+                    }
+                }.launchIn(this)
         }
 
         val pullRefreshState =
@@ -164,7 +166,11 @@ class InboxRepliesScreen : Tab {
                                         backgroundColor = upVoteColor ?: defaultUpvoteColor,
                                         onTriggered =
                                             rememberCallback {
-                                                model.reduce(InboxRepliesMviModel.Intent.UpVoteComment(reply.id))
+                                                model.reduce(
+                                                    InboxRepliesMviModel.Intent.UpVoteComment(
+                                                        reply.id,
+                                                    ),
+                                                )
                                             },
                                     )
 
@@ -183,7 +189,11 @@ class InboxRepliesScreen : Tab {
                                             backgroundColor = downVoteColor ?: defaultDownVoteColor,
                                             onTriggered =
                                                 rememberCallback {
-                                                    model.reduce(InboxRepliesMviModel.Intent.DownVoteComment(reply.id))
+                                                    model.reduce(
+                                                        InboxRepliesMviModel.Intent.DownVoteComment(
+                                                            reply.id,
+                                                        ),
+                                                    )
                                                 },
                                         )
                                     }
@@ -237,6 +247,7 @@ class InboxRepliesScreen : Tab {
                                 showScores = uiState.showScores,
                                 voteFormat = uiState.voteFormat,
                                 downVoteEnabled = uiState.downVoteEnabled,
+                                previewMaxLines = uiState.previewMaxLines,
                                 onOpenPost =
                                     rememberCallbackArgs { post ->
                                         if (!reply.read) {
@@ -265,7 +276,10 @@ class InboxRepliesScreen : Tab {
                                         navigationCoordinator.pushScreen(
                                             ZoomableImageScreen(
                                                 url = url,
-                                                source = reply.post.community?.readableHandle.orEmpty(),
+                                                source =
+                                                    reply.post.community
+                                                        ?.readableHandle
+                                                        .orEmpty(),
                                             ),
                                         )
                                     },
