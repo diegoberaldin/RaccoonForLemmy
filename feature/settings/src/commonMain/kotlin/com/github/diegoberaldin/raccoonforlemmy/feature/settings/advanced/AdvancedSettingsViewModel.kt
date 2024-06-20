@@ -4,6 +4,8 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.UiBarTheme
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.repository.ThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheetType
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.toSelectNumberBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenter
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsModel
@@ -93,6 +95,13 @@ class AdvancedSettingsViewModel(
                 .onEach { evt ->
                     changeAppIconVariant(evt.value.toAppIconVariant())
                 }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.SelectNumberBottomSheetClosed::class)
+                .onEach { evt ->
+                    if (evt.type.toSelectNumberBottomSheetType() == SelectNumberBottomSheetType.InboxPreviewMaxLines) {
+                        changeInboxPreviewMaxLines(evt.value)
+                    }
+                }.launchIn(this)
 
             updateAvailableLanguages()
 
@@ -122,6 +131,7 @@ class AdvancedSettingsViewModel(
                     supportSettingsImportExport = fileSystemManager.isSupported,
                     enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
                     enableToggleFavoriteInNavDrawer = settings.enableToggleFavoriteInNavDrawer,
+                    inboxPreviewMaxLines = settings.inboxPreviewMaxLines,
                 )
             }
         }
@@ -368,6 +378,15 @@ class AdvancedSettingsViewModel(
             updateState { it.copy(enableToggleFavoriteInNavDrawer = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(enableToggleFavoriteInNavDrawer = value)
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeInboxPreviewMaxLines(value: Int?) {
+        screenModelScope.launch {
+            updateState { it.copy(inboxPreviewMaxLines = value) }
+            val settings =
+                settingsRepository.currentSettings.value.copy(inboxPreviewMaxLines = value)
             saveSettings(settings)
         }
     }

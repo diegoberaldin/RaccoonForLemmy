@@ -56,6 +56,8 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SliderBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -283,6 +285,34 @@ class AdvancedSettingsScreen : Screen {
                                     navigationCoordinator.showBottomSheet(sheet)
                                 },
                         )
+
+                        // inbox preview max lines
+                        SettingsRow(
+                            title = LocalStrings.current.settingsInboxPreviewMaxLines,
+                            value =
+                                if (uiState.inboxPreviewMaxLines == null) {
+                                    LocalStrings.current.settingsPostBodyMaxLinesUnlimited
+                                } else {
+                                    uiState.inboxPreviewMaxLines.toString()
+                                },
+                            onTap =
+                                rememberCallback {
+                                    val screen =
+                                        SelectNumberBottomSheet(
+                                            values =
+                                                listOf(
+                                                    1,
+                                                    10,
+                                                    50,
+                                                    -1, // custom number
+                                                    null, // unlimited
+                                                ),
+                                            type = SelectNumberBottomSheetType.InboxPreviewMaxLines,
+                                            initialValue = uiState.inboxPreviewMaxLines,
+                                        )
+                                    navigationCoordinator.showBottomSheet(screen)
+                                },
+                        )
                     }
 
                     // default language
@@ -393,7 +423,9 @@ class AdvancedSettingsScreen : Screen {
                         onValueChanged =
                             rememberCallbackArgs(model) { value ->
                                 model.reduce(
-                                    AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments(value),
+                                    AdvancedSettingsMviModel.Intent.ChangeEnableButtonsToScrollBetweenComments(
+                                        value,
+                                    ),
                                 )
                             },
                     )

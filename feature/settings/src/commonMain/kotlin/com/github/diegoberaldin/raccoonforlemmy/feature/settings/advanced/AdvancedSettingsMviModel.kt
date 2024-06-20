@@ -106,6 +106,7 @@ interface AdvancedSettingsMviModel :
         val loading: Boolean = false,
         val enableButtonsToScrollBetweenComments: Boolean = false,
         val enableToggleFavoriteInNavDrawer: Boolean = false,
+        val inboxPreviewMaxLines: Int? = null,
     )
 
     sealed interface Effect {
