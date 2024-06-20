@@ -32,10 +32,13 @@ import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 fun NumberPickerDialog(
     title: String = "",
     initialValue: Int = 0,
+    minValue: Int = 0,
+    maxValue: Int = Int.MAX_VALUE,
     onClose: (() -> Unit)? = null,
     onSubmit: ((Int) -> Unit)? = null,
 ) {
     var currentValue by remember { mutableStateOf(initialValue.toString()) }
+    var isOnError by remember { mutableStateOf(false) }
     BasicAlertDialog(
         onDismissRequest = {
             onClose?.invoke()
@@ -63,6 +66,7 @@ fun NumberPickerDialog(
                         unfocusedContainerColor = Color.Transparent,
                         disabledContainerColor = Color.Transparent,
                     ),
+                isError = isOnError,
                 textStyle = MaterialTheme.typography.bodyMedium,
                 value = currentValue,
                 keyboardOptions =
@@ -78,7 +82,13 @@ fun NumberPickerDialog(
             Spacer(modifier = Modifier.height(Spacing.xs))
             Button(
                 onClick = {
-                    onSubmit?.invoke(currentValue.toIntOrNull() ?: 0)
+                    val value = currentValue.toIntOrNull() ?: 0
+                    if (value in minValue until maxValue) {
+                        isOnError = false
+                        onSubmit?.invoke(value)
+                    } else {
+                        isOnError = true
+                    }
                 },
             ) {
                 Text(text = LocalStrings.current.buttonConfirm)
