@@ -54,15 +54,20 @@ kotlin {
 
                 implementation(projects.domain.identity)
                 implementation(projects.domain.lemmy.data)
+                implementation(projects.domain.lemmy.pagination)
                 implementation(projects.domain.lemmy.repository)
 
                 implementation(projects.unit.selectinstance)
                 implementation(projects.unit.manageaccounts)
             }
         }
-        val commonTest by getting {
+        val androidUnitTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(kotlin("test-junit"))
+                implementation(libs.mockk)
+                implementation(libs.turbine)
+                implementation(projects.core.testutils)
             }
         }
     }
@@ -70,8 +75,14 @@ kotlin {
 
 android {
     namespace = "com.github.diegoberaldin.raccoonforlemmy.unit.drawer"
-    compileSdk = libs.versions.android.targetSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.targetSdk
+            .get()
+            .toInt()
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
     }
 }
