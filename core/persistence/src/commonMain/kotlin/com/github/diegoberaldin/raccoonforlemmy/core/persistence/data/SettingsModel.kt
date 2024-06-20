@@ -63,4 +63,5 @@ data class SettingsModel(
     val enableButtonsToScrollBetweenComments: Boolean = false,
     val commentIndentAmount: Int = 2,
     val enableToggleFavoriteInNavDrawer: Boolean = false,
+    val inboxPreviewMaxLines: Int? = null,
 )

@@ -75,6 +75,7 @@ internal data class SerializableSettings(
     val enableButtonsToScrollBetweenComments: Boolean = false,
     val fullWidthImages: Boolean = false,
     val enableToggleFavoriteInNavDrawer: Boolean = false,
+    val inboxPreviewMaxLines: Int? = null,
 )
 
 internal fun SerializableSettings.toModel() =
@@ -141,6 +142,7 @@ internal fun SerializableSettings.toModel() =
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
         fullWidthImages = fullWidthImages,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
+        inboxPreviewMaxLines = inboxPreviewMaxLines,
     )
 
 internal fun SettingsModel.toData() =
@@ -148,7 +150,15 @@ internal fun SettingsModel.toData() =
         theme = theme,
         uiFontFamily = uiFontFamily,
         uiFontScale = uiFontScale,
-        contentFontScale = contentFontScale.let { listOf(it.title, it.body, it.comment, it.ancillary) },
+        contentFontScale =
+            contentFontScale.let {
+                listOf(
+                    it.title,
+                    it.body,
+                    it.comment,
+                    it.ancillary,
+                )
+            },
         contentFontFamily = contentFontFamily,
         locale = locale,
         defaultListingType = defaultListingType,
@@ -201,4 +211,5 @@ internal fun SettingsModel.toData() =
         enableButtonsToScrollBetweenComments = enableButtonsToScrollBetweenComments,
         fullWidthImages = fullWidthImages,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
+        inboxPreviewMaxLines = inboxPreviewMaxLines,
     )
