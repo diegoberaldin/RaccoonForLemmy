@@ -414,4 +414,5 @@ internal val ZhHkStrings =
         override val settingsEnableToggleFavoriteInNavDrawer = "加入/攞走導航櫃桶嘅最愛"
         override val messageContentDeleted = "您刪除咗呢個內容"
         override val actionRestore = "恢復"
+        override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
     }

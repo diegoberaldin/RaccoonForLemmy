@@ -421,4 +421,5 @@ internal val FiStrings =
             "Lisää/poista suosikkeja navigointipaneelissa"
         override val messageContentDeleted = "Olet poistanut tämän sisällön"
         override val actionRestore = "Palauttaa"
+        override val settingsInboxPreviewMaxLines = "Saapuneiden korttien rivien enimmäismäärä"
     }

@@ -423,4 +423,5 @@ internal val NoStrings =
             "Legg til/fjern favoritter i navigasjonsskuffen"
         override val messageContentDeleted = "Du har slettet dette innholdet"
         override val actionRestore = "Restaurere"
+        override val settingsInboxPreviewMaxLines = "Maks antall linjer i innbokskort"
     }

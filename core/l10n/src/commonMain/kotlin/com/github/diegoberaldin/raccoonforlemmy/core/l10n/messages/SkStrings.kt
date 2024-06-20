@@ -426,4 +426,6 @@ internal val SkStrings =
             "Pridať/odstrániť obľúbené položky v navigačnej zásuvke"
         override val messageContentDeleted = "Tento obsah ste odstránili"
         override val actionRestore = "Obnoviť"
+        override val settingsInboxPreviewMaxLines =
+            "Maximálny počet riadkov na kartách doručenej pošty"
     }

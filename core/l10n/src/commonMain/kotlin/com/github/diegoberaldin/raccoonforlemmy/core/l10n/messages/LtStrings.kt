@@ -424,4 +424,5 @@ internal val LtStrings =
             "Pridėti / pašalinti mėgstamiausius naršymo skydelyje"
         override val messageContentDeleted = "Ištrynėte šį turinį"
         override val actionRestore = "Atkurti"
+        override val settingsInboxPreviewMaxLines = "Maksimalus eilučių skaičius gautųjų kortelėse"
     }

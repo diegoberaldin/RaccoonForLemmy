@@ -419,4 +419,5 @@ internal val ArStrings =
         override val settingsEnableToggleFavoriteInNavDrawer = "إضافة/إزالة المفضلة في درج التنقل"
         override val messageContentDeleted = "لقد قمت بحذف هذا المحتوى"
         override val actionRestore = "يعيد"
+        override val settingsInboxPreviewMaxLines = "الحد الأقصى لعدد الخطوط في بطاقات البريد الوارد"
     }

@@ -425,4 +425,6 @@ internal val TrStrings =
             "Gezinme çekmecesinde favorileri ekle/kaldır"
         override val messageContentDeleted = "Bu içeriği sildiniz"
         override val actionRestore = "Eski haline getirmek"
+        override val settingsInboxPreviewMaxLines =
+            "Gelen kutusu kartlarındaki maksimum satır sayısı"
     }

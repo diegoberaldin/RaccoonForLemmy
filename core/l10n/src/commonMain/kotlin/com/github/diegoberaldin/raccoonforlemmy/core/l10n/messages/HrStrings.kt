@@ -425,4 +425,5 @@ internal val HrStrings =
             "Dodajte/uklonite favorite u ladici za navigaciju"
         override val messageContentDeleted = "Izbrisali ste ovaj sadržaj"
         override val actionRestore = "Vratiti"
+        override val settingsInboxPreviewMaxLines = "Maksimalan broj redaka u ulaznim karticama"
     }

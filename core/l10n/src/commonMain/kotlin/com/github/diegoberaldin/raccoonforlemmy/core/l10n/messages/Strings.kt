@@ -418,6 +418,7 @@ interface Strings {
     val settingsEnableToggleFavoriteInNavDrawer: String
     val messageContentDeleted: String
     val actionRestore: String
+    val settingsInboxPreviewMaxLines: String
 }
 
 object Locales {

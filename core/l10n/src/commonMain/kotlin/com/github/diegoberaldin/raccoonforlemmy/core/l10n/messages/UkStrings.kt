@@ -426,4 +426,6 @@ internal val UkStrings =
             "Додати/видалити вибране в панелі навігації"
         override val messageContentDeleted = "Ви видалили цей вміст"
         override val actionRestore = "Відновлення"
+        override val settingsInboxPreviewMaxLines =
+            "Максимальна кількість рядків у картках вхідних повідомлень"
     }

@@ -430,4 +430,6 @@ internal val FrStrings =
             "Ajouter/supprimer des favoris dans le tiroir de navigation"
         override val messageContentDeleted = "Vous avez supprimé ce contenu"
         override val actionRestore = "Restaurer"
+        override val settingsInboxPreviewMaxLines =
+            "Nombre maximum de lignes dans les cartes de boîte de réception"
     }

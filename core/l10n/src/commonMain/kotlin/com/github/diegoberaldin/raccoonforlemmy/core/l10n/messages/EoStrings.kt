@@ -420,4 +420,5 @@ internal val EoStrings =
             "Aldoni/forigi plej ŝatatajn en navigada tirkesto"
         override val messageContentDeleted = "Vi forigis ĉi tiun enhavon"
         override val actionRestore = "Restaŭri"
+        override val settingsInboxPreviewMaxLines = "Maksimuma nombro da linioj en enirkestokartoj"
     }

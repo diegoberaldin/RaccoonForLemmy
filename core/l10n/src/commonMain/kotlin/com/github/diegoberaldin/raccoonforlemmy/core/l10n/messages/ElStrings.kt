@@ -431,4 +431,6 @@ internal val ElStrings =
             "Προσθήκη/αφαίρεση αγαπημένων στο συρτάρι πλοήγησης"
         override val messageContentDeleted = "Έχετε διαγράψει αυτό το περιεχόμενο"
         override val actionRestore = "Αποκαταστήστε το"
+        override val settingsInboxPreviewMaxLines =
+            "Μέγιστος αριθμός γραμμών σε κάρτες εισερχομένων"
     }

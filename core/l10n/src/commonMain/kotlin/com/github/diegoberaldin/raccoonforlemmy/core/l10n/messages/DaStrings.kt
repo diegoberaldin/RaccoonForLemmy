@@ -424,4 +424,5 @@ internal val DaStrings =
             "Tilføj/fjern favoritter i navigationsskuffen"
         override val messageContentDeleted = "Du har slettet dette indhold"
         override val actionRestore = "Gendan"
+        override val settingsInboxPreviewMaxLines = "Max antal linjer i indbakkekort"
     }

@@ -426,4 +426,6 @@ internal val SqStrings =
             "Shto/hiq të preferuarat në sirtarin e navigimit"
         override val messageContentDeleted = "Ju e keni fshirë këtë përmbajtje"
         override val actionRestore = "Rivendos"
+        override val settingsInboxPreviewMaxLines =
+            "Numri maksimal i rreshtave në kartat e kutisë hyrëse"
     }

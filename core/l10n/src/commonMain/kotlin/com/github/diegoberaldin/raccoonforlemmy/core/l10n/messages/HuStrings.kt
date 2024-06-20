@@ -429,4 +429,5 @@ internal val HuStrings =
             "Kedvencek hozzáadása/eltávolítása a navigációs fiókban"
         override val messageContentDeleted = "Ezt a tartalmat törölted"
         override val actionRestore = "visszaállítás"
+        override val settingsInboxPreviewMaxLines = "Maximális sorok száma a postafiók kártyákban"
     }

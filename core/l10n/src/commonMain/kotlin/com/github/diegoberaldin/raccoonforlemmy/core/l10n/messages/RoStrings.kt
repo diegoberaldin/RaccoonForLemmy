@@ -424,4 +424,5 @@ internal val RoStrings =
             "Adăugă/elimină favoritele din sertarul de navigare"
         override val messageContentDeleted = "Ați șters acest conținut"
         override val actionRestore = "Restaurați-l"
+        override val settingsInboxPreviewMaxLines = "Numărul maxim de linii în cardurile de inbox"
     }

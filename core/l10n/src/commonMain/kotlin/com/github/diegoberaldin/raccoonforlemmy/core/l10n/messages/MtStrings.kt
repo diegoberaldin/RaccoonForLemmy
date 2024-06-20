@@ -425,4 +425,5 @@ internal val MtStrings =
             "Żid/neħħi l-favoriti fil-kexxun tan-navigazzjoni"
         override val messageContentDeleted = "Ħassejt dan il-kontenut"
         override val actionRestore = "Irrestawra"
+        override val settingsInboxPreviewMaxLines = "Numru massimu ta' linji fil-karti tal-inbox"
     }

@@ -426,4 +426,6 @@ internal val SrStrings =
             "Додајте/уклоните фаворите у фиоци за навигацију"
         override val messageContentDeleted = "Избрисали сте овај садржај"
         override val actionRestore = "Ресторе"
+        override val settingsInboxPreviewMaxLines =
+            "Максималан број линија у картицама пријемног сандучет"
     }

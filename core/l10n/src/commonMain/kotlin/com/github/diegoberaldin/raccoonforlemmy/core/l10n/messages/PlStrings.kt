@@ -425,4 +425,6 @@ internal val PlStrings =
             "Dodaj/usuń ulubione w szufladzie nawigacji"
         override val messageContentDeleted = "Usunąłeś tę treść"
         override val actionRestore = "Przywrócić"
+        override val settingsInboxPreviewMaxLines =
+            "Maksymalna liczba linii w kartach skrzynki odbiorczej"
     }

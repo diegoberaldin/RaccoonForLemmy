@@ -426,4 +426,5 @@ internal val ItStrings =
             "Aggiungi/rimuovi preferiti in menu laterale"
         override val messageContentDeleted = "Hai eliminato questo contenuto"
         override val actionRestore = "Ripristina"
+        override val settingsInboxPreviewMaxLines = "Numero massimo righe anteprima in inbox"
     }

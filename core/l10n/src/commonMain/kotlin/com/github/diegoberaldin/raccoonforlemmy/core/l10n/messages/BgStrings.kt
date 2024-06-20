@@ -428,4 +428,5 @@ internal val BgStrings =
             "Добавяне/премахване на любими в чекмеджето за навигация"
         override val messageContentDeleted = "Вие изтрихте това съдържание"
         override val actionRestore = "Възстанови"
+        override val settingsInboxPreviewMaxLines = "Максимален брой редове във входящите карти"
     }

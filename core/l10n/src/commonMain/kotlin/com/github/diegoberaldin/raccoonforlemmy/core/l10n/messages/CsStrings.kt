@@ -424,4 +424,5 @@ internal val CsStrings =
             "Přidat/odebrat oblíbené položky v navigační zásuvce"
         override val messageContentDeleted = "Tento obsah jste smazali"
         override val actionRestore = "Obnovit"
+        override val settingsInboxPreviewMaxLines = "Maximální počet řádků na kartách doručené pošty"
     }

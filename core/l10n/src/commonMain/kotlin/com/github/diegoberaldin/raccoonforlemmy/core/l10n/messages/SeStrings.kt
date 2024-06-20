@@ -424,4 +424,5 @@ internal val SeStrings =
             "Lägg till/ta bort favoriter i navigeringslådan"
         override val messageContentDeleted = "Du har tagit bort detta innehåll"
         override val actionRestore = "Återställ"
+        override val settingsInboxPreviewMaxLines = "Max antal rader i inkorgskort"
     }

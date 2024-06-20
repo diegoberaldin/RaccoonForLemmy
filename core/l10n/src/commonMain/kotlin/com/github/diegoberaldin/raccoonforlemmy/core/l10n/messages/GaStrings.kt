@@ -425,4 +425,5 @@ internal val GaStrings =
             "Cuir leis/bain na ceanáin sa tarraiceán nascleanúna"
         override val messageContentDeleted = "Tá an t-ábhar seo scriosta agat"
         override val actionRestore = "Athchóirigh"
+        override val settingsInboxPreviewMaxLines = "An líon uasta línte i gcártaí bosca isteach"
     }

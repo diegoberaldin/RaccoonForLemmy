@@ -421,4 +421,5 @@ internal val EnStrings =
             "Add/remove favorites in navigation drawer"
         override val messageContentDeleted = "You have deleted this content"
         override val actionRestore = "Restore"
+        override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
     }

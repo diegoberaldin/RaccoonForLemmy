@@ -425,4 +425,6 @@ internal val EsStrings =
             "Agregar/eliminar favoritos en el cajón de navegación"
         override val messageContentDeleted = "Has eliminado este contenido"
         override val actionRestore = "Restaurar"
+        override val settingsInboxPreviewMaxLines =
+            "Número máximo de líneas en tarjetas de mensajes"
     }

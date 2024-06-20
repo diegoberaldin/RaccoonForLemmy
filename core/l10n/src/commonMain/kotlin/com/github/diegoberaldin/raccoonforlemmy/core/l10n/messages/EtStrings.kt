@@ -426,4 +426,5 @@ internal val EtStrings =
             "Lemmikute lisamine/eemaldamine navigeerimissahtlis"
         override val messageContentDeleted = "Olete selle sisu kustutanud"
         override val actionRestore = "Taastama"
+        override val settingsInboxPreviewMaxLines = "Maksimaalne ridade arv postkasti kaartidel"
     }

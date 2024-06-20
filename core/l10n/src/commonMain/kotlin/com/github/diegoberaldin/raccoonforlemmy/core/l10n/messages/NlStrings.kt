@@ -426,4 +426,5 @@ internal val NlStrings =
             "Favorieten toevoegen/verwijderen in de navigatielade"
         override val messageContentDeleted = "Je hebt deze inhoud verwijderd"
         override val actionRestore = "Herstellen"
+        override val settingsInboxPreviewMaxLines = "Maximaal aantal regels in inboxkaarten"
     }

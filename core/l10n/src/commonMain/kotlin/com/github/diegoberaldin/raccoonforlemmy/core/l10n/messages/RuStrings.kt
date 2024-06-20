@@ -426,4 +426,6 @@ internal val RuStrings =
             "Добавить/удалить избранное в панели навигации"
         override val messageContentDeleted = "Вы удалили этот контент"
         override val actionRestore = "Восстановить"
+        override val settingsInboxPreviewMaxLines =
+            "Максимальное количество строк во входящих карточках"
     }

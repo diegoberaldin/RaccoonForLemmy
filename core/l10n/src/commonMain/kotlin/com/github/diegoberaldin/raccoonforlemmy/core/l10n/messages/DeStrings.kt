@@ -427,4 +427,6 @@ internal val DeStrings =
             "Favoriten in der Navigationsleiste hinzufügen/entfernen"
         override val messageContentDeleted = "Sie haben diesen Inhalt gelöscht"
         override val actionRestore = "Wiederherstellen"
+        override val settingsInboxPreviewMaxLines =
+            "Maximale Anzahl von Zeilen in Posteingangskarten"
     }

@@ -424,4 +424,6 @@ internal val SlStrings =
             "Dodajte/odstranite priljubljene v predalu za krmarjenje"
         override val messageContentDeleted = "To vsebino ste izbrisali"
         override val actionRestore = "Obnovi"
+        override val settingsInboxPreviewMaxLines =
+            "Največje število vrstic v karticah prejete pošte"
     }
