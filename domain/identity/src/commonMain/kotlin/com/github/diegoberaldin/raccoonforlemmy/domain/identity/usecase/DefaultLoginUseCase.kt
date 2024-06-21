@@ -6,7 +6,6 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunityPreferredLanguageRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.debug.logDebug
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
@@ -37,9 +36,7 @@ internal class DefaultLoginUseCase(
                 password = password,
                 totp2faToken = totp2faToken,
             )
-        return response.onFailure {
-            logDebug("Login failure: ${it.message}")
-        }.mapCatching {
+        return response.mapCatching {
             if (it.error != null) {
                 throw Exception("${instance} says: ${it.error}")
             }
