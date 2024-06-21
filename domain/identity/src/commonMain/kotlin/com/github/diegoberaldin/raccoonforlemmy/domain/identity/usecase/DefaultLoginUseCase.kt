@@ -40,6 +40,10 @@ internal class DefaultLoginUseCase(
         return response.onFailure {
             logDebug("Login failure: ${it.message}")
         }.mapCatching {
+            if (it.error != null) {
+                throw Exception("${instance} says: ${it.error}")
+            }
+
             val auth = it.token
             if (auth == null) {
                 apiConfigurationRepository.changeInstance(oldInstance)
