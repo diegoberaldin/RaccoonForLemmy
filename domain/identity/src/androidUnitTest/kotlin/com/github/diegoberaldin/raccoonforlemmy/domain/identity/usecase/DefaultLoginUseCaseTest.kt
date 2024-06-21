@@ -195,4 +195,19 @@ class DefaultLoginUseCaseTest {
                 settingsRepository.createSettings(any(), any())
             }
         }
+
+    @Test
+    fun givenAuthFails_whenExecuted_thenExceptionIsThrown() =
+        runTest {
+            val errorMessage = "fake-error-message"
+            coEvery {
+                authRepository.login(any(), any())
+            } returns Result.failure(Exception(errorMessage))
+
+            val res = sut("fake-instance", "fake-username", "fake-password")
+
+            assertTrue(res.isFailure)
+            val exc = res.exceptionOrNull()
+            assertEquals(errorMessage, exc?.message)
+        }
 }
