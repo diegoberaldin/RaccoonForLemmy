@@ -33,11 +33,25 @@ class DefaultAuthRepositoryTest {
     @Test
     fun whenLogin_thenResultIsAsExpected() =
         runTest {
-            val loginData = LoginResponse(token = "", registrationCreated = false, verifyEmailSent = true)
+            val loginData = LoginResponse(token = "")
             coEvery { authService.login(any()) } returns loginData
             val res = sut.login("username", "password")
 
             assertTrue(res.isSuccess)
+
+            val resultData = res.getOrThrow()
+            assertEquals(loginData, resultData)
+            coVerify {
+                authService.login(LoginForm("username", "password"))
+            }
+        }
+
+    @Test
+    fun givenFailure_whenLogin_thenResultIsAsExpected() =
+        runTest {
+            val loginData = LoginResponse(error = "fake-error-message")
+            coEvery { authService.login(any()) } returns loginData
+            val res = sut.login("username", "password")
 
             val resultData = res.getOrThrow()
             assertEquals(loginData, resultData)
