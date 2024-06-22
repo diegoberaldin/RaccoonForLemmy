@@ -3,10 +3,12 @@
 #
 # This script converts the resource strings from Kotlin files for Lyricist to Android XML format.
 #
-# Input files are expected to be inside core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
+# Input files are expected to be inside
+#   core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
 # and to be named as XxYxStrings.kt where xx is the language code and yy is the country code.
 #
-# Output files are saved in the l10n folder in the root of the project in the form of strings_xxyy.xml.
+# Output files are saved in the l10n directory in the root of the project
+#  l10n/values-_xxyy/strings.xml
 #
 # Usage:
 # python3 convert_xml_to_kt.py <lang_code> <country_code>
@@ -65,9 +67,9 @@ def main():
     if len(sys.argv) > 2:
         country_code = sys.argv[2]
     source_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
-    dest_file = "../l10n/strings_{0}{1}.xml".format(lang_code, country_code)
-    if not os.path.isdir("../l10n"):
-        os.mkdir("../l10n")
+    dest_file = "../l10n/values-{0}{1}/strings.xml".format(lang_code, country_code)
+    if not os.path.exists("../l10n/values-{0}{1}".format(lang_code, country_code)):
+        os.makedirs("../l10n/values-{0}{1}".format(lang_code, country_code))
     convert(source_file, dest_file)
 
 

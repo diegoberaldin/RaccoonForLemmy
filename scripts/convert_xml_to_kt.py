@@ -4,9 +4,12 @@
 # This script converts the resource strings in Android XML format to Kotlin files for Lyricist.
 #
 # Input files are expected to be inside the l10n folder in root of the project and are expected to
-# be named as strings_xx_yy where xx is the language code and yy is the country code.
+# be named as follows
+#   l10n/values-xxyy/strings.xml
+# where xx is the language code and yy is the country code.
 #
-# Output files are saved in core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
+# Output files are saved in
+#   core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages
 # and will have the XxYyStrings.kt naming scheme.
 #
 # Usage:
@@ -58,7 +61,7 @@ def main():
     region_code = ""
     if len(sys.argv) > 2:
         country_code = sys.argv[2]
-    source_file = "../l10n/strings_{0}{1}.xml".format(lang_code, country_code)
+    source_file = "../l10n/values-{0}{1}/strings.xml".format(lang_code, country_code)
     dest_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
     convert(lang_code, country_code, source_file, dest_file)
 
