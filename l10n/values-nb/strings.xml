@@ -410,5 +410,5 @@
     <string name="settingsEnableToggleFavoriteInNavDrawer">Add/remove favorites in navigation drawer</string>
     <string name="messageContentDeleted">You have deleted this content</string>
     <string name="actionRestore">Restore</string>
-    <string name="settingsInboxPreviewMaxLines: String">Inbox card preview max lines</string>
+    <string name="settingsInboxPreviewMaxLines:">Inbox card preview max lines</string>
 </resources>

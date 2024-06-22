@@ -398,7 +398,7 @@
     <string name="adminActionUnmarkAsFeatured">إلغاء تحديد علامة مميزة (مثال)</string>
     <string name="communitySetPreferredLanguage">تعيين اللغة المفضلة</string>
     <string name="appIconClassical">كلاسيكي</string>
-    <string name="settingsAboutAcknowledgements: String">شكر وتقدير</string>
+    <string name="settingsAboutAcknowledgements">شكر وتقدير</string>
     <string name="actionCreateCommunity">إنشاء المجتمع</string>
     <string name="editCommunityItemVisibility">الرؤية</string>
     <string name="communityVisibilityLocalOnly">المثيل المحلي فقط</string>
