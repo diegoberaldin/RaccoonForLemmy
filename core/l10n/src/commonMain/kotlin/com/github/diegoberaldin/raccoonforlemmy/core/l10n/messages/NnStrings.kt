@@ -1,6 +1,6 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
-internal val NoStrings =
+internal val NnStrings =
     object : Strings {
         override val actionBackToTop = "Tilbake til toppen"
         override val actionChat = "Send melding"
@@ -96,7 +96,7 @@ internal val NoStrings =
         override val inboxSectionReplies = "Svar"
         override val instanceDetailCommunities = "Samfunn"
         override val instanceDetailTitle = "Forekomst:"
-        override val lang = "no"
+        override val lang = "nn"
         override val loginFieldInstanceName = "Instansnamn"
         override val loginFieldLabelOptional = "(valgfritt)"
         override val loginFieldPassword = "Passord"
