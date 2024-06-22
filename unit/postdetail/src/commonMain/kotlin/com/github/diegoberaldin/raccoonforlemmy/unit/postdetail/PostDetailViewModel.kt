@@ -478,13 +478,20 @@ class PostDetailViewModel(
                 .sortToNestedOrder()
                 .populateLoadMoreComments()
                 .map {
-                    it.copy(
-                        // retain comment expand state if refreshing or loading more
-                        expanded = currentState.comments.firstOrNull() { comment -> comment.id == it.id }?.expanded
-                            ?: autoExpandComments,
-                        // only first level are visible and can be expanded
-                        visible = autoExpandComments || it.depth == 0,
-                    )
+                    val oldComment = currentState.comments.firstOrNull { c -> c.id == it.id }
+                    if (oldComment != null) {
+                        it.copy(
+                            // retain comment expand and children visible state if refreshing or loading more
+                            expanded = oldComment.expanded,
+                            visible = oldComment.visible,
+                        )
+                    } else {
+                        it.copy(
+                            expanded = autoExpandComments,
+                            // only first level are visible and can be expanded
+                            visible = autoExpandComments || it.depth == 0,
+                        )
+                    }
                 }
 
         val comments =
