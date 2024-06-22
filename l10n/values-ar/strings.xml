@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="actionBackToTop">العودة إلى الأعلى</string>
+    <string name="actionChat">إرسال الرسائل</string>
+    <string name="actionClearRead">مسح القراءة</string>
+    <string name="actionCreatePost">منشور جديد</string>
+    <string name="actionReply">رد</string>
+    <string name="actionActivateZombieMode">تفعيل وضع الزومبي</string>
+    <string name="actionDeactivateZombieMode">إلغاء تنشيط وضع الزومبي</string>
+    <string name="buttonClose">غلق</string>
+    <string name="buttonConfirm">تأكيد</string>
+    <string name="buttonLoad">رفع</string>
+    <string name="buttonReset">إعادة تعيين</string>
+    <string name="buttonRetry">إعادة المحاولة</string>
+    <string name="commentActionDelete">حذف</string>
+    <string name="communityDetailBlock">حظر</string>
+    <string name="communityDetailBlockInstance">حظر مثيل</string>
+    <string name="communityDetailInfo">معلومات المجتمع</string>
+    <string name="communityDetailInstanceInfo">تفاصيل الحالة</string>
+    <string name="communityInfoComments">التعليقات</string>
+    <string name="communityInfoDailyActiveUsers">المستخدمون النشطون (يوم)</string>
+    <string name="communityInfoMonthlyActiveUsers">المستخدمون النشطون (الشهر)</string>
+    <string name="communityInfoPosts">المشاركات</string>
+    <string name="communityInfoSubscribers">اشترك</string>
+    <string name="communityInfoWeeklyActiveUsers">المستخدمون النشطون (أسبوع)</string>
+    <string name="createCommentBody">نص التعليق</string>
+    <string name="createCommentTitle">تعليق جديد</string>
+    <string name="createPostBody">المحتوى</string>
+    <string name="createPostCommunity">المجتمع</string>
+    <string name="createPostCrossPostText">تم نشر الشطب من:</string>
+    <string name="createPostName">عنوان المقالة</string>
+    <string name="createPostNsfw">NSFW</string>
+    <string name="createPostTabEditor">..</string>
+    <string name="createPostTabPreview">نظرة عامة</string>
+    <string name="createPostTitle">منشور جديد</string>
+    <string name="createPostUrl">رابط URL</string>
+    <string name="createReportPlaceholder">نص التقرير (اختياري)</string>
+    <string name="createReportTitleComment">الإبلاغ عن تعليق</string>
+    <string name="createReportTitlePost">گزارش دادن پست</string>
+    <string name="dialogRawContentText">نص</string>
+    <string name="dialogRawContentTitle">الصفة</string>
+    <string name="dialogRawContentUrl">رابط URL</string>
+    <string name="dialogTitleChangeInstance">تغيير المثيل</string>
+    <string name="dialogTitleRawContent">محتوى خام</string>
+    <string name="dialogTitleSelectCommunity">حدد مجتمعًا</string>
+    <string name="editCommentTitle">تحرير التعليق</string>
+    <string name="editPostTitle">تحرير المنشور</string>
+    <string name="exploreResultTypeAll">الجميع</string>
+    <string name="exploreResultTypeComments">التعليقات</string>
+    <string name="exploreResultTypeCommunities">طورت المجتمعات</string>
+    <string name="exploreResultTypePosts">المنشورات</string>
+    <string name="exploreResultTypeUsers">المستخدمون</string>
+    <string name="exploreSearchPlaceholder">بحث</string>
+    <string name="homeInstanceVia">عبر</string>
+    <string name="homeListingTitle">المنشورات</string>
+    <string name="homeListingTypeAll">الجميع</string>
+    <string name="homeListingTypeLocal">محليًا</string>
+    <string name="homeListingTypeSubscribed">تم الاشتراك</string>
+    <string name="homeSortTitle">فرز حسب</string>
+    <string name="homeSortTypeActive">نشط</string>
+    <string name="homeSortTypeControversial">جدلي</string>
+    <string name="homeSortTypeHot">ساخن</string>
+    <string name="homeSortTypeMostComments">معظم التعليقات</string>
+    <string name="homeSortTypeNew">جديد</string>
+    <string name="homeSortTypeNewComments">تعليقات جديدة</string>
+    <string name="homeSortTypeOld">كبير</string>
+    <string name="homeSortTypeScaled">الدرجة</string>
+    <string name="homeSortTypeTop">أعلى</string>
+    <string name="homeSortTypeTop12Hours">.</string>
+    <string name="homeSortTypeTop12HoursShort">12 ساعة</string>
+    <string name="homeSortTypeTop6Hours">6 ساعات</string>
+    <string name="homeSortTypeTop6HoursShort">6 ساعات</string>
+    <string name="homeSortTypeTopDay">أفضل يوم</string>
+    <string name="homeSortTypeTopDayShort">يوم</string>
+    <string name="homeSortTypeTopHour">ساعات الذروة</string>
+    <string name="homeSortTypeTopHourShort">1 h</string>
+    <string name="homeSortTypeTopMonth">أفضل شهر</string>
+    <string name="homeSortTypeTopMonthShort">شهر</string>
+    <string name="homeSortTypeTopWeek">قمة الاسبوع</string>
+    <string name="homeSortTypeTopWeekShort">أسبوع</string>
+    <string name="homeSortTypeTopYear">أفضل سنة</string>
+    <string name="homeSortTypeTopYearShort">السنة</string>
+    <string name="inboxChatMessage">خطاب</string>
+    <string name="inboxItemMention">ذكرتك في</string>
+    <string name="inboxItemReplyComment">رد على تعليقك</string>
+    <string name="inboxItemReplyPost">رد على منشورك</string>
+    <string name="inboxListingTypeAll">الجميع</string>
+    <string name="inboxListingTypeTitle">نوع البريد الوارد</string>
+    <string name="inboxListingTypeUnread">غير مقروءة</string>
+    <string name="inboxNotLoggedMessage">لم تقم بتسجيل الدخول حاليًا.\nيرجى إضافة حساب من شاشة الملف الشخصي لرؤية صندوق الوارد الخاص بكn</string>
+    <string name="inboxSectionMentions">عدد المرات التي ذكر فيها</string>
+    <string name="inboxSectionMessages">رسائل</string>
+    <string name="inboxSectionReplies">الردود</string>
+    <string name="instanceDetailCommunities">طورت المجتمعات</string>
+    <string name="instanceDetailTitle">مثال:</string>
+    <string name="lang">ar</string>
+    <string name="loginFieldInstanceName">اسم المثيل</string>
+    <string name="loginFieldLabelOptional">(اختياري)</string>
+    <string name="loginFieldPassword">كلمة المرور</string>
+    <string name="loginFieldToken">توكن TOTP 2FA</string>
+    <string name="loginFieldUserName">اسم المستخدم أو البريد الالكتروني</string>
+    <string name="manageAccountsButtonAdd">إضافة حساب</string>
+    <string name="manageAccountsTitle">إدارة الحسابات</string>
+    <string name="manageSubscriptionsHeaderMulticommunities">تعدد المجتمعات</string>
+    <string name="manageSubscriptionsHeaderSubscriptions">الاشتراكات</string>
+    <string name="messageEmptyComments">المكان صامت للغاية هناك.\nهل ترغب في أن تكون الشخص الذييكتب التعليق الأول؟</string>
+    <string name="messageEmptyList">لا توجد عناصر للعرض</string>
+    <string name="messageErrorLoadingComments">حدث خطأ أثناء تحميل التعليقات.</string>
+    <string name="messageGenericError">عام خطأ.</string>
+    <string name="messageImageLoadingError">خطأ في تحميل الصورة</string>
+    <string name="messageInvalidField">حقل غير صالح</string>
+    <string name="messageMissingField">حقل مفقود</string>
+    <string name="messageOperationSuccessful">اكتملت العملية بنجاح</string>
+    <string name="multiCommunityEditorCommunities">طورت المجتمعات</string>
+    <string name="multiCommunityEditorIcon">أيقونة</string>
+    <string name="multiCommunityEditorName">الاسم</string>
+    <string name="multiCommunityEditorTitle">محرر متعدد المجتمعات</string>
+    <string name="navigationDrawerAnonymous">مجهول</string>
+    <string name="navigationDrawerTitleBookmarks">تم الحفظ</string>
+    <string name="navigationDrawerTitleSubscriptions">إدارة الاشتراكات</string>
+    <string name="navigationHome">المنشورات</string>
+    <string name="navigationInbox">صندوق الوارد</string>
+    <string name="navigationProfile">ملف التعريف</string>
+    <string name="navigationSearch">استكشاف</string>
+    <string name="navigationSettings">الإعدادات</string>
+    <string name="postActionCrossPost">رسالة متداولة في عدد من المجموعات الإخبارية</string>
+    <string name="postActionEdit">تحرير</string>
+    <string name="postActionHide">إخفاء</string>
+    <string name="postActionReport">التقرير</string>
+    <string name="postActionSeeRaw">عرض الخام</string>
+    <string name="postActionShare">مشاركة</string>
+    <string name="postDetailCrossPosts">كما تم نشره على:</string>
+    <string name="postDetailLoadMoreComments">تصفح المزيد</string>
+    <string name="postHourShort">ساعات</string>
+    <string name="postMinuteShort">دقائق</string>
+    <string name="postSecondShort">ثواني</string>
+    <string name="profileButtonLogin">تسجيل الدخول</string>
+    <string name="profileDayShort">أيام</string>
+    <string name="profileMillionShort">ملايين</string>
+    <string name="profileMonthShort">شهور</string>
+    <string name="profileNotLoggedMessage">لم تقم بتسجيل الدخول حاليًا\n .يرجى إضافةحساب للمتابعة.</string>
+    <string name="profileSectionComments">التعليقات</string>
+    <string name="profileSectionPosts">المنشورات</string>
+    <string name="profileThousandShort">k</string>
+    <string name="profileYearShort">سنين</string>
+    <string name="settingsAbout">نبذة عن هذا التطبيق</string>
+    <string name="settingsAboutAppVersion">إصدار التطبيق</string>
+    <string name="settingsAboutChangelog">عرض سجل التغييرات الكامل</string>
+    <string name="settingsAboutReportGithub">الإبلاغ عن خطأ (GitHub)</string>
+    <string name="settingsAboutReportEmail">الإبلاغ عن خطأ (البريد الإلكتروني)</string>
+    <string name="settingsAboutViewGithub">عرض على GitHub</string>
+    <string name="settingsAboutViewLemmy">مجتمع ليمي</string>
+    <string name="settingsAutoExpandComments">توسيع التعليقات تلقائيًا</string>
+    <string name="settingsAutoLoadImages">حمّل الصور تلقائيًا</string>
+    <string name="settingsBlurNsfw">ضبابية صور نيو ساوث ويلز</string>
+    <string name="settingsColorAquamarine">🐬 دولفين مشتت الانتباه</string>
+    <string name="settingsColorBanana">🦔 قنفذ فرحان</string>
+    <string name="settingsColorBlue">🐳 حوت بارع</string>
+    <string name="settingsColorCustom">مخصص</string>
+    <string name="settingsColorDialogAlpha">A</string>
+    <string name="settingsColorDialogBlue">B</string>
+    <string name="settingsColorDialogGreen">G</string>
+    <string name="settingsColorDialogRed">R</string>
+    <string name="settingsColorDialogTitle">اختر لونًا</string>
+    <string name="settingsColorGray">🦝 راكون مفترس</string>
+    <string name="settingsColorGreen">🐸 ضفدع مرح</string>
+    <string name="settingsColorOrange">🦊 الثعلب الناري</string>
+    <string name="settingsColorPink">🦄 وحيد القرن الفريد</string>
+    <string name="settingsColorPurple">🐙 أخطبوط محيطي</string>
+    <string name="settingsColorRed">🦀 سلطعون مقرمش</string>
+    <string name="settingsColorWhite">🐼 دب مراهنة</string>
+    <string name="settingsContentFontLarge">كبير</string>
+    <string name="settingsContentFontLarger">كبير جدا</string>
+    <string name="settingsContentFontLargest">دوبل إكسترا لارج</string>
+    <string name="settingsContentFontNormal">عادي</string>
+    <string name="settingsContentFontScale">حجم النص من المشاركات</string>
+    <string name="settingsContentFontSmall">صغير</string>
+    <string name="settingsContentFontSmaller">صغيرة إضافية</string>
+    <string name="settingsContentFontSmallest">مزدوج إضافي صغير</string>
+    <string name="settingsCustomSeedColor">لون قالب مخصص</string>
+    <string name="settingsDefaultCommentSortType">نوع فرز التعليق الافتراضي</string>
+    <string name="settingsDefaultListingType">نوع الخلاصة الافتراضي</string>
+    <string name="settingsDefaultPostSortType">Post Type افتراضي</string>
+    <string name="settingsDownvoteColor">لون التصويت السلبي</string>
+    <string name="settingsDynamicColors">استخدم الألوان الديناميكية</string>
+    <string name="settingsEnableCrashReport">تمكين الإبلاغ عن الأعطال</string>
+    <string name="settingsEnableDoubleTap">تمكين إجراء النقر المزدوج</string>
+    <string name="settingsEnableSwipeActions">تمكين إجراءات السحب</string>
+    <string name="settingsFullHeightImages">ارتفاع الصور</string>
+    <string name="settingsIncludeNsfw">تضمين محتويات NSFW</string>
+    <string name="settingsLanguage">اللغة</string>
+    <string name="settingsNavigationBarTitlesVisible">إظهار عناوين شريط التنقل</string>
+    <string name="settingsOpenUrlExternal">فتح عناوين URL</string>
+    <string name="settingsPointsShort">pt</string>
+    <string name="settingsPostLayout">تنسيق المقال</string>
+    <string name="settingsPostLayoutCard">البطاقة</string>
+    <string name="settingsPostLayoutCompact">مضغوط</string>
+    <string name="settingsPostLayoutFull">كامل</string>
+    <string name="settingsSectionAppearance">الشكل والمظهر</string>
+    <string name="settingsAdvanced">إعدادات متقدمة</string>
+    <string name="settingsSectionDebug">تصحيح الأخطاء</string>
+    <string name="settingsSectionGeneral">عام</string>
+    <string name="settingsSectionNsfw">NSFW</string>
+    <string name="settingsThemeBlack">الظلام (أموليد)</string>
+    <string name="settingsThemeDark">داكن</string>
+    <string name="settingsThemeLight">فاتح</string>
+    <string name="settingsUiFontFamily">خط واجهة المستخدم</string>
+    <string name="settingsUiFontScale">حجم نص واجهة المستخدم</string>
+    <string name="settingsUiTheme">سمة واجهة المستخدم</string>
+    <string name="settingsUpvoteColor">لون التصويت المؤيد</string>
+    <string name="settingsHideNavigationBar">إخفاء شريط التنقل أثناء التمرير</string>
+    <string name="settingsZombieModeInterval">مدة الفاصل الزمني لوضع الزومبي</string>
+    <string name="settingsZombieModeScrollAmount">كمية التمرير في وضع الزومبي</string>
+    <string name="settingsMarkAsReadWhileScrolling">وضع علامة على المنشورات كمقروءة أثناءالتمرير</string>
+    <string name="actionQuote">اقتباس</string>
+    <string name="modActionAllow">السماح للمستخدم مرة أخرى</string>
+    <string name="modActionBan">حظر العضو</string>
+    <string name="modActionOpenReports">فتح التقارير</string>
+    <string name="modActionMarkAsFeatured">انقر هنا لجعل هذا الإعلان مميزا</string>
+    <string name="modActionUnmarkAsFeatured">إلغاء التحديد كمميز</string>
+    <string name="modActionLock">القفل</string>
+    <string name="modActionUnlock">فتح</string>
+    <string name="modActionRemove">حذف</string>
+    <string name="modActionMarkAsDistinguished">ضع علامة مميزة</string>
+    <string name="modActionUnmarkAsDistinguished">إلغاء وضع علامة مميزة</string>
+    <string name="reportListTitle">قائمة التقارير</string>
+    <string name="reportListTypeTitle">قائمة التقارير</string>
+    <string name="reportListTypeAll">الجميع</string>
+    <string name="reportListTypeUnresolved">غير محلول</string>
+    <string name="reportActionResolve">تحلل</string>
+    <string name="reportActionUnresolve">إلغاء الحل</string>
+    <string name="sidebarNotLoggedMessage">مرحبًا بك في الراكون من أجل ليمي!\n\nفي الوضع المجهول، استخدم زر القائمة المنسدلة (▼) أعلاه لتغيير المثيل.\n\nيمكنك تسجيل الدخول إلى حسابك في أي وقت من شاشة ملف التعريف.\n\nاستمتع بليمي!</string>
+    <string name="settingsDefaultInboxType">نوع البريد الوارد الافتراضي</string>
+    <string name="modActionAddMod">إضافة مشرف</string>
+    <string name="modActionRemoveMod">إزالة المشرف</string>
+    <string name="settingsVoteFormat">تنسيق التصويت</string>
+    <string name="settingsVoteFormatAggregated">إجمالي</string>
+    <string name="settingsVoteFormatSeparated">متفرق</string>
+    <string name="settingsVoteFormatPercentage">نسبة مئوية</string>
+    <string name="settingsFontFamilyDefault">نظام</string>
+    <string name="postReplySourceAccount">بواسطة:</string>
+    <string name="settingsCommentBarTheme">موضوع شريط التعليق</string>
+    <string name="settingsCommentBarThemeBlue">🌊 محيط</string>
+    <string name="settingsCommentBarThemeGreen">🥑 أفوكادو</string>
+    <string name="settingsCommentBarThemeRed">🍓 الفراولة</string>
+    <string name="settingsCommentBarThemeMulti">🌈 قوس المطر</string>
+    <string name="messageConfirmExit">ضغط على 🔙 مرة أخرى للخروج</string>
+    <string name="communityActionUnsubscribe">إلغاء الاشتراك</string>
+    <string name="settingsSearchPostsTitleOnly">البحث عن المشاركات فقط في العنوان</string>
+    <string name="settingsContentFontFamily">عائلة خطوط المحتوى</string>
+    <string name="communityInfoModerators">المشرفون</string>
+    <string name="communityActionAddFavorite">اضافة الى المفضلة</string>
+    <string name="communityActionRemoveFavorite">إزالة من المفضلة</string>
+    <string name="communityActionViewModlog">عرض سجل الإشراف</string>
+    <string name="modlogTitle">سجل الاعتدال</string>
+    <string name="modlogItemModAdded">تمت إضافته كمشرف</string>
+    <string name="modlogItemModRemoved">تمت إزالة الوسيط</string>
+    <string name="modlogItemUserBanned">تم حظره</string>
+    <string name="modlogItemUserUnbanned">كان غير محظور</string>
+    <string name="modlogItemPostFeatured">م وضع علامة على أنها مشاركة مميزة</string>
+    <string name="modlogItemPostUnfeatured">تم وضع علامة على أنها مشاركة غير مميزة</string>
+    <string name="modlogItemPostLocked">كان مقفلا</string>
+    <string name="modlogItemPostUnlocked">تم فتحه</string>
+    <string name="modlogItemPostRemoved">تمت إزالته</string>
+    <string name="modlogItemPostRestored">تم ترميمه</string>
+    <string name="modlogItemCommentRemoved">تمت إزالته من التعليقات</string>
+    <string name="modlogItemCommentRestored">تمت استعادته في تعليقات</string>
+    <string name="modlogItemCommunityTransfer">تم نقل المجتمع إلى</string>
+    <string name="blockActionUser">مستخدم محضور</string>
+    <string name="blockActionCommunity">منع المجتمع</string>
+    <string name="userDetailInfo">معلومات المستخدم</string>
+    <string name="userInfoModerates">مشرف</string>
+    <string name="userInfoAdmin">مدير</string>
+    <string name="settingsReplyColor">لون عمل الرد</string>
+    <string name="settingsSectionAccount">إعدادت الحساب</string>
+    <string name="settingsWebPreferences">تفضيلات الويب</string>
+    <string name="settingsWebHeaderPersonal">معلومات شخصية</string>
+    <string name="settingsWebHeaderContents">محتويات</string>
+    <string name="settingsWebHeaderNotifications">إشعارات</string>
+    <string name="settingsWebAvatar">الصورة الرمزية</string>
+    <string name="settingsWebBanner">راية</string>
+    <string name="settingsWebBio">السيرة الذاتية</string>
+    <string name="settingsWebBot">بوت</string>
+    <string name="settingsWebDisplayName">اسم العرض</string>
+    <string name="settingsWebMatrix">معرف المستخدم Matrix</string>
+    <string name="settingsWebEmail">بريد إلكتروني</string>
+    <string name="settingsWebShowBot">إظهار حسابات البوت</string>
+    <string name="settingsWebShowNsfw">عرض إن إس إف دبليو</string>
+    <string name="settingsWebShowRead">إظهار المشاركات المقروءة</string>
+    <string name="settingsWebEmailNotifications">إرسال إشعارات البريد الإلكتروني</string>
+    <string name="settingsManageBan">الحظر والمرشحات</string>
+    <string name="settingsManageBanActionUnban">إزالة الحظر</string>
+    <string name="settingsManageBanSectionInstances">المثيلات</string>
+    <string name="settingsEdgeToEdge">محتويات الحافة إلى الحافة</string>
+    <string name="settingsPostBodyMaxLines">الحد الأقصى لعدد الأسطر لنص الرسالة</string>
+    <string name="settingsPostBodyMaxLinesUnlimited">غير محدود</string>
+    <string name="messageContentRemoved">(تمت إزالة هذا المحتوى)</string>
+    <string name="postListLoadMorePosts">تحميل المزيد من المشاركات</string>
+    <string name="settingsInfiniteScrollDisabled">تعطيل التمرير اللانهائي</string>
+    <string name="dialogTitleAddInstance">إضافة مثيل</string>
+    <string name="settingsSaveColor">لون عملية الحفظ</string>
+    <string name="settingsConfigureSwipeActions">تكوين إجراءات التمرير</string>
+    <string name="actionUpvote">التصويت لصالح</string>
+    <string name="actionDownvote">التصويت السلبي</string>
+    <string name="actionSave">يحفظ</string>
+    <string name="actionToggleRead">مقروءة/غير مقروءة</string>
+    <string name="configureActionsSideStart">الإجراءات على الجانب الأيسر</string>
+    <string name="configureActionsSideEnd">الإجراءات على الجانب الأيمن</string>
+    <string name="selectActionTitle">حدد إجراءً</string>
+    <string name="buttonAdd">اضف جديد</string>
+    <string name="barThemeOpaque">مبهمة</string>
+    <string name="barThemeTransparent">شفاف</string>
+    <string name="settingsBarTheme">موضوع الحالة وشريط التنقل</string>
+    <string name="settingsColorsAndFonts">مظهر التطبيق</string>
+    <string name="settingsAboutViewGooglePlay">عرض على جوجل بلاي</string>
+    <string name="settingsUserManual">دليل الاستخدام</string>
+    <string name="settingsShowScores">أظهر التقييمات</string>
+    <string name="settingsVoteFormatHidden">مختفي</string>
+    <string name="settingsCommentBarThickness">سمك شريط التعليق</string>
+    <string name="settingsPreferUserNicknames">استخدم أسماء العرض للمستخدمين والمجتمعات</string>
+    <string name="messageVideoNsfw">تم وضع علامة على هذا الفيديو على أنه NSFW</string>
+    <string name="settingsTitleFontScale">حجم نص العناوين</string>
+    <string name="settingsCommentFontScale">حجم نص التعليقات</string>
+    <string name="settingsAncillaryFontScale">حجم النصوص المساعدة</string>
+    <string name="settingsConfigureContent">مظهر المحتوى</string>
+    <string name="settingsConfigureText">نص</string>
+    <string name="settingsConfigureCustomizations">التخصيصات</string>
+    <string name="navigationDrawerTitleDrafts">المسودات</string>
+    <string name="moderatorZoneTitle">أدوات للمشرفين</string>
+    <string name="moderatorZoneActionContents">محتويات إلى معتدلة</string>
+    <string name="messageAuthIssue">حدث خطأ أثناء جلب بيانات المستخدم، حاول تحديث الشاشة</string>
+    <string name="banReasonPlaceholder">لسبب (اختياري)</string>
+    <string name="banItemPermanent">فرض حظر دائم</string>
+    <string name="banItemRemoveData">إزالة البيانات</string>
+    <string name="banItemDurationDays">المدة (أيام)</string>
+    <string name="messageUnsavedChanges">هناك تغييرات لم يتم حفظها، هل أنت متأكد من أنك تريد الخروج؟</string>
+    <string name="buttonNoStay">لا، ابق هنا</string>
+    <string name="buttonYesQuit">نعم، الخروج</string>
+    <string name="settingsItemImageSourcePath">حفظ الصور في أدلة فرعية محددة</string>
+    <string name="settingsSubtitleImageSourcePath">استخدم المجتمع أو مقبض المستخدم في المسارات</string>
+    <string name="settingsTitleDisplay">شاشة</string>
+    <string name="settingsTitleReading">القراءة والمحتويات</string>
+    <string name="settingsTitlePictures">الصور</string>
+    <string name="settingsTitleExperimental">التجارب</string>
+    <string name="communitySetCustomSort">نوع الفرز المخصص</string>
+    <string name="settingsDefaultExploreType">نوع الخلاصة الافتراضي للاستكشاف</string>
+    <string name="actionSearchInCommunity">البحث داخل المجتمع</string>
+    <string name="actionExitSearch">الخروج من البحث</string>
+    <string name="beta">بيتا</string>
+    <string name="actionCopyClipboard">نسخ إلى الحافظة</string>
+    <string name="copyTitle">انسخ العنوان</string>
+    <string name="copyText">نسخ النص</string>
+    <string name="copyBoth">انسخ كلاهما</string>
+    <string name="profileUpvotesDownvotes">التصويتات المؤيدة &amp; التصويت السلبي</string>
+    <string name="filteredContentsType">نوع المحتوى</string>
+    <string name="actionSearchInComments">البحث في التعليقات</string>
+    <string name="advancedSettingsDefaultLanguage">للغة الافتراضية في المحرر</string>
+    <string name="undetermined">غير معرف</string>
+    <string name="exploreResultTypeTitle">نوع النتيجة</string>
+    <string name="communityActionEdit">تحرير المجتمع</string>
+    <string name="editCommunityHeaderTextual">معلومات نصية</string>
+    <string name="editCommunityItemSidebar">الشريط الجانبي</string>
+    <string name="editCommunityItemPostingRestrictedToMods">النشر يقتصر على المشرفين</string>
+    <string name="messageAreYouSure">هل انت متأكد انك تريد المتابعة؟</string>
+    <string name="buttonCancel">يلغي</string>
+    <string name="shareModeUrl">شارك كعنوان URL</string>
+    <string name="shareModeFile">شارك كملف</string>
+    <string name="modlogItemCommunityPurged">قام بتطهير المجتمع</string>
+    <string name="modlogItemCommentPurged">تمت إزالة التعليق</string>
+    <string name="modlogItemPersonPurged">وقد تطهير الشخص</string>
+    <string name="modlogItemPostPurged">وقد تطهير آخر</string>
+    <string name="modlogItemHidden">تم إخفاؤه</string>
+    <string name="modlogItemUnhidden">تم الكشف عنها</string>
+    <string name="settingsAboutLicences">التراخيص</string>
+    <string name="settingsInboxBackgroundCheckPeriod">التحقق من وجود عناصر غير مقروءة في الخلفية</string>
+    <string name="never">أبداً</string>
+    <string name="settingsAppIcon">يقونة التطبيق</string>
+    <string name="requiresRestart">(إعادة التشغيل مطلوبة)</string>
+    <string name="appIconDefault">تقصير</string>
+    <string name="appIconAlt1">أحادية اللون</string>
+    <string name="settingsFadeReadPosts">تتلاشى قراءة المشاركات</string>
+    <string name="settingsShowUnreadComments">إظهار عدد التعليقات غير المقروءة</string>
+    <string name="actionLogout">تسجيل خروج</string>
+    <string name="settingsImport">إعدادات الاستيراد من الملف</string>
+    <string name="settingsExport">إعدادات التصدير إلى الملف</string>
+    <string name="settingsEnableButtonsToScrollBetweenComments">أزرار التنقل في شاشة النشر</string>
+    <string name="settingsUrlOpeningModeInternal">داخل التطبيق</string>
+    <string name="settingsUrlOpeningModeExternal">متصفح خارجي</string>
+    <string name="settingsUrlOpeningModeCustomTabs">علامات التبويب المخصصة</string>
+    <string name="settingsFullWidthImages">صور بالعرض الكامل</string>
+    <string name="contentScaleFit">ناسب الحجم</string>
+    <string name="contentScaleFillWidth">ملء العرض</string>
+    <string name="contentScaleFillHeight">ملء الارتفاع</string>
+    <string name="settingsCommentIndentAmount">عرض المسافة البادئة للتعليقات</string>
+    <string name="postActionUnhide">إرجاع الإخفاء</string>
+    <string name="adminActionPurge">تطهير</string>
+    <string name="adminActionMarkAsFeatured">وضع علامة مميزة (مثال)</string>
+    <string name="adminActionUnmarkAsFeatured">إلغاء تحديد علامة مميزة (مثال)</string>
+    <string name="communitySetPreferredLanguage">تعيين اللغة المفضلة</string>
+    <string name="appIconClassical">كلاسيكي</string>
+    <string name="settingsAboutAcknowledgements: String">شكر وتقدير</string>
+    <string name="actionCreateCommunity">إنشاء المجتمع</string>
+    <string name="editCommunityItemVisibility">الرؤية</string>
+    <string name="communityVisibilityLocalOnly">المثيل المحلي فقط</string>
+    <string name="communityVisibilityPublic">عام</string>
+    <string name="noticeCommunityLocalOnly">هذا المجتمع مرئي فقط في المثيل الحالي</string>
+    <string name="noticeBannedUser">تم حظر المستخدم الحالي من هذا المجتمع</string>
+    <string name="settingsHiddenPosts">المشاركات المخفية</string>
+    <string name="settingsMediaList">تحميلات الوسائط</string>
+    <string name="settingsEnableToggleFavoriteInNavDrawer">إضافة/إزالة المفضلة في درج التنقل</string>
+    <string name="messageContentDeleted">لقد قمت بحذف هذا المحتوى</string>
+    <string name="actionRestore">يعيد</string>
+    <string name="settingsInboxPreviewMaxLines">الحد الأقصى لعدد الخطوط في بطاقات البريد الوارد</string>
+</resources>

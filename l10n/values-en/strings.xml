@@ -80,8 +80,6 @@
     <string name="homeSortTypeTopWeekShort">week</string>
     <string name="homeSortTypeTopYear">Top year</string>
     <string name="homeSortTypeTopYearShort">year</string>
-    <string name="inboxActionMarkRead">Mark as read</string>
-    <string name="inboxActionMarkUnread">Mark as unread</string>
     <string name="inboxChatMessage">Message</string>
     <string name="inboxItemMention">mentioned you in</string>
     <string name="inboxItemReplyComment">replied to your comment in</string>
@@ -105,7 +103,7 @@
     <string name="manageAccountsTitle">Manage accounts</string>
     <string name="manageSubscriptionsHeaderMulticommunities">Multi-communities</string>
     <string name="manageSubscriptionsHeaderSubscriptions">Subscriptions</string>
-    <string name="messageEmptyComments">It\'s too silent there.\nWould you like to be the one who writes the first comment?</string>
+    <string name="messageEmptyComments">It\'s too silent here.\nWould you like to be the one who writes the first comment?</string>
     <string name="messageEmptyList">No items to display</string>
     <string name="messageErrorLoadingComments">An error has occurred loading comments.</string>
     <string name="messageGenericError">Generic error</string>
@@ -408,4 +406,9 @@
     <string name="noticeCommunityLocalOnly">This community is only visible within the current instance</string>
     <string name="noticeBannedUser">The current user has been banned from this community</string>
     <string name="settingsHiddenPosts">Hidden posts</string>
+    <string name="settingsMediaList">Media uploads</string>
+    <string name="settingsEnableToggleFavoriteInNavDrawer">Add/remove favorites in navigation drawer</string>
+    <string name="messageContentDeleted">You have deleted this content</string>
+    <string name="actionRestore">Restore</string>
+    <string name="settingsInboxPreviewMaxLines">Inbox card preview max lines</string>
 </resources>
