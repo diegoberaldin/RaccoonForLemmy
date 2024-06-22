@@ -229,16 +229,14 @@ class PostDetailViewModel(
                     )
                 highlightCommentPath = comment?.path
             }
-            if (isModerator) {
-                uiState.value.post.community?.id?.also { communityId ->
-                    val moderators =
-                        communityRepository.getModerators(
-                            auth = auth,
-                            id = communityId,
-                        )
-                    updateState {
-                        it.copy(moderators = moderators)
-                    }
+            uiState.value.post.community?.id?.also { communityId ->
+                val moderators =
+                    communityRepository.getModerators(
+                        auth = auth,
+                        id = communityId,
+                    )
+                updateState {
+                    it.copy(moderators = moderators)
                 }
             }
             if (uiState.value.post.text
@@ -480,8 +478,9 @@ class PostDetailViewModel(
                 .map {
                     it.copy(
                         // retain comment expand state if refreshing or loading more
-                        expanded = currentState.comments.firstOrNull() { comment -> comment.id == it.id }?.expanded
-                            ?: autoExpandComments,
+                        expanded =
+                            currentState.comments.firstOrNull { comment -> comment.id == it.id }?.expanded
+                                ?: autoExpandComments,
                         // only first level are visible and can be expanded
                         visible = autoExpandComments || it.depth == 0,
                     )

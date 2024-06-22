@@ -1186,6 +1186,10 @@ class PostDetailScreen(
                                                         comment = comment,
                                                         isOp = comment.creator?.id == uiState.post.creator?.id,
                                                         showBot = true,
+                                                        isMod =
+                                                            comment.creator?.id.let { id ->
+                                                                uiState.moderators.containsId(id)
+                                                            },
                                                         indentAmount = uiState.commentIndentAmount,
                                                         barThickness = uiState.commentBarThickness,
                                                         voteFormat = uiState.voteFormat,
@@ -1547,6 +1551,10 @@ class PostDetailScreen(
                                                 comment = comment,
                                                 isOp = comment.creator?.id == uiState.post.creator?.id,
                                                 showBot = true,
+                                                isMod =
+                                                    comment.creator?.id.let { id ->
+                                                        uiState.moderators.containsId(id)
+                                                    },
                                                 voteFormat = uiState.voteFormat,
                                                 autoLoadImages = uiState.autoLoadImages,
                                                 showScores = uiState.showScores,
