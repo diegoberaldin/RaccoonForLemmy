@@ -446,7 +446,7 @@ object Locales {
     const val PL = "pl"
     const val IT = "it"
     const val UK = "uk"
-    const val SE = "se"
+    const val SV = "sv"
     const val EL = "el"
     const val RU = "ru"
     const val ES = "es"
@@ -486,7 +486,7 @@ internal val localizableStrings: Map<LanguageTag, Strings> =
         Locales.PL to PlStrings,
         Locales.IT to ItStrings,
         Locales.UK to UkStrings,
-        Locales.SE to SeStrings,
+        Locales.SV to SvStrings,
         Locales.EL to ElStrings,
         Locales.RU to RuStrings,
         Locales.ES to EsStrings,
