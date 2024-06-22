@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 
 private const val OP_LABEL = "OP"
 private const val BOT_LABEL = "BOT"
+private const val MOD_LABEL = "M"
 
 @Composable
 fun CommunityAndCreatorInfo(
@@ -58,6 +59,7 @@ fun CommunityAndCreatorInfo(
     isFromModerator: Boolean = false,
     isOp: Boolean = false,
     isBot: Boolean = false,
+    isMod: Boolean = false,
     markRead: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -91,8 +93,7 @@ fun CommunityAndCreatorInfo(
                                         }
                                     },
                                     onDoubleClick = onDoubleClick ?: {},
-                                )
-                                .padding(Spacing.xxxs)
+                                ).padding(Spacing.xxxs)
                                 .size(iconSize)
                                 .clip(RoundedCornerShape(iconSize / 2)),
                         url = communityIcon,
@@ -126,8 +127,7 @@ fun CommunityAndCreatorInfo(
                                         }
                                     },
                                     onDoubleClick = onDoubleClick ?: {},
-                                )
-                                .padding(Spacing.xxxs)
+                                ).padding(Spacing.xxxs)
                                 .size(iconSize)
                                 .clip(RoundedCornerShape(iconSize / 2)),
                         url = creatorAvatar,
@@ -196,6 +196,12 @@ fun CommunityAndCreatorInfo(
                 IndicatorChip(
                     modifier = Modifier.align(Alignment.CenterVertically),
                     text = BOT_LABEL,
+                )
+            }
+            if (isMod) {
+                IndicatorChip(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    text = MOD_LABEL,
                 )
             }
 
