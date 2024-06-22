@@ -454,7 +454,8 @@ object Locales {
     const val PT = "pt"
     const val AR = "ar"
     const val DA = "da"
-    const val NO = "no"
+    const val NB = "nb"
+    const val NN = "nn"
     const val MT = "mt"
     const val ZH_TW = "zh_TW"
     const val ZH_HK = "zh_HK"
@@ -462,42 +463,43 @@ object Locales {
 
 internal val localizableStrings: Map<LanguageTag, Strings> =
     mapOf(
-        Locales.FR to FrStrings,
-        Locales.SQ to SqStrings,
-        Locales.RO to RoStrings,
-        Locales.GA to GaStrings,
+        Locales.AR to ArStrings,
+        Locales.BG to BgStrings,
+        Locales.CS to CsStrings,
+        Locales.DA to DaStrings,
+        Locales.DE to DeStrings,
+        Locales.EL to ElStrings,
         Locales.EN to EnStrings,
-        Locales.FI to FiStrings,
+        Locales.EO to EoStrings,
+        Locales.ES to EsStrings,
         Locales.ET to EtStrings,
+        Locales.FI to FiStrings,
+        Locales.FR to FrStrings,
+        Locales.GA to GaStrings,
+        Locales.HR to HrStrings,
+        Locales.HU to HuStrings,
+        Locales.IT to ItStrings,
         Locales.LT to LtStrings,
         Locales.LV to LvStrings,
-        Locales.PT_BR to PtBrStrings,
-        Locales.SR to SrStrings,
-        Locales.HR to HrStrings,
-        Locales.TR to TrStrings,
+        Locales.MT to MtStrings,
+        Locales.NB to NbStrings,
         Locales.NL to NlStrings,
-        Locales.CS to CsStrings,
-        Locales.BG to BgStrings,
-        Locales.EO to EoStrings,
-        Locales.DE to DeStrings,
-        Locales.HU to HuStrings,
+        Locales.NN to NnStrings,
+        Locales.PL to PlStrings,
+        Locales.PT to PtStrings,
+        Locales.PT_BR to PtBrStrings,
+        Locales.RO to RoStrings,
+        Locales.RU to RuStrings,
         Locales.SK to SkStrings,
         Locales.SL to SlStrings,
-        Locales.PL to PlStrings,
-        Locales.IT to ItStrings,
-        Locales.UK to UkStrings,
+        Locales.SQ to SqStrings,
+        Locales.SR to SrStrings,
         Locales.SV to SvStrings,
-        Locales.EL to ElStrings,
-        Locales.RU to RuStrings,
-        Locales.ES to EsStrings,
         Locales.TOK to TokStrings,
-        Locales.PT to PtStrings,
-        Locales.AR to ArStrings,
-        Locales.DA to DaStrings,
-        Locales.NO to NoStrings,
-        Locales.MT to MtStrings,
-        Locales.ZH_TW to ZhTwStrings,
+        Locales.TR to TrStrings,
+        Locales.UK to UkStrings,
         Locales.ZH_HK to ZhHkStrings,
+        Locales.ZH_TW to ZhTwStrings,
     )
 
 val LocalStrings: ProvidableCompositionLocal<Strings> =
