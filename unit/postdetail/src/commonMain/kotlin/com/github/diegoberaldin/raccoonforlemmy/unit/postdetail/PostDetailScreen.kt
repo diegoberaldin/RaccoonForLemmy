@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -39,7 +38,6 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -62,7 +60,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -92,8 +89,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -111,6 +106,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SearchField
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
@@ -780,45 +776,20 @@ class PostDetailScreen(
                             ),
                 ) {
                     if (uiState.searching) {
-                        TextField(
+                        SearchField(
                             modifier =
                                 Modifier
                                     .padding(
                                         horizontal = Spacing.xs,
                                         vertical = Spacing.s,
                                     ).fillMaxWidth(),
-                            label = {
-                                Text(text = LocalStrings.current.exploreSearchPlaceholder)
-                            },
-                            singleLine = true,
+                            hint = LocalStrings.current.exploreSearchPlaceholder,
                             value = uiState.searchText,
-                            keyboardOptions =
-                                KeyboardOptions(
-                                    keyboardType = KeyboardType.Text,
-                                    imeAction = ImeAction.Search,
-                                ),
                             onValueChange = { value ->
                                 model.reduce(PostDetailMviModel.Intent.SetSearch(value))
                             },
-                            trailingIcon = {
-                                Icon(
-                                    modifier =
-                                        Modifier.onClick(
-                                            onClick =
-                                                rememberCallback(model) {
-                                                    if (uiState.searchText.isNotEmpty()) {
-                                                        model.reduce(PostDetailMviModel.Intent.SetSearch(""))
-                                                    }
-                                                },
-                                        ),
-                                    imageVector =
-                                        if (uiState.searchText.isEmpty()) {
-                                            Icons.Default.Search
-                                        } else {
-                                            Icons.Default.Clear
-                                        },
-                                    contentDescription = null,
-                                )
+                            onClear = {
+                                model.reduce(PostDetailMviModel.Intent.SetSearch(""))
                             },
                         )
                     }
