@@ -1,30 +1,24 @@
 package com.github.diegoberaldin.raccoonforlemmy.ui.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BadgedBox
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
-import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
@@ -42,9 +36,14 @@ internal fun RowScope.TabNavigationItem(
     val tabNavigator = LocalTabNavigator.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
     val unread by navigationCoordinator.inboxUnread.collectAsState()
+    val color =
+        if (tabNavigator.current == tab) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.outline
+        }
 
-    BottomNavigationItem(
-        modifier = Modifier.weight(1f).fillMaxHeight(),
+    NavigationBarItem(
         onClick = {
             tabNavigator.current = tab
             val section =
@@ -59,59 +58,47 @@ internal fun RowScope.TabNavigationItem(
         },
         selected = tabNavigator.current == tab,
         icon = {
-            Column(
-                modifier = Modifier.padding(top = Spacing.xs),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
-            ) {
-                val color =
-                    if (tabNavigator.current == tab) {
-                        MaterialTheme.colorScheme.primary
-                    } else {
-                        MaterialTheme.colorScheme.outline
-                    }
-                val content = @Composable {
-                    Icon(
-                        modifier = Modifier.size(IconSize.m),
-                        painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
-                        contentDescription = null,
-                        tint = color,
-                    )
-                }
-                val inboxTitle = LocalStrings.current.navigationInbox
-                if (tab.options.title == inboxTitle && unread > 0) {
-                    BadgedBox(
-                        badge = {
-                            Badge(
-                                modifier = Modifier.padding(top = Spacing.s),
-                            ) {
-                                Text(
-                                    text =
-                                        if (unread <= 99) {
-                                            unread.toString()
-                                        } else {
-                                            "99+"
-                                        },
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-                            }
-                        },
-                    ) {
-                        content()
-                    }
-                } else {
+            val content = @Composable {
+                Icon(
+                    painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
+                    contentDescription = null,
+                    tint = color,
+                )
+            }
+            val inboxTitle = LocalStrings.current.navigationInbox
+            if (tab.options.title == inboxTitle && unread > 0) {
+                BadgedBox(
+                    badge = {
+                        Badge(
+                            modifier = Modifier.padding(top = Spacing.s),
+                        ) {
+                            Text(
+                                text =
+                                    if (unread <= 99) {
+                                        unread.toString()
+                                    } else {
+                                        "99+"
+                                    },
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                        }
+                    },
+                ) {
                     content()
                 }
-                if (withText) {
-                    Text(
-                        modifier = Modifier,
-                        text = tab.options.title,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = color,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
+            } else {
+                content()
+            }
+        },
+        label = {
+            if (withText) {
+                Text(
+                    modifier = Modifier,
+                    text = tab.options.title,
+                    color = color,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         },
     )

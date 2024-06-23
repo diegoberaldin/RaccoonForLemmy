@@ -1,11 +1,10 @@
 package com.github.diegoberaldin.raccoonforlemmy
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material.BottomAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
@@ -78,13 +77,14 @@ internal object MainScreen : Screen {
             }
 
         LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
-                    is MainScreenMviModel.Effect.UnreadItemsDetected -> {
-                        navigationCoordinator.setInboxUnread(it.value)
+            model.effects
+                .onEach {
+                    when (it) {
+                        is MainScreenMviModel.Effect.UnreadItemsDetected -> {
+                            navigationCoordinator.setInboxUnread(it.value)
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         val scrollConnection =
@@ -114,20 +114,22 @@ internal object MainScreen : Screen {
                 }
             }
 
-            navigationCoordinator.exitMessageVisible.onEach { visible ->
-                if (visible) {
+            navigationCoordinator.exitMessageVisible
+                .onEach { visible ->
+                    if (visible) {
+                        snackbarHostState.showSnackbar(
+                            message = exitMessage,
+                            duration = SnackbarDuration.Short,
+                        )
+                        navigationCoordinator.setExitMessageVisible(false)
+                    }
+                }.launchIn(this)
+            navigationCoordinator.globalMessage
+                .onEach { message ->
                     snackbarHostState.showSnackbar(
-                        message = exitMessage,
-                        duration = SnackbarDuration.Short,
+                        message = message,
                     )
-                    navigationCoordinator.setExitMessageVisible(false)
-                }
-            }.launchIn(this)
-            navigationCoordinator.globalMessage.onEach { message ->
-                snackbarHostState.showSnackbar(
-                    message = message,
-                )
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         TabNavigator(HomeTab) { tabNavigator ->
@@ -139,35 +141,41 @@ internal object MainScreen : Screen {
             }
 
             LaunchedEffect(drawerCoordinator) {
-                drawerCoordinator.events.onEach { evt ->
-                    when (evt) {
-                        is DrawerEvent.ChangeListingType -> {
-                            if (tabNavigator.current == HomeTab) {
-                                notificationCenter.send(NotificationCenterEvent.ChangeFeedType(evt.value, "postList"))
-                            } else {
-                                with(navigationCoordinator) {
-                                    changeTab(HomeTab)
-                                    setCurrentSection(TabNavigationSection.Home)
-                                }
-                                launch {
-                                    // wait for transition to finish
-                                    delay(750)
+                drawerCoordinator.events
+                    .onEach { evt ->
+                        when (evt) {
+                            is DrawerEvent.ChangeListingType -> {
+                                if (tabNavigator.current == HomeTab) {
                                     notificationCenter.send(
-                                        NotificationCenterEvent.ChangeFeedType(evt.value, "postList"),
+                                        NotificationCenterEvent.ChangeFeedType(
+                                            evt.value,
+                                            "postList",
+                                        ),
                                     )
+                                } else {
+                                    with(navigationCoordinator) {
+                                        changeTab(HomeTab)
+                                        setCurrentSection(TabNavigationSection.Home)
+                                    }
+                                    launch {
+                                        // wait for transition to finish
+                                        delay(750)
+                                        notificationCenter.send(
+                                            NotificationCenterEvent.ChangeFeedType(
+                                                evt.value,
+                                                "postList",
+                                            ),
+                                        )
+                                    }
                                 }
                             }
-                        }
 
-                        else -> Unit
-                    }
-                }.launchIn(this)
+                            else -> Unit
+                        }
+                    }.launchIn(this)
             }
 
             Scaffold(
-                content = {
-                    CurrentTab()
-                },
                 snackbarHost = {
                     SnackbarHost(snackbarHostState) { data ->
                         Snackbar(
@@ -195,35 +203,36 @@ internal object MainScreen : Screen {
                         val titleVisible by themeRepository.navItemTitles.collectAsState()
                         var uiFontSizeWorkaround by remember { mutableStateOf(true) }
                         LaunchedEffect(themeRepository) {
-                            themeRepository.uiFontScale.drop(1).onEach {
-                                uiFontSizeWorkaround = false
-                                delay(50)
+                            themeRepository.uiFontScale
+                                .drop(1)
+                                .onEach {
+                                    uiFontSizeWorkaround = false
+                                    delay(50)
                                 uiFontSizeWorkaround = true
                             }.launchIn(this)
                         }
                         if (uiFontSizeWorkaround) {
-                            BottomAppBar(
+                            NavigationBar(
                                 modifier =
                                     Modifier
                                         .onGloballyPositioned {
                                             if (bottomBarHeightPx == 0f) {
                                                 bottomBarHeightPx = it.size.toSize().height
                                             }
-                                        }
-                                        .offset {
+                                        }.offset {
                                             IntOffset(
                                                 x = 0,
                                                 y = -uiState.bottomBarOffsetHeightPx.roundToInt(),
                                             )
                                         },
-                                contentPadding =
-                                    PaddingValues(
-                                        start = 0.dp,
+                                windowInsets =
+                                    WindowInsets(
+                                        left = 0.dp,
                                         top = 0.dp,
-                                        end = 0.dp,
+                                        right = 0.dp,
                                         bottom = bottomNavigationInset,
                                     ),
-                                backgroundColor = MaterialTheme.colorScheme.background,
+                                tonalElevation = 0.dp,
                             ) {
                                 TabNavigationItem(HomeTab, withText = titleVisible)
                                 TabNavigationItem(ExploreTab, withText = titleVisible)
@@ -233,6 +242,9 @@ internal object MainScreen : Screen {
                             }
                         }
                     }
+                },
+                content = {
+                    CurrentTab()
                 },
             )
         }
