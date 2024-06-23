@@ -7,20 +7,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -37,20 +31,18 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SearchField
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.DrawerEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
-import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
@@ -165,7 +157,7 @@ object ModalDrawerContent : Tab {
                         verticalArrangement = Arrangement.spacedBy(Spacing.xxs),
                     ) {
                         item {
-                            TextField(
+                            SearchField(
                                 modifier =
                                     Modifier
                                         .scale(0.95f)
@@ -173,41 +165,13 @@ object ModalDrawerContent : Tab {
                                             horizontal = Spacing.xxs,
                                             vertical = Spacing.xxs,
                                         ).fillMaxWidth(),
-                                label = {
-                                    Text(text = LocalStrings.current.exploreSearchPlaceholder)
-                                },
-                                singleLine = true,
+                                hint = LocalStrings.current.exploreSearchPlaceholder,
                                 value = uiState.searchText,
-                                keyboardOptions =
-                                    KeyboardOptions(
-                                        keyboardType = KeyboardType.Text,
-                                        imeAction = ImeAction.Search,
-                                    ),
                                 onValueChange = { value ->
                                     model.reduce(ModalDrawerMviModel.Intent.SetSearch(value))
                                 },
-                                trailingIcon = {
-                                    Icon(
-                                        modifier =
-                                            Modifier.onClick(
-                                                onClick = {
-                                                    if (uiState.searchText.isNotEmpty()) {
-                                                        model.reduce(
-                                                            ModalDrawerMviModel.Intent.SetSearch(
-                                                                "",
-                                                            ),
-                                                        )
-                                                    }
-                                                },
-                                            ),
-                                        imageVector =
-                                            if (uiState.searchText.isEmpty()) {
-                                                Icons.Default.Search
-                                            } else {
-                                                Icons.Default.Clear
-                                            },
-                                        contentDescription = null,
-                                    )
+                                onClear = {
+                                    model.reduce(ModalDrawerMviModel.Intent.SetSearch(""))
                                 },
                             )
                         }
