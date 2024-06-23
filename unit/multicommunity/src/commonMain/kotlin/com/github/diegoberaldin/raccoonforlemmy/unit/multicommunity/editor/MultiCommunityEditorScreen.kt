@@ -22,8 +22,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,6 +56,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SearchField
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -79,13 +78,14 @@ class MultiCommunityEditorScreen(
         val navigationCoordinator = remember { getNavigationCoordinator() }
 
         LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
-                    MultiCommunityEditorMviModel.Effect.Close -> {
-                        navigationCoordinator.popScreen()
+            model.effects
+                .onEach {
+                    when (it) {
+                        MultiCommunityEditorMviModel.Effect.Close -> {
+                            navigationCoordinator.popScreen()
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -145,8 +145,7 @@ class MultiCommunityEditorScreen(
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .nestedScroll(keyboardScrollConnection),
+                        ).nestedScroll(keyboardScrollConnection),
                 verticalArrangement = Arrangement.spacedBy(Spacing.s),
             ) {
                 TextField(
@@ -203,19 +202,22 @@ class MultiCommunityEditorScreen(
                                             .clip(RoundedCornerShape(iconSize / 2))
                                             .let {
                                                 if (selected) {
-                                                    it.border(
-                                                        width = 1.dp,
-                                                        color = MaterialTheme.colorScheme.primary,
-                                                        shape = CircleShape,
-                                                    ).padding(1.dp).border(
-                                                        width = 1.dp,
-                                                        color = MaterialTheme.colorScheme.onPrimary,
-                                                        shape = CircleShape,
-                                                    ).padding(1.dp).border(
-                                                        width = 1.dp,
-                                                        color = MaterialTheme.colorScheme.primary,
-                                                        shape = CircleShape,
-                                                    )
+                                                    it
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme.colorScheme.primary,
+                                                            shape = CircleShape,
+                                                        ).padding(1.dp)
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme.colorScheme.onPrimary,
+                                                            shape = CircleShape,
+                                                        ).padding(1.dp)
+                                                        .border(
+                                                            width = 1.dp,
+                                                            color = MaterialTheme.colorScheme.primary,
+                                                            shape = CircleShape,
+                                                        )
                                                 } else {
                                                     it
                                                 }
@@ -246,19 +248,22 @@ class MultiCommunityEditorScreen(
                                             shape = RoundedCornerShape(iconSize / 2),
                                         ).let {
                                             if (selected) {
-                                                it.border(
-                                                    width = 1.dp,
-                                                    color = MaterialTheme.colorScheme.primary,
-                                                    shape = CircleShape,
-                                                ).padding(1.dp).border(
-                                                    width = 1.dp,
-                                                    color = MaterialTheme.colorScheme.onPrimary,
-                                                    shape = CircleShape,
-                                                ).padding(1.dp).border(
-                                                    width = 1.dp,
-                                                    color = MaterialTheme.colorScheme.primary,
-                                                    shape = CircleShape,
-                                                )
+                                                it
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.primary,
+                                                        shape = CircleShape,
+                                                    ).padding(1.dp)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.onPrimary,
+                                                        shape = CircleShape,
+                                                    ).padding(1.dp)
+                                                    .border(
+                                                        width = 1.dp,
+                                                        color = MaterialTheme.colorScheme.primary,
+                                                        shape = CircleShape,
+                                                    )
                                             } else {
                                                 it
                                             }
@@ -275,7 +280,10 @@ class MultiCommunityEditorScreen(
                             ) {
                                 Text(
                                     text =
-                                        uiState.name.firstOrNull()?.toString().orEmpty()
+                                        uiState.name
+                                            .firstOrNull()
+                                            ?.toString()
+                                            .orEmpty()
                                             .uppercase(),
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = MaterialTheme.colorScheme.onPrimary,
@@ -297,47 +305,15 @@ class MultiCommunityEditorScreen(
                     )
 
                     // search field
-                    TextField(
+                    SearchField(
                         modifier = Modifier.fillMaxWidth(),
-                        colors =
-                            TextFieldDefaults.colors(
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent,
-                                disabledContainerColor = Color.Transparent,
-                            ),
-                        label = {
-                            Text(text = LocalStrings.current.exploreSearchPlaceholder)
-                        },
-                        singleLine = true,
+                        hint = LocalStrings.current.exploreSearchPlaceholder,
                         value = uiState.searchText,
-                        keyboardOptions =
-                            KeyboardOptions(
-                                keyboardType = KeyboardType.Text,
-                                imeAction = ImeAction.Search,
-                            ),
                         onValueChange = { value ->
                             model.reduce(MultiCommunityEditorMviModel.Intent.SetSearch(value))
                         },
-                        trailingIcon = {
-                            Icon(
-                                modifier =
-                                    Modifier.onClick(
-                                        onClick = {
-                                            if (uiState.searchText.isNotEmpty()) {
-                                                model.reduce(
-                                                    MultiCommunityEditorMviModel.Intent.SetSearch(""),
-                                                )
-                                            }
-                                        },
-                                    ),
-                                imageVector =
-                                    if (uiState.searchText.isEmpty()) {
-                                        Icons.Default.Search
-                                    } else {
-                                        Icons.Default.Clear
-                                    },
-                                contentDescription = null,
-                            )
+                        onClear = {
+                            model.reduce(MultiCommunityEditorMviModel.Intent.SetSearch(""))
                         },
                     )
                 }
