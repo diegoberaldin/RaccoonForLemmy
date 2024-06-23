@@ -17,14 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -39,7 +36,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -59,8 +55,6 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -68,6 +62,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenu
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.FloatingActionButtonMenuItem
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SearchField
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItem
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.CommunityItemPlaceholder
@@ -122,21 +117,22 @@ class ManageSubscriptionsScreen : Screen {
         val successMessage = LocalStrings.current.messageOperationSuccessful
 
         LaunchedEffect(model) {
-            model.effects.onEach { event ->
-                when (event) {
-                    ManageSubscriptionsMviModel.Effect.BackToTop -> {
-                        runCatching {
-                            lazyListState.scrollToItem(0)
-                            topAppBarState.heightOffset = 0f
-                            topAppBarState.contentOffset = 0f
+            model.effects
+                .onEach { event ->
+                    when (event) {
+                        ManageSubscriptionsMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
+                            }
+                        }
+
+                        ManageSubscriptionsMviModel.Effect.Success -> {
+                            snackbarHostState.showSnackbar(successMessage)
                         }
                     }
-
-                    ManageSubscriptionsMviModel.Effect.Success -> {
-                        snackbarHostState.showSnackbar(successMessage)
-                    }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -215,44 +211,20 @@ class ManageSubscriptionsScreen : Screen {
                         top = padding.calculateTopPadding(),
                     ),
             ) {
-                TextField(
+                SearchField(
                     modifier =
                         Modifier
                             .padding(
                                 horizontal = Spacing.s,
                                 vertical = Spacing.s,
                             ).fillMaxWidth(),
-                    label = {
-                        Text(text = LocalStrings.current.exploreSearchPlaceholder)
-                    },
-                    singleLine = true,
+                    hint = LocalStrings.current.exploreSearchPlaceholder,
                     value = uiState.searchText,
-                    keyboardOptions =
-                        KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Search,
-                        ),
                     onValueChange = { value ->
                         model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(value))
                     },
-                    trailingIcon = {
-                        Icon(
-                            modifier =
-                                Modifier.onClick(
-                                    onClick = {
-                                        if (uiState.searchText.isNotEmpty()) {
-                                            model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(""))
-                                        }
-                                    },
-                                ),
-                            imageVector =
-                                if (uiState.searchText.isEmpty()) {
-                                    Icons.Default.Search
-                                } else {
-                                    Icons.Default.Clear
-                                },
-                            contentDescription = null,
-                        )
+                    onClear = {
+                        model.reduce(ManageSubscriptionsMviModel.Intent.SetSearch(""))
                     },
                 )
 
@@ -343,8 +315,10 @@ class ManageSubscriptionsScreen : Screen {
                         items(uiState.multiCommunities) { community ->
                             MultiCommunityItem(
                                 modifier =
-                                    Modifier.fillMaxWidth()
-                                        .background(MaterialTheme.colorScheme.background).onClick(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .background(MaterialTheme.colorScheme.background)
+                                        .onClick(
                                             onClick = {
                                                 community.id?.also {
                                                     navigatorCoordinator.pushScreen(
@@ -409,7 +383,8 @@ class ManageSubscriptionsScreen : Screen {
                         items(uiState.communities) { community ->
                             CommunityItem(
                                 modifier =
-                                    Modifier.fillMaxWidth()
+                                    Modifier
+                                        .fillMaxWidth()
                                         .background(MaterialTheme.colorScheme.background)
                                         .onClick(
                                             onClick = {
