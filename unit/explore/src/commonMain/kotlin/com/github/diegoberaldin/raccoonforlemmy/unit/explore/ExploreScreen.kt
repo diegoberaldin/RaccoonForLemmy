@@ -13,15 +13,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.ArrowCircleDown
 import androidx.compose.material.icons.filled.ArrowCircleUp
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -35,7 +32,6 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -52,14 +48,13 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.data.PostLayout
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.di.getThemeRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SearchField
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeAction
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.SwipeActionCard
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.detailopener.api.getDetailOpener
@@ -151,32 +146,34 @@ class ExploreScreen(
             }
 
         LaunchedEffect(navigationCoordinator) {
-            navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                runCatching {
-                    if (section == TabNavigationSection.Explore) {
-                        lazyListState.scrollToItem(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
-                    }
-                }
-            }.launchIn(this)
-        }
-        LaunchedEffect(model) {
-            model.effects.onEach {
-                when (it) {
-                    ExploreMviModel.Effect.BackToTop -> {
-                        runCatching {
+            navigationCoordinator.onDoubleTabSelection
+                .onEach { section ->
+                    runCatching {
+                        if (section == TabNavigationSection.Explore) {
                             lazyListState.scrollToItem(0)
                             topAppBarState.heightOffset = 0f
                             topAppBarState.contentOffset = 0f
                         }
                     }
+                }.launchIn(this)
+        }
+        LaunchedEffect(model) {
+            model.effects
+                .onEach {
+                    when (it) {
+                        ExploreMviModel.Effect.BackToTop -> {
+                            runCatching {
+                                lazyListState.scrollToItem(0)
+                                topAppBarState.heightOffset = 0f
+                                topAppBarState.contentOffset = 0f
+                            }
+                        }
 
-                    ExploreMviModel.Effect.OperationFailure -> {
-                        snackbarHostState.showSnackbar(errorMessage)
+                        ExploreMviModel.Effect.OperationFailure -> {
+                            snackbarHostState.showSnackbar(errorMessage)
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -244,38 +241,20 @@ class ExploreScreen(
                     ),
                 verticalArrangement = Arrangement.spacedBy(Spacing.xs),
             ) {
-                TextField(
+                SearchField(
                     modifier =
-                        Modifier.padding(
-                            horizontal = Spacing.s,
-                            vertical = Spacing.s,
-                        ).fillMaxWidth(),
-                    label = {
-                        Text(text = LocalStrings.current.exploreSearchPlaceholder)
-                    },
-                    singleLine = true,
+                        Modifier
+                            .padding(
+                                horizontal = Spacing.s,
+                                vertical = Spacing.s,
+                            ).fillMaxWidth(),
+                    hint = LocalStrings.current.exploreSearchPlaceholder,
                     value = uiState.searchText,
-                    keyboardOptions =
-                        KeyboardOptions(
-                            keyboardType = KeyboardType.Text,
-                            imeAction = ImeAction.Search,
-                        ),
                     onValueChange = { value ->
                         model.reduce(ExploreMviModel.Intent.SetSearch(value))
                     },
-                    trailingIcon = {
-                        Icon(
-                            modifier =
-                                Modifier.onClick(
-                                    onClick = {
-                                        if (uiState.searchText.isNotEmpty()) {
-                                            model.reduce(ExploreMviModel.Intent.SetSearch(""))
-                                        }
-                                    },
-                                ),
-                            imageVector = if (uiState.searchText.isEmpty()) Icons.Default.Search else Icons.Default.Clear,
-                            contentDescription = null,
-                        )
+                    onClear = {
+                        model.reduce(ExploreMviModel.Intent.SetSearch(""))
                     },
                 )
 
@@ -294,14 +273,14 @@ class ExploreScreen(
                                 } else {
                                     Modifier
                                 },
-                            )
-                            .then(
+                            ).then(
                                 if (settings.hideNavigationBarWhileScrolling) {
                                     Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                 } else {
                                     Modifier
                                 },
-                            ).nestedScroll(keyboardScrollConnection).pullRefresh(pullRefreshState),
+                            ).nestedScroll(keyboardScrollConnection)
+                            .pullRefresh(pullRefreshState),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
@@ -551,7 +530,10 @@ class ExploreScreen(
                                                         navigationCoordinator.pushScreen(
                                                             ZoomableImageScreen(
                                                                 url = url,
-                                                                source = result.model.community?.readableHandle.orEmpty(),
+                                                                source =
+                                                                    result.model.community
+                                                                        ?.readableHandle
+                                                                        .orEmpty(),
                                                             ),
                                                         )
                                                     },
