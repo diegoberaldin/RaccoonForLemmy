@@ -14,14 +14,20 @@ internal class DefaultAccountRepository(
 
     override suspend fun getAll(): List<AccountModel> =
         withContext(Dispatchers.IO) {
-            db.accountsQueries.getAll().executeAsList().map { it.toModel() }
+            db.accountsQueries
+                .getAll()
+                .executeAsList()
+                .map { it.toModel() }
         }
 
     override suspend fun getBy(
         username: String,
         instance: String,
     ) = withContext(Dispatchers.IO) {
-        db.accountsQueries.getBy(username, instance).executeAsOneOrNull()?.toModel()
+        db.accountsQueries
+            .getBy(username.lowercase(), instance.lowercase())
+            .executeAsOneOrNull()
+            ?.toModel()
     }
 
     override suspend fun createAccount(account: AccountModel) =
@@ -33,7 +39,10 @@ internal class DefaultAccountRepository(
                 avatar = account.avatar,
             )
             val entity =
-                db.accountsQueries.getAll().executeAsList().firstOrNull { it.jwt == account.jwt }
+                db.accountsQueries
+                    .getAll()
+                    .executeAsList()
+                    .firstOrNull { it.jwt == account.jwt }
             entity?.id ?: 0
         }
 

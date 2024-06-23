@@ -27,7 +27,7 @@ class DefaultAccountRepositoryTest {
         mockk<AccountsQueries>(relaxUnitFun = true) {
             every { getAll() } returns query
             every { getActive() } returns query
-            every { getBy(username = any(), instance = any()) } returns query
+            every { getBy(any(), any()) } returns query
             every { getActive() } returns query
         }
     private val provider =

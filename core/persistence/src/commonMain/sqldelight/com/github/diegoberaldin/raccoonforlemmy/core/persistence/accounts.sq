@@ -37,7 +37,7 @@ FROM AccountEntity;
 getBy:
 SELECT *
 FROM AccountEntity
-WHERE username = ? AND instance = ?;
+WHERE username = LOWER(?) AND instance = LOWER(?);
 
 update:
 UPDATE AccountEntity
