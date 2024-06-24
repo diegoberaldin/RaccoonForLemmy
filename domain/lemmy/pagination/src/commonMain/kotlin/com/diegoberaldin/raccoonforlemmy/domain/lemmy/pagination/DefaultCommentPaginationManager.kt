@@ -70,13 +70,8 @@ internal class DefaultCommentPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
-                            .let {
-                                if (specification.includeDeleted) {
-                                    it
-                                } else {
-                                    it.filterDeleted()
-                                }
-                            }.also {
+                            .filterDeleted(includeCurrentCreator = specification.includeDeleted)
+                            .also {
                                 // deleted comments should not be counted
                                 canFetchMore = it.isNotEmpty()
                             }
@@ -99,13 +94,8 @@ internal class DefaultCommentPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
-                            .let {
-                                if (specification.includeDeleted) {
-                                    it
-                                } else {
-                                    it.filterDeleted()
-                                }
-                            }.also {
+                            .filterDeleted(includeCurrentCreator = specification.includeDeleted)
+                            .also {
                                 canFetchMore = it.isNotEmpty()
                             }
                     }
@@ -125,7 +115,7 @@ internal class DefaultCommentPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
-                            .filterDeleted()
+                            .filterDeleted(includeCurrentCreator = true)
                             .also {
                                 canFetchMore = it.isNotEmpty()
                             }
@@ -164,10 +154,12 @@ internal class DefaultCommentPaginationManager(
             history.none { c2 -> c2.id == c1.id }
         }
 
-    private fun List<CommentModel>.filterDeleted(): List<CommentModel> =
-        filterNot { comment ->
-            comment.deleted
+    private fun List<CommentModel>.filterDeleted(includeCurrentCreator: Boolean = false): List<CommentModel> {
+        val currentUserId = identityRepository.cachedUser?.id
+        return filter { comment ->
+            !comment.deleted || (includeCurrentCreator && comment.creator?.id == currentUserId)
         }
+    }
 
     private fun handleCommentUpdate(comment: CommentModel) {
         val index = history.indexOfFirst { it.id == comment.id }.takeIf { it >= 0 } ?: return
