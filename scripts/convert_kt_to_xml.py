@@ -45,7 +45,7 @@ def escape(str_xml):
 
 def write_l10n_to_file(messages, output_path):
     with open(output_path, "w") as file_handle:
-        file_handle.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+        file_handle.write("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
         file_handle.write("<resources>\n")
         for pair in messages:
             sanitizedValue = escape(pair["value"])
