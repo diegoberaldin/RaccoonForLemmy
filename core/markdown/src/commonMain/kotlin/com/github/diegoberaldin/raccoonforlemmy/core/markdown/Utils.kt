@@ -25,7 +25,6 @@ internal fun String.sanitize(): String =
         .expandLemmyHandles()
         .dollarSignFixUp()
         .unescapeMarkdown()
-        .emptyLinkFixup()
         .imageBeforeFixup()
         .imageAfterFixup()
 
@@ -90,15 +89,12 @@ private fun String.dollarSignFixUp(): String =
     // due to a bug in how the renderer builds annotated strings, replace with full width dollar sign
     replace("$", "\uff04")
 
-private fun String.emptyLinkFixup(): String = replace("[]()", "")
-
 private fun String.imageBeforeFixup(): String =
 // due to a bug in the renderer, images after a new line must be on a paragraph on their own,
     // so an additional newline must be inserted (they are nor inline nor a block otherwise)
     ImageRegex.imageNotAfter2Newlines.replace(this, "$1\n\n$2")
 
-private fun String.imageAfterFixup(): String =
-    ImageRegex.imageAddNewLineAfter.replace(this, "$1$2\n\n$3")
+private fun String.imageAfterFixup(): String = ImageRegex.imageAddNewLineAfter.replace(this, "$1$2\n\n$3")
 
 private fun String.unescapeMarkdown(): String =
     // due to a bug in the library, markdown escapes are NOT recognized, quick workaround to replace them with similar characters
