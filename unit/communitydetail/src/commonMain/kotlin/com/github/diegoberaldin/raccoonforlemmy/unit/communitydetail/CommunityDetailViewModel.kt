@@ -384,7 +384,6 @@ class CommunityDetailViewModel(
                 otherInstance = otherInstance,
                 query = currentState.searchText.takeIf { currentState.searching },
                 includeNsfw = settingsRepository.currentSettings.value.includeNsfw,
-                includeDeleted = true,
             ),
         )
         updateState {

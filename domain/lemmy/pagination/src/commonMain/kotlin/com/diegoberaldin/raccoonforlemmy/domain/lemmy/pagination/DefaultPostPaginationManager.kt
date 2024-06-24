@@ -124,13 +124,7 @@ internal class DefaultPostPaginationManager(
                             .orEmpty()
                             .deduplicate()
                             .filterNsfw(specification.includeNsfw)
-                            .let {
-                                if (specification.includeDeleted) {
-                                    it
-                                } else {
-                                    it.filterDeleted()
-                                }
-                            }
+                            .filterDeleted(includeCurrentCreator = true)
                     }
 
                     is PostPaginationSpecification.MultiCommunity -> {
@@ -143,7 +137,7 @@ internal class DefaultPostPaginationManager(
                         itemList
                             .deduplicate()
                             .filterNsfw(specification.includeNsfw)
-                            .filterDeleted()
+                            .filterDeleted(includeCurrentCreator = true)
                     }
 
                     is PostPaginationSpecification.User -> {
@@ -164,13 +158,7 @@ internal class DefaultPostPaginationManager(
                             .orEmpty()
                             .deduplicate()
                             .filterNsfw(specification.includeNsfw)
-                            .let {
-                                if (specification.includeDeleted) {
-                                    it
-                                } else {
-                                    it.filterDeleted()
-                                }
-                            }
+                            .filterDeleted(includeCurrentCreator = specification.includeDeleted)
                     }
 
                     is PostPaginationSpecification.Votes -> {
@@ -192,6 +180,7 @@ internal class DefaultPostPaginationManager(
                         itemList
                             .orEmpty()
                             .deduplicate()
+                            .filterDeleted(includeCurrentCreator = true)
                     }
 
                     is PostPaginationSpecification.Saved -> {
@@ -270,10 +259,12 @@ internal class DefaultPostPaginationManager(
             filter { post -> !post.nsfw }
         }
 
-    private fun List<PostModel>.filterDeleted(): List<PostModel> =
-        filterNot { post ->
-            post.deleted
+    private fun List<PostModel>.filterDeleted(includeCurrentCreator: Boolean = false): List<PostModel> {
+        val currentUserId = identityRepository.cachedUser?.id
+        return filter { post ->
+            !post.deleted || (includeCurrentCreator && post.creator?.id == currentUserId)
         }
+    }
 
     private fun handlePostUpdate(post: PostModel) {
         val index = history.indexOfFirst { it.id == post.id }.takeIf { it >= 0 } ?: return
