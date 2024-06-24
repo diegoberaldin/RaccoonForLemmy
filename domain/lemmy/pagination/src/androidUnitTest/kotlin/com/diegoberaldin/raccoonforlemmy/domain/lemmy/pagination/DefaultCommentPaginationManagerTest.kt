@@ -32,13 +32,15 @@ class DefaultCommentPaginationManagerTest {
     private val identityRepository: IdentityRepository =
         mockk {
             every { authToken } returns MutableStateFlow(AUTH_TOKEN)
+            every { cachedUser } returns UserModel(id = 1)
         }
     private val commentRepository: CommentRepository = mockk(relaxUnitFun = true)
     private val userRepository: UserRepository = mockk(relaxUnitFun = true)
-    private val notificationCenter: NotificationCenter = mockk(relaxUnitFun = true) {
-        val slot = slot<KClass<NotificationCenterEvent>>()
-        every { subscribe(capture(slot)) } answers { MutableSharedFlow() }
-    }
+    private val notificationCenter: NotificationCenter =
+        mockk(relaxUnitFun = true) {
+            val slot = slot<KClass<NotificationCenterEvent>>()
+            every { subscribe(capture(slot)) } answers { MutableSharedFlow() }
+        }
 
     private val sut =
         DefaultCommentPaginationManager(

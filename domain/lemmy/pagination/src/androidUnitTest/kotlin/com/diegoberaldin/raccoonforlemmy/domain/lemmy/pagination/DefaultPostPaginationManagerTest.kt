@@ -34,15 +34,17 @@ class DefaultPostPaginationManagerTest {
     private val identityRepository: IdentityRepository =
         mockk {
             every { authToken } returns MutableStateFlow(AUTH_TOKEN)
+            every { cachedUser } returns UserModel(id = 1)
         }
     private val postRepository: PostRepository = mockk(relaxUnitFun = true)
     private val communityRepository: CommunityRepository = mockk(relaxUnitFun = true)
     private val userRepository: UserRepository = mockk(relaxUnitFun = true)
     private val multiCommunityPaginator: MultiCommunityPaginator = mockk(relaxUnitFun = true)
-    private val notificationCenter: NotificationCenter = mockk(relaxUnitFun = true) {
-        val slot = slot<KClass<NotificationCenterEvent>>()
-        every { subscribe(capture(slot)) } answers { MutableSharedFlow() }
-    }
+    private val notificationCenter: NotificationCenter =
+        mockk(relaxUnitFun = true) {
+            val slot = slot<KClass<NotificationCenterEvent>>()
+            every { subscribe(capture(slot)) } answers { MutableSharedFlow() }
+        }
 
     private val sut =
         DefaultPostPaginationManager(
@@ -216,7 +218,8 @@ class DefaultPostPaginationManagerTest {
             } returns emptyList()
             every { multiCommunityPaginator.canFetchMore } returns false
             val communityIds = listOf(1L)
-            val specification = PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
+            val specification =
+                PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
             sut.reset(specification)
 
             val items = sut.loadNextPage()
@@ -243,7 +246,8 @@ class DefaultPostPaginationManagerTest {
             }
             every { multiCommunityPaginator.canFetchMore } returns true
             val communityIds = listOf(1L)
-            val specification = PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
+            val specification =
+                PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
             sut.reset(specification)
 
             val items = sut.loadNextPage()
@@ -282,7 +286,8 @@ class DefaultPostPaginationManagerTest {
                 invokeCount == 0
             }
             val communityIds = listOf(1L)
-            val specification = PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
+            val specification =
+                PostPaginationSpecification.MultiCommunity(communityIds = communityIds)
             sut.reset(specification)
 
             sut.loadNextPage()
@@ -352,7 +357,8 @@ class DefaultPostPaginationManagerTest {
             } returns emptyList()
             val communityId = 1L
             val searchText = "query"
-            val specification = PostPaginationSpecification.Community(id = communityId, query = searchText)
+            val specification =
+                PostPaginationSpecification.Community(id = communityId, query = searchText)
             sut.reset(specification)
 
             val items = sut.loadNextPage()
@@ -444,7 +450,8 @@ class DefaultPostPaginationManagerTest {
             }
             val communityId = 1L
             val searchText = "query"
-            val specification = PostPaginationSpecification.Community(id = communityId, query = searchText)
+            val specification =
+                PostPaginationSpecification.Community(id = communityId, query = searchText)
             sut.reset(specification)
 
             val items = sut.loadNextPage()
@@ -547,7 +554,8 @@ class DefaultPostPaginationManagerTest {
             }
             val communityId = 1L
             val searchText = "query"
-            val specification = PostPaginationSpecification.Community(id = communityId, query = searchText)
+            val specification =
+                PostPaginationSpecification.Community(id = communityId, query = searchText)
             sut.reset(specification)
 
             sut.loadNextPage()
