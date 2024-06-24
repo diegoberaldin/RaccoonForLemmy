@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResult
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
@@ -47,10 +48,10 @@ class ExploreViewModel(
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
-) : ExploreMviModel,
-    DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
+) : DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
         initialState = ExploreMviModel.UiState(),
-    ) {
+    ),
+    ExploreMviModel {
     private var currentPage: Int = 1
     private var searchEventChannel = Channel<Unit>()
     private val isOnOtherInstance: Boolean get() = otherInstance.isNotEmpty()
@@ -71,86 +72,109 @@ class ExploreViewModel(
                     instance = apiConfigRepository.instance.value,
                 )
             }
-            identityRepository.isLogged.onEach { isLogged ->
-                updateState {
-                    it.copy(isLogged = isLogged ?: false)
-                }
-                updateAvailableSortTypes()
-            }.launchIn(this)
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
-                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
-                        showScores = settings.showScores,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Logout::class).onEach {
-                handleLogout()
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommentUpdated::class)
+            identityRepository.isLogged
+                .onEach { isLogged ->
+                    updateState {
+                        it.copy(isLogged = isLogged ?: false)
+                    }
+                    updateAvailableSortTypes()
+                }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                            actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                            showScores = settings.showScores,
+                        )
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Logout::class)
+                .onEach {
+                    handleLogout()
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommentUpdated::class)
                 .onEach { evt ->
                     handleCommentUpdate(evt.model)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeFeedType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeFeedType::class)
                 .onEach { evt ->
                     if (evt.screenKey == notificationEventKey) {
                         changeListingType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == notificationEventKey) {
                         changeSortType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ResetExplore::class).onEach {
-                onFirstLoad()
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSearchResultType::class).onEach { evt ->
-                if (evt.screenKey == notificationEventKey) {
-                    changeResultType(evt.value)
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class).onEach { evt ->
-                handleCommunityUpdate(evt.value)
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ResetExplore::class)
+                .onEach {
+                    onFirstLoad()
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSearchResultType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == notificationEventKey) {
+                        changeResultType(evt.value)
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CommunitySubscriptionChanged::class)
+                .onEach { evt ->
+                    handleCommunityUpdate(evt.value)
+                }.launchIn(this)
 
-            searchEventChannel.receiveAsFlow().debounce(1000).onEach {
-                emitEffect(ExploreMviModel.Effect.BackToTop)
-                refresh()
-            }.launchIn(this)
+            searchEventChannel
+                .receiveAsFlow()
+                .debounce(1000)
+                .onEach {
+                    emitEffect(ExploreMviModel.Effect.BackToTop)
+                    refresh()
+                }.launchIn(this)
         }
 
-        onFirstLoad()
+        if (uiState.value.initial) {
+            onFirstLoad()
+        }
     }
 
     private fun onFirstLoad() {
         screenModelScope.launch {
             val settings = settingsRepository.currentSettings.value
-            val listingType = if (isOnOtherInstance) ListingType.Local else settings.defaultExploreType.toListingType()
+            val listingType =
+                if (isOnOtherInstance) ListingType.Local else settings.defaultExploreType.toListingType()
             val sortType = settings.defaultPostSortType.toSortType()
             updateState {
                 it.copy(
                     listingType = listingType,
                     sortType = sortType,
+                    resultType = settings.defaultExploreResultType.toSearchResultType(),
                 )
             }
             val auth = identityRepository.authToken.value
@@ -186,78 +210,84 @@ class ExploreViewModel(
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Post && it.model.id == intent.id
-                }?.also { result ->
-                    toggleDownVote(
-                        post = (result as SearchResult.Post).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Post && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleDownVote(
+                            post = (result as SearchResult.Post).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.SavePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Post && it.model.id == intent.id
-                }?.also { result ->
-                    toggleSave(
-                        post = (result as SearchResult.Post).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Post && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleSave(
+                            post = (result as SearchResult.Post).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.UpVotePost -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Post && it.model.id == intent.id
-                }?.also { result ->
-                    toggleUpVote(
-                        post = (result as SearchResult.Post).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Post && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleUpVote(
+                            post = (result as SearchResult.Post).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.DownVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Comment && it.model.id == intent.id
-                }?.also { result ->
-                    toggleDownVoteComment(
-                        comment = (result as SearchResult.Comment).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Comment && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleDownVoteComment(
+                            comment = (result as SearchResult.Comment).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.SaveComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Comment && it.model.id == intent.id
-                }?.also { result ->
-                    toggleSaveComment(
-                        comment = (result as SearchResult.Comment).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Comment && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleSaveComment(
+                            comment = (result as SearchResult.Comment).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.UpVoteComment -> {
                 if (intent.feedback) {
                     hapticFeedback.vibrate()
                 }
-                uiState.value.results.firstOrNull {
-                    it is SearchResult.Comment && it.model.id == intent.id
-                }?.also { result ->
-                    toggleUpVoteComment(
-                        comment = (result as SearchResult.Comment).model,
-                    )
-                }
+                uiState.value.results
+                    .firstOrNull {
+                        it is SearchResult.Comment && it.model.id == intent.id
+                    }?.also { result ->
+                        toggleUpVoteComment(
+                            comment = (result as SearchResult.Comment).model,
+                        )
+                    }
             }
 
             is ExploreMviModel.Intent.ToggleSubscription -> toggleSubscription(intent.communityId)
@@ -354,60 +384,65 @@ class ExploreViewModel(
             currentPage++
         }
         val itemsToAdd =
-            itemList.filter { item ->
-                if (settings.includeNsfw) {
-                    true
-                } else {
-                    isSafeForWork(item)
-                }
-            }.let {
-                when (resultType) {
-                    SearchResultType.Communities -> {
-                        if (additionalResolvedCommunity != null &&
-                            it.none {
-                                    r ->
-                                r is SearchResult.Community && r.model.id == additionalResolvedCommunity.id
+            itemList
+                .filter { item ->
+                    if (settings.includeNsfw) {
+                        true
+                    } else {
+                        isSafeForWork(item)
+                    }
+                }.let {
+                    when (resultType) {
+                        SearchResultType.Communities -> {
+                            if (additionalResolvedCommunity != null &&
+                                it.none { r ->
+                                    r is SearchResult.Community && r.model.id == additionalResolvedCommunity.id
+                                }
+                            ) {
+                                it + SearchResult.Community(additionalResolvedCommunity)
+                            } else {
+                                it
                             }
-                        ) {
-                            it + SearchResult.Community(additionalResolvedCommunity)
-                        } else {
-                            it
                         }
-                    }
 
-                    SearchResultType.Users -> {
-                        if (additionalResolvedUser != null &&
-                            it.none {
-                                    r ->
-                                r is SearchResult.User && r.model.id == additionalResolvedUser.id
+                        SearchResultType.Users -> {
+                            if (additionalResolvedUser != null &&
+                                it.none { r ->
+                                    r is SearchResult.User && r.model.id == additionalResolvedUser.id
+                                }
+                            ) {
+                                it + SearchResult.User(additionalResolvedUser)
+                            } else {
+                                it
                             }
-                        ) {
-                            it + SearchResult.User(additionalResolvedUser)
-                        } else {
-                            it
                         }
-                    }
 
-                    SearchResultType.Posts -> {
-                        if (settings.searchPostTitleOnly && searchText.isNotEmpty()) {
-                            // apply the more restrictive title-only search
-                            it.filterIsInstance<SearchResult.Post>()
-                                .filter { r -> r.model.title.contains(other = searchText, ignoreCase = true) }
-                        } else {
-                            it
+                        SearchResultType.Posts -> {
+                            if (settings.searchPostTitleOnly && searchText.isNotEmpty()) {
+                                // apply the more restrictive title-only search
+                                it
+                                    .filterIsInstance<SearchResult.Post>()
+                                    .filter { r ->
+                                        r.model.title.contains(
+                                            other = searchText,
+                                            ignoreCase = true,
+                                        )
+                                    }
+                            } else {
+                                it
+                            }
                         }
-                    }
 
-                    else -> it
+                        else -> it
+                    }
+                }.filter { item ->
+                    if (refreshing) {
+                        true
+                    } else {
+                        // prevents accidental duplication
+                        currentState.results.none { other -> getItemKey(item) == getItemKey(other) }
+                    }
                 }
-            }.filter { item ->
-                if (refreshing) {
-                    true
-                } else {
-                    // prevents accidental duplication
-                    currentState.results.none { other -> getItemKey(item) == getItemKey(other) }
-                }
-            }
         updateState {
             val newItems =
                 if (refreshing) {
@@ -760,9 +795,10 @@ class ExploreViewModel(
 
     private fun toggleSubscription(communityId: Long) {
         val community =
-            uiState.value.results.firstOrNull {
-                (it as? SearchResult.Community)?.model?.id == communityId
-            }.let { (it as? SearchResult.Community)?.model } ?: return
+            uiState.value.results
+                .firstOrNull {
+                    (it as? SearchResult.Community)?.model?.id == communityId
+                }.let { (it as? SearchResult.Community)?.model } ?: return
         screenModelScope.launch {
             val newValue =
                 when (community.subscribed) {
