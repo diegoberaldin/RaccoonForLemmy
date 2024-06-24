@@ -18,11 +18,11 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -41,8 +41,6 @@ class ManageSubscriptionsViewModel(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ),
     ManageSubscriptionsMviModel {
-    private val searchEventChannel = Channel<Unit>()
-
     init {
         screenModelScope.launch {
             settingsRepository.currentSettings
@@ -65,8 +63,9 @@ class ManageSubscriptionsViewModel(
                     handleCommunityUpdate(evt.value)
                 }.launchIn(this)
 
-            searchEventChannel
-                .receiveAsFlow()
+            uiState
+                .map { it.searchText }
+                .distinctUntilChanged()
                 .debounce(1000)
                 .onEach {
                     emitEffect(ManageSubscriptionsMviModel.Effect.BackToTop)
@@ -235,7 +234,6 @@ class ManageSubscriptionsViewModel(
     private fun updateSearchText(value: String) {
         screenModelScope.launch {
             updateState { it.copy(searchText = value) }
-            searchEventChannel.send(Unit)
         }
     }
 

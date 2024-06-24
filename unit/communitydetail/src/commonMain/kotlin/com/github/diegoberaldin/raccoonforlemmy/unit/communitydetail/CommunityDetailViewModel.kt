@@ -35,12 +35,12 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyIte
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -72,7 +72,6 @@ class CommunityDetailViewModel(
     ),
     CommunityDetailMviModel {
     private var hideReadPosts = false
-    private val searchEventChannel = Channel<Unit>()
 
     init {
         screenModelScope.launch {
@@ -179,8 +178,9 @@ class CommunityDetailViewModel(
                     emitEffect(CommunityDetailMviModel.Effect.TriggerCopy(it.value))
                 }.launchIn(this)
 
-            searchEventChannel
-                .receiveAsFlow()
+            uiState
+                .map { it.searchText }
+                .distinctUntilChanged()
                 .debounce(1_000)
                 .onEach {
                     updateState { it.copy(loading = false) }
@@ -811,7 +811,6 @@ class CommunityDetailViewModel(
     private fun updateSearchText(value: String) {
         screenModelScope.launch {
             updateState { it.copy(searchText = value) }
-            searchEventChannel.send(Unit)
         }
     }
 

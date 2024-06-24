@@ -21,20 +21,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.yield
 
+@OptIn(FlowPreview::class)
 class ModalDrawerViewModel(
     private val identityRepository: IdentityRepository,
     private val communityRepository: CommunityRepository,
@@ -51,8 +52,6 @@ class ModalDrawerViewModel(
         initialState = ModalDrawerMviModel.UiState(),
     ),
     ModalDrawerMviModel {
-    private val searchEventChannel = Channel<Unit>()
-
     init {
         screenModelScope.launch {
             apiConfigurationRepository.instance
@@ -99,9 +98,9 @@ class ModalDrawerViewModel(
                     }
                 }.launchIn(this)
 
-            @OptIn(FlowPreview::class)
-            searchEventChannel
-                .receiveAsFlow()
+            uiState
+                .map { it.searchText }
+                .distinctUntilChanged()
                 .debounce(1000)
                 .onEach {
                     refresh()
@@ -123,7 +122,6 @@ class ModalDrawerViewModel(
             is ModalDrawerMviModel.Intent.SetSearch ->
                 screenModelScope.launch {
                     updateState { it.copy(searchText = intent.value) }
-                    searchEventChannel.send(Unit)
                 }
 
             is ModalDrawerMviModel.Intent.ToggleFavorite -> toggleFavorite(intent.id)

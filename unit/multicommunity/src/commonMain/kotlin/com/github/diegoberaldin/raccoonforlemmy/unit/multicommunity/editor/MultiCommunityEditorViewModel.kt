@@ -12,11 +12,11 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Mult
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -31,8 +31,6 @@ class MultiCommunityEditorViewModel(
         initialState = MultiCommunityEditorMviModel.UiState(),
     ),
     MultiCommunityEditorMviModel {
-    private val searchEventChannel = Channel<Unit>()
-
     init {
         screenModelScope.launch {
             settingsRepository.currentSettings
@@ -45,8 +43,9 @@ class MultiCommunityEditorViewModel(
                     }
                 }.launchIn(this)
 
-            searchEventChannel
-                .receiveAsFlow()
+            uiState
+                .map { it.searchText }
+                .distinctUntilChanged()
                 .debounce(1000)
                 .onEach {
                     refresh()
@@ -127,7 +126,6 @@ class MultiCommunityEditorViewModel(
     private fun setSearch(value: String) {
         screenModelScope.launch {
             updateState { it.copy(searchText = value) }
-            searchEventChannel.send(Unit)
         }
     }
 

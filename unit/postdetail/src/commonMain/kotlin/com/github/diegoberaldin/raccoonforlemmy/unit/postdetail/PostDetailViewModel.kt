@@ -28,12 +28,12 @@ import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLo
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.sortToNestedOrder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -63,7 +63,6 @@ class PostDetailViewModel(
     PostDetailMviModel {
     private var highlightCommentPath: String? = null
     private var commentWasHighlighted = false
-    private val searchEventChannel = Channel<Unit>()
     private val initialNavigationEnabled = postNavigationManager.canNavigate.value
     private var lastCommentNavigateIndex: Int? = null
 
@@ -184,8 +183,9 @@ class PostDetailViewModel(
                     }
                 }.launchIn(this)
 
-            searchEventChannel
-                .receiveAsFlow()
+            uiState
+                .map { it.searchText }
+                .distinctUntilChanged()
                 .debounce(1_000)
                 .onEach {
                     updateState { it.copy(loading = false) }
@@ -908,7 +908,6 @@ class PostDetailViewModel(
     private fun updateSearchText(value: String) {
         screenModelScope.launch {
             updateState { it.copy(searchText = value) }
-            searchEventChannel.send(Unit)
         }
     }
 
