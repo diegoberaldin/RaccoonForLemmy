@@ -45,3 +45,23 @@ fun SearchResultType.toReadableName(): String =
         SearchResultType.Users -> LocalStrings.current.exploreResultTypeUsers
         SearchResultType.Urls -> LocalStrings.current.createPostUrl
     }
+
+fun SearchResultType.toInt(): Int =
+    when (this) {
+        SearchResultType.Posts -> 1
+        SearchResultType.Communities -> 2
+        SearchResultType.Users -> 3
+        SearchResultType.Comments -> 4
+        SearchResultType.Urls -> 5
+        else -> 0
+    }
+
+fun Int.toSearchResultType(): SearchResultType =
+    when (this) {
+        1 -> SearchResultType.Posts
+        2 -> SearchResultType.Communities
+        3 -> SearchResultType.Users
+        4 -> SearchResultType.Comments
+        5 -> SearchResultType.Urls
+        else -> SearchResultType.All
+    }
