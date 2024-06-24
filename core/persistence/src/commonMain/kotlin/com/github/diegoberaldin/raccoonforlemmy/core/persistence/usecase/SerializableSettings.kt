@@ -76,6 +76,7 @@ internal data class SerializableSettings(
     val fullWidthImages: Boolean = false,
     val enableToggleFavoriteInNavDrawer: Boolean = false,
     val inboxPreviewMaxLines: Int? = null,
+    val defaultExploreResultType: Int = 2,
 )
 
 internal fun SerializableSettings.toModel() =

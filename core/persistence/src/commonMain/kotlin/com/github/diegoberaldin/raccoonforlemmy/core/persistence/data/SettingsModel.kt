@@ -64,4 +64,5 @@ data class SettingsModel(
     val commentIndentAmount: Int = 2,
     val enableToggleFavoriteInNavDrawer: Boolean = false,
     val inboxPreviewMaxLines: Int? = null,
+    val defaultExploreResultType: Int = 2,
 )
