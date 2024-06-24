@@ -55,6 +55,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBot
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.DurationBottomSheetType
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.InboxTypeSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ListingTypeBottomSheet
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.ResultTypeBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectLanguageDialog
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheet
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.modals.SelectNumberBottomSheetType
@@ -255,7 +256,21 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
-                    // default explore type
+                    // default explore result type
+                    SettingsRow(
+                        title = LocalStrings.current.settingsDefaultExploreResultType,
+                        value = uiState.defaultExploreResultType.toReadableName(),
+                        onTap =
+                            rememberCallback {
+                                val sheet =
+                                    ResultTypeBottomSheet(
+                                        screenKey = "advancedSettings",
+                                    )
+                                navigationCoordinator.showBottomSheet(sheet)
+                            },
+                    )
+
+                    // default explore listing type
                     SettingsRow(
                         title = LocalStrings.current.settingsDefaultExploreType,
                         value = uiState.defaultExploreType.toReadableName(),

@@ -22,8 +22,10 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxDefaultType
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toInboxUnreadOnly
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toInt
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSearchResultType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -102,6 +104,13 @@ class AdvancedSettingsViewModel(
                         changeInboxPreviewMaxLines(evt.value)
                     }
                 }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSearchResultType::class)
+                .onEach { evt ->
+                    if (evt.screenKey == "advancedSettings") {
+                        changeExploreResultType(evt.value)
+                    }
+                }.launchIn(this)
 
             updateAvailableLanguages()
 
@@ -132,6 +141,7 @@ class AdvancedSettingsViewModel(
                     enableButtonsToScrollBetweenComments = settings.enableButtonsToScrollBetweenComments,
                     enableToggleFavoriteInNavDrawer = settings.enableToggleFavoriteInNavDrawer,
                     inboxPreviewMaxLines = settings.inboxPreviewMaxLines,
+                    defaultExploreResultType = settings.defaultExploreResultType.toSearchResultType(),
                 )
             }
         }
@@ -282,6 +292,17 @@ class AdvancedSettingsViewModel(
             val settings =
                 settingsRepository.currentSettings.value.copy(defaultExploreType = value.toInt())
             saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
+        }
+    }
+
+    private fun changeExploreResultType(value: SearchResultType) {
+        screenModelScope.launch {
+            updateState { it.copy(defaultExploreResultType = value) }
+            val settings =
+                settingsRepository.currentSettings.value.copy(defaultExploreResultType = value.toInt())
+            saveSettings(settings)
+            notificationCenter.send(NotificationCenterEvent.ResetExplore)
         }
     }
 

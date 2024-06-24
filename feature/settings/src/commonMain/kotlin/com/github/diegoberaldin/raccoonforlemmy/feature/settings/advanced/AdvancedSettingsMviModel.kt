@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.LanguageModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.ListingType
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SearchResultType
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -107,6 +108,7 @@ interface AdvancedSettingsMviModel :
         val enableButtonsToScrollBetweenComments: Boolean = false,
         val enableToggleFavoriteInNavDrawer: Boolean = false,
         val inboxPreviewMaxLines: Int? = null,
+        val defaultExploreResultType: SearchResultType = SearchResultType.Communities,
     )
 
     sealed interface Effect {
