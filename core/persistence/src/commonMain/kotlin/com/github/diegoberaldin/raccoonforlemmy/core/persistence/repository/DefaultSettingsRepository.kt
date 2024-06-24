@@ -64,6 +64,7 @@ private object KeyStoreKeys {
     const val ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS = "enableButtonsToScrollBetweenComments"
     const val FULL_WIDTH_IMAGES = "fullWidthImages"
     const val COMMENT_INDENT_AMOUNT = "commentIndentAmount"
+    const val DEFAULT_EXPLORE_RESULT_TYPE = "defaultExploreResultType"
 }
 
 internal class DefaultSettingsRepository(
@@ -158,6 +159,7 @@ internal class DefaultSettingsRepository(
             fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
             enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
             inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
+            defaultExploreResultType = settings.defaultExploreResultType.toLong(),
         )
     }
 
@@ -236,6 +238,7 @@ internal class DefaultSettingsRepository(
                     fadeReadPosts = keyStore[KeyStoreKeys.FADE_READ_POSTS, false],
                     enableButtonsToScrollBetweenComments = keyStore[KeyStoreKeys.ENABLE_BUTTONS_TO_SCROLL_BETWEEN_COMMENTS, false],
                     fullWidthImages = keyStore[KeyStoreKeys.FULL_WIDTH_IMAGES, false],
+                    defaultExploreResultType = keyStore[KeyStoreKeys.DEFAULT_EXPLORE_RESULT_TYPE, 2],
                 )
             } else {
                 val entity = db.settingsQueries.getBy(accountId).executeAsOneOrNull()
@@ -352,6 +355,10 @@ internal class DefaultSettingsRepository(
                 settings.enableButtonsToScrollBetweenComments,
             )
             keyStore.save(KeyStoreKeys.FULL_WIDTH_IMAGES, settings.fullWidthImages)
+            keyStore.save(
+                KeyStoreKeys.DEFAULT_EXPLORE_RESULT_TYPE,
+                settings.defaultExploreResultType,
+            )
         } else {
             db.settingsQueries.update(
                 theme = settings.theme?.toLong(),
@@ -433,6 +440,7 @@ internal class DefaultSettingsRepository(
                 fullWidthImages = if (settings.fullWidthImages) 1L else 0L,
                 enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
                 inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
+                defaultExploreResultType = settings.defaultExploreResultType.toLong(),
             )
         }
     }
@@ -532,4 +540,5 @@ private fun GetBy.toModel() =
         fullWidthImages = fullWidthImages == 1L,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer == 1L,
         inboxPreviewMaxLines = inboxPreviewMaxLines?.toInt(),
+        defaultExploreResultType = defaultExploreResultType.toInt(),
     )
