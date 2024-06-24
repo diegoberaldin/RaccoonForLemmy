@@ -422,4 +422,5 @@ internal val FiStrings =
         override val messageContentDeleted = "Olet poistanut tämän sisällön"
         override val actionRestore = "Palauttaa"
         override val settingsInboxPreviewMaxLines = "Saapuneiden korttien rivien enimmäismäärä"
+        override val settingsDefaultExploreResultType = "Tutkimuksen oletushakutulostyyppi"
     }

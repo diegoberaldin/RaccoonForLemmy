@@ -426,4 +426,5 @@ internal val HrStrings =
         override val messageContentDeleted = "Izbrisali ste ovaj sadržaj"
         override val actionRestore = "Vratiti"
         override val settingsInboxPreviewMaxLines = "Maksimalan broj redaka u ulaznim karticama"
+        override val settingsDefaultExploreResultType = "Zadana vrsta rezultata pretraživanja za Istraživanje"
     }

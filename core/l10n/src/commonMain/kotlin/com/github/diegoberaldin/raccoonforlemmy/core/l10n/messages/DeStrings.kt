@@ -429,4 +429,5 @@ internal val DeStrings =
         override val actionRestore = "Wiederherstellen"
         override val settingsInboxPreviewMaxLines =
             "Maximale Anzahl von Zeilen in Posteingangskarten"
+        override val settingsDefaultExploreResultType = "Standard-Suchergebnistyp für Explore"
     }

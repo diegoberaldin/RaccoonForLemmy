@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">To vsebino ste izbrisali</string>
     <string name="actionRestore">Obnovi</string>
     <string name="settingsInboxPreviewMaxLines">Največje število vrstic v karticah prejete pošte</string>
+    <string name="settingsDefaultExploreResultType">Privzeta vrsta rezultatov iskanja za Raziskovanje</string>
 </resources>

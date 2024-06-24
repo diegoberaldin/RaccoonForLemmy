@@ -422,4 +422,5 @@ internal val NbStrings =
         override val messageContentDeleted = "You have deleted this content"
         override val actionRestore = "Restore"
         override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
+        override val settingsDefaultExploreResultType = "Default search result type for Explore"
     }

@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ezt a tartalmat törölted</string>
     <string name="actionRestore">visszaállítás</string>
     <string name="settingsInboxPreviewMaxLines">Maximális sorok száma a postafiók kártyákban</string>
+    <string name="settingsDefaultExploreResultType">A Felfedezés alapértelmezett keresési eredménytípusa</string>
 </resources>

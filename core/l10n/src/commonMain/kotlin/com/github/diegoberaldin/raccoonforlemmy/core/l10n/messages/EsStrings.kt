@@ -427,4 +427,5 @@ internal val EsStrings =
         override val actionRestore = "Restaurar"
         override val settingsInboxPreviewMaxLines =
             "Número máximo de líneas en tarjetas de mensajes"
+        override val settingsDefaultExploreResultType = "Tipo de resultado de búsqueda predeterminado para Descubre"
     }

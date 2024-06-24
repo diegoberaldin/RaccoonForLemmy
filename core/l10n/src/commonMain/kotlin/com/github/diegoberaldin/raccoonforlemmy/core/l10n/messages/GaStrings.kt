@@ -426,4 +426,5 @@ internal val GaStrings =
         override val messageContentDeleted = "Tá an t-ábhar seo scriosta agat"
         override val actionRestore = "Athchóirigh"
         override val settingsInboxPreviewMaxLines = "An líon uasta línte i gcártaí bosca isteach"
+        override val settingsDefaultExploreResultType = "Cineál toradh cuardaigh réamhshocraithe le haghaidh Explore"
     }

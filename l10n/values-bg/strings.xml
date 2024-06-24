@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Вие изтрихте това съдържание</string>
     <string name="actionRestore">Възстанови</string>
     <string name="settingsInboxPreviewMaxLines">Максимален брой редове във входящите карти</string>
+    <string name="settingsDefaultExploreResultType">ип резултати от търсенето по подразбиране за Explore</string>
 </resources>

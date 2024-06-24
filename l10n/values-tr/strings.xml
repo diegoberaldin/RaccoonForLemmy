@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Bu içeriği sildiniz</string>
     <string name="actionRestore">Eski haline getirmek</string>
     <string name="settingsInboxPreviewMaxLines">Gelen kutusu kartlarındaki maksimum satır sayısı</string>
+    <string name="settingsDefaultExploreResultType">Keşfet için varsayılan arama sonucu türü</string>
 </resources>

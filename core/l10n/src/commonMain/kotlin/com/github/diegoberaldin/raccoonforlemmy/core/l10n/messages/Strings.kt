@@ -419,6 +419,7 @@ interface Strings {
     val messageContentDeleted: String
     val actionRestore: String
     val settingsInboxPreviewMaxLines: String
+    val settingsDefaultExploreResultType: String
 }
 
 object Locales {

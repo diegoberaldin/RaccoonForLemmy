@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Je hebt deze inhoud verwijderd</string>
     <string name="actionRestore">Herstellen</string>
     <string name="settingsInboxPreviewMaxLines">Maximaal aantal regels in inboxkaarten</string>
+    <string name="settingsDefaultExploreResultType">Standaard zoekresultaattype voor Explore</string>
 </resources>

@@ -428,4 +428,6 @@ internal val RuStrings =
         override val actionRestore = "Восстановить"
         override val settingsInboxPreviewMaxLines =
             "Максимальное количество строк во входящих карточках"
+        override val settingsDefaultExploreResultType =
+            "Тип результатов поиска по умолчанию для Explore"
     }

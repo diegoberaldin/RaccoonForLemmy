@@ -425,4 +425,5 @@ internal val CsStrings =
         override val messageContentDeleted = "Tento obsah jste smazali"
         override val actionRestore = "Obnovit"
         override val settingsInboxPreviewMaxLines = "Maximální počet řádků na kartách doručené pošty"
+        override val settingsDefaultExploreResultType = "Výchozí typ výsledku vyhledávání pro Prozkoumat"
     }

@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ištrynėte šį turinį</string>
     <string name="actionRestore">Atkurti</string>
     <string name="settingsInboxPreviewMaxLines">Maksimalus eilučių skaičius gautųjų kortelėse</string>
+    <string name="settingsDefaultExploreResultType">Numatytasis Naršymo paieškos rezultatų tipas</string>
 </resources>

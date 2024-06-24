@@ -430,4 +430,5 @@ internal val HuStrings =
         override val messageContentDeleted = "Ezt a tartalmat törölted"
         override val actionRestore = "visszaállítás"
         override val settingsInboxPreviewMaxLines = "Maximális sorok száma a postafiók kártyákban"
+        override val settingsDefaultExploreResultType = "A Felfedezés alapértelmezett keresési eredménytípusa"
     }

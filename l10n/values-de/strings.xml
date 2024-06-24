@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Sie haben diesen Inhalt gelöscht</string>
     <string name="actionRestore">Wiederherstellen</string>
     <string name="settingsInboxPreviewMaxLines">Maximale Anzahl von Zeilen in Posteingangskarten</string>
+    <string name="settingsDefaultExploreResultType">Standard-Suchergebnistyp für Explore</string>
 </resources>

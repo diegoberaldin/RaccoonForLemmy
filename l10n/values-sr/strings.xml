@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Избрисали сте овај садржај</string>
     <string name="actionRestore">Ресторе</string>
     <string name="settingsInboxPreviewMaxLines">Максималан број линија у картицама пријемног сандучет</string>
+    <string name="settingsDefaultExploreResultType">Подразумевани тип резултата претраге за Истраживање</string>
 </resources>

@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">You have deleted this content</string>
     <string name="actionRestore">Restore</string>
     <string name="settingsInboxPreviewMaxLines">Inbox card preview max lines</string>
+    <string name="settingsDefaultExploreResultType">Default search result type for Explore</string>
 </resources>

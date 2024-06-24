@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Jūs esat izdzēsis šo saturu</string>
     <string name="actionRestore">Atjaunot</string>
     <string name="settingsInboxPreviewMaxLines">Maksimālais rindu skaits iesūtnes kartītēs</string>
+    <string name="settingsDefaultExploreResultType">Noklusējuma meklēšanas rezultāta veids funkcijai Izpētīt</string>
 </resources>

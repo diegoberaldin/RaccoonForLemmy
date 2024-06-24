@@ -428,4 +428,5 @@ internal val SkStrings =
         override val actionRestore = "Obnoviť"
         override val settingsInboxPreviewMaxLines =
             "Maximálny počet riadkov na kartách doručenej pošty"
+        override val settingsDefaultExploreResultType = "Predvolený typ výsledku vyhľadávania pre Preskúmať"
     }

@@ -427,4 +427,5 @@ internal val PlStrings =
         override val actionRestore = "Przywrócić"
         override val settingsInboxPreviewMaxLines =
             "Maksymalna liczba linii w kartach skrzynki odbiorczej"
+        override val settingsDefaultExploreResultType = "Domyślny typ wyniku wyszukiwania dla Eksploruj"
     }

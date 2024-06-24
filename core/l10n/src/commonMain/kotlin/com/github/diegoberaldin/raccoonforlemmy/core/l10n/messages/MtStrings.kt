@@ -426,4 +426,5 @@ internal val MtStrings =
         override val messageContentDeleted = "Ħassejt dan il-kontenut"
         override val actionRestore = "Irrestawra"
         override val settingsInboxPreviewMaxLines = "Numru massimu ta' linji fil-karti tal-inbox"
+        override val settingsDefaultExploreResultType = "Tip ta' riżultat tat-tfittxija default għal Esplora"
     }

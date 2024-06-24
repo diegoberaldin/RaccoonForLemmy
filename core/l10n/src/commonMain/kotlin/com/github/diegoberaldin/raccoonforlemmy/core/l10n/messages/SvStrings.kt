@@ -425,4 +425,5 @@ internal val SvStrings =
         override val messageContentDeleted = "Du har tagit bort detta innehåll"
         override val actionRestore = "Återställ"
         override val settingsInboxPreviewMaxLines = "Max antal rader i inkorgskort"
+        override val settingsDefaultExploreResultType = "Standard sökresultattyp för Utforska"
     }

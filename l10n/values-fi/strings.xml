@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Olet poistanut tämän sisällön</string>
     <string name="actionRestore">Palauttaa</string>
     <string name="settingsInboxPreviewMaxLines">Saapuneiden korttien rivien enimmäismäärä</string>
+    <string name="settingsDefaultExploreResultType">Tutkimuksen oletushakutulostyyppi</string>
 </resources>

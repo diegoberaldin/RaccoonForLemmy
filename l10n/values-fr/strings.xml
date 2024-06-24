@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Vous avez supprimé ce contenu</string>
     <string name="actionRestore">Restaurer</string>
     <string name="settingsInboxPreviewMaxLines">Nombre maximum de lignes dans les cartes de boîte de réception</string>
+    <string name="settingsDefaultExploreResultType">Type de résultat de recherche par défaut pour Explorer</string>
 </resources>

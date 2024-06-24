@@ -421,4 +421,5 @@ internal val TokStrings =
         override val messageContentDeleted = "tenpo pini la, sina weka e ijo ni"
         override val actionRestore = "o awen e ona"
         override val settingsInboxPreviewMaxLines = "nanpa linja pi lipu lon toki poki"
+        override val settingsDefaultExploreResultType = "nasin ijo pi lipu lukin"
     }

@@ -425,4 +425,5 @@ internal val DaStrings =
         override val messageContentDeleted = "Du har slettet dette indhold"
         override val actionRestore = "Gendan"
         override val settingsInboxPreviewMaxLines = "Max antal linjer i indbakkekort"
+        override val settingsDefaultExploreResultType = "Standard søgeresultattype for Udforsk"
     }

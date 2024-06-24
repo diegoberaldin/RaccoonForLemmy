@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Tá an t-ábhar seo scriosta agat</string>
     <string name="actionRestore">Athchóirigh</string>
     <string name="settingsInboxPreviewMaxLines">An líon uasta línte i gcártaí bosca isteach</string>
+    <string name="settingsDefaultExploreResultType">Cineál toradh cuardaigh réamhshocraithe le haghaidh Explore</string>
 </resources>

@@ -427,4 +427,5 @@ internal val TrStrings =
         override val actionRestore = "Eski haline getirmek"
         override val settingsInboxPreviewMaxLines =
             "Gelen kutusu kartlarındaki maksimum satır sayısı"
+        override val settingsDefaultExploreResultType = "Keşfet için varsayılan arama sonucu türü"
     }

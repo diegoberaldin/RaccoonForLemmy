@@ -420,4 +420,5 @@ internal val ArStrings =
         override val messageContentDeleted = "لقد قمت بحذف هذا المحتوى"
         override val actionRestore = "يعيد"
         override val settingsInboxPreviewMaxLines = "الحد الأقصى لعدد الخطوط في بطاقات البريد الوارد"
+        override val settingsDefaultExploreResultType = "وع نتيجة البحث الافتراضي للاستكشاف"
     }

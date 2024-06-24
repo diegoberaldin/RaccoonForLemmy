@@ -433,4 +433,5 @@ internal val ElStrings =
         override val actionRestore = "Αποκαταστήστε το"
         override val settingsInboxPreviewMaxLines =
             "Μέγιστος αριθμός γραμμών σε κάρτες εισερχομένων"
+        override val settingsDefaultExploreResultType = "Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση"
     }

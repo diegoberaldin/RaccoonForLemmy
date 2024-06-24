@@ -428,4 +428,5 @@ internal val SqStrings =
         override val actionRestore = "Rivendos"
         override val settingsInboxPreviewMaxLines =
             "Numri maksimal i rreshtave në kartat e kutisë hyrëse"
+        override val settingsDefaultExploreResultType = "Lloji i parazgjedhur i rezultatit të kërkimit për Eksploro"
     }

@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Usunąłeś tę treść</string>
     <string name="actionRestore">Przywrócić</string>
     <string name="settingsInboxPreviewMaxLines">Maksymalna liczba linii w kartach skrzynki odbiorczej</string>
+    <string name="settingsDefaultExploreResultType">Domyślny typ wyniku wyszukiwania dla Eksploruj</string>
 </resources>

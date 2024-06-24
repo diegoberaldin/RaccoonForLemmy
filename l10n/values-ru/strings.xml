@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Вы удалили этот контент</string>
     <string name="actionRestore">Восстановить</string>
     <string name="settingsInboxPreviewMaxLines">Максимальное количество строк во входящих карточках</string>
+    <string name="settingsDefaultExploreResultType">Тип результатов поиска по умолчанию для Explore</string>
 </resources>

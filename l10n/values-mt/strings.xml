@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ħassejt dan il-kontenut</string>
     <string name="actionRestore">Irrestawra</string>
     <string name="settingsInboxPreviewMaxLines">Numru massimu ta' linji fil-karti tal-inbox</string>
+    <string name="settingsDefaultExploreResultType">Tip ta' riżultat tat-tfittxija default għal Esplora</string>
 </resources>

@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Olete selle sisu kustutanud</string>
     <string name="actionRestore">Taastama</string>
     <string name="settingsInboxPreviewMaxLines">Maksimaalne ridade arv postkasti kaartidel</string>
+    <string name="settingsDefaultExploreResultType">Avastamise vaikeotsingutulemuse tüüp</string>
 </resources>

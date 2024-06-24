@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ви видалили цей вміст</string>
     <string name="actionRestore">Відновлення</string>
     <string name="settingsInboxPreviewMaxLines">Максимальна кількість рядків у картках вхідних повідомлень</string>
+    <string name="settingsDefaultExploreResultType">Тип результатів пошуку за умовчанням для Explore</string>
 </resources>

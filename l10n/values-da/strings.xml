@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Du har slettet dette indhold</string>
     <string name="actionRestore">Gendan</string>
     <string name="settingsInboxPreviewMaxLines">Max antal linjer i indbakkekort</string>
+    <string name="settingsDefaultExploreResultType">Standard søgeresultattype for Udforsk</string>
 </resources>

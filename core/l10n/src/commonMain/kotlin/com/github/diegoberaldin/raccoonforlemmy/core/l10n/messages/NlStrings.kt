@@ -427,4 +427,5 @@ internal val NlStrings =
         override val messageContentDeleted = "Je hebt deze inhoud verwijderd"
         override val actionRestore = "Herstellen"
         override val settingsInboxPreviewMaxLines = "Maximaal aantal regels in inboxkaarten"
+        override val settingsDefaultExploreResultType = "Standaard zoekresultaattype voor Explore"
     }

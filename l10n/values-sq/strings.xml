@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ju e keni fshirë këtë përmbajtje</string>
     <string name="actionRestore">Rivendos</string>
     <string name="settingsInboxPreviewMaxLines">Numri maksimal i rreshtave në kartat e kutisë hyrëse</string>
+    <string name="settingsDefaultExploreResultType">Lloji i parazgjedhur i rezultatit të kërkimit për Eksploro</string>
 </resources>

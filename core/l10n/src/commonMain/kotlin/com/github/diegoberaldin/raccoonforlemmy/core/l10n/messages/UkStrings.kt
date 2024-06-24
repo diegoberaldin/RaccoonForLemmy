@@ -428,4 +428,5 @@ internal val UkStrings =
         override val actionRestore = "Відновлення"
         override val settingsInboxPreviewMaxLines =
             "Максимальна кількість рядків у картках вхідних повідомлень"
+        override val settingsDefaultExploreResultType = "Тип результатів пошуку за умовчанням для Explore"
     }

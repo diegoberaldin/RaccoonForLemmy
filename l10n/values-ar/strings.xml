@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">لقد قمت بحذف هذا المحتوى</string>
     <string name="actionRestore">يعيد</string>
     <string name="settingsInboxPreviewMaxLines">الحد الأقصى لعدد الخطوط في بطاقات البريد الوارد</string>
+    <string name="settingsDefaultExploreResultType">وع نتيجة البحث الافتراضي للاستكشاف</string>
 </resources>

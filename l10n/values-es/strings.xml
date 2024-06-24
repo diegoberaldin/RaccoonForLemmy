@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Has eliminado este contenido</string>
     <string name="actionRestore">Restaurar</string>
     <string name="settingsInboxPreviewMaxLines">Número máximo de líneas en tarjetas de mensajes</string>
+    <string name="settingsDefaultExploreResultType">Tipo de resultado de búsqueda predeterminado para Descubre</string>
 </resources>

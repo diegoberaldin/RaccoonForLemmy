@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">tenpo pini la, sina weka e ijo ni</string>
     <string name="actionRestore">o awen e ona</string>
     <string name="settingsInboxPreviewMaxLines">nanpa linja pi lipu lon toki poki</string>
+    <string name="settingsDefaultExploreResultType">nasin ijo pi lipu lukin</string>
 </resources>

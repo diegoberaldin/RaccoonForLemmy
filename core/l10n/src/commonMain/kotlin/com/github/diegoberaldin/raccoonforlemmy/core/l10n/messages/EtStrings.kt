@@ -427,4 +427,5 @@ internal val EtStrings =
         override val messageContentDeleted = "Olete selle sisu kustutanud"
         override val actionRestore = "Taastama"
         override val settingsInboxPreviewMaxLines = "Maksimaalne ridade arv postkasti kaartidel"
+        override val settingsDefaultExploreResultType = "Avastamise vaikeotsingutulemuse tüüp"
     }

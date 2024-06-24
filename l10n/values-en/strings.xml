@@ -356,7 +356,7 @@
     <string name="actionSearchInComments">Search in comments</string>
     <string name="advancedSettingsDefaultLanguage">Default language in editor</string>
     <string name="undetermined">Undefined</string>
-    <string name="exploreResultTypeTitle">Result type</string>
+    <string name="exploreResultTypeTitle">Search result type</string>
     <string name="communityActionEdit">Edit community</string>
     <string name="editCommunityHeaderTextual">Textual information</string>
     <string name="editCommunityItemSidebar">Sidebar</string>
@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">You have deleted this content</string>
     <string name="actionRestore">Restore</string>
     <string name="settingsInboxPreviewMaxLines">Inbox card preview max lines</string>
+    <string name="settingsDefaultExploreResultType">Default search result type for explore</string>
 </resources>

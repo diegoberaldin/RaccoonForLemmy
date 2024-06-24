@@ -415,4 +415,5 @@ internal val ZhHkStrings =
         override val messageContentDeleted = "您刪除咗呢個內容"
         override val actionRestore = "恢復"
         override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
+        override val settingsDefaultExploreResultType = "Default search result type for explore"
     }

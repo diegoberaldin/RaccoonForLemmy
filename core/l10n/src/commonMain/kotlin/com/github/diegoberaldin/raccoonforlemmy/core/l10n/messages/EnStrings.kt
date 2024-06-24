@@ -364,7 +364,7 @@ internal val EnStrings =
         override val actionSearchInComments = "Search in comments"
         override val advancedSettingsDefaultLanguage = "Default language in editor"
         override val undetermined = "Undefined"
-        override val exploreResultTypeTitle = "Result type"
+        override val exploreResultTypeTitle = "Search result type"
         override val communityActionEdit = "Edit community"
         override val editCommunityHeaderTextual = "Textual information"
         override val editCommunityItemSidebar = "Sidebar"
@@ -422,4 +422,5 @@ internal val EnStrings =
         override val messageContentDeleted = "You have deleted this content"
         override val actionRestore = "Restore"
         override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
+        override val settingsDefaultExploreResultType = "Default search result type for explore"
     }

@@ -353,7 +353,7 @@ internal val RoStrings =
         override val settingsTitlePictures = "Imagini"
         override val settingsTitleExperimental = "Experimente"
         override val communitySetCustomSort = "Tip de sortare personalizat"
-        override val settingsDefaultExploreType = "Tip prestabilit de listare pentru Exploră"
+        override val settingsDefaultExploreType = "Tip prestabilit de listare pentru Explorarea"
         override val actionSearchInCommunity = "Căută în comunitate"
         override val actionExitSearch = "Ieși din căutare"
         override val beta = "Beta"
@@ -425,4 +425,5 @@ internal val RoStrings =
         override val messageContentDeleted = "Ați șters acest conținut"
         override val actionRestore = "Restaurați-l"
         override val settingsInboxPreviewMaxLines = "Numărul maxim de linii în cardurile de inbox"
+        override val settingsDefaultExploreResultType = "Tip de rezultat de căutare prestabilit pentru Explorarea"
     }

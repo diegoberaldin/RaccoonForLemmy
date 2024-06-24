@@ -424,4 +424,5 @@ internal val NnStrings =
         override val messageContentDeleted = "Du har slettet dette innholdet"
         override val actionRestore = "Restaurere"
         override val settingsInboxPreviewMaxLines = "Maks antall linjer i innbokskort"
+        override val settingsDefaultExploreResultType = "Standard søkeresultattype for Utforsk"
     }

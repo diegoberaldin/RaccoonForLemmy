@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Tento obsah ste odstránili</string>
     <string name="actionRestore">Obnoviť</string>
     <string name="settingsInboxPreviewMaxLines">Maximálny počet riadkov na kartách doručenej pošty</string>
+    <string name="settingsDefaultExploreResultType">Predvolený typ výsledku vyhľadávania pre Preskúmať</string>
 </resources>

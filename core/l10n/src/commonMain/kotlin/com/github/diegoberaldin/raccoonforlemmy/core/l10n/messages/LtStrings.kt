@@ -425,4 +425,6 @@ internal val LtStrings =
         override val messageContentDeleted = "Ištrynėte šį turinį"
         override val actionRestore = "Atkurti"
         override val settingsInboxPreviewMaxLines = "Maksimalus eilučių skaičius gautųjų kortelėse"
+        override val settingsDefaultExploreResultType =
+            "Numatytasis Naršymo paieškos rezultatų tipas"
     }

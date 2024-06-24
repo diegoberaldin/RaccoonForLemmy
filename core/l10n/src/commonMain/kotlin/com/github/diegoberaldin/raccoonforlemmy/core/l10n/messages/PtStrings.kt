@@ -426,4 +426,5 @@ internal val PtStrings =
         override val actionRestore = "Restaura"
         override val settingsInboxPreviewMaxLines =
             "Número máximo de linhas nos cartões das mensagens"
+        override val settingsDefaultExploreResultType = "Tipo de resultado de pesquisa padrão para Explorar"
     }

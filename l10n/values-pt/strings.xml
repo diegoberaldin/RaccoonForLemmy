@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Você excluiu este conteúdo</string>
     <string name="actionRestore">Restaura</string>
     <string name="settingsInboxPreviewMaxLines">Número máximo de linhas nos cartões das mensagens</string>
+    <string name="settingsDefaultExploreResultType">Tipo de resultado de pesquisa padrão para Explorar</string>
 </resources>

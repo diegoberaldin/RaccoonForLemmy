@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Du har slettet dette innholdet</string>
     <string name="actionRestore">Restaurere</string>
     <string name="settingsInboxPreviewMaxLines">Maks antall linjer i innbokskort</string>
+    <string name="settingsDefaultExploreResultType">Standard søkeresultattype for Utforsk</string>
 </resources>

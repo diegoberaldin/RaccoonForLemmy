@@ -421,4 +421,5 @@ internal val EoStrings =
         override val messageContentDeleted = "Vi forigis ĉi tiun enhavon"
         override val actionRestore = "Restaŭri"
         override val settingsInboxPreviewMaxLines = "Maksimuma nombro da linioj en enirkestokartoj"
+        override val settingsDefaultExploreResultType = "Defaŭlta serĉrezulto-tipo por esploro"
     }

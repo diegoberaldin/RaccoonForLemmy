@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Έχετε διαγράψει αυτό το περιεχόμενο</string>
     <string name="actionRestore">Αποκαταστήστε το</string>
     <string name="settingsInboxPreviewMaxLines">Μέγιστος αριθμός γραμμών σε κάρτες εισερχομένων</string>
+    <string name="settingsDefaultExploreResultType">Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση</string>
 </resources>

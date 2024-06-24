@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Izbrisali ste ovaj sadržaj</string>
     <string name="actionRestore">Vratiti</string>
     <string name="settingsInboxPreviewMaxLines">Maksimalan broj redaka u ulaznim karticama</string>
+    <string name="settingsDefaultExploreResultType">Zadana vrsta rezultata pretraživanja za Istraživanje</string>
 </resources>

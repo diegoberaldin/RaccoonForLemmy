@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Du har tagit bort detta innehåll</string>
     <string name="actionRestore">Återställ</string>
     <string name="settingsInboxPreviewMaxLines">Max antal rader i inkorgskort</string>
+    <string name="settingsDefaultExploreResultType">Standard sökresultattyp för Utforska</string>
 </resources>

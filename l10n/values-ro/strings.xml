@@ -343,7 +343,7 @@
     <string name="settingsTitlePictures">Imagini</string>
     <string name="settingsTitleExperimental">Experimente</string>
     <string name="communitySetCustomSort">Tip de sortare personalizat</string>
-    <string name="settingsDefaultExploreType">Tip prestabilit de listare pentru Exploră</string>
+    <string name="settingsDefaultExploreType">Tip prestabilit de listare pentru Explorarea</string>
     <string name="actionSearchInCommunity">Căută în comunitate</string>
     <string name="actionExitSearch">Ieși din căutare</string>
     <string name="beta">Beta</string>
@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Ați șters acest conținut</string>
     <string name="actionRestore">Restaurați-l</string>
     <string name="settingsInboxPreviewMaxLines">Numărul maxim de linii în cardurile de inbox</string>
+    <string name="settingsDefaultExploreResultType">Tip de rezultat de căutare prestabilit pentru Explorarea</string>
 </resources>

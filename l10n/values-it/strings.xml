@@ -411,4 +411,5 @@
     <string name="messageContentDeleted">Hai eliminato questo contenuto</string>
     <string name="actionRestore">Ripristina</string>
     <string name="settingsInboxPreviewMaxLines">Numero massimo righe anteprima in inbox</string>
+    <string name="settingsDefaultExploreResultType">Tipo di risultato di ricerca predefinito per Esplora</string>
 </resources>
