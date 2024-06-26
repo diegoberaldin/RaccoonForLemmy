@@ -323,6 +323,7 @@ class ExploreScreen(
                                                     ),
                                                 )
                                             },
+                                        highlightText = uiState.searchText
                                     )
                                 }
 
@@ -458,6 +459,7 @@ class ExploreScreen(
                                                 blurNsfw = uiState.blurNsfw,
                                                 actionButtonsActive = uiState.isLogged,
                                                 downVoteEnabled = uiState.downVoteEnabled,
+                                                highlightText = uiState.searchText,
                                                 onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = result.model,
@@ -696,6 +698,7 @@ class ExploreScreen(
                                                 indentAmount = 0,
                                                 actionButtonsActive = uiState.isLogged,
                                                 downVoteEnabled = uiState.downVoteEnabled,
+                                                highlightText = uiState.searchText,
                                                 onClick = {
                                                     detailOpener.openPostDetail(
                                                         post = PostModel(id = result.model.postId),
@@ -808,6 +811,7 @@ class ExploreScreen(
                                             ),
                                         user = result.model,
                                         preferNicknames = uiState.preferNicknames,
+                                        highlightText = uiState.searchText,
                                     )
                                 }
                             }

@@ -33,6 +33,7 @@ fun PostCardBody(
     maxLines: Int? = null,
     autoLoadImages: Boolean = true,
     markRead: Boolean = false,
+    highlightText: String? = null,
     onClick: (() -> Unit)? = null,
     onOpenImage: ((String) -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
@@ -81,6 +82,7 @@ fun PostCardBody(
                     codeBackground = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f),
                     dividerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
                 ),
+            highlightText = highlightText,
             onOpenUrl =
                 rememberCallbackArgs { url ->
                     navigationCoordinator.handleUrl(

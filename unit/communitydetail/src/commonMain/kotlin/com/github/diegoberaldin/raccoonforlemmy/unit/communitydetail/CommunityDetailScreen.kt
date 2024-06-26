@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material.icons.filled.SyncDisabled
 import androidx.compose.material.icons.outlined.AddCircleOutline
@@ -1032,6 +1031,7 @@ class CommunityDetailScreen(
                                             showScores = uiState.showScores,
                                             actionButtonsActive = uiState.isLogged,
                                             downVoteEnabled = uiState.downVoteEnabled,
+                                            highlightText = uiState.searchText,
                                             blurNsfw =
                                                 when {
                                                     uiState.community.nsfw -> false

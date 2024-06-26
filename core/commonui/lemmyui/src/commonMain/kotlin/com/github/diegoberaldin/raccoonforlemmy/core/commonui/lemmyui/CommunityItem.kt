@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
@@ -38,6 +39,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryT
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomDropDown
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.PlaceholderImage
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.buildAnnotatedStringWithHighlights
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
@@ -56,6 +58,7 @@ fun CommunityItem(
     showFavorite: Boolean = false,
     showSubscribeButton: Boolean = false,
     options: List<Option> = emptyList(),
+    highlightText: String? = null,
     onOptionSelected: ((OptionId) -> Unit)? = null,
     onSubscribe: (() -> Unit)? = null,
 ) {
@@ -65,6 +68,7 @@ fun CommunityItem(
     val iconSize = if (small) IconSize.m else IconSize.l
     val fullColor = MaterialTheme.colorScheme.onBackground
     val ancillaryColor = MaterialTheme.colorScheme.onBackground.copy(alpha = ancillaryTextAlpha)
+    val highlightColor = Color(255,194,10,150)
     var optionsOffset by remember { mutableStateOf(Offset.Zero) }
     var optionsMenuOpen by remember { mutableStateOf(false) }
 
@@ -100,21 +104,25 @@ fun CommunityItem(
             modifier = Modifier.weight(1f).padding(start = Spacing.xs),
         ) {
             Text(
-                text =
-                    buildString {
-                        append(title)
-                    },
+                text = buildAnnotatedStringWithHighlights(
+                    text = title,
+                    highlightText = highlightText,
+                    highlightColor = highlightColor,
+                ),
                 style = MaterialTheme.typography.bodyLarge,
                 color = fullColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
-                text =
-                    buildString {
+                text = buildAnnotatedStringWithHighlights(
+                    text = buildString {
                         append("!")
                         append(communityHandle)
                     },
+                    highlightText = highlightText,
+                    highlightColor = highlightColor,
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = ancillaryColor,
             )

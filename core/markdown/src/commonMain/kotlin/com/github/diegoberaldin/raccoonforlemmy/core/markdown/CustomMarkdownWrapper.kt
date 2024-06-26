@@ -9,25 +9,33 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.isUnspecified
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
+import com.mikepenz.markdown.compose.LocalMarkdownTypography
 import com.mikepenz.markdown.compose.Markdown
 import com.mikepenz.markdown.compose.components.markdownComponents
-import com.mikepenz.markdown.compose.elements.MarkdownParagraph
+import com.mikepenz.markdown.compose.elements.MarkdownText
 import com.mikepenz.markdown.m3.markdownColor
 import com.mikepenz.markdown.m3.markdownTypography
 import com.mikepenz.markdown.model.MarkdownColors
 import com.mikepenz.markdown.model.MarkdownPadding
 import com.mikepenz.markdown.model.MarkdownTypography
 import com.mikepenz.markdown.model.markdownPadding
+import com.mikepenz.markdown.utils.buildMarkdownAnnotatedString
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.intellij.markdown.ast.ASTNode
 import kotlin.math.floor
 
 private val String.containsSpoiler: Boolean
@@ -49,6 +57,7 @@ fun CustomMarkdownWrapper(
     padding: MarkdownPadding = markdownPadding(),
     autoLoadImages: Boolean,
     maxLines: Int? = null,
+    highlightText: String?,
     onOpenUrl: ((String) -> Unit)?,
     onOpenImage: ((String) -> Unit)?,
     onClick: (() -> Unit)?,
@@ -109,9 +118,10 @@ fun CustomMarkdownWrapper(
                     }
 
                     else -> {
-                        MarkdownParagraph(
+                        markdownParagraphWithHighlights(
                             content = model.content,
                             node = model.node,
+                            highlightText = highlightText,
                         )
                     }
                 }
@@ -159,4 +169,40 @@ fun CustomMarkdownWrapper(
             imageTransformer = provideImageTransformer(),
         )
     }
+}
+
+@Composable
+internal fun markdownParagraphWithHighlights(
+    content: String,
+    node: ASTNode,
+    modifier: Modifier = Modifier,
+    style: TextStyle = LocalMarkdownTypography.current.paragraph,
+    highlightText: String? = null,
+) {
+    val highlightColor = Color(255,194,10,150)
+    var styledText = buildAnnotatedString {
+        pushStyle(style.toSpanStyle())
+        buildMarkdownAnnotatedString(content, node)
+        pop()
+    }
+
+    if (highlightText != null) {
+        val startIndex = styledText.indexOf(highlightText, 0, true)
+        val builder = AnnotatedString.Builder(styledText)
+        if (startIndex > -1) {
+            builder.addStyle(
+                style = SpanStyle(background = highlightColor),
+                startIndex,
+                startIndex + highlightText.length
+            )
+
+            styledText = builder.toAnnotatedString()
+        }
+    }
+
+    MarkdownText(
+        styledText,
+        modifier = modifier,
+        style = style,
+    )
 }

@@ -43,7 +43,6 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
@@ -846,6 +845,7 @@ class PostDetailScreen(
                                         actionButtonsActive = uiState.isLogged,
                                         blurNsfw = false,
                                         downVoteEnabled = uiState.downVoteEnabled,
+                                        highlightText = uiState.searchText,
                                         onOpenCommunity =
                                             rememberCallbackArgs { community, instance ->
                                                 detailOpener.openCommunityDetail(community, instance)
@@ -1169,6 +1169,7 @@ class PostDetailScreen(
                                                         showScores = uiState.showScores,
                                                         actionButtonsActive = uiState.isLogged,
                                                         downVoteEnabled = uiState.downVoteEnabled,
+                                                        highlightText = uiState.searchText,
                                                         onToggleExpanded =
                                                             rememberCallback(model) {
                                                                 model.reduce(
