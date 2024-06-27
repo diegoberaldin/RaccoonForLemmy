@@ -77,6 +77,10 @@ interface AdvancedSettingsMviModel :
         data class ChangeEnableToggleFavoriteInNavDrawer(
             val value: Boolean,
         ) : Intent
+
+        data class ChangeUseAvatarAsProfileNavigationIcon(
+            val value: Boolean,
+        ) : Intent
     }
 
     data class UiState(
@@ -109,6 +113,7 @@ interface AdvancedSettingsMviModel :
         val enableToggleFavoriteInNavDrawer: Boolean = false,
         val inboxPreviewMaxLines: Int? = null,
         val defaultExploreResultType: SearchResultType = SearchResultType.Communities,
+        val useAvatarAsProfileNavigationIcon: Boolean = false,
     )
 
     sealed interface Effect {

@@ -588,6 +588,22 @@ class AdvancedSettingsScreen : Screen {
                         )
                     }
 
+                    if (uiState.isLogged) {
+                        // use avatar as profile navigation icon
+                        SettingsSwitchRow(
+                            title = LocalStrings.current.settingsUseAvatarAsProfileNavigationIcon,
+                            value = uiState.useAvatarAsProfileNavigationIcon,
+                            onValueChanged =
+                                rememberCallbackArgs(model) { value ->
+                                    model.reduce(
+                                        AdvancedSettingsMviModel.Intent.ChangeUseAvatarAsProfileNavigationIcon(
+                                            value,
+                                        ),
+                                    )
+                                },
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(Spacing.xxxl))
                 }
             }

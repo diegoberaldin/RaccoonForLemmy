@@ -142,6 +142,7 @@ class AdvancedSettingsViewModel(
                     enableToggleFavoriteInNavDrawer = settings.enableToggleFavoriteInNavDrawer,
                     inboxPreviewMaxLines = settings.inboxPreviewMaxLines,
                     defaultExploreResultType = settings.defaultExploreResultType.toSearchResultType(),
+                    useAvatarAsProfileNavigationIcon = settings.useAvatarAsProfileNavigationIcon,
                 )
             }
         }
@@ -193,6 +194,11 @@ class AdvancedSettingsViewModel(
 
             is AdvancedSettingsMviModel.Intent.ChangeEnableToggleFavoriteInNavDrawer ->
                 changeEnableToggleFavoriteInNavDrawer(
+                    intent.value,
+                )
+
+            is AdvancedSettingsMviModel.Intent.ChangeUseAvatarAsProfileNavigationIcon ->
+                changeUseAvatarAsProfileNavigationIcon(
                     intent.value,
                 )
         }
@@ -408,6 +414,15 @@ class AdvancedSettingsViewModel(
             updateState { it.copy(inboxPreviewMaxLines = value) }
             val settings =
                 settingsRepository.currentSettings.value.copy(inboxPreviewMaxLines = value)
+            saveSettings(settings)
+        }
+    }
+
+    private fun changeUseAvatarAsProfileNavigationIcon(value: Boolean) {
+        screenModelScope.launch {
+            updateState { it.copy(useAvatarAsProfileNavigationIcon = value) }
+            val settings =
+                settingsRepository.currentSettings.value.copy(useAvatarAsProfileNavigationIcon = value)
             saveSettings(settings)
         }
     }
