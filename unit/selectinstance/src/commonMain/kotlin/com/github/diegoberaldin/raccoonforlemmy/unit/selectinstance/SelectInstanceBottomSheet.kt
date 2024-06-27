@@ -76,28 +76,30 @@ class SelectInstanceBottomSheet : Screen {
         var instanceToDelete by remember { mutableStateOf<String?>(null) }
 
         LaunchedEffect(model) {
-            model.effects.onEach { evt ->
-                when (evt) {
-                    SelectInstanceMviModel.Effect.CloseDialog -> {
-                        changeInstanceDialogOpen = false
-                    }
+            model.effects
+                .onEach { evt ->
+                    when (evt) {
+                        SelectInstanceMviModel.Effect.CloseDialog -> {
+                            changeInstanceDialogOpen = false
+                        }
 
-                    is SelectInstanceMviModel.Effect.Confirm -> {
-                        notificationCenter.send(NotificationCenterEvent.InstanceSelected(evt.instance))
-                        navigationCoordinator.hideBottomSheet()
+                        is SelectInstanceMviModel.Effect.Confirm -> {
+                            notificationCenter.send(NotificationCenterEvent.InstanceSelected(evt.instance))
+                            navigationCoordinator.hideBottomSheet()
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Column(
             modifier =
-                Modifier.padding(
-                    top = Spacing.s,
-                    start = Spacing.s,
-                    end = Spacing.s,
-                    bottom = Spacing.m,
-                ).fillMaxHeight(0.6f),
+                Modifier
+                    .padding(
+                        top = Spacing.s,
+                        start = Spacing.s,
+                        end = Spacing.s,
+                        bottom = Spacing.m,
+                    ).fillMaxHeight(0.6f),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
         ) {
             Box(
@@ -158,15 +160,19 @@ class SelectInstanceBottomSheet : Screen {
                             shadowElevation = elevation,
                         ) {
                             SelectInstanceItem(
-                                modifier = Modifier.draggableHandle(),
                                 instance = instance,
                                 isActive = isActive,
+                                onDragStarted =
+                                    rememberCallback(model) {
+                                        model.reduce(SelectInstanceMviModel.Intent.HapticIndication)
+                                    },
                                 onClick =
                                     rememberCallback(model) {
                                         model.reduce(
                                             SelectInstanceMviModel.Intent.SelectInstance(instance),
                                         )
                                     },
+                                reorderableScope = this,
                                 options =
                                     buildList {
                                         if (!isActive) {
