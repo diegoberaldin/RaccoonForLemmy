@@ -1,2 +1,5 @@
 ALTER TABLE SettingsEntity
 ADD COLUMN defaultExploreResultType INTEGER NOT NULL DEFAULT 2;
+
+ALTER TABLE SettingsEntity
+ADD COLUMN useAvatarAsProfileNavigationIcon INTEGER NOT NULL DEFAULT 0;
