@@ -65,4 +65,5 @@ data class SettingsModel(
     val enableToggleFavoriteInNavDrawer: Boolean = false,
     val inboxPreviewMaxLines: Int? = null,
     val defaultExploreResultType: Int = 2,
+    val useAvatarAsProfileNavigationIcon: Boolean = false,
 )

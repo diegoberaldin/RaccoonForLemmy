@@ -77,6 +77,7 @@ internal data class SerializableSettings(
     val enableToggleFavoriteInNavDrawer: Boolean = false,
     val inboxPreviewMaxLines: Int? = null,
     val defaultExploreResultType: Int = 2,
+    val useAvatarAsProfileNavigationIcon: Boolean = false,
 )
 
 internal fun SerializableSettings.toModel() =
@@ -144,6 +145,7 @@ internal fun SerializableSettings.toModel() =
         fullWidthImages = fullWidthImages,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
         inboxPreviewMaxLines = inboxPreviewMaxLines,
+        useAvatarAsProfileNavigationIcon = useAvatarAsProfileNavigationIcon,
     )
 
 internal fun SettingsModel.toData() =
@@ -213,4 +215,5 @@ internal fun SettingsModel.toData() =
         fullWidthImages = fullWidthImages,
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer,
         inboxPreviewMaxLines = inboxPreviewMaxLines,
+        useAvatarAsProfileNavigationIcon = useAvatarAsProfileNavigationIcon,
     )
