@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.DefaultMviModel
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.InstanceSelectionRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.ValidationError
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedback
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import kotlinx.coroutines.FlowPreview
@@ -18,22 +19,27 @@ class SelectInstanceViewModel(
     private val instanceRepository: InstanceSelectionRepository,
     private val communityRepository: CommunityRepository,
     private val apiConfigurationRepository: ApiConfigurationRepository,
-) : SelectInstanceMviModel,
-    DefaultMviModel<SelectInstanceMviModel.Intent, SelectInstanceMviModel.State, SelectInstanceMviModel.Effect>(
+    private val hapticFeedback: HapticFeedback,
+) : DefaultMviModel<SelectInstanceMviModel.Intent, SelectInstanceMviModel.State, SelectInstanceMviModel.Effect>(
         initialState = SelectInstanceMviModel.State(),
-    ) {
+    ),
+    SelectInstanceMviModel {
     private val saveOperationChannel = Channel<List<String>>()
 
     init {
         screenModelScope.launch {
-            apiConfigurationRepository.instance.onEach { instance ->
-                updateState { it.copy(currentInstance = instance) }
-            }.launchIn(this)
+            apiConfigurationRepository.instance
+                .onEach { instance ->
+                    updateState { it.copy(currentInstance = instance) }
+                }.launchIn(this)
 
             @OptIn(FlowPreview::class)
-            saveOperationChannel.receiveAsFlow().debounce(500).onEach { newInstances ->
-                instanceRepository.updateAll(newInstances)
-            }.launchIn(this)
+            saveOperationChannel
+                .receiveAsFlow()
+                .debounce(500)
+                .onEach { newInstances ->
+                    instanceRepository.updateAll(newInstances)
+                }.launchIn(this)
         }
 
         if (uiState.value.instances.isEmpty()) {
@@ -59,6 +65,7 @@ class SelectInstanceViewModel(
             is SelectInstanceMviModel.Intent.SubmitChangeInstanceDialog -> submitChangeInstance()
             is SelectInstanceMviModel.Intent.DeleteInstance -> deleteInstance(intent.value)
             is SelectInstanceMviModel.Intent.SwapIntances -> swapInstances(intent.from, intent.to)
+            SelectInstanceMviModel.Intent.HapticIndication -> hapticFeedback.vibrate()
         }
     }
 
