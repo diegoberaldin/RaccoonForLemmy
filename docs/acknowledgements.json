@@ -58,5 +58,17 @@
     "avatar": "https://discuss.tchncs.de/pictrs/image/7cf9ce69-0eb3-4c31-8571-ee397d900cfd.jpeg?format=webp",
     "subtitle": "German translation",
     "url": "https://discuss.tchncs.de/u/squirrel"
+  },
+  {
+    "title": "gallegonovato",
+    "avatar": "https://hosted.weblate.org/avatar/128/gallegonovato.png",
+    "subtitle": "Spanish translation",
+    "url": "https://hosted.weblate.org/user/gallegonovato"
+  },
+  {
+    "title": "J. Lavoie",
+    "avatar": "https://hosted.weblate.org/avatar/128/Edanas.png",
+    "subtitle": "Several translations (de, et, fi, fr, hu, it, nb)",
+    "url": "https://hosted.weblate.org/user/Edanas"
   }
 ]
