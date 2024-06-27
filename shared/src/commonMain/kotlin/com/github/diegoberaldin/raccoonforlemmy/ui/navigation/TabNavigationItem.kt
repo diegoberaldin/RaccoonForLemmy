@@ -2,6 +2,8 @@ package com.github.diegoberaldin.raccoonforlemmy.ui.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -15,11 +17,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
+import com.github.diegoberaldin.raccoonforlemmy.core.commonui.components.CustomImage
 import com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages.LocalStrings
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.TabNavigationSection
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
@@ -32,6 +37,7 @@ import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 internal fun RowScope.TabNavigationItem(
     tab: Tab,
     withText: Boolean = true,
+    customIconUrl: String? = null,
 ) {
     val tabNavigator = LocalTabNavigator.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -59,11 +65,22 @@ internal fun RowScope.TabNavigationItem(
         selected = tabNavigator.current == tab,
         icon = {
             val content = @Composable {
-                Icon(
-                    painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
-                    contentDescription = null,
-                    tint = color,
-                )
+                if (customIconUrl != null) {
+                    val iconSize = IconSize.m
+                    CustomImage(
+                        url = customIconUrl,
+                        modifier =
+                            Modifier
+                                .size(iconSize)
+                                .clip(RoundedCornerShape(iconSize / 2)),
+                    )
+                } else {
+                    Icon(
+                        painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
+                        contentDescription = null,
+                        tint = color,
+                    )
+                }
             }
             val inboxTitle = LocalStrings.current.navigationInbox
             if (tab.options.title == inboxTitle && unread > 0) {
