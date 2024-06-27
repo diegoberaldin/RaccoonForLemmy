@@ -100,20 +100,23 @@ class SettingsScreen : Screen {
         val customTabsHelper = remember { getCustomTabsHelper() }
 
         LaunchedEffect(Unit) {
-            navigationCoordinator.onDoubleTabSelection.onEach { section ->
-                runCatching {
-                    if (section == TabNavigationSection.Settings) {
-                        scrollState.scrollTo(0)
-                        topAppBarState.heightOffset = 0f
-                        topAppBarState.contentOffset = 0f
+            navigationCoordinator.onDoubleTabSelection
+                .onEach { section ->
+                    runCatching {
+                        if (section == TabNavigationSection.Settings) {
+                            scrollState.scrollTo(0)
+                            topAppBarState.heightOffset = 0f
+                            topAppBarState.contentOffset = 0f
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
         LaunchedEffect(notificationCenter) {
-            notificationCenter.subscribe(NotificationCenterEvent.CloseDialog::class).onEach {
-                infoDialogOpened = false
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CloseDialog::class)
+                .onEach {
+                    infoDialogOpened = false
+                }.launchIn(this)
         }
 
         Scaffold(
@@ -151,8 +154,8 @@ class SettingsScreen : Screen {
                     Modifier
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                            bottom = padding.calculateBottomPadding(),
+                        ).nestedScroll(scrollBehavior.nestedScrollConnection),
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize().verticalScroll(scrollState),
