@@ -160,6 +160,7 @@ internal class DefaultSettingsRepository(
             enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
             inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
             defaultExploreResultType = settings.defaultExploreResultType.toLong(),
+            useAvatarAsProfileNavigationIcon = if (settings.useAvatarAsProfileNavigationIcon) 1L else 0L,
         )
     }
 
@@ -441,6 +442,7 @@ internal class DefaultSettingsRepository(
                 enableToggleFavoriteInNavDrawer = if (settings.enableToggleFavoriteInNavDrawer) 1L else 0L,
                 inboxPreviewMaxLines = settings.inboxPreviewMaxLines?.toLong(),
                 defaultExploreResultType = settings.defaultExploreResultType.toLong(),
+                useAvatarAsProfileNavigationIcon = if (settings.useAvatarAsProfileNavigationIcon) 1L else 0L,
             )
         }
     }
@@ -541,4 +543,5 @@ private fun GetBy.toModel() =
         enableToggleFavoriteInNavDrawer = enableToggleFavoriteInNavDrawer == 1L,
         inboxPreviewMaxLines = inboxPreviewMaxLines?.toInt(),
         defaultExploreResultType = defaultExploreResultType.toInt(),
+        useAvatarAsProfileNavigationIcon = useAvatarAsProfileNavigationIcon == 1L,
     )

@@ -159,6 +159,7 @@ class DefaultSettingsRepositoryTest {
                     account_id = 1,
                     inboxPreviewMaxLines = model.inboxPreviewMaxLines?.toLong(),
                     defaultExploreResultType = model.defaultExploreResultType.toLong(),
+                    useAvatarAsProfileNavigationIcon = if (model.useAvatarAsProfileNavigationIcon) 1 else 0,
                 )
             }
         }
@@ -233,6 +234,7 @@ class DefaultSettingsRepositoryTest {
                     account_id = 1,
                     inboxPreviewMaxLines = model.inboxPreviewMaxLines?.toLong(),
                     defaultExploreResultType = model.defaultExploreResultType.toLong(),
+                    useAvatarAsProfileNavigationIcon = if (model.useAvatarAsProfileNavigationIcon) 1 else 0,
                 )
             }
         }
@@ -302,6 +304,7 @@ class DefaultSettingsRepositoryTest {
         enableToggleFavoriteInNavDrawer: Boolean = false,
         inboxPreviewMaxLines: Int? = null,
         defaultExploreResultType: Int = 2,
+        useAvatarAsProfileNavigationIcon: Boolean = false,
     ) = GetBy(
         id = id,
         theme = theme,
@@ -365,5 +368,6 @@ class DefaultSettingsRepositoryTest {
         enableToggleFavoriteInNavDrawer = if (enableToggleFavoriteInNavDrawer) 1 else 0,
         inboxPreviewMaxLines = inboxPreviewMaxLines?.toLong(),
         defaultExploreResultType = defaultExploreResultType.toLong(),
+        useAvatarAsProfileNavigationIcon = if (useAvatarAsProfileNavigationIcon) 1 else 0,
     )
 }
