@@ -422,4 +422,6 @@ internal val TokStrings =
         override val actionRestore = "o awen e ona"
         override val settingsInboxPreviewMaxLines = "nanpa linja pi lipu lon toki poki"
         override val settingsDefaultExploreResultType = "nasin ijo pi lipu lukin"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "o kepeken e sitelen jan tawa sitelen lili pi linja anpa"
     }

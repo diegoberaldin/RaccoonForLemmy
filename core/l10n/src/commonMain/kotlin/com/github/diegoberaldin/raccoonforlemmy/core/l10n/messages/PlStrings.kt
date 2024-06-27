@@ -427,5 +427,8 @@ internal val PlStrings =
         override val actionRestore = "Przywrócić"
         override val settingsInboxPreviewMaxLines =
             "Maksymalna liczba linii w kartach skrzynki odbiorczej"
-        override val settingsDefaultExploreResultType = "Domyślny typ wyniku wyszukiwania dla Eksploruj"
+        override val settingsDefaultExploreResultType =
+            "Domyślny typ wyniku wyszukiwania dla Eksploruj"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Użyj awatara jako ikony profilu na dolnym pasku nawigacyjnym"
     }

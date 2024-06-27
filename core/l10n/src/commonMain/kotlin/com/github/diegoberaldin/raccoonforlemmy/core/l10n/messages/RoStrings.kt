@@ -425,5 +425,8 @@ internal val RoStrings =
         override val messageContentDeleted = "Ați șters acest conținut"
         override val actionRestore = "Restaurați-l"
         override val settingsInboxPreviewMaxLines = "Numărul maxim de linii în cardurile de inbox"
-        override val settingsDefaultExploreResultType = "Tip de rezultat de căutare prestabilit pentru Explorarea"
+        override val settingsDefaultExploreResultType =
+            "Tip de rezultat de căutare prestabilit pentru Explorarea"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Utilizează avatarul ca pictogramă de profil în bara de navigare de jos"
     }

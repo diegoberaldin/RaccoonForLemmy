@@ -423,4 +423,6 @@ internal val NbStrings =
         override val actionRestore = "Restore"
         override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
         override val settingsDefaultExploreResultType = "Default search result type for Explore"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Use avatar as profile icon in bottom navigation bar"
     }

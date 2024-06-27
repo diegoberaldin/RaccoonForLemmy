@@ -432,5 +432,8 @@ internal val FrStrings =
         override val actionRestore = "Restaurer"
         override val settingsInboxPreviewMaxLines =
             "Nombre maximum de lignes dans les cartes de boîte de réception"
-        override val settingsDefaultExploreResultType = "Type de résultat de recherche par défaut pour Explorer"
+        override val settingsDefaultExploreResultType =
+            "Type de résultat de recherche par défaut pour Explorer"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Utiliser l\'avatar comme icône de profil dans la barre de navigation inférieure"
     }

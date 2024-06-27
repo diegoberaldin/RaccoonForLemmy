@@ -426,4 +426,6 @@ internal val DaStrings =
         override val actionRestore = "Gendan"
         override val settingsInboxPreviewMaxLines = "Max antal linjer i indbakkekort"
         override val settingsDefaultExploreResultType = "Standard søgeresultattype for Udforsk"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Brug avatar som profilikon i nederste navigationslinje"
     }

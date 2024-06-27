@@ -428,4 +428,6 @@ internal val NlStrings =
         override val actionRestore = "Herstellen"
         override val settingsInboxPreviewMaxLines = "Maximaal aantal regels in inboxkaarten"
         override val settingsDefaultExploreResultType = "Standaard zoekresultaattype voor Explore"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Gebruik avatar als profielpictogram in de onderste navigatiebalk"
     }

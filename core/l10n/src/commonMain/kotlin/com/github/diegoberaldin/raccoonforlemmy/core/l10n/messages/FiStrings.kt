@@ -423,4 +423,6 @@ internal val FiStrings =
         override val actionRestore = "Palauttaa"
         override val settingsInboxPreviewMaxLines = "Saapuneiden korttien rivien enimmäismäärä"
         override val settingsDefaultExploreResultType = "Tutkimuksen oletushakutulostyyppi"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Käytä avataria profiilikuvakkeena navigointipalkin alaosassa"
     }

@@ -421,4 +421,6 @@ internal val ArStrings =
         override val actionRestore = "يعيد"
         override val settingsInboxPreviewMaxLines = "الحد الأقصى لعدد الخطوط في بطاقات البريد الوارد"
         override val settingsDefaultExploreResultType = "وع نتيجة البحث الافتراضي للاستكشاف"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "استخدم الصورة الرمزية كرمز للملف الشخصي في شريط التنقل السفلي"
     }

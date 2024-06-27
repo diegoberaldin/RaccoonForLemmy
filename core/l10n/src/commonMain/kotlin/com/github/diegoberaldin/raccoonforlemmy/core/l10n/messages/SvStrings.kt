@@ -426,4 +426,6 @@ internal val SvStrings =
         override val actionRestore = "Återställ"
         override val settingsInboxPreviewMaxLines = "Max antal rader i inkorgskort"
         override val settingsDefaultExploreResultType = "Standard sökresultattyp för Utforska"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Använd avatar som profilikon i det nedre navigeringsfältet"
     }

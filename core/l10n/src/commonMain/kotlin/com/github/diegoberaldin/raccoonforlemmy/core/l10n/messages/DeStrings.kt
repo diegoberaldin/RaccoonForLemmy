@@ -430,4 +430,6 @@ internal val DeStrings =
         override val settingsInboxPreviewMaxLines =
             "Maximale Anzahl von Zeilen in Posteingangskarten"
         override val settingsDefaultExploreResultType = "Standard-Suchergebnistyp für Explore"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Verwenden Sie den Avatar als Profilsymbol in der unteren Navigationsleiste"
     }

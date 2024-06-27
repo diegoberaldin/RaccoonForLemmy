@@ -420,6 +420,7 @@ interface Strings {
     val actionRestore: String
     val settingsInboxPreviewMaxLines: String
     val settingsDefaultExploreResultType: String
+    val settingsUseAvatarAsProfileNavigationIcon: String
 }
 
 object Locales {

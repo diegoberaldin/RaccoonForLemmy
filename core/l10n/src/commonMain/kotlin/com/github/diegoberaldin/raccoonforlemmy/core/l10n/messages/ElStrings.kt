@@ -433,5 +433,8 @@ internal val ElStrings =
         override val actionRestore = "Αποκαταστήστε το"
         override val settingsInboxPreviewMaxLines =
             "Μέγιστος αριθμός γραμμών σε κάρτες εισερχομένων"
-        override val settingsDefaultExploreResultType = "Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση"
+        override val settingsDefaultExploreResultType =
+            "Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Χρησιμοποιήστε το avatar ως εικονίδιο προφίλ στην κάτω γραμμή πλοήγησης"
     }

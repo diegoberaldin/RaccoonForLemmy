@@ -428,4 +428,6 @@ internal val EtStrings =
         override val actionRestore = "Taastama"
         override val settingsInboxPreviewMaxLines = "Maksimaalne ridade arv postkasti kaartidel"
         override val settingsDefaultExploreResultType = "Avastamise vaikeotsingutulemuse tüüp"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Kasutage avatari profiiliikoonina alumisel navigeerimisribal"
     }

@@ -426,5 +426,8 @@ internal val SlStrings =
         override val actionRestore = "Obnovi"
         override val settingsInboxPreviewMaxLines =
             "Največje število vrstic v karticah prejete pošte"
-        override val settingsDefaultExploreResultType = "Privzeta vrsta rezultatov iskanja za Raziskovanje"
+        override val settingsDefaultExploreResultType =
+            "Privzeta vrsta rezultatov iskanja za Raziskovanje"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Uporabite avatar kot ikono profila v spodnji vrstici za krmarjenje"
     }

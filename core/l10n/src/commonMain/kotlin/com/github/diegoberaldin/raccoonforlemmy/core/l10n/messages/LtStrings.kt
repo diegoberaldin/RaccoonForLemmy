@@ -427,4 +427,6 @@ internal val LtStrings =
         override val settingsInboxPreviewMaxLines = "Maksimalus eilučių skaičius gautųjų kortelėse"
         override val settingsDefaultExploreResultType =
             "Numatytasis Naršymo paieškos rezultatų tipas"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Naudokite avatarą kaip profilio piktogramą apatinėje naršymo juostoje"
     }

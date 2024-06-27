@@ -430,4 +430,6 @@ internal val RuStrings =
             "Максимальное количество строк во входящих карточках"
         override val settingsDefaultExploreResultType =
             "Тип результатов поиска по умолчанию для Explore"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Использовать аватар в качестве значка профиля в нижней панели навигации"
     }

@@ -428,4 +428,6 @@ internal val ItStrings =
         override val actionRestore = "Ripristina"
         override val settingsInboxPreviewMaxLines = "Numero massimo righe anteprima in inbox"
         override val settingsDefaultExploreResultType = "Tipo di risultato di ricerca predefinito per Esplora"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Usa avatar come icona profilo nella barra di navigazione inferiore"
     }

@@ -422,4 +422,6 @@ internal val EoStrings =
         override val actionRestore = "Restaŭri"
         override val settingsInboxPreviewMaxLines = "Maksimuma nombro da linioj en enirkestokartoj"
         override val settingsDefaultExploreResultType = "Defaŭlta serĉrezulto-tipo por esploro"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Uzi avataron kiel profilikonon en la malsupra navigadbreto"
     }

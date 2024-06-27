@@ -428,5 +428,8 @@ internal val SrStrings =
         override val actionRestore = "Ресторе"
         override val settingsInboxPreviewMaxLines =
             "Максималан број линија у картицама пријемног сандучет"
-        override val settingsDefaultExploreResultType = "Подразумевани тип резултата претраге за Истраживање"
+        override val settingsDefaultExploreResultType =
+            "Подразумевани тип резултата претраге за Истраживање"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Користите аватар као икону профила на доњој траци за навигацију"
     }

@@ -424,5 +424,8 @@ internal val LvStrings =
         override val messageContentDeleted = "Jūs esat izdzēsis šo saturu"
         override val actionRestore = "Atjaunot"
         override val settingsInboxPreviewMaxLines = "Maksimālais rindu skaits iesūtnes kartītēs"
-        override val settingsDefaultExploreResultType = "Noklusējuma meklēšanas rezultāta veids funkcijai Izpētīt"
+        override val settingsDefaultExploreResultType =
+            "Noklusējuma meklēšanas rezultāta veids funkcijai Izpētīt"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Izmantojiet iemiesojumu kā profila ikonu apakšējā navigācijas joslā"
     }

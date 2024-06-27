@@ -416,4 +416,6 @@ internal val ZhTwStrings =
         override val actionRestore = "恢復"
         override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
         override val settingsDefaultExploreResultType = "Default search result type for explore"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Use avatar as profile icon in bottom navigation bar"
     }

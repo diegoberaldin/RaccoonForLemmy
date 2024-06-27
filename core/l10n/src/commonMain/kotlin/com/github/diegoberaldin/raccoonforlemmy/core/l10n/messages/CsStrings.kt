@@ -426,4 +426,6 @@ internal val CsStrings =
         override val actionRestore = "Obnovit"
         override val settingsInboxPreviewMaxLines = "Maximální počet řádků na kartách doručené pošty"
         override val settingsDefaultExploreResultType = "Výchozí typ výsledku vyhledávání pro Prozkoumat"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Použijte avatar jako ikonu profilu v dolní navigační liště"
     }

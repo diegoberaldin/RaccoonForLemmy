@@ -428,4 +428,6 @@ internal val TrStrings =
         override val settingsInboxPreviewMaxLines =
             "Gelen kutusu kartlarındaki maksimum satır sayısı"
         override val settingsDefaultExploreResultType = "Keşfet için varsayılan arama sonucu türü"
+        override val settingsUseAvatarAsProfileNavigationIcon =
+            "Alt gezinme çubuğunda avatarı profil simgesi olarak kullan"
     }
