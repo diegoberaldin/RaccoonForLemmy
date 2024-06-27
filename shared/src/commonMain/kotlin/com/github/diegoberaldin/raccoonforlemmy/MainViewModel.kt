@@ -17,29 +17,42 @@ class MainViewModel(
     private val identityRepository: IdentityRepository,
     private val settingRepository: SettingsRepository,
     private val notificationChecker: InboxNotificationChecker,
-) : MainScreenMviModel,
-    DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
+) : DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
         initialState = MainScreenMviModel.UiState(),
-    ) {
+    ),
+    MainScreenMviModel {
     init {
         screenModelScope.launch {
             identityRepository.startup()
 
-            inboxCoordinator.totalUnread.onEach { unreadCount ->
-                emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
-            }.launchIn(this)
+            inboxCoordinator.totalUnread
+                .onEach { unreadCount ->
+                    emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
+                }.launchIn(this)
 
-            settingRepository.currentSettings.map {
-                it.inboxBackgroundCheckPeriod
-            }.distinctUntilChanged().onEach {
-                val minutes = it?.inWholeMinutes
-                if (minutes != null) {
-                    notificationChecker.setPeriod(minutes)
-                    notificationChecker.start()
-                } else {
-                    notificationChecker.stop()
-                }
-            }
+            settingRepository.currentSettings
+                .map {
+                    it.inboxBackgroundCheckPeriod
+                }.distinctUntilChanged()
+                .onEach {
+                    val minutes = it?.inWholeMinutes
+                    if (minutes != null) {
+                        notificationChecker.setPeriod(minutes)
+                        notificationChecker.start()
+                    } else {
+                        notificationChecker.stop()
+                    }
+                }.launchIn(this)
+
+            settingRepository.currentSettings
+                .onEach {
+                    updateCustomProfileIcon()
+                }.launchIn(this)
+
+            identityRepository.isLogged
+                .onEach {
+                    updateCustomProfileIcon()
+                }.launchIn(this)
         }
     }
 
@@ -50,6 +63,20 @@ class MainViewModel(
                     updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
                 }
             }
+        }
+    }
+
+    private suspend fun updateCustomProfileIcon() {
+        val settings = settingRepository.currentSettings.value
+        updateState {
+            it.copy(
+                customProfileUrl =
+                    if (settings.useAvatarAsProfileNavigationIcon) {
+                        identityRepository.cachedUser?.avatar
+                    } else {
+                        null
+                    },
+            )
         }
     }
 }

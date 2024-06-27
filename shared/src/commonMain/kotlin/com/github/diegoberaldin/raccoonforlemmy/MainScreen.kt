@@ -208,8 +208,8 @@ internal object MainScreen : Screen {
                                 .onEach {
                                     uiFontSizeWorkaround = false
                                     delay(50)
-                                uiFontSizeWorkaround = true
-                            }.launchIn(this)
+                                    uiFontSizeWorkaround = true
+                                }.launchIn(this)
                         }
                         if (uiFontSizeWorkaround) {
                             NavigationBar(
@@ -234,11 +234,27 @@ internal object MainScreen : Screen {
                                     ),
                                 tonalElevation = 0.dp,
                             ) {
-                                TabNavigationItem(HomeTab, withText = titleVisible)
-                                TabNavigationItem(ExploreTab, withText = titleVisible)
-                                TabNavigationItem(ProfileTab, withText = titleVisible)
-                                TabNavigationItem(InboxTab, withText = titleVisible)
-                                TabNavigationItem(SettingsTab, withText = titleVisible)
+                                TabNavigationItem(
+                                    tab = HomeTab,
+                                    withText = titleVisible,
+                                )
+                                TabNavigationItem(
+                                    tab = ExploreTab,
+                                    withText = titleVisible,
+                                )
+                                TabNavigationItem(
+                                    tab = ProfileTab,
+                                    withText = titleVisible,
+                                    customIconUrl = uiState.customProfileUrl,
+                                )
+                                TabNavigationItem(
+                                    tab = InboxTab,
+                                    withText = titleVisible,
+                                )
+                                TabNavigationItem(
+                                    tab = SettingsTab,
+                                    withText = titleVisible,
+                                )
                             }
                         }
                     }
