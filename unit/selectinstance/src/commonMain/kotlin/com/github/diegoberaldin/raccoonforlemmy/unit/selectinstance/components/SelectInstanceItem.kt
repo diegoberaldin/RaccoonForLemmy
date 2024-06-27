@@ -33,13 +33,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.Option
 import com.github.diegoberaldin.raccoonforlemmy.core.commonui.lemmyui.OptionId
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import sh.calvin.reorderable.ReorderableCollectionItemScope
 
 @Composable
 internal fun SelectInstanceItem(
     modifier: Modifier = Modifier,
+    reorderableScope: ReorderableCollectionItemScope,
     instance: String,
     isActive: Boolean = false,
     onClick: (() -> Unit)? = null,
+    onDragStarted: (() -> Unit)? = null,
     options: List<Option> = emptyList(),
     onOptionSelected: ((OptionId) -> Unit)? = null,
 ) {
@@ -84,10 +87,17 @@ internal fun SelectInstanceItem(
                         Modifier
                             .size(IconSize.m)
                             .padding(Spacing.xs)
-                            .onGloballyPositioned {
+                            .then(
+                                with(reorderableScope) {
+                                    Modifier.draggableHandle(
+                                        onDragStarted = {
+                                            onDragStarted?.invoke()
+                                        },
+                                    )
+                                },
+                            ).onGloballyPositioned {
                                 optionsOffset = it.positionInParent()
-                            }
-                            .onClick(
+                            }.onClick(
                                 onClick = {
                                     optionsMenuOpen = true
                                 },
