@@ -416,8 +416,7 @@ internal val TrStrings =
         override val editCommunityItemVisibility = "Görünürlük"
         override val communityVisibilityLocalOnly = "yalnızca yerel örnek"
         override val communityVisibilityPublic = "halk"
-        override val noticeCommunityLocalOnly =
-            "Bu topluluk yalnızca mevcut örnekte görülebilir"
+        override val noticeCommunityLocalOnly = "Bu topluluk yalnızca mevcut örnekte görülebilir"
         override val noticeBannedUser = "Mevcut kullanıcı bu topluluktan yasaklandı"
         override val settingsHiddenPosts = "Gizli gönderiler"
         override val settingsMediaList = "Medya yüklemeleri"

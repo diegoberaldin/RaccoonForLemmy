@@ -429,7 +429,8 @@ internal val BgStrings =
         override val messageContentDeleted = "Вие изтрихте това съдържание"
         override val actionRestore = "Възстанови"
         override val settingsInboxPreviewMaxLines = "Максимален брой редове във входящите карти"
-        override val settingsDefaultExploreResultType = "ип резултати от търсенето по подразбиране за Explore"
+        override val settingsDefaultExploreResultType =
+            "ип резултати от търсенето по подразбиране за Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Използвайте аватара като икона на профил в долната лента за навигация"
     }

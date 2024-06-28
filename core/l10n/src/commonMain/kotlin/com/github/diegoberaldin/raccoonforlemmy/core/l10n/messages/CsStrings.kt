@@ -424,8 +424,10 @@ internal val CsStrings =
             "Přidat/odebrat oblíbené položky v navigační zásuvce"
         override val messageContentDeleted = "Tento obsah jste smazali"
         override val actionRestore = "Obnovit"
-        override val settingsInboxPreviewMaxLines = "Maximální počet řádků na kartách doručené pošty"
-        override val settingsDefaultExploreResultType = "Výchozí typ výsledku vyhledávání pro Prozkoumat"
+        override val settingsInboxPreviewMaxLines =
+            "Maximální počet řádků na kartách doručené pošty"
+        override val settingsDefaultExploreResultType =
+            "Výchozí typ výsledku vyhledávání pro Prozkoumat"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Použijte avatar jako ikonu profilu v dolní navigační liště"
     }
