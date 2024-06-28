@@ -241,4 +241,6 @@ sealed interface NotificationCenterEvent {
     ) : NotificationCenterEvent
 
     data object FavoritesUpdated : NotificationCenterEvent
+
+    data object OpenSearchInExplore : NotificationCenterEvent
 }
