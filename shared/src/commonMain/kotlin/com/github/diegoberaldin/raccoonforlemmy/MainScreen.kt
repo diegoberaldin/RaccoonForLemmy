@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -77,6 +78,7 @@ internal object MainScreen : Screen {
             with(LocalDensity.current) {
                 bottomNavigationInsetPx.toDp()
             }
+        val scope = rememberCoroutineScope()
 
         LaunchedEffect(model) {
             model.effects
@@ -243,6 +245,15 @@ internal object MainScreen : Screen {
                                 TabNavigationItem(
                                     tab = ExploreTab,
                                     withText = titleVisible,
+                                    onLongPress =
+                                        rememberCallback {
+                                            tabNavigator.current = ExploreTab
+                                            navigationCoordinator.setCurrentSection(TabNavigationSection.Explore)
+
+                                            scope.launch {
+                                                notificationCenter.send(NotificationCenterEvent.OpenSearchInExplore)
+                                            }
+                                        },
                                 )
                                 TabNavigationItem(
                                     tab = ProfileTab,
