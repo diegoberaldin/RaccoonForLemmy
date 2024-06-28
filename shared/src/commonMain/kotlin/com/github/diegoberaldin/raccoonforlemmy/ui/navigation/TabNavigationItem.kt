@@ -69,6 +69,24 @@ internal fun RowScope.TabNavigationItem(
         navigationCoordinator.setCurrentSection(section)
     }
 
+    val pointerInputModifier =
+        Modifier.pointerInput(Unit) {
+            detectTapGestures(
+                onPress = { offset ->
+                    val press = PressInteraction.Press(offset)
+                    interactionSource.emit(press)
+                    tryAwaitRelease()
+                    interactionSource.emit(PressInteraction.Release(press))
+                },
+                onTap = {
+                    handleClick()
+                },
+                onLongPress = {
+                    onLongPress?.invoke()
+                },
+            )
+        }
+
     NavigationBarItem(
         onClick = ::handleClick,
         selected = tabNavigator.current == tab,
@@ -84,25 +102,11 @@ internal fun RowScope.TabNavigationItem(
                             Modifier
                                 .size(iconSize)
                                 .clip(RoundedCornerShape(iconSize / 2))
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = { offset ->
-                                            val press = PressInteraction.Press(offset)
-                                            interactionSource.emit(press)
-                                            tryAwaitRelease()
-                                            interactionSource.emit(PressInteraction.Release(press))
-                                        },
-                                        onTap = {
-                                            handleClick()
-                                        },
-                                        onLongPress = {
-                                            onLongPress?.invoke()
-                                        },
-                                    )
-                                },
+                                .then(pointerInputModifier),
                     )
                 } else {
                     Icon(
+                        modifier = pointerInputModifier,
                         painter = tab.options.icon ?: rememberVectorPainter(Icons.Default.Home),
                         contentDescription = null,
                         tint = color,
