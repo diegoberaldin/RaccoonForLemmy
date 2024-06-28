@@ -42,6 +42,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -144,6 +146,7 @@ class ExploreScreen(
                     append(otherInstanceName)
                 }
             }
+        val searchFocusRequester = remember { FocusRequester() }
 
         LaunchedEffect(navigationCoordinator) {
             navigationCoordinator.onDoubleTabSelection
@@ -171,6 +174,10 @@ class ExploreScreen(
 
                         ExploreMviModel.Effect.OperationFailure -> {
                             snackbarHostState.showSnackbar(errorMessage)
+                        }
+
+                        ExploreMviModel.Effect.OpenSearch -> {
+                            searchFocusRequester.requestFocus()
                         }
                     }
                 }.launchIn(this)
@@ -244,6 +251,7 @@ class ExploreScreen(
                 SearchField(
                     modifier =
                         Modifier
+                            .focusRequester(searchFocusRequester)
                             .padding(
                                 horizontal = Spacing.s,
                                 vertical = Spacing.s,
@@ -323,7 +331,7 @@ class ExploreScreen(
                                                     ),
                                                 )
                                             },
-                                        highlightText = uiState.searchText
+                                        highlightText = uiState.searchText,
                                     )
                                 }
 

@@ -26,6 +26,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepo
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -148,6 +149,12 @@ class ExploreViewModel(
                 .onEach { evt ->
                     handleCommunityUpdate(evt.value)
                 }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.OpenSearchInExplore::class)
+                .onEach {
+                    delay(500)
+                    emitEffect(ExploreMviModel.Effect.OpenSearch)
+                }.launchIn(this)
 
             uiState
                 .map {
@@ -155,8 +162,10 @@ class ExploreViewModel(
                 }.distinctUntilChanged()
                 .debounce(1000)
                 .onEach {
-                    emitEffect(ExploreMviModel.Effect.BackToTop)
-                    refresh()
+                    if (!uiState.value.initial) {
+                        emitEffect(ExploreMviModel.Effect.BackToTop)
+                        refresh()
+                    }
                 }.launchIn(this)
         }
 
@@ -178,11 +187,12 @@ class ExploreViewModel(
                     resultType = settings.defaultExploreResultType.toSearchResultType(),
                 )
             }
+            refresh(initial = true)
+            emitEffect(ExploreMviModel.Effect.BackToTop)
+
             val auth = identityRepository.authToken.value
             val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
             updateState { it.copy(downVoteEnabled = downVoteEnabled) }
-            refresh(initial = true)
-            emitEffect(ExploreMviModel.Effect.BackToTop)
         }
     }
 
@@ -363,7 +373,11 @@ class ExploreViewModel(
                 instance = otherInstance,
             )
         val additionalResolvedCommunity =
-            if (resultType == SearchResultType.All || resultType == SearchResultType.Communities && currentPage == 1) {
+            if (resultType == SearchResultType.All ||
+                resultType == SearchResultType.Communities &&
+                currentPage == 1 &&
+                searchText.isNotEmpty()
+            ) {
                 communityRepository.getResolved(
                     query = searchText,
                     auth = auth,
@@ -372,7 +386,11 @@ class ExploreViewModel(
                 null
             }
         val additionalResolvedUser =
-            if (resultType == SearchResultType.All || resultType == SearchResultType.Users && currentPage == 1) {
+            if (resultType == SearchResultType.All ||
+                resultType == SearchResultType.Users &&
+                currentPage == 1 &&
+                searchText.isNotEmpty()
+            ) {
                 userRepository.getResolved(
                     query = searchText,
                     auth = auth,

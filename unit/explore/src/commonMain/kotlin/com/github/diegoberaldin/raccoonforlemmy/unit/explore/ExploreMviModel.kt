@@ -95,5 +95,7 @@ interface ExploreMviModel :
         data object BackToTop : Effect
 
         data object OperationFailure : Effect
+
+        data object OpenSearch : Effect
     }
 }
