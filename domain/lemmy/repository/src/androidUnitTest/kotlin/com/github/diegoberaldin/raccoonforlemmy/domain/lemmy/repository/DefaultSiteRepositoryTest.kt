@@ -36,12 +36,13 @@ class DefaultSiteRepositoryTest {
             every { site } returns siteService
             every { post } returns postService
             every { user } returns userService
+            every { currentInstance } returns "feddit.it"
         }
     private val customServiceProvider =
         mockk<ServiceProvider> {
             every { site } returns siteService
             every { post } returns postService
-            every { user } returns userService
+            every { currentInstance } returns "lemmy.ml"
         }
 
     private val sut =
