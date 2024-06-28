@@ -82,6 +82,7 @@ kotlin {
                 implementation(projects.unit.drawer)
                 implementation(projects.unit.editcommunity)
                 implementation(projects.unit.instanceinfo)
+                implementation(projects.unit.manageaccounts)
                 implementation(projects.unit.manageban)
                 implementation(projects.unit.medialist)
                 implementation(projects.unit.managesubscriptions)
@@ -124,9 +125,15 @@ kotlin {
 
 android {
     namespace = "com.github.diegoberaldin.raccoonforlemmy"
-    compileSdk = libs.versions.android.targetSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.targetSdk
+            .get()
+            .toInt()
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
     }
 }
 dependencies {
