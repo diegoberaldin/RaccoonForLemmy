@@ -89,8 +89,12 @@ Here is a list of the most important features of the app:
 - multi-community (community aggregation);
 - report post and comments with a reason;
 - view the moderation log;
-- community moderation tool (examine and resolve reports, ban users, feature posts, block
-  further comments from posts, mark comments as distinguished, remove posts/comments).
+- community moderation tools (examine and resolve reports, ban users, feature posts, block
+  further comments from posts, mark comments as distinguished, remove posts/comments, review all
+  created posts/comments, edit/create community);
+- save posts and comments you are creating as drafts to edit them later;
+- admin tools (purge users/posts/comments/communities, feature posts locally, hide/unhide
+  communities);
 
 Most clients for Lemmy currently offer the first points (with various degrees of completion),
 whereas the last ones are trickier and less common, so they are directed to more demanding users,
@@ -161,11 +165,12 @@ links:
   on GitHub.
 
 If, on the other hand, you just want to interact with the community, provide suggestions, report
-bugs or tell your opinion, you can:
+bugs, contribute with translations or tell your opinion, you can:
 
-- use the [Matrix space](https://matrix.to/#/#raccoonforlemmy:matrix.org) to chat in real time with
-  other team members, there are two rooms in the space: "General" is for general information about
-  the app development and "Trashcan" is more for smalltalk and random topics;
+- use the [Matrix room](https://matrix.to/#/#raccoon4lemmy:matrix.org) to chat in real time with
+  other team members;
+- check out this project [on Weblate](https://hosted.weblate.org/projects/raccoonforlemmy/) to
+  contribute with new translations or improve the existing ones;
 - use the [Lemmy community](https://lemmy.world/c/raccoonforlemmy) to receive updates about the new
   releases, participate into public discussions in the Lemmy style and provide your feedback or even
   share your memes about raccoons with any other interested people;

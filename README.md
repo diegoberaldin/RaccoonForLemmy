@@ -86,11 +86,13 @@ for some technical notes.
 - explore all the communities on a given instance in guest mode;
 - multi-community (community aggregation);
 - view the moderation log;
-- community moderation tool (examine and resolve reports, ban users, feature posts, block
-  further comments from posts, mark comments as distinguished, remove posts/comments, examine all
-  posts/comments created
+- community moderation tools (examine and resolve reports, ban users, feature posts, block
+  further comments from posts, mark comments as distinguished, remove posts/comments, review all
+  created posts/comments, edit/create community)
   in your communities);
 - save posts and comments you are creating as drafts to edit them later;
+- admin tools (purge users/posts/comments/communities, feature posts locally, hide/unhide
+  communities);
 
 Most clients for Lemmy currently offer the first points (with various degrees of completion), so
 there is nothing special about Raccoon, whereas the last ones are less common and are directed to
@@ -171,6 +173,8 @@ the [CONTRIBUTING.md](https://github.com/diegoberaldin/RaccoonForLemmy/blob/mast
 
 ## Want to leave your feedback or report a bug?
 
+- use the [Matrix room](https://matrix.to/#/#raccoon4lemmy:matrix.org) to chat in real time with
+  other team members;
 - open an issue on this
   project's [issue tracker](https://github.com/diegoberaldin/RaccoonForLemmy/issues) to report bugs
   or request new features
