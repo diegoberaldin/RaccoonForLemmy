@@ -1,5 +1,8 @@
 package com.github.diegoberaldin.raccoonforlemmy.ui.navigation
 
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextOverflow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
@@ -38,6 +42,7 @@ internal fun RowScope.TabNavigationItem(
     tab: Tab,
     withText: Boolean = true,
     customIconUrl: String? = null,
+    onLongPress: (() -> Unit)? = null,
 ) {
     val tabNavigator = LocalTabNavigator.current
     val navigationCoordinator = remember { getNavigationCoordinator() }
@@ -49,30 +54,52 @@ internal fun RowScope.TabNavigationItem(
             MaterialTheme.colorScheme.outline
         }
 
+    val interactionSource = remember { MutableInteractionSource() }
+
+    fun handleClick() {
+        tabNavigator.current = tab
+        val section =
+            when (tab) {
+                ExploreTab -> TabNavigationSection.Explore
+                ProfileTab -> TabNavigationSection.Profile
+                InboxTab -> TabNavigationSection.Inbox
+                SettingsTab -> TabNavigationSection.Settings
+                else -> TabNavigationSection.Home
+            }
+        navigationCoordinator.setCurrentSection(section)
+    }
+
     NavigationBarItem(
-        onClick = {
-            tabNavigator.current = tab
-            val section =
-                when (tab) {
-                    ExploreTab -> TabNavigationSection.Explore
-                    ProfileTab -> TabNavigationSection.Profile
-                    InboxTab -> TabNavigationSection.Inbox
-                    SettingsTab -> TabNavigationSection.Settings
-                    else -> TabNavigationSection.Home
-                }
-            navigationCoordinator.setCurrentSection(section)
-        },
+        onClick = ::handleClick,
         selected = tabNavigator.current == tab,
+        interactionSource = interactionSource,
         icon = {
             val content = @Composable {
                 if (customIconUrl != null) {
                     val iconSize = IconSize.m
+
                     CustomImage(
                         url = customIconUrl,
                         modifier =
                             Modifier
                                 .size(iconSize)
-                                .clip(RoundedCornerShape(iconSize / 2)),
+                                .clip(RoundedCornerShape(iconSize / 2))
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onPress = { offset ->
+                                            val press = PressInteraction.Press(offset)
+                                            interactionSource.emit(press)
+                                            tryAwaitRelease()
+                                            interactionSource.emit(PressInteraction.Release(press))
+                                        },
+                                        onTap = {
+                                            handleClick()
+                                        },
+                                        onLongPress = {
+                                            onLongPress?.invoke()
+                                        },
+                                    )
+                                },
                     )
                 } else {
                     Icon(
