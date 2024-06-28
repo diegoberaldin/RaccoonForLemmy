@@ -41,6 +41,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.ancillaryTextAlpha
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.onClick
 import com.github.diegoberaldin.raccoonforlemmy.core.utils.toLocalDp
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -64,6 +65,7 @@ fun SearchField(
     LaunchedEffect(Unit) {
         textFieldState
             .textAsFlow()
+            .distinctUntilChanged()
             .onEach {
                 onValueChange(it.toString())
             }.launchIn(this)
