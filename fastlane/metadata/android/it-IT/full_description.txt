@@ -27,7 +27,8 @@
     <li>esplorare tutte le comunità su una data istanza in modalità ospite;</li>
     <li>multi-comunità (aggregazione di comunità);</li>
     <li>visualizzazione registro di moderazione;</li>
-    <li>strumenti di moderazione comunità (esaminare e risolvere segnalazioni, bannare utenti, fissare post a livello di comunità, impedire ulteriori commenti nei post, contrassegnare commenti come autorevoli, rimuovere post/commenti).</li>
+    <li>strumenti di moderazione comunità (esaminare e risolvere segnalazioni, bannare utenti, fissare post a livello di comunità, impedire ulteriori commenti nei post, contrassegnare commenti come autorevoli, rimuovere post/commenti, creare/modificare comunità, rivedere tutti i post/commenti creati).</li>
     <li>salvataggio in bozza di post e commenti</li>
     <li>modalità anonima con cambio istanza rapido</li>
+    <li>strumenti per amministratori (rimuovere utent/post/commenti/comunità, fissare post a livello di istanza, nascondere/mostrare comunità)</li>
 </ul>

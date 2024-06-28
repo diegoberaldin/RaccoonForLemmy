@@ -27,7 +27,8 @@
     <li>explore all the communities on a given instance in guest mode;</li>
     <li>multi-community (community aggregation);</li>
     <li>view the moderation log;</li>
-    <li>community moderation tool (examine and resolve reports, ban users, feature posts in community, block further comments from posts, mark comments as distinguished, remove posts/comments).</li>
+    <li>community moderation tool (examine and resolve reports, ban users, feature posts in community, block further comments from posts, mark comments as distinguished, remove posts/comments, review all created posts/comments, edit/create community)</li>
     <li>save drafts for posts and comments</li>
     <li>anonymous mode with quick instance switch</li>
+    <li>admin tools (purge users/posts/comments/communities, feature posts locally, hide/unhide communities)</li>
 </ul>
