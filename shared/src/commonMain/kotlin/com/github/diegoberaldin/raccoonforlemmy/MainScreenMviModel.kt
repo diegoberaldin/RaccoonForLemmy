@@ -15,6 +15,7 @@ interface MainScreenMviModel :
     data class UiState(
         val bottomBarOffsetHeightPx: Float = 0f,
         val customProfileUrl: String? = null,
+        val isLogged: Boolean = false,
     )
 
     sealed interface Effect {

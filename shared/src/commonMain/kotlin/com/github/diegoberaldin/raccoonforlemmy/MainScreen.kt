@@ -41,12 +41,14 @@ import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getDrawerCoor
 import com.github.diegoberaldin.raccoonforlemmy.core.navigation.di.getNavigationCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.NotificationCenterEvent
 import com.github.diegoberaldin.raccoonforlemmy.core.notifications.di.getNotificationCenter
+import com.github.diegoberaldin.raccoonforlemmy.core.utils.compose.rememberCallback
 import com.github.diegoberaldin.raccoonforlemmy.feature.home.ui.HomeTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.inbox.ui.InboxTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.profile.ui.ProfileTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.search.ui.ExploreTab
 import com.github.diegoberaldin.raccoonforlemmy.feature.settings.ui.SettingsTab
 import com.github.diegoberaldin.raccoonforlemmy.ui.navigation.TabNavigationItem
+import com.github.diegoberaldin.raccoonforlemmy.unit.manageaccounts.ManageAccountsScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
@@ -246,6 +248,15 @@ internal object MainScreen : Screen {
                                     tab = ProfileTab,
                                     withText = titleVisible,
                                     customIconUrl = uiState.customProfileUrl,
+                                    onLongPress =
+                                        if (uiState.isLogged) {
+                                            rememberCallback {
+                                                val screen = ManageAccountsScreen()
+                                                navigationCoordinator.showBottomSheet(screen)
+                                            }
+                                        } else {
+                                            null
+                                        },
                                 )
                                 TabNavigationItem(
                                     tab = InboxTab,

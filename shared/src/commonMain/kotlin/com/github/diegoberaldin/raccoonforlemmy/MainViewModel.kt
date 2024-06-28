@@ -50,7 +50,8 @@ class MainViewModel(
                 }.launchIn(this)
 
             identityRepository.isLogged
-                .onEach {
+                .onEach { isLogged ->
+                    updateState { it.copy(isLogged = isLogged ?: false) }
                     updateCustomProfileIcon()
                 }.launchIn(this)
         }
