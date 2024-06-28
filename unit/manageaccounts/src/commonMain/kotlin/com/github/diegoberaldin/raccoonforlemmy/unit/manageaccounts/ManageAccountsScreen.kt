@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
@@ -48,13 +49,14 @@ class ManageAccountsScreen : Screen {
         var indexToDelete by remember { mutableStateOf<Int?>(null) }
 
         LaunchedEffect(model) {
-            model.effects.onEach { effect ->
-                when (effect) {
-                    ManageAccountsMviModel.Effect.Close -> {
-                        navigationCoordinator.hideBottomSheet()
+            model.effects
+                .onEach { effect ->
+                    when (effect) {
+                        ManageAccountsMviModel.Effect.Close -> {
+                            navigationCoordinator.hideBottomSheet()
+                        }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
         }
 
         Column(
@@ -63,8 +65,6 @@ class ManageAccountsScreen : Screen {
                     .windowInsetsPadding(WindowInsets.navigationBars)
                     .padding(
                         top = Spacing.s,
-                        start = Spacing.s,
-                        end = Spacing.s,
                         bottom = Spacing.m,
                     ),
             verticalArrangement = Arrangement.spacedBy(Spacing.s),
@@ -78,6 +78,7 @@ class ManageAccountsScreen : Screen {
             ) {
                 itemsIndexed(uiState.accounts) { idx, account ->
                     AccountItem(
+                        modifier = Modifier.fillMaxWidth(),
                         account = account,
                         autoLoadImages = uiState.autoLoadImages,
                         onClick = {

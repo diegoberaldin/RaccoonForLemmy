@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.IconSize
 import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
@@ -57,13 +58,12 @@ internal fun AccountItem(
     Row(
         modifier =
             modifier
-                .fillMaxWidth()
                 .onClick(
                     onClick = {
                         onClick?.invoke()
                     },
                 ).padding(
-                    horizontal = Spacing.m,
+                    horizontal = Spacing.s,
                     vertical = Spacing.s,
                 ),
         horizontalArrangement = Arrangement.spacedBy(Spacing.s),
@@ -74,7 +74,6 @@ internal fun AccountItem(
             CustomImage(
                 modifier =
                     Modifier
-                        .padding(Spacing.xxxs)
                         .size(IconSize.l)
                         .clip(RoundedCornerShape(IconSize.l / 2)),
                 url = avatar,
@@ -85,7 +84,10 @@ internal fun AccountItem(
         } else {
             Box(modifier = Modifier.size(IconSize.l))
         }
+
         Text(
+            modifier = Modifier.fillMaxWidth(0.8f),
+            maxLines = 1,
             text =
                 buildString {
                     append(account.username)
@@ -93,6 +95,8 @@ internal fun AccountItem(
                     append(account.instance)
                 },
             color = fullColor,
+            style = MaterialTheme.typography.bodyMedium,
+            overflow = TextOverflow.Ellipsis,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -108,12 +112,12 @@ internal fun AccountItem(
             Box {
                 Icon(
                     modifier =
-                        Modifier.size(IconSize.m)
+                        Modifier
+                            .size(IconSize.m)
                             .padding(Spacing.xs)
                             .onGloballyPositioned {
                                 optionsOffset = it.positionInParent()
-                            }
-                            .onClick(
+                            }.onClick(
                                 onClick = {
                                     optionsMenuOpen = true
                                 },
