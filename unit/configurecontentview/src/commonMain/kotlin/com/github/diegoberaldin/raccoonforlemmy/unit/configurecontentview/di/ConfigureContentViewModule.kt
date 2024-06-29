@@ -14,6 +14,7 @@ val configureContentViewModule =
                 notificationCenter = get(),
                 identityRepository = get(),
                 siteRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

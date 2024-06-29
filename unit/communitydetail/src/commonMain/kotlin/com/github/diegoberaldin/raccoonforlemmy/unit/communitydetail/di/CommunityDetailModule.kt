@@ -30,6 +30,7 @@ val communityDetailModule =
                 postPaginationManager = get(),
                 postNavigationManager = get(),
                 communityPreferredLanguageRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

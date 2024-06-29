@@ -24,6 +24,7 @@ val multiCommunityModule =
                 getSortTypesUseCase = get(),
                 multiCommunityRepository = get(),
                 postNavigationManager = get(),
+                lemmyValueCache = get(),
             )
         }
         factory<MultiCommunityEditorMviModel> { params ->

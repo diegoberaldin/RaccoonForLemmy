@@ -14,6 +14,7 @@ internal val internalSharedModule =
                 identityRepository = get(),
                 settingRepository = get(),
                 notificationChecker = get(),
+                lemmyValueCache = get(),
             )
         }
         single<DetailOpener> {

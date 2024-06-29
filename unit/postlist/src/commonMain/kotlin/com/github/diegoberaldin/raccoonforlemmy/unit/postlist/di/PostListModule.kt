@@ -24,6 +24,7 @@ val postListModule =
                 getSortTypesUseCase = get(),
                 postPaginationManager = get(),
                 postNavigationManager = get(),
+                lemmyValueCache = get(),
             )
         }
     }

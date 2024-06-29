@@ -29,7 +29,6 @@ val coreIdentityModule =
             DefaultIdentityRepository(
                 accountRepository = get(),
                 siteRepository = get(),
-                userRepository = get(),
                 networkManager = get(),
             )
         }
@@ -48,6 +47,7 @@ val coreIdentityModule =
                 siteRepository = get(),
                 communitySortRepository = get(),
                 communityPreferredLanguageRepository = get(),
+                lemmyValueCache = get(),
             )
         }
         single<LogoutUseCase> {
@@ -57,6 +57,7 @@ val coreIdentityModule =
                 notificationCenter = get(),
                 settingsRepository = get(),
                 communitySortRepository = get(),
+                lemmyValueCache = get(),
             )
         }
         single<SwitchAccountUseCase> {
@@ -68,6 +69,7 @@ val coreIdentityModule =
                 notificationCenter = get(),
                 communitySortRepository = get(),
                 communityPreferredLanguageRepository = get(),
+                lemmyValueCache = get(),
             )
         }
         single<DeleteAccountUseCase> {

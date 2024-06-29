@@ -23,6 +23,7 @@ val createCommentModule =
                 accountRepository = get(),
                 draftRepository = get(),
                 communityPreferredLanguageRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

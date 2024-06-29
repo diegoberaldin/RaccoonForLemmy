@@ -17,6 +17,7 @@ val inboxRepliesModule =
                 hapticFeedback = get(),
                 coordinator = get(),
                 notificationCenter = get(),
+                lemmyValueCache = get(),
             )
         }
     }

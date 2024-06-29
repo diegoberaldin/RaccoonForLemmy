@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultG
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultGetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultIsSiteVersionAtLeastUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultLemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultLemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultMediaRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultModlogRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.DefaultPostRepository
@@ -21,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSiteS
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.IsSiteVersionAtLeastUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.MediaRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.ModlogRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
@@ -105,6 +107,11 @@ val repositoryModule =
         single<GetSiteSupportsMediaListUseCase> {
             DefaultGetSiteSupportsMediaListUseCase(
                 isSiteVersionAtLeastUseCase = get(),
+            )
+        }
+        single<LemmyValueCache> {
+            DefaultLemmyValueCache(
+                services = get(named("default")),
             )
         }
     }

@@ -27,6 +27,7 @@ val postDetailModule =
                 commentPaginationManager = get(),
                 postNavigationManager = get(),
                 siteRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

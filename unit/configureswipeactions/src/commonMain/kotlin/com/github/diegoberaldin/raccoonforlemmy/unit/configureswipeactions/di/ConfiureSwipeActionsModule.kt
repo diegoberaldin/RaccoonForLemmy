@@ -13,6 +13,7 @@ val configureSwipeActionsModule =
                 notificationCenter = get(),
                 identityRepository = get(),
                 siteRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

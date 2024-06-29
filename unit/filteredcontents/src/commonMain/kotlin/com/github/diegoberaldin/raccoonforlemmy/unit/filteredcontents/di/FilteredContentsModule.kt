@@ -21,6 +21,7 @@ val filteredContentsModule =
                 commentPaginationManager = get(),
                 postNavigationManager = get(),
                 siteRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }

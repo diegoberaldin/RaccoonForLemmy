@@ -13,6 +13,7 @@ val userInfoModule =
                 otherInstance = params[2],
                 userRepository = get(),
                 settingsRepository = get(),
+                siteRepository = get(),
                 itemCache = get(),
             )
         }

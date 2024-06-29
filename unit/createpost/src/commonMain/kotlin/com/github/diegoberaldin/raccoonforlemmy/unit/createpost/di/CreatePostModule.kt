@@ -22,6 +22,7 @@ val createPostModule =
                 draftRepository = get(),
                 notificationCenter = get(),
                 communityPreferredLanguageRepository = get(),
+                lemmyValueCache = get(),
             )
         }
     }
