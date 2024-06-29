@@ -132,7 +132,7 @@
     <string name="postDetailCrossPosts">también publicado en:</string>
     <string name="postDetailLoadMoreComments">Cargar más comentarios</string>
     <string name="postHourShort">h</string>
-    <string name="postMinuteShort">m</string>
+    <string name="postMinuteShort">min.</string>
     <string name="postSecondShort">s</string>
     <string name="profileButtonLogin">Acceder</string>
     <string name="profileDayShort">d</string>
@@ -356,7 +356,7 @@
     <string name="actionSearchInComments">Buscar en comentarios</string>
     <string name="advancedSettingsDefaultLanguage">Idioma predeterminado en el editor</string>
     <string name="undetermined">Indefinido</string>
-    <string name="exploreResultTypeTitle">Tipo de resultado</string>
+    <string name="exploreResultTypeTitle">Tipo del resultado de la búsqueda</string>
     <string name="communityActionEdit">Editar comunidad</string>
     <string name="editCommunityHeaderTextual">Información textual</string>
     <string name="editCommunityItemSidebar">Barra lateral</string>
@@ -412,4 +412,5 @@
     <string name="actionRestore">Restaurar</string>
     <string name="settingsInboxPreviewMaxLines">Número máximo de líneas en tarjetas de mensajes</string>
     <string name="settingsDefaultExploreResultType">Tipo de resultado de búsqueda predeterminado para Descubre</string>
+    <string name="settingsUseAvatarAsProfileNavigationIcon">Utilizar avatar como icono de perfil en la barra de navegación inferior</string>
 </resources>
