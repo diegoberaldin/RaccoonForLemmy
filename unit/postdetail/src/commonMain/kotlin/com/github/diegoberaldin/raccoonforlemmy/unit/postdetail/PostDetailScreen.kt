@@ -1161,6 +1161,13 @@ class PostDetailScreen(
                                                             comment.creator?.id.let { id ->
                                                                 uiState.moderators.containsId(id)
                                                             },
+                                                        isAdmin =
+                                                            comment.creator?.let { user ->
+                                                                // comparison must be done by handle because IDs vary from one instance to another
+                                                                uiState.admins.any { admin ->
+                                                                    admin.readableHandle == user.readableHandle
+                                                                }
+                                                            } ?: false,
                                                         indentAmount = uiState.commentIndentAmount,
                                                         barThickness = uiState.commentBarThickness,
                                                         voteFormat = uiState.voteFormat,

@@ -22,6 +22,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentR
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.unit.postdetail.utils.populateLoadMoreComments
@@ -57,6 +58,7 @@ class PostDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
     private val postNavigationManager: PostNavigationManager,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<PostDetailMviModel.Intent, PostDetailMviModel.UiState, PostDetailMviModel.Effect>(
         initialState = PostDetailMviModel.UiState(),
     ),
@@ -89,18 +91,10 @@ class PostDetailViewModel(
                         post = post,
                         isModerator = isModerator,
                         currentUserId = identityRepository.cachedUser?.id,
-                        isAdmin = identityRepository.cachedUser?.admin == true,
                     )
                 }
             }
 
-            val downVoteEnabled =
-                siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
-            updateState {
-                it.copy(
-                    downVoteEnabled = downVoteEnabled,
-                )
-            }
             themeRepository.postLayout
                 .onEach { layout ->
                     updateState { it.copy(postLayout = layout) }
@@ -203,6 +197,23 @@ class PostDetailViewModel(
                     updateState { it.copy(isNavigationSupported = canNavigate) }
                 }.launchIn(this)
 
+            lemmyValueCache.isCurrentUserAdmin
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            isAdmin = value,
+                        )
+                    }
+                }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
+
             val auth = identityRepository.authToken.value
             val updatedPost =
                 postRepository.get(
@@ -229,25 +240,24 @@ class PostDetailViewModel(
                     )
                 highlightCommentPath = comment?.path
             }
-            if (isModerator) {
-                uiState.value.post.community?.id?.also { communityId ->
-                    val moderators =
-                        communityRepository.getModerators(
-                            auth = auth,
-                            id = communityId,
-                        )
-                    updateState {
-                        it.copy(moderators = moderators)
-                    }
-                }
-            }
-            if (uiState.value.post.text
-                    .isEmpty()
-            ) {
-                // incomplete data from cache
-                refreshPost()
-            }
             if (uiState.value.initial) {
+                val moderators =
+                    uiState.value.post.community
+                        ?.id
+                        ?.let { communityId ->
+                            communityRepository.getModerators(
+                                auth = auth,
+                                id = communityId,
+                            )
+                        }.orEmpty()
+                val admins =
+                    uiState.value.post.community
+                        .let { community ->
+                            siteRepository.getAdmins(
+                                otherInstance = community?.host,
+                            )
+                        }
+
                 val sortTypes =
                     getSortTypesUseCase.getTypesForComments(otherInstance = otherInstance)
                 val defaultCommentSortType =
@@ -257,6 +267,8 @@ class PostDetailViewModel(
                     it.copy(
                         sortType = defaultCommentSortType,
                         availableSortTypes = sortTypes,
+                        moderators = moderators,
+                        admins = admins,
                     )
                 }
                 refresh(initial = true)

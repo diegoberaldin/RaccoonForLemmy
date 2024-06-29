@@ -140,6 +140,7 @@ interface PostDetailMviModel :
         val preferNicknames: Boolean = true,
         val showScores: Boolean = true,
         val moderators: List<UserModel> = emptyList(),
+        val admins: List<UserModel> = emptyList(),
         val availableSortTypes: List<SortType> = emptyList(),
         val actionsOnSwipeToStartComments: List<ActionOnSwipe> = emptyList(),
         val actionsOnSwipeToEndComments: List<ActionOnSwipe> = emptyList(),
