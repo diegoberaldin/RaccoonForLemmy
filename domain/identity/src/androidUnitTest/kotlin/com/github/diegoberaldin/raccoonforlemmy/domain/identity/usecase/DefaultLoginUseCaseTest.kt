@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRul
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -39,6 +40,7 @@ class DefaultLoginUseCaseTest {
     private val communitySortRepository = mockk<CommunitySortRepository>(relaxUnitFun = true)
     private val communityPreferredLanguageRepository =
         mockk<CommunityPreferredLanguageRepository>(relaxUnitFun = true)
+    private val lemmyValueCache = mockk<LemmyValueCache>(relaxUnitFun = true)
     private val sut =
         DefaultLoginUseCase(
             authRepository = authRepository,
@@ -49,6 +51,7 @@ class DefaultLoginUseCaseTest {
             siteRepository = siteRepository,
             communitySortRepository = communitySortRepository,
             communityPreferredLanguageRepository = communityPreferredLanguageRepository,
+            lemmyValueCache = lemmyValueCache,
         )
 
     @Test

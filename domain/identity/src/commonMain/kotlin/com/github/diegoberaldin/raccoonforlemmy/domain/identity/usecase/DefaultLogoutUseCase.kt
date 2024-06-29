@@ -6,6 +6,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Acco
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 
 internal class DefaultLogoutUseCase(
     private val identityRepository: IdentityRepository,
@@ -13,6 +14,7 @@ internal class DefaultLogoutUseCase(
     private val notificationCenter: NotificationCenter,
     private val settingsRepository: SettingsRepository,
     private val communitySortRepository: CommunitySortRepository,
+    private val lemmyValueCache: LemmyValueCache,
 ) : LogoutUseCase {
     override suspend operator fun invoke() {
         notificationCenter.send(NotificationCenterEvent.ResetExplore)
@@ -20,6 +22,7 @@ internal class DefaultLogoutUseCase(
 
         identityRepository.clearToken()
         communitySortRepository.clear()
+        lemmyValueCache.refresh()
         notificationCenter.send(NotificationCenterEvent.Logout)
 
         val oldAccountId = accountRepository.getActive()?.id

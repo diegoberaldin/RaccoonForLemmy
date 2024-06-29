@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Sett
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.ApiConfigurationRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.AuthRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 
 internal class DefaultLoginUseCase(
@@ -20,6 +21,7 @@ internal class DefaultLoginUseCase(
     private val siteRepository: SiteRepository,
     private val communitySortRepository: CommunitySortRepository,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
+    private val lemmyValueCache: LemmyValueCache,
 ) : LoginUseCase {
     override suspend operator fun invoke(
         instance: String,
@@ -38,7 +40,7 @@ internal class DefaultLoginUseCase(
             )
         return response.mapCatching {
             if (it.error != null) {
-                throw Exception("${instance} says: ${it.error}")
+                throw Exception("$instance says: ${it.error}")
             }
 
             val auth = it.token
@@ -50,6 +52,7 @@ internal class DefaultLoginUseCase(
             val accountSettings = siteRepository.getAccountSettings(auth)
             identityRepository.storeToken(auth)
             identityRepository.refreshLoggedState()
+            lemmyValueCache.refresh(auth)
 
             val account =
                 AccountModel(
@@ -64,7 +67,8 @@ internal class DefaultLoginUseCase(
                     // (except a couple of fields from the Lemmy account)
                     val newAccountId = accountRepository.createAccount(account)
                     val anonymousSettings =
-                        settingsRepository.getSettings(null)
+                        settingsRepository
+                            .getSettings(null)
                             .copy(
                                 showScores = accountSettings?.showScores ?: true,
                                 includeNsfw = accountSettings?.showNsfw ?: false,

@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -25,6 +26,7 @@ class DefaultLogoutUseCaseTest {
     private val settingsRepository = mockk<SettingsRepository>(relaxUnitFun = true)
     private val notificationCenter = mockk<NotificationCenter>(relaxUnitFun = true)
     private val communitySortRepository = mockk<CommunitySortRepository>(relaxUnitFun = true)
+    private val lemmyValueCache = mockk<LemmyValueCache>(relaxUnitFun = true)
     private val sut =
         DefaultLogoutUseCase(
             identityRepository = identityRepository,
@@ -32,6 +34,7 @@ class DefaultLogoutUseCaseTest {
             settingsRepository = settingsRepository,
             notificationCenter = notificationCenter,
             communitySortRepository = communitySortRepository,
+            lemmyValueCache = lemmyValueCache,
         )
 
     @Test

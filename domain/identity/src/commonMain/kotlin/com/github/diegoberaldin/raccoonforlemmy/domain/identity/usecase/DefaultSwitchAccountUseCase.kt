@@ -9,6 +9,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.CommunitySortRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 
 internal class DefaultSwitchAccountUseCase(
     private val identityRepository: IdentityRepository,
@@ -18,12 +19,14 @@ internal class DefaultSwitchAccountUseCase(
     private val settingsRepository: SettingsRepository,
     private val communitySortRepository: CommunitySortRepository,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
+    private val lemmyValueCache: LemmyValueCache,
 ) : SwitchAccountUseCase {
     override suspend fun invoke(account: AccountModel) {
         val accountId = account.id ?: return
         val jwt = account.jwt.takeIf { it.isNotEmpty() } ?: return
         val instance = account.instance.takeIf { it.isNotEmpty() } ?: return
-        val oldActiveAccountId = accountRepository.getActive()?.id.takeIf { it != accountId } ?: return
+        val oldActiveAccountId =
+            accountRepository.getActive()?.id.takeIf { it != accountId } ?: return
 
         accountRepository.setActive(oldActiveAccountId, false)
         accountRepository.setActive(accountId, true)
@@ -37,6 +40,7 @@ internal class DefaultSwitchAccountUseCase(
 
         identityRepository.storeToken(jwt)
         identityRepository.refreshLoggedState()
+        lemmyValueCache.refresh(jwt)
 
         val newSettings = settingsRepository.getSettings(accountId)
         settingsRepository.changeCurrentSettings(newSettings)

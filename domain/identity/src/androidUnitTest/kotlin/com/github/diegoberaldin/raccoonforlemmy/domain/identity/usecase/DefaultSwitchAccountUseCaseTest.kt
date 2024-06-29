@@ -11,6 +11,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.Comm
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.testutils.DispatcherTestRule
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -30,6 +31,7 @@ class DefaultSwitchAccountUseCaseTest {
     private val communitySortRepository = mockk<CommunitySortRepository>(relaxUnitFun = true)
     private val communityPreferredLanguageRepository =
         mockk<CommunityPreferredLanguageRepository>(relaxUnitFun = true)
+    private val lemmyValueCache = mockk<LemmyValueCache>(relaxUnitFun = true)
     private val sut =
         DefaultSwitchAccountUseCase(
             identityRepository = identityRepository,
@@ -39,6 +41,7 @@ class DefaultSwitchAccountUseCaseTest {
             notificationCenter = notificationCenter,
             communitySortRepository = communitySortRepository,
             communityPreferredLanguageRepository = communityPreferredLanguageRepository,
+            lemmyValueCache = lemmyValueCache,
         )
 
     @Test
