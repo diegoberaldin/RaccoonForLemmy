@@ -93,6 +93,7 @@ interface ProfileLoggedMviModel :
         val showScores: Boolean = true,
         val showUnreadComments: Boolean = false,
         val downVoteEnabled: Boolean = true,
+        val isModerator: Boolean = false,
     )
 
     sealed interface Effect

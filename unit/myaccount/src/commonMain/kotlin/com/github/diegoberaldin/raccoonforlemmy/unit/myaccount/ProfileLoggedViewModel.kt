@@ -20,8 +20,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommentModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -41,13 +41,13 @@ class ProfileLoggedViewModel(
     private val commentPaginationManager: CommentPaginationManager,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val shareHelper: ShareHelper,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val postNavigationManager: PostNavigationManager,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<ProfileLoggedMviModel.Intent, ProfileLoggedMviModel.UiState, ProfileLoggedMviModel.Effect>(
         initialState = ProfileLoggedMviModel.UiState(),
     ),
@@ -106,6 +106,15 @@ class ProfileLoggedViewModel(
                 .onEach {
                     delay(250)
                     refreshUser()
+                }.launchIn(this)
+
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState { it.copy(downVoteEnabled = value) }
+                }.launchIn(this)
+            lemmyValueCache.isCurrentUserModerator
+                .onEach { value ->
+                    updateState { it.copy(isModerator = value) }
                 }.launchIn(this)
 
             if (uiState.value.initial) {
@@ -220,7 +229,7 @@ class ProfileLoggedViewModel(
             updateState { it.copy(user = null) }
         } else {
             var user = identityRepository.cachedUser
-            val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
+
             runCatching {
                 withTimeout(2000) {
                     while (user == null) {
@@ -230,11 +239,10 @@ class ProfileLoggedViewModel(
                         user = identityRepository.cachedUser
                         yield()
                     }
+
+                    lemmyValueCache.refresh(auth)
                     updateState {
-                        it.copy(
-                            user = user,
-                            downVoteEnabled = downVoteEnabled,
-                        )
+                        it.copy(user = user)
                     }
                 }
             }
