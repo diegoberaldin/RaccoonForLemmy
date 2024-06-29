@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -20,16 +21,16 @@ import com.github.diegoberaldin.raccoonforlemmy.core.appearance.theme.Spacing
 fun IndicatorChip(
     text: String,
     modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     Box(
         modifier =
             modifier
                 .border(
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = color,
                     width = Dp.Hairline,
                     shape = RoundedCornerShape(CornerSize.m),
-                )
-                .padding(
+                ).padding(
                     vertical = Spacing.xxxs,
                     horizontal = Spacing.xs,
                 ),
@@ -41,7 +42,7 @@ fun IndicatorChip(
             fontSize = 8.sp,
             fontFamily = FontFamily.Default,
             fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = color,
         )
     }
 }

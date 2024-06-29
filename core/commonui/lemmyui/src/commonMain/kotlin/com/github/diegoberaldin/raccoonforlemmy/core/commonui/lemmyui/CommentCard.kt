@@ -60,6 +60,7 @@ fun CommentCard(
     actionButtonsActive: Boolean = true,
     isOp: Boolean = false,
     isMod: Boolean = false,
+    isAdmin: Boolean = false,
     showBot: Boolean = false,
     downVoteEnabled: Boolean = true,
     highlightText: String? = null,
@@ -136,6 +137,7 @@ fun CommentCard(
                     distinguished = comment.distinguished,
                     isOp = isOp,
                     isMod = isMod,
+                    isAdmin = isAdmin,
                     isBot = comment.creator?.bot.takeIf { showBot } ?: false,
                     onOpenCreator =
                         rememberCallbackArgs { user ->

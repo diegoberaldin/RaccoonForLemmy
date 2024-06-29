@@ -42,6 +42,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 private const val OP_LABEL = "OP"
 private const val BOT_LABEL = "BOT"
 private const val MOD_LABEL = "M"
+private const val ADMIN_LABEL = "A"
 
 @Composable
 fun CommunityAndCreatorInfo(
@@ -60,6 +61,7 @@ fun CommunityAndCreatorInfo(
     isOp: Boolean = false,
     isBot: Boolean = false,
     isMod: Boolean = false,
+    isAdmin: Boolean = false,
     markRead: Boolean = false,
     onOpenCommunity: ((CommunityModel) -> Unit)? = null,
     onOpenCreator: ((UserModel) -> Unit)? = null,
@@ -202,6 +204,12 @@ fun CommunityAndCreatorInfo(
                 IndicatorChip(
                     modifier = Modifier.align(Alignment.CenterVertically),
                     text = MOD_LABEL,
+                )
+            }
+            if (isAdmin) {
+                IndicatorChip(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    text = ADMIN_LABEL,
                 )
             }
 
