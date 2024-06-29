@@ -180,7 +180,6 @@ internal fun Person.toModel() =
         bio = bio,
         matrixUserId = matrixUserId,
         updateDate = updated,
-        admin = admin ?: false,
         bot = botAccount ?: false,
     )
 
