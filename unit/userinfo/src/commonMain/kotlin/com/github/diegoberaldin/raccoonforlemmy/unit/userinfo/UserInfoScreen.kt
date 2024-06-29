@@ -119,8 +119,7 @@ class UserInfoScreen(
                         .fillMaxSize()
                         .padding(
                             top = padding.calculateTopPadding(),
-                        )
-                        .padding(
+                        ).padding(
                             top = Spacing.s,
                             start = Spacing.m,
                             end = Spacing.m,
@@ -165,7 +164,7 @@ class UserInfoScreen(
                                     ),
                             )
                         }
-                        if (uiState.user.admin) {
+                        if (uiState.isAdmin) {
                             DetailInfoItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 icon = Icons.Default.Shield,
