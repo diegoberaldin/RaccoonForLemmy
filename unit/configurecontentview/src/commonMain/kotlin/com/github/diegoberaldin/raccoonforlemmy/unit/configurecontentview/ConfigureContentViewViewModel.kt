@@ -16,6 +16,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.SettingsMo
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -31,6 +32,7 @@ class ConfigureContentViewViewModel(
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<ConfigureContentViewMviModel.Intent, ConfigureContentViewMviModel.State, ConfigureContentViewMviModel.Effect>(
         initialState = ConfigureContentViewMviModel.State(),
     ),
@@ -77,9 +79,14 @@ class ConfigureContentViewViewModel(
                 .onEach { evt ->
                     changeContentFontFamily(evt.value)
                 }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
 
             val settings = settingsRepository.currentSettings.value
-            val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
             updateState {
                 it.copy(
                     voteFormat = if (!settings.showScores) VoteFormat.Hidden else settings.voteFormat,
@@ -89,7 +96,6 @@ class ConfigureContentViewViewModel(
                     preferUserNicknames = settings.preferUserNicknames,
                     commentBarThickness = settings.commentBarThickness,
                     commentIndentAmount = settings.commentIndentAmount,
-                    downVoteEnabled = downVoteEnabled,
                 )
             }
         }

@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableName
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
@@ -41,10 +42,11 @@ class CreatePostViewModel(
     private val draftRepository: DraftRepository,
     private val notificationCenter: NotificationCenter,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
-) : CreatePostMviModel,
-    DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>(
+    private val lemmyValueCache: LemmyValueCache,
+) : DefaultMviModel<CreatePostMviModel.Intent, CreatePostMviModel.UiState, CreatePostMviModel.Effect>(
         initialState = CreatePostMviModel.UiState(),
-    ) {
+    ),
+    CreatePostMviModel {
     init {
         screenModelScope.launch {
             val editedPost =
@@ -57,34 +59,40 @@ class CreatePostViewModel(
                 }
             updateState { it.copy(editedPost = editedPost, crossPost = crossPost) }
 
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        showScores = settings.showScores,
-                    )
-                }
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            showScores = settings.showScores,
+                        )
+                    }
+                }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
 
             if (uiState.value.currentUser.isEmpty()) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
                 if (currentUser != null) {
                     updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
                             availableLanguages = languages,
-                            downVoteEnabled = downVoteEnabled,
                         )
                     }
                 }
@@ -164,13 +172,14 @@ class CreatePostViewModel(
         val name = community.readableName(preferNicknames)
 
         screenModelScope.launch {
-            val (actualName, actualHandle) = if (name.isEmpty()) {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
-                remoteCommunity?.name.orEmpty() to remoteCommunity?.readableHandle.orEmpty()
-            } else {
-                name to community.readableHandle
-            }
+            val (actualName, actualHandle) =
+                if (name.isEmpty()) {
+                    val auth = identityRepository.authToken.value.orEmpty()
+                    val remoteCommunity = communityRepository.get(auth = auth, id = communityId)
+                    remoteCommunity?.name.orEmpty() to remoteCommunity?.readableHandle.orEmpty()
+                } else {
+                    name to community.readableHandle
+                }
 
             val preferredLanguageId =
                 communityPreferredLanguageRepository.get(actualHandle)
@@ -249,7 +258,10 @@ class CreatePostViewModel(
         val communityId = currentState.communityId
         val title = currentState.title.trim()
         val url = currentState.url.takeIf { it.isNotEmpty() }?.trim()
-        val body = currentState.bodyValue.text.takeIf { it.isNotBlank() }?.trim()
+        val body =
+            currentState.bodyValue.text
+                .takeIf { it.isNotBlank() }
+                ?.trim()
         val nsfw = currentState.nsfw
         val languageId = currentState.currentLanguageId
         var valid = true

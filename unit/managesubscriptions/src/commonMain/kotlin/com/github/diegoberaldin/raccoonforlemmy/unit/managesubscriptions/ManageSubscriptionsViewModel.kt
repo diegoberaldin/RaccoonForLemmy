@@ -16,8 +16,9 @@ import com.github.diegoberaldin.raccoonforlemmy.core.utils.vibrate.HapticFeedbac
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.CommunityModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
@@ -33,10 +34,10 @@ class ManageSubscriptionsViewModel(
     private val multiCommunityRepository: MultiCommunityRepository,
     private val settingsRepository: SettingsRepository,
     private val favoriteCommunityRepository: FavoriteCommunityRepository,
-    private val siteRepository: SiteRepository,
     private val communityPaginationManager: CommunityPaginationManager,
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<ManageSubscriptionsMviModel.Intent, ManageSubscriptionsMviModel.UiState, ManageSubscriptionsMviModel.Effect>(
         initialState = ManageSubscriptionsMviModel.UiState(),
     ),
@@ -63,6 +64,16 @@ class ManageSubscriptionsViewModel(
                     handleCommunityUpdate(evt.value)
                 }.launchIn(this)
 
+            // determine whether community creation is available
+            combine(
+                lemmyValueCache.isCurrentUserAdmin,
+                lemmyValueCache.isCommunityCreationAdminOnly,
+            ) { isAdmin, isCommunityCreationAdminOnly ->
+                updateState {
+                    it.copy(canCreateCommunity = isAdmin || !isCommunityCreationAdminOnly)
+                }
+            }.launchIn(this)
+
             uiState
                 .map { it.searchText }
                 .distinctUntilChanged()
@@ -72,14 +83,6 @@ class ManageSubscriptionsViewModel(
                     refresh()
                 }.launchIn(this)
             if (uiState.value.communities.isEmpty()) {
-                // determine whether community creation is allowed
-                val isAdmin = identityRepository.cachedUser?.admin ?: false
-                val auth = identityRepository.authToken.value
-                val isCommunityCreationAdminOnly = siteRepository.isCommunityCreationAdminOnly(auth)
-                updateState {
-                    it.copy(canCreateCommunity = isAdmin || !isCommunityCreationAdminOnly)
-                }
-
                 refresh(initial = true)
             }
         }

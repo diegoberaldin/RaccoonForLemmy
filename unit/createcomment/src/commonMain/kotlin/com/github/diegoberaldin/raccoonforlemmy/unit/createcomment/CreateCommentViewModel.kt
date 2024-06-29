@@ -17,6 +17,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.readableHandle
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
@@ -39,10 +40,11 @@ class CreateCommentViewModel(
     private val accountRepository: AccountRepository,
     private val draftRepository: DraftRepository,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
-) : CreateCommentMviModel,
-    DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>(
+    private val lemmyValueCache: LemmyValueCache,
+) : DefaultMviModel<CreateCommentMviModel.Intent, CreateCommentMviModel.UiState, CreateCommentMviModel.Effect>(
         initialState = CreateCommentMviModel.UiState(),
-    ) {
+    ),
+    CreateCommentMviModel {
     init {
         screenModelScope.launch {
             val auth = identityRepository.authToken.value.orEmpty()
@@ -74,38 +76,45 @@ class CreateCommentViewModel(
                 )
             }
 
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
 
             if (uiState.value.currentUser.isEmpty()) {
                 val currentUser = siteRepository.getCurrentUser(auth)
                 val languages = siteRepository.getLanguages(auth)
-                val downvotEnabled = siteRepository.isDownVoteEnabled(auth)
                 if (currentUser != null) {
                     updateState {
                         it.copy(
                             currentUser = currentUser.name,
                             currentInstance = currentUser.host,
                             availableLanguages = languages,
-                            downVoteEnabled = downvotEnabled,
                         )
                     }
                 }
             }
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        showScores = settings.showScores,
-                        currentLanguageId = preferredLanguageId ?: settings.defaultLanguageId,
-                    )
-                }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            showScores = settings.showScores,
+                            currentLanguageId = preferredLanguageId ?: settings.defaultLanguageId,
+                        )
+                    }
+                }.launchIn(this)
         }
     }
 

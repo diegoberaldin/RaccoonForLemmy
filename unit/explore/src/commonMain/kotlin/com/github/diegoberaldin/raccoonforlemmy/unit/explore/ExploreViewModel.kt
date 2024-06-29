@@ -22,8 +22,8 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
-import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -43,12 +43,12 @@ class ExploreViewModel(
     private val userRepository: UserRepository,
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val siteRepository: SiteRepository,
     private val themeRepository: ThemeRepository,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
     private val hapticFeedback: HapticFeedback,
     private val getSortTypesUseCase: GetSortTypesUseCase,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<ExploreMviModel.Intent, ExploreMviModel.UiState, ExploreMviModel.Effect>(
         initialState = ExploreMviModel.UiState(),
     ),
@@ -156,6 +156,15 @@ class ExploreViewModel(
                     emitEffect(ExploreMviModel.Effect.OpenSearch)
                 }.launchIn(this)
 
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
+
             uiState
                 .map {
                     it.searchText
@@ -189,10 +198,6 @@ class ExploreViewModel(
             }
             refresh(initial = true)
             emitEffect(ExploreMviModel.Effect.BackToTop)
-
-            val auth = identityRepository.authToken.value
-            val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
-            updateState { it.copy(downVoteEnabled = downVoteEnabled) }
         }
     }
 

@@ -12,6 +12,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PersonMentionModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +29,7 @@ class InboxRepliesViewModel(
     private val coordinator: InboxCoordinator,
     private val notificationCenter: NotificationCenter,
     private val settingsRepository: SettingsRepository,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<InboxRepliesMviModel.Intent, InboxRepliesMviModel.UiState, InboxRepliesMviModel.Effect>(
         initialState = InboxRepliesMviModel.UiState(),
     ),
@@ -75,11 +77,14 @@ class InboxRepliesViewModel(
                 .onEach {
                     handleLogout()
                 }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
 
             if (uiState.value.initial) {
-                val downVoteEnabled =
-                    siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
-                updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
         }

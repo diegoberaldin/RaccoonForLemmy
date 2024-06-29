@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.delay
@@ -42,10 +43,11 @@ class MultiCommunityViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val postNavigationManager: PostNavigationManager,
-) : MultiCommunityMviModel,
-    DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>(
+    private val lemmyValueCache: LemmyValueCache,
+) : DefaultMviModel<MultiCommunityMviModel.Intent, MultiCommunityMviModel.UiState, MultiCommunityMviModel.Effect>(
         initialState = MultiCommunityMviModel.UiState(),
-    ) {
+    ),
+    MultiCommunityMviModel {
     private var hideReadPosts = false
 
     init {
@@ -55,55 +57,71 @@ class MultiCommunityViewModel(
                     multiCommunityRepository.getById(communityId) ?: MultiCommunityModel()
                 updateState { it.copy(community = community) }
             }
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
 
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        showScores = settings.showScores,
-                        fadeReadPosts = settings.fadeReadPosts,
-                        showUnreadComments = settings.showUnreadComments,
-                    )
-                }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            showScores = settings.showScores,
+                            fadeReadPosts = settings.fadeReadPosts,
+                            showUnreadComments = settings.showUnreadComments,
+                        )
+                    }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == "multiCommunity") {
                         applySortType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CopyText::class)
+                .onEach {
+                    emitEffect(MultiCommunityMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
                 updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
-                        downVoteEnabled = downVoteEnabled,
                     )
                 }
             }

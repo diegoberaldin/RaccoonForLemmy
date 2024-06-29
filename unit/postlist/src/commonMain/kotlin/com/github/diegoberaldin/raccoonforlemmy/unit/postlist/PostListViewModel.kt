@@ -23,6 +23,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toListingType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -48,6 +49,7 @@ class PostListViewModel(
     private val imagePreloadManager: ImagePreloadManager,
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val postNavigationManager: PostNavigationManager,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<PostListMviModel.Intent, PostListMviModel.UiState, PostListMviModel.Effect>(
         initialState = PostListMviModel.UiState(),
     ),
@@ -167,6 +169,15 @@ class PostListViewModel(
                         emitEffect(PostListMviModel.Effect.ZombieModeTick(index))
                     }
                 }.launchIn(this)
+
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
         }
 
         if (uiState.value.initial) {
@@ -192,11 +203,9 @@ class PostListViewModel(
     private suspend fun refreshUser() {
         val auth = identityRepository.authToken.value.orEmpty()
         val user = siteRepository.getCurrentUser(auth)
-        val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
         updateState {
             it.copy(
                 currentUserId = user?.id ?: 0,
-                downVoteEnabled = downVoteEnabled,
             )
         }
     }

@@ -20,6 +20,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.PostModel
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.SortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.imageUrl
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.async
@@ -42,51 +43,66 @@ class FilteredContentsViewModel(
     private val hapticFeedback: HapticFeedback,
     private val notificationCenter: NotificationCenter,
     private val postNavigationManager: PostNavigationManager,
-) : FilteredContentsMviModel,
-    DefaultMviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect>(
+    private val lemmyValueCache: LemmyValueCache,
+) : DefaultMviModel<FilteredContentsMviModel.Intent, FilteredContentsMviModel.State, FilteredContentsMviModel.Effect>(
         initialState = FilteredContentsMviModel.State(),
-    ) {
+    ),
+    FilteredContentsMviModel {
     init {
         screenModelScope.launch {
             updateState {
                 val type = contentsType.toFilteredContentsType()
                 it.copy(
                     contentsType = type,
-                    isAdmin = identityRepository.cachedUser?.admin == true,
                     isPostOnly = type == FilteredContentsType.Hidden,
                 )
             }
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        voteFormat = settings.voteFormat,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        fadeReadPosts = settings.fadeReadPosts,
-                        showUnreadComments = settings.showUnreadComments,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
-                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
-                    )
-                }
-            }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangedLikedType::class)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+
+            lemmyValueCache.isCurrentUserAdmin
+                .onEach { value ->
+                    updateState {
+                        it.copy(isAdmin = value)
+                    }
+                }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
+
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            voteFormat = settings.voteFormat,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            fadeReadPosts = settings.fadeReadPosts,
+                            showUnreadComments = settings.showUnreadComments,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                            actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                        )
+                    }
+                }.launchIn(this)
+
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangedLikedType::class)
                 .onEach { evt ->
                     changeLiked(evt.value)
                 }.launchIn(this)
 
             if (uiState.value.initial) {
-                val downVoteEnabled =
-                    siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
-                updateState { it.copy(downVoteEnabled = downVoteEnabled) }
                 refresh(initial = true)
             }
         }
@@ -134,19 +150,22 @@ class FilteredContentsViewModel(
             }
 
             is FilteredContentsMviModel.Intent.ModFeaturePost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         feature(post = post)
                     }
 
             is FilteredContentsMviModel.Intent.AdminFeaturePost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         featureLocal(post = post)
                     }
 
             is FilteredContentsMviModel.Intent.ModLockPost ->
-                uiState.value.posts.firstOrNull { it.id == intent.id }
+                uiState.value.posts
+                    .firstOrNull { it.id == intent.id }
                     ?.also { post ->
                         lock(post = post)
                     }
@@ -179,11 +198,12 @@ class FilteredContentsViewModel(
             }
 
             is FilteredContentsMviModel.Intent.ModDistinguishComment ->
-                uiState.value.comments.firstOrNull {
-                    it.id == intent.commentId
-                }?.also { comment ->
-                    distinguish(comment)
-                }
+                uiState.value.comments
+                    .firstOrNull {
+                        it.id == intent.commentId
+                    }?.also { comment ->
+                        distinguish(comment)
+                    }
 
             FilteredContentsMviModel.Intent.WillOpenDetail -> {
                 val state = postPaginationManager.extractState()

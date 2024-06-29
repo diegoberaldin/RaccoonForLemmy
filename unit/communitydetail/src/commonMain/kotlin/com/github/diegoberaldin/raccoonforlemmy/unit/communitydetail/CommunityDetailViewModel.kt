@@ -32,6 +32,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommunityRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.FlowPreview
@@ -67,6 +68,7 @@ class CommunityDetailViewModel(
     private val communitySortRepository: CommunitySortRepository,
     private val postNavigationManager: PostNavigationManager,
     private val communityPreferredLanguageRepository: CommunityPreferredLanguageRepository,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<CommunityDetailMviModel.Intent, CommunityDetailMviModel.UiState, CommunityDetailMviModel.Effect>(
         initialState = CommunityDetailMviModel.UiState(),
     ),
@@ -189,18 +191,23 @@ class CommunityDetailViewModel(
                     refresh()
                 }.launchIn(this)
 
-            if (uiState.value.currentUserId == null) {
-                val auth = identityRepository.authToken.value.orEmpty()
-                val user = siteRepository.getCurrentUser(auth)
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
-                updateState {
-                    it.copy(
-                        currentUserId = user?.id ?: 0,
-                        isAdmin = user?.admin == true,
-                        downVoteEnabled = downVoteEnabled,
-                    )
-                }
-            }
+            lemmyValueCache.isCurrentUserAdmin
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            isAdmin = value,
+                        )
+                    }
+                }.launchIn(this)
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
+
             if (uiState.value.initial) {
                 val defaultPostSortType =
                     settingsRepository.currentSettings.value.defaultPostSortType
@@ -215,6 +222,7 @@ class CommunityDetailViewModel(
                         sortType = customPostSortType ?: defaultPostSortType,
                         currentPreferredLanguageId = preferredLanguageId,
                         availableLanguages = languages,
+                        currentUserId = identityRepository.cachedUser?.id,
                     )
                 }
                 refresh(initial = true)

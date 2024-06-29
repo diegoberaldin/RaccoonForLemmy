@@ -10,6 +10,7 @@ import com.github.diegoberaldin.raccoonforlemmy.core.persistence.data.ActionOnSw
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.AccountRepository
 import com.github.diegoberaldin.raccoonforlemmy.core.persistence.repository.SettingsRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.IdentityRepository
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,14 +22,20 @@ class ConfigureSwipeActionsViewModel(
     private val identityRepository: IdentityRepository,
     private val siteRepository: SiteRepository,
     private val notificationCenter: NotificationCenter,
+    private val lemmyValueCache: LemmyValueCache,
 ) : DefaultMviModel<ConfigureSwipeActionsMviModel.Intent, ConfigureSwipeActionsMviModel.UiState, ConfigureSwipeActionsMviModel.Effect>(
         initialState = ConfigureSwipeActionsMviModel.UiState(),
     ),
     ConfigureSwipeActionsMviModel {
     init {
         screenModelScope.launch {
-            val downVoteEnabled = siteRepository.isDownVoteEnabled(identityRepository.authToken.value)
-            updateState { it.copy(downVoteEnabled = downVoteEnabled) }
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(downVoteEnabled = value)
+                    }
+                }.launchIn(this)
+
             notificationCenter
                 .subscribe(NotificationCenterEvent.ActionsOnSwipeSelected::class)
                 .onEach { evt ->

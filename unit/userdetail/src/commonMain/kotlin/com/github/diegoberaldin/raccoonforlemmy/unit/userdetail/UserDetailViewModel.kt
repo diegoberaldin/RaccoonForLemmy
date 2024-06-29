@@ -27,6 +27,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.data.toSortType
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.CommentRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.GetSortTypesUseCase
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyItemCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.PostRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.SiteRepository
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
@@ -58,10 +59,11 @@ class UserDetailViewModel(
     private val getSortTypesUseCase: GetSortTypesUseCase,
     private val itemCache: LemmyItemCache,
     private val postNavigationManager: PostNavigationManager,
-) : UserDetailMviModel,
-    DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
+    private val lemmyValueCache: LemmyValueCache,
+) : DefaultMviModel<UserDetailMviModel.Intent, UserDetailMviModel.UiState, UserDetailMviModel.Effect>(
         initialState = UserDetailMviModel.UiState(),
-    ) {
+    ),
+    UserDetailMviModel {
     init {
         screenModelScope.launch {
             updateState {
@@ -78,61 +80,85 @@ class UserDetailViewModel(
                     it.copy(user = user)
                 }
             }
-            themeRepository.postLayout.onEach { layout ->
-                updateState { it.copy(postLayout = layout) }
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.PostUpdated::class).onEach { evt ->
-                handlePostUpdate(evt.model)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeSortType::class)
+            themeRepository.postLayout
+                .onEach { layout ->
+                    updateState { it.copy(postLayout = layout) }
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.PostUpdated::class)
+                .onEach { evt ->
+                    handlePostUpdate(evt.model)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeSortType::class)
                 .onEach { evt ->
                     if (evt.screenKey == uiState.value.user.readableHandle) {
                         applySortType(evt.value)
                     }
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.Share::class).onEach { evt ->
-                shareHelper.share(evt.url)
-            }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.CopyText::class).onEach {
-                emitEffect(UserDetailMviModel.Effect.TriggerCopy(it.value))
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.Share::class)
+                .onEach { evt ->
+                    shareHelper.share(evt.url)
+                }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.CopyText::class)
+                .onEach {
+                    emitEffect(UserDetailMviModel.Effect.TriggerCopy(it.value))
+                }.launchIn(this)
+
+            lemmyValueCache.isDownVoteEnabled
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            downVoteEnabled = value,
+                        )
+                    }
+                }.launchIn(this)
+            lemmyValueCache.isCurrentUserAdmin
+                .onEach { value ->
+                    updateState {
+                        it.copy(
+                            isAdmin = value,
+                        )
+                    }
+                }.launchIn(this)
         }
 
         screenModelScope.launch {
-            settingsRepository.currentSettings.onEach { settings ->
-                updateState {
-                    it.copy(
-                        blurNsfw = settings.blurNsfw,
-                        swipeActionsEnabled = settings.enableSwipeActions,
-                        doubleTapActionEnabled = settings.enableDoubleTapAction,
-                        voteFormat = settings.voteFormat,
-                        autoLoadImages = settings.autoLoadImages,
-                        preferNicknames = settings.preferUserNicknames,
-                        fullHeightImages = settings.fullHeightImages,
-                        fullWidthImages = settings.fullWidthImages,
-                        actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
-                        actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
-                        actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
-                        actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
-                        showScores = settings.showScores,
-                    )
-                }
-            }.launchIn(this)
+            settingsRepository.currentSettings
+                .onEach { settings ->
+                    updateState {
+                        it.copy(
+                            blurNsfw = settings.blurNsfw,
+                            swipeActionsEnabled = settings.enableSwipeActions,
+                            doubleTapActionEnabled = settings.enableDoubleTapAction,
+                            voteFormat = settings.voteFormat,
+                            autoLoadImages = settings.autoLoadImages,
+                            preferNicknames = settings.preferUserNicknames,
+                            fullHeightImages = settings.fullHeightImages,
+                            fullWidthImages = settings.fullWidthImages,
+                            actionsOnSwipeToStartPosts = settings.actionsOnSwipeToStartPosts,
+                            actionsOnSwipeToEndPosts = settings.actionsOnSwipeToEndPosts,
+                            actionsOnSwipeToStartComments = settings.actionsOnSwipeToStartComments,
+                            actionsOnSwipeToEndComments = settings.actionsOnSwipeToEndComments,
+                            showScores = settings.showScores,
+                        )
+                    }
+                }.launchIn(this)
 
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged ?: false) }
-                updateAvailableSortTypes()
-            }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged ?: false) }
+                    updateAvailableSortTypes()
+                }.launchIn(this)
 
             if (uiState.value.currentUserId == null) {
                 val auth = identityRepository.authToken.value.orEmpty()
                 val user = siteRepository.getCurrentUser(auth)
-                val downVoteEnabled = siteRepository.isDownVoteEnabled(auth)
                 updateState {
                     it.copy(
                         currentUserId = user?.id ?: 0,
-                        isAdmin = user?.admin == true,
-                        downVoteEnabled = downVoteEnabled,
                     )
                 }
             }
