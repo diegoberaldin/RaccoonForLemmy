@@ -132,7 +132,7 @@
     <string name="postDetailCrossPosts">also posted to:</string>
     <string name="postDetailLoadMoreComments">Load more comments</string>
     <string name="postHourShort">h</string>
-    <string name="postMinuteShort">m</string>
+    <string name="postMinuteShort">min</string>
     <string name="postSecondShort">s</string>
     <string name="profileButtonLogin">Login</string>
     <string name="profileDayShort">d</string>
