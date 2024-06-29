@@ -37,7 +37,6 @@ class DefaultIdentityRepositoryTest {
     private val sut =
         DefaultIdentityRepository(
             accountRepository = accountRepository,
-            userRepository = userRepository,
             siteRepository = siteRepository,
             networkManager = networkManager,
         )
