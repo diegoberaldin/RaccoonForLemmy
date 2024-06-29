@@ -18,15 +18,6 @@ internal class DefaultSiteRepository(
     private val services: ServiceProvider,
     private val customServices: ServiceProvider,
 ) : SiteRepository {
-    private var lastInstanceForCachedDownVoteEnabled: String = ""
-    private var lastInstanceForCachedCommunityCreationAdminOnly: String = ""
-    private var cachedDownVoteEnabled: Boolean = true
-    private var cachedCommunityCreationAdminOnly: Boolean = false
-
-    init {
-        services.currentInstance
-    }
-
     override suspend fun getCurrentUser(auth: String): UserModel? =
         withContext(Dispatchers.IO) {
             runCatching {
@@ -104,48 +95,6 @@ internal class DefaultSiteRepository(
             }.getOrElse { emptyList() }
         }
 
-    override suspend fun isDownVoteEnabled(auth: String?): Boolean =
-        withContext(Dispatchers.IO) {
-            if (lastInstanceForCachedDownVoteEnabled == services.currentInstance) {
-                return@withContext cachedDownVoteEnabled
-            }
-            runCatching {
-                if (auth.isNullOrEmpty()) {
-                    return@runCatching true
-                }
-                val response =
-                    services.site.get(
-                        auth = auth,
-                        authHeader = auth.toAuthHeader(),
-                    )
-                (response.siteView?.localSite?.enableDownvotes == true).also {
-                    lastInstanceForCachedDownVoteEnabled = services.currentInstance
-                    cachedDownVoteEnabled = it
-                }
-            }.getOrElse { true }
-        }
-
-    override suspend fun isCommunityCreationAdminOnly(auth: String?): Boolean =
-        withContext(Dispatchers.IO) {
-            if (lastInstanceForCachedCommunityCreationAdminOnly == services.currentInstance) {
-                return@withContext cachedCommunityCreationAdminOnly
-            }
-            runCatching {
-                if (auth.isNullOrEmpty()) {
-                    return@runCatching true
-                }
-                val response =
-                    services.site.get(
-                        auth = auth,
-                        authHeader = auth.toAuthHeader(),
-                    )
-                (response.siteView?.localSite?.communityCreationAdminOnly == true).also {
-                    lastInstanceForCachedCommunityCreationAdminOnly = services.currentInstance
-                    cachedCommunityCreationAdminOnly = it
-                }
-            }.getOrElse { true }
-        }
-
     override suspend fun getAccountSettings(auth: String): AccountSettingsModel? =
         withContext(Dispatchers.IO) {
             runCatching {
@@ -186,5 +135,19 @@ internal class DefaultSiteRepository(
                     )
                 }
             }.getOrNull()
+        }
+
+    override suspend fun getAdmins(otherInstance: String?): List<UserModel> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                if (otherInstance.isNullOrEmpty()) {
+                    val response = services.site.get()
+                    response.admins.map { it.toModel() }
+                } else {
+                    customServices.changeInstance(otherInstance)
+                    val response = customServices.site.get()
+                    response.admins.map { it.toModel() }
+                }
+            }.getOrElse { emptyList() }
         }
 }

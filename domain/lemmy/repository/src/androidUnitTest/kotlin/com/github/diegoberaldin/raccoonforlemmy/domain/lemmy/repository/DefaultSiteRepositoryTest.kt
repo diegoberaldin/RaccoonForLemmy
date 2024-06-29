@@ -17,7 +17,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -179,60 +178,6 @@ class DefaultSiteRepositoryTest {
         }
 
     @Test
-    fun whenIsDownVoteEnabled_thenResultAndInteractionsAreAsExpected() =
-        runTest {
-            coEvery {
-                siteService.get(auth = any(), authHeader = any())
-            } returns
-                mockk(relaxed = true) {
-                    every { siteView } returns
-                        mockk {
-                            every { localSite } returns
-                                mockk {
-                                    every { enableDownvotes } returns false
-                                }
-                        }
-                }
-
-            val res = sut.isDownVoteEnabled(auth = AUTH_TOKEN)
-
-            assertFalse(res)
-            coVerify {
-                siteService.get(
-                    auth = AUTH_TOKEN,
-                    authHeader = AUTH_TOKEN.toAuthHeader(),
-                )
-            }
-        }
-
-    @Test
-    fun whenIsCommunityCreationAdminOnly_thenResultAndInteractionsAreAsExpected() =
-        runTest {
-            coEvery {
-                siteService.get(auth = any(), authHeader = any())
-            } returns
-                mockk(relaxed = true) {
-                    every { siteView } returns
-                        mockk {
-                            every { localSite } returns
-                                mockk {
-                                    every { communityCreationAdminOnly } returns false
-                                }
-                        }
-                }
-
-            val res = sut.isCommunityCreationAdminOnly(auth = AUTH_TOKEN)
-
-            assertFalse(res)
-            coVerify {
-                siteService.get(
-                    auth = AUTH_TOKEN,
-                    authHeader = AUTH_TOKEN.toAuthHeader(),
-                )
-            }
-        }
-
-    @Test
     fun whenGetAccountSettings_thenResultAndInteractionsAreAsExpected() =
         runTest {
             val personBio = "fake-bio"
@@ -335,6 +280,30 @@ class DefaultSiteRepositoryTest {
                     authHeader = AUTH_TOKEN.toAuthHeader(),
                 )
             }
+        }
+
+    @Test
+    fun whenGetAdmins_thenResultAndInteractionsAreAsExpected() =
+        runTest {
+            coEvery {
+                siteService.get(auth = any(), authHeader = any())
+            } returns
+                mockk {
+                    every { admins } returns
+                        listOf(
+                            mockk(relaxed = true) {
+                                every { person } returns
+                                    mockk(relaxed = true) {
+                                        every { id } returns 1L
+                                    }
+                            },
+                        )
+                }
+
+            val res = sut.getAdmins()
+
+            assertTrue(res.isNotEmpty())
+            assertEquals(1L, res.first().id)
         }
 
     companion object {

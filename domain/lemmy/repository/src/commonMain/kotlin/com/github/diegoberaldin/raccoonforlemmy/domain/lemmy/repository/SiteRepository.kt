@@ -24,10 +24,6 @@ interface SiteRepository {
 
     suspend fun getLanguages(auth: String?): List<LanguageModel>
 
-    suspend fun isDownVoteEnabled(auth: String?): Boolean
-
-    suspend fun isCommunityCreationAdminOnly(auth: String?): Boolean
-
     suspend fun getAccountSettings(auth: String): AccountSettingsModel?
 
     suspend fun updateAccountSettings(
@@ -36,4 +32,6 @@ interface SiteRepository {
     )
 
     suspend fun getBans(auth: String): AccountBansModel?
+
+    suspend fun getAdmins(otherInstance: String? = null): List<UserModel>
 }
