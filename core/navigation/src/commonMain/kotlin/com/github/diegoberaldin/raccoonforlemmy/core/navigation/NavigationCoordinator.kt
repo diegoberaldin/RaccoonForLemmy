@@ -24,13 +24,19 @@ sealed interface TabNavigationSection {
 }
 
 sealed interface ComposeEvent {
-    data class WithUrl(val url: String) : ComposeEvent
+    data class WithUrl(
+        val url: String,
+    ) : ComposeEvent
 
-    data class WithText(val text: String) : ComposeEvent
+    data class WithText(
+        val text: String,
+    ) : ComposeEvent
 }
 
 sealed interface SideMenuEvents {
-    data class Open(val screen: Screen) : SideMenuEvents
+    data class Open(
+        val screen: Screen,
+    ) : SideMenuEvents
 
     data object Close : SideMenuEvents
 }
@@ -90,4 +96,6 @@ interface NavigationCoordinator {
         message: String,
         delay: Duration = Duration.ZERO,
     )
+
+    fun popUntilRoot()
 }

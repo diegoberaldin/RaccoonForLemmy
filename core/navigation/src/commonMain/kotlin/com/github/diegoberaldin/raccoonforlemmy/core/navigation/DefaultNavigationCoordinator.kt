@@ -23,7 +23,9 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration
 
 private sealed interface NavigationEvent {
-    data class Show(val screen: Screen) : NavigationEvent
+    data class Show(
+        val screen: Screen,
+    ) : NavigationEvent
 }
 
 internal class DefaultNavigationCoordinator(
@@ -55,24 +57,28 @@ internal class DefaultNavigationCoordinator(
 
     init {
         scope.launch {
-            bottomSheetChannel.receiveAsFlow().onEach { evt ->
-                when (evt) {
-                    is NavigationEvent.Show -> {
-                        bottomNavigator?.show(evt.screen)
-                    }
-                }
-            }.launchIn(this)
-            screenChannel.receiveAsFlow().onEach { evt ->
-                when (evt) {
-                    is NavigationEvent.Show -> {
-                        // make sure the new screen has a different key than the top of the stack
-                        if (evt.screen.key != navigator?.lastItem?.key) {
-                            navigator?.push(evt.screen)
-                            canPop.value = navigator?.canPop == true
+            bottomSheetChannel
+                .receiveAsFlow()
+                .onEach { evt ->
+                    when (evt) {
+                        is NavigationEvent.Show -> {
+                            bottomNavigator?.show(evt.screen)
                         }
                     }
-                }
-            }.launchIn(this)
+                }.launchIn(this)
+            screenChannel
+                .receiveAsFlow()
+                .onEach { evt ->
+                    when (evt) {
+                        is NavigationEvent.Show -> {
+                            // make sure the new screen has a different key than the top of the stack
+                            if (evt.screen.key != navigator?.lastItem?.key) {
+                                navigator?.push(evt.screen)
+                                canPop.value = navigator?.canPop == true
+                            }
+                        }
+                    }
+                }.launchIn(this)
         }
     }
 
@@ -187,5 +193,9 @@ internal class DefaultNavigationCoordinator(
             delay(delay)
             globalMessage.emit(message)
         }
+    }
+
+    override fun popUntilRoot() {
+        navigator?.popUntilRoot()
     }
 }

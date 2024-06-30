@@ -34,9 +34,10 @@ class DefaultNavigationCoordinatorTest {
     @get:Rule
     val dispatcherRule = DispatcherTestRule()
 
-    private val sut = DefaultNavigationCoordinator(
-        dispatcher = dispatcherRule.dispatcher,
-    )
+    private val sut =
+        DefaultNavigationCoordinator(
+            dispatcher = dispatcherRule.dispatcher,
+        )
 
     @Test
     fun whenSetCurrentSection_thenValueIsUpdated() =
@@ -319,6 +320,22 @@ class DefaultNavigationCoordinatorTest {
             sut.globalMessage.test {
                 val item = awaitItem()
                 assertEquals(message, item)
+            }
+        }
+
+    @Test
+    fun whenPopUntilRoot_thenInteractionsAreAsExpected() =
+        runTest {
+            val navigator =
+                mockk<Navigator>(relaxUnitFun = true) {
+                    every { canPop } returns false
+                }
+            sut.setRootNavigator(navigator)
+
+            sut.popUntilRoot()
+
+            verify {
+                navigator.popUntilRoot()
             }
         }
 
