@@ -192,7 +192,9 @@ object ModalDrawerContent : Tab {
                                             rememberCallback(coordinator) {
                                                 scope.launch {
                                                     focusManager.clearFocus()
+                                                    navigationCoordinator.popUntilRoot()
                                                     coordinator.toggleDrawer()
+                                                    delay(50)
                                                     coordinator.sendEvent(
                                                         DrawerEvent.ChangeListingType(listingType),
                                                     )
@@ -214,10 +216,10 @@ object ModalDrawerContent : Tab {
                                 onSelected = {
                                     focusManager.clearFocus()
                                     scope.launch {
-                                        coordinator.toggleDrawer()
                                         coordinator.sendEvent(
                                             DrawerEvent.OpenMultiCommunity(community),
                                         )
+                                        coordinator.toggleDrawer()
                                     }
                                 },
                             )
