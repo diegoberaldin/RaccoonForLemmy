@@ -424,4 +424,5 @@ internal val TokStrings =
         override val settingsDefaultExploreResultType = "nasin ijo pi lipu lukin"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "o kepeken e sitelen jan tawa sitelen lili pi linja anpa"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

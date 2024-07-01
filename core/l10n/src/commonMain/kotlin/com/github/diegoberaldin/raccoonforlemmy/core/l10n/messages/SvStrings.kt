@@ -428,4 +428,5 @@ internal val SvStrings =
         override val settingsDefaultExploreResultType = "Standard sökresultattyp för Utforska"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Använd avatar som profilikon i det nedre navigeringsfältet"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -432,4 +432,5 @@ internal val SqStrings =
             "Lloji i parazgjedhur i rezultatit të kërkimit për Eksploro"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Përdorni avatarin si ikonë të profilit në shiritin e poshtëm të navigimit"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

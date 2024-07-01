@@ -430,4 +430,5 @@ internal val MtStrings =
             "Tip ta' riżultat tat-tfittxija default għal Esplora"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Uża l-avatar bħala ikona tal-profil fil-bar tan-navigazzjoni t\'isfel"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

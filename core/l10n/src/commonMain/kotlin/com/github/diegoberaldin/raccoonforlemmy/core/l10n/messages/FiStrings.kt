@@ -425,4 +425,5 @@ internal val FiStrings =
         override val settingsDefaultExploreResultType = "Tutkimuksen oletushakutulostyyppi"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Käytä avataria profiilikuvakkeena navigointipalkin alaosassa"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

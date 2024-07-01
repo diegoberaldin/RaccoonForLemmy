@@ -436,4 +436,5 @@ internal val FrStrings =
             "Type de résultat de recherche par défaut pour Explorer"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Utiliser l\'avatar comme icône de profil dans la barre de navigation inférieure"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

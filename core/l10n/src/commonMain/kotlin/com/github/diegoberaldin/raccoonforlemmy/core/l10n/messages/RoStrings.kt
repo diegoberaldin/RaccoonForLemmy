@@ -429,4 +429,5 @@ internal val RoStrings =
             "Tip de rezultat de căutare prestabilit pentru Explorarea"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Utilizează avatarul ca pictogramă de profil în bara de navigare de jos"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

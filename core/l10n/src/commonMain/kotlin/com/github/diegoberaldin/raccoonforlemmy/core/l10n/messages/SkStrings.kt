@@ -432,4 +432,5 @@ internal val SkStrings =
             "Predvolený typ výsledku vyhľadávania pre Preskúmať"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Použite avatar ako ikonu profilu v dolnom navigačnom paneli"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

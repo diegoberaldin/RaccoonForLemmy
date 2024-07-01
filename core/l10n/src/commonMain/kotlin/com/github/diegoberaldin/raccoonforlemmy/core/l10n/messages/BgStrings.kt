@@ -433,4 +433,5 @@ internal val BgStrings =
             "ип резултати от търсенето по подразбиране за Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Използвайте аватара като икона на профил в долната лента за навигация"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

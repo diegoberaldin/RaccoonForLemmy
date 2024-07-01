@@ -430,4 +430,5 @@ internal val GaStrings =
             "Cineál toradh cuardaigh réamhshocraithe le haghaidh Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Úsáid avatar mar dheilbhín próifíle sa bharra nascleanúna ag bun"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

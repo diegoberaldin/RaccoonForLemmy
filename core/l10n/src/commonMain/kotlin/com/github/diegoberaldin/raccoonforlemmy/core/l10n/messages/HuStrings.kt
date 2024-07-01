@@ -434,4 +434,5 @@ internal val HuStrings =
             "A Felfedezés alapértelmezett keresési eredménytípusa"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Használja az avatart profilikonként az alsó navigációs sávban"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

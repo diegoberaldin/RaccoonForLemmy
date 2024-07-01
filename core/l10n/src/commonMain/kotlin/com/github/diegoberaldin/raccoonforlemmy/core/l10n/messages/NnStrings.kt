@@ -427,4 +427,5 @@ internal val NnStrings =
         override val settingsDefaultExploreResultType = "Standard søkeresultattype for Utforsk"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Bruk avatar som profilikon i navigasjonslinjen nederst"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

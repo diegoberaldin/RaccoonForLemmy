@@ -431,4 +431,6 @@ internal val ItStrings =
             "Tipo di risultato di ricerca predefinito per Esplora"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Usa avatar come icona profilo nella barra di navigazione inferiore"
+        override val messageReadAllInboxSuccess =
+            "Tutti gli elementi sono stati contrassegnati come letti"
     }

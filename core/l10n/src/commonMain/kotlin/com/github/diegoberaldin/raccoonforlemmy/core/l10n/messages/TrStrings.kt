@@ -429,4 +429,5 @@ internal val TrStrings =
         override val settingsDefaultExploreResultType = "Keşfet için varsayılan arama sonucu türü"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Alt gezinme çubuğunda avatarı profil simgesi olarak kullan"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

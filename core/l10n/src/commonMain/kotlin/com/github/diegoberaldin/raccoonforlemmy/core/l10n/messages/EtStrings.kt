@@ -429,4 +429,5 @@ internal val EtStrings =
         override val settingsDefaultExploreResultType = "Avastamise vaikeotsingutulemuse tüüp"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Kasutage avatari profiiliikoonina alumisel navigeerimisribal"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

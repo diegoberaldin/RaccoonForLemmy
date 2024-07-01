@@ -427,4 +427,5 @@ internal val PtBrStrings =
         override val settingsDefaultExploreResultType = "Tipo padrão para busca em Descobrir"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Usar o avatar como ícone de perfil na barra de navegação"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -430,4 +430,5 @@ internal val CsStrings =
             "Výchozí typ výsledku vyhledávání pro Prozkoumat"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Použijte avatar jako ikonu profilu v dolní navigační liště"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

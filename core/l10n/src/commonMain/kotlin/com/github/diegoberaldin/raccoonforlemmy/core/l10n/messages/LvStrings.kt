@@ -428,4 +428,5 @@ internal val LvStrings =
             "Noklusējuma meklēšanas rezultāta veids funkcijai Izpētīt"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Izmantojiet iemiesojumu kā profila ikonu apakšējā navigācijas joslā"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

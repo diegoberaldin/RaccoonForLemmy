@@ -429,4 +429,5 @@ internal val LtStrings =
             "Numatytasis Naršymo paieškos rezultatų tipas"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Naudokite avatarą kaip profilio piktogramą apatinėje naršymo juostoje"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

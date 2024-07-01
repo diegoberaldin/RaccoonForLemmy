@@ -424,4 +424,5 @@ internal val ArStrings =
         override val settingsDefaultExploreResultType = "وع نتيجة البحث الافتراضي للاستكشاف"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "استخدم الصورة الرمزية كرمز للملف الشخصي في شريط التنقل السفلي"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

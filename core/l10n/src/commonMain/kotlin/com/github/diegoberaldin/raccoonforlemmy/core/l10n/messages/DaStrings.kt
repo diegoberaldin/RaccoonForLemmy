@@ -428,4 +428,5 @@ internal val DaStrings =
         override val settingsDefaultExploreResultType = "Standard søgeresultattype for Udforsk"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Brug avatar som profilikon i nederste navigationslinje"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

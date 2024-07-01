@@ -418,4 +418,5 @@ internal val ZhHkStrings =
         override val settingsDefaultExploreResultType = "Default search result type for explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Use avatar as profile icon in bottom navigation bar"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

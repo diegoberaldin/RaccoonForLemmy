@@ -437,4 +437,5 @@ internal val ElStrings =
             "Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Χρησιμοποιήστε το avatar ως εικονίδιο προφίλ στην κάτω γραμμή πλοήγησης"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

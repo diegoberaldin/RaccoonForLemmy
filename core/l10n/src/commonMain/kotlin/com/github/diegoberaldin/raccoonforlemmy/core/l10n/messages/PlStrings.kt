@@ -431,4 +431,5 @@ internal val PlStrings =
             "Domyślny typ wyniku wyszukiwania dla Eksploruj"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Użyj awatara jako ikony profilu na dolnym pasku nawigacyjnym"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

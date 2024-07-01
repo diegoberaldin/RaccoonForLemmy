@@ -430,4 +430,5 @@ internal val SlStrings =
             "Privzeta vrsta rezultatov iskanja za Raziskovanje"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Uporabite avatar kot ikono profila v spodnji vrstici za krmarjenje"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -430,4 +430,5 @@ internal val NlStrings =
         override val settingsDefaultExploreResultType = "Standaard zoekresultaattype voor Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Gebruik avatar als profielpictogram in de onderste navigatiebalk"
+        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

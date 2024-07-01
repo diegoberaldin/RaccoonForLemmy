@@ -421,6 +421,7 @@ interface Strings {
     val settingsInboxPreviewMaxLines: String
     val settingsDefaultExploreResultType: String
     val settingsUseAvatarAsProfileNavigationIcon: String
+    val messageReadAllInboxSuccess: String
 }
 
 object Locales {
