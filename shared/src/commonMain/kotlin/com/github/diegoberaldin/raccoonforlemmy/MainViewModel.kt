@@ -7,6 +7,7 @@ import com.github.diegoberaldin.raccoonforlemmy.domain.identity.repository.Ident
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.InboxCoordinator
 import com.github.diegoberaldin.raccoonforlemmy.domain.inbox.notification.InboxNotificationChecker
 import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.LemmyValueCache
+import com.github.diegoberaldin.raccoonforlemmy.domain.lemmy.repository.UserRepository
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -17,12 +18,13 @@ class MainViewModel(
     private val inboxCoordinator: InboxCoordinator,
     private val identityRepository: IdentityRepository,
     private val settingRepository: SettingsRepository,
+    private val userRepository: UserRepository,
     private val notificationChecker: InboxNotificationChecker,
     private val lemmyValueCache: LemmyValueCache,
-) : DefaultMviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>(
-        initialState = MainScreenMviModel.UiState(),
+) : DefaultMviModel<MainMviModel.Intent, MainMviModel.UiState, MainMviModel.Effect>(
+        initialState = MainMviModel.UiState(),
     ),
-    MainScreenMviModel {
+    MainMviModel {
     init {
         screenModelScope.launch {
             identityRepository.startup()
@@ -31,7 +33,7 @@ class MainViewModel(
 
             inboxCoordinator.totalUnread
                 .onEach { unreadCount ->
-                    emitEffect(MainScreenMviModel.Effect.UnreadItemsDetected(unreadCount))
+                    emitEffect(MainMviModel.Effect.UnreadItemsDetected(unreadCount))
                 }.launchIn(this)
 
             settingRepository.currentSettings
@@ -61,13 +63,15 @@ class MainViewModel(
         }
     }
 
-    override fun reduce(intent: MainScreenMviModel.Intent) {
+    override fun reduce(intent: MainMviModel.Intent) {
         when (intent) {
-            is MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx -> {
+            is MainMviModel.Intent.SetBottomBarOffsetHeightPx -> {
                 screenModelScope.launch {
                     updateState { it.copy(bottomBarOffsetHeightPx = intent.value) }
                 }
             }
+
+            MainMviModel.Intent.ReadAllInbox -> markAllRead()
         }
     }
 
@@ -82,6 +86,19 @@ class MainViewModel(
                         null
                     },
             )
+        }
+    }
+
+    private fun markAllRead() {
+        if (inboxCoordinator.totalUnread.value == 0) {
+            return
+        }
+
+        screenModelScope.launch {
+            val auth = identityRepository.authToken.value
+            userRepository.readAll(auth)
+            inboxCoordinator.sendEvent(InboxCoordinator.Event.Refresh)
+            emitEffect(MainMviModel.Effect.ReadAllInboxSuccess)
         }
     }
 }

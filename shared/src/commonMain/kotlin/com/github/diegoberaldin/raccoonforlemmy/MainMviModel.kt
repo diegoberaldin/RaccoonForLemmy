@@ -3,13 +3,15 @@ package com.github.diegoberaldin.raccoonforlemmy
 import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
-interface MainScreenMviModel :
-    MviModel<MainScreenMviModel.Intent, MainScreenMviModel.UiState, MainScreenMviModel.Effect>,
+interface MainMviModel :
+    MviModel<MainMviModel.Intent, MainMviModel.UiState, MainMviModel.Effect>,
     ScreenModel {
     sealed interface Intent {
         data class SetBottomBarOffsetHeightPx(
             val value: Float,
         ) : Intent
+
+        data object ReadAllInbox : Intent
     }
 
     data class UiState(
@@ -22,5 +24,7 @@ interface MainScreenMviModel :
         data class UnreadItemsDetected(
             val value: Int,
         ) : Effect
+
+        data object ReadAllInboxSuccess : Effect
     }
 }

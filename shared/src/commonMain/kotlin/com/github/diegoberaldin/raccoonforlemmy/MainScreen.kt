@@ -63,7 +63,7 @@ internal object MainScreen : Screen {
         val themeRepository = remember { getThemeRepository() }
         var bottomBarHeightPx by remember { mutableStateOf(0f) }
         val navigationCoordinator = remember { getNavigationCoordinator() }
-        val model = getScreenModel<MainScreenMviModel>()
+        val model = getScreenModel<MainMviModel>()
         val uiState by model.uiState.collectAsState()
         val uiFontScale by themeRepository.uiFontScale.collectAsState()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -79,13 +79,18 @@ internal object MainScreen : Screen {
                 bottomNavigationInsetPx.toDp()
             }
         val scope = rememberCoroutineScope()
+        val inboxReadAllSuccessMessage = LocalStrings.current.messageReadAllInboxSuccess
 
         LaunchedEffect(model) {
             model.effects
                 .onEach {
                     when (it) {
-                        is MainScreenMviModel.Effect.UnreadItemsDetected -> {
+                        is MainMviModel.Effect.UnreadItemsDetected -> {
                             navigationCoordinator.setInboxUnread(it.value)
+                        }
+
+                        MainMviModel.Effect.ReadAllInboxSuccess -> {
+                            navigationCoordinator.showGlobalMessage(inboxReadAllSuccessMessage)
                         }
                     }
                 }.launchIn(this)
@@ -104,7 +109,7 @@ internal object MainScreen : Screen {
                                 -(bottomBarHeightPx + bottomNavigationInsetPx),
                                 0f,
                             )
-                        model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
+                        model.reduce(MainMviModel.Intent.SetBottomBarOffsetHeightPx(newOffset))
                         return Offset.Zero
                     }
                 }
@@ -141,7 +146,7 @@ internal object MainScreen : Screen {
 
             LaunchedEffect(tabNavigator.current) {
                 // when the current tab changes, reset the bottom bar offset to the default value
-                model.reduce(MainScreenMviModel.Intent.SetBottomBarOffsetHeightPx(0f))
+                model.reduce(MainMviModel.Intent.SetBottomBarOffsetHeightPx(0f))
             }
 
             LaunchedEffect(drawerCoordinator) {
@@ -260,18 +265,22 @@ internal object MainScreen : Screen {
                                     withText = titleVisible,
                                     customIconUrl = uiState.customProfileUrl,
                                     onLongPress =
-                                        if (uiState.isLogged) {
-                                            rememberCallback {
+                                        rememberCallback {
+                                            if (uiState.isLogged) {
                                                 val screen = ManageAccountsScreen()
                                                 navigationCoordinator.showBottomSheet(screen)
                                             }
-                                        } else {
-                                            null
                                         },
                                 )
                                 TabNavigationItem(
                                     tab = InboxTab,
                                     withText = titleVisible,
+                                    onLongPress =
+                                        rememberCallback(model) {
+                                            if (uiState.isLogged) {
+                                                model.reduce(MainMviModel.Intent.ReadAllInbox)
+                                            }
+                                        },
                                 )
                                 TabNavigationItem(
                                     tab = SettingsTab,
