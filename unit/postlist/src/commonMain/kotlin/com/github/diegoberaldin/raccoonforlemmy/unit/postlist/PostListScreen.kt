@@ -254,7 +254,7 @@ class PostListScreen : Screen {
                     FloatingActionButtonMenu(
                         modifier =
                             Modifier.padding(
-                                bottom = Spacing.xxl + Spacing.s + bottomNavigationInset,
+                                bottom = Spacing.xxxl + Spacing.s + bottomNavigationInset,
                             ),
                         items =
                             buildList {
