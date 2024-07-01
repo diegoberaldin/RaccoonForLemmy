@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val LvStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Atpakaļ uz augšdaļu"
         override val actionChat = "Nosūtīt ziņojumu"
         override val actionClearRead = "Notīrīt lasīto"
@@ -428,5 +428,4 @@ internal val LvStrings =
             "Noklusējuma meklēšanas rezultāta veids funkcijai Izpētīt"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Izmantojiet iemiesojumu kā profila ikonu apakšējā navigācijas joslā"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

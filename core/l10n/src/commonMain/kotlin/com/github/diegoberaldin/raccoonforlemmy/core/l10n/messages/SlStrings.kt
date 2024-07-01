@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val SlStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Nazaj na vrh"
         override val actionChat = "Pošlji sporočilo"
         override val actionClearRead = "Počisti branje"
@@ -430,5 +430,4 @@ internal val SlStrings =
             "Privzeta vrsta rezultatov iskanja za Raziskovanje"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Uporabite avatar kot ikono profila v spodnji vrstici za krmarjenje"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

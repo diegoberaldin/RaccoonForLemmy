@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val LtStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Atgal į viršų"
         override val actionChat = "Siųsti žinutę"
         override val actionClearRead = "Išvalyti skaitymą"
@@ -429,5 +429,4 @@ internal val LtStrings =
             "Numatytasis Naršymo paieškos rezultatų tipas"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Naudokite avatarą kaip profilio piktogramą apatinėje naršymo juostoje"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

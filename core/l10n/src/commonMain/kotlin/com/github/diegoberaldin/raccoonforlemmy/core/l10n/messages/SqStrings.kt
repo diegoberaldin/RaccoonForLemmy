@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val SqStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Kthehu në krye"
         override val actionChat = "Dërgoni mesazhin"
         override val actionClearRead = "Pastro leximin"
@@ -432,5 +432,4 @@ internal val SqStrings =
             "Lloji i parazgjedhur i rezultatit të kërkimit për Eksploro"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Përdorni avatarin si ikonë të profilit në shiritin e poshtëm të navigimit"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

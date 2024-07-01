@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val ZhTwStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val communityDetailBlock = "封鎖"
         override val communityDetailBlockInstance = "封鎖網站"
         override val communityDetailInfo = "社區資訊"
@@ -414,9 +414,4 @@ internal val ZhTwStrings =
         override val settingsEnableToggleFavoriteInNavDrawer = "加入/移除導航抽屜中的收藏"
         override val messageContentDeleted = "您已刪除此內容"
         override val actionRestore = "恢復"
-        override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
-        override val settingsDefaultExploreResultType = "Default search result type for explore"
-        override val settingsUseAvatarAsProfileNavigationIcon =
-            "Use avatar as profile icon in bottom navigation bar"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

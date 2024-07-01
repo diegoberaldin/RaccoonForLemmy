@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val EtStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Tagasi üles"
         override val actionChat = "Saatma sõnumit"
         override val actionClearRead = "Tühjenda loetud"
@@ -429,5 +429,4 @@ internal val EtStrings =
         override val settingsDefaultExploreResultType = "Avastamise vaikeotsingutulemuse tüüp"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Kasutage avatari profiiliikoonina alumisel navigeerimisribal"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

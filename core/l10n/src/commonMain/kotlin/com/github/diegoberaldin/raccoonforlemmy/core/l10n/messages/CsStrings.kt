@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val CsStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Zpět na začátek"
         override val actionChat = "Odeslat zprávu"
         override val actionClearRead = "Vymazat přečt"
@@ -430,5 +430,4 @@ internal val CsStrings =
             "Výchozí typ výsledku vyhledávání pro Prozkoumat"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Použijte avatar jako ikonu profilu v dolní navigační liště"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

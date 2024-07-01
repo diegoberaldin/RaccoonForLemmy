@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val ElStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Πίσω στην κορυφή"
         override val actionChat = "Αποστείλετε μήνυμα"
         override val actionClearRead = "Εκκαθαρίστε αναγνωσμένα"
@@ -437,5 +437,4 @@ internal val ElStrings =
             "Προεπιλεγμένος τύπος αποτελεσμάτων αναζήτησης για Εξερεύνηση"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Χρησιμοποιήστε το avatar ως εικονίδιο προφίλ στην κάτω γραμμή πλοήγησης"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

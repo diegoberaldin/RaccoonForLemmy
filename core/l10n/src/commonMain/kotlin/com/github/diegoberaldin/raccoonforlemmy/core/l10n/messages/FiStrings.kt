@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val FiStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Takaisin ylös"
         override val actionChat = "Lähetä viesti"
         override val actionClearRead = "Tyhjennä luku"
@@ -425,5 +425,4 @@ internal val FiStrings =
         override val settingsDefaultExploreResultType = "Tutkimuksen oletushakutulostyyppi"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Käytä avataria profiilikuvakkeena navigointipalkin alaosassa"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val ZhHkStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val createPostBody = "帖子內容"
         override val homeSortTypeScaled = "按比例"
         override val homeSortTypeTop = "最熱門"
@@ -414,9 +414,4 @@ internal val ZhHkStrings =
         override val settingsEnableToggleFavoriteInNavDrawer = "加入/攞走導航櫃桶嘅最愛"
         override val messageContentDeleted = "您刪除咗呢個內容"
         override val actionRestore = "恢復"
-        override val settingsInboxPreviewMaxLines = "Inbox card preview max lines"
-        override val settingsDefaultExploreResultType = "Default search result type for explore"
-        override val settingsUseAvatarAsProfileNavigationIcon =
-            "Use avatar as profile icon in bottom navigation bar"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

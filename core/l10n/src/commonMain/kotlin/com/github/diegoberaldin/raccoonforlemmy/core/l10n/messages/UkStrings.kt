@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val UkStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Нагору"
         override val actionChat = "Надіслати повідомлення"
         override val actionClearRead = "Очистити читання"
@@ -432,5 +432,4 @@ internal val UkStrings =
             "Тип результатів пошуку за умовчанням для Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Використовуйте аватар як значок профілю на нижній панелі навігації"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val TrStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "En başa dön"
         override val actionChat = "Mesaj gönderin"
         override val actionClearRead = "Okumayı temizle"
@@ -429,5 +429,4 @@ internal val TrStrings =
         override val settingsDefaultExploreResultType = "Keşfet için varsayılan arama sonucu türü"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Alt gezinme çubuğunda avatarı profil simgesi olarak kullan"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

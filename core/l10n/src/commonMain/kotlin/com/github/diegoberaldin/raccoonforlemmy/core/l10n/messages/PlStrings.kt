@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val PlStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionActivateZombieMode = "Aktywuj tryb zombie"
         override val actionBackToTop = "Powrót do góry"
         override val actionChat = "Wyślij wiadomość"
@@ -431,5 +431,4 @@ internal val PlStrings =
             "Domyślny typ wyniku wyszukiwania dla Eksploruj"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Użyj awatara jako ikony profilu na dolnym pasku nawigacyjnym"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

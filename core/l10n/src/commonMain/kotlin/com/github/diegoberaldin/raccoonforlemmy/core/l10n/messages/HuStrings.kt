@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val HuStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Vissza az oldal tetejére"
         override val actionChat = "Üzenet küldése"
         override val actionClearRead = "Olvasás törlése"
@@ -434,5 +434,4 @@ internal val HuStrings =
             "A Felfedezés alapértelmezett keresési eredménytípusa"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Használja az avatart profilikonként az alsó navigációs sávban"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

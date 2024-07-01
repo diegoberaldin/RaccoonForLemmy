@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val ItStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Torna su"
         override val actionChat = "Invia messaggio"
         override val actionClearRead = "Nascondi letti"

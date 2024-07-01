@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val ArStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "العودة إلى الأعلى"
         override val actionChat = "إرسال الرسائل"
         override val actionClearRead = "مسح القراءة"
@@ -424,5 +424,4 @@ internal val ArStrings =
         override val settingsDefaultExploreResultType = "وع نتيجة البحث الافتراضي للاستكشاف"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "استخدم الصورة الرمزية كرمز للملف الشخصي في شريط التنقل السفلي"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

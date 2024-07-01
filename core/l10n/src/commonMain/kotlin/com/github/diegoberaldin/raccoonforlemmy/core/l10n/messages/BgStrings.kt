@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val BgStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Върнете се в началото"
         override val actionChat = "Изпратете съобщение"
         override val actionClearRead = "Изчистване на четенето"
@@ -433,5 +433,4 @@ internal val BgStrings =
             "ип резултати от търсенето по подразбиране за Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Използвайте аватара като икона на профил в долната лента за навигация"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

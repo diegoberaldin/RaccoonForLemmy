@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val DeStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val homeInstanceVia = "via"
         override val homeListingTitle = "Feeds"
         override val homeListingTypeAll = "Alle"
@@ -432,5 +432,4 @@ internal val DeStrings =
         override val settingsDefaultExploreResultType = "Standard-Suchergebnistyp für Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Verwenden Sie den Avatar als Profilsymbol in der unteren Navigationsleiste"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val SkStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Späť hore"
         override val actionChat = "Poslať správu"
         override val actionClearRead = "Vymazať čítanie"
@@ -432,5 +432,4 @@ internal val SkStrings =
             "Predvolený typ výsledku vyhľadávania pre Preskúmať"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Použite avatar ako ikonu profilu v dolnom navigačnom paneli"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

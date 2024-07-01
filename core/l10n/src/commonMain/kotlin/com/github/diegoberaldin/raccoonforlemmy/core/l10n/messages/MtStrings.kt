@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val MtStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Lura għal Fuq"
         override val actionChat = "Ibgħat messaġġ"
         override val actionClearRead = "Neħħi l-qari"
@@ -430,5 +430,4 @@ internal val MtStrings =
             "Tip ta' riżultat tat-tfittxija default għal Esplora"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Uża l-avatar bħala ikona tal-profil fil-bar tan-navigazzjoni t\'isfel"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

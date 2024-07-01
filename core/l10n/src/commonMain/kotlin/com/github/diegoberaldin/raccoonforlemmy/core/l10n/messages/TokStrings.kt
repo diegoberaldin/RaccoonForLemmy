@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val TokStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "o tawa sewi"
         override val actionChat = "o open e toki"
         override val actionClearRead = "lukin la, o weka"
@@ -424,5 +424,4 @@ internal val TokStrings =
         override val settingsDefaultExploreResultType = "nasin ijo pi lipu lukin"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "o kepeken e sitelen jan tawa sitelen lili pi linja anpa"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

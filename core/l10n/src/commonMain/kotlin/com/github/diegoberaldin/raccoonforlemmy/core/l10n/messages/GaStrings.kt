@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val GaStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Ar ais go barr"
         override val actionChat = "Seol Teachtaireacht"
         override val actionClearRead = "Glan an léamh"
@@ -430,5 +430,4 @@ internal val GaStrings =
             "Cineál toradh cuardaigh réamhshocraithe le haghaidh Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Úsáid avatar mar dheilbhín próifíle sa bharra nascleanúna ag bun"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

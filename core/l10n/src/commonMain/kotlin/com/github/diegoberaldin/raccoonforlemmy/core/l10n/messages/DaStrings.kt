@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val DaStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Tilbage til toppen af siden"
         override val actionChat = "Send besked"
         override val actionClearRead = "Ryd læsning"
@@ -428,5 +428,4 @@ internal val DaStrings =
         override val settingsDefaultExploreResultType = "Standard søgeresultattype for Udforsk"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Brug avatar som profilikon i nederste navigationslinje"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

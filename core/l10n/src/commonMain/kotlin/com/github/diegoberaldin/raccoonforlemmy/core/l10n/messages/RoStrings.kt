@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val RoStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Înapoi la început"
         override val actionChat = "Trimite un mesaj"
         override val actionClearRead = "Ascunde citite"
@@ -429,5 +429,4 @@ internal val RoStrings =
             "Tip de rezultat de căutare prestabilit pentru Explorarea"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Utilizează avatarul ca pictogramă de profil în bara de navigare de jos"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }

@@ -1,7 +1,7 @@
 package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages
 
 internal val NlStrings =
-    object : Strings {
+    object : DefaultStrings() {
         override val actionBackToTop = "Terug naar boven"
         override val actionChat = "Bericht sturen"
         override val actionClearRead = "Lezen wissen"
@@ -430,5 +430,4 @@ internal val NlStrings =
         override val settingsDefaultExploreResultType = "Standaard zoekresultaattype voor Explore"
         override val settingsUseAvatarAsProfileNavigationIcon =
             "Gebruik avatar als profielpictogram in de onderste navigatiebalk"
-        override val messageReadAllInboxSuccess = "All items have been marked as read"
     }
