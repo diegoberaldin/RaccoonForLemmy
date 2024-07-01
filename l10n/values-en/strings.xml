@@ -413,4 +413,5 @@
     <string name="settingsInboxPreviewMaxLines">Inbox card preview max lines</string>
     <string name="settingsDefaultExploreResultType">Default search result type for explore</string>
     <string name="settingsUseAvatarAsProfileNavigationIcon">Use avatar as profile icon in bottom navigation bar</string>
+    <string name="messageReadAllInboxSuccess">All items have been marked as read</string>
 </resources>
