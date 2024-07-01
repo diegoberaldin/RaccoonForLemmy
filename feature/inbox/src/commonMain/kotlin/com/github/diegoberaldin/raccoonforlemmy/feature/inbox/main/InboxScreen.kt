@@ -63,6 +63,20 @@ object InboxScreen : Tab {
         val settingsRepository = remember { getSettingsRepository() }
         val settings by settingsRepository.currentSettings.collectAsState()
         val scope = rememberCoroutineScope()
+        val inboxReadAllSuccessMessage = LocalStrings.current.messageReadAllInboxSuccess
+
+        LaunchedEffect(model) {
+            model.effects
+                .onEach { event ->
+                    when (event) {
+                        InboxMviModel.Effect.ReadAllInboxSuccess -> {
+                            navigationCoordinator.showGlobalMessage(inboxReadAllSuccessMessage)
+                        }
+
+                        else -> Unit
+                    }
+                }.launchIn(this)
+        }
 
         Scaffold(
             modifier =
@@ -142,8 +156,7 @@ object InboxScreen : Tab {
                             Modifier
                                 .padding(
                                     top = padding.calculateTopPadding(),
-                                )
-                                .padding(horizontal = Spacing.m),
+                                ).padding(horizontal = Spacing.m),
                     ) {
                         Text(
                             text = LocalStrings.current.inboxNotLoggedMessage,
@@ -157,8 +170,7 @@ object InboxScreen : Tab {
                             Modifier
                                 .padding(
                                     top = padding.calculateTopPadding(),
-                                )
-                                .then(
+                                ).then(
                                     if (settings.hideNavigationBarWhileScrolling) {
                                         Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
                                     } else {
@@ -224,15 +236,17 @@ object InboxScreen : Tab {
                             CurrentScreen()
                             val navigator = LocalTabNavigator.current
                             LaunchedEffect(model) {
-                                model.uiState.map { it.section }.onEach { section ->
-                                    val index =
-                                        when (section) {
-                                            InboxSection.Replies -> 0
-                                            InboxSection.Mentions -> 1
-                                            InboxSection.Messages -> 2
-                                        }
-                                    navigator.current = screens[index]
-                                }.launchIn(this)
+                                model.uiState
+                                    .map { it.section }
+                                    .onEach { section ->
+                                        val index =
+                                            when (section) {
+                                                InboxSection.Replies -> 0
+                                                InboxSection.Mentions -> 1
+                                                InboxSection.Messages -> 2
+                                            }
+                                        navigator.current = screens[index]
+                                    }.launchIn(this)
                             }
                         }
                     }

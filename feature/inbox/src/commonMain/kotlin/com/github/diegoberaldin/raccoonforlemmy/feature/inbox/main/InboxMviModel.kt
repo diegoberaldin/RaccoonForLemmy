@@ -4,9 +4,12 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.github.diegoberaldin.raccoonforlemmy.core.architecture.MviModel
 
 interface InboxMviModel :
-    MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>, ScreenModel {
+    MviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>,
+    ScreenModel {
     sealed interface Intent {
-        data class ChangeSection(val value: InboxSection) : Intent
+        data class ChangeSection(
+            val value: InboxSection,
+        ) : Intent
 
         data object ReadAll : Intent
     }
@@ -22,5 +25,7 @@ interface InboxMviModel :
 
     sealed interface Effect {
         data object Refresh : Effect
+
+        data object ReadAllInboxSuccess : Effect
     }
 }

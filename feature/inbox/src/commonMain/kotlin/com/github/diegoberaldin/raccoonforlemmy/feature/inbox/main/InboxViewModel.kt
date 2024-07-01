@@ -19,39 +19,48 @@ class InboxViewModel(
     private val coordinator: InboxCoordinator,
     private val settingsRepository: SettingsRepository,
     private val notificationCenter: NotificationCenter,
-) : InboxMviModel,
-    DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>(
+) : DefaultMviModel<InboxMviModel.Intent, InboxMviModel.UiState, InboxMviModel.Effect>(
         initialState = InboxMviModel.UiState(),
-    ) {
+    ),
+    InboxMviModel {
     init {
         screenModelScope.launch {
-            identityRepository.isLogged.onEach { logged ->
-                updateState { it.copy(isLogged = logged) }
-            }.launchIn(this)
+            identityRepository.isLogged
+                .onEach { logged ->
+                    updateState { it.copy(isLogged = logged) }
+                }.launchIn(this)
 
-            coordinator.unreadMentions.onEach { value ->
-                updateState { it.copy(unreadMentions = value) }
-            }.launchIn(this)
-            coordinator.unreadReplies.onEach { value ->
-                updateState { it.copy(unreadReplies = value) }
-            }.launchIn(this)
-            coordinator.unreadMessages.onEach { value ->
-                updateState { it.copy(unreadMessages = value) }
-            }.launchIn(this)
+            coordinator.unreadMentions
+                .onEach { value ->
+                    updateState { it.copy(unreadMentions = value) }
+                }.launchIn(this)
+            coordinator.unreadReplies
+                .onEach { value ->
+                    updateState { it.copy(unreadReplies = value) }
+                }.launchIn(this)
+            coordinator.unreadMessages
+                .onEach { value ->
+                    updateState { it.copy(unreadMessages = value) }
+                }.launchIn(this)
 
-            notificationCenter.subscribe(NotificationCenterEvent.ChangeInboxType::class)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ChangeInboxType::class)
                 .onEach { evt ->
                     changeUnreadOnly(evt.unreadOnly)
                 }.launchIn(this)
-            notificationCenter.subscribe(NotificationCenterEvent.ResetInbox::class).onEach {
-                onFirstLoad()
-            }.launchIn(this)
+            notificationCenter
+                .subscribe(NotificationCenterEvent.ResetInbox::class)
+                .onEach {
+                    onFirstLoad()
+                }.launchIn(this)
         }
         onFirstLoad()
     }
 
     private fun onFirstLoad() {
-        val settingsUnreadOnly = settingsRepository.currentSettings.value.defaultInboxType.toInboxUnreadOnly()
+        val settingsUnreadOnly =
+            settingsRepository.currentSettings.value.defaultInboxType
+                .toInboxUnreadOnly()
         if (uiState.value.unreadOnly != settingsUnreadOnly) {
             changeUnreadOnly(settingsUnreadOnly)
         }
@@ -80,11 +89,16 @@ class InboxViewModel(
     }
 
     private fun markAllRead() {
+        if (coordinator.totalUnread.value == 0) {
+            return
+        }
+
         screenModelScope.launch {
             val auth = identityRepository.authToken.value
             userRepository.readAll(auth)
             emitEffect(InboxMviModel.Effect.Refresh)
             coordinator.sendEvent(InboxCoordinator.Event.Refresh)
+            emitEffect(InboxMviModel.Effect.ReadAllInboxSuccess)
         }
     }
 }

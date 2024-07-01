@@ -34,71 +34,78 @@ class InboxViewModelTest {
     val dispatcherRule = DispatcherTestRule()
 
     @get:Rule(order = 1)
-    val unloggedRuleRule = MviModelTestRule {
-        every { identityRepository.isLogged } returns MutableStateFlow(false)
+    val unloggedRuleRule =
+        MviModelTestRule {
+            every { identityRepository.isLogged } returns MutableStateFlow(false)
 
-        InboxViewModel(
-            identityRepository = identityRepository,
-            userRepository = userRepository,
-            coordinator = inboxCoordinator,
-            settingsRepository = settingsRepository,
-            notificationCenter = notificationCenter,
-        )
-    }
-
-    @get:Rule(order = 1)
-    val loggedDefaultUnreadOnlyRule = MviModelTestRule {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
-        every { settingsRepository.currentSettings } returns MutableStateFlow(
-            SettingsModel(defaultInboxType = 0)
-        )
-
-        InboxViewModel(
-            identityRepository = identityRepository,
-            userRepository = userRepository,
-            coordinator = inboxCoordinator,
-            settingsRepository = settingsRepository,
-            notificationCenter = notificationCenter,
-        )
-    }
+            InboxViewModel(
+                identityRepository = identityRepository,
+                userRepository = userRepository,
+                coordinator = inboxCoordinator,
+                settingsRepository = settingsRepository,
+                notificationCenter = notificationCenter,
+            )
+        }
 
     @get:Rule(order = 1)
-    val loggedDefaultAllRule = MviModelTestRule {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
-        every { settingsRepository.currentSettings } returns MutableStateFlow(
-            SettingsModel(defaultInboxType = 1)
-        )
+    val loggedDefaultUnreadOnlyRule =
+        MviModelTestRule {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+            every { settingsRepository.currentSettings } returns
+                MutableStateFlow(
+                    SettingsModel(defaultInboxType = 0),
+                )
 
-        InboxViewModel(
-            identityRepository = identityRepository,
-            userRepository = userRepository,
-            coordinator = inboxCoordinator,
-            settingsRepository = settingsRepository,
-            notificationCenter = notificationCenter,
-        )
-    }
+            InboxViewModel(
+                identityRepository = identityRepository,
+                userRepository = userRepository,
+                coordinator = inboxCoordinator,
+                settingsRepository = settingsRepository,
+                notificationCenter = notificationCenter,
+            )
+        }
 
     @get:Rule(order = 1)
-    val loggedWithUnreadsRule = MviModelTestRule {
-        every { identityRepository.isLogged } returns MutableStateFlow(true)
-        every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
-        every { settingsRepository.currentSettings } returns MutableStateFlow(
-            SettingsModel(defaultInboxType = 1)
-        )
-        every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
-        every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
-        every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
+    val loggedDefaultAllRule =
+        MviModelTestRule {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+            every { settingsRepository.currentSettings } returns
+                MutableStateFlow(
+                    SettingsModel(defaultInboxType = 1),
+                )
 
-        InboxViewModel(
-            identityRepository = identityRepository,
-            userRepository = userRepository,
-            coordinator = inboxCoordinator,
-            settingsRepository = settingsRepository,
-            notificationCenter = notificationCenter,
-        )
-    }
+            InboxViewModel(
+                identityRepository = identityRepository,
+                userRepository = userRepository,
+                coordinator = inboxCoordinator,
+                settingsRepository = settingsRepository,
+                notificationCenter = notificationCenter,
+            )
+        }
+
+    @get:Rule(order = 1)
+    val loggedWithUnreadsRule =
+        MviModelTestRule {
+            every { identityRepository.isLogged } returns MutableStateFlow(true)
+            every { identityRepository.authToken } returns MutableStateFlow(AUTH_TOKEN)
+            every { settingsRepository.currentSettings } returns
+                MutableStateFlow(
+                    SettingsModel(defaultInboxType = 1),
+                )
+            every { inboxCoordinator.unreadReplies } returns MutableStateFlow(1)
+            every { inboxCoordinator.unreadMentions } returns MutableStateFlow(2)
+            every { inboxCoordinator.unreadMessages } returns MutableStateFlow(3)
+
+            InboxViewModel(
+                identityRepository = identityRepository,
+                userRepository = userRepository,
+                coordinator = inboxCoordinator,
+                settingsRepository = settingsRepository,
+                notificationCenter = notificationCenter,
+            )
+        }
 
     private val identityRepository = mockk<IdentityRepository>(relaxUnitFun = true)
     private val userRepository = mockk<UserRepository>(relaxUnitFun = true)
@@ -117,7 +124,6 @@ class InboxViewModelTest {
         mockk<NotificationCenter>(relaxUnitFun = true) {
             every { subscribe(any<KClass<NotificationCenterEvent>>()) } returns notificationChannel.receiveAsFlow()
         }
-
 
     @Test
     fun givenNotLogged_whenInitialized_thenStateIsAsExpected() =
@@ -184,6 +190,8 @@ class InboxViewModelTest {
     fun whenMarkAllAsReadIntentReceived_thenInteractionsAreAsExpected() =
         runTest {
             with(loggedWithUnreadsRule) {
+                every { inboxCoordinator.totalUnread } returns MutableStateFlow(1)
+
                 launch {
                     send(InboxMviModel.Intent.ReadAll)
                 }
@@ -192,6 +200,8 @@ class InboxViewModelTest {
                     effects.test {
                         val item = awaitItem()
                         assertEquals(InboxMviModel.Effect.Refresh, item)
+                        val item2 = awaitItem()
+                        assertEquals(InboxMviModel.Effect.ReadAllInboxSuccess, item2)
                     }
 
                     coVerify {
