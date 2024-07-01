@@ -42,11 +42,17 @@ def write_l10n_to_file(lang_code, country_code, messages, output_path):
     with open(output_path, "w") as file_handle:
         file_handle.write("package com.github.diegoberaldin.raccoonforlemmy.core.l10n.messages\n")
         file_handle.write("\n")
-        file_handle.write("internal val {0}{1}Strings =\n".format(lang_code.capitalize(), country_code.capitalize()))
-        file_handle.write("    object : Strings {\n")
-        for pair in messages:
-            file_handle.write("        override val {0} = \"{1}\"\n".format(pair["key"], pair["value"]))
-        file_handle.write("    }\n")
+        if lang_code == "en" and len(country_code) == 0:
+            file_handle.write("internal open class DefaultStrings : Strings {\n")
+            for pair in messages:
+                file_handle.write("    override val {0} = \"{1}\"\n".format(pair["key"], pair["value"]))
+            file_handle.write("}\n")
+        else:
+            file_handle.write("internal val {0}{1}Strings =\n".format(lang_code.capitalize(), country_code.capitalize()))
+            file_handle.write("    object : DefaultStrings() {\n")
+            for pair in messages:
+                file_handle.write("        override val {0} = \"{1}\"\n".format(pair["key"], pair["value"]))
+            file_handle.write("    }\n")
 
 def convert(lang_code, country_code, input_path, output_path):
     messages = read_l10n_from_file(input_path)
@@ -62,7 +68,10 @@ def main():
     if len(sys.argv) > 2:
         country_code = sys.argv[2]
     source_file = "../l10n/values-{0}{1}/strings.xml".format(lang_code, country_code)
-    dest_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
+    if lang_code == "en" and len(country_code) == 0:
+        dest_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/DefaultStrings.kt"
+    else:
+        dest_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
     convert(lang_code, country_code, source_file, dest_file)
 
 if __name__ == "__main__":

@@ -51,6 +51,7 @@ def write_l10n_to_file(messages, output_path):
             sanitizedValue = escape(pair["value"])
             file_handle.write("    <string name=\"{0}\">{1}</string>\n".format(pair["key"], sanitizedValue))
         file_handle.write("</resources>\n")
+        file_handle.write("\n")
 
 
 def convert(input_path, output_path):
@@ -66,7 +67,10 @@ def main():
     country_code = ""
     if len(sys.argv) > 2:
         country_code = sys.argv[2]
-    source_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
+    if lang_code == "en" and len(country_code) == 0:
+        source_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/DefaultStrings.kt"
+    else:
+        source_file = "../core/l10n/src/commonMain/kotlin/com/github/diegoberaldin/raccoonforlemmy/core/l10n/messages/{0}{1}Strings.kt".format(lang_code.capitalize(), country_code.capitalize())
     dest_file = "../l10n/values-{0}{1}/strings.xml".format(lang_code, country_code)
     if not os.path.exists("../l10n/values-{0}{1}".format(lang_code, country_code)):
         os.makedirs("../l10n/values-{0}{1}".format(lang_code, country_code))
