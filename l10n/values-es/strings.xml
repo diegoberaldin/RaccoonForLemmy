@@ -413,4 +413,5 @@
     <string name="settingsInboxPreviewMaxLines">Número máximo de líneas en tarjetas de mensajes</string>
     <string name="settingsDefaultExploreResultType">Tipo de resultado de búsqueda predeterminado para Descubre</string>
     <string name="settingsUseAvatarAsProfileNavigationIcon">Utilizar avatar como icono de perfil en la barra de navegación inferior</string>
+    <string name="messageReadAllInboxSuccess">Todos los elementos han sido marcados como leídos</string>
 </resources>
