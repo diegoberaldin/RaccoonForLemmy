@@ -412,4 +412,6 @@
     <string name="actionRestore">o awen e ona</string>
     <string name="settingsInboxPreviewMaxLines">nanpa linja pi lipu lon toki poki</string>
     <string name="settingsDefaultExploreResultType">nasin ijo pi lipu lukin</string>
+    <string name="messageReadAllInboxSuccess">sina lukin e ijo ale pi poki toki</string>
+    <string name="settingsUseAvatarAsProfileNavigationIcon">o kepeken e sitelen jan tawa sitelen lili pi linja anpa</string>
 </resources>
